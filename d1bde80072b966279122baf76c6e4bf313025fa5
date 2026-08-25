@@ -1,0 +1,25 @@
+packages/cli/src/__tests__/commands/auth/whoami.test.ts
+  s_14ae148048f98e::t_f24800f5d5f8d9 1-84
+packages/cli/src/commands/auth/whoami.ts
+  s_14ae148048f98e::t_e2700e3ab39e3b 3,46-53,57-58,61-70,76
+packages/cli/src/lib/auth.ts
+  s_14ae148048f98e::t_4aa1ac677c0247 23
+packages/cli/src/lib/oauth/index.ts
+  s_14ae148048f98e::t_db4f7df8763de0 99-108
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "d1bde80072b966279122baf76c6e4bf313025fa5",
+  "prompts": {},
+  "sessions": {
+    "s_14ae148048f98e": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a00f60-b93f-7400-9b5a-ef1e3deb65f3",
+        "model": "unknown"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

@@ -1,0 +1,95 @@
+.changeset/cf-telemetry.md
+  s_98623744f7ffb6::t_ea78381d34335b 1-11
+.github/workflows/changesets.yml
+  s_98623744f7ffb6::t_3a5e70f57bfbab 89
+.github/workflows/prerelease.yml
+  s_98623744f7ffb6::t_1f7ac748d586c9 51
+AGENTS.md
+  s_98623744f7ffb6::t_c5cd074ff6d6c9 153-174,183,193,299-300,399
+packages/cli/AGENTS.md
+  s_98623744f7ffb6::t_d7388259b054bd 57
+packages/cli/generator/emit/handler/imports.ts
+  s_98623744f7ffb6::t_785c5f28372dc6 88
+packages/cli/generator/generator.ts
+  s_98623744f7ffb6::t_5314b87b4b4017 68-83,100-107,109-110
+packages/cli/src/__tests__/commands/telemetry.test.ts
+  s_98623744f7ffb6::t_1caeedccc839ef 1-32
+packages/cli/src/__tests__/lib/telemetry/config.test.ts
+  s_98623744f7ffb6::t_4da622468a7841 1-56
+packages/cli/src/__tests__/lib/telemetry/dispatcher.test.ts
+  s_98623744f7ffb6::t_7eb3035aeb7fc3 1-52
+packages/cli/src/__tests__/lib/telemetry/run.test.ts
+  s_98623744f7ffb6::t_4297e68e37f008 1-67
+packages/cli/src/__tests__/lib/telemetry/sanitization.test.ts
+  s_98623744f7ffb6::t_485616b67bcab8 1-99
+packages/cli/src/commands/ai/run/index.ts
+  s_98623744f7ffb6::t_30f7597341aef5 44,256-259
+packages/cli/src/commands/auth/index.ts
+  s_98623744f7ffb6::t_1883dba7c73e45 1,20-29,38-48
+packages/cli/src/commands/completions/index.ts
+  s_98623744f7ffb6::t_af38b07f2348a6 36-44,55
+packages/cli/src/commands/registrar/registrations/create/index.ts
+  s_98623744f7ffb6::t_03c0465285fdd1 32,338-341
+packages/cli/src/commands/telemetry/disable.ts
+  s_98623744f7ffb6::t_500ef57440dbae 1-16
+packages/cli/src/commands/telemetry/enable.ts
+  s_98623744f7ffb6::t_9a373c860a27cb 1-18
+packages/cli/src/commands/telemetry/index.ts
+  s_98623744f7ffb6::t_f623f3bb7ddbf2 1-18
+packages/cli/src/commands/telemetry/shared.ts
+  s_98623744f7ffb6::t_ef653c1e8ee4e2 1-2
+packages/cli/src/commands/telemetry/status.ts
+  s_98623744f7ffb6::t_0c136aa4ede70e 1-28
+packages/cli/src/commands/triggers/index.ts
+  s_98623744f7ffb6::t_e86c577c4f1a73 1,14-19
+packages/cli/src/commands/versions/index.ts
+  s_98623744f7ffb6::t_1c3709c6e8d66e 1,14-19
+packages/cli/src/index.ts
+  s_98623744f7ffb6::t_3014604124f44a 1,11-15,43-44,49-50,54-57,64-69,74-75,80-84,96-100,144-218,425,545,563,583,585-586
+packages/cli/src/lib/lazy-command.ts
+  s_98623744f7ffb6::t_db88f163258798 1,53-54,71-78
+packages/cli/src/lib/state.ts
+  s_98623744f7ffb6::t_3a2e409093fddd 7-12,17-18
+packages/cli/src/lib/telemetry/config.ts
+  s_98623744f7ffb6::t_bf98620c922031 1-81
+packages/cli/src/lib/telemetry/dispatcher.ts
+  s_98623744f7ffb6::t_82416586dca999 1-157
+packages/cli/src/lib/telemetry/environment.ts
+  s_98623744f7ffb6::t_cf1af18d29fc01 1-50
+packages/cli/src/lib/telemetry/error-sanitization.ts
+  s_98623744f7ffb6::t_91f4c46c1d9461 1-54
+packages/cli/src/lib/telemetry/index.ts
+  s_98623744f7ffb6::t_6a376e54fcc201 1-34
+packages/cli/src/lib/telemetry/lifecycle.ts
+  s_98623744f7ffb6::t_bb8604e008cd00 1-29
+packages/cli/src/lib/telemetry/run.ts
+  s_98623744f7ffb6::t_4ddc10d092634b 1-72
+packages/cli/src/lib/telemetry/sanitization.ts
+  s_98623744f7ffb6::t_f1a67041fa9eb9 1-61
+packages/cli/src/lib/telemetry/types.ts
+  s_98623744f7ffb6::t_dde13738f25a01 1-45
+packages/cli/telemetry.md
+  s_98623744f7ffb6::t_4b789871c84f23 1-52
+packages/cli/tsdown.config.ts
+  s_98623744f7ffb6::t_ab0cb5c7ca92a9 40-51
+packages/cli/turbo.json
+  s_98623744f7ffb6::t_f4d7fcd7444a08 8
+turbo.json
+  s_98623744f7ffb6::t_b33929e118d695 13,32,36-37
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "06dc14d51ff76f1ecb51dafd43762a58ac33b195",
+  "prompts": {},
+  "sessions": {
+    "s_98623744f7ffb6": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a05e6a-45d3-7620-8fa5-b107ffe721bb",
+        "model": "unknown"
+      },
+      "human_author": "Samuel Macleod <smacleod@cloudflare.com>"
+    }
+  }
+}

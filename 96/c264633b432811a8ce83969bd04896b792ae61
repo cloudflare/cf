@@ -1,0 +1,25 @@
+packages/cli/src/__tests__/lib/agent-context.test.ts
+  s_889c1ec57b90eb::t_238e9d0d11857f 1-193
+packages/cli/src/__tests__/lib/request-headers.test.ts
+  s_889c1ec57b90eb::t_4d430e8255af04 13,22-29,43-44,55,57,95,97,103,105,107-124,128,130
+packages/cli/src/lib/agent-context.ts
+  s_889c1ec57b90eb::t_094e2e8c1396d4 1-328
+packages/cli/src/lib/request-headers.ts
+  s_889c1ec57b90eb::t_d9c4b2a2cb59de 3,35,37-38
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "96c264633b432811a8ce83969bd04896b792ae61",
+  "prompts": {},
+  "sessions": {
+    "s_889c1ec57b90eb": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a05f73-8ee6-7be0-9c78-194b75eb579c",
+        "model": "unknown"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

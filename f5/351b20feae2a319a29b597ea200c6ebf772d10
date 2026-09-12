@@ -1,0 +1,19 @@
+packages/cli/src/__tests__/commands/auth/device-login.test.ts
+  s_829def9a9f7689::t_88a004c15229fb 77-90
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "f5351b20feae2a319a29b597ea200c6ebf772d10",
+  "prompts": {},
+  "sessions": {
+    "s_829def9a9f7689": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a096a2-d93d-78f2-b0f2-c1ab3e4f7b70",
+        "model": "unknown"
+      },
+      "human_author": "Pete Bacon Darwin <pbacondarwin@cloudflare.com>"
+    }
+  }
+}

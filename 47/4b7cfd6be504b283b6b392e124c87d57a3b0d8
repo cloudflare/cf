@@ -1,0 +1,23 @@
+packages/cli/package.json
+  s_977956df82d227::t_007d54ec97213e 68
+packages/cli/src/__tests__/commands/workers-check.test.ts
+  s_977956df82d227::t_b5f1167419f44b 21-25,27,169-176,209-214
+pnpm-lock.yaml
+  s_977956df82d227::t_1193a815d88272 113-114,413-414,3953
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "474b7cfd6be504b283b6b392e124c87d57a3b0d8",
+  "prompts": {},
+  "sessions": {
+    "s_977956df82d227": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0904d-1094-7dc1-923a-af4df2540ef7",
+        "model": "unknown"
+      },
+      "human_author": "Pete Bacon Darwin <pbacondarwin@cloudflare.com>"
+    }
+  }
+}

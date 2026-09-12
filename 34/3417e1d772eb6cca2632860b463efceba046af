@@ -1,0 +1,63 @@
+.changeset/lucky-jars-shake.md
+  s_bd618871541f28::t_dd858dcf096848 7-11
+AI_RUN.md
+  s_bd618871541f28::t_c332dbcc4444cc 81-89
+CF_BUILD.md
+  s_bd618871541f28::t_3bb33805e97345 20-21,75,80,83,448-450
+CF_DEPLOY.md
+  s_bd618871541f28::t_f454f2e159f3ea 431-445
+CF_DEV.md
+  s_bd618871541f28::t_17c18c92d42798 14-17,31-33,78,81-84,94-98,105-107,164-372,462,473-520,868,879-881,889-891,907,932,940,950,988,1059,1069
+CF_WRANGLER_DIFF.md
+  s_bd618871541f28::t_664e9787cfc7c2 373-390,408-409,413-414,416,444,451,468-478,671-672,741,1680
+CF_WRANGLER_PLAN.md
+  s_bd618871541f28::t_7cc2c51e8d983c 1255
+CODE_SHARING_PLAN.md
+  s_bd618871541f28::t_1ed8333f948f42 68
+PLAN.md
+  s_bd618871541f28::t_9e8c79c112de88 15-16,21,36-37,39,41-42,56,59-62,83-90,103,105,108-109,113,120-123,130-143,181,183,196-198,200,203,210-215,233,235,237-259,300-302,312,322,341-352,413,431-447,449,451-457,459,461-462,472,500-501,508-511,543,572,597,701,703,710,715,728,731,741,765-766
+SIMPLIFICATION.md
+  s_bd618871541f28::t_b0621a073b33d2 172,174,176,178-180,319,321,397
+packages/cli/src/__tests__/helpers/local-runtime-fixture.ts
+  s_bd618871541f28::t_257b098886ea12 1-80
+packages/cli/src/__tests__/lib/local-runtime.test.ts
+  s_bd618871541f28::t_f9abbf71e42d74 1,11-16,18,21,25,28-32,40,48-52,55-56,58-59,62,65-67,69-70,74-75,79,87,94-98,107-108
+packages/cli/src/__tests__/lib/local.test.ts
+  s_98623744f7ffb6::t_247848e5701d8c 2
+packages/cli/src/__tests__/lib/raw-fetch.test.ts
+  s_bd618871541f28::t_99f334280ea48e 22-29,39
+packages/cli/src/__tests__/local-command.test.ts
+  s_bd618871541f28::t_a079b115072867 1,12-15,17,21,26,30,48,51-58,63-67,70,74-80,83,88-90,93,95,99,103,107
+packages/cli/src/lib/local-runtime.ts
+  s_bd618871541f28::t_ad7b55be47563d 1,8,13,61,71-72,93,119,146,161
+packages/cli/src/lib/local.ts
+  s_bd618871541f28::t_da76c1ed91a4d0 1,3-5,7-15,18-22,25-34,39-41,50
+test_bugs/d1-migrations-no-new-config-path.md
+  s_bd618871541f28::t_d93bd43842b752 6,238-242
+test_bugs/local-flag-has-no-persisted-state-access.md
+  s_bd618871541f28::t_10e8f30f21101e 3-4,6,9,13-15,18-19,25-26,43,45-46,48-55,57-62,66-77,79-90,95-104
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "343417e1d772eb6cca2632860b463efceba046af",
+  "prompts": {},
+  "sessions": {
+    "s_98623744f7ffb6": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a05e6a-45d3-7620-8fa5-b107ffe721bb",
+        "model": "unknown"
+      },
+      "human_author": "Samuel Macleod <smacleod@cloudflare.com>"
+    },
+    "s_bd618871541f28": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a05e8b-1840-7d71-948b-28a07869fa56",
+        "model": "unknown"
+      },
+      "human_author": "Samuel Macleod <smacleod@cloudflare.com>"
+    }
+  }
+}

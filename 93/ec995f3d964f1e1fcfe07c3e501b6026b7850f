@@ -1,0 +1,23 @@
+packages/cli/src/__tests__/commands/build/vinext.test.ts
+  s_09d5337ef67f8f::t_05fdce24763ac4 1-69
+packages/cli/src/__tests__/commands/dev/vinext.test.ts
+  s_09d5337ef67f8f::t_f3f6f0c34d7c89 1-55
+packages/cli/src/commands/dev/index.ts
+  s_09d5337ef67f8f::t_45f98fedbaf9b2 81-83,85-90,92-101,103-111
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "93ec995f3d964f1e1fcfe07c3e501b6026b7850f",
+  "prompts": {},
+  "sessions": {
+    "s_09d5337ef67f8f": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a08b4e-7dbe-70f1-8c4f-012d786532e8",
+        "model": "unknown"
+      },
+      "human_author": "Edmund Hung <edmund@cloudflare.com>"
+    }
+  }
+}

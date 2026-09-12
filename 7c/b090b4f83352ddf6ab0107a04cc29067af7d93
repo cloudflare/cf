@@ -1,0 +1,41 @@
+packages/cli/src/__tests__/lib/request-headers.test.ts
+  s_889c1ec57b90eb::t_4d430e8255af04 13,22-29,43-44,55,57,95,97,103,105,107-121,125,127
+packages/cli/src/__tests__/lib/agent-context.test.ts
+  s_889c1ec57b90eb::t_238e9d0d11857f 1-172
+packages/cli/src/lib/agent-context.ts
+  s_889c1ec57b90eb::t_094e2e8c1396d4 1-315
+packages/cli/src/lib/telemetry/environment.ts
+  s_98623744f7ffb6::t_cf1af18d29fc01 2,52
+packages/cli/src/lib/request-headers.ts
+  s_889c1ec57b90eb::t_d9c4b2a2cb59de 3,35,37-38
+packages/cli/telemetry.md
+  s_98623744f7ffb6::t_4b789871c84f23 21-23
+.changeset/agent-context-detection.md
+  s_2602df5045e035::t_a0c5bb0efe009d 1-6
+packages/cli/src/__tests__/lib/telemetry/dispatcher.test.ts
+  s_2602df5045e035::t_0d62cfa0d93d2b 42-64
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "7cb090b4f83352ddf6ab0107a04cc29067af7d93",
+  "prompts": {},
+  "sessions": {
+    "s_2602df5045e035": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0621b-ea3a-7001-82e3-5bb722947a2e",
+        "model": "unknown"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    },
+    "s_889c1ec57b90eb": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a05f73-8ee6-7be0-9c78-194b75eb579c",
+        "model": "unknown"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

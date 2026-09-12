@@ -1,0 +1,19 @@
+AGENTS.md
+  s_98623744f7ffb6::t_de9ed52dc99e5b 715-722
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "75e4af01950623a07b8be4d6e1648a5b633974fb",
+  "prompts": {},
+  "sessions": {
+    "s_98623744f7ffb6": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a05e6a-45d3-7620-8fa5-b107ffe721bb",
+        "model": "unknown"
+      },
+      "human_author": "Samuel Macleod <smacleod@cloudflare.com>"
+    }
+  }
+}

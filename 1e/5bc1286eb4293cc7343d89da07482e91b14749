@@ -1,0 +1,43 @@
+.changeset/lucky-jars-shake.md
+  s_bd618871541f28::t_9eb74ead8f1cab 10-11
+AGENTS.md
+  s_bd618871541f28::t_35a861a96fbfd8 196-197
+LOCAL_MODE.md
+  s_bd618871541f28::t_1e194c8b9937ed 55-58,65-67
+packages/cli/src/__tests__/commands/ai-run.test.ts
+  s_bd618871541f28::t_18df4f45a5b2a2 319-320
+packages/cli/src/__tests__/commands/registrar-create.test.ts
+  s_bd618871541f28::t_04733b37ec4333 468-469
+packages/cli/src/commands/ai/run/index.ts
+  s_bd618871541f28::t_20448d48a44486 26,152
+packages/cli/src/commands/completions/index.ts
+  s_bd618871541f28::t_ec71509552d82d 61
+packages/cli/src/commands/registrar/registrations/create/index.ts
+  s_bd618871541f28::t_e716c926f257f7 15,209
+packages/cli/src/index.ts
+  s_bd618871541f28::t_8bb504e5617bd5 287
+packages/cli/src/lib/local-runtime.ts
+  s_bd618871541f28::t_b69845d0f12cd9 8,12-14,20,81-91,135
+packages/cli/src/lib/local.ts
+  s_bd618871541f28::t_4ddef6f88251e1 3-4,31
+packages/wrangler-tests/src/__tests__/hyperdrive.test.ts
+  s_bd618871541f28::t_e02118ab695319 371,611
+packages/wrangler-tests/src/__tests__/kv/namespace.test.ts
+  s_bd618871541f28::t_4ad2ad74280828 306
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "1e5bc1286eb4293cc7343d89da07482e91b14749",
+  "prompts": {},
+  "sessions": {
+    "s_bd618871541f28": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a05e8b-1840-7d71-948b-28a07869fa56",
+        "model": "unknown"
+      },
+      "human_author": "Samuel Macleod <smacleod@cloudflare.com>"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+packages/cli/src/__tests__/commands/workers-check.test.ts
+  s_977956df82d227::t_44b0992a377ce8 143,152,156-165,189-193
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "5b4e36df1809fb8b129c979efaf53bad23c2e0cf",
+  "prompts": {},
+  "sessions": {
+    "s_977956df82d227": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0904d-1094-7dc1-923a-af4df2540ef7",
+        "model": "unknown"
+      },
+      "human_author": "Pete Bacon Darwin <pbacondarwin@cloudflare.com>"
+    }
+  }
+}

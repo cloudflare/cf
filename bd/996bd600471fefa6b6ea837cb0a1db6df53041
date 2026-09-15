@@ -1,0 +1,29 @@
+packages/cli/src/__tests__/commands/workers-check.test.ts
+  s_977956df82d227::t_4ef1af85d78010 94-119,163-169
+packages/cli/src/commands/workers/check/command.ts
+  s_5ef60c21d4871f::t_ec65b9649e7ff8 45-48,72-74
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "bd996bd600471fefa6b6ea837cb0a1db6df53041",
+  "prompts": {},
+  "sessions": {
+    "s_5ef60c21d4871f": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a09598-548a-7cc2-a14a-28dd2ae47c43",
+        "model": "unknown"
+      },
+      "human_author": "Pete Bacon Darwin <pbacondarwin@cloudflare.com>"
+    },
+    "s_977956df82d227": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0904d-1094-7dc1-923a-af4df2540ef7",
+        "model": "unknown"
+      },
+      "human_author": "Pete Bacon Darwin <pbacondarwin@cloudflare.com>"
+    }
+  }
+}

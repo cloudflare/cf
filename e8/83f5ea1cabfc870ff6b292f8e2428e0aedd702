@@ -1,0 +1,21 @@
+packages/cli/generator/emit/index-files.ts
+  s_977956df82d227::t_697d6634284160 28,130,184-199
+packages/cli/src/__tests__/generator/hand-written-direct-commands.test.ts
+  s_977956df82d227::t_1b850e267cabed 2-5,84-94
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "e883f5ea1cabfc870ff6b292f8e2428e0aedd702",
+  "prompts": {},
+  "sessions": {
+    "s_977956df82d227": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0904d-1094-7dc1-923a-af4df2540ef7",
+        "model": "unknown"
+      },
+      "human_author": "Pete Bacon Darwin <pbacondarwin@cloudflare.com>"
+    }
+  }
+}

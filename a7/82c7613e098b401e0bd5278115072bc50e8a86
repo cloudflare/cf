@@ -1,0 +1,31 @@
+.changeset/bright-registrars-follow.md
+  s_7892b6dd71bfda::t_ea689acbeca8eb 1-7
+AI_RUN.md
+  s_7892b6dd71bfda::t_743b2af5120707 147-181
+packages/cli/src/__tests__/commands/registrar-create.test.ts
+  s_7892b6dd71bfda::t_b4af522550de75 143-186,614-695,931-993
+packages/cli/src/__tests__/lib/schema-flags.test.ts
+  s_7892b6dd71bfda::t_b5dd2e5db8a879 8-9,408-418
+packages/cli/src/commands/registrar/registrations/create/index.ts
+  s_7892b6dd71bfda::t_f502fd8602095a 28,53,57,65-141,267-271,394-418,443,450-451,542-553,565-569,575-577,585-595
+packages/cli/src/commands/registrar/registrations/create/meta.json
+  s_7892b6dd71bfda::t_0bf3bf2c792638 2,32-37,42
+packages/cli/src/lib/schema-flags.ts
+  s_7892b6dd71bfda::t_ccc4ec1cc86834 620-622,691-718
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "a782c7613e098b401e0bd5278115072bc50e8a86",
+  "prompts": {},
+  "sessions": {
+    "s_7892b6dd71bfda": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0a5f8-0ca0-7921-9d97-d93c2b41a358",
+        "model": "unknown"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

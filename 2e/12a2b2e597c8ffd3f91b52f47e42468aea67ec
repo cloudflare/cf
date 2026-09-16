@@ -1,0 +1,25 @@
+packages/cli/src/__tests__/commands/registrar-create.test.ts
+  s_7892b6dd71bfda::t_660e18d8b7dcec 102-116,212,351,821,853,863-879,1003-1019
+AI_RUN.md
+  s_7892b6dd71bfda::t_1ccb24f1747814 188-195
+packages/cli/src/commands/registrar/registrations/create/availability.ts
+  s_7892b6dd71bfda::t_73f2d96e75ba6a 32,34,42-49
+packages/cli/src/commands/registrar/registrations/create/index.ts
+  s_7892b6dd71bfda::t_fe2d33ea9fd8ea 341-346,350-351,357,359,370,495,497,522,536-540,543,599-613
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "2e12a2b2e597c8ffd3f91b52f47e42468aea67ec",
+  "prompts": {},
+  "sessions": {
+    "s_7892b6dd71bfda": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0a5f8-0ca0-7921-9d97-d93c2b41a358",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

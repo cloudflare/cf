@@ -1,0 +1,49 @@
+packages/cli/generator/emit/build-context.ts
+  s_7892b6dd71bfda::t_064ce11f050659 147-150,152-159
+packages/cli/generator/emit/handler/body-prompts.ts
+  s_7892b6dd71bfda::t_00174864998d51 16,25,44,46
+packages/cli/generator/emit/handler/imports.ts
+  s_1772061f356edf::t_e5057272b5d4f6 11,39,140
+packages/cli/generator/intermediate-representation.ts
+  s_7892b6dd71bfda::t_d5c03ce639541a 91-95
+packages/cli/generator/metadata.ts
+  s_1772061f356edf::t_00385522e29ebb 110-115
+packages/cli/generator/arg-derivation.ts
+  s_7ac30ea8d11b3a::t_2b2c61e167f0e4 17-21,121,242,574,658-665,676,721,724-726
+packages/cli/generator/emit/builder.ts
+  s_1772061f356edf::t_26d117f7064a6d 69-71,75-85
+packages/cli/src/__tests__/generator/arg-derivation.test.ts
+  s_1772061f356edf::t_814fdfbbe941b0 39-63,80-161
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "d7c6a2473a4cece3a8372be136aaeb48f8eda946",
+  "prompts": {},
+  "sessions": {
+    "s_1772061f356edf": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0a606-0171-7551-9533-4f4b72bd7076",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    },
+    "s_7892b6dd71bfda": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0a5f8-0ca0-7921-9d97-d93c2b41a358",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    },
+    "s_7ac30ea8d11b3a": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0a606-0226-7012-bba7-5389a2d85164",
+        "model": "unknown"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

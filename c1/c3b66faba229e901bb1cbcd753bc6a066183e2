@@ -1,0 +1,73 @@
+packages/cli/AGENTS.md
+  s_d97d4f4db86861::t_451c18232c7983 22-36,65
+packages/cli/src/__tests__/lib/agent-search-evaluation-cases.ts
+  s_d97d4f4db86861::t_e9b2f82f158b17 1-923
+packages/cli/src/commands/_generated/_meta/agent-context.json
+  s_d97d4f4db86861::t_bf44c3ef958dbf 12,28,139,193
+packages/cli/src/commands/_generated/_meta/commands.json
+  s_d97d4f4db86861::t_8346adbf54f033 5927-5986,19397,19507,109797,156214
+packages/cli/src/commands/_generated/_meta/hand-written-commands.json
+  s_d97d4f4db86861::t_7d120772fff092 5-69,154,289,613,866
+packages/cli/src/commands/agent/search.ts
+  s_d97d4f4db86861::t_d21dbe769aa6e8 1-100
+packages/cli/src/lib/metadata.ts
+  s_d97d4f4db86861::t_d16648134876e2 52-124,130-172
+packages/cli/src/lib/session.ts
+  s_d97d4f4db86861::t_c04016b910d183 60,65,69-72
+.changeset/local-agent-search.md
+  s_d97d4f4db86861::t_c40b91893d63fa 1-6
+AGENTS.md
+  s_d97d4f4db86861::t_18b5fb705020c9 287,436
+README.md
+  s_d97d4f4db86861::t_4e955deb3b1813 8-10
+packages/cli/README.md
+  s_d97d4f4db86861::t_e6a3addc0592e0 28-39
+packages/cli/generator/agent-context.ts
+  s_d97d4f4db86861::t_96df066d72dc53 137,141
+packages/cli/src/__tests__/commands/agent-search.test.ts
+  s_024b25d1225585::t_e708bbaf56ee01 1-216
+packages/cli/src/__tests__/commands/hand-written-metadata.test.ts
+  s_024b25d1225585::t_40bead69559f56 33,55,76-78,102,105,159-163,206-208
+packages/cli/src/__tests__/lib/metadata.test.ts
+  s_024b25d1225585::t_c280be6bc3c2bb 9,20-21,53,55-59,69,71,73-94
+packages/cli/src/commands/agent/index.ts
+  s_024b25d1225585::t_aa040ff6c649cd 1-12
+packages/cli/src/commands/agent/meta.json
+  s_024b25d1225585::t_5f08c0ef618ccd 1-62
+packages/cli/src/commands/auth/meta.json
+  s_024b25d1225585::t_74b4d3b14e1f64 7,122
+packages/cli/src/commands/hand-written.ts
+  s_024b25d1225585::t_4760ad0f9fba76 39-45
+packages/cli/src/commands/registrar/registrations/create/meta.json
+  s_d97d4f4db86861::t_4d1b8789e9d38d 2
+packages/cli/src/commands/schema.ts
+  s_d97d4f4db86861::t_924796afa72a63 7
+packages/cli/src/index.ts
+  s_024b25d1225585::t_93d60c45a3629d 307,310
+turbo.json
+  s_024b25d1225585::t_cda047d4dee712 9
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "c1c3b66faba229e901bb1cbcd753bc6a066183e2",
+  "prompts": {},
+  "sessions": {
+    "s_024b25d1225585": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0ac16-09d4-70b1-b501-7b25cd696cb7",
+        "model": "unknown"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    },
+    "s_d97d4f4db86861": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0ac16-093a-7b41-980f-4dd8e6ad873d",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

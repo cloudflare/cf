@@ -1,0 +1,25 @@
+fixtures/wrangler-bundler-project/README.md
+  s_d42558c74a559d::t_ea5856e05d4d33 20
+fixtures/wrangler-bundler-project/package.json
+  s_d42558c74a559d::t_f1aeaf4a7d56b6 7
+pnpm-lock.yaml
+  s_d42558c74a559d::t_3a97a46bad152e 73-74,3612-3613,3617,4042,4046,6740,6743,6746,6749
+test_bugs/known-impls-wrangler-minimum-too-low.md
+  s_d42558c74a559d::t_bcf862735b391b 6,19-20,24,26
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "47d960d196f247a03d3b4d2faecbe01f853c40fe",
+  "prompts": {},
+  "sessions": {
+    "s_d42558c74a559d": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f50d1eceeffe8OyIF8jWvoFpMc",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Will Taylor <williamtaylor@cloudflare.com>"
+    }
+  }
+}

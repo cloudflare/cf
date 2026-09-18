@@ -1,0 +1,27 @@
+packages/cli/src/__tests__/commands/containers-push.test.ts
+  s_dcf88dee825bfe::t_0c7aa5373e134e 91-96,111-113
+packages/cli/src/commands/_generated/containers/index.ts
+  s_dcf88dee825bfe::t_b1c5a43351926b 1,20
+packages/cli/src/commands/_generated/_meta/commands.json
+  s_dcf88dee825bfe::t_7921144604c009 37676-37713
+packages/cli/src/commands/_generated/_meta/agent-context.json
+  s_dcf88dee825bfe::t_6f6b477244e269 52
+packages/cli/src/commands/_generated/_meta/hand-written-commands.json
+  s_dcf88dee825bfe::t_6213b6c135c2e8 338-381
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "bac8347848be521e1c48f8a925556344d3b2bd34",
+  "prompts": {},
+  "sessions": {
+    "s_dcf88dee825bfe": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f545753b4ffeowU2zqbjcCECBG",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Matt Johnson-Pint <mjohnson-pint@cloudflare.com>"
+    }
+  }
+}

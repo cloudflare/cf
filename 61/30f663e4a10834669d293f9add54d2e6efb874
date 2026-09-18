@@ -1,0 +1,21 @@
+packages/cli/src/__tests__/commands/registrar-create.test.ts
+  s_7892b6dd71bfda::t_6fbff486eade04 954-984
+packages/cli/src/commands/registrar/registrations/create/index.ts
+  s_7892b6dd71bfda::t_05f352e3a0df03 220-237,247
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "6130f663e4a10834669d293f9add54d2e6efb874",
+  "prompts": {},
+  "sessions": {
+    "s_7892b6dd71bfda": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0a5f8-0ca0-7921-9d97-d93c2b41a358",
+        "model": "unknown"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+packages/cli/src/__tests__/commands/agent-search.test.ts
+  s_024b25d1225585::t_4f6563faef8a20 8,187-201
+packages/cli/src/__tests__/lib/agent-search-evaluation.test.ts
+  s_024b25d1225585::t_14c8dee2882019 170
+packages/cli/src/commands/agent/search.ts
+  s_024b25d1225585::t_e8c3ac250208b9 95-96
+packages/cli/src/lib/output.ts
+  s_024b25d1225585::t_54f813c306585a 9-10,64,72,76-80
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "6fd23c77b2ab3a4d918d5c45f5fa964e2ef7a91d",
+  "prompts": {},
+  "sessions": {
+    "s_024b25d1225585": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0ac16-09d4-70b1-b501-7b25cd696cb7",
+        "model": "unknown"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

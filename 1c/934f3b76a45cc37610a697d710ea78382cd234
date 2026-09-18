@@ -1,0 +1,21 @@
+packages/cli/src/__tests__/lib/schema-flags.test.ts
+  s_7892b6dd71bfda::t_504c76baa6ee3b 413,502-527
+packages/cli/src/lib/schema-flags.ts
+  s_7892b6dd71bfda::t_30ec1365271681 967-971,1002,1008,1011,1146,1155,1160
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "1c934f3b76a45cc37610a697d710ea78382cd234",
+  "prompts": {},
+  "sessions": {
+    "s_7892b6dd71bfda": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0a5f8-0ca0-7921-9d97-d93c2b41a358",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

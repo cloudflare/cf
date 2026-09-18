@@ -1,0 +1,25 @@
+packages/cli/generator/cli-audience.ts
+  s_74fafa0c2a0476::t_f1c311feb3c463 1-66
+packages/cli/src/__tests__/generator/cli-audience.test.ts
+  s_74fafa0c2a0476::t_6032b4f53d11a6 1-62
+.changeset/filter-cli-audiences.md
+  s_74fafa0c2a0476::t_33244ae4ebcba1 1-6
+packages/cli/generate.ts
+  s_74fafa0c2a0476::t_519286eb54873b 13,303-308
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "70651bdbb75d020bd31ea15563b90a9ab3107932",
+  "prompts": {},
+  "sessions": {
+    "s_74fafa0c2a0476": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0a4ad-9a92-78f2-a532-e4fe840e4c2b",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

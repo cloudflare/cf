@@ -1,0 +1,21 @@
+CF_WRANGLER_PATH_MAP.md
+  s_d42558c74a559d::t_c92bad9a1dba07 77,100-119,299
+DIVERGENCE.md
+  s_d42558c74a559d::t_40561a46eef51a 222-223
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "b1bc858d6f958742de3d691709ee97fb2da0b738",
+  "prompts": {},
+  "sessions": {
+    "s_d42558c74a559d": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f50d1eceeffe8OyIF8jWvoFpMc",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Will Taylor <williamtaylor@cloudflare.com>"
+    }
+  }
+}

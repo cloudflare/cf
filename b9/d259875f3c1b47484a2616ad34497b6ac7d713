@@ -1,0 +1,21 @@
+CODE_SHARING_PLAN.md
+  s_563f601fa44626::t_fba58a1cf915e3 9-17
+pnpm-lock.yaml
+  s_563f601fa44626::t_b179b24bb54139 131-132,455-456,4308
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "b9d259875f3c1b47484a2616ad34497b6ac7d713",
+  "prompts": {},
+  "sessions": {
+    "s_563f601fa44626": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f3a86dabcffe9zJiUPE1o79pg4",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Matt Johnson-Pint <mjohnson-pint@cloudflare.com>"
+    }
+  }
+}

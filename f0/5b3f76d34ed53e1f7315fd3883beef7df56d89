@@ -1,0 +1,25 @@
+packages/cli/src/__tests__/commands/dev/index.test.ts
+  s_6ab1ff780013ed::t_34502e4d6c9ac7 10-13,306-308,320,332,342-348
+packages/cli/src/lib/autoconfig.ts
+  s_6ab1ff780013ed::t_d87a0720621f99 30-50,86,122-126,134-138,217-219
+packages/cli/src/commands/build/index.ts
+  s_6ab1ff780013ed::t_bd2fe30f6b31bc 51-55
+packages/cli/src/commands/dev/index.ts
+  s_6ab1ff780013ed::t_80acf3925e2222 101,108
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "f05b3f76d34ed53e1f7315fd3883beef7df56d89",
+  "prompts": {},
+  "sessions": {
+    "s_6ab1ff780013ed": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0c89a-26f7-7792-9ad4-4aa8cafe2b4c",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

@@ -1,0 +1,55 @@
+.changeset/bright-agents-search.md
+  s_6ab1ff780013ed::t_0a0bc86c476394 7-8
+README.md
+  s_6ab1ff780013ed::t_e6092349b3553c 145-146
+packages/cli/src/__tests__/commands/schema.test.ts
+  s_6ab1ff780013ed::t_910df016746881 14-15,33
+packages/cli/src/__tests__/lib/command-search.test.ts
+  s_6ab1ff780013ed::t_a6c6ec14e7f4cf 61
+packages/cli/src/commands/_generated/_meta/commands.json
+  s_42fc967fafaece::t_1a413ff57ed901 114584,114594
+packages/cli/src/commands/_generated/_meta/hand-written-commands.json
+  s_42fc967fafaece::t_e323e2db18ebc1 720,730
+packages/cli/src/commands/_generated/_meta/search-index.json
+  s_42fc967fafaece::t_c07e2d76e11800 5
+packages/cli/src/commands/search/index.ts
+  s_6ab1ff780013ed::t_c6d7d0f10194a5 35,51-65
+packages/cli/src/commands/search/meta.json
+  s_6ab1ff780013ed::t_be70eb9bd4671c 8,18
+packages/cli/src/lib/command-search.ts
+  s_6ab1ff780013ed::t_81b2088c2b2a6b 794
+packages/cli/src/commands/schema.ts
+  s_3f95f82c537ee1::t_a0f44e4e1c70a4 63-70,73-77,79-97
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "515e1097f9593ad8027eab2d0d3e8595c7a535c0",
+  "prompts": {},
+  "sessions": {
+    "s_3f95f82c537ee1": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0c8cc-1f90-7491-91cc-351ce081d192",
+        "model": "unknown"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    },
+    "s_42fc967fafaece": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0c8cc-1efd-7c30-b0fb-983b125573db",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    },
+    "s_6ab1ff780013ed": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0c89a-26f7-7792-9ad4-4aa8cafe2b4c",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

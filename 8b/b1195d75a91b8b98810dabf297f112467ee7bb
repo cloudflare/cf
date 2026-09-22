@@ -1,0 +1,37 @@
+packages/cli/src/__tests__/commands/dev/spawn.test.ts
+  s_ec32857784cffb::t_24a891ca1bc4d7 5,17,20-22,51-52,57-58,147-148,151-169
+packages/cli/src/commands/dev/spawn.ts
+  s_ec32857784cffb::t_015e3410e60a8e 19,24-51,55-58,71,123,125-131,138,141,147,149,156,160
+packages/cli/src/commands/build/index.ts
+  s_f77741e678c1d3::t_4a5f9708b4eea5 74-75
+packages/cli/src/commands/dev/index.ts
+  s_f77741e678c1d3::t_012d9d2700fd93 116
+packages/cli/src/index.ts
+  s_f77741e678c1d3::t_bc01d8e372ff3a 577-580
+packages/cli/src/lib/telemetry/run.ts
+  s_f77741e678c1d3::t_b224cc03d2becd 6,31-33,40-44,90-96
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "8bb1195d75a91b8b98810dabf297f112467ee7bb",
+  "prompts": {},
+  "sessions": {
+    "s_ec32857784cffb": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a05e0c-fcf6-7852-a9f8-3231f8472ff3",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    },
+    "s_f77741e678c1d3": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a05e0c-fe87-7572-bc18-7ad88e06dfe4",
+        "model": "unknown"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+packages/cli/src/__tests__/lib/telemetry/run.test.ts
+  s_ec32857784cffb::t_4da4f16550d0e9 29-35,95-109
+packages/cli/src/lib/telemetry/run.ts
+  s_ec32857784cffb::t_24bc4a369ca9d4 30-41,83-84,87
+packages/cli/src/lib/telemetry/types.ts
+  s_ec32857784cffb::t_0d0d8c1a4d07d9 27
+packages/cli/telemetry.md
+  s_ec32857784cffb::t_1a9441669ce807 16
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "4140709d8a496cf41e01f1dcbf0f030c2d3c4d4d",
+  "prompts": {},
+  "sessions": {
+    "s_ec32857784cffb": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a05e0c-fcf6-7852-a9f8-3231f8472ff3",
+        "model": "unknown"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

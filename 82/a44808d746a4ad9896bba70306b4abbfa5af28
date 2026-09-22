@@ -1,0 +1,19 @@
+packages/cli/src/commands/dev/spawn.ts
+  s_ec32857784cffb::t_cf2c5608585d0e 29-32
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "82a44808d746a4ad9896bba70306b4abbfa5af28",
+  "prompts": {},
+  "sessions": {
+    "s_ec32857784cffb": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a05e0c-fcf6-7852-a9f8-3231f8472ff3",
+        "model": "unknown"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

@@ -1,0 +1,21 @@
+packages/cli/src/__tests__/commands/dev/spawn.test.ts
+  s_6ab1ff780013ed::t_fc78ea601eca4a 5-9,172-179
+packages/cli/src/commands/dev/spawn.ts
+  s_6ab1ff780013ed::t_8cd908adbdd606 29-35,129-134
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "d9acc7da418548e8ba9601a7ecbdf677339c6fa2",
+  "prompts": {},
+  "sessions": {
+    "s_6ab1ff780013ed": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0c89a-26f7-7792-9ad4-4aa8cafe2b4c",
+        "model": "unknown"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

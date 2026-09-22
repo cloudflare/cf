@@ -1,0 +1,69 @@
+.changeset/containers-ssh.md
+  s_6ab1ff780013ed::t_e5317b76bfdf7a 1-7
+AGENTS.md
+  s_6ab1ff780013ed::t_1c9dc66c1ab727 645,648,651,1049-1050
+CF_WRANGLER_DIFF.md
+  s_6ab1ff780013ed::t_923d1b115e72e8 63,335,344,349-351
+CF_WRANGLER_PATH_MAP.md
+  s_6ab1ff780013ed::t_17b44c8cd446e5 57,288,301
+CF_WRANGLER_PLAN.md
+  s_6ab1ff780013ed::t_f718b4f5ad5e25 62-95,1362,1364-1365,1377,1384,1507
+CODE_SHARING_PLAN.md
+  s_6ab1ff780013ed::t_f72a895ee23152 15,19
+DIVERGENCE.md
+  s_6ab1ff780013ed::t_2cdd467bde1286 237-240,248,651,653,656-657,659
+README.md
+  s_6ab1ff780013ed::t_24095b0d0ec3b1 8-9,238-239
+package.json
+  s_6ab1ff780013ed::t_ca4380b8a26517 36-39,44-50,53,55-56
+packages/cli/AGENTS.md
+  s_6ab1ff780013ed::t_54028f04c43a7e 147-148
+packages/cli/package.json
+  s_6ab1ff780013ed::t_f5476e58c66fdd 67
+packages/cli/src/__tests__/commands/containers-build.test.ts
+  s_6ab1ff780013ed::t_ff63ab09e36346 1,82-103
+packages/cli/src/__tests__/commands/containers-ssh.test.ts
+  s_6ab1ff780013ed::t_d229b3c183cb07 1-273
+packages/cli/src/commands/_generated/_meta/agent-context.json
+  s_6ab1ff780013ed::t_5a803159f23e64 52
+packages/cli/src/commands/_generated/_meta/commands.json
+  s_6ab1ff780013ed::t_e8bec13533b988 38482-38513
+packages/cli/src/commands/_generated/_meta/hand-written-commands.json
+  s_6ab1ff780013ed::t_51a76f6e7b7f2d 404-441
+packages/cli/src/commands/_generated/containers/index.ts
+  s_6ab1ff780013ed::t_6e0174ee8ec471 3,23
+packages/cli/src/commands/containers/build/index.ts
+  s_6ab1ff780013ed::t_91d3a1712a206a 50
+packages/cli/src/commands/containers/ssh/index.ts
+  s_6ab1ff780013ed::t_efcad8e2d202b6 1-78
+packages/cli/src/commands/containers/ssh/meta.json
+  s_6ab1ff780013ed::t_e483703f4a8106 1-32
+packages/cli/src/commands/hand-written.ts
+  s_6ab1ff780013ed::t_c1c048fa44f3c0 155-160
+packages/cli/src/lib/args.ts
+  s_6ab1ff780013ed::t_4f9beb59acff0b 8-10
+patches/@cloudflare__containers-shared@0.19.0.patch
+  s_6ab1ff780013ed::t_1d3080a5384c0e 4,17,34
+patches/@cloudflare__workers-utils@0.41.0.patch
+  s_6ab1ff780013ed::t_2384176db27570 1-18
+pnpm-lock.yaml
+  s_6ab1ff780013ed::t_59458edf988a60 8-11,16-17,22-24,31-33,137-138,430-432,439-441,454-458,647-654,4246-4249,4261,4272,4306,4308-4315,4490-4497
+usecases/containers-ssh.yaml
+  s_6ab1ff780013ed::t_ebe158eccebc62 2-3,7-8,10-12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "4a779cbd27c7a3b0ff78cec0a27b7aa51da917e9",
+  "prompts": {},
+  "sessions": {
+    "s_6ab1ff780013ed": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0c89a-26f7-7792-9ad4-4aa8cafe2b4c",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

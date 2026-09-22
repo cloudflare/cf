@@ -1,0 +1,39 @@
+packages/cli/src/__tests__/lib/oauth-cancellation.test.ts
+  s_6ab1ff780013ed::t_d6f17272c1aed9 42
+packages/cli/src/__tests__/lib/prompt.test.ts
+  s_6ab1ff780013ed::t_61faed3a94f014 321
+packages/cli/src/__tests__/lib/telemetry/run.test.ts
+  s_6ab1ff780013ed::t_8a44ffbd7748fc 31-33,38,102-109,111-113
+packages/cli/src/commands/build/index.ts
+  s_6ab1ff780013ed::t_7d56c2043a6b11 73
+packages/cli/src/commands/dev/index.ts
+  s_6ab1ff780013ed::t_b822271ee409aa 108,116
+packages/cli/src/index.ts
+  s_6ab1ff780013ed::t_ccbc67df0cfbcd 594-596,599,603-604
+packages/cli/src/lib/autoconfig.ts
+  s_6ab1ff780013ed::t_21598553096270 230
+packages/cli/src/lib/dialog.ts
+  s_6ab1ff780013ed::t_4985ae1e1ba02e 25,60,115
+packages/cli/src/lib/oauth/index.ts
+  s_6ab1ff780013ed::t_28b24ff40e96b1 43,64
+packages/cli/src/lib/prompt.ts
+  s_6ab1ff780013ed::t_32d5dc7b577e81 173,221,252,280,344
+packages/cli/src/lib/telemetry/run.ts
+  s_6ab1ff780013ed::t_259bf47b1b8fd4 40-42
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "7b4fe73879d0daa4837989ae2c3050958ba29460",
+  "prompts": {},
+  "sessions": {
+    "s_6ab1ff780013ed": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0c89a-26f7-7792-9ad4-4aa8cafe2b4c",
+        "model": "unknown"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+packages/cli/src/__tests__/commands/auth/device-login.test.ts
+  s_6ab1ff780013ed::t_28638b41d69666 85,87,133,135
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "0c0a46bd3ef39c5b709ba92c904a2a648d89e1ac",
+  "prompts": {},
+  "sessions": {
+    "s_6ab1ff780013ed": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0c89a-26f7-7792-9ad4-4aa8cafe2b4c",
+        "model": "unknown"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

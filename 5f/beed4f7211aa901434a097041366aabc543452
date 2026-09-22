@@ -1,0 +1,27 @@
+packages/cli/src/commands/_generated/_meta/commands.json
+  s_d42558c74a559d::t_43449fc74a88ad 87308-87312,87314-87315,87324-87325,157747
+  s_d42558c74a559d::t_679994a75e89c6 87313
+  s_d42558c74a559d::t_1775d4eda01f10 87316-87318
+packages/cli/src/__tests__/commands/previews-deploy.test.ts
+  s_d42558c74a559d::t_6636cfd5e0a574 1-5,6-89,94,96-116,118-145,150-154
+packages/cli/src/commands/_generated/_meta/hand-written-commands.json
+  s_d42558c74a559d::t_64358c5c584e25 531-535,537-538,547-553,805-806
+  s_d42558c74a559d::t_f5cc56b7258229 536
+  s_d42558c74a559d::t_87146ebb05e264 539-541
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "5fbeed4f7211aa901434a097041366aabc543452",
+  "prompts": {},
+  "sessions": {
+    "s_d42558c74a559d": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f50d1eceeffe8OyIF8jWvoFpMc",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Will Taylor <williamtaylor@cloudflare.com>"
+    }
+  }
+}

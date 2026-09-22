@@ -1,0 +1,31 @@
+CF_BUILD.md
+  s_d42558c74a559d::t_42b7c5333c3014 7,16-17,31-32,41,46-47,68,79-80,105,113,249
+CF_DEV.md
+  s_d42558c74a559d::t_2ed7408ad2fb68 59-60
+CODE_SHARING_PLAN.md
+  s_d42558c74a559d::t_7fd54f7a8637cf 15
+PLAN.md
+  s_d42558c74a559d::t_e76029a881bcd1 31,99,102
+packages/cli/AGENTS.md
+  s_d42558c74a559d::t_1090776a16e5ce 22-36,65-67
+test_bugs/build-output-docs-stale-v1-named-worker-dir.md
+  s_d42558c74a559d::t_4ad17b5ed7d0b1 6,21
+test_bugs/no-rust-build-impl-shipped.md
+  s_d42558c74a559d::t_1198378531b904 20
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "f55b140b4ab39bb55d9615f430611d86162dc95d",
+  "prompts": {},
+  "sessions": {
+    "s_d42558c74a559d": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f50d1eceeffe8OyIF8jWvoFpMc",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Will Taylor <williamtaylor@cloudflare.com>"
+    }
+  }
+}

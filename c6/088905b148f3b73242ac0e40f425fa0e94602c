@@ -1,0 +1,21 @@
+packages/cli/src/__tests__/commands/dev/index.test.ts
+  s_d42558c74a559d::t_89445029cfd83d 137,206
+packages/cli/src/commands/dev/impl.ts
+  s_d42558c74a559d::t_c2686652c86369 65,70-73,107
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "c6088905b148f3b73242ac0e40f425fa0e94602c",
+  "prompts": {},
+  "sessions": {
+    "s_d42558c74a559d": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f50d1eceeffe8OyIF8jWvoFpMc",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Will Taylor <williamtaylor@cloudflare.com>"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+packages/cli/src/__tests__/help.test.ts
+  s_42fc967fafaece::t_8cd44ab2732724 54-57,59
+packages/cli/src/index.ts
+  s_3f95f82c537ee1::t_4866fd885d23fa 491,493
+packages/cli/src/lib/search-hint.ts
+  s_42fc967fafaece::t_f18692b4b04ce9 2-6,8-9
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "9825005dca15d81584c9af04bbac6f08869f1e24",
+  "prompts": {},
+  "sessions": {
+    "s_3f95f82c537ee1": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0c8cc-1f90-7491-91cc-351ce081d192",
+        "model": "unknown"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    },
+    "s_42fc967fafaece": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0c8cc-1efd-7c30-b0fb-983b125573db",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

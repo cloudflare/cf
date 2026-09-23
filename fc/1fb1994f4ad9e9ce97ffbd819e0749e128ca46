@@ -1,0 +1,19 @@
+packages/cli/src/__tests__/commands/previews-deploy.test.ts
+  s_c0c0c53a61beb5::t_5a3543efed43de 56-57,61-62,64,66-67
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "fc1fb1994f4ad9e9ce97ffbd819e0749e128ca46",
+  "prompts": {},
+  "sessions": {
+    "s_c0c0c53a61beb5": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f30ccad40ffeYa8lbUDxkgpc4R",
+        "model": "gpt-5.6-terra"
+      },
+      "human_author": "Greg Brimble <gbrimble@cloudflare.com>"
+    }
+  }
+}

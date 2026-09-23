@@ -1,0 +1,21 @@
+packages/cli/src/commands/build/index.ts
+  s_c0c0c53a61beb5::t_9e0b1c592ea7da 38-43
+packages/cli/src/__tests__/commands/build/index.test.ts
+  s_c0c0c53a61beb5::t_71f591e673f9aa 114,118,120-122,126-128,130-132,134,136
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "cdcd43ee4f47e3eba90784bc8a1007225c47de34",
+  "prompts": {},
+  "sessions": {
+    "s_c0c0c53a61beb5": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f30ccad40ffeYa8lbUDxkgpc4R",
+        "model": "gpt-5.6-terra"
+      },
+      "human_author": "Greg Brimble <gbrimble@cloudflare.com>"
+    }
+  }
+}

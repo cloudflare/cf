@@ -1,0 +1,21 @@
+packages/cli/README.md
+  s_71bbbdec96e7d8::t_42cd5126251510 61
+packages/cli/telemetry.md
+  s_71bbbdec96e7d8::t_c63b8292b04b26 4-9,14,18-23,25-44,48-52,56-57,63-66,68-69,77-85
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "d7b72647e9e44a421aff75417a84e46aba022306",
+  "prompts": {},
+  "sessions": {
+    "s_71bbbdec96e7d8": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0cf80-c6d8-7892-96aa-38f41ee0c385",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

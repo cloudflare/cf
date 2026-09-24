@@ -1,0 +1,41 @@
+.changeset/deploy-worker-flag.md
+  s_f65b0e05597a3a::t_86ba6f7da0c9a8 7
+AGENTS.md
+  s_f65b0e05597a3a::t_59c1199272bae7 285-286,337,432,952-954
+PLAN.md
+  s_f65b0e05597a3a::t_21aaf8be43e53a 42
+packages/cli/AGENTS.md
+  s_f65b0e05597a3a::t_35ecbc56938848 85
+packages/cli/src/__tests__/commands/workers-check.test.ts
+  s_f65b0e05597a3a::t_51d13e4485da3b 296-324
+packages/cli/src/commands/_generated/_meta/commands.json
+  s_f65b0e05597a3a::t_66db3c90c14da7 132752,132768-132773
+packages/cli/src/commands/_generated/_meta/hand-written-commands.json
+  s_f65b0e05597a3a::t_d3e3b9ff4f5654 881,897-902
+packages/cli/src/commands/deploy/shared.ts
+  s_f65b0e05597a3a::t_754e43d83fd351 20
+packages/cli/src/commands/workers/check/command.ts
+  s_f65b0e05597a3a::t_8e92a0aa929522 6,8,39-40,60-61
+packages/cli/src/commands/workers/check/meta.json
+  s_f65b0e05597a3a::t_ca99db0d6ecedb 7,23-28
+packages/cli/src/commands/workers/triggers/deploy.ts
+  s_f65b0e05597a3a::t_864d8985668d96 10
+packages/cli/src/lib/build-output.ts
+  s_f65b0e05597a3a::t_f2c11531438731 45-59
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "2d234bd1b699ca06d6545dd0aca85a8280f5f3bd",
+  "prompts": {},
+  "sessions": {
+    "s_f65b0e05597a3a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "80ab0623-161c-4255-af61-af145b47984c",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "James <james@eli.cx>"
+    }
+  }
+}

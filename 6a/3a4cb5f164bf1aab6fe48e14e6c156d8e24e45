@@ -1,0 +1,39 @@
+.changeset/quiet-wrangler-preferences.md
+  s_71bbbdec96e7d8::t_5ccf82ab50d0c3 1-8
+packages/cli/src/__tests__/commands/telemetry.test.ts
+  s_71bbbdec96e7d8::t_c47e5a0362354d 46-61
+packages/cli/src/__tests__/lib/telemetry/config.test.ts
+  s_71bbbdec96e7d8::t_394b5100d62a15 1-4,24-25,47-160
+packages/cli/src/__tests__/lib/telemetry/dispatcher.test.ts
+  s_71bbbdec96e7d8::t_1412bd516b4d04 75-90
+packages/cli/src/commands/telemetry/disable.ts
+  s_71bbbdec96e7d8::t_ea92bd0c40ad20 2,6,15,18
+packages/cli/src/commands/telemetry/enable.ts
+  s_71bbbdec96e7d8::t_388c1283a696e0 2,6,15,19
+packages/cli/src/commands/telemetry/shared.ts
+  s_71bbbdec96e7d8::t_b146bd2d2aa098 1-4,8-17
+packages/cli/src/commands/telemetry/status.ts
+  s_71bbbdec96e7d8::t_f9b0e82053f5aa 5-6,13,17
+packages/cli/src/lib/telemetry/config.ts
+  s_71bbbdec96e7d8::t_f3fdde59dbf1af 2-11,19-26,64-103,105-108,110-123,134-140,146-164
+packages/cli/telemetry.md
+  s_71bbbdec96e7d8::t_de709db6e1af86 77-78,84-100
+turbo.json
+  s_71bbbdec96e7d8::t_40ee0b8381bb7c 26,42
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "6a3a4cb5f164bf1aab6fe48e14e6c156d8e24e45",
+  "prompts": {},
+  "sessions": {
+    "s_71bbbdec96e7d8": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0cf80-c6d8-7892-96aa-38f41ee0c385",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

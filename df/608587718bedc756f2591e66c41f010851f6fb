@@ -1,0 +1,47 @@
+README.md
+  s_f65b0e05597a3a::t_8957298d9cab7f 179,232
+packages/cli/src/__tests__/commands/deploy/helpers.ts
+  s_f65b0e05597a3a::t_3d29c99b7dc9e1 278,285,288,325-326,348-349
+packages/cli/src/__tests__/commands/deploy/index.test.ts
+  s_f65b0e05597a3a::t_f524cc4130da5c 568-715
+packages/cli/src/__tests__/commands/triggers-deploy.test.ts
+  s_f65b0e05597a3a::t_e01368bebec0a9 107-151
+packages/cli/src/__tests__/commands/versions-upload.test.ts
+  s_f65b0e05597a3a::t_24e190cfad6dba 187-218
+packages/cli/src/__tests__/lib/build-output.test.ts
+  s_f65b0e05597a3a::t_dc4a883c0fff13 11,184-260
+packages/cli/src/__tests__/lib/deploy-input.test.ts
+  s_f65b0e05597a3a::t_92eadad27e663b 292
+packages/cli/src/commands/_generated/_meta/commands.json
+  s_f65b0e05597a3a::t_d23638f3aeaf28 45738-45743,133277-133282,133327-133332
+packages/cli/src/commands/_generated/_meta/hand-written-commands.json
+  s_f65b0e05597a3a::t_88af76015da30b 662-667,928-933,984-989
+packages/cli/src/commands/deploy/meta.json
+  s_f65b0e05597a3a::t_4106dfdeb2a0d5 43-48
+packages/cli/src/commands/deploy/shared.ts
+  s_f65b0e05597a3a::t_41d45ed05e7800 21,36-50,86-87,115-117,119
+packages/cli/src/commands/workers/triggers/deploy.ts
+  s_f65b0e05597a3a::t_06672b29a92d4d 11,18,34-35,53,55
+packages/cli/src/commands/workers/triggers/meta.json
+  s_f65b0e05597a3a::t_4bd3edcfae6dff 24-29
+packages/cli/src/commands/workers/versions/create/meta.json
+  s_f65b0e05597a3a::t_d5ae8ad24d53c8 42-47
+packages/cli/src/lib/build-output.ts
+  s_f65b0e05597a3a::t_60613505eacb73 2,6-9,45-80
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "df608587718bedc756f2591e66c41f010851f6fb",
+  "prompts": {},
+  "sessions": {
+    "s_f65b0e05597a3a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "80ab0623-161c-4255-af61-af145b47984c",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "James <james@eli.cx>"
+    }
+  }
+}

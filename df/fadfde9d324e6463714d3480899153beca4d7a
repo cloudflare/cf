@@ -1,0 +1,35 @@
+AGENTS.md
+  s_28239f322b4912::t_09c6c5147f8b55 141
+packages/cli/generator/index.ts
+  s_28239f322b4912::t_fb5098981a0661 34,518-524
+packages/cli/generator/metadata.ts
+  s_28239f322b4912::t_e4d8fe41b0beb2 386-401
+packages/cli/src/__tests__/help.test.ts
+  s_28239f322b4912::t_e54cd18ce3bcb7 1-2,7-27,106-139
+packages/cli/src/commands/_generated/_meta/command-paths.json
+  s_28239f322b4912::t_527a7ddbee6ec0 1-2999
+packages/cli/src/commands/search/command-paths.ts
+  s_28239f322b4912::t_d726caec5aee06 1-44
+packages/cli/src/commands/search/lookup.ts
+  s_28239f322b4912::t_d244bcfc9bca0c 2-3,10-11
+packages/cli/src/index.ts
+  s_28239f322b4912::t_fd5ed950ac177e 528-529
+packages/cli/src/lib/metadata.ts
+  s_28239f322b4912::t_d1ec8c8f6f6af6 10-11,54-59,138-148
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "dffadfde9d324e6463714d3480899153beca4d7a",
+  "prompts": {},
+  "sessions": {
+    "s_28239f322b4912": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0d43e-7856-7fd2-8ba2-8cc4bb3d68b6",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

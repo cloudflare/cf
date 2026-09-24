@@ -1,0 +1,29 @@
+packages/cli/src/__tests__/commands/deploy/index.test.ts
+  s_06c2d5d2143936::t_f11c36e67e00a3 580
+packages/cli/src/__tests__/commands/hand-written-metadata.test.ts
+  s_06c2d5d2143936::t_51f058e3233af1 94-104
+packages/cli/src/commands/_generated/_meta/commands.json
+  s_06c2d5d2143936::t_cc9aa824ed17e0 89214-89222
+packages/cli/src/commands/_generated/_meta/hand-written-commands.json
+  s_06c2d5d2143936::t_1c8910ea107e45 721-729
+packages/cli/src/commands/deploy/shared.ts
+  s_06c2d5d2143936::t_5e49379156df8c 107-109,111
+packages/cli/src/commands/previews/meta.json
+  s_06c2d5d2143936::t_8bd6eea91d31fe 18-26
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "e4736590c2887a30e313adc8f900ba55794bc9b2",
+  "prompts": {},
+  "sessions": {
+    "s_06c2d5d2143936": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f2eb8fd9cffeUOqD3La1Jb9ppv",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "Greg Brimble <gbrimble@cloudflare.com>"
+    }
+  }
+}

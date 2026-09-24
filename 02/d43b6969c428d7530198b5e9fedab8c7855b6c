@@ -1,0 +1,21 @@
+packages/cli/src/__tests__/commands/schema.test.ts
+  s_28239f322b4912::t_8544caedefec11 54-65
+packages/cli/src/commands/schema.ts
+  s_28239f322b4912::t_64922cde3dbcb7 93-98,109-111,120
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "02d43b6969c428d7530198b5e9fedab8c7855b6c",
+  "prompts": {},
+  "sessions": {
+    "s_28239f322b4912": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0d43e-7856-7fd2-8ba2-8cc4bb3d68b6",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

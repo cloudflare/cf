@@ -1,0 +1,183 @@
+.changeset/dry-run-no-api.md
+  s_35c231f835cdba::t_38d70ce09076b0 1-10
+.changeset/update-forge.md
+  s_35c231f835cdba::t_d15566394c1a5d 6
+packages/cli/generate.ts
+  s_35c231f835cdba::t_305a4c5038f9f6 22
+packages/cli/src/__tests__/commands/deploy/containers.test.ts
+  s_35c231f835cdba::t_df5d63f6c69d20 51,75,93,113,132,229,255
+packages/cli/src/__tests__/commands/deploy/helpers.ts
+  s_35c231f835cdba::t_3c15c07b99f080 4,525-537
+packages/cli/src/__tests__/commands/deploy/index.test.ts
+  s_35c231f835cdba::t_bb3ecf63981c11 19,923-941
+packages/cli/src/__tests__/commands/triggers-deploy.test.ts
+  s_35c231f835cdba::t_4397f9e73d13ef 17,139-142,155
+packages/cli/src/__tests__/commands/versions-upload.test.ts
+  s_35c231f835cdba::t_331dbe283c1333 20,188-212
+packages/cli/src/commands/_generated/_meta/commands.json
+  s_35c231f835cdba::t_9ca76ce8084e58 67059,67082,67105,67140,67163-67385,67450-67485,67529,67552,67612,67671,129992,130257,131516,143347,157113,157503
+packages/cli/src/commands/_generated/_meta/schemas.json
+  s_35c231f835cdba::t_03b780d704e7a4 48286-48470,48512-48531,101905
+packages/cli/src/commands/_generated/index.ts
+  s_35c231f835cdba::t_36fa59670a40eb 733,1074
+packages/cli/src/commands/_generated/logs/datasets/available.ts
+  s_35c231f835cdba::t_beef08e7d499ff 17,42,58,86
+packages/cli/src/commands/_generated/logs/datasets/create.ts
+  s_35c231f835cdba::t_e37c16a1129902 20,65,81,127,158
+packages/cli/src/commands/_generated/logs/datasets/delete.ts
+  s_35c231f835cdba::t_896fabb82cebc2 18,55,72,111
+packages/cli/src/commands/_generated/logs/datasets/get.ts
+  s_35c231f835cdba::t_699af71199cb66 17,48,64,93
+packages/cli/src/commands/_generated/logs/datasets/index.ts
+  s_35c231f835cdba::t_41a4a23b8a153c 10
+packages/cli/src/commands/_generated/logs/datasets/list.ts
+  s_35c231f835cdba::t_c2668e0b807bb1 17,50,69,98
+packages/cli/src/commands/_generated/logs/datasets/update.ts
+  s_35c231f835cdba::t_5d8a35dea2c4b5 19,73,89,133,161
+packages/cli/src/commands/_generated/logs/index.ts
+  s_35c231f835cdba::t_bb7f4c6296c4a1 2,4,22,24
+packages/cli/src/commands/_generated/logs/query.ts
+  s_35c231f835cdba::t_f10a66476d9147 20,54,70,129
+packages/cli/src/commands/_generated/rules/index.ts
+  s_35c231f835cdba::t_a659c410ef9d29 12
+packages/cli/src/commands/_generated/waiting-rooms/create.ts
+  s_35c231f835cdba::t_04cccb0dfca92e 77
+packages/cli/src/commands/_generated/waiting-rooms/delete.ts
+  s_35c231f835cdba::t_b563a897309f21 74-79
+packages/cli/src/commands/_generated/waiting-rooms/edit.ts
+  s_35c231f835cdba::t_22aec10cc4e770 80
+packages/cli/src/commands/_generated/waiting-rooms/events/delete.ts
+  s_35c231f835cdba::t_e675b84edf423a 80-85
+packages/cli/src/commands/_generated/waiting-rooms/rules/delete.ts
+  s_35c231f835cdba::t_cb0d230a6f6716 80-85
+packages/cli/src/commands/_generated/waiting-rooms/update.ts
+  s_35c231f835cdba::t_611607650a784f 80
+packages/cli/src/commands/_generated/zero-trust/devices/profiles/custom/create.ts
+  s_35c231f835cdba::t_7ca0b44d467419 152
+packages/cli/src/commands/deploy/containers.ts
+  s_35c231f835cdba::t_4dbc2bc30d94f6 35-36,273-280
+packages/cli/src/commands/deploy/shared.ts
+  s_35c231f835cdba::t_6cb2668f9db2ce 107-109,111,121
+packages/cli/src/commands/workers/triggers/deploy.ts
+  s_35c231f835cdba::t_7b782c94c69f55 57-59
+packages/cli/src/lib/deploy-input.ts
+  s_35c231f835cdba::t_0e7d0f8a8f3427 49,105,126,141
+packages/cli/src/sdk/openapi-version
+  s_35c231f835cdba::t_bfaa0c6aa84989 1
+packages/cli/src/sdk/sdk/Client.ts
+  s_35c231f835cdba::t_84860b71970e16 261,669-670
+packages/cli/src/sdk/sdk/api/resources/index.ts
+  s_35c231f835cdba::t_a0cab47cb16a49 156-157,279
+packages/cli/src/sdk/sdk/api/resources/logs/client/Client.ts
+  s_35c231f835cdba::t_3d5eb72d78e3af 3,6,8-10,12,20-21,30,53-56,60-155
+packages/cli/src/sdk/sdk/api/resources/logs/client/index.ts
+  s_35c231f835cdba::t_1c97acd7208d5f 1
+packages/cli/src/sdk/sdk/api/resources/logs/client/requests/QueryLogsRequest.ts
+  s_35c231f835cdba::t_7d61cc6d3d201e 10
+packages/cli/src/sdk/sdk/api/resources/logs/client/requests/index.ts
+  s_35c231f835cdba::t_5083cab877ae84 1
+packages/cli/src/sdk/sdk/api/resources/logs/index.ts
+  s_35c231f835cdba::t_bbdce0100be4dc 3
+packages/cli/src/sdk/sdk/api/resources/logs/resources/datasets/client/Client.ts
+  s_35c231f835cdba::t_71323af9f008fc 33,41,47,49,54,56,93,134,143,150,157,226,234,240,242,247,249,275,308,316,323,330,388,396,404,411,478,487,494,501
+packages/cli/src/sdk/sdk/api/resources/logs/resources/index.ts
+  s_35c231f835cdba::t_6addebeae24ea9 2-4
+packages/cli/src/sdk/sdk/api/resources/logs/types/QueryLogsResponse.ts
+  s_35c231f835cdba::t_cc3c18304ea1d7 5
+packages/cli/src/sdk/sdk/api/resources/logs/types/index.ts
+  s_35c231f835cdba::t_6cb9e1e2a2d45e 1
+packages/cli/src/sdk/sdk/api/resources/waitingRooms/client/Client.ts
+  s_35c231f835cdba::t_3331e5a70d1931 82,89,117,151,158,183,223,230,258,292,299,325,367,374,402
+packages/cli/src/sdk/sdk/api/resources/waitingRooms/index.ts
+  s_35c231f835cdba::t_f965ac1131853e 3
+packages/cli/src/sdk/sdk/api/resources/waitingRooms/resources/events/client/Client.ts
+  s_35c231f835cdba::t_85aab4f272e02f 129,136,164,199,206,231,271,278,306,341,348,374,416,423,451
+packages/cli/src/sdk/sdk/api/resources/waitingRooms/resources/events/resources/details/client/Client.ts
+  s_35c231f835cdba::t_631211aa70aca6 44,51,77
+packages/cli/src/sdk/sdk/api/resources/waitingRooms/resources/events/types/DeleteEventsResponse.ts
+  s_35c231f835cdba::t_33f07f60a2dd0f 3-7
+packages/cli/src/sdk/sdk/api/resources/waitingRooms/resources/events/types/index.ts
+  s_35c231f835cdba::t_1d0a6668a30a2e 1
+packages/cli/src/sdk/sdk/api/resources/waitingRooms/resources/index.ts
+  s_35c231f835cdba::t_22cda0885c7902 9,15,18
+packages/cli/src/sdk/sdk/api/resources/waitingRooms/resources/page/client/Client.ts
+  s_35c231f835cdba::t_a6d80c46530e83 58,65,94
+packages/cli/src/sdk/sdk/api/resources/waitingRooms/resources/page/index.ts
+  s_35c231f835cdba::t_942144d89a740b 2
+packages/cli/src/sdk/sdk/api/resources/waitingRooms/resources/page/types/PreviewPageResponse.ts
+  s_35c231f835cdba::t_f830357e311aa0 1-7
+packages/cli/src/sdk/sdk/api/resources/waitingRooms/resources/page/types/index.ts
+  s_35c231f835cdba::t_46b7585c2df77b 1
+packages/cli/src/sdk/sdk/api/resources/waitingRooms/resources/settings/client/Client.ts
+  s_35c231f835cdba::t_08d9f02ea0e183 40,47,73,109,116,145,181,188,217
+packages/cli/src/sdk/sdk/api/resources/waitingRooms/resources/settings/index.ts
+  s_35c231f835cdba::t_3a4122d7aa8fac 2
+packages/cli/src/sdk/sdk/api/resources/waitingRooms/resources/settings/types/EditSettingsResponse.ts
+  s_35c231f835cdba::t_36f38a1b0c4314 1-7
+packages/cli/src/sdk/sdk/api/resources/waitingRooms/resources/settings/types/GetSettingsResponse.ts
+  s_35c231f835cdba::t_cad2f3d04e75bc 1-7
+packages/cli/src/sdk/sdk/api/resources/waitingRooms/resources/settings/types/UpdateSettingsResponse.ts
+  s_35c231f835cdba::t_caf884cbb18a0a 1-7
+packages/cli/src/sdk/sdk/api/resources/waitingRooms/resources/settings/types/index.ts
+  s_35c231f835cdba::t_a4d7c21ce533bb 1-3
+packages/cli/src/sdk/sdk/api/resources/waitingRooms/resources/statuses/client/Client.ts
+  s_35c231f835cdba::t_6af9b095e5a605 49,56,82
+packages/cli/src/sdk/sdk/api/resources/waitingRooms/resources/statuses/index.ts
+  s_35c231f835cdba::t_9407aa88093b59 2
+packages/cli/src/sdk/sdk/api/resources/waitingRooms/resources/statuses/types/GetStatusesResponse.ts
+  s_35c231f835cdba::t_5b39822c0cf948 1-11
+packages/cli/src/sdk/sdk/api/resources/waitingRooms/resources/statuses/types/index.ts
+  s_35c231f835cdba::t_26ded51b715122 1
+packages/cli/src/sdk/sdk/api/resources/waitingRooms/types/DeleteWaitingRoomsResponse.ts
+  s_35c231f835cdba::t_071be86f990f11 5-6
+packages/cli/src/sdk/sdk/api/resources/waitingRooms/types/index.ts
+  s_35c231f835cdba::t_9d7e0e151ba956 1
+packages/cli/src/sdk/sdk/api/types/RulesetsSetConfigRuleActionParameters.ts
+  s_35c231f835cdba::t_82555f1c3d7516 49-52
+packages/cli/src/sdk/sdk/api/types/TeamsDevicesProfileType.ts
+  s_35c231f835cdba::t_0dede56c4b094e 3
+packages/cli/src/sdk/sdk/api/types/WaitingroomApiResponseCommon.ts
+  s_35c231f835cdba::t_fe4a63c875a32a 3-10
+packages/cli/src/sdk/sdk/api/types/WaitingroomApiResponseSingle.ts
+  s_35c231f835cdba::t_0fcf3320fa117a 3-4,6-7,9
+packages/cli/src/sdk/sdk/api/types/WaitingroomDefaultTemplateLanguage.ts
+  s_35c231f835cdba::t_31a7011d0c520c 28
+packages/cli/src/sdk/sdk/api/types/WaitingroomEventDetailsResponse.ts
+  s_35c231f835cdba::t_00aa2d4c20df93 6-7,9
+packages/cli/src/sdk/sdk/api/types/WaitingroomEventIdResponse.ts
+  s_35c231f835cdba::t_9b1124cee88667 6-7,9
+packages/cli/src/sdk/sdk/api/types/WaitingroomEventResponse.ts
+  s_35c231f835cdba::t_0b4d2ac61839f2 6-7,9
+packages/cli/src/sdk/sdk/api/types/WaitingroomPreviewResponse.ts
+  s_35c231f835cdba::t_262bae99e53812 6-7,9
+packages/cli/src/sdk/sdk/api/types/WaitingroomSingleResponse.ts
+  s_35c231f835cdba::t_825dd2ff7c2dec 6-7,9
+packages/cli/src/sdk/sdk/api/types/WaitingroomStatusResponse.ts
+  s_35c231f835cdba::t_18aafcaa0ad86a 6-7,9
+packages/cli/src/sdk/sdk/api/types/WaitingroomWaitingRoomIdResponse.ts
+  s_35c231f835cdba::t_3bf81a6d651433 6-7,9
+packages/cli/src/sdk/sdk/api/types/WaitingroomZoneSettingsResponse.ts
+  s_35c231f835cdba::t_12e01ab49b72df 6-7,9
+packages/cli/src/sdk/sdk/sdk-map.json
+  s_35c231f835cdba::t_0c12c4794b731f 18602,19277,19292,19307,20165,20181,20186-20187,20499,26158,30510-30511,45684,45699,45715,45748,45763,45794,45810,45825,45869,45886,45920,45937,45970,45987,46004,46019
+packages/cli/src/sdk/sdk/sdk-operation-types.ts
+  s_35c231f835cdba::t_c0be133ec8b883 1110,1152-1154,1205-1206,1224,3461
+pnpm-lock.yaml
+  s_35c231f835cdba::t_4b0300bbb4b2fa 430
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "6c164333a77f6213049ab64b71cb356a4fc7bace",
+  "prompts": {},
+  "sessions": {
+    "s_35c231f835cdba": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0d42e-1213-75a0-9207-73684fb6f8eb",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

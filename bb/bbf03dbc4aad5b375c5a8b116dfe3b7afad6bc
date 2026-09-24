@@ -1,0 +1,19 @@
+AGENTS.md
+  s_891f6d6a179cbe::t_80b306e77b729c 215
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "bbbbf03dbc4aad5b375c5a8b116dfe3b7afad6bc",
+  "prompts": {},
+  "sessions": {
+    "s_891f6d6a179cbe": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0d0d6-c1ea-73b0-8921-2bdfd0a92d5d",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

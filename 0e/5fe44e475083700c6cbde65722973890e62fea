@@ -1,0 +1,91 @@
+.changeset/bright-previews-deploy.md
+  s_35c231f835cdba::t_9b70ac46e1426d 1-5
+.changeset/prebuilt-mode-agreement.md
+  s_35c231f835cdba::t_08f5f0312bb2e1 1-5
+AGENTS.md
+  s_35c231f835cdba::t_64a7c99ad4a951 38,998-999
+README.md
+  s_35c231f835cdba::t_cb4726e5bbd104 8-11,25-26
+packages/cli/AGENTS.md
+  s_35c231f835cdba::t_1a8954b10de924 40-54,83
+packages/cli/src/__tests__/commands/build/index.test.ts
+  s_35c231f835cdba::t_77c12efe3210bc 9,114-135,204-229
+packages/cli/src/__tests__/commands/deploy/index.test.ts
+  s_35c231f835cdba::t_9b5f06f384025f 569-601
+packages/cli/src/__tests__/commands/dev/index.test.ts
+  s_35c231f835cdba::t_1a0f7467a6059b 141-144,212-216
+packages/cli/src/__tests__/commands/hand-written-metadata.test.ts
+  s_35c231f835cdba::t_2db4bf966b52fa 46,93-103,130,198-202
+packages/cli/src/__tests__/commands/previews-deploy-validation.test.ts
+  s_35c231f835cdba::t_b2ff29aff792dc 1-69
+packages/cli/src/__tests__/commands/previews-deploy.test.ts
+  s_35c231f835cdba::t_b8b0443413ae1c 1-291
+packages/cli/src/__tests__/commands/triggers-deploy.test.ts
+  s_35c231f835cdba::t_f5156bdce553b8 108-139,171-189
+packages/cli/src/__tests__/commands/versions-upload.test.ts
+  s_35c231f835cdba::t_73c836fde9b3eb 142-185
+packages/cli/src/__tests__/commands/workers-check.test.ts
+  s_35c231f835cdba::t_9d58d5176333ab 76-78,268-270,300-316
+packages/cli/src/__tests__/help.test.ts
+  s_35c231f835cdba::t_85e14d9ccc5e68 37-45
+packages/cli/src/__tests__/lib/build-output.test.ts
+  s_35c231f835cdba::t_c1ea5bcdd5d0da 174-185
+packages/cli/src/__tests__/lib/oauth-preview-settings.test.ts
+  s_35c231f835cdba::t_c56c8cd0f98684 1-42
+packages/cli/src/__tests__/lib/project-settings.test.ts
+  s_35c231f835cdba::t_b37d5974c6b64d 76-96
+packages/cli/src/commands/_generated/_meta/commands.json
+  s_35c231f835cdba::t_afecf554d86839 89157-89182,157928
+packages/cli/src/commands/_generated/_meta/hand-written-commands.json
+  s_35c231f835cdba::t_2024c7bcb7b683 674-704,1112
+packages/cli/src/commands/build/index.ts
+  s_35c231f835cdba::t_4e94d472679589 27-28,34-38,43,49,57-58,63-64,74-77,89
+packages/cli/src/commands/deploy/shared.ts
+  s_35c231f835cdba::t_7233ec65792916 103-119
+packages/cli/src/commands/dev/impl.ts
+  s_35c231f835cdba::t_391913bdc527c9 65,70-73,107
+packages/cli/src/commands/dev/spawn.ts
+  s_35c231f835cdba::t_5363c0917b2b49 28-31,76,122,167-170,173
+packages/cli/src/commands/hand-written.ts
+  s_35c231f835cdba::t_436842c4254f94 96-102
+packages/cli/src/commands/previews/deploy.ts
+  s_35c231f835cdba::t_9a56140df28469 1-114
+packages/cli/src/commands/previews/index.ts
+  s_35c231f835cdba::t_29b04f12109965 1-21
+packages/cli/src/commands/previews/meta.json
+  s_35c231f835cdba::t_e4f349617759c0 1-28
+packages/cli/src/commands/workers/check/command.ts
+  s_35c231f835cdba::t_d5dc93cd65a48c 7,62-64
+packages/cli/src/commands/workers/triggers/deploy.ts
+  s_35c231f835cdba::t_64292f28de73ad 54-68
+packages/cli/src/index.ts
+  s_35c231f835cdba::t_76df66e4c3bb6d 435
+packages/cli/src/lib/build-output.ts
+  s_35c231f835cdba::t_8039e03711a093 22-23,26-30
+packages/cli/src/lib/context.ts
+  s_35c231f835cdba::t_4c1d8adaa68399 51-53,59,62,103-106,115,207-210,213,245-248
+packages/cli/src/lib/oauth/index.ts
+  s_35c231f835cdba::t_3ebf03ae090c0e 92-93,97
+packages/cli/src/lib/project-settings.ts
+  s_35c231f835cdba::t_dfade442097843 13-17,49-50,53,58,64,83,88-89,92-94
+packages/wrangler-tests/src/__tests__/preview.test.ts
+  s_35c231f835cdba::t_b8ae6ea0415998 1-3,13-14,18
+test_bugs/no-rust-build-impl-shipped.md
+  s_35c231f835cdba::t_54e1ec3ee716ac 20,22
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "0e5fe44e475083700c6cbde65722973890e62fea",
+  "prompts": {},
+  "sessions": {
+    "s_35c231f835cdba": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0d42e-1213-75a0-9207-73684fb6f8eb",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

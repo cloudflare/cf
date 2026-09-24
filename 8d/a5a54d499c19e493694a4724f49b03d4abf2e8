@@ -1,0 +1,86 @@
+packages/cli/src/__tests__/commands/deploy/index.test.ts
+  s_06c2d5d2143936::t_f11c36e67e00a3 580
+packages/cli/src/__tests__/commands/hand-written-metadata.test.ts
+  s_06c2d5d2143936::t_51f058e3233af1 94-104
+packages/cli/src/commands/_generated/_meta/commands.json
+  s_06c2d5d2143936::t_cc9aa824ed17e0 89214-89222
+  s_d42558c74a559d::t_43449fc74a88ad 89204-89205
+  s_d42558c74a559d::t_00693f8446db40 89209-89213
+  s_d42558c74a559d::t_679994a75e89c6 89203
+  s_d42558c74a559d::t_1775d4eda01f10 89206-89208
+packages/cli/src/commands/_generated/_meta/hand-written-commands.json
+  s_06c2d5d2143936::t_1c8910ea107e45 721-729
+packages/cli/src/commands/deploy/shared.ts
+  s_06c2d5d2143936::t_5e49379156df8c 107-109,111
+packages/cli/src/commands/previews/meta.json
+  s_06c2d5d2143936::t_8bd6eea91d31fe 18-26
+  s_d42558c74a559d::t_3b9caf12f63ed1 7-17
+packages/cli/src/commands/build/index.ts
+  s_63d0a518e31d06::t_7d86292faeb150 27-28,50-53,55-58,62
+packages/cli/src/__tests__/commands/build/index.test.ts
+  s_63d0a518e31d06::t_1d447a30ed7fe8 9,114-151
+pnpm-lock.yaml
+  s_d42558c74a559d::t_de45d62aad2360 433,483-486,501-504,2604-2605,3702-3703,3714-3715,5300-5303,5305-5311
+packages/cli/src/commands/previews/deploy.ts
+  s_d42558c74a559d::t_cbea47fd3b7527 50-52,54,56,101-102
+  s_bb914888e9c7a3::t_e3da1a0e94e91a 18-29,60-66
+.changeset/bright-previews-deploy.md
+  s_d42558c74a559d::t_deab5afb157dfc 5
+packages/cli/src/__tests__/commands/previews-deploy.test.ts
+  s_d42558c74a559d::t_38bf67470e530d 190
+  s_d42558c74a559d::t_e26e6430f7d53e 96-99,101,123,187-189
+packages/cli/src/__tests__/help.test.ts
+  s_d42558c74a559d::t_34a40c1bfdc756 37-45
+packages/cli/src/commands/_generated/_meta/agent-context.json
+  s_d42558c74a559d::t_71f104e7da85d6 127
+packages/cli/src/index.ts
+  s_d42558c74a559d::t_34e7cdf0a65861 435
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "8da5a54d499c19e493694a4724f49b03d4abf2e8",
+  "prompts": {},
+  "sessions": {
+    "s_06c2d5d2143936": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f2eb8fd9cffeUOqD3La1Jb9ppv",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "Greg Brimble <gbrimble@cloudflare.com>"
+    },
+    "s_63d0a518e31d06": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f313c5868ffeEP0OddW508diLb",
+        "model": "gpt-5.6-terra"
+      },
+      "human_author": "Greg Brimble <gbrimble@cloudflare.com>"
+    },
+    "s_bb914888e9c7a3": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f30ef7f75ffey1TyczRTq1nE9J",
+        "model": "gpt-5.6-terra"
+      },
+      "human_author": "Greg Brimble <gbrimble@cloudflare.com>"
+    },
+    "s_c0c0c53a61beb5": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f30ccad40ffeYa8lbUDxkgpc4R",
+        "model": "gpt-5.6-terra"
+      },
+      "human_author": "Greg Brimble <gbrimble@cloudflare.com>"
+    },
+    "s_d42558c74a559d": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f50d1eceeffe8OyIF8jWvoFpMc",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Will Taylor <williamtaylor@cloudflare.com>"
+    }
+  }
+}

@@ -1,0 +1,155 @@
+.changeset/bright-previews-deploy.md
+  s_06c2d5d2143936::t_74c1f702544d09 1-4
+  s_06c2d5d2143936::t_991ab638b59f61 5
+  s_d42558c74a559d::t_deab5afb157dfc 5
+README.md
+  s_7352111617969e::t_15ea2f772c2d84 25-26
+packages/cli/AGENTS.md
+  s_06c2d5d2143936::t_3951e87bacc578 40-54,83
+packages/cli/src/__tests__/commands/build/index.test.ts
+  s_06c2d5d2143936::t_91d92576c9c219 9,115-117,119,122-124,128,129,130,134-135
+  s_63d0a518e31d06::t_1d447a30ed7fe8 9,115-117,119,122-124,128,129,130,134-135
+packages/cli/src/__tests__/commands/deploy/index.test.ts
+  s_06c2d5d2143936::t_61755821795e4e 586-588,590-597,599-601
+packages/cli/src/__tests__/commands/dev/index.test.ts
+  s_06c2d5d2143936::t_ab2eaa88c91f7d 144,212,216
+  s_7352111617969e::t_1d85a39f920c2a 141-143,213-215
+packages/cli/src/__tests__/commands/hand-written-metadata.test.ts
+  s_06c2d5d2143936::t_9259ce68f9851f 47,131,199-203
+  s_06c2d5d2143936::t_51f058e3233af1 94-99,101-104
+packages/cli/src/__tests__/commands/previews-deploy.test.ts
+  s_06c2d5d2143936::t_6130398181de14 1-5,7-10,12-17,19-27,29-46,56-82,91-93,95-114,119,121-129,131-141,144-147,329-349,354-358
+  s_06c2d5d2143936::t_0fe0d6af7c55e7 115-118,120,350-353
+  s_d42558c74a559d::t_38bf67470e530d 353
+  s_d42558c74a559d::t_e26e6430f7d53e 115-118,120,350-352
+  s_c0c0c53a61beb5::t_ab6b2d9e2f6850 28,130
+  s_c0c0c53a61beb5::t_5a3543efed43de 67-68,72-73,75,77-78
+  s_06d650955102a9::t_c2df0c1bd93351 11,18,47-55,83-90,142-143,148-149,181,185-229,256-257,286,290-291,326-327
+packages/cli/src/__tests__/commands/triggers-deploy.test.ts
+  s_06c2d5d2143936::t_d2dfa25f291279 171-173,175-183,187-189
+  s_7352111617969e::t_83ca6c7b77fbf0 184,186
+packages/cli/src/commands/_generated/_meta/commands.json
+  s_06c2d5d2143936::t_f39fd5760ac7c7 89183-89187,89208,157954
+  s_06c2d5d2143936::t_07482971465998 89188-89195,89196,89197-89198
+  s_06c2d5d2143936::t_cc9aa824ed17e0 89199-89203,89205-89207
+  s_d42558c74a559d::t_43449fc74a88ad 89189-89190
+  s_d42558c74a559d::t_00693f8446db40 89194-89195,89197-89198
+  s_d42558c74a559d::t_679994a75e89c6 89188
+  s_d42558c74a559d::t_1775d4eda01f10 89191-89193
+packages/cli/src/commands/_generated/_meta/hand-written-commands.json
+  s_06c2d5d2143936::t_38b1f76456d303 705-709,730-735,1143
+  s_06c2d5d2143936::t_4643c87cdc6107 710-717,718,728-729
+  s_06c2d5d2143936::t_1c8910ea107e45 721-725,727-729
+packages/cli/src/commands/build/index.ts
+  s_06c2d5d2143936::t_3d13ccb2433833 27-28,64
+  s_63d0a518e31d06::t_7d86292faeb150 27-28,64
+packages/cli/src/commands/deploy/shared.ts
+  s_06c2d5d2143936::t_e7013201b7819b 103-105,113,115-116
+  s_06c2d5d2143936::t_5e49379156df8c 114
+packages/cli/src/commands/dev/impl.ts
+  s_06c2d5d2143936::t_97093b4ea7c7ea 65,70-73,107
+packages/cli/src/commands/hand-written.ts
+  s_06c2d5d2143936::t_1d194342797dd2 96-102
+packages/cli/src/commands/previews/deploy.ts
+  s_06c2d5d2143936::t_b18fc1183e8a61 1,6-11,13,19-22,25-29,42-61,67,69-71,79-81,85,90-91,93,95-103,134-136,138,140,142,144-145,148-151,154-161
+  s_06c2d5d2143936::t_30fba97516e667 62-64,66,68,152-153
+  s_d42558c74a559d::t_cbea47fd3b7527 62-64,66,68,152-153
+  s_bb914888e9c7a3::t_e3da1a0e94e91a 30-33,35-38,40-41,72-78
+  s_c0c0c53a61beb5::t_eebc1549f47477 92
+  s_7352111617969e::t_d89a75fb29505c 2-5,12,14-18,23-24,86-89,104-133,137,139,141,143,146-147
+packages/cli/src/commands/previews/index.ts
+  s_06c2d5d2143936::t_3b89f5fd0f8ee1 2-10,17-21
+packages/cli/src/commands/previews/meta.json
+  s_06c2d5d2143936::t_b35b8436e6a1e4 1-6,27-28
+  s_06c2d5d2143936::t_dc186c0d428d24 7-14,15,16-17
+  s_06c2d5d2143936::t_8bd6eea91d31fe 18-22,24-26
+  s_d42558c74a559d::t_3b9caf12f63ed1 7-14,16-17
+packages/cli/src/commands/workers/triggers/deploy.ts
+  s_06c2d5d2143936::t_6f9656002412f2 54,62,64-65
+packages/cli/src/__tests__/help.test.ts
+  s_06c2d5d2143936::t_4ff6467c6ee836 37-45
+  s_d42558c74a559d::t_34a40c1bfdc756 37-45
+packages/cli/src/index.ts
+  s_06c2d5d2143936::t_53994d5a3588d2 435
+  s_d42558c74a559d::t_34e7cdf0a65861 435
+pnpm-lock.yaml
+  s_d42558c74a559d::t_de45d62aad2360 421,471-474,489-492,2592-2593,3683-3684,3695-3696,5281-5284,5286-5292
+packages/cli/src/lib/oauth/index.ts
+  s_c0c0c53a61beb5::t_57c0a2daac7bf1 92-93,97
+packages/cli/src/__tests__/lib/project-settings.test.ts
+  s_c0c0c53a61beb5::t_9d8fd0dd73ce52 76-96
+packages/cli/src/lib/project-settings.ts
+  s_c0c0c53a61beb5::t_2d60b7528d67c8 13-17,49-50,53,58,64,83,88-89,92-94
+packages/cli/src/lib/context.ts
+  s_c0c0c53a61beb5::t_5bf9c584df11f8 51-53,103-105,115,207-209,245-248
+packages/wrangler-tests/src/__tests__/preview.test.ts
+  s_c0c0c53a61beb5::t_8523178caf799a 1-3,13-14,18
+packages/cli/src/commands/previews/containers.ts
+  s_06d650955102a9::t_ee10b1000dab1c 1-118
+patches/@cloudflare__deploy-helpers@0.15.1.patch
+  s_06d650955102a9::t_5d081b0a24300c 2,20-49,51,54,69,78-123
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "0e5e064f40126bc244c7a8cce82615b59d3784f5",
+  "prompts": {},
+  "sessions": {
+    "s_06c2d5d2143936": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f2eb8fd9cffeUOqD3La1Jb9ppv",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "Greg Brimble <gbrimble@cloudflare.com>"
+    },
+    "s_06d650955102a9": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f306127e8ffe64djhb74260WYX",
+        "model": "gpt-5.6-terra"
+      },
+      "human_author": "Greg Brimble <gbrimble@cloudflare.com>"
+    },
+    "s_63d0a518e31d06": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f313c5868ffeEP0OddW508diLb",
+        "model": "gpt-5.6-terra"
+      },
+      "human_author": "Greg Brimble <gbrimble@cloudflare.com>"
+    },
+    "s_7352111617969e": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f2e6f6c4bffeL2g27mBqGH3E1N",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "Greg Brimble <gbrimble@cloudflare.com>"
+    },
+    "s_bb914888e9c7a3": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f30ef7f75ffey1TyczRTq1nE9J",
+        "model": "gpt-5.6-terra"
+      },
+      "human_author": "Greg Brimble <gbrimble@cloudflare.com>"
+    },
+    "s_c0c0c53a61beb5": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f30ccad40ffeYa8lbUDxkgpc4R",
+        "model": "gpt-5.6-terra"
+      },
+      "human_author": "Greg Brimble <gbrimble@cloudflare.com>"
+    },
+    "s_d42558c74a559d": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f50d1eceeffe8OyIF8jWvoFpMc",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Will Taylor <williamtaylor@cloudflare.com>"
+    }
+  }
+}

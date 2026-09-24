@@ -1,0 +1,817 @@
+.changeset/wise-modes-validate.md
+  s_d3e459aadd937c::t_257a6aca41ce95 2,5,7
+.github/workflows/update-forge.yml
+  s_d3e459aadd937c::t_71f93e7ad2a185 1-60
+fixtures/vite-container-project/package.json
+  s_d3e459aadd937c::t_ab0da14eb8ee1e 10-11,14
+fixtures/vite-plugin-project/README.md
+  s_d3e459aadd937c::t_ce19d6cefb57ed 24-25
+fixtures/vite-plugin-project/package.json
+  s_d3e459aadd937c::t_d896370bea181d 9-10,12
+fixtures/wrangler-bundler-project/package.json
+  s_d3e459aadd937c::t_45d785ce9a5961 7
+package.json
+  s_d3e459aadd937c::t_9dd3af8b0867d2 38-41,45-48
+packages/cli/CHANGELOG.md
+  s_d3e459aadd937c::t_8bd67e5ccca882 3-28
+packages/cli/generate.ts
+  s_d3e459aadd937c::t_a2abc93dff1654 22
+packages/cli/package.json
+  s_d3e459aadd937c::t_8c982873dfc458 3,63,67-68,71-72
+packages/cli/src/__tests__/commands/deploy/helpers.ts
+  s_d3e459aadd937c::t_b11840b965bef7 147,149-155,476,479
+packages/cli/src/__tests__/commands/deploy/index.test.ts
+  s_d3e459aadd937c::t_d13ec12a6bdc2b 511-513,526-551
+packages/cli/src/__tests__/commands/triggers-deploy.test.ts
+  s_d3e459aadd937c::t_84bff202147fc7 54-56,107-137
+packages/cli/src/__tests__/commands/versions-upload.test.ts
+  s_d3e459aadd937c::t_c901ce81f8382a 91-93,112-140
+packages/cli/src/__tests__/lib/build-output.test.ts
+  s_d3e459aadd937c::t_309a90868e6f2d 11,141-182
+packages/cli/src/commands/_generated/_meta/agent-context.json
+  s_de747fcca1f1bf::t_93ab03f5578c6b 16,29,105,127,134,137,157,188
+packages/cli/src/commands/_generated/_meta/commands.json
+  s_de747fcca1f1bf::t_c39566cf2d116f 11104-11162,20767,20787,39634,77119-77482,88731,88817,88823,88854,88860,88891,88897,88920,88926,89018,89024,89060,89066,89091,89097,89159,89165,89190,89213,89219,89262,89268,89311,89317,89358,89364,89407,89413,89450,89456,89493,89499,89542,89548,89585,89591,89628,89634,89659,89665,89681,89702,89708,89733,89739,89834,89840,89865,89871,89896,89902,89945,89951,90013,90019,90081,112122-112188,112190-112192,112195,112199,112214-112215,112219,112221-112223,112227,112230,112233,112236,112242,112245-112246,112248,112261-112262,112266-112270,112273,112277,112281-112298,112313,112316-112317,112321-112325,112328,112331-112344,112346-112347,112350-112363,112366,112368-112373,112375-112406,112409,112412,112415,112418-112419,112422,112425-112442,112444,112447-112448,112454-112455,112458-112459,112461,112467-112468,112472-112476,112479,112483,112495,112497-112499,112503-112507,112510,112514,112526,112529-112530,112534-112561,112564,112568,112572-112578,112585-112590,112593-112597,112601-112605,112609,112612-112613,112616-112617,112619-112620,112623,112626-112642,112644-112645,112647-112651,112660,112662-112664,112668-112673,112675-112676,112679-112682,112684-112685,112687-112705,112714,112717-112718,112722,112724-112726,112729,112733,112738,112741-112742,112760-112762,112766,112768,112770-113405,119879-120088,141369-141374,141863-141868,141870-141871,141873-141874,141906-141918,141926-141938,141952-141957,141977-141982,142019-142044,142128-142201,142426-142630,142632-142953,142955,143325-143326,143330,143332-143334,143337,143356-143357,143361,143363-143365,143368,143387-143388,143392,143394,143396,143415,143417,143419,144016-144022,144024-144025,144038-144040,144044-144045,144050,144052-144053,144082,144139,144213,144215,156905-156909,157177-157183,157254-157261,157487
+packages/cli/src/commands/_generated/_meta/schemas.json
+  s_de747fcca1f1bf::t_325075df780deb 8035-8080,14933,55220-55439,64270,80221-80643,80867-81184,81189,85906-86053,100493-100498,100554-100667,100669,100672-100685,100687,100689,100692-100705,100707,100709,100712-100725,100727,100729,100732-100745,100747,100749,100752,100754,100756-100759,100761-100764,100778-100798,100802,100911-100916,101039-101040,101042,101045,101054-101057,101060,101067-101074,101076-101077,101079,101091-101092,101094,101106-101107,101109,101121-101124,101133,101136-101139,101148,101151-101152,101154,101162,101166-101169,101172,101181,101255-101260,101359-101362,101371-101372,101374,101376-101437,101439,101441-101444,101447,101450,101458,101461-101462,101464,101466-101470,101481-101482,101484,101496-101499,101501-101505,101514-101581,101583,101899,101919,101939,101954,102428-102431,102439,102443,102502-102503
+packages/cli/src/commands/_generated/ai-gateway/index.ts
+  s_de747fcca1f1bf::t_0f2e6334bbc589 12,27
+packages/cli/src/commands/_generated/ai-gateway/web-search.ts
+  s_de747fcca1f1bf::t_aacaad30aa9bb9 1-174
+packages/cli/src/commands/_generated/billing/usage/query.ts
+  s_de747fcca1f1bf::t_38247b85d85bbd 39,70
+packages/cli/src/commands/_generated/connector-telemetry-events/list.ts
+  s_de747fcca1f1bf::t_7b490725f86306 31,63
+packages/cli/src/commands/_generated/connectors/create.ts
+  s_de747fcca1f1bf::t_3320ac39fcf196 84
+packages/cli/src/commands/_generated/connectors/edit.ts
+  s_de747fcca1f1bf::t_106c8622212926 84
+packages/cli/src/commands/_generated/connectors/update.ts
+  s_de747fcca1f1bf::t_ea99f25ac3a736 84
+packages/cli/src/commands/_generated/index.ts
+  s_de747fcca1f1bf::t_b2d3015d17ae5e 767-774,949
+packages/cli/src/commands/_generated/managed-defense/index.ts
+  s_de747fcca1f1bf::t_9f9ed6f78b39bc 1,4-5,10-11,15
+packages/cli/src/commands/_generated/managed-defense/vulnerability-discovery/index.ts
+  s_de747fcca1f1bf::t_7c41793f944ac3 1-26
+packages/cli/src/commands/_generated/managed-defense/vulnerability-discovery/reports/get.ts
+  s_de747fcca1f1bf::t_76056700bb5f86 1-88
+packages/cli/src/commands/_generated/managed-defense/vulnerability-discovery/reports/index.ts
+  s_de747fcca1f1bf::t_8e5ce55a9e7cc7 1-20
+packages/cli/src/commands/_generated/managed-defense/vulnerability-discovery/repositories/create.ts
+  s_de747fcca1f1bf::t_5b4b392fa18d6b 1-151
+packages/cli/src/commands/_generated/managed-defense/vulnerability-discovery/repositories/get.ts
+  s_de747fcca1f1bf::t_1d35af415ac631 1-89
+packages/cli/src/commands/_generated/managed-defense/vulnerability-discovery/repositories/index.ts
+  s_de747fcca1f1bf::t_91cda2fde687a2 3,6-7,12-13,19
+packages/cli/src/commands/_generated/managed-defense/vulnerability-discovery/repositories/list.ts
+  s_de747fcca1f1bf::t_356aee2d3e0f5d 15-16,22-23,33-34,37-39,44,52-53,58-61,72-73,78
+packages/cli/src/commands/_generated/managed-defense/vulnerability-discovery/scans/create.ts
+  s_de747fcca1f1bf::t_23debf579cddbc 1-185
+packages/cli/src/commands/_generated/managed-defense/vulnerability-discovery/scans/get.ts
+  s_de747fcca1f1bf::t_48d14a00535b5a 1-79
+packages/cli/src/commands/_generated/managed-defense/vulnerability-discovery/scans/getReport.ts
+  s_de747fcca1f1bf::t_e1068b7d1c98a5 1-80
+packages/cli/src/commands/_generated/managed-defense/vulnerability-discovery/scans/index.ts
+  s_de747fcca1f1bf::t_6fcd1cb470c783 1-28
+packages/cli/src/commands/_generated/managed-defense/vulnerability-discovery/scans/list.ts
+  s_de747fcca1f1bf::t_210b58ef2815f3 1-96
+packages/cli/src/commands/_generated/queues/consumers/create.ts
+  s_de747fcca1f1bf::t_ed9a006a034a71 97
+packages/cli/src/commands/_generated/queues/consumers/delete.ts
+  s_de747fcca1f1bf::t_3f678893811347 52
+packages/cli/src/commands/_generated/queues/consumers/get.ts
+  s_de747fcca1f1bf::t_5a28e7627d674a 45
+packages/cli/src/commands/_generated/queues/consumers/list.ts
+  s_de747fcca1f1bf::t_f85cb7e4b4ea86 40
+packages/cli/src/commands/_generated/queues/consumers/update.ts
+  s_de747fcca1f1bf::t_ad27e319e9c136 102
+packages/cli/src/commands/_generated/queues/create.ts
+  s_de747fcca1f1bf::t_b0dc513d7f86dc 52
+packages/cli/src/commands/_generated/queues/delete.ts
+  s_de747fcca1f1bf::t_96713325b863c7 47
+packages/cli/src/commands/_generated/queues/edit.ts
+  s_de747fcca1f1bf::t_bc14df2c09e17b 71
+packages/cli/src/commands/_generated/queues/get.ts
+  s_de747fcca1f1bf::t_3f33976da38dcd 40
+packages/cli/src/commands/_generated/queues/messages/ack-preview.ts
+  s_de747fcca1f1bf::t_e9c7f86ea01e53 57
+packages/cli/src/commands/_generated/queues/messages/ack.ts
+  s_de747fcca1f1bf::t_ca86d51a635f9d 56-57
+packages/cli/src/commands/_generated/queues/messages/bulk-push.ts
+  s_de747fcca1f1bf::t_8d89d054e895e3 56
+packages/cli/src/commands/_generated/queues/messages/extend-leases.ts
+  s_de747fcca1f1bf::t_b6835f2b7a964c 57
+packages/cli/src/commands/_generated/queues/messages/peek.ts
+  s_de747fcca1f1bf::t_bcaff42e5bc247 51
+packages/cli/src/commands/_generated/queues/messages/preview.ts
+  s_de747fcca1f1bf::t_843909940fd3ad 51
+packages/cli/src/commands/_generated/queues/messages/pull.ts
+  s_de747fcca1f1bf::t_bf515c8ad4bbdd 55
+packages/cli/src/commands/_generated/queues/messages/purge.ts
+  s_de747fcca1f1bf::t_1c0290a22796c8 11,39-44,59,66-67,93-102,105,112,125,132
+packages/cli/src/commands/_generated/queues/messages/push.ts
+  s_de747fcca1f1bf::t_1270c80250c26b 51
+packages/cli/src/commands/_generated/queues/metrics/get.ts
+  s_de747fcca1f1bf::t_f05ed50de7dc92 41
+packages/cli/src/commands/_generated/queues/purge/start.ts
+  s_de747fcca1f1bf::t_3d3796c27f34d2 31,57
+packages/cli/src/commands/_generated/queues/purge/status.ts
+  s_de747fcca1f1bf::t_3c2a9577f32250 40
+packages/cli/src/commands/_generated/queues/subscriptions/create.ts
+  s_de747fcca1f1bf::t_43be4ed6f203ba 128
+packages/cli/src/commands/_generated/queues/subscriptions/delete.ts
+  s_de747fcca1f1bf::t_5ff89bee78c155 47
+packages/cli/src/commands/_generated/queues/subscriptions/get.ts
+  s_de747fcca1f1bf::t_fd05923bb9b508 40
+packages/cli/src/commands/_generated/queues/subscriptions/list.ts
+  s_de747fcca1f1bf::t_7196a7f7a05eda 63
+packages/cli/src/commands/_generated/queues/subscriptions/update.ts
+  s_de747fcca1f1bf::t_04114bcbd547c0 82
+packages/cli/src/commands/_generated/queues/update.ts
+  s_de747fcca1f1bf::t_0f99f2c2d887ea 72
+packages/cli/src/commands/_generated/realtime/index.ts
+  s_de747fcca1f1bf::t_ec40d3ea2c2b41 2-4,18-23
+packages/cli/src/commands/_generated/realtime/moq/index.ts
+  s_de747fcca1f1bf::t_52a961c0365717 4-5,11
+packages/cli/src/commands/_generated/realtime/moq/relays/create.ts
+  s_de747fcca1f1bf::t_1a452ca393e0be 19,53,63,88,112
+packages/cli/src/commands/_generated/realtime/moq/relays/delete.ts
+  s_de747fcca1f1bf::t_e6670ae122b26a 17,53,64,87
+packages/cli/src/commands/_generated/realtime/moq/relays/get.ts
+  s_de747fcca1f1bf::t_21309436f0f6c6 16,46,56,69
+packages/cli/src/commands/_generated/realtime/moq/relays/index.ts
+  s_de747fcca1f1bf::t_798c888a833158 10
+packages/cli/src/commands/_generated/realtime/moq/relays/list.ts
+  s_de747fcca1f1bf::t_1a20e10906734d 16,62,78,92
+packages/cli/src/commands/_generated/realtime/moq/relays/tokens/create.ts
+  s_de747fcca1f1bf::t_7bde0085b6cdc9 18,68,78,109,139
+packages/cli/src/commands/_generated/realtime/moq/relays/tokens/delete.ts
+  s_de747fcca1f1bf::t_6f68ca3be3ab54 17,58,69,95
+packages/cli/src/commands/_generated/realtime/moq/relays/tokens/index.ts
+  s_de747fcca1f1bf::t_14a0246f35916c 7,13-14
+packages/cli/src/commands/_generated/realtime/moq/relays/tokens/list.ts
+  s_de747fcca1f1bf::t_78282872c35bbe 16,46,56,69
+packages/cli/src/commands/_generated/realtime/moq/relays/update.ts
+  s_de747fcca1f1bf::t_102ac3904270c5 18,58,68,98,122
+packages/cli/src/commands/_generated/realtime/sfu/apps/create.ts
+  s_de747fcca1f1bf::t_3d2f1a5c25bb70 18,26-27,49,54,64,89,107
+packages/cli/src/commands/_generated/realtime/sfu/apps/delete.ts
+  s_de747fcca1f1bf::t_70db3d7ca3a8e9 17,47,52,63,75-80,86
+packages/cli/src/commands/_generated/realtime/sfu/apps/get.ts
+  s_de747fcca1f1bf::t_d03e50afac8129 16,40,45,55,68
+packages/cli/src/commands/_generated/realtime/sfu/apps/index.ts
+  s_de747fcca1f1bf::t_61ce01a8a11dc8 8-9,14-15
+packages/cli/src/commands/_generated/realtime/sfu/apps/list.ts
+  s_de747fcca1f1bf::t_a8a4368e182e92 16,39,49,62-64
+packages/cli/src/commands/_generated/realtime/sfu/apps/update.ts
+  s_de747fcca1f1bf::t_e2c98369a82583 18,31-32,52,57,67,92,111
+packages/cli/src/commands/_generated/realtime/sfu/index.ts
+  s_de747fcca1f1bf::t_ad8a889201328e 1-20
+packages/cli/src/commands/_generated/realtime/turn/index.ts
+  s_de747fcca1f1bf::t_4525a2a0c53c6d 1-20
+packages/cli/src/commands/_generated/realtime/turn/keys/create.ts
+  s_de747fcca1f1bf::t_31892075bd58a2 18,47,52,62,87,105
+packages/cli/src/commands/_generated/realtime/turn/keys/delete.ts
+  s_de747fcca1f1bf::t_a226c5bbf542b7 17,47,52,63,75-80,86
+packages/cli/src/commands/_generated/realtime/turn/keys/get.ts
+  s_de747fcca1f1bf::t_e06ace9ed76f13 16,45,55,68
+packages/cli/src/commands/_generated/realtime/turn/keys/index.ts
+  s_de747fcca1f1bf::t_a2e6c0837a157e 8-9,14-15
+packages/cli/src/commands/_generated/realtime/turn/keys/list.ts
+  s_de747fcca1f1bf::t_58b24f011b8602 16,34,39,49,62-64
+packages/cli/src/commands/_generated/realtime/turn/keys/update.ts
+  s_de747fcca1f1bf::t_d1f812c329b7d0 18,51,56,66,91,110
+packages/cli/src/commands/_generated/registrar/registrations/get-transfer-status.ts
+  s_de747fcca1f1bf::t_dd7603e4c49615 1-80
+packages/cli/src/commands/_generated/registrar/registrations/index.ts
+  s_de747fcca1f1bf::t_a39f4ed599b0c2 4,9,28,32
+packages/cli/src/commands/_generated/registrar/registrations/transfer-in.ts
+  s_de747fcca1f1bf::t_9973006a50948b 1-678
+packages/cli/src/commands/_generated/spectrum/analytics/aggregates/currents/get.ts
+  s_de747fcca1f1bf::t_bda81426f56c1f 1-89
+packages/cli/src/commands/_generated/spectrum/analytics/aggregates/currents/index.ts
+  s_de747fcca1f1bf::t_a5e377bbb152b2 1-20
+packages/cli/src/commands/_generated/spectrum/analytics/aggregates/index.ts
+  s_de747fcca1f1bf::t_4ec4200f97de9c 1-22
+packages/cli/src/commands/_generated/spectrum/analytics/events/bytimes/get.ts
+  s_de747fcca1f1bf::t_e560db934335a3 1-137
+packages/cli/src/commands/_generated/spectrum/analytics/events/bytimes/index.ts
+  s_de747fcca1f1bf::t_d8c07f9eaef9a4 1-20
+packages/cli/src/commands/_generated/spectrum/analytics/events/index.ts
+  s_de747fcca1f1bf::t_b72d262e4ae65f 1-24
+packages/cli/src/commands/_generated/spectrum/analytics/events/summaries/get.ts
+  s_de747fcca1f1bf::t_771efa46607a0f 1-121
+packages/cli/src/commands/_generated/spectrum/analytics/events/summaries/index.ts
+  s_de747fcca1f1bf::t_13960627912edd 1-20
+packages/cli/src/commands/_generated/spectrum/analytics/index.ts
+  s_de747fcca1f1bf::t_0906590a848d41 1-27
+packages/cli/src/commands/_generated/spectrum/analytics/zones/index.ts
+  s_de747fcca1f1bf::t_b5d277d1daa7ef 1-22
+packages/cli/src/commands/_generated/spectrum/analytics/zones/report/get.ts
+  s_de747fcca1f1bf::t_84c7e272787c72 1-83
+packages/cli/src/commands/_generated/spectrum/analytics/zones/report/index.ts
+  s_de747fcca1f1bf::t_610d4871d949b0 1-20
+packages/cli/src/commands/_generated/spectrum/index.ts
+  s_de747fcca1f1bf::t_bb238f37b7494b 1,18
+packages/cli/src/commands/_generated/zero-trust/devices/policies/custom/create.ts
+  s_de747fcca1f1bf::t_3222e053f6ebf0 99-103,240,305,357,469
+packages/cli/src/commands/_generated/zero-trust/devices/policies/custom/index.ts
+  s_de747fcca1f1bf::t_92a3fccf7f9065 8,26
+packages/cli/src/commands/_generated/zero-trust/devices/policies/custom/update.ts
+  s_de747fcca1f1bf::t_ac708ad84f22d2 17,98-102,232,278,284,296,312,353,422,465,523
+packages/cli/src/commands/_generated/zero-trust/devices/policies/default/certificates/index.ts
+  s_de747fcca1f1bf::t_aead940bcdbf68 2,17
+packages/cli/src/commands/_generated/zero-trust/devices/policies/default/certificates/update.ts
+  s_de747fcca1f1bf::t_008c4a4b24a202 11,40,47,56-57,82,101
+packages/cli/src/commands/_generated/zero-trust/devices/policies/default/index.ts
+  s_de747fcca1f1bf::t_d5af0b5479325d 6,21
+packages/cli/src/commands/_generated/zero-trust/devices/policies/default/update.ts
+  s_de747fcca1f1bf::t_d0516201e04869 17,71-75,167,213,219,227,242,265,318,343,385
+packages/cli/src/commands/_generated/zero-trust/devices/posture/index.ts
+  s_de747fcca1f1bf::t_5ea271d443df71 2,17
+packages/cli/src/commands/_generated/zero-trust/devices/posture/integrations/index.ts
+  s_de747fcca1f1bf::t_8ecd91b967273f 5,23
+packages/cli/src/commands/_generated/zero-trust/devices/posture/integrations/update.ts
+  s_de747fcca1f1bf::t_bafa0237775aa2 17,176,182,192,273,344
+packages/cli/src/commands/_generated/zero-trust/devices/posture/rules/create.ts
+  s_de747fcca1f1bf::t_fea4022706529b 2029,2058,2265,2501
+packages/cli/src/commands/_generated/zero-trust/devices/posture/rules/delete.ts
+  s_de747fcca1f1bf::t_38271e25175833 52,63,81
+packages/cli/src/commands/_generated/zero-trust/devices/posture/rules/get.ts
+  s_de747fcca1f1bf::t_f8a08d0b528120 45,55,68
+packages/cli/src/commands/_generated/zero-trust/devices/posture/rules/index.ts
+  s_de747fcca1f1bf::t_508cc21f81e599 1-30
+packages/cli/src/commands/_generated/zero-trust/devices/posture/rules/list.ts
+  s_de747fcca1f1bf::t_b7b8cbc119a6b7 39,49,62
+packages/cli/src/commands/_generated/zero-trust/devices/posture/rules/update.ts
+  s_de747fcca1f1bf::t_1a2060e29785ae 2034,2063,2270,2507
+packages/cli/src/commands/_generated/zero-trust/devices/resilience/get-global-disconnect.ts
+  s_de747fcca1f1bf::t_6adba521ee4ccc 15,33-34,39,49,62
+packages/cli/src/commands/_generated/zero-trust/devices/resilience/index.ts
+  s_de747fcca1f1bf::t_50009d0b50ab8a 1-2,16-17
+packages/cli/src/commands/_generated/zero-trust/devices/resilience/set-global-disconnect.ts
+  s_de747fcca1f1bf::t_87b271dd6a8a70 17,51-52,57,67,93,117
+packages/cli/src/commands/_generated/zero-trust/devices/settings/update.ts
+  s_de747fcca1f1bf::t_0811035626cd16 80,85,108
+packages/cli/src/commands/deploy/shared.ts
+  s_d3e459aadd937c::t_d0c51d9b9140c2 19-22,103
+packages/cli/src/commands/workers/triggers/deploy.ts
+  s_d3e459aadd937c::t_fd106cf30c0d25 9-12,54
+packages/cli/src/lib/build-output.ts
+  s_d3e459aadd937c::t_eda0dcd8052af1 20-40
+packages/cli/src/sdk/openapi-version
+  s_d3e459aadd937c::t_73dc962e208e56 1
+packages/cli/src/sdk/sdk/Client.ts
+  s_d3e459aadd937c::t_24a52b26c3832e 89,186,302,369-372,833-836
+packages/cli/src/sdk/sdk/api/resources/aiGateway/client/Client.ts
+  s_d3e459aadd937c::t_b2a0735c0cc088 3,6-7,9-11,26-27,91-180
+packages/cli/src/sdk/sdk/api/resources/aiGateway/client/index.ts
+  s_d3e459aadd937c::t_e8d6e734eab537 1
+packages/cli/src/sdk/sdk/api/resources/aiGateway/client/requests/WebSearchAiGatewayRequest.ts
+  s_d3e459aadd937c::t_b3cd034e07b07b 1-34
+packages/cli/src/sdk/sdk/api/resources/aiGateway/client/requests/index.ts
+  s_d3e459aadd937c::t_fd97cdef6f9a47 1
+packages/cli/src/sdk/sdk/api/resources/aiGateway/index.ts
+  s_d3e459aadd937c::t_1254c2b154e243 3
+packages/cli/src/sdk/sdk/api/resources/aiGateway/types/WebSearchAiGatewayResponse.ts
+  s_d3e459aadd937c::t_1d137de30cf7ee 1-27
+packages/cli/src/sdk/sdk/api/resources/aiGateway/types/index.ts
+  s_d3e459aadd937c::t_87c1dad4611371 1
+packages/cli/src/sdk/sdk/api/resources/billing/resources/usage/client/Client.ts
+  s_d3e459aadd937c::t_4d894805fc290a 290-293,295-299
+packages/cli/src/sdk/sdk/api/resources/billing/resources/usage/client/requests/BillableUsageApiV2UsageQuery.ts
+  s_d3e459aadd937c::t_71bdb7b061efb4 15
+packages/cli/src/sdk/sdk/api/resources/connectorTelemetryEvents/client/Client.ts
+  s_d3e459aadd937c::t_fa458644a20ad2 56,62
+packages/cli/src/sdk/sdk/api/resources/index.ts
+  s_d3e459aadd937c::t_ca9aea3fd2ad37 22-23,160
+packages/cli/src/sdk/sdk/api/resources/managedDefense/client/Client.ts
+  s_d3e459aadd937c::t_0d952d18de6c55 7,9,13-15,17,21-22
+packages/cli/src/sdk/sdk/api/resources/managedDefense/exports.ts
+  s_d3e459aadd937c::t_ce3ebfe05c02b7 1-5
+packages/cli/src/sdk/sdk/api/resources/managedDefense/resources/index.ts
+  s_d3e459aadd937c::t_d331d76f19455d 1
+packages/cli/src/sdk/sdk/api/resources/managedDefense/resources/vulnerabilityDiscovery/client/Client.ts
+  s_d3e459aadd937c::t_08d5d0e8fe4ac7 1-36
+packages/cli/src/sdk/sdk/api/resources/managedDefense/resources/vulnerabilityDiscovery/exports.ts
+  s_d3e459aadd937c::t_525dbc3c7a5e2e 1-5
+packages/cli/src/sdk/sdk/api/resources/managedDefense/resources/vulnerabilityDiscovery/resources/index.ts
+  s_d3e459aadd937c::t_b6d4a32218e9f3 1-8
+packages/cli/src/sdk/sdk/api/resources/managedDefense/resources/vulnerabilityDiscovery/resources/reports/client/Client.ts
+  s_d3e459aadd937c::t_4fd8edee51db80 1-104
+packages/cli/src/sdk/sdk/api/resources/managedDefense/resources/vulnerabilityDiscovery/resources/reports/client/requests/GetReportsRequest.ts
+  s_d3e459aadd937c::t_a5a02deacd3d06 1-15
+packages/cli/src/sdk/sdk/api/resources/managedDefense/resources/vulnerabilityDiscovery/resources/reports/client/requests/index.ts
+  s_d3e459aadd937c::t_cae70f530484a2 1
+packages/cli/src/sdk/sdk/api/resources/managedDefense/resources/vulnerabilityDiscovery/resources/reports/exports.ts
+  s_d3e459aadd937c::t_4be4395f5a7ccd 3
+packages/cli/src/sdk/sdk/api/resources/managedDefense/resources/vulnerabilityDiscovery/resources/repositories/client/Client.ts
+  s_d3e459aadd937c::t_48050011b4c018 1-275
+packages/cli/src/sdk/sdk/api/resources/managedDefense/resources/vulnerabilityDiscovery/resources/repositories/client/requests/GetRepositoriesRequest.ts
+  s_d3e459aadd937c::t_1b016350cb9844 1-15
+packages/cli/src/sdk/sdk/api/resources/managedDefense/resources/vulnerabilityDiscovery/resources/repositories/client/requests/ListRepositoriesRequest.ts
+  s_d3e459aadd937c::t_d378135c8031e9 1-13
+packages/cli/src/sdk/sdk/api/resources/managedDefense/resources/vulnerabilityDiscovery/resources/repositories/client/requests/ManagedDefenseVulnerabilityDiscoveryCreateRepositoryRequest.ts
+  s_d3e459aadd937c::t_bc5dc693561a2e 1-16
+packages/cli/src/sdk/sdk/api/resources/managedDefense/resources/vulnerabilityDiscovery/resources/repositories/client/requests/index.ts
+  s_d3e459aadd937c::t_e6ff708427eab7 1-3
+packages/cli/src/sdk/sdk/api/resources/managedDefense/resources/vulnerabilityDiscovery/resources/repositories/exports.ts
+  s_d3e459aadd937c::t_9b4348ac197ab2 3
+packages/cli/src/sdk/sdk/api/resources/managedDefense/resources/vulnerabilityDiscovery/resources/repositories/types/ListRepositoriesResponse.ts
+  s_d3e459aadd937c::t_f2a17d745ff53c 1-8
+packages/cli/src/sdk/sdk/api/resources/managedDefense/resources/vulnerabilityDiscovery/resources/repositories/types/index.ts
+  s_d3e459aadd937c::t_70c8e97af02395 1
+packages/cli/src/sdk/sdk/api/resources/managedDefense/resources/vulnerabilityDiscovery/resources/scans/client/Client.ts
+  s_d3e459aadd937c::t_ff74a61639a69e 1-356
+packages/cli/src/sdk/sdk/api/resources/managedDefense/resources/vulnerabilityDiscovery/resources/scans/client/requests/GetReportScansRequest.ts
+  s_d3e459aadd937c::t_202285ca6131e4 1-13
+packages/cli/src/sdk/sdk/api/resources/managedDefense/resources/vulnerabilityDiscovery/resources/scans/client/requests/GetScansRequest.ts
+  s_d3e459aadd937c::t_2e985ceb52cf06 1-13
+packages/cli/src/sdk/sdk/api/resources/managedDefense/resources/vulnerabilityDiscovery/resources/scans/client/requests/ListScansRequest.ts
+  s_d3e459aadd937c::t_e66011667bdd40 1-18
+packages/cli/src/sdk/sdk/api/resources/managedDefense/resources/vulnerabilityDiscovery/resources/scans/client/requests/ManagedDefenseVulnerabilityDiscoveryCreateScan.ts
+  s_d3e459aadd937c::t_852bec90c88208 1-20
+packages/cli/src/sdk/sdk/api/resources/managedDefense/resources/vulnerabilityDiscovery/resources/scans/client/requests/index.ts
+  s_d3e459aadd937c::t_61145f190937a7 1-4
+packages/cli/src/sdk/sdk/api/resources/managedDefense/resources/vulnerabilityDiscovery/resources/scans/exports.ts
+  s_d3e459aadd937c::t_48822834df4bc3 1-4
+packages/cli/src/sdk/sdk/api/resources/managedDefense/resources/vulnerabilityDiscovery/resources/scans/types/ListScansRequestStatus.ts
+  s_d3e459aadd937c::t_9a6688e6d0b1c5 1-12
+packages/cli/src/sdk/sdk/api/resources/managedDefense/resources/vulnerabilityDiscovery/resources/scans/types/ListScansResponse.ts
+  s_d3e459aadd937c::t_790c1dc5b7d8af 1-8
+packages/cli/src/sdk/sdk/api/resources/managedDefense/resources/vulnerabilityDiscovery/resources/scans/types/index.ts
+  s_d3e459aadd937c::t_6c016f016e4ee1 1-2
+packages/cli/src/sdk/sdk/api/resources/observability/resources/issues/types/AddIssuesResponse.ts
+  s_d3e459aadd937c::t_3fb3e5efbb8e69 26
+packages/cli/src/sdk/sdk/api/resources/observability/resources/issues/types/GetIssuesResponse.ts
+  s_d3e459aadd937c::t_62eaa760571bb6 80
+packages/cli/src/sdk/sdk/api/resources/observability/resources/issues/types/GroupIssuesResponse.ts
+  s_d3e459aadd937c::t_46c455a6e11fc2 26
+packages/cli/src/sdk/sdk/api/resources/observability/resources/issues/types/ListIssuesResponse.ts
+  s_d3e459aadd937c::t_b149b49cc4cad1 84
+packages/cli/src/sdk/sdk/api/resources/observability/resources/issues/types/RemoveIssuesResponse.ts
+  s_d3e459aadd937c::t_2a726daa569596 26
+packages/cli/src/sdk/sdk/api/resources/observability/resources/issues/types/UpdateIssuesResponse.ts
+  s_d3e459aadd937c::t_67de792ab5df9b 26
+packages/cli/src/sdk/sdk/api/resources/queues/client/Client.ts
+  s_d3e459aadd937c::t_86442158098bc7 117,186,252,322,388
+packages/cli/src/sdk/sdk/api/resources/queues/resources/consumers/client/Client.ts
+  s_d3e459aadd937c::t_e42445a88f165a 27,96,168,235,308
+packages/cli/src/sdk/sdk/api/resources/queues/resources/messages/client/Client.ts
+  s_d3e459aadd937c::t_fdec5f0a8ea958 27,100,172,244,316,388,460,532,604
+packages/cli/src/sdk/sdk/api/resources/queues/resources/metrics/client/Client.ts
+  s_d3e459aadd937c::t_6996b242a83c64 26
+packages/cli/src/sdk/sdk/api/resources/queues/resources/purge/client/Client.ts
+  s_d3e459aadd937c::t_315e6455229b66 27,96
+packages/cli/src/sdk/sdk/api/resources/queues/resources/purge/client/requests/StartPurgeRequest.ts
+  s_d3e459aadd937c::t_784f0875ddff18 13
+packages/cli/src/sdk/sdk/api/resources/queues/resources/subscriptions/client/Client.ts
+  s_d3e459aadd937c::t_b229fb8296a9e3 27,105,189,262,328
+packages/cli/src/sdk/sdk/api/resources/realtime/client/Client.ts
+  s_d3e459aadd937c::t_0e25dcd184cf47 8-10,19-21,30-41
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/index.ts
+  s_d3e459aadd937c::t_ddf63408241a2c 2-4
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/moq/client/Client.ts
+  s_d3e459aadd937c::t_4c8ac363f84943 3-6
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/moq/client/index.ts
+  s_d3e459aadd937c::t_a2b9f45da723f8 1
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/moq/index.ts
+  s_d3e459aadd937c::t_557fb7ea4086d3 1-2
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/moq/resources/relays/client/Client.ts
+  s_d3e459aadd937c::t_e19338932c6bfa 3-14,44,51,59,61,66,68,109-112,146,155,161,168,235,243,249,256,319,327,333,340,403,411,417,424
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/moq/resources/relays/client/requests/CreateRelaysRequest.ts
+  s_d3e459aadd937c::t_bd2ca37493e5ce 3
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/moq/resources/relays/client/requests/DeleteRelaysRequest.ts
+  s_d3e459aadd937c::t_a42abd4a93ee73 3
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/moq/resources/relays/client/requests/GetRelaysRequest.ts
+  s_d3e459aadd937c::t_94b50d5fb4cb8a 3
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/moq/resources/relays/client/requests/ListRelaysRequest.ts
+  s_d3e459aadd937c::t_887f1961115630 3
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/moq/resources/relays/client/requests/UpdateRelaysRequest.ts
+  s_d3e459aadd937c::t_889696de980cb7 3
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/moq/resources/relays/resources/tokens/client/Client.ts
+  s_d3e459aadd937c::t_eb173056cdf4e9 3,7-14,35,43,49,56,116,125,132,139,205,213,220,227
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/moq/resources/relays/resources/tokens/client/requests/CreateTokensRequest.ts
+  s_d3e459aadd937c::t_04ca6c49589d67 3
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/moq/resources/relays/resources/tokens/client/requests/DeleteTokensRequest.ts
+  s_d3e459aadd937c::t_9d9e7a94ee71a7 3
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/moq/resources/relays/resources/tokens/client/requests/ListTokensRequest.ts
+  s_d3e459aadd937c::t_00a1e016ae70c3 3
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/moq/resources/relays/types/ListRelaysResponse.ts
+  s_d3e459aadd937c::t_94c1fb2d31e0f7 3
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/sfu/client/Client.ts
+  s_d3e459aadd937c::t_fa0ae3c529cb58 1-24
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/sfu/client/index.ts
+  s_d3e459aadd937c::t_776c8caf69dec3 1
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/sfu/exports.ts
+  s_d3e459aadd937c::t_d1edc8cbb7cbe7 5
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/sfu/index.ts
+  s_d3e459aadd937c::t_d304b5b9697bdd 1-2
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/sfu/resources/apps/client/Client.ts
+  s_d3e459aadd937c::t_2e24ed2151b0d4 3-14,16,22-23,25,32-33,36,41-43,48-50,75-78,98,100-101,104,110-111,117-118,167,169-170,173,179-180,186-187,233,235-236,239,246-247,253-254,303,305-306,309,315-316,322-323
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/sfu/resources/apps/client/requests/CreateAppsRequest.ts
+  s_d3e459aadd937c::t_fca5d3c7dfb07a 12,14
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/sfu/resources/apps/client/requests/DeleteAppsRequest.ts
+  s_d3e459aadd937c::t_1f29d43c582c71 10
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/sfu/resources/apps/client/requests/GetAppsRequest.ts
+  s_d3e459aadd937c::t_dbe2c3fcfd7a25 10
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/sfu/resources/apps/client/requests/ListAppsRequest.ts
+  s_d3e459aadd937c::t_57acf96187df18 9
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/sfu/resources/apps/client/requests/UpdateAppsRequest.ts
+  s_d3e459aadd937c::t_06fa70c9136153 3,13
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/sfu/resources/apps/client/requests/index.ts
+  s_d3e459aadd937c::t_94ebf10e3cf9b9 1-5
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/sfu/resources/apps/exports.ts
+  s_d3e459aadd937c::t_3c606822f7a0c4 1-4
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/sfu/resources/apps/types/ListAppsResponse.ts
+  s_d3e459aadd937c::t_10b139c1e8ae4b 3,5
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/sfu/resources/apps/types/index.ts
+  s_d3e459aadd937c::t_efda0a04152ef1 1
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/sfu/resources/index.ts
+  s_d3e459aadd937c::t_697f81b38c1f99 1-3
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/turn/client/Client.ts
+  s_d3e459aadd937c::t_a20d559d84d0eb 1-24
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/turn/client/index.ts
+  s_d3e459aadd937c::t_1506b832dcdefa 1
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/turn/exports.ts
+  s_d3e459aadd937c::t_b666f99e165077 5
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/turn/index.ts
+  s_d3e459aadd937c::t_96a827f08cedd2 1-2
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/turn/resources/index.ts
+  s_d3e459aadd937c::t_527a3beb74809f 1-3
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/turn/resources/keys/client/Client.ts
+  s_d3e459aadd937c::t_6ae1a2cbf8b9f3 3-14,16,22-23,25,30,32-33,36,41-43,48-50,75-78,98,100-101,104,110-111,117-118,169-170,173,179-180,186-187,233,235-236,239,246-247,253-254,303,305-306,309,315-316,322-323
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/turn/resources/keys/client/index.ts
+  s_d3e459aadd937c::t_6ec97dfb854534 1
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/turn/resources/keys/client/requests/CreateKeysRequest.ts
+  s_d3e459aadd937c::t_17771fd9bbe7fb 3,12
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/turn/resources/keys/client/requests/DeleteKeysRequest.ts
+  s_d3e459aadd937c::t_e32f7c566a4dee 10
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/turn/resources/keys/client/requests/GetKeysRequest.ts
+  s_d3e459aadd937c::t_60ae4168a7e6cd 10
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/turn/resources/keys/client/requests/ListKeysRequest.ts
+  s_d3e459aadd937c::t_7f639c4be5fdb8 9
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/turn/resources/keys/client/requests/UpdateKeysRequest.ts
+  s_d3e459aadd937c::t_9b668f1a117b27 3,13
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/turn/resources/keys/client/requests/index.ts
+  s_d3e459aadd937c::t_75be5bed07b42e 1-5
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/turn/resources/keys/exports.ts
+  s_d3e459aadd937c::t_6d869379d4a23e 1-4
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/turn/resources/keys/index.ts
+  s_d3e459aadd937c::t_56bcb9eb8dbb77 1-2
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/turn/resources/keys/types/ListKeysResponse.ts
+  s_d3e459aadd937c::t_100b53fed313a1 3,5
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/turn/resources/keys/types/index.ts
+  s_d3e459aadd937c::t_84e4a83396f509 1
+packages/cli/src/sdk/sdk/api/resources/registrar/resources/registrations/client/Client.ts
+  s_d3e459aadd937c::t_225e29e2dfd288 945-1187
+packages/cli/src/sdk/sdk/api/resources/registrar/resources/registrations/client/requests/GetTransferStatusRegistrationsRequest.ts
+  s_d3e459aadd937c::t_31630f1f2c2ca5 7,10-11,13
+packages/cli/src/sdk/sdk/api/resources/registrar/resources/registrations/client/requests/RegistrarApiTransferInCreateRequest.ts
+  s_d3e459aadd937c::t_394505af19a887 1-86
+packages/cli/src/sdk/sdk/api/resources/registrar/resources/registrations/client/requests/index.ts
+  s_d3e459aadd937c::t_31c7b95c7f5989 3,9
+packages/cli/src/sdk/sdk/api/resources/spectrum/client/Client.ts
+  s_d3e459aadd937c::t_16a7dfdf3376dc 7,19,32-35
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/client/Client.ts
+  s_d3e459aadd937c::t_95d49c9a583694 1-36
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/client/index.ts
+  s_d3e459aadd937c::t_f6f5d0c6fc4f0d 1
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/exports.ts
+  s_d3e459aadd937c::t_4985148a0b773f 1-5
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/index.ts
+  s_d3e459aadd937c::t_017021f3c3dc10 1-2
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/aggregates/client/Client.ts
+  s_d3e459aadd937c::t_3a3293201ab00f 1-27
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/aggregates/client/index.ts
+  s_d3e459aadd937c::t_c94cb9c0086ef1 1
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/aggregates/exports.ts
+  s_d3e459aadd937c::t_087164cd9c90cf 1-5
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/aggregates/index.ts
+  s_d3e459aadd937c::t_67ea760b41e3be 1-2
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/aggregates/resources/currents/client/Client.ts
+  s_d3e459aadd937c::t_0a7a9c59f13cf1 1-105
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/aggregates/resources/currents/client/index.ts
+  s_d3e459aadd937c::t_5de2b0f38fff9d 1
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/aggregates/resources/currents/client/requests/GetCurrentsRequest.ts
+  s_d3e459aadd937c::t_187d1258f3ccef 3,13
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/aggregates/resources/currents/client/requests/index.ts
+  s_d3e459aadd937c::t_0134b7259e340e 1
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/aggregates/resources/currents/exports.ts
+  s_d3e459aadd937c::t_f13c3730700f9f 1-4
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/aggregates/resources/currents/index.ts
+  s_d3e459aadd937c::t_448b19d1994756 1-2
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/aggregates/resources/currents/types/GetCurrentsResponse.ts
+  s_d3e459aadd937c::t_402d990bb3e2cb 3-4,8
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/aggregates/resources/currents/types/index.ts
+  s_d3e459aadd937c::t_b563d12a7e24f7 1
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/aggregates/resources/index.ts
+  s_d3e459aadd937c::t_64544530742433 1-3
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/events/client/Client.ts
+  s_d3e459aadd937c::t_1fba373b5da1b1 1-33
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/events/client/index.ts
+  s_d3e459aadd937c::t_6b22dacc1730fc 1
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/events/exports.ts
+  s_d3e459aadd937c::t_9f9b293329d342 1-5
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/events/index.ts
+  s_d3e459aadd937c::t_f8ae8e26854b31 1-2
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/events/resources/bytimes/client/Client.ts
+  s_d3e459aadd937c::t_5d1da4382b226c 1-116
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/events/resources/bytimes/client/index.ts
+  s_d3e459aadd937c::t_69ce23eb7cb0b3 1
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/events/resources/bytimes/client/requests/GetBytimesRequest.ts
+  s_d3e459aadd937c::t_e778f507525ef3 3,15,23
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/events/resources/bytimes/client/requests/index.ts
+  s_d3e459aadd937c::t_e4d892ac9d8f03 1
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/events/resources/bytimes/exports.ts
+  s_d3e459aadd937c::t_38e1667da4af29 1-4
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/events/resources/bytimes/index.ts
+  s_d3e459aadd937c::t_e2726a39cf4405 1-2
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/events/resources/bytimes/types/GetBytimesRequestTimeDelta.ts
+  s_d3e459aadd937c::t_d4065b962321dc 4,14
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/events/resources/bytimes/types/GetBytimesResponse.ts
+  s_d3e459aadd937c::t_e2e5488fd740c9 3,5,11,13,20
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/events/resources/bytimes/types/index.ts
+  s_d3e459aadd937c::t_c188ff1384f5c3 1-2
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/events/resources/index.ts
+  s_d3e459aadd937c::t_d201b27fdaf1cc 1-6
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/events/resources/summaries/client/Client.ts
+  s_d3e459aadd937c::t_ffe37791962b60 15,21-22,24,29,31-32,35-39,43-45,50-65,77,81-85,94,111
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/events/resources/summaries/client/index.ts
+  s_d3e459aadd937c::t_4bacd6fe48a387 1
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/events/resources/summaries/client/requests/GetSummariesRequest.ts
+  s_d3e459aadd937c::t_a4fed4e97a1b8b 3,14
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/events/resources/summaries/client/requests/index.ts
+  s_d3e459aadd937c::t_d37c0b151abec9 1
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/events/resources/summaries/exports.ts
+  s_d3e459aadd937c::t_ea1ff087ab69fc 1-4
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/events/resources/summaries/index.ts
+  s_d3e459aadd937c::t_38e9ee1b91c357 1-2
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/events/resources/summaries/types/GetSummariesResponse.ts
+  s_d3e459aadd937c::t_016b35e70abc32 3,5,11,13,20
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/events/resources/summaries/types/index.ts
+  s_d3e459aadd937c::t_a8c4ffa602a631 1
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/index.ts
+  s_d3e459aadd937c::t_7afe78148d2c7b 1-3
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/zones/client/Client.ts
+  s_d3e459aadd937c::t_4e1155c90a1726 1-27
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/zones/client/index.ts
+  s_d3e459aadd937c::t_42422e0f3c72ad 1
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/zones/exports.ts
+  s_d3e459aadd937c::t_0c243f7959df67 3
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/zones/index.ts
+  s_d3e459aadd937c::t_2744cc1d51f549 1-2
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/zones/resources/index.ts
+  s_d3e459aadd937c::t_1fa6fe1f136316 1-3
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/zones/resources/report/client/Client.ts
+  s_d3e459aadd937c::t_328420f21b06d9 1-105
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/zones/resources/report/client/index.ts
+  s_d3e459aadd937c::t_854d9a7f908985 1
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/zones/resources/report/client/requests/GetReportRequest.ts
+  s_d3e459aadd937c::t_3fe789b217a755 3,12
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/zones/resources/report/client/requests/index.ts
+  s_d3e459aadd937c::t_2a11efa01d0152 1
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/zones/resources/report/exports.ts
+  s_d3e459aadd937c::t_f4f9f7c672aba7 1-4
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/zones/resources/report/index.ts
+  s_d3e459aadd937c::t_70fb53aa38a9fa 1-2
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/zones/resources/report/types/GetReportResponse.ts
+  s_d3e459aadd937c::t_b5975395912858 3,5,7,10
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/analytics/resources/zones/resources/report/types/index.ts
+  s_d3e459aadd937c::t_f1336e5567b4a8 1
+packages/cli/src/sdk/sdk/api/resources/spectrum/resources/index.ts
+  s_d3e459aadd937c::t_9a34a590c9b8a2 1
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/client/Client.ts
+  s_d3e459aadd937c::t_0ba722e8f27615 34,39,61-64,81-82
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/index.ts
+  s_d3e459aadd937c::t_457726c41aebb8 18
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/policies/resources/custom/client/Client.ts
+  s_d3e459aadd937c::t_da0e42fb5ddda2 335,339,344-345,348,351-352
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/policies/resources/custom/client/requests/UpdateCustomRequest.ts
+  s_d3e459aadd937c::t_9229c8920d4c0e 12
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/policies/resources/custom/client/requests/index.ts
+  s_d3e459aadd937c::t_2c9c4e4283b000 5
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/policies/resources/default/client/Client.ts
+  s_d3e459aadd937c::t_53336bb4ee4cdf 124,128,132-133,136,139-140
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/policies/resources/default/client/requests/UpdateDefaultRequest.ts
+  s_d3e459aadd937c::t_c414bb91998da0 11
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/policies/resources/default/client/requests/index.ts
+  s_d3e459aadd937c::t_9432cae0df7420 2
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/policies/resources/default/resources/certificates/client/Client.ts
+  s_d3e459aadd937c::t_a4bc5cb866beb3 100,104,111-112,115,118-119
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/policies/resources/default/resources/certificates/client/requests/UpdateCertificatesRequest.ts
+  s_d3e459aadd937c::t_5913a85e175aa2 14
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/policies/resources/default/resources/certificates/client/requests/index.ts
+  s_d3e459aadd937c::t_c888b1c437c2e2 2
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/posture/client/Client.ts
+  s_d3e459aadd937c::t_70fce87f054318 3,11,19,26-27,30-31
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/posture/client/index.ts
+  s_d3e459aadd937c::t_a43f3d08bdd23b 1
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/posture/resources/index.ts
+  s_d3e459aadd937c::t_29f033967b9d18 4-6
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/posture/resources/integrations/client/Client.ts
+  s_d3e459aadd937c::t_660367701fe539 315,319,324-325,328,331-332
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/posture/resources/integrations/client/requests/UpdateIntegrationsRequest.ts
+  s_d3e459aadd937c::t_152aa0d73ba451 12
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/posture/resources/integrations/client/requests/index.ts
+  s_d3e459aadd937c::t_d6702a5bcd14e3 5
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/posture/resources/rules/client/Client.ts
+  s_d3e459aadd937c::t_2eed6629d4a092 3-14,16,22-23,25,30,32-33,36-37,40-44,47-51,63,67,76,93,98,100-101,104-107,110-166,170-193,205,209,218,235,240,242-243,246-250,253-257,260-264,276,278,280-283,292,308-309,314,316-317,320-322,325-329,332-336,348,350,352,361,377-378
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/posture/resources/rules/client/index.ts
+  s_d3e459aadd937c::t_dccc863ae78e37 1
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/posture/resources/rules/client/requests/CreateRulesRequest.ts
+  s_d3e459aadd937c::t_8adf2cb0c3d7f1 3,13
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/posture/resources/rules/client/requests/DeleteRulesRequest.ts
+  s_d3e459aadd937c::t_bbcba648125a28 10
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/posture/resources/rules/client/requests/GetRulesRequest.ts
+  s_d3e459aadd937c::t_9b734c0291fba9 10
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/posture/resources/rules/client/requests/ListRulesRequest.ts
+  s_d3e459aadd937c::t_4062a401f9acf8 9
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/posture/resources/rules/client/requests/UpdateRulesRequest.ts
+  s_d3e459aadd937c::t_f4b3d065653787 3,14
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/posture/resources/rules/client/requests/index.ts
+  s_d3e459aadd937c::t_9c606d449876ee 1-5
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/posture/resources/rules/exports.ts
+  s_d3e459aadd937c::t_e9f9fa5aa157c0 1-4
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/posture/resources/rules/index.ts
+  s_d3e459aadd937c::t_84fbb41c980ad5 1-2
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/posture/resources/rules/types/DeleteRulesResponse.ts
+  s_d3e459aadd937c::t_6d91452aa2bdd3 3,5
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/posture/resources/rules/types/ListRulesResponse.ts
+  s_d3e459aadd937c::t_e2750a95ae53d6 3,5
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/posture/resources/rules/types/index.ts
+  s_d3e459aadd937c::t_dcf6bdc1e5cfca 1-2
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/resilience/client/Client.ts
+  s_d3e459aadd937c::t_c49ab338c81ed0 3,9-10,12-14,18-19,29-166
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/resilience/client/index.ts
+  s_d3e459aadd937c::t_037b01919754dc 1
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/resilience/client/requests/GetGlobalDisconnectResilienceRequest.ts
+  s_d3e459aadd937c::t_957c3c0fc71987 9
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/resilience/client/requests/TeamsDevicesGlobalWarpOverrideRequest.ts
+  s_d3e459aadd937c::t_b15bac1d5a54d8 3
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/resilience/client/requests/index.ts
+  s_d3e459aadd937c::t_66702195433342 1
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/settings/client/Client.ts
+  s_d3e459aadd937c::t_4456c039e36d33 166,168,172,177-178,181,184-185
+packages/cli/src/sdk/sdk/api/types/BillableUsageApiV2FilterBy.ts
+  s_d3e459aadd937c::t_e6efbfc3ddfc45 13
+packages/cli/src/sdk/sdk/api/types/BillableUsageApiV2GroupBy.ts
+  s_d3e459aadd937c::t_dc95e2916add06 4,7,9-19
+packages/cli/src/sdk/sdk/api/types/BillableUsageApiV2TagFilter.ts
+  s_d3e459aadd937c::t_bf3fc424cde111 4,7
+packages/cli/src/sdk/sdk/api/types/CallsName.ts
+  s_d3e459aadd937c::t_f7539b776a952f 4
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryConsolidatedCuratedReportResponse.ts
+  s_d3e459aadd937c::t_92411d4fa23bee 1-10
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryConsolidatedCuratedReportResult.ts
+  s_d3e459aadd937c::t_0b17d44e83e34f 1-10
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryConsolidatedReportRepository.ts
+  s_d3e459aadd937c::t_5907ea6b0939a6 1-28
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryCreateRepositoryResponse.ts
+  s_d3e459aadd937c::t_08b58ae281611b 1-10
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryCreateRepositoryResult.ts
+  s_d3e459aadd937c::t_4c910fa190b4d7 1-12
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryCreatedRepository.ts
+  s_d3e459aadd937c::t_c9a2f97b75673c 1-26
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryCreatedRepositoryImportError.ts
+  s_d3e459aadd937c::t_dffa1987b8c824 1-13
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryCuratedReportPublication.ts
+  s_d3e459aadd937c::t_2f5f87f88264a4 1-7
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryCuratedReportResponse.ts
+  s_d3e459aadd937c::t_c94c6e43db7760 1-10
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryCuratedReportResult.ts
+  s_d3e459aadd937c::t_2c66bea8055d5d 1-10
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryFailureResponse.ts
+  s_d3e459aadd937c::t_23d25749355e43 1-10
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryMessage.ts
+  s_d3e459aadd937c::t_37831fd08b9b93 1-6
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryPaginatedResponse.ts
+  s_d3e459aadd937c::t_00eefcd2b97152 1-10
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryReportDocumentV2.ts
+  s_d3e459aadd937c::t_a5e1be79961925 1-24
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryReportErrorPath.ts
+  s_d3e459aadd937c::t_e203e23a5b0ed4 1-9
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryReportExternalLink.ts
+  s_d3e459aadd937c::t_4f971be4bafdfe 1-6
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryReportFinding.ts
+  s_d3e459aadd937c::t_8d7f8a01f71180 1-67
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryReportFindingLocation.ts
+  s_d3e459aadd937c::t_2488c4030303ac 1-7
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryReportFindingRemediation.ts
+  s_d3e459aadd937c::t_038c9890a43c1a 1-6
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryReportFindingTelemetry.ts
+  s_d3e459aadd937c::t_ead8e0045d1c6e 1-16
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryReportHotPath.ts
+  s_d3e459aadd937c::t_546a882e5f254b 1-9
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryReportObservedPath.ts
+  s_d3e459aadd937c::t_25482e16a73a23 1-8
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryReportObservedWafRule.ts
+  s_d3e459aadd937c::t_858edb1f6eadc9 1-11
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryReportReachability.ts
+  s_d3e459aadd937c::t_7110bffe3711fc 1-7
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryReportTelemetryTarget.ts
+  s_d3e459aadd937c::t_3f83b925bac840 1-17
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryReportTraceStep.ts
+  s_d3e459aadd937c::t_82e4d16bf30341 1-8
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryReportTrafficContext.ts
+  s_d3e459aadd937c::t_0ee4d7b8b41955 1-10
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryReportTrafficContextHttp.ts
+  s_d3e459aadd937c::t_448b5a30e73cc8 1-9
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryReportTrafficContextWaf.ts
+  s_d3e459aadd937c::t_3e7f5dc236529e 1-8
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryReportTrafficContextWebAssets.ts
+  s_d3e459aadd937c::t_b3d26d10875dab 1-9
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryReportTrafficContextWebAssetsRiskTypesItem.ts
+  s_d3e459aadd937c::t_ab7e273fe2ec28 1-7
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryReportWafRule.ts
+  s_d3e459aadd937c::t_f8a41d7be510d0 1-27
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryReportWafRules.ts
+  s_d3e459aadd937c::t_8e7e1150d24887 1-8
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryReportWebAssetsOperation.ts
+  s_d3e459aadd937c::t_689a8e8a1cccb8 1-12
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryReportWebAssetsPath.ts
+  s_d3e459aadd937c::t_422fbeb374624b 1-10
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryReportWebAssetsPerformance.ts
+  s_d3e459aadd937c::t_5c938d48a11660 1-7
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryReportWebAssetsRisk.ts
+  s_d3e459aadd937c::t_1603b9f34f3b7f 1-6
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryRepository.ts
+  s_d3e459aadd937c::t_badf16050797fc 1-27
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryRepositoryDetail.ts
+  s_d3e459aadd937c::t_1383ac3191ccc4 1-8
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryRepositoryImportError.ts
+  s_d3e459aadd937c::t_1e007089926d58 1-13
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryRepositoryListResponse.ts
+  s_d3e459aadd937c::t_c9c9744d0e6318 1-11
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryRepositoryReport.ts
+  s_d3e459aadd937c::t_1e6644fa55f903 1-25
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryRepositoryResponse.ts
+  s_d3e459aadd937c::t_466128cda19967 1-9
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryResultInfo.ts
+  s_d3e459aadd937c::t_055fd3750a8418 1-8
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryScan.ts
+  s_d3e459aadd937c::t_3793d87ff4f008 1-36
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryScanListResponse.ts
+  s_d3e459aadd937c::t_301d545ac61dce 1-11
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryScanRepository.ts
+  s_d3e459aadd937c::t_e72d1e21052e49 1-37
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryScanResponse.ts
+  s_d3e459aadd937c::t_eebdcef899d1b2 1-10
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoverySuccessResponse.ts
+  s_d3e459aadd937c::t_658b69defcc2ce 1-9
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryTelemetryWindow.ts
+  s_d3e459aadd937c::t_64068f2ad885b1 1-9
+packages/cli/src/sdk/sdk/api/types/ManagedDefenseVulnerabilityDiscoveryUploadCredentials.ts
+  s_d3e459aadd937c::t_9c4f2e466e3efc 1-7
+packages/cli/src/sdk/sdk/api/types/MconnTelemetrySnapshotInterface.ts
+  s_d3e459aadd937c::t_27dd9ef962d7c6 9-12
+packages/cli/src/sdk/sdk/api/types/RegistrarApiRegistration.ts
+  s_d3e459aadd937c::t_00cee243ee2c81 14,24,44,53
+packages/cli/src/sdk/sdk/api/types/RegistrarApiSandboxRegistration.ts
+  s_d3e459aadd937c::t_e16581f3226eff 14,24,44,53
+packages/cli/src/sdk/sdk/api/types/SpectrumAnalyticsQueryResponseSingleResult.ts
+  s_d3e459aadd937c::t_4a34de4a0bb1de 11,13,20
+packages/cli/src/sdk/sdk/api/types/TeamsDevicesGlobalAcceleration.ts
+  s_d3e459aadd937c::t_27d18995e67c6e 9-10
+packages/cli/src/sdk/sdk/api/types/index.ts
+  s_d3e459aadd937c::t_771959e8a6933e 4083-4133
+packages/cli/src/sdk/sdk/sdk-map.json
+  s_d3e459aadd937c::t_77f7fe8eb5c8cf 7659-7661,7666,7676-7678,7683,7692-7694,7699-7700,7707-7709,7714,7723-7725,7730,7741-7743,7748,7757-7759,7764,7773-7775,7780,7790-7792,7797-7798,7805-7807,7812,10146-10177,13049,13052,13063-13064,13069,13081-13082,13087-13088,13098-13099,13104,13115-13116,13121-13122,13131-13132,13137,13391,13393,13396,13406,13408,13542,13545,13558,13561,13576,13579,21704-21768,25518-25547,26410,28873,28889,28904,28920,28935,28953,28971,28988,30762-30763,38706-38735,41707-41710,41712,41715-41716,41723-41726,41728,41731-41732,41740-41743,41745,41748-41749,41756-41759,41761,41764-41765,47567-47581,48418,48421
+packages/cli/src/sdk/sdk/sdk-operation-types.ts
+  s_d3e459aadd937c::t_fb469a99f61102 414-423,579-580,764-769,784-785,792-794,1394,1400-1402,1568-1569,1789-1796,2461-2462,2655-2658,3035,3089,3539,3589-3590,3638,4003-4006
+packages/cli/vitest.config.mts
+  s_d3e459aadd937c::t_ae101fb193539b 20
+packages/wrangler-tests/package.json
+  s_d3e459aadd937c::t_909832e92e7c69 12
+patches/@cloudflare__deploy-helpers@0.15.0.patch
+  s_d3e459aadd937c::t_b53eff1c9d31de 22,37
+pnpm-lock.yaml
+  s_d3e459aadd937c::t_066256569a2f1a 10-13,17,19-20,22-26,28,65-66,68-69,77-78,83-84,86-87,92-93,98-99,120-121,132-133,135-136,144-145,147-148,201-202,416-417,422-423,431-432,435-436,462-463,467,499-500,510-511,513-514,3257-3258,3579,3581-3583,3591,3594,3605,3617,3620,3622,3626,3628-3631,3672,3679,3701,3703,3709,3711,3719,5985,5996
+scripts/update-forge.ts
+  s_d3e459aadd937c::t_d1bccf3b5aa994 1-507
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "8f57d1ff8a778072caccee0d6dd9e5ae9887a0b8",
+  "prompts": {},
+  "sessions": {
+    "s_d3e459aadd937c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0cf04-d123-75f1-a301-d521f628b4b2",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    },
+    "s_de747fcca1f1bf": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0cf45-3783-7370-a796-48cdc7ffb62f",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

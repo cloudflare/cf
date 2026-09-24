@@ -1,0 +1,47 @@
+.changeset/cli-telemetry-namespace.md
+  s_71bbbdec96e7d8::t_cd53edb401f20d 1-8
+AGENTS.md
+  s_71bbbdec96e7d8::t_9a89a4481e742e 34-35,174-197,454
+packages/cli/AGENTS.md
+  s_71bbbdec96e7d8::t_86a180fb303cd0 40-54,83
+packages/cli/src/__tests__/commands/hand-written-metadata.test.ts
+  s_71bbbdec96e7d8::t_5092ee344f785d 44-46,78-81,88,127,135-137,153-165,251
+packages/cli/src/__tests__/commands/telemetry.test.ts
+  s_71bbbdec96e7d8::t_1e58b7c5835537 8,13,16,19,22,27-29,36-38,45-47,54,61,68-78
+packages/cli/src/commands/_generated/_meta/agent-context.json
+  s_71bbbdec96e7d8::t_2915a947f97053 41,165
+packages/cli/src/commands/_generated/_meta/commands.json
+  s_71bbbdec96e7d8::t_8df6965f8e3618 27393-27422,123781,123792,123803,157645-157646
+packages/cli/src/commands/_generated/_meta/hand-written-commands.json
+  s_71bbbdec96e7d8::t_53512d87305075 307-351,860,876,892,1047-1048
+packages/cli/src/commands/cli/index.ts
+  s_71bbbdec96e7d8::t_ca35600010808f 1-14
+packages/cli/src/commands/cli/meta.json
+  s_71bbbdec96e7d8::t_3add692eca7a99 1-32
+packages/cli/src/commands/hand-written.ts
+  s_71bbbdec96e7d8::t_48d25fb0c95c8a 89-95,99
+packages/cli/src/commands/telemetry/meta.json
+  s_71bbbdec96e7d8::t_44dcb34fd23220 9,20,31
+packages/cli/src/commands/telemetry/status.ts
+  s_71bbbdec96e7d8::t_ba6c8d12700a11 16
+packages/cli/src/index.ts
+  s_71bbbdec96e7d8::t_00ab0ec3898e3c 207
+packages/cli/telemetry.md
+  s_71bbbdec96e7d8::t_2b2417ec8ea135 72-74,96-97,100-102
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "6a2dc7a3a62623f549629b364e97e96a9c41f886",
+  "prompts": {},
+  "sessions": {
+    "s_71bbbdec96e7d8": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0cf80-c6d8-7892-96aa-38f41ee0c385",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

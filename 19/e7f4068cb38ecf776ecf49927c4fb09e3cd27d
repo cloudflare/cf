@@ -1,0 +1,21 @@
+packages/cli/src/commands/_generated/_meta/commands.json
+  s_c0c0c53a61beb5::t_6c4334c605ce28 88608-88616
+packages/cli/src/commands/_generated/_meta/hand-written-commands.json
+  s_c0c0c53a61beb5::t_83f5854818b9e0 721-729
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "19e7f4068cb38ecf776ecf49927c4fb09e3cd27d",
+  "prompts": {},
+  "sessions": {
+    "s_c0c0c53a61beb5": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f30ccad40ffeYa8lbUDxkgpc4R",
+        "model": "gpt-5.6-terra"
+      },
+      "human_author": "Greg Brimble <gbrimble@cloudflare.com>"
+    }
+  }
+}

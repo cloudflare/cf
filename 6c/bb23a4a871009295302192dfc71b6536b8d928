@@ -1,0 +1,725 @@
+.changeset/cloudflare-bin-alias.md
+  s_28239f322b4912::t_7a13edfecffdbc 1-8
+.changeset/update-forge.md
+  s_28239f322b4912::t_51a72fc8a32d46 1-6
+packages/cli/generate.ts
+  s_28239f322b4912::t_00861496bf8d66 22
+packages/cli/generator/search-intents.json
+  s_28239f322b4912::t_d594808fcb1b44 941-942,950-952,955,957,960,964,992,996-1003,1039,2977-2979,3079-3080
+packages/cli/package.json
+  s_28239f322b4912::t_f3d2389a23d41a 26-27
+packages/cli/src/commands/_generated/_meta/commands.json
+  s_28239f322b4912::t_27a4eb3d094b70 11307,11402-11403,11658,11815,12553-12558,12592,13751,15871-15872,15878,15881,16176-16178,16180,16287,16309-16320,16325,19693-19746,22125,22156,22219,22274,22345,22376,22423,22480,22523,22554,22591,22628,22671,22708,22743,22774,22811,22842,22877,23093,23297,23519,23737,23941,24236,24446,24728,25004,25035,25078,40401,40433-40434,40445-40456,41666-41668,41670,41749,41757-41761,41780,41782,41784,41788-41792,41811,41813,41815,41819-41821,41823,41860,43710-43712,43714,43753-43755,43757,43982-43984,43986,44059-44060,44064,44067,44130-44132,44134,44171-44172,44176,44179,44240-44242,44244,44314-44316,44318,44355-44357,44359,44386-44388,44390,44494-44496,44498,44525-44527,44529,44556-44558,44560,44593-44595,44597,44624-44625,44629,44632,44683-44685,44687,44714-44716,44718,44749-44751,44753,44854-44903,44905,45051-45053,45055,45151-45153,45155,45456-45458,45460,45487-45489,45491,45530-45532,45534,49172,49266,49289,49326-49330,49334-49335,49337,49353,49356-49357,49364-49365,49369-49370,49372-49373,49380-49385,49388-49392,49396,49398,49400,49419,49421,49423,49565,49796-49800,49804-49805,49807-49819,49837-49839,49843-49866,49868,49870,49907,49909,54095-54097,54099,54118,58886-58890,58913,58916-58917,58921-58923,58925,58944,58952-58957,58967,58970,58973,58976,58980-58983,58987-58989,58991,59028,59054,59079,59101,59106-59110,59113,59117,59129,59132-59133,59137-59141,59144,59148,59163-59164,59168-59172,59175,59179,59192,59194-59195,59199,59201-59203,59260,59262-59264,59291,59293-59295,59322-59327,59330-59331,59333-59334,59336-59340,59352-59353,59357,59359-59361,59400-59404,59426-59427,59431-59435,59462,59464-59466,59516,59518-59520,59547,59549-59551,59578,59580-59582,59619,59621-59623,59673,59675-59677,59716-59729,59741-59743,59747-59751,59754,59758,59768-59783,59785-59786,59788-59792,59794-59795,59797-59798,59801-59805,59809-59813,59817-59818,59820-59838,59843,59846-59847,59849,59858-59863,59872,59875-59876,59880-59885,59895,59898-59899,70657-70662,71228-71233,86703,87118,111058,113323-113357,115807,115908,116042,116176,116243,116286,116347,116501,117773,117776-117782,117788-117794,117809,117811,117813-117814,117817-117821,117846,117848,117850-117851,117888,117949,118010,118047,118114,118117-118121,118140,118142,118144-118145,118194,120672,120695,120732,120792,120829,120899,120990,121057,121117,121177,140870-140933,143807-143808,143812-143814,143816-143818,143820-143824,143836-143840,150341-150352,151120,151123-151134,156215,156490,156492-156495,156523-156524,156526,156529,156566-156567,157292,157303
+packages/cli/src/commands/_generated/_meta/schemas.json
+  s_28239f322b4912::t_9c5b8a247a7a1f 8304,8556,9173-9177,11700,11916,12015-12024,14232-14272,29194,29196,29246-29255,29975,30056-30058,30081-30083,30106,31408,31435,31592,31656,31707,31735,31787,31839,31867,31887,31958,31978,31998,32023,32043,32084,32104,32126,32207-32243,32339,32410,32635,32655,32682,35289-35290,35292,35304-35305,35307,35312,35314,35323-35324,35326,35328-35329,35331,35333,35348,35631-35634,35646-35647,35649-35661,35665-35682,38757,42214-42215,42217,42229,42249-42252,42261,42264,42300,42303,42315,42318,42339,42346-42347,42349,42352,42366-42369,42372,42386-42387,42389,42392,42397,42403,42406,42452,42472,42492-42495,42503,42505-42507,42510-42512,42518,42549-42552,42569,42589,42629,42649,42669,42700,42740,42767-42770,42776-42780,42787-42788,42790,42793,42798,42804,42807-42828,42830,42833-42848,42854-42858,42865,42875,42883-42884,42886,81131-81152,84183-84185,84201-84208,84210-84212,84228,84419-84421,84435,100022-100064,102312-102313,102315,102321,102323,102329-102330,106955-106966,107521-107532
+packages/cli/src/commands/_generated/_meta/search-intents.json
+  s_28239f322b4912::t_45dd783893da8f 941-942,950-952,955,957,960,964,992,996-1003,1039,2977-2979,3079-3080
+packages/cli/src/commands/_generated/ai-search/create.ts
+  s_28239f322b4912::t_7488c98c564325 90-92,281-282,319-320
+packages/cli/src/commands/_generated/ai-search/items/delete.ts
+  s_28239f322b4912::t_f59ed849dabd56 58
+packages/cli/src/commands/_generated/ai-search/list.ts
+  s_28239f322b4912::t_a62386c1332794 38-42,90
+packages/cli/src/commands/_generated/ai-search/move.ts
+  s_28239f322b4912::t_68984eacc3735a 58
+packages/cli/src/commands/_generated/ai-search/update.ts
+  s_28239f322b4912::t_17a24176125bc0 313-314
+packages/cli/src/commands/_generated/analytics/query/data-security/content-findings/index.ts
+  s_28239f322b4912::t_592aa9d0c9bf4d 1,14
+packages/cli/src/commands/_generated/analytics/query/data-security/content-findings/top-n.ts
+  s_28239f322b4912::t_c031bda44fd6f8 18,59,65,75
+packages/cli/src/commands/_generated/analytics/query/index.ts
+  s_28239f322b4912::t_4756f02662eb49 4,20
+packages/cli/src/commands/_generated/analytics/query/top-n.ts
+  s_28239f322b4912::t_1c1407c169594a 18,84,91,101
+packages/cli/src/commands/_generated/analytics/sql/introspection/get.ts
+  s_28239f322b4912::t_b51c596c751a71 31-40,44,60,70-71,82-83
+packages/cli/src/commands/_generated/artifacts/namespaces/repos/index.ts
+  s_28239f322b4912::t_ec2d509790ba03 12,38
+packages/cli/src/commands/_generated/artifacts/namespaces/repos/tokens/index.ts
+  s_28239f322b4912::t_8fb1f732475593 1,4-5,10-11,14
+packages/cli/src/commands/_generated/artifacts/namespaces/repos/tokens/list.ts
+  s_28239f322b4912::t_8753b1b5ab1b84 65,80,97
+packages/cli/src/commands/_generated/containers/applications/instances/list.ts
+  s_28239f322b4912::t_b1154e442a1e31 32,57-58,93
+packages/cli/src/commands/_generated/containers/applications/list.ts
+  s_28239f322b4912::t_e92cc5e231710c 22-31,67-68
+packages/cli/src/commands/_generated/custom-csrs/create.ts
+  s_28239f322b4912::t_de8a4d0d91293c 19,87,94,110,191,286
+packages/cli/src/commands/_generated/custom-csrs/delete.ts
+  s_28239f322b4912::t_bf8963f3373ae9 17,48,55,72,106
+packages/cli/src/commands/_generated/custom-csrs/get.ts
+  s_28239f322b4912::t_ec4d28803c3427 16,41,48,64,93
+packages/cli/src/commands/_generated/custom-csrs/index.ts
+  s_28239f322b4912::t_487efdd0c63df6 1-4,18-21
+packages/cli/src/commands/_generated/custom-csrs/list.ts
+  s_28239f322b4912::t_446c062f045b12 17,64,71,93,122
+packages/cli/src/commands/_generated/data-security/posture/archive-finding-instance.ts
+  s_28239f322b4912::t_052d54eeaf6790 16,50,56,66
+packages/cli/src/commands/_generated/data-security/posture/change-finding-severity.ts
+  s_28239f322b4912::t_48a86088a9c6f9 16,49,56,66
+packages/cli/src/commands/_generated/data-security/posture/create-finding-export-csv.ts
+  s_28239f322b4912::t_beff1ccd49792b 17,77,84,94
+packages/cli/src/commands/_generated/data-security/posture/create-finding-instances-export-csv.ts
+  s_28239f322b4912::t_12ddd2fa1d3908 17,67,74,84-85
+packages/cli/src/commands/_generated/data-security/posture/create-remediation-jobs-export-csv.ts
+  s_28239f322b4912::t_bdf992877ae842 17,67,74,84-85
+packages/cli/src/commands/_generated/data-security/posture/create-remediation-jobs.ts
+  s_28239f322b4912::t_6a703009983725 18,51,58,68
+packages/cli/src/commands/_generated/data-security/posture/create-webhook-jobs.ts
+  s_28239f322b4912::t_9d3dee624034f0 16,51,58,68
+packages/cli/src/commands/_generated/data-security/posture/create-webhook.ts
+  s_28239f322b4912::t_1729f60ec3c259 21,83,90,100
+packages/cli/src/commands/_generated/data-security/posture/evaluate-existing-webhook.ts
+  s_28239f322b4912::t_f7e80a4b58ed1d 15,39,46,56
+packages/cli/src/commands/_generated/data-security/posture/evaluate-new-webhook.ts
+  s_28239f322b4912::t_8f6747e60f1808 21,72,79,89
+packages/cli/src/commands/_generated/data-security/posture/get-export-job.ts
+  s_28239f322b4912::t_f3e83703d642df 15,39,45,55
+packages/cli/src/commands/_generated/data-security/posture/get-finding-instance.ts
+  s_28239f322b4912::t_919a8a358b4704 15,44,50,60
+packages/cli/src/commands/_generated/data-security/posture/get-finding-type.ts
+  s_28239f322b4912::t_cb38a3355bdadb 15,39,45,55
+packages/cli/src/commands/_generated/data-security/posture/get-finding.ts
+  s_28239f322b4912::t_7def622b018e79 15,39,46,56
+packages/cli/src/commands/_generated/data-security/posture/get-remediation-types-for-finding-type.ts
+  s_28239f322b4912::t_f3dde849ba9350 15,56,63,80
+packages/cli/src/commands/_generated/data-security/posture/get-webhook-config-by-id.ts
+  s_28239f322b4912::t_bebfdc4520b447 15,39,46,56
+packages/cli/src/commands/_generated/data-security/posture/ignore-finding.ts
+  s_28239f322b4912::t_4b394ca5e7ede0 16,45,52,62
+packages/cli/src/commands/_generated/data-security/posture/index.ts
+  s_28239f322b4912::t_cfef39f8608f71 1-2,4-11,13-24,26-28,43-67
+packages/cli/src/commands/_generated/data-security/posture/list-finding-instances.ts
+  s_28239f322b4912::t_a4e3b7bbe02b79 16,100,107,131
+packages/cli/src/commands/_generated/data-security/posture/list-finding-types.ts
+  s_28239f322b4912::t_0e01407da751dd 16,60,66,82
+packages/cli/src/commands/_generated/data-security/posture/list-findings.ts
+  s_28239f322b4912::t_8c437c950dd9e1 16,145,152,190
+packages/cli/src/commands/_generated/data-security/posture/list-remediation-jobs.ts
+  s_28239f322b4912::t_7b93ad11098b8b 16,100,107,130
+packages/cli/src/commands/_generated/data-security/posture/list-webhooks.ts
+  s_28239f322b4912::t_a2ae8279ff33ff 15,33,40,50
+packages/cli/src/commands/_generated/data-security/posture/reset-finding-severity.ts
+  s_28239f322b4912::t_dc8e070b79f568 15,39,46,56
+packages/cli/src/commands/_generated/data-security/posture/unarchive-finding-instance.ts
+  s_28239f322b4912::t_ce2cdf13763c26 16,50,56,66
+packages/cli/src/commands/_generated/data-security/posture/unignore-finding.ts
+  s_28239f322b4912::t_a4c1bbbf16421c 16,45,52,62,83,102
+packages/cli/src/commands/_generated/email-routing/addresses/delete.ts
+  s_28239f322b4912::t_b8ce8b4e8d1985 80-85
+packages/cli/src/commands/_generated/email-routing/addresses/list.ts
+  s_28239f322b4912::t_38615412000d3b 64-65
+packages/cli/src/commands/_generated/email-routing/disable.ts
+  s_28239f322b4912::t_da679b0d7ea49d 2,4,20,31-34,40-41,62-63,67-77,90,97-116,118-121
+packages/cli/src/commands/_generated/email-routing/dns/index.ts
+  s_28239f322b4912::t_6126f532c6d546 2,12,17
+packages/cli/src/commands/_generated/email-routing/dns/unlock.ts
+  s_28239f322b4912::t_d27490309f300e 33,38,43,52-54,80-81,86,98-99,104
+packages/cli/src/commands/_generated/email-routing/enable.ts
+  s_28239f322b4912::t_318477a7e4e530 2,4,18-28,33-34,39,55,59-69,79-98,100-103
+packages/cli/src/commands/_generated/email-routing/index.ts
+  s_28239f322b4912::t_d6dbcd4d1bcb64 6,17,26
+packages/cli/src/commands/_generated/email-routing/rules/catch-all/get.ts
+  s_28239f322b4912::t_93f754c52912e4 34,43,60
+packages/cli/src/commands/_generated/email-routing/rules/catch-all/index.ts
+  s_28239f322b4912::t_8c006e0a557c7f 5,11-12
+packages/cli/src/commands/_generated/email-routing/rules/catch-all/update.ts
+  s_28239f322b4912::t_53614e336b9389 66,75,117,158
+packages/cli/src/commands/_generated/email-routing/rules/delete.ts
+  s_28239f322b4912::t_3284d9dc97cb22 42-43,75-80
+packages/cli/src/commands/_generated/email-routing/rules/index.ts
+  s_28239f322b4912::t_b44e77a332bf63 1,18,28
+packages/cli/src/commands/_generated/email-routing/settings/apply.ts
+  s_28239f322b4912::t_2dbb9078a3ad00 11,51-53,58,72,99,115
+packages/cli/src/commands/_generated/email-routing/settings/get.ts
+  s_28239f322b4912::t_9019271024eba0 34,43,60-62
+packages/cli/src/commands/_generated/email-routing/settings/index.ts
+  s_28239f322b4912::t_b417462a1ad933 1,3,6-7,12-13,17,19
+packages/cli/src/commands/_generated/email-routing/settings/update.ts
+  s_28239f322b4912::t_4b905f28b6c7da 11,51,57,71,98,114
+packages/cli/src/commands/_generated/email-sending/index.ts
+  s_28239f322b4912::t_fa681ac90e428a 17-18
+packages/cli/src/commands/_generated/email-sending/limits/index.ts
+  s_28239f322b4912::t_05684471410579 11
+packages/cli/src/commands/_generated/email-sending/subdomains/delete.ts
+  s_28239f322b4912::t_5c6a9da9e1c3d4 75-80
+packages/cli/src/commands/_generated/email-sending/subdomains/dns/index.ts
+  s_28239f322b4912::t_4b132e4060b733 3,19
+packages/cli/src/commands/_generated/email-sending/subdomains/dns/status.ts
+  s_28239f322b4912::t_b4b1b0b50475af 10,35,42,51,69
+packages/cli/src/commands/_generated/email-sending/subdomains/index.ts
+  s_28239f322b4912::t_1d5cbd78ca1c1c 18
+packages/cli/src/commands/_generated/email-sending/suppressions/index.ts
+  s_28239f322b4912::t_82d04199139a96 16-17
+packages/cli/src/commands/_generated/images/create.ts
+  s_28239f322b4912::t_4ff9d64c591d3f 18,68,75,85,206
+packages/cli/src/commands/_generated/images/delete.ts
+  s_28239f322b4912::t_580a4778b3cce8 16,46,53,64,87
+packages/cli/src/commands/_generated/images/direct-upload.ts
+  s_28239f322b4912::t_6844f1ecc5d09f 18,70,77,87,208
+packages/cli/src/commands/_generated/images/edit.ts
+  s_28239f322b4912::t_758bda3fc79cd2 17,55,62,72,98,118
+packages/cli/src/commands/_generated/images/flows/get.ts
+  s_28239f322b4912::t_158d251ed36b0f 1,45,60
+packages/cli/src/commands/_generated/images/flows/update.ts
+  s_28239f322b4912::t_6002818a8b6e27 1,25-28,63,78,94,105,107,119,124
+packages/cli/src/commands/_generated/images/get-blob.ts
+  s_28239f322b4912::t_5b11bb77f605bd 15,43,50,60
+packages/cli/src/commands/_generated/images/get.ts
+  s_28239f322b4912::t_ae231db41e63db 15,39,45,55,68
+packages/cli/src/commands/_generated/images/import/abort.ts
+  s_28239f322b4912::t_ab8fd9d6ec6ab6 41,46,56,69
+packages/cli/src/commands/_generated/images/import/create.ts
+  s_28239f322b4912::t_6f7c81999fe5ab 68,73,83,124,164
+packages/cli/src/commands/_generated/images/import/delete.ts
+  s_28239f322b4912::t_b8742edc6fcb24 47,52,63,75-80,86
+packages/cli/src/commands/_generated/images/import/get.ts
+  s_28239f322b4912::t_25c87ffd1cfbf4 40,45,55,68
+packages/cli/src/commands/_generated/images/import/index.ts
+  s_28239f322b4912::t_4e3c17c73cc42b 1,6-9,12,18-19,23,28-31
+packages/cli/src/commands/_generated/images/import/list.ts
+  s_28239f322b4912::t_908f665be14ef5 44,49,63,77
+packages/cli/src/commands/_generated/images/import/logs.ts
+  s_28239f322b4912::t_e7420d6a244334 49,54,68,82
+packages/cli/src/commands/_generated/images/import/progress.ts
+  s_28239f322b4912::t_6f56d70f2ec6a1 15,40-41,46,56,69
+packages/cli/src/commands/_generated/images/import/sources/check.ts
+  s_28239f322b4912::t_73db19a8114cbf 15,40-41,46,56,69
+packages/cli/src/commands/_generated/images/import/sources/create.ts
+  s_28239f322b4912::t_98dff77b8912dd 64,69,79,119,171
+packages/cli/src/commands/_generated/images/import/sources/delete.ts
+  s_28239f322b4912::t_a4f5c7ea2d1310 48,53,64,76-81,87
+packages/cli/src/commands/_generated/images/import/sources/get.ts
+  s_28239f322b4912::t_eec0dedd6bb473 40,45,55,68
+packages/cli/src/commands/_generated/images/import/sources/index.ts
+  s_28239f322b4912::t_bb0d07811c81cf 1,17,21
+packages/cli/src/commands/_generated/images/import/sources/list.ts
+  s_28239f322b4912::t_1be44c63652e32 48,53,68,82
+packages/cli/src/commands/_generated/images/import/sources/pre-check.ts
+  s_28239f322b4912::t_7da5cf1709e174 65,70,80,120,166
+packages/cli/src/commands/_generated/images/import/sources/update.ts
+  s_28239f322b4912::t_c4db3b508b0984 52,57,67,92,117
+packages/cli/src/commands/_generated/images/import/start.ts
+  s_28239f322b4912::t_6696a3bd8b7fd3 40,45,55,68
+packages/cli/src/commands/_generated/images/index.ts
+  s_28239f322b4912::t_567fefdba98557 1-4,6-8,10,27-33,36
+packages/cli/src/commands/_generated/images/list.ts
+  s_28239f322b4912::t_01e3e79673682a 16,61,68,84,98
+packages/cli/src/commands/_generated/index.ts
+  s_28239f322b4912::t_7c9f3cc19245db 245,522,538,1133,1189
+packages/cli/src/commands/_generated/magic-transit/advanced-tcp-protection/configs/syn/protection/filters/list.ts
+  s_28239f322b4912::t_be6cde9e91e4ef 22-26,73
+packages/cli/src/commands/_generated/magic-transit/advanced-tcp-protection/configs/tcp/flow/protection/filters/list.ts
+  s_28239f322b4912::t_54a506690a887b 22-26,73
+packages/cli/src/commands/_generated/pay-per-crawl/pay-per-use/operator/get-configuration.ts
+  s_28239f322b4912::t_ca7d9eea276e4b 35
+packages/cli/src/commands/_generated/pay-per-crawl/pay-per-use/operator/set-configuration.ts
+  s_28239f322b4912::t_c8d226f760aa1b 46,92,95,128
+packages/cli/src/commands/_generated/pay-per-crawl/pay-per-use/zones/get-configuration.ts
+  s_28239f322b4912::t_28449b13f359be 30
+packages/cli/src/commands/_generated/realtime/kit/recordings/control.ts
+  s_28239f322b4912::t_c3b3bc6195583f 32
+packages/cli/src/commands/_generated/registrar/registrations/index.ts
+  s_28239f322b4912::t_af37f31b509e6a 9,33
+packages/cli/src/commands/_generated/registrar/registrations/transfer-check.ts
+  s_28239f322b4912::t_d44063886ca236 1-112
+packages/cli/src/commands/_generated/rulesets/account-rulesets/create.ts
+  s_28239f322b4912::t_7751e2277812c5 29,111,117
+packages/cli/src/commands/_generated/rulesets/account-rulesets/delete.ts
+  s_28239f322b4912::t_a4eae275d31596 29,63,70
+packages/cli/src/commands/_generated/rulesets/account-rulesets/phases/update.ts
+  s_28239f322b4912::t_49f7062384809a 30,77,83
+packages/cli/src/commands/_generated/rulesets/account-rulesets/rules/create.ts
+  s_28239f322b4912::t_f19a39b74a0654 30,82,88
+packages/cli/src/commands/_generated/rulesets/account-rulesets/rules/delete.ts
+  s_28239f322b4912::t_2565c6d9741ac7 34,68,75
+packages/cli/src/commands/_generated/rulesets/account-rulesets/rules/update.ts
+  s_28239f322b4912::t_6d40fe8ea14654 35,86,92
+packages/cli/src/commands/_generated/rulesets/account-rulesets/update.ts
+  s_28239f322b4912::t_4e756454fc4691 30,111,117
+packages/cli/src/commands/_generated/rulesets/account-rulesets/versions/delete.ts
+  s_28239f322b4912::t_f987e79eed0116 34,68,75
+packages/cli/src/commands/_generated/secrets-store/secrets/bulk-delete.ts
+  s_28239f322b4912::t_c29a0d792e6908 17,24,57,63,74,92-97,105,125
+packages/cli/src/commands/_generated/secrets-store/secrets/create.ts
+  s_28239f322b4912::t_5a1bdf9996e680 51,61,77
+packages/cli/src/commands/_generated/secrets-store/secrets/index.ts
+  s_28239f322b4912::t_81c773c1a3241d 1-2,22-23
+packages/cli/src/commands/_generated/secrets-store/stores/get.ts
+  s_28239f322b4912::t_b4aee74c97d94e 15,39,45,55,68
+packages/cli/src/commands/_generated/secrets-store/stores/index.ts
+  s_28239f322b4912::t_327bfbe8f5ffe8 1,17
+packages/cli/src/commands/_generated/zero-trust/devices/emergency-disconnect/get.ts
+  s_28239f322b4912::t_1a2cbfd0dfd2f6 15,33,39,49,62
+packages/cli/src/commands/_generated/zero-trust/devices/emergency-disconnect/index.ts
+  s_28239f322b4912::t_48352d24f3f04d 1-2,5,11-12,16-17
+packages/cli/src/commands/_generated/zero-trust/devices/emergency-disconnect/set.ts
+  s_28239f322b4912::t_59e7e2bd99a4fe 17,51,57,67,93,117
+packages/cli/src/commands/_generated/zero-trust/devices/index.ts
+  s_28239f322b4912::t_56a428381bac40 4,34
+packages/cli/src/commands/_generated/zero-trust/devices/registrations/index.ts
+  s_28239f322b4912::t_77dc11cd683a96 5,23
+packages/cli/src/commands/_generated/zero-trust/devices/registrations/override-codes/get.ts
+  s_28239f322b4912::t_2bf491e1cfc416 46,56,71
+packages/cli/src/commands/_generated/zero-trust/devices/registrations/override-codes/index.ts
+  s_28239f322b4912::t_11e7e3d4aebf1e 4,10-11
+packages/cli/src/commands/_generated/zero-trust/gateway/lists/items/list.ts
+  s_28239f322b4912::t_0f8862baff3857 13,27-34,45,61-64,72,85
+packages/cli/src/commands/_generated/zero-trust/gateway/pacfiles/list.ts
+  s_28239f322b4912::t_1a1283b31ccebc 13,21-34,40,56-59,67,79
+packages/cli/src/sdk/openapi-version
+  s_28239f322b4912::t_db191bd19d08fc 1
+packages/cli/src/sdk/sdk/Client.ts
+  s_28239f322b4912::t_28ec33985d948f 203,437-440
+packages/cli/src/sdk/sdk/api/errors/ClientClosedRequestError.ts
+  s_28239f322b4912::t_c8b8e41e026357 3-5,7-17,19-20
+packages/cli/src/sdk/sdk/api/errors/index.ts
+  s_28239f322b4912::t_4b46fe3beba467 3
+packages/cli/src/sdk/sdk/api/resources/aiSearch/client/Client.ts
+  s_28239f322b4912::t_982342b016f96b 58,120-124,175,184,241,248,304-305,398,558,565,622-623,649,709-713,816,872-876,976,1037-1041
+packages/cli/src/sdk/sdk/api/resources/aiSearch/client/requests/CreateAiSearchRequest.ts
+  s_28239f322b4912::t_03e6fd9f140dd3 28,32,50,88,282
+packages/cli/src/sdk/sdk/api/resources/aiSearch/client/requests/ListAiSearchRequest.ts
+  s_28239f322b4912::t_f01700499a34c3 24-25
+packages/cli/src/sdk/sdk/api/resources/aiSearch/client/requests/UpdateAiSearchRequest.ts
+  s_28239f322b4912::t_0ad4e1ee82868b 29,89
+packages/cli/src/sdk/sdk/api/resources/aiSearch/resources/items/client/Client.ts
+  s_28239f322b4912::t_a6e27d751bde04 152,236-240,267,333-337,445,452,509-513,539,603-607
+packages/cli/src/sdk/sdk/api/resources/aiSearch/types/CreateAiSearchResponse.ts
+  s_28239f322b4912::t_fb955296ba021e 20,24,49,87,281
+packages/cli/src/sdk/sdk/api/resources/aiSearch/types/DeleteAiSearchResponse.ts
+  s_28239f322b4912::t_d0d0e6b9b4b849 20,24,49,87,281
+packages/cli/src/sdk/sdk/api/resources/aiSearch/types/GetAiSearchResponse.ts
+  s_28239f322b4912::t_ed88549496ba97 20,24,49,87,281
+packages/cli/src/sdk/sdk/api/resources/aiSearch/types/UpdateAiSearchResponse.ts
+  s_28239f322b4912::t_4d82f0e6b560ef 20,24,49,87,281
+packages/cli/src/sdk/sdk/api/resources/analytics/resources/sql/resources/introspection/client/Client.ts
+  s_28239f322b4912::t_a2055ea8a5c74e 29-35,67-68,75-76
+packages/cli/src/sdk/sdk/api/resources/analytics/resources/sql/resources/introspection/client/requests/GetIntrospectionRequest.ts
+  s_28239f322b4912::t_02dd493f122a6e 17-25
+packages/cli/src/sdk/sdk/api/resources/artifacts/resources/namespaces/resources/repos/client/Client.ts
+  s_28239f322b4912::t_f06946a24d60d3 20,36,63-66
+packages/cli/src/sdk/sdk/api/resources/artifacts/resources/namespaces/resources/repos/resources/index.ts
+  s_28239f322b4912::t_05dd800a4e2d26 13-15
+packages/cli/src/sdk/sdk/api/resources/artifacts/resources/namespaces/resources/repos/resources/tokens/client/Client.ts
+  s_28239f322b4912::t_f8e28663f6321b 3,7-13,15,21-22,24,29,31-39,42,44-45,48-52,55-64,76,80-84,93,99-118,125
+packages/cli/src/sdk/sdk/api/resources/artifacts/resources/namespaces/resources/repos/resources/tokens/client/requests/ListTokensRequest.ts
+  s_28239f322b4912::t_7eb9988a6ab573 3,20
+packages/cli/src/sdk/sdk/api/resources/artifacts/resources/namespaces/resources/repos/resources/tokens/client/requests/index.ts
+  s_28239f322b4912::t_78ff9956e456ff 1
+packages/cli/src/sdk/sdk/api/resources/artifacts/resources/namespaces/resources/repos/resources/tokens/exports.ts
+  s_28239f322b4912::t_f6edaed066eb8e 3
+packages/cli/src/sdk/sdk/api/resources/artifacts/resources/namespaces/resources/repos/resources/tokens/types/index.ts
+  s_28239f322b4912::t_5e3664505dc716 1-2
+packages/cli/src/sdk/sdk/api/resources/browserRun/resources/recording/types/GetRecordingResponse.ts
+  s_28239f322b4912::t_1cd2636336a373 3-4,8-9
+packages/cli/src/sdk/sdk/api/resources/containers/resources/applications/client/Client.ts
+  s_28239f322b4912::t_b373f0c4d9561c 50,70,72-73,112-113
+packages/cli/src/sdk/sdk/api/resources/containers/resources/applications/client/requests/ListApplicationsRequest.ts
+  s_28239f322b4912::t_b140d433e17f79 14-17
+packages/cli/src/sdk/sdk/api/resources/containers/resources/applications/resources/instances/client/Client.ts
+  s_28239f322b4912::t_7f920f041d162c 48,55,81,98,126
+packages/cli/src/sdk/sdk/api/resources/containers/resources/applications/resources/instances/client/requests/ListInstancesRequest.ts
+  s_28239f322b4912::t_808f3b4d01052c 16
+packages/cli/src/sdk/sdk/api/resources/containers/resources/applications/resources/instances/types/ListInstancesResponse.ts
+  s_28239f322b4912::t_ea0d1bbdafcf8c 1-8
+packages/cli/src/sdk/sdk/api/resources/containers/resources/applications/resources/instances/types/index.ts
+  s_28239f322b4912::t_9d7864f13bf31c 2
+packages/cli/src/sdk/sdk/api/resources/containers/resources/applications/types/ListApplicationsResponse.ts
+  s_28239f322b4912::t_c4bc82b567f7a2 7
+packages/cli/src/sdk/sdk/api/resources/customCsrs/client/Client.ts
+  s_28239f322b4912::t_8ce53124ce452a 29,33,38-39,41-42,45-46,48,90,116,127,131,134,190,194,200-201,204,207-208,264,268,274-275,277-278,281-282,284,314
+packages/cli/src/sdk/sdk/api/resources/customCsrs/client/requests/DeleteCustomCsrsRequest.ts
+  s_28239f322b4912::t_8e4a8ef5e88b99 11
+packages/cli/src/sdk/sdk/api/resources/customCsrs/client/requests/GetCustomCsrsRequest.ts
+  s_28239f322b4912::t_0e580ea13f2db6 11
+packages/cli/src/sdk/sdk/api/resources/customCsrs/client/requests/ListCustomCsrsRequest.ts
+  s_28239f322b4912::t_57b8113242f238 12,17-18
+packages/cli/src/sdk/sdk/api/resources/customCsrs/client/requests/index.ts
+  s_28239f322b4912::t_dd152dab2a555b 1-3
+packages/cli/src/sdk/sdk/api/resources/customCsrs/types/DeleteCustomCsrsResponse.ts
+  s_28239f322b4912::t_e6025d6a29502d 5
+packages/cli/src/sdk/sdk/api/resources/customCsrs/types/ListCustomCsrsRequestDirection.ts
+  s_28239f322b4912::t_a8c967d327a98c 4,8-9
+packages/cli/src/sdk/sdk/api/resources/customCsrs/types/ListCustomCsrsRequestOrder.ts
+  s_28239f322b4912::t_4505232fff0704 4,9
+packages/cli/src/sdk/sdk/api/resources/customCsrs/types/ListCustomCsrsResponse.ts
+  s_28239f322b4912::t_810746a29308f6 5,7,10
+packages/cli/src/sdk/sdk/api/resources/customCsrs/types/index.ts
+  s_28239f322b4912::t_e61fe65dc281ab 1-4
+packages/cli/src/sdk/sdk/api/resources/dataSecurity/resources/posture/client/Client.ts
+  s_28239f322b4912::t_707409e823f663 668,674,681-682,685,688-689
+packages/cli/src/sdk/sdk/api/resources/dataSecurity/resources/posture/client/requests/UnignoreFindingPostureRequest.ts
+  s_28239f322b4912::t_73efeb4c68d734 14
+packages/cli/src/sdk/sdk/api/resources/dataSecurity/resources/posture/client/requests/index.ts
+  s_28239f322b4912::t_9637992ceb5f63 25
+packages/cli/src/sdk/sdk/api/resources/emailRouting/client/Client.ts
+  s_28239f322b4912::t_fa779823c6d7f9 15,27,42-43,46-47,51,60-61,75,87,91,93-94,125,130,132,138,143-144,146-147,150-151,153,166,168,182,203-204
+packages/cli/src/sdk/sdk/api/resources/emailRouting/client/requests/DisableEmailRoutingRequest.ts
+  s_28239f322b4912::t_22ff0a891201b0 3-4,8-9,14
+packages/cli/src/sdk/sdk/api/resources/emailRouting/client/requests/EnableEmailRoutingRequest.ts
+  s_28239f322b4912::t_9da04b1b9f4f84 3-4,8-9,14
+packages/cli/src/sdk/sdk/api/resources/emailRouting/resources/addresses/client/Client.ts
+  s_28239f322b4912::t_1fc84e16954ecf 27
+packages/cli/src/sdk/sdk/api/resources/emailRouting/resources/dns/client/Client.ts
+  s_28239f322b4912::t_f4b9e793d401f6 112,118,123-124,126-127,130-131,133,162
+packages/cli/src/sdk/sdk/api/resources/emailRouting/resources/dns/client/requests/UnlockDnsRequest.ts
+  s_28239f322b4912::t_30e7475af2da28 12
+packages/cli/src/sdk/sdk/api/resources/emailRouting/resources/dns/client/requests/index.ts
+  s_28239f322b4912::t_0e05d23088ff3f 2
+packages/cli/src/sdk/sdk/api/resources/emailRouting/resources/dns/types/UnlockDnsResponse.ts
+  s_28239f322b4912::t_f709f3ee44784d 5
+packages/cli/src/sdk/sdk/api/resources/emailRouting/resources/dns/types/index.ts
+  s_28239f322b4912::t_c67c8bb35da180 2
+packages/cli/src/sdk/sdk/api/resources/emailRouting/resources/index.ts
+  s_28239f322b4912::t_608053f7433e98 10-12
+packages/cli/src/sdk/sdk/api/resources/emailRouting/resources/rules/client/Client.ts
+  s_28239f322b4912::t_7e81fcc99ca1c0 12,22,28-29,418
+packages/cli/src/sdk/sdk/api/resources/emailRouting/resources/rules/resources/catchAll/client/Client.ts
+  s_28239f322b4912::t_ba6fb69c7c1fc7 16,22-23,25,32-33,38,43-44,50-51,104-105,111,122-123,129-130
+packages/cli/src/sdk/sdk/api/resources/emailRouting/resources/rules/resources/catchAll/client/requests/GetCatchAllRequest.ts
+  s_28239f322b4912::t_7de33fbebda815 9
+packages/cli/src/sdk/sdk/api/resources/emailRouting/resources/rules/resources/catchAll/client/requests/UpdateCatchAllRequest.ts
+  s_28239f322b4912::t_b65a6bdab177eb 17
+packages/cli/src/sdk/sdk/api/resources/emailRouting/resources/rules/resources/catchAll/client/requests/index.ts
+  s_28239f322b4912::t_37e7340adb057f 1-2
+packages/cli/src/sdk/sdk/api/resources/emailRouting/resources/rules/resources/catchAll/exports.ts
+  s_28239f322b4912::t_82abc274814bfa 3
+packages/cli/src/sdk/sdk/api/resources/emailRouting/resources/rules/resources/index.ts
+  s_28239f322b4912::t_d293220ada4989 1-2
+packages/cli/src/sdk/sdk/api/resources/emailRouting/resources/settings/client/Client.ts
+  s_28239f322b4912::t_b68da5593f183e 3-11,13,19-20,22,27,29-32,35-36,40-42,47-50,62,75,81-90,97,102,104-107,110-111,114-118,121-125,137,139,141,143-144,153,159-168,174-175,180-183,185,188-189,192-196,199-203,215,219,221-222,231,237-246,253
+packages/cli/src/sdk/sdk/api/resources/emailRouting/resources/settings/client/requests/ApplySettingsRequest.ts
+  s_28239f322b4912::t_41d6303be37154 9
+packages/cli/src/sdk/sdk/api/resources/emailRouting/resources/settings/client/requests/GetSettingsRequest.ts
+  s_28239f322b4912::t_d6d31899c4b989 9
+packages/cli/src/sdk/sdk/api/resources/emailRouting/resources/settings/client/requests/UpdateSettingsRequest.ts
+  s_28239f322b4912::t_480e4bb81c5144 9
+packages/cli/src/sdk/sdk/api/resources/emailRouting/resources/settings/client/requests/index.ts
+  s_28239f322b4912::t_9b90d36c3266ac 1-3
+packages/cli/src/sdk/sdk/api/resources/emailRouting/resources/settings/exports.ts
+  s_28239f322b4912::t_fdd15b816d0e4a 3
+packages/cli/src/sdk/sdk/api/resources/emailRouting/resources/settings/types/ApplySettingsResponse.ts
+  s_28239f322b4912::t_57e0039eb33f9f 5
+packages/cli/src/sdk/sdk/api/resources/emailRouting/resources/settings/types/GetSettingsResponse.ts
+  s_28239f322b4912::t_09de98e83a881d 5
+packages/cli/src/sdk/sdk/api/resources/emailRouting/resources/settings/types/UpdateSettingsResponse.ts
+  s_28239f322b4912::t_54da2f7dcacec5 3,5
+packages/cli/src/sdk/sdk/api/resources/emailRouting/resources/settings/types/index.ts
+  s_28239f322b4912::t_fd4509c71a9976 1-3
+packages/cli/src/sdk/sdk/api/resources/emailSending/resources/subdomains/resources/dns/client/Client.ts
+  s_28239f322b4912::t_ef95b26b6395b8 192,199,204-205,207-208,211-212,214,240
+packages/cli/src/sdk/sdk/api/resources/emailSending/resources/subdomains/resources/dns/client/requests/StatusDnsRequest.ts
+  s_28239f322b4912::t_afaa1b4964f3a2 10
+packages/cli/src/sdk/sdk/api/resources/emailSending/resources/subdomains/resources/dns/client/requests/index.ts
+  s_28239f322b4912::t_f1acc2a3891754 3
+packages/cli/src/sdk/sdk/api/resources/emailSending/resources/subdomains/resources/dns/types/StatusDnsResponse.ts
+  s_28239f322b4912::t_5b848e32377527 5,11,14
+packages/cli/src/sdk/sdk/api/resources/emailSending/resources/subdomains/resources/dns/types/index.ts
+  s_28239f322b4912::t_3a8b1ab7698df8 3
+packages/cli/src/sdk/sdk/api/resources/images/client/Client.ts
+  s_28239f322b4912::t_f0bdbe5de82af2 14,28-29,43-44,47-48,61,65,69,72,216,220,225-226,229,232-233,282,286,291-292,295,298-299,352,357,361,364,417-418,421,424-425,528,534,539-540,542-543,546-547,549,592,624,628,631-632,635,638,689
+packages/cli/src/sdk/sdk/api/resources/images/client/requests/DeleteImagesRequest.ts
+  s_28239f322b4912::t_2ba90a259b759c 10
+packages/cli/src/sdk/sdk/api/resources/images/client/requests/GetBlobImagesRequest.ts
+  s_28239f322b4912::t_ae33d8684063f9 3
+packages/cli/src/sdk/sdk/api/resources/images/client/requests/GetImagesRequest.ts
+  s_28239f322b4912::t_fec2fcf47e2099 10
+packages/cli/src/sdk/sdk/api/resources/images/client/requests/ListImagesRequest.ts
+  s_28239f322b4912::t_b2bb7b9e201bad 12,16
+packages/cli/src/sdk/sdk/api/resources/images/client/requests/index.ts
+  s_28239f322b4912::t_39a5482ef8b07f 1-3,7
+packages/cli/src/sdk/sdk/api/resources/images/resources/flows/client/Client.ts
+  s_28239f322b4912::t_93cd37114bed90 34,48,60,90,102,123,135,168
+packages/cli/src/sdk/sdk/api/resources/images/resources/flows/client/requests/GetFlowsRequest.ts
+  s_28239f322b4912::t_0c6fcd0d490d58 6,11
+packages/cli/src/sdk/sdk/api/resources/images/resources/flows/client/requests/UpdateFlowsRequest.ts
+  s_28239f322b4912::t_30f7bf3ff4ff37 8,20
+packages/cli/src/sdk/sdk/api/resources/images/resources/flows/types/GetFlowsResponseFlowsItemCustomTrigger.ts
+  s_28239f322b4912::t_b5e8d7c728bcb6 15,20
+packages/cli/src/sdk/sdk/api/resources/images/resources/flows/types/UpdateFlowsRequestFlowsItemCustomTrigger.ts
+  s_28239f322b4912::t_b05878aa5fe7da 15,20
+packages/cli/src/sdk/sdk/api/resources/images/resources/flows/types/UpdateFlowsResponseFlowsItemCustomTrigger.ts
+  s_28239f322b4912::t_a4b7d871c4accc 15,20
+packages/cli/src/sdk/sdk/api/resources/images/resources/import/client/Client.ts
+  s_28239f322b4912::t_c18d1bc0a88214 3-14,20-22,24,28-29,33,35-36,39,44-46,51-53,87,109,111-112,115,121-122,128-129,181,183-184,187,193-194,200-201,250,252-253,256,262-263,269-270,314-597
+packages/cli/src/sdk/sdk/api/resources/images/resources/import/client/requests/AbortImportRequest.ts
+  s_28239f322b4912::t_6f953e3ddaffd3 10
+packages/cli/src/sdk/sdk/api/resources/images/resources/import/client/requests/DeleteImportRequest.ts
+  s_28239f322b4912::t_e7adfc77e856f4 10
+packages/cli/src/sdk/sdk/api/resources/images/resources/import/client/requests/GetImportRequest.ts
+  s_28239f322b4912::t_ffb5eaf23024f5 10
+packages/cli/src/sdk/sdk/api/resources/images/resources/import/client/requests/ImagesSourcingkitMigrationCreateRequest.ts
+  s_28239f322b4912::t_ece27774c4c824 3
+packages/cli/src/sdk/sdk/api/resources/images/resources/import/client/requests/ListImportRequest.ts
+  s_28239f322b4912::t_87c0209088b0f4 9
+packages/cli/src/sdk/sdk/api/resources/images/resources/import/client/requests/LogsImportRequest.ts
+  s_28239f322b4912::t_50a10a493e03c9 10
+packages/cli/src/sdk/sdk/api/resources/images/resources/import/client/requests/ProgressImportRequest.ts
+  s_28239f322b4912::t_ee583b61bfafb0 10
+packages/cli/src/sdk/sdk/api/resources/images/resources/import/client/requests/StartImportRequest.ts
+  s_28239f322b4912::t_d34b767a1ace80 1-13
+packages/cli/src/sdk/sdk/api/resources/images/resources/import/client/requests/index.ts
+  s_28239f322b4912::t_071e6d77970c55 1-3,5-8
+packages/cli/src/sdk/sdk/api/resources/images/resources/import/exports.ts
+  s_28239f322b4912::t_d32310663b946a 3
+packages/cli/src/sdk/sdk/api/resources/images/resources/import/resources/sources/client/Client.ts
+  s_28239f322b4912::t_13d94932eb3e53 30,32,36,41,43,48,50,85,107,109,113,124,131,184,186,190,200,202,207,209,238,260,262,266,272,279,329,331,335,341,348,395,397,401,408,415,468,470,474,479-480,482-483,486-487,489,515
+packages/cli/src/sdk/sdk/api/resources/images/resources/import/resources/sources/client/requests/CheckSourcesRequest.ts
+  s_28239f322b4912::t_a95120e76d9038 10
+packages/cli/src/sdk/sdk/api/resources/images/resources/import/resources/sources/client/requests/index.ts
+  s_28239f322b4912::t_dc9bb6a803f37d 1
+packages/cli/src/sdk/sdk/api/resources/images/resources/import/resources/sources/types/CheckSourcesResponse.ts
+  s_28239f322b4912::t_26df9a8e3a81ee 3,7,12
+packages/cli/src/sdk/sdk/api/resources/images/resources/import/resources/sources/types/index.ts
+  s_28239f322b4912::t_212f47e3b1ee94 1
+packages/cli/src/sdk/sdk/api/resources/images/resources/import/types/ListImportResponse.ts
+  s_28239f322b4912::t_de31032c48e35b 3,5
+packages/cli/src/sdk/sdk/api/resources/images/resources/import/types/LogsImportResponse.ts
+  s_28239f322b4912::t_1b4513998f56be 3,5
+packages/cli/src/sdk/sdk/api/resources/images/resources/import/types/ProgressImportResponse.ts
+  s_28239f322b4912::t_842282518cf563 3,5
+packages/cli/src/sdk/sdk/api/resources/images/resources/import/types/index.ts
+  s_28239f322b4912::t_4cbc90df876445 1-3
+packages/cli/src/sdk/sdk/api/resources/images/resources/index.ts
+  s_28239f322b4912::t_3a7ab53073966f 4-6
+packages/cli/src/sdk/sdk/api/resources/images/resources/variants/client/Client.ts
+  s_28239f322b4912::t_9d9e8a7fc8583a 104
+packages/cli/src/sdk/sdk/api/resources/images/resources/variants/client/requests/CreateVariantsRequest.ts
+  s_28239f322b4912::t_3776968780aaf3 10
+packages/cli/src/sdk/sdk/api/resources/images/types/DirectUploadImagesResponse.ts
+  s_28239f322b4912::t_1d4daa6a234d47 3
+packages/cli/src/sdk/sdk/api/resources/images/types/ListImagesRequestSortOrder.ts
+  s_28239f322b4912::t_a5bd2322a05b96 4,8
+packages/cli/src/sdk/sdk/api/resources/images/types/ListImagesResponse.ts
+  s_28239f322b4912::t_4493867d7829e6 5
+packages/cli/src/sdk/sdk/api/resources/images/types/index.ts
+  s_28239f322b4912::t_30cdd39a1b037c 1-3
+packages/cli/src/sdk/sdk/api/resources/magicTransit/resources/advancedTcpProtection/resources/configs/resources/syn/resources/protection/resources/filters/client/Client.ts
+  s_28239f322b4912::t_5e4cc44f304f23 59,61
+packages/cli/src/sdk/sdk/api/resources/magicTransit/resources/advancedTcpProtection/resources/configs/resources/tcp/resources/flow/resources/protection/resources/filters/client/Client.ts
+  s_28239f322b4912::t_7848769dd7665f 62,64
+packages/cli/src/sdk/sdk/api/resources/mcp/resources/portals/client/requests/CreatePortalsRequest.ts
+  s_28239f322b4912::t_aab9998363a150 45
+packages/cli/src/sdk/sdk/api/resources/mcp/resources/portals/client/requests/UpdatePortalsRequest.ts
+  s_28239f322b4912::t_3d9e3daee8c330 42
+packages/cli/src/sdk/sdk/api/resources/mcp/resources/portals/types/CreatePortalsResponse.ts
+  s_28239f322b4912::t_73ae29e908f0b0 46
+packages/cli/src/sdk/sdk/api/resources/mcp/resources/portals/types/ListPortalsResponse.ts
+  s_28239f322b4912::t_62c369898c2ed0 55
+packages/cli/src/sdk/sdk/api/resources/mcp/resources/portals/types/ReadPortalsResponse.ts
+  s_28239f322b4912::t_e9e33278f6097c 46
+packages/cli/src/sdk/sdk/api/resources/mcp/resources/portals/types/UpdatePortalsResponse.ts
+  s_28239f322b4912::t_fd54b3bb3eff5a 46
+packages/cli/src/sdk/sdk/api/resources/payPerCrawl/resources/payPerUse/resources/operator/client/Client.ts
+  s_28239f322b4912::t_0ea0ba5821b902 30,110,120-124,128,130,135,137-138,166,215,222,251
+packages/cli/src/sdk/sdk/api/resources/payPerCrawl/resources/payPerUse/resources/operator/client/requests/SetConfigurationOperatorRequest.ts
+  s_28239f322b4912::t_d4805a6e210fc7 3-4,9-13,16-17,19
+packages/cli/src/sdk/sdk/api/resources/payPerCrawl/resources/payPerUse/resources/operator/client/requests/index.ts
+  s_28239f322b4912::t_9219d78ad99322 3
+packages/cli/src/sdk/sdk/api/resources/payPerCrawl/resources/payPerUse/resources/zones/client/Client.ts
+  s_28239f322b4912::t_97ccaccefb551a 189,204,211,237
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/kit/resources/recordings/client/Client.ts
+  s_28239f322b4912::t_79b9d53d28eeff 320
+packages/cli/src/sdk/sdk/api/resources/realtime/resources/kit/resources/recordings/client/requests/ControlRecordingsRequest.ts
+  s_28239f322b4912::t_7dc3a6130fcf72 7
+packages/cli/src/sdk/sdk/api/resources/registrar/resources/registrations/client/Client.ts
+  s_28239f322b4912::t_679fcfc37183ba 268-402
+packages/cli/src/sdk/sdk/api/resources/registrar/resources/registrations/client/requests/RegistrarApiDomainTransferCheckRequest.ts
+  s_28239f322b4912::t_ef8e280e314a25 8-34,37-38,40-41
+packages/cli/src/sdk/sdk/api/resources/registrar/resources/registrations/client/requests/index.ts
+  s_28239f322b4912::t_60f47903f068e7 7
+packages/cli/src/sdk/sdk/api/resources/registrar/resources/registrations/types/TransferCheckRegistrationsResponse.ts
+  s_28239f322b4912::t_0fd1265976e0ac 3,6,8-13
+packages/cli/src/sdk/sdk/api/resources/registrar/resources/registrations/types/index.ts
+  s_28239f322b4912::t_bdd007c6acb41f 6
+packages/cli/src/sdk/sdk/api/resources/rulesets/resources/accountRulesets/client/Client.ts
+  s_28239f322b4912::t_2a5ef9070f6650 158,162,316,320,402,405
+packages/cli/src/sdk/sdk/api/resources/rulesets/resources/accountRulesets/resources/phases/client/Client.ts
+  s_28239f322b4912::t_49e057e48ba88c 139,143
+packages/cli/src/sdk/sdk/api/resources/rulesets/resources/accountRulesets/resources/rules/client/Client.ts
+  s_28239f322b4912::t_b96e8d27c0bb9b 57,61,145,148,229,233
+packages/cli/src/sdk/sdk/api/resources/rulesets/resources/accountRulesets/resources/versions/client/Client.ts
+  s_28239f322b4912::t_3bc4f9a8d4df98 210,213
+packages/cli/src/sdk/sdk/api/resources/secretsStore/resources/secrets/client/Client.ts
+  s_28239f322b4912::t_4903e80d381474 119-265
+packages/cli/src/sdk/sdk/api/resources/secretsStore/resources/secrets/client/requests/CreateSecretsRequest.ts
+  s_28239f322b4912::t_fe8c01dffc3d11 3,17
+packages/cli/src/sdk/sdk/api/resources/secretsStore/resources/secrets/client/requests/SecretsStoreDeleteSecretsRequest.ts
+  s_28239f322b4912::t_7a6f741ad53257 3
+packages/cli/src/sdk/sdk/api/resources/secretsStore/resources/secrets/client/requests/index.ts
+  s_28239f322b4912::t_b221eb62644b85 1,5
+packages/cli/src/sdk/sdk/api/resources/secretsStore/resources/secrets/types/CreateSecretsResponse.ts
+  s_28239f322b4912::t_34f391b7e2e722 3,5,7,10
+packages/cli/src/sdk/sdk/api/resources/secretsStore/resources/secrets/types/index.ts
+  s_28239f322b4912::t_a23cec09bd0639 1
+packages/cli/src/sdk/sdk/api/resources/secretsStore/resources/stores/client/Client.ts
+  s_28239f322b4912::t_48dae5a2febc2b 106,108,112,114,117-118,121,124-125,128,140,142,169
+packages/cli/src/sdk/sdk/api/resources/secretsStore/resources/stores/client/requests/GetStoresRequest.ts
+  s_28239f322b4912::t_43ab0408a23c88 10
+packages/cli/src/sdk/sdk/api/resources/secretsStore/resources/stores/client/requests/index.ts
+  s_28239f322b4912::t_1226a4f7cc64f1 1
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/client/Client.ts
+  s_28239f322b4912::t_3e19a04aaf540b 14,37,70-71
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/emergencyDisconnect/client/Client.ts
+  s_28239f322b4912::t_97f984bc430c0e 16,22-23,25,32-33,36,40-42,44,47-49,101,104,109,111,113,116,118
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/emergencyDisconnect/client/requests/GetEmergencyDisconnectRequest.ts
+  s_28239f322b4912::t_ca7b43c9a9fb8b 9
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/emergencyDisconnect/client/requests/index.ts
+  s_28239f322b4912::t_4b10c0a5fc61e1 1
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/emergencyDisconnect/exports.ts
+  s_28239f322b4912::t_ee8646336af2d2 3
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/index.ts
+  s_28239f322b4912::t_c40cf52fc340a0 7-8
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/overrideCodes/client/Client.ts
+  s_28239f322b4912::t_46960763272f74 106
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/registrations/client/Client.ts
+  s_28239f322b4912::t_899c5660874e96 14,24,30-33
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/registrations/exports.ts
+  s_28239f322b4912::t_8293f5de3efd11 5
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/registrations/index.ts
+  s_28239f322b4912::t_4a0708b5903d2b 2
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/registrations/resources/index.ts
+  s_28239f322b4912::t_2c58d1a2ed1d85 1-2
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/registrations/resources/overrideCodes/client/Client.ts
+  s_28239f322b4912::t_02daad52bb8dae 15,21-22,24,29,31-32,35-37,40-44,47-51,63,76,93
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/registrations/resources/overrideCodes/client/requests/index.ts
+  s_28239f322b4912::t_5bea695a986c46 1
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/devices/resources/registrations/resources/overrideCodes/exports.ts
+  s_28239f322b4912::t_bfb79004993c6b 3
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/gateway/resources/configurations/resources/customCertificate/client/Client.ts
+  s_28239f322b4912::t_bf57df6212bd32 29-30
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/gateway/resources/lists/resources/items/client/Client.ts
+  s_28239f322b4912::t_e707e2e7cb0b29 51-55,71-75
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/gateway/resources/lists/resources/items/client/requests/ListItemsRequest.ts
+  s_28239f322b4912::t_e3217f3ac1f9d2 13-16
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/gateway/resources/lists/resources/items/types/ListItemsResponse.ts
+  s_28239f322b4912::t_d31a86d8dc6da5 20-21
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/gateway/resources/pacfiles/client/Client.ts
+  s_28239f322b4912::t_e5f3554489be8a 51-55,71-75
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/gateway/resources/pacfiles/client/requests/ListPacfilesRequest.ts
+  s_28239f322b4912::t_edcd9076d01a25 11-14
+packages/cli/src/sdk/sdk/api/resources/zeroTrust/resources/gateway/resources/pacfiles/types/ListPacfilesResponse.ts
+  s_28239f322b4912::t_2de5f6532d5786 7,24-28
+packages/cli/src/sdk/sdk/api/types/AnalyticsSqlDatasetAvailability.ts
+  s_28239f322b4912::t_ee6a1556b122b3 1-17
+packages/cli/src/sdk/sdk/api/types/AnalyticsSqlIntrospectionDatasetKind.ts
+  s_28239f322b4912::t_40844c7623ef25 9-10
+packages/cli/src/sdk/sdk/api/types/CcContainersListContainerInstancesV2.ts
+  s_28239f322b4912::t_88886a3bafd7bd 1-8
+packages/cli/src/sdk/sdk/api/types/CcV4PaginatedResultInfo.ts
+  s_28239f322b4912::t_1d1ab0bb923c40 3-6
+packages/cli/src/sdk/sdk/api/types/ClientClosedRequestErrorBody.ts
+  s_28239f322b4912::t_ac12c1e7c0dc9a 3-5,8-15
+packages/cli/src/sdk/sdk/api/types/FernCompatibilityBrapiGetRecordingResponse200ApplicationJsonEventsMapValue.ts
+  s_28239f322b4912::t_819518c4120395 1-6
+packages/cli/src/sdk/sdk/api/types/ImagesImageDirectUploadRequestV1.ts
+  s_28239f322b4912::t_83a36572c7296b 5
+packages/cli/src/sdk/sdk/api/types/ObservatoryApiResponseCommonFailure.ts
+  s_28239f322b4912::t_58969be89cd14e 6-7
+packages/cli/src/sdk/sdk/api/types/PayPerCrawlEnabledDomain.ts
+  s_28239f322b4912::t_643fc9e4b0035d 9-12
+packages/cli/src/sdk/sdk/api/types/PayPerCrawlPpuOperatorConfigurationResponse.ts
+  s_28239f322b4912::t_6d312500155c73 8
+packages/cli/src/sdk/sdk/api/types/PayPerCrawlPpuOperatorConfigurationResult.ts
+  s_28239f322b4912::t_e6470f8918e557 8-9
+packages/cli/src/sdk/sdk/api/types/PayPerCrawlPpuOperatorConfigurationResultResponse.ts
+  s_28239f322b4912::t_3ed21039cf98f2 1-11
+packages/cli/src/sdk/sdk/api/types/PayPerCrawlPpuOperatorPrice.ts
+  s_28239f322b4912::t_9683007826cd18 10-11
+packages/cli/src/sdk/sdk/api/types/PayPerCrawlPpuProposal.ts
+  s_28239f322b4912::t_84e633a04bc008 5-6
+packages/cli/src/sdk/sdk/api/types/PayPerCrawlPpuZoneCanBeEnabled.ts
+  s_28239f322b4912::t_1321f22d41f033 11-12
+packages/cli/src/sdk/sdk/api/types/PayPerCrawlPpuZoneConfigurationResult.ts
+  s_28239f322b4912::t_2fb211d75c8e19 1-12
+packages/cli/src/sdk/sdk/api/types/PayPerCrawlPpuZoneConfigurationResultResponse.ts
+  s_28239f322b4912::t_d2ed9e4273e75c 5-10
+packages/cli/src/sdk/sdk/api/types/RegistrarApiDomainCheckResult.ts
+  s_28239f322b4912::t_e904c7d139dbc0 11
+packages/cli/src/sdk/sdk/api/types/RegistrarApiDomainSearchResult.ts
+  s_28239f322b4912::t_51e0867dad0f24 11
+packages/cli/src/sdk/sdk/api/types/RegistrarApiDomainTransferCheckReason.ts
+  s_28239f322b4912::t_c5cc43279fe3c2 3-40,42-43
+packages/cli/src/sdk/sdk/api/types/RegistrarApiDomainTransferCheckRequestDomainsItem.ts
+  s_28239f322b4912::t_6fc6180aaa5fcf 1-12
+packages/cli/src/sdk/sdk/api/types/RegistrarApiDomainTransferCheckResponse.ts
+  s_28239f322b4912::t_7f3dd917de9d82 5-8,10
+packages/cli/src/sdk/sdk/api/types/RegistrarApiDomainTransferCheckResponseResult.ts
+  s_28239f322b4912::t_99dc7ddc2807e8 3,6,8-13
+packages/cli/src/sdk/sdk/api/types/RegistrarApiDomainTransferCheckResult.ts
+  s_28239f322b4912::t_c970c18df91fd0 1-37
+packages/cli/src/sdk/sdk/api/types/RegistrarApiDomainTransferCheckResultReasonsItem.ts
+  s_28239f322b4912::t_fc39b6ccbc5672 3,5-6
+packages/cli/src/sdk/sdk/api/types/RegistrarApiPricingBase.ts
+  s_28239f322b4912::t_effe30c1e49f4f 4-12,14-16,18-22,24
+packages/cli/src/sdk/sdk/api/types/RegistrarApiPricingRegistration.ts
+  s_28239f322b4912::t_6ffac3f857236e 4-5,7-12,14,25-26
+packages/cli/src/sdk/sdk/api/types/RegistrarApiPricingTransfer.ts
+  s_28239f322b4912::t_1d855f4ebccff0 1-27
+packages/cli/src/sdk/sdk/api/types/RegistrarApiSandboxDomainCheckResult.ts
+  s_28239f322b4912::t_493546437f75e0 11
+packages/cli/src/sdk/sdk/api/types/RegistrarApiSandboxDomainSearchResult.ts
+  s_28239f322b4912::t_71db563d1c3493 11
+packages/cli/src/sdk/sdk/api/types/RegistrarApiSandboxDomainTransferCheckReason.ts
+  s_28239f322b4912::t_904c65e78a31af 1-43
+packages/cli/src/sdk/sdk/api/types/RegistrarApiSandboxDomainTransferCheckRequest.ts
+  s_28239f322b4912::t_c1bebabb9c6f7b 3,6,8-10
+packages/cli/src/sdk/sdk/api/types/RegistrarApiSandboxDomainTransferCheckRequestDomainsItem.ts
+  s_28239f322b4912::t_ef52b3d01d8742 1-12
+packages/cli/src/sdk/sdk/api/types/RegistrarApiSandboxDomainTransferCheckResponse.ts
+  s_28239f322b4912::t_03fe0f114145f3 1-11
+packages/cli/src/sdk/sdk/api/types/RegistrarApiSandboxDomainTransferCheckResponseResult.ts
+  s_28239f322b4912::t_bff39c1da60930 1-14
+packages/cli/src/sdk/sdk/api/types/RegistrarApiSandboxDomainTransferCheckResult.ts
+  s_28239f322b4912::t_bcbcf55fa6c01d 1-37
+packages/cli/src/sdk/sdk/api/types/RegistrarApiSandboxDomainTransferCheckResultReasonsItem.ts
+  s_28239f322b4912::t_f957895f055a58 1-7
+packages/cli/src/sdk/sdk/api/types/RegistrarApiSandboxPricingBase.ts
+  s_28239f322b4912::t_e0c2e7a2b655b1 1-25
+packages/cli/src/sdk/sdk/api/types/RegistrarApiSandboxPricingRegistration.ts
+  s_28239f322b4912::t_2476df6bac206e 4-5,7-12,14,25-26
+packages/cli/src/sdk/sdk/api/types/RegistrarApiSandboxPricingTransfer.ts
+  s_28239f322b4912::t_2b392a8395db59 1-27
+packages/cli/src/sdk/sdk/api/types/SecretsStoreCreateStoreObject.ts
+  s_28239f322b4912::t_4c31c85910ab69 5-7
+packages/cli/src/sdk/sdk/api/types/ZeroTrustGatewayIdentifier.ts
+  s_28239f322b4912::t_04f47cedf0797b 3-5
+packages/cli/src/sdk/sdk/api/types/ZeroTrustGatewayIdentifier2.ts
+  s_28239f322b4912::t_793c397a4dd4f3 3-5
+packages/cli/src/sdk/sdk/api/types/ZeroTrustGatewayListItemResponseCollection.ts
+  s_28239f322b4912::t_fdb5bf8830150f 24-25
+packages/cli/src/sdk/sdk/api/types/ZeroTrustGatewayResponseCollection10.ts
+  s_28239f322b4912::t_65f6830006e92e 6-7,12-32
+packages/cli/src/sdk/sdk/api/types/index.ts
+  s_28239f322b4912::t_63191df1631c06 1036,1668,1719,1721,2812,3270,4561,4564,4588-4589,5024-5029,5046-5048,5088-5094,5111-5113,5594
+packages/cli/src/sdk/sdk/sdk-map.json
+  s_28239f322b4912::t_c69c852b77184b 1246,1249,6500,8161,8164,8175,8179,8188,8191,8202,8205,8273,8276-8277,8285,8290,8300,8315,8334,8339,8349,8365,8370,8380,8382,8385-8386,8395,8411,8414,8417-8418,8427,8432-8433,8442,8447-8448,8456,8471,8489,8494,8504,8522,8536,13213,13215,13218,13228,13230,16192,16197,16237,16242,16267,16274-16275,16296,16302,16313-16314,16319-16320,16327-16328,16330,16333-16334,16344,16347-16348,16357-16358,16360,16363-16364,16525,16528-16529,18415,18418-18419,18860,18863-18864,18874,18877,19856,20885,22476,22480,25222,25230,25232,25993,30345-30346,31286,31416,31528-31530,31533,33394,33400,38377-38391,40403,40405,40452,40454,40457,40511,40516-40517
+packages/cli/src/sdk/sdk/sdk-operation-types.ts
+  s_28239f322b4912::t_b8acde07b12d49 341,448,450-451,456-471,774,1028,1031,1033,1035-1039,1050,1098,1125-1126,1339,1552,1968,2442,2574,2577,2581,2772,3279,3304,3343-3346,3440,3576,3580,4000,4075,4079
+packages/wrangler-tests/src/__tests__/containers/instances.test.ts
+  s_28239f322b4912::t_6ac409868f441b 10,12-16,47-48,62,68,90-91,96,106,111,126,131,147,150
+packages/wrangler-tests/src/__tests__/email-routing.test.ts
+  s_28239f322b4912::t_74fcb318959a0e 143,152,181-183,193,224,311,334,403,437,456,472,476,500,575,579,767,778-779
+packages/wrangler-tests/src/__tests__/secrets-store.test.ts
+  s_28239f322b4912::t_47f4f3cb71c8c5 41-43,152
+pnpm-lock.yaml
+  s_28239f322b4912::t_fe420449a14faf 433
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "6cbb23a4a871009295302192dfc71b6536b8d928",
+  "prompts": {},
+  "sessions": {
+    "s_28239f322b4912": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0d43e-7856-7fd2-8ba2-8cc4bb3d68b6",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

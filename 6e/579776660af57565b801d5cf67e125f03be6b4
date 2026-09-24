@@ -1,0 +1,19 @@
+packages/wrangler-tests/src/__tests__/kv/namespace.test.ts
+  s_28239f322b4912::t_5505e89fa5891c 340-342
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "6e579776660af57565b801d5cf67e125f03be6b4",
+  "prompts": {},
+  "sessions": {
+    "s_28239f322b4912": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0d43e-7856-7fd2-8ba2-8cc4bb3d68b6",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Matt TK Taylor <matttaylor@cloudflare.com>"
+    }
+  }
+}

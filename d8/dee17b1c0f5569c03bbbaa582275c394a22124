@@ -1,0 +1,19 @@
+packages/cli/src/commands/previews/containers.ts
+  s_711f253bddff5e::t_00347772e65362 1,38-49,52-83,87-92,94,98-114
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "d8dee17b1c0f5569c03bbbaa582275c394a22124",
+  "prompts": {},
+  "sessions": {
+    "s_711f253bddff5e": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f2be20cacffeGWTW6PwZdPsqyx",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "Greg Brimble <gbrimble@cloudflare.com>"
+    }
+  }
+}

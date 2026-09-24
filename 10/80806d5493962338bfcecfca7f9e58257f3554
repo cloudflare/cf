@@ -1,0 +1,29 @@
+packages/cli/src/commands/previews/deploy.ts
+  s_c0c0c53a61beb5::t_eebc1549f47477 75
+packages/cli/src/lib/oauth/index.ts
+  s_c0c0c53a61beb5::t_57c0a2daac7bf1 92-93,97
+packages/cli/src/__tests__/lib/project-settings.test.ts
+  s_c0c0c53a61beb5::t_9d8fd0dd73ce52 76-96
+packages/cli/src/__tests__/commands/previews-deploy.test.ts
+  s_c0c0c53a61beb5::t_ab6b2d9e2f6850 26,111
+packages/cli/src/lib/project-settings.ts
+  s_c0c0c53a61beb5::t_2d60b7528d67c8 13-17,49-50,53,58,64,83,88-89,92-94
+packages/cli/src/lib/context.ts
+  s_c0c0c53a61beb5::t_5bf9c584df11f8 51-53,59-61,64-66,107-112,121,213-218,221-223,255-258
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "1080806d5493962338bfcecfca7f9e58257f3554",
+  "prompts": {},
+  "sessions": {
+    "s_c0c0c53a61beb5": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f30ccad40ffeYa8lbUDxkgpc4R",
+        "model": "gpt-5.6-terra"
+      },
+      "human_author": "Greg Brimble <gbrimble@cloudflare.com>"
+    }
+  }
+}

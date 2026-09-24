@@ -1,0 +1,25 @@
+packages/cli/src/__tests__/commands/previews-deploy.test.ts
+  s_06d650955102a9::t_c2df0c1bd93351 11,18,47-55,83-90,142-143,148-149,181,185-229,256-257,285,289-290,325-326
+packages/cli/src/commands/previews/containers.ts
+  s_06d650955102a9::t_ee10b1000dab1c 1-118
+patches/@cloudflare__deploy-helpers@0.15.0.patch
+  s_06d650955102a9::t_5d081b0a24300c 2,20-49,51,54,69,78-123
+pnpm-lock.yaml
+  s_06d650955102a9::t_820a75fe76c060 24,136,3626
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "356c2e9345bd26ef3577fe7440098923b319d843",
+  "prompts": {},
+  "sessions": {
+    "s_06d650955102a9": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f306127e8ffe64djhb74260WYX",
+        "model": "gpt-5.6-terra"
+      },
+      "human_author": "Greg Brimble <gbrimble@cloudflare.com>"
+    }
+  }
+}

@@ -7,10 +7,7 @@ packages/cli/src/sdk/openapi*.json
 .env
 .env.local
 
-# Turbo cache
-.turbo/
-
-# tsup packaging artifacts
+# Package tarballs
 packages/cli/*.tgz
 
 # Fixture-project working state. The fixtures live in the cf

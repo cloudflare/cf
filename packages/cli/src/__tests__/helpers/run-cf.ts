@@ -1,4 +1,4 @@
-import { vi } from "vitest";
+import { vi } from "vite-plus/test";
 import { runMain } from "../../index.js";
 import { CliExit } from "../../lib/cli-exit.js";
 

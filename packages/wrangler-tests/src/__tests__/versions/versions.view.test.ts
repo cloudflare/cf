@@ -1,4 +1,4 @@
-import { beforeEach, describe, test } from "vitest";
+import { beforeEach, describe, test } from "vite-plus/test";
 import { mockAccountId, mockApiToken } from "../helpers/mock-account-id";
 import { mockConsoleMethods } from "../helpers/mock-console";
 import { msw, mswGetVersion } from "../helpers/msw";

@@ -1,4 +1,4 @@
-import { describe, it } from "vitest";
+import { describe, it } from "vite-plus/test";
 
 // The entire `r2 data catalog force flag` suite exercises wrangler's
 // client-side data-catalog guard for R2 mutations (`r2 object put`,

@@ -63,12 +63,12 @@
 	"scripts": {
 		"generate": "tsx generate.ts",
 		"dev": "tsx src/dev.ts",
-		"build": "tsdown",
-		"build:test": "tsdown --config tsdown.test.config.ts",
+		"build": "vp pack",
+		"build:test": "vp pack --config vite.test.config.ts",
 		"check:type": "tsgo --noEmit",
-		"test": "vitest run",
-		"test:watch": "vitest",
-		"test:imports": "vitest run --maxWorkers=1 --no-file-parallelism --experimental.importDurations.limit=100000 --reporter=default --reporter=./src/__tests__/helpers/import-reporter.ts"
+		"test": "vp test run",
+		"test:watch": "vp test watch",
+		"test:imports": "vp test run --maxWorkers=1 --no-file-parallelism --experimental.importDurations.limit=100000 --reporter=default --reporter=./src/__tests__/helpers/import-reporter.ts"
 	},
 	"dependencies": {
 		"@cloudflare/build-output-utils": "0.8.4",
@@ -104,10 +104,9 @@
 		"msw": "2.14.6",
 		"semver": "7.8.5",
 		"shell-quote": "^1.8.1",
-		"tsdown": "^0.21.0",
 		"tsx": "4.21.0",
 		"undici": "7.29.1",
-		"vitest": "4.1.11",
+		"vite-plus": "catalog:",
 		"yargs": "18.0.0",
 		"zod": "4.4.3"
 	},

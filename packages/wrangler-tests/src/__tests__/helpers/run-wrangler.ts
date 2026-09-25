@@ -1,7 +1,7 @@
 import { normalizeString } from "@cloudflare/workers-utils/test-helpers";
 import { CliExit, runMain } from "cf";
 import { parse as parseShell } from "shell-quote";
-import { vi } from "vitest";
+import { vi } from "vite-plus/test";
 
 /**
  * 'Run' a command for tests — except routes through `cf` instead of

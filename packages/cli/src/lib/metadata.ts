@@ -14,7 +14,7 @@
  *                             `cf schema`)
  *
  * `tsdown` copies all metadata files into `dist/_meta/` at build time
- * (`tsdown.config.ts` → `onSuccess`), so a bundled cf binary finds
+ * (`vite.config.ts` → `pack.onSuccess`), so a bundled cf binary finds
  * them next to its own entry chunk; a dev-mode run via `tsx` finds
  * them in the source tree under `_generated/_meta/`. `loadMeta`
  * tries both layouts in turn so callers don't have to.

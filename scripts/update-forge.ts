@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-/* oxlint-disable turbo/no-undeclared-env-vars -- standalone automation, not a turbo task */
 import { execFileSync, spawnSync } from "node:child_process";
 import {
 	mkdirSync,

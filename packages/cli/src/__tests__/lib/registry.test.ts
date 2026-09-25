@@ -1,6 +1,6 @@
 import { resolve } from "node:path";
 import { getCfConfigPath } from "@cloudflare/workers-auth/cf";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "vite-plus/test";
 import { getCloudflareRegistryPath } from "../../lib/registry.js";
 
 describe("getCloudflareRegistryPath", () => {

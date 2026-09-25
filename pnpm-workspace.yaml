@@ -30,3 +30,14 @@ allowBuilds:
   workerd: true
 
 gitChecks: false
+catalog:
+  vite: npm:@voidzero-dev/vite-plus-core@1.0.0-rc.0
+  vite-plus: 1.0.0-rc.0
+overrides:
+  vite@*: "catalog:"
+  vitest@*: 5.0.1
+peerDependencyRules:
+  allowAny:
+    - vite
+  allowedVersions:
+    vite: "*"

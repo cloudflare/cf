@@ -20,12 +20,6 @@ permissions:
   # summary still has the numbers).
   pull-requests: write
 
-env:
-  # https://turborepo.dev/docs/telemetry — opt out at the workflow level so
-  # any direct `turbo` invocation inherits it (pnpm scripts already prefix
-  # this in package.json, but belt-and-braces).
-  TURBO_TELEMETRY_DISABLED: 1
-
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}-bench
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}

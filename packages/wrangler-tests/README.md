@@ -29,7 +29,7 @@ From this directory:
 pnpm test
 ```
 
-The `pretest` script builds `cf` with its test-specific tsdown configuration,
+The `pretest` script builds `cf` with its test-specific Vite+ Pack configuration,
 and the `cf` import resolves to the resulting `../cli/dist/index.mjs`. This
 build keeps mock-sensitive dependencies external; the normal production build
 still bundles them. `pnpm test:watch` likewise builds the test bundle once

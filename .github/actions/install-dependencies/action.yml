@@ -24,14 +24,6 @@ inputs:
       for release builds: avoids pulling artefacts from a potentially-poisoned
       cache and forces every dep to resolve from the registry.
     default: "false"
-  turbo-api:
-    description: Turbo remote-cache API URL (optional).
-  turbo-team:
-    description: Turbo remote-cache team identifier (optional).
-  turbo-token:
-    description: Turbo remote-cache API token (optional).
-  turbo-signature:
-    description: Turbo remote-cache signature key (optional).
 
 runs:
   using: composite
@@ -68,23 +60,6 @@ runs:
     - name: Enable Node compile cache
       shell: bash
       run: echo "NODE_COMPILE_CACHE=$HOME/.node_compile_cache" >> $GITHUB_ENV
-
-    - name: Configure turbo remote cache
-      if: inputs.turbo-api
-      shell: bash
-      env:
-        TURBO_API_INPUT: ${{ inputs.turbo-api }}
-        TURBO_TEAM_INPUT: ${{ inputs.turbo-team }}
-        TURBO_TOKEN_INPUT: ${{ inputs.turbo-token }}
-        TURBO_SIGNATURE_INPUT: ${{ inputs.turbo-signature }}
-      run: |
-        {
-          echo "TURBO_API=${TURBO_API_INPUT}"
-          echo "TURBO_TEAM=${TURBO_TEAM_INPUT}"
-          echo "TURBO_TOKEN=${TURBO_TOKEN_INPUT}"
-          echo "TURBO_REMOTE_CACHE_SIGNATURE_KEY=${TURBO_SIGNATURE_INPUT}"
-          echo "TURBO_ENV_MODE=loose"
-        } >> "$GITHUB_ENV"
 
     - name: pnpm install (frozen lockfile)
       shell: bash

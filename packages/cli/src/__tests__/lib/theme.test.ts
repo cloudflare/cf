@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "vite-plus/test";
 import { colorPalette, supportsColor, theme } from "../../lib/ui/theme.js";
 
 describe("supportsColor", () => {

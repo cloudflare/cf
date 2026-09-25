@@ -64,13 +64,12 @@ cf/
 │   │                           # real Cloudflare account
 │   ├── bin/cf                  # binary entry — loads lightweight delegation,
 │   │                           # then imports dist/index.mjs when staying local
-│   ├── dist/                   # gitignored, written by tsdown (chunked ESM)
+│   ├── dist/                   # gitignored, written by Vite+ Pack (chunked ESM)
 │   ├── generate.ts             # OpenAPI/SDK sync → initFromOpenApi → transform/finalize
-│   ├── vitest.config.mts       # in-package test harness config
-│   └── tsdown.config.ts        # ESM bundle config; package JSON supplies
-│                               # the version; `define` can inject the prerelease label
-├── packages/wrangler-tests/    # imported wrangler test corpus, aliased onto
-│                               # ../cli/src/index.ts (MSW-mocked)
+│   ├── vite.config.ts          # test and production ESM bundle config
+│   └── vite.test.config.ts     # compiled bundle for Wrangler compatibility tests
+├── packages/wrangler-tests/    # imported wrangler test corpus, using
+│                               # ../cli/dist/index.mjs (MSW-mocked)
 ├── fixtures/                   # cf dev discovery fixtures (vite-plugin +
 │                               # wrangler-bundler projects)
 ├── usecases/                   # per-command usage-scenario YAML catalogue
@@ -79,32 +78,26 @@ cf/
 │                               # cleanup ownership
 ├── scripts/sync-forge.ts       # re-vendor pipeline (FORGE_REPO=...)
 ├── .github/workflows/          # CI, changesets publish, prerelease, benchmark, review
-├── pnpm-workspace.yaml         # blockExoticSubdeps + allowBuilds + patches
+├── pnpm-workspace.yaml         # dependency patches, catalogs, and build scripts
 ├── package.json                # scripts/deps + pnpm version
-├── turbo.json                  # task orchestration; remoteCache + signature
-├── .oxlintrc.jsonc             # type-aware lint via oxlint-tsgolint
-└── .oxfmtrc.jsonc              # tabs, double quotes, printWidth 80
+└── vite.config.ts              # shared Vite+ lint and format settings
 ```
 
 ## Tooling
 
 Aligned with `workers-sdk`:
 
-- **turbo** — task orchestration (`turbo run generate|build|dev|check:*`),
-  remote-cache enabled with signing.
-- **oxfmt** — formatting (tabs, double quotes, printWidth 80).
-- **oxlint** — linting, type-aware via `oxlint-tsgolint`.
+- **Vite+** — formatting, type-aware linting, Vitest, and Pack bundling.
 - **tsgo** (`@typescript/native-preview`) — type checking, no `tsc`.
 - **pnpm 12** with `blockExoticSubdeps` +
   `allowBuilds: { esbuild: true, workerd: true }`.
-- **tsdown** — ESM bundler (Rolldown-based; replaced `tsup` for faster
-  builds). Outputs chunked `dist/*.mjs` so command modules can be
-  dynamically imported.
+- **Vite+ Pack** — Rolldown-based ESM bundler. Outputs chunked `dist/*.mjs`
+  so command modules can be dynamically imported.
 
 Test infrastructure is split across two packages:
 
 - **`packages/cli/`** — first-class vitest harness at
-  `packages/cli/vitest.config.mts` (`pool: "forks"`) driving in-package
+  `packages/cli/vite.config.ts` (`pool: "forks"`) driving in-package
   unit + command-level tests under `src/__tests__/` (67 test files
   covering auth, config, context, build-output, deploy, Workers check,
   `cf dev` discovery/spawn, `--local`, plus MSW-mocked end-to-end command tests
@@ -113,10 +106,10 @@ Test infrastructure is split across two packages:
   `pnpm test` from the cli package. Filter to one file by passing its path
   directly, for example `pnpm test src/__tests__/lib/local-e2e.test.ts`
   (do not insert `--`, which causes Vitest to run the full suite).
-- **`packages/wrangler-tests/`** — the imported wrangler test corpus
-  (118 test files), re-targeted at cf by aliasing `cf` →
-  `../cli/src/index.ts` (runs from source) and `@clack/prompts` → a
-  dialog mock. Uses MSW for HTTP mocking. `pnpm test` from that package.
+- **`packages/wrangler-tests/`** — the imported wrangler test corpus,
+  re-targeted at cf by aliasing `cf` → `../cli/dist/index.mjs` and
+  `@clack/prompts` → a dialog mock. Its `pretest` script builds a bundle
+  that keeps mock-sensitive dependencies external. Uses MSW for HTTP mocking.
 
 `.github/workflows/ci.yml` runs generation, repository checks, the CLI suite, and the Wrangler compatibility suite on every PR and push to `main` (for the Cloudflare-owned repository). Additional confidence:
 
@@ -133,14 +126,14 @@ Test infrastructure is split across two packages:
 
 ```
 pnpm build
-  └─ turbo run generate
+  └─ pnpm generate
        └─ tsx packages/cli/generate.ts
             ├─ fetch pinned Forge OpenAPI release (or preview bundle)
             ├─ regenerate src/sdk/ when missing, on revision change, or for preview
             ├─ initFromOpenApi(source)
             ├─ forge.transform(transformer)    # per-command emitter
             ├─ forge.finalize(_generated, files, { clean: true })
-            └─ oxfmt _generated/                # post-format emitted TS
+            └─ vp fmt _generated/               # post-format emitted TS
 ```
 
 Single transformer (`packages/cli/generator/index.ts`) walks
@@ -154,7 +147,7 @@ Single transformer (`packages/cli/generator/index.ts`) walks
 - `src/commands/_generated/_meta/hand-written-commands.json` — hand-written subset with root/leaf/subgroup/override provenance
 - `src/commands/_generated/_meta/schemas.json` — per-op JSON schemas
 
-`forge.finalize` cleans + writes; oxfmt formats afterward (kept out of
+`forge.finalize` cleans + writes; Vite+ formats afterward (kept out of
 the generator so forge stays format-agnostic).
 
 Shell completions are no longer generated — `cf complete` is backed by
@@ -162,7 +155,7 @@ Shell completions are no longer generated — `cf complete` is backed by
 the complete generated and hand-written `_meta/commands.json` catalogue (see
 `src/commands/completions/index.ts`).
 
-`pnpm build` runs `tsdown`, which:
+`pnpm build` runs Vite+ Pack, which:
 
 - Bundles `src/index.ts` to `dist/` as chunked ESM. Dynamic top-level-root imports provide the primary code-splitting boundaries; shared modules may be factored into additional chunks.
 - resolves the CLI version from the statically bundled package JSON import.
@@ -194,7 +187,7 @@ the complete generated and hand-written `_meta/commands.json` catalogue (see
 | Raw / non-JSON responses        | `packages/cli/src/lib/raw-fetch.ts`                                                                                                                                                                                                                               |
 | Generator logic                 | `packages/cli/generator/{generator,metadata,arg-classification}.ts`                                                                                                                                                                                               |
 | Emitted-file shape              | `packages/cli/generator/index.ts`                                                                                                                                                                                                                                 |
-| Lint / format rules             | `.oxlintrc.jsonc`, `.oxfmtrc.jsonc`                                                                                                                                                                                                                               |
+| Lint / format rules             | `vite.config.ts`                                                                                                                                                                                                                                                  |
 | Vendored forge bump             | `pnpm sync:forge` (then commit `vendor/` and `package.json` diff)                                                                                                                                                                                                 |
 | Patch a published dep           | `patches/*.patch` (created via `pnpm patch <pkg>`)                                                                                                                                                                                                                |
 
@@ -317,14 +310,14 @@ Practical extensions of this rule:
 
 Each generated top-level root and each hand-written root is registered via `lazyCommand` (`src/lib/lazy-command.ts`). The outer shell exposes only the `command` + `describe` strings yargs needs; selecting a root dynamically imports its root module/chunk. Within that selected generated root, index files statically import and register the full subtree. Without the outer lazy boundary, `cf --help` / `cf --version` / any command would eagerly load every generated root, the complete command catalogue, the SDK, and every helper.
 
-`tsdown` preserves those dynamic root imports as code-split chunks (and may factor shared dependencies into additional chunks), so do not assume a strict one-chunk-per-root correspondence. Don't reintroduce eager top-level imports of `_generated/index.ts` from anywhere besides the lazy shell registration in `src/index.ts`.
+Vite+ Pack preserves those dynamic root imports as code-split chunks (and may factor shared dependencies into additional chunks), so do not assume a strict one-chunk-per-root correspondence. Don't reintroduce eager top-level imports of `_generated/index.ts` from anywhere besides the lazy shell registration in `src/index.ts`.
 
 ### Generator output (DO NOT EDIT)
 
 - `packages/cli/src/commands/_generated/` — yargs modules + `_meta/` JSON
 - `packages/cli/src/sdk/` — generated SDK and pinned OpenAPI artifacts
 
-Tracked in git and never safe to patch by hand. Every `pnpm generate` cleans, rewrites, and oxfmt-formats `_generated/`. SDK regeneration occurs when its entrypoint is missing, its OpenAPI revision is outdated, or a preview bundle is supplied and is handled by its own generator; ordinary cf emitter changes do not rewrite it. Make changes in Forge, the SDK transformer, or the cf generator as appropriate, then regenerate and commit the resulting artifacts.
+Tracked in git and never safe to patch by hand. Every `pnpm generate` cleans, rewrites, and Vite+-formats `_generated/`. SDK regeneration occurs when its entrypoint is missing, its OpenAPI revision is outdated, or a preview bundle is supplied and is handled by its own generator; ordinary cf emitter changes do not rewrite it. Make changes in Forge, the SDK transformer, or the cf generator as appropriate, then regenerate and commit the resulting artifacts.
 
 GitHub collapses `_generated/` by default because it is marked `linguist-generated`, but AI reviewers must still review every changed file there.
 
@@ -745,9 +738,8 @@ Names discussed in planning documents such as `paramOverride.derive`, `x-forge-j
 - Never hard-code API product names in generic/cross-cutting `packages/cli/src/` code. Keep the documented AI, Registrar, D1, and Workers workflow exceptions contained in their command directories, and keep the universal zone-name resolver confined to `context.ts` and `resolve.ts`.
 - Never edit `_generated/` files — overwritten on `pnpm generate`.
 - Never reintroduce `tsc`. Type checking uses `tsgo`.
-- Never reintroduce `tsup` — `tsdown` is the bundler. Unlike `tsup`,
-  it produces chunked output that cooperates with lazy-command
-  dynamic imports.
+- Never reintroduce `tsup` — Vite+ Pack produces chunked output that
+  cooperates with lazy-command dynamic imports.
 - Never eagerly import `_generated/index.ts` from anywhere besides
   the lazy shell in `src/index.ts`. Doing so reverses the startup-perf
   win from `lazy-command.ts`.
@@ -758,10 +750,10 @@ Names discussed in planning documents such as `paramOverride.derive`, `x-forge-j
   product knowledge via forge annotations or push fixes upstream into
   the canonical API error message.
 - Never reintroduce `formatTypeScript()` (biome wasm) into the
-  generator. Format post-finalize via `oxfmt` so forge stays
+  generator. Format post-finalize via Vite+ so forge stays
   dependency-free.
 - Never use `new Date()` in generated metadata — use `"build-time"` /
-  fixed strings for deterministic output (turbo/CI cache stability).
+  fixed strings for deterministic output.
 
 ## Commit cadence
 
@@ -790,12 +782,12 @@ CI). See `.changeset/README.md` for the full format and rules.
 ```bash
 pnpm install           # uses vendor/ tarballs
 pnpm build             # pinned public OpenAPI → matching SDK, CLI, and dist/
-pnpm dev               # turbo: tsx packages/cli/src/dev.ts (persistent)
-pnpm check             # oxlint + tsgo + oxfmt --check
-pnpm check:lint        # oxlint --type-aware
+pnpm dev               # tsx packages/cli/src/dev.ts
+pnpm check             # Vite+ lint/format + tsgo
+pnpm check:lint        # Vite+ lint --type-aware
 pnpm check:type        # tsgo --noEmit
-pnpm check:format      # oxfmt --check
-pnpm fix               # oxlint --fix && oxfmt
+pnpm check:format      # Vite+ format check
+pnpm fix               # Vite+ lint fix + format
 pnpm sync:forge        # re-vendor from FORGE_REPO (default ../forge)
 ```
 
@@ -823,9 +815,8 @@ Changesets: `.github/workflows/changesets.yml` opens/updates the Version
 Packages PR when changesets exist and publishes to npm after that PR is merged.
 Publishing uses npm trusted publishing (OIDC), not a long-lived `NPM_TOKEN`.
 
-`tsdown` builds in production mode (`NODE_ENV=production` →
-sourcemaps off, minified) when invoked by the prerelease workflow.
-`PACKAGE_PRERELEASE_LABEL` may be supplied to tsdown's `define` configuration,
+Vite+ Pack emits a minified bundle without source maps by default.
+`PACKAGE_PRERELEASE_LABEL` may be supplied to the pack `define` configuration,
 but no current source module reads it, so the binary does not self-report the
 branch or ref name.
 
@@ -931,7 +922,7 @@ From the Forge RFC, these are the vocabulary and shapes to prefer for new overla
   - Implication for the codebase: dependencies count toward this
     budget. Be deliberate about adding heavy deps; tree-shake-
     friendly (ESM, no side effects) is preferred. The
-    chunked-output cooperation between `tsdown` and `lazy-command`
+    chunked-output cooperation between Vite+ Pack and `lazy-command`
     is an asset here — only the chunks a user touches load into
     memory at runtime.
 

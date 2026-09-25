@@ -1,7 +1,7 @@
 import { chmodSync, existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { http, HttpResponse } from "msw";
-import { onTestFinished } from "vitest";
+import { onTestFinished } from "vite-plus/test";
 import { createFetchResult, msw } from "../../helpers/msw.js";
 import { toString } from "../../helpers/serialize-form-data-entry.js";
 

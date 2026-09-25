@@ -1,4 +1,4 @@
-import { describe, test } from "vitest";
+import { describe, test } from "vite-plus/test";
 
 // Tests wrangler's tab-completion subsystem. cf has its own
 // (`cf complete`, also backed by `@bomb.sh/tab` since this refactor).

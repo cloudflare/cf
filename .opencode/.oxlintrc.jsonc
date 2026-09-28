@@ -4,6 +4,9 @@
 	"categories": {
 		"correctness": "error",
 	},
+	"options": {
+		"typeAware": true,
+	},
 	"rules": {
 		// Stricter than default (default = warn)
 		"@typescript-eslint/no-explicit-any": "error",

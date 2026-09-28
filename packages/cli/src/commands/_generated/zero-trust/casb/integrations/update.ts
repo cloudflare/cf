@@ -84,20 +84,22 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "PATCH",
 						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/one/integrations/${argv["id"] == null ? "<id>" : encodeURIComponent(String(argv["id"]))}`,
 						pathParams: { id: String(argv["id"] ?? "") },
-						bodyKind: "json",
+						bodyKind: argv.file !== undefined ? "octet-stream" : "json",
 						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										dlp_profiles: argv["dlp-profiles"],
-										name: resolveFileToken(
-											argv["name"] as string | undefined,
-											"name",
-											"text"
-										),
-										permissions: argv["permissions"],
-										use_cases: argv["use-cases"],
-									}),
+							argv.file !== undefined
+								? { file: argv.file }
+								: argv.body !== undefined
+									? parseBody(argv.body)
+									: compactBody({
+											dlp_profiles: argv["dlp-profiles"],
+											name: resolveFileToken(
+												argv["name"] as string | undefined,
+												"name",
+												"text"
+											),
+											permissions: argv["permissions"],
+											use_cases: argv["use-cases"],
+										}),
 					});
 					return;
 				}

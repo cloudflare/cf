@@ -131589,6 +131589,48 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf workers secrets bulk",
+			"name": "bulk",
+			"fullPath": ["workers", "secrets", "bulk"],
+			"description": "Create, update, or delete multiple secrets on a Worker script in a single operation using JSON Merge Patch (RFC 7396). This operation creates a single version with all changes included. Prefer this API instead of changing many secrets individually. Usage: - To create or update a secret, set its value to a secret object. - To delete a secret, set its value to `null`. - Secrets not included in the request are left unchanged.",
+			"summary": "Patch multiple Worker script secrets",
+			"usage": "cf workers secrets bulk [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "worker",
+					"type": "string",
+					"required": true,
+					"description": "Name of the script, used in URLs and route configuration."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				},
+				{
+					"name": "file",
+					"type": "string",
+					"required": false,
+					"description": "Path to a file to upload as the request body"
+				}
+			],
+			"category": "action",
+			"hasRequestBody": true,
+			"httpMethod": "PATCH",
+			"apiPath": "/accounts/{account_id}/workers/scripts/{script_name}/secrets-bulk",
+			"operationId": "worker-patch-script-secrets-bulk",
+			"hideCommand": false
+		},
+		{
 			"command": "cf workers secrets delete",
 			"name": "delete",
 			"fullPath": ["workers", "secrets", "delete"],
@@ -131704,6 +131746,82 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/workers/scripts/{script_name}/secrets",
 			"operationId": "worker-list-script-secrets",
+			"hideCommand": false
+		},
+		{
+			"command": "cf workers secrets update",
+			"name": "update",
+			"fullPath": ["workers", "secrets", "update"],
+			"description": "Add a secret to a Worker script by creating a new version with that secret. When changing more than one secret at a time, prefer the \"Patch multiple script secrets\" API instead of changing many secrets individually.",
+			"summary": "Add a secret to a Worker script",
+			"usage": "cf workers secrets update <name> [options]",
+			"arguments": [
+				{
+					"name": "name",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "A JavaScript variable name for the binding."
+				}
+			],
+			"options": [
+				{
+					"name": "worker",
+					"type": "string",
+					"required": true,
+					"description": "Name of the script, used in URLs and route configuration."
+				},
+				{
+					"name": "text",
+					"type": "string",
+					"required": false,
+					"description": "The secret value to use."
+				},
+				{
+					"name": "type",
+					"type": "string",
+					"required": true,
+					"description": "The kind of resource that the binding provides.",
+					"enum": ["secret_text", "secret_key"]
+				},
+				{
+					"name": "format",
+					"type": "string",
+					"required": false,
+					"description": "Data format of the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#format).",
+					"enum": ["raw", "pkcs8", "spki", "jwk"]
+				},
+				{
+					"name": "key-base64",
+					"type": "string",
+					"required": false,
+					"description": "Base64-encoded key data. Required if `format` is \"raw\", \"pkcs8\", or \"spki\"."
+				},
+				{
+					"name": "usages",
+					"type": "string",
+					"required": false,
+					"description": "Allowed operations with the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#keyUsages)."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PUT",
+			"apiPath": "/accounts/{account_id}/workers/scripts/{script_name}/secrets",
+			"operationId": "worker-put-script-secret",
 			"hideCommand": false
 		},
 		{

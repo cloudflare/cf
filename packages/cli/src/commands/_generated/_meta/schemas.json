@@ -91428,6 +91428,26 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"workers secrets bulk": {
+			"operationId": "worker-patch-script-secrets-bulk",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/workers/scripts/{script_name}/secrets-bulk",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "script_name",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": []
+		},
 		"workers secrets delete": {
 			"operationId": "worker-delete-script-secret",
 			"httpMethod": "DELETE",
@@ -91509,6 +91529,63 @@
 			"queryParams": [],
 			"hasRequestBody": false,
 			"requestBodyFields": []
+		},
+		"workers secrets update": {
+			"operationId": "worker-put-script-secret",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/workers/scripts/{script_name}/secrets",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "script_name",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "A JavaScript variable name for the binding."
+				},
+				{
+					"name": "text",
+					"type": "string",
+					"required": false,
+					"description": "The secret value to use."
+				},
+				{
+					"name": "type",
+					"type": "string",
+					"required": true,
+					"description": "The kind of resource that the binding provides."
+				},
+				{
+					"name": "format",
+					"type": "string",
+					"required": false,
+					"description": "Data format of the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#format)."
+				},
+				{
+					"name": "key-base64",
+					"type": "string",
+					"required": false,
+					"description": "Base64-encoded key data. Required if `format` is \"raw\", \"pkcs8\", or \"spki\"."
+				},
+				{
+					"name": "usages",
+					"type": "string",
+					"required": false,
+					"description": "Allowed operations with the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#keyUsages)."
+				}
+			]
 		},
 		"workers versions delete": {
 			"operationId": "deleteWorkerVersion",

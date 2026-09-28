@@ -144,11 +144,13 @@ export function emitDryRun(ctx: EmitContext): string[] {
 			? "'multipart'"
 			: multipartInfo !== undefined && multipartFlagReads.length > 0
 				? `${usesMultipart} ? 'multipart' : 'octet-stream'`
-				: opInfo.requestContentTypes.length > 0 && !acceptsJson
-					? "'octet-stream'"
-					: bodyEntries.length > 0 || hasBody
-						? "'json'"
-						: "'none'";
+				: hasFileUpload && acceptsJson
+					? "argv.file !== undefined ? 'octet-stream' : 'json'"
+					: opInfo.requestContentTypes.length > 0 && !acceptsJson
+						? "'octet-stream'"
+						: bodyEntries.length > 0 || hasBody
+							? "'json'"
+							: "'none'";
 
 	lines.push(`      if (argv.dryRun) {`);
 	if (needsAccountId) {
@@ -189,7 +191,13 @@ export function emitDryRun(ctx: EmitContext): string[] {
 			lines.push(`            ? { ${bodyEntries.join(", ")} }`);
 			lines.push(`            : argv.body,`);
 		} else if (acceptsJson) {
-			lines.push(`          body: argv.body !== undefined`);
+			if (hasFileUpload) {
+				lines.push(`          body: argv.file !== undefined`);
+				lines.push(`            ? { file: argv.file }`);
+				lines.push(`            : argv.body !== undefined`);
+			} else {
+				lines.push(`          body: argv.body !== undefined`);
+			}
 			lines.push(`            ? parseBody(argv.body)`);
 			if (hasBodyParams) {
 				lines.push(`            : compactBody(`);

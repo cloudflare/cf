@@ -109,30 +109,32 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "POST",
 						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/one/integrations`,
 						pathParams: {},
-						bodyKind: "json",
+						bodyKind: argv.file !== undefined ? "octet-stream" : "json",
 						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										application: resolveFileToken(
-											argv["application"] as string | undefined,
-											"application",
-											"text"
-										),
-										auth_method: resolveFileToken(
-											argv["auth-method"] as string | undefined,
-											"auth-method",
-											"text"
-										),
-										dlp_profiles: argv["dlp-profiles"],
-										name: resolveFileToken(
-											argv["name"] as string | undefined,
-											"name",
-											"text"
-										),
-										permissions: argv["permissions"],
-										use_cases: argv["use-cases"],
-									}),
+							argv.file !== undefined
+								? { file: argv.file }
+								: argv.body !== undefined
+									? parseBody(argv.body)
+									: compactBody({
+											application: resolveFileToken(
+												argv["application"] as string | undefined,
+												"application",
+												"text"
+											),
+											auth_method: resolveFileToken(
+												argv["auth-method"] as string | undefined,
+												"auth-method",
+												"text"
+											),
+											dlp_profiles: argv["dlp-profiles"],
+											name: resolveFileToken(
+												argv["name"] as string | undefined,
+												"name",
+												"text"
+											),
+											permissions: argv["permissions"],
+											use_cases: argv["use-cases"],
+										}),
 					});
 					return;
 				}

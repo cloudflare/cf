@@ -93,41 +93,43 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "POST",
 						url: `https://api.cloudflare.com/client/v4/analytics/sql`,
 						pathParams: {},
-						bodyKind: "json",
+						bodyKind: argv.file !== undefined ? "octet-stream" : "json",
 						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										query: resolveFileToken(
-											argv["query"] as string | undefined,
-											"query",
-											"text"
-										),
-										scope: {
-											accountTag: resolveFileToken(
-												argv["scope-account-tag"] as string | undefined,
-												"scope-account-tag",
+							argv.file !== undefined
+								? { file: argv.file }
+								: argv.body !== undefined
+									? parseBody(argv.body)
+									: compactBody({
+											query: resolveFileToken(
+												argv["query"] as string | undefined,
+												"query",
 												"text"
 											),
-											zoneTag: resolveFileToken(
-												argv["scope-zone-tag"] as string | undefined,
-												"scope-zone-tag",
-												"text"
-											),
-										},
-										time_range: {
-											end: resolveFileToken(
-												argv["time-range-end"] as string | undefined,
-												"time-range-end",
-												"text"
-											),
-											start: resolveFileToken(
-												argv["time-range-start"] as string | undefined,
-												"time-range-start",
-												"text"
-											),
-										},
-									}),
+											scope: {
+												accountTag: resolveFileToken(
+													argv["scope-account-tag"] as string | undefined,
+													"scope-account-tag",
+													"text"
+												),
+												zoneTag: resolveFileToken(
+													argv["scope-zone-tag"] as string | undefined,
+													"scope-zone-tag",
+													"text"
+												),
+											},
+											time_range: {
+												end: resolveFileToken(
+													argv["time-range-end"] as string | undefined,
+													"time-range-end",
+													"text"
+												),
+												start: resolveFileToken(
+													argv["time-range-start"] as string | undefined,
+													"time-range-start",
+													"text"
+												),
+											},
+										}),
 					});
 					return;
 				}

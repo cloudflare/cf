@@ -1,5 +1,13 @@
 # cf
 
+## 1.0.0-beta.5
+
+### Patch Changes
+
+- adf3373: Update autoconfig and codemods for setup and migration fixes
+
+  Use the autoconfig release that generates `cf workers types` for cf projects. Use the codemods release that reports Vite source map and asset migration guidance accurately.
+
 ## 1.0.0-beta.4
 
 ### Minor Changes

@@ -34,6 +34,7 @@
     "tunnel-ready",
     "tunnel-tail",
     "update-forge",
+    "update-setup-migration-deps",
     "vinext-vite-commands",
     "vite-plugin-v2-beta",
     "workers-secrets-cli"

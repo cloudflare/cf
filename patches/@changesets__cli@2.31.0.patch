@@ -1,0 +1,34 @@
+diff --git a/dist/changesets-cli.cjs.js b/dist/changesets-cli.cjs.js
+index 9f0bd6c5f96011be225269a71365a878cb822bb7..93712b7285afa781717b165b7517e084d88c48bd 100644
+--- a/dist/changesets-cli.cjs.js
++++ b/dist/changesets-cli.cjs.js
+@@ -1161,11 +1161,6 @@ async function publish(cwd, {
+ }, config) {
+   const releaseTag = tag && tag.length > 0 ? tag : undefined;
+   let preState = await pre$1.readPreState(cwd);
+-  if (releaseTag && preState && preState.mode === "pre") {
+-    logger.error("Releasing under custom tag is not allowed in pre mode");
+-    logger.log("To resolve this exit the pre mode by running `changeset pre exit`");
+-    throw new errors.ExitError(1);
+-  }
+-  if (releaseTag || preState) {
++  if (releaseTag !== "latest" && (releaseTag || preState)) {
+     showNonLatestTagWarning(tag, preState);
+   }
+diff --git a/dist/changesets-cli.esm.js b/dist/changesets-cli.esm.js
+index d9582bf53eaf55402a6bf96a39589af7854b8f23..6910dfa2fdba9b7890e781a952d23575a6690d72 100644
+--- a/dist/changesets-cli.esm.js
++++ b/dist/changesets-cli.esm.js
+@@ -1124,11 +1124,6 @@ async function publish(cwd, {
+ }, config) {
+   const releaseTag = tag && tag.length > 0 ? tag : undefined;
+   let preState = await readPreState(cwd);
+-  if (releaseTag && preState && preState.mode === "pre") {
+-    error("Releasing under custom tag is not allowed in pre mode");
+-    log("To resolve this exit the pre mode by running `changeset pre exit`");
+-    throw new ExitError(1);
+-  }
+-  if (releaseTag || preState) {
++  if (releaseTag !== "latest" && (releaseTag || preState)) {
+     showNonLatestTagWarning(tag, preState);
+   }

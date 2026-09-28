@@ -1,0 +1,9 @@
+description: "List Cloudflare Pipelines"
+command: "wrangler pipelines list"
+status: "direct"
+sourceCommands:
+  - "wrangler pipelines list"
+cfReplacementFlow:
+  - "cf pipelines list"
+notes:
+  - "Use generated pagination flags if needed."

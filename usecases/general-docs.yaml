@@ -1,0 +1,11 @@
+description: "Open or search Wrangler documentation from the CLI"
+command: "wrangler docs [search terms]"
+status: "gap"
+sourceCommands:
+  - "wrangler docs"
+  - "wrangler docs <search terms>"
+cfReplacementFlow:
+  - "No direct cf replacement."
+  - "cf schema <command...>"
+notes:
+  - "cf has agent-oriented metadata commands, not a browser-opening docs command."

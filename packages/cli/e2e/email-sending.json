@@ -1,0 +1,68 @@
+{
+  "product": "email-sending",
+  "tests": [
+    {
+      "command": "cf email-sending send",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-sending send-raw",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-sending subdomains create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-sending subdomains list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-sending subdomains dns get",
+      "args": ["placeholder_subdomain_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-sending subdomains get",
+      "args": ["placeholder_subdomain_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-sending subdomains delete",
+      "args": ["placeholder_subdomain_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-sending subdomains preview",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-sending limits get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

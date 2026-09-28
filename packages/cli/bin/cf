@@ -1,0 +1,61 @@
+#!/usr/bin/env node
+
+// Keep in sync with `engines.node` in packages/cli/package.json.
+const REQUIRED_NODE_MAJOR = 22;
+
+const major = parseInt(process.versions.node.split(".")[0], 10);
+if (Number.isNaN(major) || major < REQUIRED_NODE_MAJOR) {
+	console.error(
+		`cf requires Node.js v${REQUIRED_NODE_MAJOR} or newer. You are using v${process.versions.node}. Please update your version of Node.js.\n\n` +
+			`Consider using a Node.js version manager such as https://github.com/nvm-sh/nvm.`
+	);
+	process.exit(1);
+}
+
+// Suppress Node's `punycode` deprecation warning. It originates from
+// transitive deps in our bundle (the userland `punycode` package
+// hasn't shipped a Node-22-compatible release; Node's built-in
+// `node:punycode` is deprecated but still functional). Filter only
+// this specific warning so other deprecation warnings still surface.
+process.on("warning", (warning) => {
+	if (
+		warning.name === "DeprecationWarning" &&
+		typeof warning.message === "string" &&
+		warning.message.includes("punycode")
+	) {
+		return;
+	}
+	// Re-emit other warnings via the default handler. Node's default is
+	// `console.error(warning.stack ?? warning.message)`.
+	console.error(warning.stack ?? `${warning.name}: ${warning.message}`);
+});
+
+// Wrangler-2-style local-install delegation, handled HERE — before the
+// main bundle is imported — so that when cf hands off to a project-local
+// copy, the global install never pays to load its (large) command tree.
+// The delegation logic lives in src/lib/delegate.ts and is emitted as a
+// small standalone chunk (see tsdown.config.ts `entry.delegate`).
+const { maybeDelegateFromProcess } = await import("../dist/delegate.mjs");
+const delegation = await maybeDelegateFromProcess();
+if (delegation.delegated) {
+	process.exit(delegation.exitCode ?? 0);
+}
+
+// Dynamic so the version check above runs first — static imports are
+// hoisted ahead of all user code, which means a too-old Node would fail
+// resolving the bundle before we get a chance to print a friendly error.
+const { CliExit, main } = await import("../dist/index.mjs");
+
+try {
+	await main();
+} catch (err) {
+	// `main()` is the sole error-rendering site — it calls `handleError`
+	// before rethrowing the original error so tests can catch it on the
+	// `runMain` rejection and assert against the original shape.  Here
+	// we only translate to a process exit code; we never write to stderr
+	// ourselves.
+	if (err instanceof CliExit) {
+		process.exit(err.code);
+	}
+	process.exit(1);
+}

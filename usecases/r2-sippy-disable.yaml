@@ -1,0 +1,9 @@
+description: "Disable R2 Sippy migration"
+command: "wrangler r2 bucket sippy disable <bucket>"
+status: "direct"
+sourceCommands:
+  - "wrangler r2 bucket sippy disable <bucket>"
+cfReplacementFlow:
+  - "cf r2 buckets sippy delete <bucket> --force"
+notes:
+  - "Use cf --force for non-interactive destructive confirmation."

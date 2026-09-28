@@ -1,0 +1,9 @@
+description: "Get Pipeline sink details"
+command: "wrangler pipelines sinks get <sink>"
+status: "partial"
+sourceCommands:
+  - "wrangler pipelines sinks get <sink>"
+cfReplacementFlow:
+  - "cf pipelines sinks get <sink-id>"
+notes:
+  - "Wrangler may resolve by friendly name; cf likely requires the API ID."

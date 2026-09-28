@@ -1,0 +1,9 @@
+description: "Upload an mTLS client certificate and private key"
+command: "wrangler mtls-certificate upload --cert cert.pem --key key.pem"
+status: "partial"
+sourceCommands:
+  - "wrangler mtls-certificate upload --cert cert.pem --key key.pem"
+cfReplacementFlow:
+  - "cf mtls-certificates create --certificates @cert.pem --private-key @key.pem"
+notes:
+  - "cf uses generated file-token ingestion and may require additional body fields such as name or ca."

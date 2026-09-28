@@ -1,0 +1,9 @@
+description: "Verify generated Worker types are up to date in CI"
+command: "wrangler types --check"
+status: "gap"
+sourceCommands:
+  - "wrangler types --check"
+cfReplacementFlow:
+  - "No direct cf replacement."
+notes:
+  - "cf workers types generates the declaration but has no --check mode."

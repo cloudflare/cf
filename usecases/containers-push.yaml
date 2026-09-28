@@ -1,0 +1,10 @@
+description: "Push a container image to Cloudflare's managed registry"
+command: "wrangler containers push <image:tag>"
+status: "direct"
+sourceCommands:
+  - "wrangler containers push <image:tag>"
+cfReplacementFlow:
+  - "cf containers push --tag <image:tag>"
+notes:
+  - "This is a hand-written command backed by the shared Container registry and Docker helpers rather than an OpenAPI operation."
+  - "cf uses a required --tag flag instead of Wrangler's positional image and also accepts --path-to-docker."

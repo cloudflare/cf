@@ -1,0 +1,9 @@
+description: "List mTLS certificates and CA chains"
+command: "wrangler cert list"
+status: "partial"
+sourceCommands:
+  - "wrangler cert list"
+cfReplacementFlow:
+  - "cf mtls-certificates list"
+notes:
+  - "If CA certs are a separate generated resource, include that list command too."

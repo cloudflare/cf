@@ -1,0 +1,9 @@
+description: "Get D1 Time Travel bookmark information for a timestamp"
+command: "wrangler d1 time-travel info <database> --timestamp <timestamp>"
+status: "partial"
+sourceCommands:
+  - "wrangler d1 time-travel info <database> --timestamp <timestamp>"
+cfReplacementFlow:
+  - "cf d1 time-travel get-bookmark <database-id> --timestamp <timestamp>"
+notes:
+  - "Wrangler accepts database name/binding; cf likely needs database ID."

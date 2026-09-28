@@ -1,0 +1,229 @@
+{
+  "product": "iam",
+  "tests": [
+    {
+      "command": "cf iam resource-groups create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf iam sso begin-verification",
+      "args": ["placeholder_sso_connector_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf iam sso create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf iam user-groups create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf iam user-groups members-create",
+      "args": ["placeholder_user_group_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf iam permission-groups list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf iam resource-groups list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf iam sso list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf iam user-groups list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf iam user-groups members-list",
+      "args": ["placeholder_user_group_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf iam permission-groups get",
+      "args": ["placeholder_permission_group_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf iam resource-groups get",
+      "args": ["placeholder_resource_group_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf iam sso get",
+      "args": ["placeholder_sso_connector_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf iam user-groups get",
+      "args": ["placeholder_user_group_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf iam resource-groups update",
+      "args": ["placeholder_resource_group_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf iam sso update",
+      "args": ["placeholder_sso_connector_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf iam user-groups members-update",
+      "args": ["placeholder_user_group_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf iam user-groups update",
+      "args": ["placeholder_user_group_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf iam resource-groups delete",
+      "args": ["placeholder_resource_group_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf iam sso delete",
+      "args": ["placeholder_sso_connector_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf iam user-groups delete",
+      "args": ["placeholder_user_group_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf iam user-groups members-delete",
+      "args": ["placeholder_user_group_id", "placeholder_member_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf iam user-groups-extra members-get",
+      "args": ["placeholder_user_group_id", "placeholder_member_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf iam user-groups-members create",
+      "args": ["placeholder_user_group_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf iam user-groups-members list",
+      "args": ["placeholder_user_group_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf iam user-groups-members update",
+      "args": ["placeholder_user_group_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf iam user-groups-members delete",
+      "args": ["placeholder_user_group_id", "placeholder_member_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf iam user-groups members create",
+      "args": ["placeholder_user_group_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf iam user-groups members list",
+      "args": ["placeholder_user_group_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf iam user-groups members update",
+      "args": ["placeholder_user_group_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf iam user-groups members delete",
+      "args": ["placeholder_user_group_id", "placeholder_member_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf iam sso begin verification",
+      "args": ["placeholder_sso_connector_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

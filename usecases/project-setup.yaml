@@ -1,0 +1,11 @@
+description: "Set up an existing project for Cloudflare Workers"
+command: "wrangler setup"
+status: "partial"
+sourceCommands:
+  - "wrangler setup"
+cfReplacementFlow:
+  - "cf init [directory] in a directory that already contains files"
+notes:
+  - "This is a compound autoconfig workflow, not plain API CRUD."
+  - "cf consolidates explicit setup into cf init; there is no separate cf setup or cf workers setup."
+  - "Wrangler's setup flags, such as --dry-run and --build, are not carried over."

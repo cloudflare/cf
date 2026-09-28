@@ -1,0 +1,9 @@
+description: "Delete R2 bucket event notification rules"
+command: "wrangler r2 bucket notification delete <bucket> --queue <queue>"
+status: "partial"
+sourceCommands:
+  - "wrangler r2 bucket notification delete <bucket> --queue <queue>"
+cfReplacementFlow:
+  - "cf r2 buckets event-notifications delete <bucket> --body @notification-delete.json --force"
+notes:
+  - "Exact generated path/flags should be checked with cf schema."

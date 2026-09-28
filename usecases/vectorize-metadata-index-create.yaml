@@ -1,0 +1,9 @@
+description: "Create a Vectorize metadata filter index"
+command: "wrangler vectorize create-metadata-index <index> --propertyName <name> --type <type>"
+status: "direct"
+sourceCommands:
+  - "wrangler vectorize create-metadata-index <index> --propertyName <name> --type <type>"
+cfReplacementFlow:
+  - "cf vectorize metadata-index create <index> --property-name <name> --type <type>"
+notes:
+  - "cf uses kebab-case flag names."

@@ -1,0 +1,64 @@
+[
+	{
+		"command": "cf deploy",
+		"name": "deploy",
+		"fullPath": ["deploy"],
+		"category": "action",
+		"description": "Deploy a worker to Cloudflare",
+		"usage": "cf deploy [options]",
+		"arguments": [],
+		"options": [
+			{
+				"name": "prebuilt",
+				"type": "boolean",
+				"required": false,
+				"description": "Deploy existing Build Output Specification files without building",
+				"default": false
+			},
+			{
+				"name": "tag",
+				"type": "string",
+				"required": false,
+				"description": "A tag to associate with this Worker Version"
+			},
+			{
+				"name": "message",
+				"type": "string",
+				"required": false,
+				"description": "A message to associate with this Worker Version"
+			},
+			{
+				"name": "secrets-file",
+				"type": "string",
+				"required": false,
+				"description": "Path to a file containing secrets to upload with the version (JSON or .env format)"
+			},
+			{
+				"name": "dry-run",
+				"type": "boolean",
+				"required": false,
+				"description": "Build a project and run checks without actually uploading the Worker",
+				"default": false
+			},
+			{
+				"name": "worker",
+				"type": "string",
+				"required": false,
+				"description": "Name of the Worker in the Build Output to use (defaults to the default Worker)"
+			},
+			{
+				"name": "dispatch-namespace",
+				"type": "string",
+				"required": false,
+				"description": "Name of a dispatch namespace to deploy the Worker to (Workers for Platforms)"
+			},
+			{
+				"name": "containers-rollout",
+				"type": "string",
+				"required": false,
+				"description": "Rollout strategy for Container changes. Immediate rolls out to all instances in one step; none leaves deployed Containers unchanged.",
+				"enum": ["immediate", "gradual", "none"]
+			}
+		]
+	}
+]

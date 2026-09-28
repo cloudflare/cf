@@ -1,0 +1,10 @@
+description: "Bind a D1 database and migrations directory through Wrangler config"
+command: "wrangler.jsonc d1_databases"
+status: "gap"
+sourceCommands:
+  - "wrangler.jsonc d1_databases"
+cfReplacementFlow:
+  - "Create/list/query D1 databases with cf d1 commands."
+  - "No current cf config-sync or migrations-dir replacement."
+notes:
+  - "D1 migration file workflows are separate Wrangler local tooling."

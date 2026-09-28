@@ -1,0 +1,12 @@
+description: "Configure, list, remove, or get credentials for Cloudchamber registries"
+command: "wrangler cloudchamber registries <command>"
+status: "partial"
+sourceCommands:
+  - "wrangler cloudchamber registries configure"
+  - "wrangler cloudchamber registries credentials"
+  - "wrangler cloudchamber registries remove"
+  - "wrangler cloudchamber registries list"
+cfReplacementFlow:
+  - "cf cloudchamber registries <generated-command>"
+notes:
+  - "Use generated registry CRUD/credentials endpoints if Cloudchamber is present in cf; otherwise no direct replacement."

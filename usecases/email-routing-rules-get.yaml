@@ -1,0 +1,9 @@
+description: "Get an Email Routing rule"
+command: "wrangler email routing rules get <domain> <rule-id>"
+status: "direct"
+sourceCommands:
+  - "wrangler email routing rules get <domain> <rule-id>"
+cfReplacementFlow:
+  - "cf email-routing rules get <rule-id> --zone <zone>"
+notes:
+  - "Exact positional and flag names should be checked with cf --help."

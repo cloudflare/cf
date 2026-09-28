@@ -1,0 +1,27 @@
+{
+	"command": "cf containers images delete",
+	"name": "delete",
+	"fullPath": ["containers", "images", "delete"],
+	"category": "delete",
+	"description": "Delete an image tag in the Cloudflare managed registry.",
+	"usage": "cf containers images delete <image:tag> [--force]",
+	"arguments": [
+		{
+			"name": "image",
+			"position": 0,
+			"type": "string",
+			"required": true,
+			"description": "Image and tag to delete, of the form IMAGE:TAG"
+		}
+	],
+	"options": [
+		{
+			"name": "force",
+			"alias": "f",
+			"type": "boolean",
+			"required": false,
+			"default": false,
+			"description": "Skip the deletion confirmation prompt"
+		}
+	]
+}

@@ -1,0 +1,9 @@
+description: "List uploaded mTLS certificates"
+command: "wrangler mtls-certificate list"
+status: "direct"
+sourceCommands:
+  - "wrangler mtls-certificate list"
+cfReplacementFlow:
+  - "cf mtls-certificates list"
+notes:
+  - "cf outputs JSON by default."

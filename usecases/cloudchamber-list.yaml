@@ -1,0 +1,9 @@
+description: "List Cloudchamber deployments"
+command: "wrangler cloudchamber list"
+status: "partial"
+sourceCommands:
+  - "wrangler cloudchamber list"
+cfReplacementFlow:
+  - "cf cloudchamber list"
+notes:
+  - "Cloudchamber is hidden/deprecated-adjacent in Wrangler. Verify cf product coverage."

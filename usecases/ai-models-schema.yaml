@@ -1,0 +1,9 @@
+description: "Show input/output schema for a Workers AI model"
+command: "wrangler ai models schema <model>"
+status: "partial"
+sourceCommands:
+  - "wrangler ai models schema <model>"
+cfReplacementFlow:
+  - "cf ai models schema <model>"
+notes:
+  - "Verify exact generated cf command path; model schema may be exposed through a generated model endpoint."

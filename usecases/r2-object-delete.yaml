@@ -1,0 +1,10 @@
+description: "Delete one object from R2"
+command: "wrangler r2 object delete <bucket>/<key>"
+status: "gap"
+sourceCommands:
+  - "wrangler r2 object delete <bucket>/<key>"
+cfReplacementFlow:
+  - "No direct cf replacement today."
+  - "Use an S3-compatible client against R2 as a manual workaround."
+notes:
+  - "Bucket admin API coverage does not imply object data-plane coverage."

@@ -1,0 +1,9 @@
+description: "Delete a Queue event subscription"
+command: "wrangler queues subscription delete <queue> --id <subscription-id>"
+status: "direct"
+sourceCommands:
+  - "wrangler queues subscription delete <queue> --id <subscription-id>"
+cfReplacementFlow:
+  - "cf queues subscriptions delete <subscription-id> --force"
+notes:
+  - "Use cf --force instead of Wrangler --yes."

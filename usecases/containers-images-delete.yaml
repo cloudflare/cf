@@ -1,0 +1,11 @@
+description: "Delete an image from Cloudflare managed registry"
+command: "wrangler containers images delete <image:tag>"
+status: "direct"
+sourceCommands:
+  - "wrangler containers images delete <image:tag>"
+cfReplacementFlow:
+  - "cf containers images delete <image:tag> --force"
+notes:
+  - "Uses the same managed-registry image operations as Wrangler through @cloudflare/containers-shared."
+  - "Requires confirmation, or --force in non-interactive contexts; deletes the tag and requests layer garbage collection."
+  - "If the GC request fails after deletion, returns the deleted digest with a warning and a successful exit status."

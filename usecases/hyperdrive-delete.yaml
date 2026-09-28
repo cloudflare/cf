@@ -1,0 +1,9 @@
+description: "Delete a Hyperdrive configuration"
+command: "wrangler hyperdrive delete <id>"
+status: "direct"
+sourceCommands:
+  - "wrangler hyperdrive delete <id>"
+cfReplacementFlow:
+  - "cf hyperdrive delete <id> --force"
+notes:
+  - "Use cf --force for non-interactive deletion."

@@ -1,0 +1,208 @@
+{
+  "product": "custom-pages",
+  "tests": [
+    {
+      "command": "cf custom-pages list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf custom-pages get",
+      "args": ["placeholder_identifier"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf custom-pages update",
+      "args": ["placeholder_identifier", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf custom-pages assets create-custom-asset",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf custom-pages assets create-v2",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf custom-pages assets list-custom-assets",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf custom-pages assets list-v2",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf custom-pages list-extra",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf custom-pages assets get-custom-asset",
+      "args": ["placeholder_asset_name"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf custom-pages assets get-v2",
+      "args": ["placeholder_asset_name"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf custom-pages get-extra",
+      "args": ["placeholder_identifier"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf custom-pages assets update-custom-asset",
+      "args": ["placeholder_asset_name", "--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf custom-pages assets update-v2",
+      "args": ["placeholder_asset_name", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf custom-pages update-extra",
+      "args": ["placeholder_identifier", "--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf custom-pages assets delete-custom-asset",
+      "args": ["placeholder_asset_name", "--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf custom-pages assets delete-v2",
+      "args": ["placeholder_asset_name", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf custom-pages assets create custom asset",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf custom-pages assets create v2",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf custom-pages assets list custom assets",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf custom-pages assets list v2",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf custom-pages assets get custom asset",
+      "args": ["placeholder_asset_name"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf custom-pages assets get v2",
+      "args": ["placeholder_asset_name"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf custom-pages assets update custom asset",
+      "args": ["placeholder_asset_name", "--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf custom-pages assets update v2",
+      "args": ["placeholder_asset_name", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf custom-pages assets delete custom asset",
+      "args": ["placeholder_asset_name", "--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf custom-pages assets delete v2",
+      "args": ["placeholder_asset_name", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf custom-pages zone-custom-pages list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf custom-pages zone-custom-pages get",
+      "args": ["1000_errors"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf custom-pages account-custom-pages update",
+      "args": ["1000_errors", "--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+description: "Define plain environment variables for Worker runtime"
+command: "wrangler.jsonc vars"
+status: "gap"
+sourceCommands:
+  - "wrangler.jsonc vars"
+cfReplacementFlow:
+  - "No current config-driven cf replacement."
+notes:
+  - "cf exposes no direct CLI command to synchronize plain Worker variables from Wrangler config."

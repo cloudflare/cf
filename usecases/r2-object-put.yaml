@@ -1,0 +1,11 @@
+description: "Upload an object to R2"
+command: "wrangler r2 object put <bucket>/<key> --file <path>"
+status: "gap"
+sourceCommands:
+  - "wrangler r2 object put <bucket>/<key> --file <path>"
+  - "wrangler r2 object put <bucket>/<key> --pipe"
+cfReplacementFlow:
+  - "No direct cf replacement today."
+  - "Use an S3-compatible client against R2 as a manual workaround."
+notes:
+  - "Wrangler supports object metadata flags and local mode. cf lacks the object data-plane command family."

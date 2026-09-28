@@ -1,0 +1,46 @@
+{
+	"command": "cf tunnels tail",
+	"name": "tail",
+	"fullPath": ["tunnels", "tail"],
+	"category": "action",
+	"description": "Stream logs from a remote cloudflared instance.",
+	"usage": "cf tunnels tail [tunnel-id] [options]",
+	"arguments": [
+		{
+			"name": "tunnel-id",
+			"position": 0,
+			"type": "string",
+			"required": false,
+			"description": "Tunnel UUID to stream logs from"
+		}
+	],
+	"options": [
+		{
+			"name": "connector-id",
+			"type": "string",
+			"required": false,
+			"description": "Target a specific cloudflared connector"
+		},
+		{
+			"name": "event",
+			"type": "string",
+			"required": false,
+			"description": "Filter by event type; may be repeated",
+			"enum": ["cloudflared", "http", "tcp", "udp"]
+		},
+		{
+			"name": "level",
+			"type": "string",
+			"required": false,
+			"default": "debug",
+			"description": "Filter by log level",
+			"enum": ["debug", "info", "warn", "error"]
+		},
+		{
+			"name": "sample",
+			"type": "number",
+			"required": false,
+			"description": "Sample log events by fraction greater than 0.0 and no greater than 1.0"
+		}
+	]
+}

@@ -1,0 +1,9 @@
+description: "Delete a Cloudflare Containers application"
+command: "wrangler containers delete <container-id>"
+status: "partial"
+sourceCommands:
+  - "wrangler containers delete <container-id>"
+cfReplacementFlow:
+  - "cf containers delete <container-id> --force"
+notes:
+  - "Verify current cf product coverage."

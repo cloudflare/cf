@@ -1,0 +1,11 @@
+description: "Authenticate non-interactively with an API token"
+command: "CLOUDFLARE_API_TOKEN=<token> wrangler <command>"
+status: "direct"
+sourceCommands:
+  - "CLOUDFLARE_API_TOKEN=<token> wrangler <command>"
+cfReplacementFlow:
+  - "CLOUDFLARE_API_TOKEN=<token> cf <command>"
+  - "cf auth login --token <token>"
+notes:
+  - "Wrangler primarily reads the environment variable or stored OAuth credentials."
+  - "cf additionally supports storing an API token with auth login --token."

@@ -1,0 +1,96 @@
+{
+  "product": "page-shield",
+  "tests": [
+    {
+      "command": "cf page-shield policies create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf page-shield connections list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf page-shield cookies list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf page-shield policies list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf page-shield scripts list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf page-shield connections get",
+      "args": ["placeholder_connection_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf page-shield cookies get",
+      "args": ["placeholder_cookie_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf page-shield get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf page-shield policies get",
+      "args": ["placeholder_policy_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf page-shield scripts get",
+      "args": ["placeholder_script_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf page-shield policies update",
+      "args": ["placeholder_policy_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf page-shield update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf page-shield policies delete",
+      "args": ["placeholder_policy_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    }
+  ]
+}

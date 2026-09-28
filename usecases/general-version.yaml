@@ -1,0 +1,11 @@
+description: "Print CLI version information"
+command: "wrangler --version"
+status: "direct"
+sourceCommands:
+  - "wrangler --version"
+  - "wrangler -v"
+cfReplacementFlow:
+  - "cf --version"
+  - "cf -v"
+notes:
+  - "cf prints its branded version banner."

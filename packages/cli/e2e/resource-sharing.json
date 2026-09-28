@@ -1,0 +1,117 @@
+{
+  "product": "resource-sharing",
+  "tests": [
+    {
+      "command": "cf resource-sharing create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf resource-sharing recipients create",
+      "args": ["placeholder_share_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf resource-sharing resources create",
+      "args": ["placeholder_share_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf resource-sharing list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf resource-sharing recipients list",
+      "args": ["placeholder_share_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf resource-sharing resources list",
+      "args": ["placeholder_share_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf resource-sharing get",
+      "args": ["placeholder_share_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf resource-sharing recipients get",
+      "args": ["placeholder_share_id", "placeholder_recipient_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf resource-sharing resources get",
+      "args": ["placeholder_share_id", "placeholder_resource_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf resource-sharing resources update",
+      "args": ["placeholder_share_id", "placeholder_resource_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf resource-sharing update",
+      "args": ["placeholder_share_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf resource-sharing delete",
+      "args": ["placeholder_share_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf resource-sharing recipients delete",
+      "args": ["placeholder_share_id", "placeholder_recipient_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf resource-sharing resources delete",
+      "args": ["placeholder_share_id", "placeholder_resource_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf resource-sharing recipients-extra update",
+      "args": ["placeholder_share_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf resource-sharing recipients update",
+      "args": ["placeholder_share_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

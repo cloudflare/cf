@@ -1,0 +1,9 @@
+description: "Render Pages Functions environment variables from config"
+command: "wrangler pages functions build-env <project-dir>"
+status: "gap"
+sourceCommands:
+  - "wrangler pages functions build-env <project-dir>"
+cfReplacementFlow:
+  - "No direct cf replacement."
+notes:
+  - "cf does not read Pages/Wrangler project config."

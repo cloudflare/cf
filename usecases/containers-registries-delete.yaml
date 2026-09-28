@@ -1,0 +1,9 @@
+description: "Delete an external registry configuration"
+command: "wrangler containers registries delete <domain>"
+status: "partial"
+sourceCommands:
+  - "wrangler containers registries delete <domain>"
+cfReplacementFlow:
+  - "cf containers registries delete <domain> --force"
+notes:
+  - "Verify exact generated product path."

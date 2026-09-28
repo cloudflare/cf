@@ -1,0 +1,11 @@
+description: "Write one Workers KV key/value pair"
+command: "wrangler kv key put <key> <value> --namespace-id <id>"
+status: "partial"
+sourceCommands:
+  - "wrangler kv key put <key> <value>"
+  - "wrangler kv key put <key> --path <file>"
+cfReplacementFlow:
+  - "cf kv keys update <key> --namespace-id <namespace-id> --body <value>"
+  - "cf kv keys update <key> --namespace-id <namespace-id> --file <path>"
+notes:
+  - "Wrangler supports binding/preview/local flags and friendly expiration flags. cf is API-first and namespace-id-first."

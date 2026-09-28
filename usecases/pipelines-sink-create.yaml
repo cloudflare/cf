@@ -1,0 +1,10 @@
+description: "Create a Pipeline sink"
+command: "wrangler pipelines sinks create <sink>"
+status: "partial"
+sourceCommands:
+  - "wrangler pipelines sinks create <sink> --type r2"
+  - "wrangler pipelines sinks create <sink> --type r2-data-catalog"
+cfReplacementFlow:
+  - "cf pipelines sinks create --name <sink> --body @sink.json"
+notes:
+  - "Wrangler can create/read credentials and exposes many sink-specific flags. cf replacement is lower-level."

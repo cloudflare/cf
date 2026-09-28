@@ -1,0 +1,9 @@
+description: "Send an event to a waiting Workflow instance"
+command: "wrangler workflows instances send-event <workflow> <instance-id> --type <type> --payload <json>"
+status: "partial"
+sourceCommands:
+  - "wrangler workflows instances send-event <workflow> <instance-id> --type <type> --payload <json>"
+cfReplacementFlow:
+  - "cf workflows instances events create <event-type> --workflow-name <workflow> --instance-id <instance-id> --body @payload.json"
+notes:
+  - "Command shape differs but maps to the same Workflow instance event API concept."

@@ -1,0 +1,10 @@
+description: "Configure Workers observability and log settings"
+command: "wrangler.jsonc observability"
+status: "gap"
+sourceCommands:
+  - "wrangler.jsonc observability"
+  - "wrangler.jsonc logpush"
+cfReplacementFlow:
+  - "No current config-driven cf replacement."
+notes:
+  - "cf exposes no Worker observability/settings synchronization command and does not read Wrangler config."

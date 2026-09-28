@@ -1,0 +1,9 @@
+description: "Get AI Search instance details"
+command: "wrangler ai-search get <name>"
+status: "direct"
+sourceCommands:
+  - "wrangler ai-search get <name>"
+cfReplacementFlow:
+  - "cf ai-search get <name>"
+notes:
+  - "Pass namespace flag if generated and non-default namespace is needed."

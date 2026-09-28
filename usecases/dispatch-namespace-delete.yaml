@@ -1,0 +1,9 @@
+description: "Delete a dispatch namespace"
+command: "wrangler dispatch-namespace delete <namespace>"
+status: "direct"
+sourceCommands:
+  - "wrangler dispatch-namespace delete <namespace>"
+cfReplacementFlow:
+  - "cf workers-for-platforms dispatch-namespaces delete <namespace> --force"
+notes:
+  - "Use cf --force for non-interactive deletion."

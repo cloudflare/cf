@@ -1,0 +1,9 @@
+description: "List Cloudflare Tunnels"
+command: "wrangler tunnel list"
+status: "direct"
+sourceCommands:
+  - "wrangler tunnel list"
+cfReplacementFlow:
+  - "cf zero-trust tunnels cloudflared list"
+notes:
+  - "cf output is JSON."

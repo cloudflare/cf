@@ -1,0 +1,9 @@
+description: "List Workers VPC services"
+command: "wrangler vpc service list"
+status: "direct"
+sourceCommands:
+  - "wrangler vpc service list"
+cfReplacementFlow:
+  - "cf workers-vpc services list"
+notes:
+  - "Wrangler VPC service maps to cf workers-vpc services."

@@ -1,0 +1,55 @@
+{
+	"command": "cf workers versions create",
+	"name": "create",
+	"fullPath": ["workers", "versions", "create"],
+	"category": "create",
+	"description": "Upload a new Worker Version without deploying it",
+	"usage": "cf workers versions create [options]",
+	"arguments": [],
+	"options": [
+		{
+			"name": "prebuilt",
+			"type": "boolean",
+			"required": false,
+			"description": "Deploy existing Build Output Specification files without building",
+			"default": false
+		},
+		{
+			"name": "tag",
+			"type": "string",
+			"required": false,
+			"description": "A tag to associate with this Worker Version"
+		},
+		{
+			"name": "message",
+			"type": "string",
+			"required": false,
+			"description": "A message to associate with this Worker Version"
+		},
+		{
+			"name": "secrets-file",
+			"type": "string",
+			"required": false,
+			"description": "Path to a file containing secrets to upload with the version (JSON or .env format)"
+		},
+		{
+			"name": "dry-run",
+			"type": "boolean",
+			"required": false,
+			"description": "Build a project and run checks without actually uploading the Worker",
+			"default": false
+		},
+		{
+			"name": "worker",
+			"type": "string",
+			"required": false,
+			"description": "Name of the Worker in the Build Output to use (defaults to the default Worker)"
+		},
+		{
+			"name": "preview-alias",
+			"type": "string",
+			"required": false,
+			"description": "Preview alias for this Worker Version"
+		}
+	]
+}

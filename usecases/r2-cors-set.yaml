@@ -1,0 +1,9 @@
+description: "Replace R2 bucket CORS configuration from JSON"
+command: "wrangler r2 bucket cors set <bucket> --file cors.json"
+status: "direct"
+sourceCommands:
+  - "wrangler r2 bucket cors set <bucket> --file cors.json"
+cfReplacementFlow:
+  - "cf r2 buckets cors update <bucket> --body @cors.json"
+notes:
+  - "Wrangler validates friendly/AWS-compatible CORS shapes; cf sends the API body."

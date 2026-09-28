@@ -1,0 +1,9 @@
+description: "Send an email using Wrangler's message builder"
+command: "wrangler email sending send"
+status: "partial"
+sourceCommands:
+  - "wrangler email sending send --from <from> --to <to> --subject <subject> --body <body>"
+cfReplacementFlow:
+  - "cf email-sending send --body @email.json"
+notes:
+  - "Wrangler builds MIME/message payloads and handles attachment flags. cf likely sends API-shaped JSON/body."

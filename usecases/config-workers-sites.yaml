@@ -1,0 +1,11 @@
+description: "Configure deprecated Workers Sites assets"
+command: "wrangler.toml site"
+status: "gap"
+sourceCommands:
+  - "wrangler.toml site.bucket"
+  - "wrangler.toml site.include"
+  - "wrangler.toml site.exclude"
+cfReplacementFlow:
+  - "No direct cf replacement."
+notes:
+  - "Workers Sites is deprecated; Workers Assets/Pages are preferred."

@@ -1,0 +1,9 @@
+description: "List custom domains attached to an R2 bucket"
+command: "wrangler r2 bucket domain list <bucket>"
+status: "direct"
+sourceCommands:
+  - "wrangler r2 bucket domain list <bucket>"
+cfReplacementFlow:
+  - "cf r2 buckets domains custom list <bucket>"
+notes:
+  - "Jurisdiction may be passed as the generated cf-r2-jurisdiction header flag."

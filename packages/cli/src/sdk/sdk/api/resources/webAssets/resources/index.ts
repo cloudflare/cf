@@ -1,0 +1,12 @@
+export * as discovery from "./discovery/index.js";
+export * from "./discovery/client/requests/index.js";
+export * from "./discovery/types/index.js";
+export * as labels from "./labels/index.js";
+export * from "./labels/client/requests/index.js";
+export * from "./labels/types/index.js";
+export * as operations from "./operations/index.js";
+export * from "./operations/client/requests/index.js";
+export * from "./operations/types/index.js";
+export * as schemas from "./schemas/index.js";
+export * from "./schemas/client/requests/index.js";
+export * from "./schemas/types/index.js";

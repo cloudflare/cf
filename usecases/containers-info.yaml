@@ -1,0 +1,9 @@
+description: "Get a Cloudflare Containers application"
+command: "wrangler containers info <container-id>"
+status: "partial"
+sourceCommands:
+  - "wrangler containers info <container-id>"
+cfReplacementFlow:
+  - "cf containers get <container-id>"
+notes:
+  - "Wrangler may enrich application and instance details beyond raw API response."

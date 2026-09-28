@@ -1,0 +1,11 @@
+description: "Remove one R2 lifecycle rule by name"
+command: "wrangler r2 bucket lifecycle remove <bucket> --name <rule>"
+status: "partial"
+sourceCommands:
+  - "wrangler r2 bucket lifecycle remove <bucket> --name <rule>"
+cfReplacementFlow:
+  - "cf r2 buckets lifecycle get <bucket>"
+  - "Edit lifecycle JSON locally to remove the rule."
+  - "cf r2 buckets lifecycle update <bucket> --body @lifecycle.json"
+notes:
+  - "No generated single-rule delete helper is expected because the API stores the lifecycle document."

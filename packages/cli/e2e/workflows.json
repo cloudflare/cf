@@ -1,0 +1,131 @@
+{
+  "product": "workflows",
+  "tests": [
+    {
+      "command": "cf workflows instances bulk",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf workflows instances create",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf workflows instances events-create",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf workflows instances status-edit",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf workflows instances list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf workflows list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf workflows versions list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf workflows get",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf workflows instances get",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf workflows versions get",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf workflows update",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf workflows delete",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf workflows instances events create",
+      "args": ["placeholder_workflow_name", "placeholder_instance_id", "placeholder_event_type", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workflows instances status edit",
+      "args": ["placeholder_workflow_name", "placeholder_instance_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workflows instances batch-terminate",
+      "args": ["placeholder_workflow_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workflows instances status-terminate",
+      "args": ["placeholder_workflow_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workflows versions dag",
+      "args": ["placeholder_workflow_name", "placeholder_version_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workflows versions graph",
+      "args": ["placeholder_workflow_name", "placeholder_version_id"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

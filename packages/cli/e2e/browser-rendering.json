@@ -1,0 +1,439 @@
+{
+  "product": "browser-rendering",
+  "tests": [
+    {
+      "command": "cf browser-rendering content create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering json create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering links create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering markdown create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering pdf create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering scrape create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering screenshot create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering snapshot create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering crawl create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering crawl get",
+      "args": ["placeholder_job_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering crawl delete",
+      "args": ["placeholder_job_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools acquire",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools json-list",
+      "args": ["placeholder_session_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools session-list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools browser-acquire",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools browser-get",
+      "args": ["placeholder_session_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools json-activate",
+      "args": ["placeholder_session_id", "placeholder_target_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools json-get",
+      "args": ["placeholder_session_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools json-protocol",
+      "args": ["placeholder_session_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools json-target",
+      "args": ["placeholder_session_id", "placeholder_target_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools json-version",
+      "args": ["placeholder_session_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools page-get",
+      "args": ["placeholder_session_id", "placeholder_target_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools session-details",
+      "args": ["placeholder_session_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools json-new",
+      "args": ["placeholder_session_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools browser-delete",
+      "args": ["placeholder_session_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools-browser create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools-browser-targets list",
+      "args": ["placeholder_session_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools-session list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools-browser connect",
+      "args": ["placeholder_session_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools-browser launch",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools-browser protocol",
+      "args": ["placeholder_session_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools-browser version",
+      "args": ["placeholder_session_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools-browser-page get",
+      "args": ["placeholder_session_id", "placeholder_target_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools-browser-targets activate",
+      "args": ["placeholder_session_id", "placeholder_target_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools-browser-targets get",
+      "args": ["placeholder_session_id", "placeholder_target_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools-session get",
+      "args": ["placeholder_session_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools-browser-targets create",
+      "args": ["placeholder_session_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools-browser delete",
+      "args": ["placeholder_session_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools json list",
+      "args": ["placeholder_session_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools session list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools browser get",
+      "args": ["placeholder_session_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools json get",
+      "args": ["placeholder_session_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools page get",
+      "args": ["placeholder_session_id", "placeholder_target_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools browser delete",
+      "args": ["placeholder_session_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools browser create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools browser targets list",
+      "args": ["placeholder_session_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools browser connect",
+      "args": ["placeholder_session_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools browser launch",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools browser page get",
+      "args": ["placeholder_session_id", "placeholder_target_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools browser protocol",
+      "args": ["placeholder_session_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools browser targets activate",
+      "args": ["placeholder_session_id", "placeholder_target_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools browser targets get",
+      "args": ["placeholder_session_id", "placeholder_target_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools browser version",
+      "args": ["placeholder_session_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools session get",
+      "args": ["placeholder_session_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools browser targets create",
+      "args": ["placeholder_session_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools browser acquire",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools json activate",
+      "args": ["placeholder_session_id", "placeholder_target_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools json protocol",
+      "args": ["placeholder_session_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools json target",
+      "args": ["placeholder_session_id", "placeholder_target_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools json version",
+      "args": ["placeholder_session_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools session details",
+      "args": ["placeholder_session_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf browser-rendering devtools json new",
+      "args": ["placeholder_session_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

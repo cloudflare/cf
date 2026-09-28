@@ -1,0 +1,9 @@
+export type { ApplyOnRampsRequest } from "./ApplyOnRampsRequest.js";
+export type { DeleteOnRampsRequest } from "./DeleteOnRampsRequest.js";
+export type { EditOnRampsRequest } from "./EditOnRampsRequest.js";
+export type { ExportOnRampsRequest } from "./ExportOnRampsRequest.js";
+export type { GetOnRampsRequest } from "./GetOnRampsRequest.js";
+export type { ListOnRampsRequest } from "./ListOnRampsRequest.js";
+export type { McnCreateOnrampRequest } from "./McnCreateOnrampRequest.js";
+export type { PlanOnRampsRequest } from "./PlanOnRampsRequest.js";
+export type { UpdateOnRampsRequest } from "./UpdateOnRampsRequest.js";

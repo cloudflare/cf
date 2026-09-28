@@ -1,0 +1,36 @@
+{
+	"command": "cf tunnels quick-start",
+	"name": "quick-start",
+	"fullPath": ["tunnels", "quick-start"],
+	"category": "action",
+	"description": "Expose a local URL with a temporary trycloudflare.com tunnel. The tunnel remains active until cf exits.",
+	"usage": "cf tunnels quick-start <url> [--log-level <level>]",
+	"arguments": [
+		{
+			"name": "url",
+			"position": 0,
+			"type": "string",
+			"required": true,
+			"description": "Local URL to expose (for example, http://localhost:3000)"
+		}
+	],
+	"options": [
+		{
+			"name": "log-level",
+			"type": "string",
+			"required": false,
+			"default": "info",
+			"description": "cloudflared log level",
+			"enum": [
+				"trace",
+				"debug",
+				"info",
+				"warn",
+				"error",
+				"fatal",
+				"panic",
+				"disabled"
+			]
+		}
+	]
+}

@@ -1,0 +1,9 @@
+description: "Execute SQL from a file against D1"
+command: "wrangler d1 execute <database> --file schema.sql"
+status: "partial"
+sourceCommands:
+  - "wrangler d1 execute <database> --file schema.sql"
+cfReplacementFlow:
+  - "cf d1 query <database-id> --sql @schema.sql"
+notes:
+  - "Wrangler handles local execution and SQL splitting/normalization. cf sends the API query request."

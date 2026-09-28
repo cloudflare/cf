@@ -1,0 +1,509 @@
+{
+  "product": "stream",
+  "tests": [
+    {
+      "command": "cf stream audio-tracks copy",
+      "args": ["placeholder_identifier", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream captions language-create",
+      "args": ["placeholder_identifier", "placeholder_language", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream clip create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream copy create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream direct-upload create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream downloads create",
+      "args": ["placeholder_identifier", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream edit",
+      "args": ["placeholder_identifier", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream keys create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream live-inputs create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream live-inputs outputs-create",
+      "args": ["placeholder_live_input_identifier", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream token create",
+      "args": ["placeholder_identifier", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream watermarks create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream live-inputs list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream live-inputs outputs-list",
+      "args": ["placeholder_live_input_identifier"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream watermarks list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream audio-tracks get",
+      "args": ["placeholder_identifier"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream captions get",
+      "args": ["placeholder_identifier"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream captions language-get",
+      "args": ["placeholder_identifier", "placeholder_language"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream captions language-vtt-get",
+      "args": ["placeholder_identifier", "placeholder_language"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream downloads get",
+      "args": ["placeholder_identifier"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream embed get",
+      "args": ["placeholder_identifier"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream get",
+      "args": ["placeholder_identifier"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream keys get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream live-inputs get",
+      "args": ["placeholder_live_input_identifier"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream videos storage-usage",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream watermarks get",
+      "args": ["placeholder_identifier"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream webhooks get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream audio-tracks edit",
+      "args": ["placeholder_identifier", "placeholder_audio_identifier", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream captions language-update",
+      "args": ["placeholder_identifier", "placeholder_language", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream live-inputs outputs-update",
+      "args": ["placeholder_live_input_identifier", "placeholder_output_identifier", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream live-inputs update",
+      "args": ["placeholder_live_input_identifier", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream webhooks update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream audio-tracks delete",
+      "args": ["placeholder_identifier", "placeholder_audio_identifier", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream captions language-delete",
+      "args": ["placeholder_identifier", "placeholder_language", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream delete",
+      "args": ["placeholder_identifier", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream downloads delete",
+      "args": ["placeholder_identifier", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream keys delete",
+      "args": ["placeholder_identifier", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream live-inputs delete",
+      "args": ["placeholder_live_input_identifier", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream live-inputs outputs-delete",
+      "args": ["placeholder_live_input_identifier", "placeholder_output_identifier", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream watermarks delete",
+      "args": ["placeholder_identifier", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream webhooks delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream downloads-extra create",
+      "args": ["placeholder_identifier", "placeholder_download_type", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream live-inputs-extra disable-create",
+      "args": ["placeholder_live_input_identifier", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream live-inputs-extra enable-create",
+      "args": ["placeholder_live_input_identifier", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream downloads-extra delete",
+      "args": ["placeholder_identifier", "placeholder_download_type", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream captions-language create",
+      "args": ["placeholder_identifier", "placeholder_language", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream live-inputs-outputs create",
+      "args": ["placeholder_live_input_identifier", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream live-inputs-outputs list",
+      "args": ["placeholder_live_input_identifier"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream captions-language get",
+      "args": ["placeholder_identifier", "placeholder_language"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream captions-language-vtt get",
+      "args": ["placeholder_identifier", "placeholder_language"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream captions-language update",
+      "args": ["placeholder_identifier", "placeholder_language", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream live-inputs-outputs update",
+      "args": ["placeholder_live_input_identifier", "placeholder_output_identifier", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream captions-language delete",
+      "args": ["placeholder_identifier", "placeholder_language", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream live-inputs-outputs delete",
+      "args": ["placeholder_live_input_identifier", "placeholder_output_identifier", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream captions language create",
+      "args": ["placeholder_identifier", "placeholder_language", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream live-inputs outputs create",
+      "args": ["placeholder_live_input_identifier", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream live-inputs outputs list",
+      "args": ["placeholder_live_input_identifier"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream captions language get",
+      "args": ["placeholder_identifier", "placeholder_language"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream captions language vtt get",
+      "args": ["placeholder_identifier", "placeholder_language"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream captions language update",
+      "args": ["placeholder_identifier", "placeholder_language", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream live-inputs outputs update",
+      "args": ["placeholder_live_input_identifier", "placeholder_output_identifier", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream captions language delete",
+      "args": ["placeholder_identifier", "placeholder_language", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream live-inputs outputs delete",
+      "args": ["placeholder_live_input_identifier", "placeholder_output_identifier", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream live-inputs-extra disable create",
+      "args": ["placeholder_live_input_identifier", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream live-inputs-extra enable create",
+      "args": ["placeholder_live_input_identifier", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream videos storage usage",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream live-inputs disable create",
+      "args": ["placeholder_live_input_identifier", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream live-inputs enable create",
+      "args": ["placeholder_live_input_identifier", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream typed-downloads create",
+      "args": ["placeholder_identifier", "default", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf stream typed-downloads delete",
+      "args": ["placeholder_identifier", "default", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+	"command": "cf tunnels run",
+	"name": "run",
+	"fullPath": ["tunnels", "run"],
+	"category": "action",
+	"description": "Run a named Cloudflare Tunnel using the cf-managed cloudflared binary.",
+	"usage": "cf tunnels run [tunnel] [options]",
+	"arguments": [
+		{
+			"name": "tunnel",
+			"position": 0,
+			"type": "string",
+			"required": false,
+			"description": "Tunnel name or UUID; required unless --token is provided"
+		}
+	],
+	"options": [
+		{
+			"name": "token",
+			"type": "string",
+			"required": false,
+			"description": "Tunnel token supplied directly to cloudflared"
+		},
+		{
+			"name": "log-level",
+			"type": "string",
+			"required": false,
+			"default": "info",
+			"description": "cloudflared log level",
+			"enum": [
+				"trace",
+				"debug",
+				"info",
+				"warn",
+				"error",
+				"fatal",
+				"panic",
+				"disabled"
+			]
+		}
+	]
+}

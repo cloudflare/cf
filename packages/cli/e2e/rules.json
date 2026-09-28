@@ -1,0 +1,173 @@
+{
+  "product": "rules",
+  "tests": [
+    {
+      "command": "cf rules lists create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rules lists items-create",
+      "args": ["placeholder_list_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rules lists bulk-operations-get",
+      "args": ["placeholder_operation_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rules lists get",
+      "args": ["placeholder_list_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rules lists items-get",
+      "args": ["placeholder_list_id", "placeholder_item_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rules lists items-list",
+      "args": ["placeholder_list_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rules lists list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rules lists items-update",
+      "args": ["placeholder_list_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rules lists update",
+      "args": ["placeholder_list_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rules lists delete",
+      "args": ["placeholder_list_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rules lists items-delete",
+      "args": ["placeholder_list_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rules lists-items create",
+      "args": ["placeholder_list_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rules lists-bulk-operations get",
+      "args": ["placeholder_operation_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rules lists-items get",
+      "args": ["placeholder_list_id", "placeholder_item_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rules lists-items list",
+      "args": ["placeholder_list_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rules lists-items update",
+      "args": ["placeholder_list_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rules lists-items delete",
+      "args": ["placeholder_list_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rules lists items create",
+      "args": ["placeholder_list_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rules lists bulk-operations get",
+      "args": ["placeholder_operation_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rules lists items get",
+      "args": ["placeholder_list_id", "placeholder_item_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rules lists items list",
+      "args": ["placeholder_list_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rules lists items update",
+      "args": ["placeholder_list_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rules lists items delete",
+      "args": ["placeholder_list_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rules lists bulk operations get",
+      "args": ["placeholder_operation_id"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+description: "Apply Cloudchamber container application changes"
+command: "wrangler cloudchamber apply"
+status: "gap"
+sourceCommands:
+  - "wrangler cloudchamber apply"
+cfReplacementFlow:
+  - "No direct cf replacement."
+notes:
+  - "Wrangler marks this deprecated in favor of Wrangler deploy, which is out of scope."

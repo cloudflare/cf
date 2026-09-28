@@ -1,0 +1,523 @@
+{
+  "product": "email-routing",
+  "tests": [
+    {
+      "command": "cf email-routing addresses create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-routing disable",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-routing dns create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-routing enable",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-routing rules create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-routing addresses list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-routing rules list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-routing addresses get",
+      "args": ["placeholder_destination_address_identifier"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-routing dns get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-routing get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-routing rules catch-alls-get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-routing rules get",
+      "args": ["placeholder_rule_identifier"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-routing dns edit",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-routing rules catch-alls-update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-routing rules update",
+      "args": ["placeholder_rule_identifier", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-routing addresses delete",
+      "args": ["placeholder_destination_address_identifier", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-routing dns delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-routing rules delete",
+      "args": ["placeholder_rule_identifier", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-routing sending send-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-routing sending send-raw-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-routing sending subdomains-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-routing sending subdomains-preview-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-routing sending subdomains-list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-routing sending subdomains-dns-get",
+      "args": ["placeholder_subdomain_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-routing sending subdomains-get",
+      "args": ["placeholder_subdomain_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-routing sending subdomains-delete",
+      "args": ["placeholder_subdomain_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-routing suppression routing-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-routing suppression sending-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-routing suppression zone-routing-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-routing suppression zone-sending-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-routing suppression routing-list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-routing suppression sending-list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-routing suppression zone-routing-list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-routing suppression zone-sending-list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-routing sending get-limits",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-routing suppression routing-get",
+      "args": ["placeholder_suppression_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-routing suppression sending-get",
+      "args": ["placeholder_suppression_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-routing suppression zone-routing-get",
+      "args": ["placeholder_suppression_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-routing suppression zone-sending-get",
+      "args": ["placeholder_suppression_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-routing suppression routing-delete",
+      "args": ["placeholder_suppression_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-routing suppression sending-delete",
+      "args": ["placeholder_suppression_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-routing suppression zone-routing-delete",
+      "args": ["placeholder_suppression_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-routing suppression zone-sending-delete",
+      "args": ["placeholder_suppression_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-routing rules-catch-alls get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-routing rules-catch-alls update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-routing rules catch-alls get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-routing rules catch-alls update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-routing sending send create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-routing sending send raw create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-routing sending subdomains create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-routing sending subdomains preview create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-routing suppression routing create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-routing suppression sending create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-routing suppression zone routing create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-routing suppression zone sending create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-routing sending subdomains list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-routing suppression routing list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-routing suppression sending list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-routing suppression zone routing list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-routing suppression zone sending list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-routing sending subdomains dns get",
+      "args": ["placeholder_subdomain_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-routing sending subdomains get",
+      "args": ["placeholder_subdomain_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-routing suppression routing get",
+      "args": ["placeholder_suppression_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-routing suppression sending get",
+      "args": ["placeholder_suppression_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-routing suppression zone routing get",
+      "args": ["placeholder_suppression_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-routing suppression zone sending get",
+      "args": ["placeholder_suppression_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-routing sending subdomains delete",
+      "args": ["placeholder_subdomain_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-routing suppression routing delete",
+      "args": ["placeholder_suppression_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-routing suppression sending delete",
+      "args": ["placeholder_suppression_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-routing suppression zone routing delete",
+      "args": ["placeholder_suppression_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-routing suppression zone sending delete",
+      "args": ["placeholder_suppression_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-routing sending get limits",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-routing rules catch alls get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf email-routing rules catch alls update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    }
+  ]
+}

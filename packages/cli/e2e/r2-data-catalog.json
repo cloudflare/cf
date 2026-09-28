@@ -1,0 +1,138 @@
+{
+  "product": "r2-data-catalog",
+  "tests": [
+    {
+      "command": "cf r2-data-catalog credentials create",
+      "args": ["placeholder_bucket_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2-data-catalog disable",
+      "args": ["placeholder_bucket_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2-data-catalog enable",
+      "args": ["placeholder_bucket_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2-data-catalog maintenance-configs update",
+      "args": ["placeholder_bucket_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2-data-catalog namespaces tables-maintenance-configs-update",
+      "args": ["placeholder_bucket_name", "placeholder_namespace", "placeholder_table_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2-data-catalog list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2-data-catalog namespaces list",
+      "args": ["placeholder_bucket_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2-data-catalog namespaces tables-list",
+      "args": ["placeholder_bucket_name", "placeholder_namespace"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2-data-catalog get",
+      "args": ["placeholder_bucket_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2-data-catalog maintenance-configs get",
+      "args": ["placeholder_bucket_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2-data-catalog namespaces tables-maintenance-configs-get",
+      "args": ["placeholder_bucket_name", "placeholder_namespace", "placeholder_table_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2-data-catalog namespaces-tables-maintenance-configs update",
+      "args": ["placeholder_bucket_name", "placeholder_namespace", "placeholder_table_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2-data-catalog namespaces-tables list",
+      "args": ["placeholder_bucket_name", "placeholder_namespace"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2-data-catalog namespaces-tables-maintenance-configs get",
+      "args": ["placeholder_bucket_name", "placeholder_namespace", "placeholder_table_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2-data-catalog namespaces tables maintenance-configs update",
+      "args": ["placeholder_bucket_name", "placeholder_namespace", "placeholder_table_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2-data-catalog namespaces tables list",
+      "args": ["placeholder_bucket_name", "placeholder_namespace"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2-data-catalog namespaces tables maintenance-configs get",
+      "args": ["placeholder_bucket_name", "placeholder_namespace", "placeholder_table_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2-data-catalog namespaces tables maintenance configs update",
+      "args": ["placeholder_bucket_name", "placeholder_namespace", "placeholder_table_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2-data-catalog namespaces tables maintenance configs get",
+      "args": ["placeholder_bucket_name", "placeholder_namespace", "placeholder_table_name"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

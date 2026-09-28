@@ -1,0 +1,9 @@
+description: "Terminate a Workflow instance"
+command: "wrangler workflows instances terminate <workflow> <instance-id>"
+status: "partial"
+sourceCommands:
+  - "wrangler workflows instances terminate <workflow> <instance-id>"
+cfReplacementFlow:
+  - 'cf workflows instances status edit <instance-id> --workflow-name <workflow> --body ''{"status":"terminated"}'' --force'
+notes:
+  - "Generated cf status-edit body requirements have known rough edges; verify with cf schema."

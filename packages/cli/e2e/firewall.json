@@ -1,0 +1,572 @@
+{
+  "product": "firewall",
+  "tests": [
+    {
+      "command": "cf firewall access-rules create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf firewall lockdowns create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall rules create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall ua-rules create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall waf overrides-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall access-rules list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf firewall lockdowns list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall rules list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall ua-rules list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall waf overrides-list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall waf packages-groups-list",
+      "args": ["placeholder_package_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall waf packages-list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall waf packages-rules-list",
+      "args": ["placeholder_package_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall access-rules get",
+      "args": ["placeholder_rule_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf firewall lockdowns get",
+      "args": ["placeholder_lock_downs_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall rules get",
+      "args": ["placeholder_rule_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall ua-rules get",
+      "args": ["placeholder_ua_rule_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall waf overrides-get",
+      "args": ["placeholder_overrides_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall waf packages-get",
+      "args": ["placeholder_package_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall waf packages-groups-get",
+      "args": ["placeholder_package_id", "placeholder_group_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall waf packages-rules-get",
+      "args": ["placeholder_package_id", "placeholder_rule_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall access-rules edit",
+      "args": ["placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf firewall lockdowns update",
+      "args": ["placeholder_lock_downs_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall rules bulk-edit",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall rules bulk-update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall rules edit",
+      "args": ["placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall rules update",
+      "args": ["placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall ua-rules update",
+      "args": ["placeholder_ua_rule_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall waf overrides-update",
+      "args": ["placeholder_overrides_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall waf packages-groups-edit",
+      "args": ["placeholder_package_id", "placeholder_group_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall waf packages-rules-edit",
+      "args": ["placeholder_package_id", "placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall access-rules delete",
+      "args": ["placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf firewall lockdowns delete",
+      "args": ["placeholder_lock_downs_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall rules bulk-delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall rules delete",
+      "args": ["placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall ua-rules delete",
+      "args": ["placeholder_ua_rule_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall waf overrides-delete",
+      "args": ["placeholder_overrides_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall access-rules-extra rules-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall access-rules-extra rules-list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall access-rules-extra rules-edit",
+      "args": ["placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall waf-extra packages-edit",
+      "args": ["placeholder_package_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall access-rules-extra rules-delete",
+      "args": ["placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall waf-overrides create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall waf-overrides list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall waf-packages list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall waf-packages-groups list",
+      "args": ["placeholder_package_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall waf-packages-rules list",
+      "args": ["placeholder_package_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall waf-overrides get",
+      "args": ["placeholder_overrides_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall waf-packages get",
+      "args": ["placeholder_package_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall waf-packages-groups get",
+      "args": ["placeholder_package_id", "placeholder_group_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall waf-packages-rules get",
+      "args": ["placeholder_package_id", "placeholder_rule_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall waf-overrides update",
+      "args": ["placeholder_overrides_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall waf-packages-groups edit",
+      "args": ["placeholder_package_id", "placeholder_group_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall waf-packages-rules edit",
+      "args": ["placeholder_package_id", "placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall waf-overrides delete",
+      "args": ["placeholder_overrides_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall waf overrides create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall waf overrides list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall waf packages groups list",
+      "args": ["placeholder_package_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall waf packages list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall waf packages rules list",
+      "args": ["placeholder_package_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall waf overrides get",
+      "args": ["placeholder_overrides_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall waf packages get",
+      "args": ["placeholder_package_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall waf packages groups get",
+      "args": ["placeholder_package_id", "placeholder_group_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall waf packages rules get",
+      "args": ["placeholder_package_id", "placeholder_rule_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall waf overrides update",
+      "args": ["placeholder_overrides_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall waf packages groups edit",
+      "args": ["placeholder_package_id", "placeholder_group_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall waf packages rules edit",
+      "args": ["placeholder_package_id", "placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall waf overrides delete",
+      "args": ["placeholder_overrides_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall access-rules-extra rules create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall access-rules-extra rules list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall access-rules-extra rules edit",
+      "args": ["placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall waf-extra packages edit",
+      "args": ["placeholder_package_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall access-rules-extra rules delete",
+      "args": ["placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall rules bulk edit",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall rules bulk update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall rules bulk delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall zone-access-rules create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall zone-access-rules list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall waf packages edit",
+      "args": ["placeholder_package_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall zone-access-rules edit",
+      "args": ["placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf firewall zone-access-rules delete",
+      "args": ["placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    }
+  ]
+}

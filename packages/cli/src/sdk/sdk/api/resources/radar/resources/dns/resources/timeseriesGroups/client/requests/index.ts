@@ -1,0 +1,10 @@
+export type { CacheHitTimeseriesGroupsRequest } from "./CacheHitTimeseriesGroupsRequest.js";
+export type { DnssecAwareTimeseriesGroupsRequest } from "./DnssecAwareTimeseriesGroupsRequest.js";
+export type { DnssecE2ETimeseriesGroupsRequest } from "./DnssecE2ETimeseriesGroupsRequest.js";
+export type { DnssecTimeseriesGroupsRequest } from "./DnssecTimeseriesGroupsRequest.js";
+export type { IpVersionTimeseriesGroupsRequest } from "./IpVersionTimeseriesGroupsRequest.js";
+export type { MatchingAnswerTimeseriesGroupsRequest } from "./MatchingAnswerTimeseriesGroupsRequest.js";
+export type { ProtocolTimeseriesGroupsRequest } from "./ProtocolTimeseriesGroupsRequest.js";
+export type { QueryTypeTimeseriesGroupsRequest } from "./QueryTypeTimeseriesGroupsRequest.js";
+export type { ResponseCodeTimeseriesGroupsRequest } from "./ResponseCodeTimeseriesGroupsRequest.js";
+export type { ResponseTtlTimeseriesGroupsRequest } from "./ResponseTtlTimeseriesGroupsRequest.js";

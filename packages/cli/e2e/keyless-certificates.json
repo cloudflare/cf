@@ -1,0 +1,40 @@
+{
+  "product": "keyless-certificates",
+  "tests": [
+    {
+      "command": "cf keyless-certificates create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf keyless-certificates list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf keyless-certificates get",
+      "args": ["placeholder_keyless_certificate_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf keyless-certificates edit",
+      "args": ["placeholder_keyless_certificate_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf keyless-certificates delete",
+      "args": ["placeholder_keyless_certificate_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    }
+  ]
+}

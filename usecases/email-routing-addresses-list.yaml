@@ -1,0 +1,9 @@
+description: "List Email Routing destination addresses"
+command: "wrangler email routing addresses list"
+status: "direct"
+sourceCommands:
+  - "wrangler email routing addresses list"
+cfReplacementFlow:
+  - "cf email-routing addresses list"
+notes:
+  - "Account-scoped destination addresses."

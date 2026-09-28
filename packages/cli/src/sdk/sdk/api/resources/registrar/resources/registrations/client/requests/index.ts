@@ -1,0 +1,11 @@
+export type { GetRegistrationsRequest } from "./GetRegistrationsRequest.js";
+export type { GetRegistrationStatusRegistrationsRequest } from "./GetRegistrationStatusRegistrationsRequest.js";
+export type { GetTransferStatusRegistrationsRequest } from "./GetTransferStatusRegistrationsRequest.js";
+export type { GetUpdateStatusRegistrationsRequest } from "./GetUpdateStatusRegistrationsRequest.js";
+export type { ListRegistrationsRequest } from "./ListRegistrationsRequest.js";
+export type { RegistrarApiDomainCheckRequest } from "./RegistrarApiDomainCheckRequest.js";
+export type { RegistrarApiDomainTransferCheckRequest } from "./RegistrarApiDomainTransferCheckRequest.js";
+export { RegistrarApiRegistrationCreateRequest } from "./RegistrarApiRegistrationCreateRequest.js";
+export type { RegistrarApiRegistrationUpdateRequest } from "./RegistrarApiRegistrationUpdateRequest.js";
+export { RegistrarApiTransferInCreateRequest } from "./RegistrarApiTransferInCreateRequest.js";
+export type { SearchRegistrationsRequest } from "./SearchRegistrationsRequest.js";

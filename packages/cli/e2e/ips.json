@@ -1,0 +1,12 @@
+{
+  "product": "ips",
+  "tests": [
+    {
+      "command": "cf ips list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    }
+  ]
+}

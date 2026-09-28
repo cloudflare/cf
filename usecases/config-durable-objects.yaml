@@ -1,0 +1,10 @@
+description: "Configure Durable Object bindings and migrations"
+command: "wrangler.jsonc durable_objects and migrations"
+status: "gap"
+sourceCommands:
+  - "wrangler.jsonc durable_objects.bindings"
+  - "wrangler.jsonc migrations"
+cfReplacementFlow:
+  - "No current cf config-driven replacement."
+notes:
+  - "Durable Object class and migration config is Worker deployment/config behavior, not generated API CRUD."

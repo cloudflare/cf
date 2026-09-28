@@ -1,0 +1,10 @@
+description: "Generate TypeScript environment and runtime types from project config"
+command: "wrangler types"
+status: "partial"
+sourceCommands:
+  - "wrangler types"
+cfReplacementFlow:
+  - "cf workers types"
+notes:
+  - "cf reads cloudflare.config.ts and writes .cloudflare/types/index.d.ts."
+  - "cf includes compatibility-date-specific runtime types by default."

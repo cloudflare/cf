@@ -1,0 +1,82 @@
+{
+  "product": "rum",
+  "tests": [
+    {
+      "command": "cf rum rules bulk-create",
+      "args": ["placeholder_ruleset_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rum rules create",
+      "args": ["placeholder_ruleset_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rum site-info create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rum rules list",
+      "args": ["placeholder_ruleset_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rum site-info list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rum site-info get",
+      "args": ["placeholder_site_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rum rules update",
+      "args": ["placeholder_ruleset_id", "placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rum site-info update",
+      "args": ["placeholder_site_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rum rules delete",
+      "args": ["placeholder_ruleset_id", "placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rum site-info delete",
+      "args": ["placeholder_site_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rum rules bulk create",
+      "args": ["placeholder_ruleset_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

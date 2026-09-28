@@ -1,0 +1,9 @@
+description: "List R2 buckets"
+command: "wrangler r2 bucket list"
+status: "direct"
+sourceCommands:
+  - "wrangler r2 bucket list"
+cfReplacementFlow:
+  - "cf r2 buckets list"
+notes:
+  - "Jurisdiction is a friendly Wrangler flag; cf generated commands may expose the underlying cf-r2-jurisdiction header flag."

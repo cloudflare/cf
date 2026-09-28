@@ -1,0 +1,40 @@
+{
+  "product": "rate-limits",
+  "tests": [
+    {
+      "command": "cf rate-limits create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf rate-limits list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf rate-limits get",
+      "args": ["placeholder_rate_limit_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf rate-limits edit",
+      "args": ["placeholder_rate_limit_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf rate-limits delete",
+      "args": ["placeholder_rate_limit_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+description: "Update an Email Routing rule"
+command: "wrangler email routing rules update <domain> <rule-id>"
+status: "partial"
+sourceCommands:
+  - "wrangler email routing rules update <domain> <rule-id>"
+cfReplacementFlow:
+  - "cf email-routing rules update <rule-id> --zone <zone> --body @routing-rule-update.json"
+notes:
+  - "Use body form if generated update flags over-require fields."

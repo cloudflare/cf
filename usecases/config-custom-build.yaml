@@ -1,0 +1,11 @@
+description: "Run a custom build command from Wrangler config"
+command: "wrangler.jsonc build.command"
+status: "gap"
+sourceCommands:
+  - "wrangler.jsonc build.command"
+  - "wrangler.jsonc build.cwd"
+  - "wrangler.jsonc build.watch_dir"
+cfReplacementFlow:
+  - "No current cf replacement."
+notes:
+  - "Build orchestration is out of scope for this investigation except as a config use case."

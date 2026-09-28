@@ -1,0 +1,9 @@
+description: "Delete a Queue"
+command: "wrangler queues delete <queue>"
+status: "partial"
+sourceCommands:
+  - "wrangler queues delete <queue>"
+cfReplacementFlow:
+  - "cf queues delete <queue-id> --force"
+notes:
+  - "Wrangler accepts queue name; cf generated delete may expect queue ID."

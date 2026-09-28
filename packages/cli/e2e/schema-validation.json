@@ -1,0 +1,215 @@
+{
+  "product": "schema-validation",
+  "tests": [
+    {
+      "command": "cf schema-validation schemas create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf schema-validation schemas list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf schema-validation settings operations-list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf schema-validation schemas get",
+      "args": ["placeholder_schema_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf schema-validation settings get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf schema-validation settings operations-get",
+      "args": ["placeholder_operation_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf schema-validation schemas edit",
+      "args": ["placeholder_schema_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf schema-validation settings edit",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf schema-validation settings operations-bulk-edit",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf schema-validation settings operations-update",
+      "args": ["placeholder_operation_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf schema-validation settings update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf schema-validation schemas delete",
+      "args": ["placeholder_schema_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf schema-validation settings operations-delete",
+      "args": ["placeholder_operation_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf schema-validation schemas-extra hosts-list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf schema-validation schemas-extra operations-get",
+      "args": ["placeholder_schema_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf schema-validation settings-operations list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf schema-validation settings-operations get",
+      "args": ["placeholder_operation_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf schema-validation settings-operations bulk-edit",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf schema-validation settings-operations update",
+      "args": ["placeholder_operation_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf schema-validation settings-operations delete",
+      "args": ["placeholder_operation_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf schema-validation settings operations list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf schema-validation settings operations get",
+      "args": ["placeholder_operation_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf schema-validation settings operations bulk-edit",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf schema-validation settings operations update",
+      "args": ["placeholder_operation_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf schema-validation settings operations delete",
+      "args": ["placeholder_operation_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf schema-validation schemas-extra hosts list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf schema-validation schemas-extra operations get",
+      "args": ["placeholder_schema_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf schema-validation settings operations bulk edit",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf schema-validation schemas hosts list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf schema-validation schemas operations get",
+      "args": ["placeholder_schema_id"],
+      "env": {
+        "scope": "zone"
+      }
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+description: "Create a Queue"
+command: "wrangler queues create <queue>"
+status: "partial"
+sourceCommands:
+  - "wrangler queues create <queue>"
+cfReplacementFlow:
+  - "cf queues create --queue-name <queue>"
+  - "cf queues create --body @queue.json"
+notes:
+  - "Wrangler exposes delivery-delay and retention flags. cf may need --body for settings depending generated shape."

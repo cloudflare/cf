@@ -1,0 +1,13 @@
+description: "Authenticate to Cloudflare with OAuth"
+command: "wrangler login"
+status: "partial"
+sourceCommands:
+  - "wrangler login"
+  - "wrangler login --device"
+cfReplacementFlow:
+  - "cf auth login"
+  - "cf auth login --no-device"
+notes:
+  - "cf defaults to the device authorization flow; --no-device opts back into its localhost PKCE callback flow. Wrangler defaults to the callback flow and uses --device to opt in."
+  - "Both CLIs support browser and custom-scope options, but Wrangler additionally exposes --callback-host, --callback-port, --scopes-list, and keyring options."
+  - "Use CLOUDFLARE_API_TOKEN for non-interactive automation in either CLI."

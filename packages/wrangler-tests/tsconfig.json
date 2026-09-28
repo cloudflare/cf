@@ -1,0 +1,20 @@
+{
+	"compilerOptions": {
+		"target": "esnext",
+		"module": "preserve",
+		"moduleResolution": "bundler",
+		"esModuleInterop": true,
+		"resolveJsonModule": true,
+		"allowImportingTsExtensions": true,
+		"allowJs": true,
+		"isolatedModules": true,
+		"skipLibCheck": true,
+		"strict": false,
+		"strictNullChecks": true,
+		"types": ["node"],
+		"jsx": "react-jsx",
+		"noEmit": true,
+		"lib": ["esnext"]
+	},
+	"include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.js"]
+}

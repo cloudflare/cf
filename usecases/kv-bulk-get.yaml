@@ -1,0 +1,9 @@
+description: "Fetch multiple Workers KV keys from a JSON list"
+command: "wrangler kv bulk get <file> --namespace-id <id>"
+status: "partial"
+sourceCommands:
+  - "wrangler kv bulk get keys.json"
+cfReplacementFlow:
+  - "cf kv bulk get --namespace-id <namespace-id> --body @keys.json"
+notes:
+  - "Wrangler accepts a positional file and normalizes several file shapes. cf sends the API request body."

@@ -1,0 +1,10 @@
+description: "Create a Hyperdrive configuration"
+command: "wrangler hyperdrive create <name>"
+status: "partial"
+sourceCommands:
+  - "wrangler hyperdrive create <name> --connection-string <url>"
+  - "wrangler hyperdrive create <name> --origin-host <host> --origin-port <port> --database <db> --origin-user <user> --origin-password <password>"
+cfReplacementFlow:
+  - "cf hyperdrive create --name <name> --body @hyperdrive.json"
+notes:
+  - "Wrangler exposes many friendly connection/cache/TLS flags and can update config. cf may require API-shaped body for the full option set."

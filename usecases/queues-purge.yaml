@@ -1,0 +1,10 @@
+description: "Purge pending messages from a Queue"
+command: "wrangler queues purge <queue>"
+status: "partial"
+sourceCommands:
+  - "wrangler queues purge <queue> --force"
+cfReplacementFlow:
+  - "cf queues purge start <queue-id> --delete-messages-permanently --force"
+  - "cf queues purge status <queue-id>"
+notes:
+  - "cf exposes async purge start/status API shape; Wrangler wraps it as a simpler command."

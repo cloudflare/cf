@@ -1,0 +1,9 @@
+description: "Enable R2 Data Catalog for a bucket"
+command: "wrangler r2 bucket catalog enable <bucket>"
+status: "partial"
+sourceCommands:
+  - "wrangler r2 bucket catalog enable <bucket>"
+cfReplacementFlow:
+  - "cf r2-data-catalog enable <bucket>"
+notes:
+  - "cf exposes R2 Data Catalog as its own generated product, not nested under r2 bucket."

@@ -1,0 +1,9 @@
+description: "Replace R2 bucket lock configuration from JSON"
+command: "wrangler r2 bucket lock set <bucket> --file lock.json"
+status: "direct"
+sourceCommands:
+  - "wrangler r2 bucket lock set <bucket> --file lock.json"
+cfReplacementFlow:
+  - "cf r2 buckets locks update <bucket> --body @lock.json"
+notes:
+  - "cf sends the full API config document."

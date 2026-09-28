@@ -1,0 +1,9 @@
+description: "List Pipeline sinks"
+command: "wrangler pipelines sinks list"
+status: "direct"
+sourceCommands:
+  - "wrangler pipelines sinks list"
+cfReplacementFlow:
+  - "cf pipelines sinks list"
+notes:
+  - "Use generated pagination/filter flags if needed."

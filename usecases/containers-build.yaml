@@ -1,0 +1,11 @@
+description: "Build a container image locally"
+command: "wrangler containers build --tag <image:tag> <path>"
+status: "direct"
+sourceCommands:
+  - "wrangler containers build --tag <image:tag> <path>"
+cfReplacementFlow:
+  - "cf containers build <path> --tag <image:tag>"
+  - "Add --push to upload the built image to Cloudflare's managed registry."
+notes:
+  - "This is a hand-written command backed by the shared Container Docker helper rather than an OpenAPI operation."
+  - "Both CLIs require a local Docker daemon; cf also accepts --path-to-docker."

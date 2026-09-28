@@ -1,0 +1,10 @@
+description: "Configure Worker placement and runtime limits"
+command: "wrangler.jsonc placement and limits"
+status: "gap"
+sourceCommands:
+  - "wrangler.jsonc placement"
+  - "wrangler.jsonc limits"
+cfReplacementFlow:
+  - "No current config-driven cf replacement."
+notes:
+  - "This is Worker settings/config synchronization, not a standalone generated command."

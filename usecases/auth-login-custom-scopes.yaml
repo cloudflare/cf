@@ -1,0 +1,12 @@
+description: "Log in with an explicit OAuth scope set or list supported Wrangler login scopes"
+command: "wrangler login --scopes <scope...>"
+status: "partial"
+sourceCommands:
+  - "wrangler login --scopes <scope...>"
+  - "wrangler login --scopes-list"
+cfReplacementFlow:
+  - "cf auth login --scopes <scope...>"
+  - "No direct cf replacement for wrangler login --scopes-list."
+notes:
+  - "cf accepts custom scopes from the catalog registered for its built-in OAuth app and rejects unknown scopes."
+  - "Without --scopes, cf requests its built-in default scope set."

@@ -1,0 +1,9 @@
+description: "Delete a Workflow and its instances"
+command: "wrangler workflows delete <workflow>"
+status: "direct"
+sourceCommands:
+  - "wrangler workflows delete <workflow>"
+cfReplacementFlow:
+  - "cf workflows delete <workflow> --force"
+notes:
+  - "Use cf --force for non-interactive deletion."

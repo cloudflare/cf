@@ -1,0 +1,9 @@
+description: "Get one R2 bucket custom domain"
+command: "wrangler r2 bucket domain get <bucket> --domain <domain>"
+status: "partial"
+sourceCommands:
+  - "wrangler r2 bucket domain get <bucket> --domain <domain>"
+cfReplacementFlow:
+  - "cf r2 buckets domains custom get <domain> --bucket-name <bucket>"
+notes:
+  - "Verify the exact generated positional/flag order with cf --help or cf schema."

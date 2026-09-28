@@ -1,0 +1,33 @@
+{
+  "product": "durable-objects",
+  "tests": [
+    {
+      "command": "cf durable-objects namespaces list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf durable-objects namespaces objects-list",
+      "args": ["placeholder_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf durable-objects namespaces-objects list",
+      "args": ["placeholder_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf durable-objects namespaces objects list",
+      "args": ["placeholder_id"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

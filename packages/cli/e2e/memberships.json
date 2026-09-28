@@ -1,0 +1,33 @@
+{
+  "product": "memberships",
+  "tests": [
+    {
+      "command": "cf memberships list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf memberships get",
+      "args": ["placeholder_membership_id"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf memberships update",
+      "args": ["placeholder_membership_id", "--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf memberships delete",
+      "args": ["placeholder_membership_id", "--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    }
+  ]
+}

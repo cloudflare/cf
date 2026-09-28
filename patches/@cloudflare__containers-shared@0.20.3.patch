@@ -1,0 +1,27 @@
+diff --git a/dist/index.mjs b/dist/index.mjs
+--- a/dist/index.mjs
++++ b/dist/index.mjs
+@@ -7216,11 +7216,11 @@ async function tagAndPushImage({
+     complianceConfig
+   );
+   await runDockerCmd(pathToDocker, ["tag", sourceTag, namespacedImageTag]);
++  await runDockerCmd(pathToDocker, ["push", namespacedImageTag]);
+   if (cleanupSourceTag) {
+     logger.debug(`Untagging built image: ${sourceTag}.`);
+     await runDockerCmd(pathToDocker, ["image", "rm", sourceTag]);
+   }
+-  await runDockerCmd(pathToDocker, ["push", namespacedImageTag]);
+   return namespacedImageTag;
+ }
+ __name(tagAndPushImage, "tagAndPushImage");
+@@ -7518,9 +7518,8 @@ async function pushBuiltContainerImage(builtImage, versionId, pathToDocker, acc
+       containerConfig: builtImage.container,
+       accountId,
+       complianceConfig,
+-      cleanupSourceTag: true
++      cleanupSourceTag: false
+     });
+-    builtImage.localTagCleaned = true;
+     return imageRef;
+   } catch (error) {
+     if (error instanceof Error) {

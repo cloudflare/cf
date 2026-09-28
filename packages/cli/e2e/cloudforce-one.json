@@ -1,0 +1,2021 @@
+{
+  "product": "cloudforce-one",
+  "tests": [
+    {
+      "command": "cf cloudforce-one binary-storage create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests assets-create",
+      "args": ["placeholder_request_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests list",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests message-create",
+      "args": ["placeholder_request_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests message-get",
+      "args": ["placeholder_request_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests priority-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one scans config-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events bulk-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events categories-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events crons-edit",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events crons-list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events datasets-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events datasets-health-get",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events event-tags-create",
+      "args": ["placeholder_event_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events insights-create",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events insights-delete",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events insights-edit",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events insights-get",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events tags-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one scans config-list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events attackers-list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events categories-list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events countries-list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events datasets-list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events indicator-types-list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events target-industries-list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one binary-storage get",
+      "args": ["placeholder_hash"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests assets-get",
+      "args": ["placeholder_request_id", "placeholder_asset_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests constants",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests get",
+      "args": ["placeholder_request_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests priority-get",
+      "args": ["placeholder_priority_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests priority-quota",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests quota",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests types",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one scans results-get",
+      "args": ["placeholder_config_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events categories-get",
+      "args": ["placeholder_category_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events datasets-get",
+      "args": ["placeholder_dataset_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events datasets-raw",
+      "args": ["placeholder_dataset_id", "placeholder_event_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events get",
+      "args": ["placeholder_event_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events raw-get",
+      "args": ["placeholder_event_id", "placeholder_raw_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests assets-update",
+      "args": ["placeholder_request_id", "placeholder_asset_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests message-update",
+      "args": ["placeholder_request_id", "placeholder_message_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests priority-update",
+      "args": ["placeholder_priority_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests update",
+      "args": ["placeholder_request_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one scans config-edit",
+      "args": ["placeholder_config_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events categories-edit",
+      "args": ["placeholder_category_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events datasets-edit",
+      "args": ["placeholder_dataset_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events edit",
+      "args": ["placeholder_event_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events raw-edit",
+      "args": ["placeholder_event_id", "placeholder_raw_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests assets-delete",
+      "args": ["placeholder_request_id", "placeholder_asset_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests delete",
+      "args": ["placeholder_request_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests message-delete",
+      "args": ["placeholder_request_id", "placeholder_message_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests priority-delete",
+      "args": ["placeholder_priority_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one scans config-delete",
+      "args": ["placeholder_config_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events categories-delete",
+      "args": ["placeholder_category_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events event-tags-delete",
+      "args": ["placeholder_event_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events relate-delete",
+      "args": ["placeholder_event_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events categories-create",
+      "args": ["placeholder_category_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events create",
+      "args": ["placeholder_event_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events create-bulk-relationships-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset-copy-create",
+      "args": ["placeholder_dataset_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset-create",
+      "args": ["placeholder_dataset_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset-groups-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset-groups-members-create",
+      "args": ["placeholder_group_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset-indicator-types-create-create",
+      "args": ["placeholder_dataset_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset-indicators-bulk-create",
+      "args": ["placeholder_dataset_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset-indicators-create-create",
+      "args": ["placeholder_dataset_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset-move-create",
+      "args": ["placeholder_dataset_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset-permissions-create",
+      "args": ["placeholder_dataset_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events datasets-populate-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events graphql-create-graph-ql",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events graphql-create-graph-qlv2",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events queries-alerts-create",
+      "args": ["placeholder_alert_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events queries-alerts-create-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events queries-create",
+      "args": ["placeholder_query_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events queries-create-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events raw-create",
+      "args": ["placeholder_event_id", "placeholder_raw_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events relate-create-create",
+      "args": ["placeholder_event_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events relationships-create-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events revert-do-create",
+      "args": ["placeholder_dataset_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events tags-categories-create-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests-extra asset-new-create",
+      "args": ["placeholder_request_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests-extra priority-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one rules actions-create",
+      "args": ["placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one rules create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one rules validate-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one rules list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events aggregate-get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events categories-catalog-get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset-events-get",
+      "args": ["placeholder_dataset_id", "placeholder_event_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset-groups-get-group",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset-groups-get-v2",
+      "args": ["placeholder_group_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset-groups-members-get",
+      "args": ["placeholder_group_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset-indicators-get-indicator",
+      "args": ["placeholder_dataset_id", "placeholder_indicator_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset-indicators-get-indicator-legacy",
+      "args": ["placeholder_dataset_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset-indicators-tags-get",
+      "args": ["placeholder_dataset_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset-permissions-get",
+      "args": ["placeholder_dataset_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset-tags-indicators-get",
+      "args": ["placeholder_dataset_id", "placeholder_tag_uuid"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset-target-industries-get",
+      "args": ["placeholder_dataset_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events indicator-types-get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events indicators-get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events queries-alerts-get-event-alert",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events queries-alerts-get-v2",
+      "args": ["placeholder_alert_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events queries-get-event",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events queries-get-v2",
+      "args": ["placeholder_query_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events relationships-get",
+      "args": ["placeholder_event_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events tags-categories-get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events tags-get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events target-industries-catalog-get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one rules actions-get",
+      "args": ["placeholder_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one rules get",
+      "args": ["placeholder_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one rules stats-get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one rules tree-get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset-groups-update",
+      "args": ["placeholder_group_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset-indicators-patch",
+      "args": ["placeholder_dataset_id", "placeholder_indicator_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset-permissions-update",
+      "args": ["placeholder_dataset_id", "placeholder_grant_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events queries-alerts-patch",
+      "args": ["placeholder_alert_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events queries-patch",
+      "args": ["placeholder_query_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events tags-categories-patch",
+      "args": ["placeholder_category_uuid", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events tags-patch",
+      "args": ["placeholder_tag_uuid", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events update-bulk-patch",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one rules update",
+      "args": ["placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset-delete",
+      "args": ["placeholder_dataset_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset-groups-delete",
+      "args": ["placeholder_group_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset-groups-members-delete",
+      "args": ["placeholder_group_id", "placeholder_member_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset-indicators-delete",
+      "args": ["placeholder_dataset_id", "placeholder_indicator_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset-permissions-delete",
+      "args": ["placeholder_dataset_id", "placeholder_grant_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events delete-delete",
+      "args": ["placeholder_dataset_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events queries-alerts-delete",
+      "args": ["placeholder_alert_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events queries-delete",
+      "args": ["placeholder_query_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events tags-categories-delete",
+      "args": ["placeholder_category_uuid", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events tags-delete",
+      "args": ["placeholder_tag_uuid", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one rules actions-delete",
+      "args": ["placeholder_id", "placeholder_actionId", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one rules delete-all-rules",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one rules delete-one-rule",
+      "args": ["placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests-assets create",
+      "args": ["placeholder_request_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests-message create",
+      "args": ["placeholder_request_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests-message get",
+      "args": ["placeholder_request_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests-priority create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one scans-config create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events-categories create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events-datasets create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events-event-tags create",
+      "args": ["placeholder_event_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events-tags create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one scans-config list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events-attackers list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events-categories list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events-countries list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events-datasets list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events-indicator-types list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events-target-industries list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests-assets get",
+      "args": ["placeholder_request_id", "placeholder_asset_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests-priority get",
+      "args": ["placeholder_priority_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests-priority quota",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one scans-results get",
+      "args": ["placeholder_config_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events-categories get",
+      "args": ["placeholder_category_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events-datasets get",
+      "args": ["placeholder_dataset_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events-datasets raw",
+      "args": ["placeholder_dataset_id", "placeholder_event_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events-raw get",
+      "args": ["placeholder_event_id", "placeholder_raw_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests-assets update",
+      "args": ["placeholder_request_id", "placeholder_asset_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests-message update",
+      "args": ["placeholder_request_id", "placeholder_message_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests-priority update",
+      "args": ["placeholder_priority_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one scans-config edit",
+      "args": ["placeholder_config_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events-categories edit",
+      "args": ["placeholder_category_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events-datasets edit",
+      "args": ["placeholder_dataset_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events-raw edit",
+      "args": ["placeholder_event_id", "placeholder_raw_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests-assets delete",
+      "args": ["placeholder_request_id", "placeholder_asset_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests-message delete",
+      "args": ["placeholder_request_id", "placeholder_message_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests-priority delete",
+      "args": ["placeholder_priority_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one scans-config delete",
+      "args": ["placeholder_config_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events-categories delete",
+      "args": ["placeholder_category_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events-event-tags delete",
+      "args": ["placeholder_event_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events-relate delete",
+      "args": ["placeholder_event_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests assets create",
+      "args": ["placeholder_request_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests message create",
+      "args": ["placeholder_request_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests message get",
+      "args": ["placeholder_request_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests priority create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one scans config create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events categories create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events datasets create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events event-tags create",
+      "args": ["placeholder_event_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events tags create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one scans config list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events attackers list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events categories list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events countries list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events datasets list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events indicator-types list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events target-industries list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests assets get",
+      "args": ["placeholder_request_id", "placeholder_asset_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests priority get",
+      "args": ["placeholder_priority_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests priority quota",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one scans results get",
+      "args": ["placeholder_config_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events categories get",
+      "args": ["placeholder_category_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events datasets get",
+      "args": ["placeholder_dataset_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events datasets raw",
+      "args": ["placeholder_dataset_id", "placeholder_event_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events raw get",
+      "args": ["placeholder_event_id", "placeholder_raw_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests assets update",
+      "args": ["placeholder_request_id", "placeholder_asset_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests message update",
+      "args": ["placeholder_request_id", "placeholder_message_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests priority update",
+      "args": ["placeholder_priority_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one scans config edit",
+      "args": ["placeholder_config_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events categories edit",
+      "args": ["placeholder_category_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events datasets edit",
+      "args": ["placeholder_dataset_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events raw edit",
+      "args": ["placeholder_event_id", "placeholder_raw_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests assets delete",
+      "args": ["placeholder_request_id", "placeholder_asset_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests message delete",
+      "args": ["placeholder_request_id", "placeholder_message_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests priority delete",
+      "args": ["placeholder_priority_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one scans config delete",
+      "args": ["placeholder_config_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events categories delete",
+      "args": ["placeholder_category_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events event-tags delete",
+      "args": ["placeholder_event_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events relate delete",
+      "args": ["placeholder_event_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events categories create",
+      "args": ["placeholder_category_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events create bulk relationships create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset copy create",
+      "args": ["placeholder_dataset_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset create",
+      "args": ["placeholder_dataset_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset groups create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset groups members create",
+      "args": ["placeholder_group_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset indicator types create create",
+      "args": ["placeholder_dataset_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset indicators bulk create",
+      "args": ["placeholder_dataset_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset indicators create create",
+      "args": ["placeholder_dataset_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset move create",
+      "args": ["placeholder_dataset_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset permissions create",
+      "args": ["placeholder_dataset_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events datasets populate create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events queries create",
+      "args": ["placeholder_query_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events queries create create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events raw create",
+      "args": ["placeholder_event_id", "placeholder_raw_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events relate create create",
+      "args": ["placeholder_event_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events relationships create create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events revert do create",
+      "args": ["placeholder_dataset_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events tags categories create create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests-extra asset new create",
+      "args": ["placeholder_request_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests-extra priority create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one rules validate create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events aggregate get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events categories catalog get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset events get",
+      "args": ["placeholder_dataset_id", "placeholder_event_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset groups members get",
+      "args": ["placeholder_group_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset indicators tags get",
+      "args": ["placeholder_dataset_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset permissions get",
+      "args": ["placeholder_dataset_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset tags indicators get",
+      "args": ["placeholder_dataset_id", "placeholder_tag_uuid"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset target industries get",
+      "args": ["placeholder_dataset_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events indicator types get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events indicators get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events relationships get",
+      "args": ["placeholder_event_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events tags categories get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events tags get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events target industries catalog get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one rules stats get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one rules tree get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset groups update",
+      "args": ["placeholder_group_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset indicators patch",
+      "args": ["placeholder_dataset_id", "placeholder_indicator_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset permissions update",
+      "args": ["placeholder_dataset_id", "placeholder_grant_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events queries patch",
+      "args": ["placeholder_query_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events tags categories patch",
+      "args": ["placeholder_category_uuid", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events tags patch",
+      "args": ["placeholder_tag_uuid", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events update bulk patch",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset delete",
+      "args": ["placeholder_dataset_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset groups delete",
+      "args": ["placeholder_group_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset groups members delete",
+      "args": ["placeholder_group_id", "placeholder_member_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset indicators delete",
+      "args": ["placeholder_dataset_id", "placeholder_indicator_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset permissions delete",
+      "args": ["placeholder_dataset_id", "placeholder_grant_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events delete delete",
+      "args": ["placeholder_dataset_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events queries delete",
+      "args": ["placeholder_query_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events tags categories delete",
+      "args": ["placeholder_category_uuid", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events tags delete",
+      "args": ["placeholder_tag_uuid", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events graphql create graph ql",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events graphql create graph qlv2",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset groups get group",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset groups get v2",
+      "args": ["placeholder_group_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset indicators get indicator",
+      "args": ["placeholder_dataset_id", "placeholder_indicator_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset indicators get indicator legacy",
+      "args": ["placeholder_dataset_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events queries get event",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events queries get v2",
+      "args": ["placeholder_query_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one rules delete all rules",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one rules delete one rule",
+      "args": ["placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events bulk create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events event tags create",
+      "args": ["placeholder_event_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events indicator types list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events target industries list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one threat-events event tags delete",
+      "args": ["placeholder_event_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events create-bulk relationships create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events queries create-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one events dataset indicators get indicator-legacy",
+      "args": ["placeholder_dataset_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests asset-new create",
+      "args": ["placeholder_request_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf cloudforce-one requests priority list",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

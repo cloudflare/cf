@@ -1,0 +1,11 @@
+description: "Create a Cloudflare Pipeline"
+command: "wrangler pipelines create <pipeline>"
+status: "partial"
+sourceCommands:
+  - "wrangler pipelines create <pipeline> --sql <sql>"
+  - "wrangler pipelines create <pipeline> --sql-file <file>"
+cfReplacementFlow:
+  - "cf pipelines create --name <pipeline> --body @pipeline.json"
+  - "cf pipelines validate-sql --sql <sql>"
+notes:
+  - "Wrangler has SQL-file ergonomics and legacy/new pipeline shape handling. cf exposes API-shaped generated commands."

@@ -1,0 +1,26 @@
+{
+  "product": "managed-transforms",
+  "tests": [
+    {
+      "command": "cf managed-transforms list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf managed-transforms edit",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf managed-transforms delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    }
+  ]
+}

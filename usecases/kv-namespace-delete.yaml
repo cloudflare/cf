@@ -1,0 +1,10 @@
+description: "Delete a Workers KV namespace"
+command: "wrangler kv namespace delete --namespace-id <id>"
+status: "partial"
+sourceCommands:
+  - "wrangler kv namespace delete <binding-or-name>"
+  - "wrangler kv namespace delete --namespace-id <id>"
+cfReplacementFlow:
+  - "cf kv namespaces delete <namespace-id> --force"
+notes:
+  - "cf expects the namespace ID and does not resolve Wrangler binding names from config."

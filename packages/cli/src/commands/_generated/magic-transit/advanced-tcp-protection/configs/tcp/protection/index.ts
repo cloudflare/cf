@@ -1,0 +1,22 @@
+import $status from "./status/index.js";
+import type { CommonYargsOptions } from "#lib/cli-types.js";
+/**
+ * protection command group
+ * @generated from apis/overlays/magic-transit.ts
+ */
+import type { CommandModule } from "yargs";
+
+const command: CommandModule<CommonYargsOptions> = {
+	command: "protection",
+	describe: "Operations for advanced-tcp-protection.configs.tcp.protection",
+
+	builder: (yargs) => {
+		return yargs
+			.command($status)
+			.demandCommand(1, "Please specify a subcommand");
+	},
+
+	handler: () => {},
+};
+
+export default command;

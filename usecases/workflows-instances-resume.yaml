@@ -1,0 +1,9 @@
+description: "Resume a paused Workflow instance"
+command: "wrangler workflows instances resume <workflow> <instance-id>"
+status: "partial"
+sourceCommands:
+  - "wrangler workflows instances resume <workflow> <instance-id>"
+cfReplacementFlow:
+  - 'cf workflows instances status edit <instance-id> --workflow-name <workflow> --body ''{"status":"resumed"}'''
+notes:
+  - "Confirm exact generated API body."

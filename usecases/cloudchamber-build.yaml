@@ -1,0 +1,9 @@
+description: "Build a Cloudchamber container image"
+command: "wrangler cloudchamber build"
+status: "gap"
+sourceCommands:
+  - "wrangler cloudchamber build"
+cfReplacementFlow:
+  - "No direct cf replacement."
+notes:
+  - "Local Docker/build orchestration."

@@ -1,0 +1,9 @@
+description: "Describe a Workflow instance"
+command: "wrangler workflows instances describe <workflow> <instance-id>"
+status: "partial"
+sourceCommands:
+  - "wrangler workflows instances describe <workflow> <instance-id>"
+cfReplacementFlow:
+  - "cf workflows instances get <instance-id> --workflow-name <workflow>"
+notes:
+  - "Wrangler supports latest-instance shortcut and step-output truncation controls. cf returns the API object."

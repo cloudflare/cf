@@ -1,0 +1,26 @@
+{
+	"command": "cf access curl",
+	"name": "curl",
+	"fullPath": ["access", "curl"],
+	"category": "action",
+	"description": "Run curl against an Access-protected application with its JWT injected by cloudflared.",
+	"usage": "cf access curl [--allow-request] <url> [-- <curl arguments...>]",
+	"arguments": [
+		{
+			"name": "url",
+			"position": 0,
+			"type": "string",
+			"required": true,
+			"description": "URL of the Access application"
+		}
+	],
+	"options": [
+		{
+			"name": "allow-request",
+			"alias": "ar",
+			"type": "boolean",
+			"required": false,
+			"description": "Continue the request when no Access token is available"
+		}
+	]
+}

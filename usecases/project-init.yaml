@@ -1,0 +1,13 @@
+description: "Initialize a new Worker project"
+command: "wrangler init [name]"
+status: "partial"
+sourceCommands:
+  - "wrangler init"
+  - "wrangler init <name>"
+cfReplacementFlow:
+  - "cf init [directory] [--package-manager <npm|pnpm|yarn|bun>] [--no-install]"
+  - "cf init workers [directory] (currently identical to cf init)"
+notes:
+  - "An empty directory, or one containing only .git, receives a hello-world Worker using cloudflare.config.ts and the Vite plugin v2 beta, without Wrangler."
+  - "After installing dependencies, cf generates .cloudflare/types/index.d.ts; the template's typecheck script runs cf workers types && tsc."
+  - "Wrangler's C3 delegation, templates, and --from-dash download are not carried over."

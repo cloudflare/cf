@@ -1,0 +1,9 @@
+description: "Rename a Workers KV namespace"
+command: "wrangler kv namespace rename <namespace> --new-name <new-name>"
+status: "partial"
+sourceCommands:
+  - "wrangler kv namespace rename <namespace> --new-name <new-name>"
+cfReplacementFlow:
+  - "cf kv namespaces update <namespace-id> --title <new-name>"
+notes:
+  - "Wrangler accepts a name/binding in some flows; cf uses API ID-oriented generated commands."

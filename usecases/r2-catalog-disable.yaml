@@ -1,0 +1,9 @@
+description: "Disable R2 Data Catalog for a bucket"
+command: "wrangler r2 bucket catalog disable <bucket>"
+status: "partial"
+sourceCommands:
+  - "wrangler r2 bucket catalog disable <bucket>"
+cfReplacementFlow:
+  - "cf r2-data-catalog disable <bucket> --force"
+notes:
+  - "Exact generated subject/flag shape should be verified."

@@ -1,0 +1,10 @@
+description: "Update a Hyperdrive configuration"
+command: "wrangler hyperdrive update <id>"
+status: "partial"
+sourceCommands:
+  - "wrangler hyperdrive update <id> --origin-password <password>"
+cfReplacementFlow:
+  - "cf hyperdrive update <id> --body @hyperdrive-update.json"
+  - "cf hyperdrive edit <id> --body @hyperdrive-update.json"
+notes:
+  - "Use cf schema/help to pick generated update vs edit semantics for full replace vs partial patch."

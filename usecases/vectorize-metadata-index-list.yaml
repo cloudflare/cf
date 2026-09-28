@@ -1,0 +1,9 @@
+description: "List Vectorize metadata filter indexes"
+command: "wrangler vectorize list-metadata-index <index>"
+status: "direct"
+sourceCommands:
+  - "wrangler vectorize list-metadata-index <index>"
+cfReplacementFlow:
+  - "cf vectorize metadata-index list <index>"
+notes:
+  - "Command naming differs slightly."

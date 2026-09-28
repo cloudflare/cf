@@ -1,0 +1,11 @@
+description: "Delete an mTLS certificate by name"
+command: "wrangler mtls-certificate delete --name <certificate-name>"
+status: "partial"
+sourceCommands:
+  - "wrangler mtls-certificate delete --name <certificate-name>"
+cfReplacementFlow:
+  - "cf mtls-certificates list"
+  - "Find the certificate ID with the matching name."
+  - "cf mtls-certificates delete <certificate-id> --force"
+notes:
+  - "Wrangler does the name-to-ID lookup. cf generated delete is ID-oriented."

@@ -1,0 +1,607 @@
+{
+  "product": "ai-search",
+  "tests": [
+    {
+      "command": "cf ai-search instances chat-completions",
+      "args": ["placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search instances create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search instances items-get",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf ai-search instances items-list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf ai-search instances items-update",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf ai-search instances jobs-create",
+      "args": ["placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search instances search",
+      "args": ["placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search tokens create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search instances jobs-list",
+      "args": ["placeholder_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search instances list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search tokens list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search instances jobs-get",
+      "args": ["placeholder_id", "placeholder_job_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search instances jobs-logs",
+      "args": ["placeholder_id", "placeholder_job_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search instances read",
+      "args": ["placeholder_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search instances stats",
+      "args": ["placeholder_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search tokens read",
+      "args": ["placeholder_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search instances update",
+      "args": ["placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search tokens update",
+      "args": ["placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search instances delete",
+      "args": ["placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search tokens delete",
+      "args": ["placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search instances-extra jobs-edit",
+      "args": ["placeholder_id", "placeholder_job_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces instances-chat-completions",
+      "args": ["placeholder_name", "placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces instances-create",
+      "args": ["placeholder_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces instances-items-upload",
+      "args": ["placeholder_name", "placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces instances-jobs-create",
+      "args": ["placeholder_name", "placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces instances-search",
+      "args": ["placeholder_name", "placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces multi-instance-chat-completions",
+      "args": ["placeholder_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces multi-instance-search",
+      "args": ["placeholder_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces instances-items-chunks-list",
+      "args": ["placeholder_name", "placeholder_id", "placeholder_item_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces instances-items-list",
+      "args": ["placeholder_name", "placeholder_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces instances-jobs-list",
+      "args": ["placeholder_name", "placeholder_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces instances-list",
+      "args": ["placeholder_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces get",
+      "args": ["placeholder_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces instances-get",
+      "args": ["placeholder_name", "placeholder_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces instances-items-content-get",
+      "args": ["placeholder_name", "placeholder_id", "placeholder_item_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces instances-items-get",
+      "args": ["placeholder_name", "placeholder_id", "placeholder_item_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces instances-items-logs",
+      "args": ["placeholder_name", "placeholder_id", "placeholder_item_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces instances-jobs-get",
+      "args": ["placeholder_name", "placeholder_id", "placeholder_job_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces instances-jobs-logs",
+      "args": ["placeholder_name", "placeholder_id", "placeholder_job_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces stats",
+      "args": ["placeholder_name", "placeholder_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces instances-items-create-or-update",
+      "args": ["placeholder_name", "placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces instances-items-sync",
+      "args": ["placeholder_name", "placeholder_id", "placeholder_item_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces instances-jobs-edit",
+      "args": ["placeholder_name", "placeholder_id", "placeholder_job_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces instances-update",
+      "args": ["placeholder_name", "placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces move-instance",
+      "args": ["placeholder_name", "placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces update",
+      "args": ["placeholder_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces delete",
+      "args": ["placeholder_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces instances-delete",
+      "args": ["placeholder_name", "placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces instances-items-delete",
+      "args": ["placeholder_name", "placeholder_id", "placeholder_item_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search instances-jobs create",
+      "args": ["placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search instances-jobs list",
+      "args": ["placeholder_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search instances-jobs get",
+      "args": ["placeholder_id", "placeholder_job_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search instances-jobs logs",
+      "args": ["placeholder_id", "placeholder_job_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search instances jobs create",
+      "args": ["placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search instances jobs list",
+      "args": ["placeholder_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search instances jobs get",
+      "args": ["placeholder_id", "placeholder_job_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search instances jobs logs",
+      "args": ["placeholder_id", "placeholder_job_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces instances create",
+      "args": ["placeholder_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces instances jobs create",
+      "args": ["placeholder_name", "placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces instances search",
+      "args": ["placeholder_name", "placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces multi instance search",
+      "args": ["placeholder_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces instances items chunks list",
+      "args": ["placeholder_name", "placeholder_id", "placeholder_item_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces instances items list",
+      "args": ["placeholder_name", "placeholder_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces instances jobs list",
+      "args": ["placeholder_name", "placeholder_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces instances list",
+      "args": ["placeholder_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces instances get",
+      "args": ["placeholder_name", "placeholder_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces instances items content get",
+      "args": ["placeholder_name", "placeholder_id", "placeholder_item_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces instances items get",
+      "args": ["placeholder_name", "placeholder_id", "placeholder_item_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces instances jobs get",
+      "args": ["placeholder_name", "placeholder_id", "placeholder_job_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search instances-extra jobs edit",
+      "args": ["placeholder_id", "placeholder_job_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces instances items create or update",
+      "args": ["placeholder_name", "placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces instances items sync",
+      "args": ["placeholder_name", "placeholder_id", "placeholder_item_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces instances jobs edit",
+      "args": ["placeholder_name", "placeholder_id", "placeholder_job_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces instances update",
+      "args": ["placeholder_name", "placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces instances delete",
+      "args": ["placeholder_name", "placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces instances items delete",
+      "args": ["placeholder_name", "placeholder_id", "placeholder_item_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces instances chat completions",
+      "args": ["placeholder_name", "placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces instances items upload",
+      "args": ["placeholder_name", "placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces multi instance chat completions",
+      "args": ["placeholder_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces instances items logs",
+      "args": ["placeholder_name", "placeholder_id", "placeholder_item_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces instances jobs logs",
+      "args": ["placeholder_name", "placeholder_id", "placeholder_job_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search namespaces move instance",
+      "args": ["placeholder_name", "placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search instances chat completions",
+      "args": ["placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-search instances jobs edit",
+      "args": ["placeholder_id", "placeholder_job_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

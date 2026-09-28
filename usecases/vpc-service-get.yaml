@@ -1,0 +1,9 @@
+description: "Get a Workers VPC service"
+command: "wrangler vpc service get <service-id>"
+status: "direct"
+sourceCommands:
+  - "wrangler vpc service get <service-id>"
+cfReplacementFlow:
+  - "cf workers-vpc services get <service-id>"
+notes:
+  - "Product naming differs."

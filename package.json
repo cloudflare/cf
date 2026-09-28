@@ -1,0 +1,40 @@
+{
+	"name": "@cloudflare/cf-root",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"generate": "turbo run generate",
+		"build": "turbo run build",
+		"dev": "turbo run dev",
+		"check": "turbo run check:lint check:type check:format",
+		"check:lint": "oxlint --deny-warnings --type-aware",
+		"check:format": "oxfmt --check",
+		"check:type": "turbo run check:type",
+		"fix": "oxlint --fix --type-aware && oxfmt",
+		"sync:forge": "tsx scripts/sync-forge.ts",
+		"changeset": "changeset",
+		"changeset:version": "changeset version && oxfmt packages/cli/CHANGELOG.md"
+	},
+	"devDependencies": {
+		"@changesets/cli": "2.31.0",
+		"@types/node": "25.3.5",
+		"@typescript/native-preview": "latest",
+		"eslint-plugin-turbo": "^2.8.17",
+		"oxfmt": "^0.41.0",
+		"oxlint": "^1.56.0",
+		"oxlint-tsgolint": "^0.21.0",
+		"tsx": "4.21.0",
+		"turbo": "^2.7.2"
+	},
+	"engines": {
+		"node": ">=22.0.0"
+	},
+	"packageManager": "pnpm@10.27.0",
+	"pnpm": {
+		"patchedDependencies": {
+			"@cloudflare/containers-shared@0.20.3": "patches/@cloudflare__containers-shared@0.20.3.patch",
+			"@cloudflare/deploy-helpers@0.18.1": "patches/@cloudflare__deploy-helpers@0.18.1.patch",
+			"@changesets/cli@2.31.0": "patches/@changesets__cli@2.31.0.patch"
+		}
+	}
+}

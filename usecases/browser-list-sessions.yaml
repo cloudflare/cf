@@ -1,0 +1,9 @@
+description: "List active Browser Run sessions"
+command: "wrangler browser list"
+status: "partial"
+sourceCommands:
+  - "wrangler browser list"
+cfReplacementFlow:
+  - "cf browser sessions list"
+notes:
+  - "Verify exact generated cf command path."

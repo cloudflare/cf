@@ -1,0 +1,11 @@
+description: "Configure Queue producers and consumers through Wrangler config"
+command: "wrangler.jsonc queues"
+status: "gap"
+sourceCommands:
+  - "wrangler.jsonc queues.producers"
+  - "wrangler.jsonc queues.consumers"
+cfReplacementFlow:
+  - "Manage queues and consumers with cf queues commands."
+  - "No current cf config synchronization."
+notes:
+  - "Wrangler deploy/dev apply this config; those flows are out of scope here."

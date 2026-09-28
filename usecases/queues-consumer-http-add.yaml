@@ -1,0 +1,9 @@
+description: "Attach an HTTP pull consumer to a Queue"
+command: "wrangler queues consumer http add <queue>"
+status: "partial"
+sourceCommands:
+  - "wrangler queues consumer http add <queue>"
+cfReplacementFlow:
+  - "cf queues consumers create --queue-id <queue-id> --type http_pull --body @http-consumer.json"
+notes:
+  - "Wrangler has seconds-based visibility timeout/retry flags; cf API may use millisecond fields."

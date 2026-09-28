@@ -1,0 +1,54 @@
+{
+  "product": "scm",
+  "tests": [
+    {
+      "command": "cf scm connections create-pull-request",
+      "args": ["placeholder_connectionId", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf scm grants create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf scm connections list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf scm connections list-repos",
+      "args": ["placeholder_connectionId"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf scm grants list-branches",
+      "args": ["placeholder_grantId"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf scm connections get-token",
+      "args": ["placeholder_connectionId"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf scm connections delete",
+      "args": ["placeholder_connectionId", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

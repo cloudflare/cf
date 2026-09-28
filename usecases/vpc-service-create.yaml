@@ -1,0 +1,10 @@
+description: "Create an HTTP, HTTPS, TCP, or database-oriented VPC service"
+command: "wrangler vpc service create <name> --type <type>"
+status: "partial"
+sourceCommands:
+  - "wrangler vpc service create <name> --type http"
+  - "wrangler vpc service create <name> --type tcp"
+cfReplacementFlow:
+  - "cf workers-vpc services create --body @service.json"
+notes:
+  - "Wrangler assembles host/port/tunnel/TLS fields from friendly flags. cf current generated flags are lower-level and have known required-field rough edges."

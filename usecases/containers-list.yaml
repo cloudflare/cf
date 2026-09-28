@@ -1,0 +1,9 @@
+description: "List Cloudflare Containers applications"
+command: "wrangler containers list"
+status: "partial"
+sourceCommands:
+  - "wrangler containers list"
+cfReplacementFlow:
+  - "cf containers list"
+notes:
+  - "Verify whether the current cf generated API includes the Containers product."

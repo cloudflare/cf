@@ -1,0 +1,12 @@
+description: "Configure account and zone defaults for Wrangler commands"
+command: "wrangler.jsonc account_id and route zone fields"
+status: "partial"
+sourceCommands:
+  - "wrangler.jsonc account_id"
+  - "CLOUDFLARE_ACCOUNT_ID=<id> wrangler <command>"
+cfReplacementFlow:
+  - "CLOUDFLARE_ACCOUNT_ID=<id> cf <command>"
+  - "Set accountId in the default export from cloudflare.config.ts"
+  - "cf <command> --zone <zone>"
+notes:
+  - "cf also accepts CLOUDFLARE_ZONE_ID for zone-scoped commands."

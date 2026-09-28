@@ -1,0 +1,9 @@
+export type { ArcTimeseriesGroupsRequest } from "./ArcTimeseriesGroupsRequest.js";
+export type { DkimTimeseriesGroupsRequest } from "./DkimTimeseriesGroupsRequest.js";
+export type { DmarcTimeseriesGroupsRequest } from "./DmarcTimeseriesGroupsRequest.js";
+export type { MaliciousTimeseriesGroupsRequest } from "./MaliciousTimeseriesGroupsRequest.js";
+export type { SpamTimeseriesGroupsRequest } from "./SpamTimeseriesGroupsRequest.js";
+export type { SpfTimeseriesGroupsRequest } from "./SpfTimeseriesGroupsRequest.js";
+export type { SpoofTimeseriesGroupsRequest } from "./SpoofTimeseriesGroupsRequest.js";
+export type { ThreatCategoryTimeseriesGroupsRequest } from "./ThreatCategoryTimeseriesGroupsRequest.js";
+export type { TlsVersionTimeseriesGroupsRequest } from "./TlsVersionTimeseriesGroupsRequest.js";

@@ -1,0 +1,18 @@
+{
+	"command": "cf access token",
+	"name": "token",
+	"fullPath": ["access", "token"],
+	"category": "action",
+	"description": "Print a JWT for authenticating with an Access application.",
+	"usage": "cf access token <url>",
+	"arguments": [
+		{
+			"name": "url",
+			"position": 0,
+			"type": "string",
+			"required": true,
+			"description": "URL of the Access application"
+		}
+	],
+	"options": []
+}

@@ -1,0 +1,65 @@
+{
+  "product": "turnstile",
+  "tests": [
+    {
+      "command": "cf turnstile widgets create",
+      "args": ["--body", "{\"name\":\"e2e-ts-$RUN_ID\",\"domains\":[\"example.com\"],\"mode\":\"managed\"}"],
+      "env": {
+        "scope": "account"
+      },
+      "capture": {
+        "sitekey": "ts_sitekey"
+      }
+    },
+    {
+      "command": "cf turnstile widgets list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf turnstile widgets get",
+      "args": ["$ts_sitekey"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["ts_sitekey"]
+    },
+    {
+      "command": "cf turnstile widgets update",
+      "args": [
+        "$ts_sitekey",
+        "--body",
+        "{\"name\":\"e2e-ts-$RUN_ID-updated\",\"domains\":[\"example.com\"],\"mode\":\"managed\"}"
+      ],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["ts_sitekey"]
+    },
+    {
+      "command": "cf turnstile widgets rotate-secret",
+      "args": ["$ts_sitekey"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["ts_sitekey"]
+    },
+    {
+      "command": "cf turnstile widgets delete",
+      "args": ["$ts_sitekey"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["ts_sitekey"]
+    },
+    {
+      "command": "cf turnstile widgets rotate secret",
+      "args": ["placeholder_sitekey", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

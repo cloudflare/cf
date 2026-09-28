@@ -1,0 +1,9 @@
+description: "Write multiple Workers KV key/value pairs from a JSON file"
+command: "wrangler kv bulk put <file> --namespace-id <id>"
+status: "partial"
+sourceCommands:
+  - "wrangler kv bulk put values.json"
+cfReplacementFlow:
+  - "cf kv bulk update --namespace-id <namespace-id> --body @values.json"
+notes:
+  - "Wrangler handles local/preview/config binding resolution. cf targets the remote API unless local mode support is explicitly present for the generated endpoint."

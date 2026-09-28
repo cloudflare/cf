@@ -1,0 +1,9 @@
+description: "Delete a Cloudflare Tunnel"
+command: "wrangler tunnel delete <tunnel>"
+status: "partial"
+sourceCommands:
+  - "wrangler tunnel delete <tunnel>"
+cfReplacementFlow:
+  - "cf zero-trust tunnels cloudflared delete <tunnel-id> --force"
+notes:
+  - "Wrangler resolves tunnel names. cf generated delete may require body workaround depending current generator/API shape."

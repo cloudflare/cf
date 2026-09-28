@@ -1,0 +1,9 @@
+description: "Create a dispatch namespace"
+command: "wrangler dispatch-namespace create <namespace>"
+status: "direct"
+sourceCommands:
+  - "wrangler dispatch-namespace create <namespace>"
+cfReplacementFlow:
+  - "cf workers-for-platforms dispatch-namespaces create --name <namespace>"
+notes:
+  - "The generated create command accepts the namespace through --name."

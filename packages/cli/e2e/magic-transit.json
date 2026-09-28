@@ -1,0 +1,1839 @@
+{
+  "product": "magic-transit",
+  "tests": [
+    {
+      "command": "cf magic-transit apps create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit connectors create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit gre-tunnels create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit ipsec-tunnels create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit ipsec-tunnels psk-generate",
+      "args": ["placeholder_ipsec_tunnel_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit pcaps create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit pcaps ownership-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit pcaps ownership-validate",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit routes create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites acls-create",
+      "args": ["placeholder_site_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites lans-create",
+      "args": ["placeholder_site_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites wans-create",
+      "args": ["placeholder_site_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit apps list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit cf-interconnects list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit connectors events-latest-list",
+      "args": ["placeholder_connector_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit connectors events-list",
+      "args": ["placeholder_connector_id", "--from", "2025-01-01T00:00:00Z", "--to", "2025-01-02T00:00:00Z"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit connectors list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit connectors snapshots-latest-list",
+      "args": ["placeholder_connector_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit connectors snapshots-list",
+      "args": ["placeholder_connector_id", "--from", "2025-01-01T00:00:00Z", "--to", "2025-01-02T00:00:00Z"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit gre-tunnels list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit ipsec-tunnels list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit pcaps list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit routes list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites acls-list",
+      "args": ["placeholder_site_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites lans-list",
+      "args": ["placeholder_site_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites wans-list",
+      "args": ["placeholder_site_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit cf-interconnects get",
+      "args": ["placeholder_cf_interconnect_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit connectors events-get",
+      "args": ["placeholder_connector_id", "placeholder_event_t", "placeholder_event_n"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit connectors get",
+      "args": ["placeholder_connector_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit connectors snapshots-get",
+      "args": ["placeholder_connector_id", "placeholder_snapshot_t"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit gre-tunnels get",
+      "args": ["placeholder_gre_tunnel_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit ipsec-tunnels get",
+      "args": ["placeholder_ipsec_tunnel_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit pcaps download-get",
+      "args": ["placeholder_pcap_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit pcaps get",
+      "args": ["placeholder_pcap_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit pcaps ownership-get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit routes get",
+      "args": ["placeholder_route_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites acls-get",
+      "args": ["placeholder_site_id", "placeholder_acl_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites get",
+      "args": ["placeholder_site_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites lans-get",
+      "args": ["placeholder_site_id", "placeholder_lan_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites wans-get",
+      "args": ["placeholder_site_id", "placeholder_wan_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit apps edit",
+      "args": ["placeholder_account_app_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit apps update",
+      "args": ["placeholder_account_app_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit cf-interconnects bulk-update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit cf-interconnects update",
+      "args": ["placeholder_cf_interconnect_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit connectors edit",
+      "args": ["placeholder_connector_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit connectors update",
+      "args": ["placeholder_connector_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit gre-tunnels bulk-update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit gre-tunnels update",
+      "args": ["placeholder_gre_tunnel_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit ipsec-tunnels bulk-update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit ipsec-tunnels update",
+      "args": ["placeholder_ipsec_tunnel_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit pcaps stop",
+      "args": ["placeholder_pcap_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit routes bulk-update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit routes update",
+      "args": ["placeholder_route_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites acls-edit",
+      "args": ["placeholder_site_id", "placeholder_acl_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites acls-update",
+      "args": ["placeholder_site_id", "placeholder_acl_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites edit",
+      "args": ["placeholder_site_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites lans-edit",
+      "args": ["placeholder_site_id", "placeholder_lan_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites lans-update",
+      "args": ["placeholder_site_id", "placeholder_lan_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites update",
+      "args": ["placeholder_site_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites wans-edit",
+      "args": ["placeholder_site_id", "placeholder_wan_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites wans-update",
+      "args": ["placeholder_site_id", "placeholder_wan_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit apps delete",
+      "args": ["placeholder_account_app_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit connectors delete",
+      "args": ["placeholder_connector_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit gre-tunnels delete",
+      "args": ["placeholder_gre_tunnel_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit ipsec-tunnels delete",
+      "args": ["placeholder_ipsec_tunnel_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit pcaps ownership-delete",
+      "args": ["placeholder_ownership_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit routes delete",
+      "args": ["placeholder_route_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit routes empty",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites acls-delete",
+      "args": ["placeholder_site_id", "placeholder_acl_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites delete",
+      "args": ["placeholder_site_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites lans-delete",
+      "args": ["placeholder_site_id", "placeholder_lan_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites wans-delete",
+      "args": ["placeholder_site_id", "placeholder_wan_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-dns-protection configs-dns-protection-rules-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs-allowlist-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs-prefixes-bulk-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs-prefixes-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs-syn-protection-filters-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs-syn-protection-rules-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs-tcp-flow-protection-filters-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs-tcp-flow-protection-rules-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites-extra app-configs-create",
+      "args": ["placeholder_site_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites-extra netflow-config-create",
+      "args": ["placeholder_site_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-dns-protection configs-dns-protection-rules-list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs-allowlist-get",
+      "args": ["placeholder_prefix_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs-allowlist-list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs-prefixes-list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs-syn-protection-filters-list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs-syn-protection-rules-list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs-tcp-flow-protection-filters-list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs-tcp-flow-protection-rules-list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites-extra app-configs-list",
+      "args": ["placeholder_site_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-dns-protection configs-dns-protection-rules-get",
+      "args": ["placeholder_rule_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs-prefixes-get",
+      "args": ["placeholder_prefix_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs-syn-protection-filters-get",
+      "args": ["placeholder_filter_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs-syn-protection-rules-get",
+      "args": ["placeholder_rule_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs-tcp-flow-protection-filters-get",
+      "args": ["placeholder_filter_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs-tcp-flow-protection-rules-get",
+      "args": ["placeholder_rule_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs-tcp-protection-status-get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites-extra netflow-config-get",
+      "args": ["placeholder_site_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-dns-protection configs-dns-protection-rules-update",
+      "args": ["placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs-allowlist-update",
+      "args": ["placeholder_prefix_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs-prefixes-update",
+      "args": ["placeholder_prefix_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs-syn-protection-filters-update",
+      "args": ["placeholder_filter_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs-syn-protection-rules-update",
+      "args": ["placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs-tcp-flow-protection-filters-update",
+      "args": ["placeholder_filter_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs-tcp-flow-protection-rules-update",
+      "args": ["placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs-tcp-protection-status-update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites-extra app-configs-edit",
+      "args": ["placeholder_site_id", "placeholder_app_config_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites-extra app-configs-update",
+      "args": ["placeholder_site_id", "placeholder_app_config_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites-extra netflow-config-edit",
+      "args": ["placeholder_site_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites-extra netflow-config-update",
+      "args": ["placeholder_site_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-dns-protection configs-dns-protection-rules-delete-for-account",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-dns-protection configs-dns-protection-rules-delete-protection-rule",
+      "args": ["placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs-allowlist-delete-allowlist-prefix",
+      "args": ["placeholder_prefix_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs-allowlist-delete-for-account",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs-prefixes-delete-for-account",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs-prefixes-delete-prefix",
+      "args": ["placeholder_prefix_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs-syn-protection-filters-delete-for-account",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs-syn-protection-filters-delete-protection-filter",
+      "args": ["placeholder_filter_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs-syn-protection-rules-delete-for-account",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs-syn-protection-rules-delete-protection-rule",
+      "args": ["placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs-tcp-flow-protection-filters-delete-for-account",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs-tcp-flow-protection-filters-delete-protection-filter",
+      "args": ["placeholder_filter_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs-tcp-flow-protection-rules-delete-for-account",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs-tcp-flow-protection-rules-delete-protection-rule",
+      "args": ["placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites-extra app-configs-delete",
+      "args": ["placeholder_site_id", "placeholder_app_config_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites-extra netflow-config-delete",
+      "args": ["placeholder_site_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit pcaps-ownership create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit pcaps-ownership validate",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites-acls create",
+      "args": ["placeholder_site_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites-app-configuration create",
+      "args": ["placeholder_site_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites-lans create",
+      "args": ["placeholder_site_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites-wans create",
+      "args": ["placeholder_site_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit connectors-events list",
+      "args": ["placeholder_connector_id", "--from", "2025-01-01T00:00:00Z", "--to", "2025-01-02T00:00:00Z"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit connectors-events-latest list",
+      "args": ["placeholder_connector_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit connectors-snapshots list",
+      "args": ["placeholder_connector_id", "--from", "2025-01-01T00:00:00Z", "--to", "2025-01-02T00:00:00Z"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit connectors-snapshots-latest list",
+      "args": ["placeholder_connector_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites-acls list",
+      "args": ["placeholder_site_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites-app-configuration list",
+      "args": ["placeholder_site_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites-lans list",
+      "args": ["placeholder_site_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites-wans list",
+      "args": ["placeholder_site_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit connectors-events get",
+      "args": ["placeholder_connector_id", "placeholder_event_t", "placeholder_event_n"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit connectors-snapshots get",
+      "args": ["placeholder_connector_id", "placeholder_snapshot_t"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit pcaps-download get",
+      "args": ["placeholder_pcap_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit pcaps-ownership get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites-acls get",
+      "args": ["placeholder_site_id", "placeholder_acl_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites-lans get",
+      "args": ["placeholder_site_id", "placeholder_lan_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites-wans get",
+      "args": ["placeholder_site_id", "placeholder_wan_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites-acls edit",
+      "args": ["placeholder_site_id", "placeholder_acl_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites-acls update",
+      "args": ["placeholder_site_id", "placeholder_acl_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites-app-configuration edit",
+      "args": ["placeholder_site_id", "placeholder_app_config_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites-app-configuration update",
+      "args": ["placeholder_site_id", "placeholder_app_config_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites-lans edit",
+      "args": ["placeholder_site_id", "placeholder_lan_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites-lans update",
+      "args": ["placeholder_site_id", "placeholder_lan_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites-wans edit",
+      "args": ["placeholder_site_id", "placeholder_wan_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites-wans update",
+      "args": ["placeholder_site_id", "placeholder_wan_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit pcaps-ownership delete",
+      "args": ["placeholder_ownership_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites-acls delete",
+      "args": ["placeholder_site_id", "placeholder_acl_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites-app-configuration delete",
+      "args": ["placeholder_site_id", "placeholder_app_config_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites-lans delete",
+      "args": ["placeholder_site_id", "placeholder_lan_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites-wans delete",
+      "args": ["placeholder_site_id", "placeholder_wan_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit pcaps ownership create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit pcaps ownership validate",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites acls create",
+      "args": ["placeholder_site_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites app-configuration create",
+      "args": ["placeholder_site_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites lans create",
+      "args": ["placeholder_site_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites wans create",
+      "args": ["placeholder_site_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit connectors events latest list",
+      "args": ["placeholder_connector_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit connectors events list",
+      "args": ["placeholder_connector_id", "--from", "2025-01-01T00:00:00Z", "--to", "2025-01-02T00:00:00Z"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit connectors snapshots latest list",
+      "args": ["placeholder_connector_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit connectors snapshots list",
+      "args": ["placeholder_connector_id", "--from", "2025-01-01T00:00:00Z", "--to", "2025-01-02T00:00:00Z"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites acls list",
+      "args": ["placeholder_site_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites app-configuration list",
+      "args": ["placeholder_site_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites lans list",
+      "args": ["placeholder_site_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites wans list",
+      "args": ["placeholder_site_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit connectors events get",
+      "args": ["placeholder_connector_id", "placeholder_event_t", "placeholder_event_n"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit connectors snapshots get",
+      "args": ["placeholder_connector_id", "placeholder_snapshot_t"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit pcaps download get",
+      "args": ["placeholder_pcap_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit pcaps ownership get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites acls get",
+      "args": ["placeholder_site_id", "placeholder_acl_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites lans get",
+      "args": ["placeholder_site_id", "placeholder_lan_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites wans get",
+      "args": ["placeholder_site_id", "placeholder_wan_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites acls edit",
+      "args": ["placeholder_site_id", "placeholder_acl_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites acls update",
+      "args": ["placeholder_site_id", "placeholder_acl_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites app-configuration edit",
+      "args": ["placeholder_site_id", "placeholder_app_config_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites app-configuration update",
+      "args": ["placeholder_site_id", "placeholder_app_config_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites lans edit",
+      "args": ["placeholder_site_id", "placeholder_lan_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites lans update",
+      "args": ["placeholder_site_id", "placeholder_lan_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites wans edit",
+      "args": ["placeholder_site_id", "placeholder_wan_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites wans update",
+      "args": ["placeholder_site_id", "placeholder_wan_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit pcaps ownership delete",
+      "args": ["placeholder_ownership_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites acls delete",
+      "args": ["placeholder_site_id", "placeholder_acl_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites app-configuration delete",
+      "args": ["placeholder_site_id", "placeholder_app_config_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites lans delete",
+      "args": ["placeholder_site_id", "placeholder_lan_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites wans delete",
+      "args": ["placeholder_site_id", "placeholder_wan_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-dns-protection configs dns protection rules create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs allowlist create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs prefixes bulk create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs prefixes create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs syn protection filters create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs syn protection rules create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs tcp flow protection filters create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs tcp flow protection rules create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites-extra netflow config create",
+      "args": ["placeholder_site_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-dns-protection configs dns protection rules list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs allowlist get",
+      "args": ["placeholder_prefix_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs allowlist list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs prefixes list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs syn protection filters list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs syn protection rules list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs tcp flow protection filters list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs tcp flow protection rules list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-dns-protection configs dns protection rules get",
+      "args": ["placeholder_rule_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs prefixes get",
+      "args": ["placeholder_prefix_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs syn protection filters get",
+      "args": ["placeholder_filter_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs syn protection rules get",
+      "args": ["placeholder_rule_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs tcp flow protection filters get",
+      "args": ["placeholder_filter_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs tcp flow protection rules get",
+      "args": ["placeholder_rule_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs tcp protection status get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites-extra netflow config get",
+      "args": ["placeholder_site_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-dns-protection configs dns protection rules update",
+      "args": ["placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs allowlist update",
+      "args": ["placeholder_prefix_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs prefixes update",
+      "args": ["placeholder_prefix_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs syn protection filters update",
+      "args": ["placeholder_filter_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs syn protection rules update",
+      "args": ["placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs tcp flow protection filters update",
+      "args": ["placeholder_filter_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs tcp flow protection rules update",
+      "args": ["placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs tcp protection status update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites-extra netflow config edit",
+      "args": ["placeholder_site_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites-extra netflow config update",
+      "args": ["placeholder_site_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites-extra netflow config delete",
+      "args": ["placeholder_site_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-dns-protection configs dns protection rules delete for account",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-dns-protection configs dns protection rules delete protection rule",
+      "args": ["placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs allowlist delete allowlist prefix",
+      "args": ["placeholder_prefix_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs allowlist delete for account",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs prefixes delete for account",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs prefixes delete prefix",
+      "args": ["placeholder_prefix_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs syn protection filters delete for account",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs syn protection filters delete protection filter",
+      "args": ["placeholder_filter_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs syn protection rules delete for account",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs syn protection rules delete protection rule",
+      "args": ["placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs tcp flow protection filters delete for account",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs tcp flow protection filters delete protection filter",
+      "args": ["placeholder_filter_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs tcp flow protection rules delete for account",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit advanced-tcp-protection configs tcp flow protection rules delete protection rule",
+      "args": ["placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit ipsec-tunnels psk generate",
+      "args": ["placeholder_ipsec_tunnel_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites-extra app configs create",
+      "args": ["placeholder_site_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites-extra app configs list",
+      "args": ["placeholder_site_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit cf-interconnects bulk update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit gre-tunnels bulk update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit ipsec-tunnels bulk update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit routes bulk update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites-extra app configs edit",
+      "args": ["placeholder_site_id", "placeholder_app_config_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites-extra app configs update",
+      "args": ["placeholder_site_id", "placeholder_app_config_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites-extra app configs delete",
+      "args": ["placeholder_site_id", "placeholder_app_config_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites netflow-config create",
+      "args": ["placeholder_site_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites netflow-config get",
+      "args": ["placeholder_site_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites netflow-config edit",
+      "args": ["placeholder_site_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites netflow-config update",
+      "args": ["placeholder_site_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-transit sites netflow-config delete",
+      "args": ["placeholder_site_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

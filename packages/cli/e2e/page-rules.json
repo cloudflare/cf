@@ -1,0 +1,54 @@
+{
+  "product": "page-rules",
+  "tests": [
+    {
+      "command": "cf page-rules create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf page-rules list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf page-rules get",
+      "args": ["placeholder_pagerule_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf page-rules edit",
+      "args": ["placeholder_pagerule_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf page-rules update",
+      "args": ["placeholder_pagerule_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf page-rules delete",
+      "args": ["placeholder_pagerule_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf page-rules settings list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    }
+  ]
+}

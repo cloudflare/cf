@@ -1,0 +1,11 @@
+description: "Create a Vectorize index"
+command: "wrangler vectorize create <index> --dimensions <n> --metric <metric>"
+status: "partial"
+sourceCommands:
+  - "wrangler vectorize create <index> --dimensions <n> --metric cosine"
+  - "wrangler vectorize create <index> --preset <model>"
+cfReplacementFlow:
+  - "cf vectorize create --name <index> --dimensions <n> --metric <metric>"
+  - "cf vectorize create --name <index> --preset <model>"
+notes:
+  - "Wrangler can update Worker config. cf creates the API resource only."

@@ -1,0 +1,14 @@
+export * as bulk from "./bulk/index.js";
+export * from "./bulk/client/requests/index.js";
+export * from "./bulk/types/index.js";
+export * as bulkDeprecated from "./bulkDeprecated/index.js";
+export * from "./bulkDeprecated/client/requests/index.js";
+export * as keys from "./keys/index.js";
+export * from "./keys/client/requests/index.js";
+export * from "./keys/types/index.js";
+export * as metadata from "./metadata/index.js";
+export * from "./metadata/client/requests/index.js";
+export * from "./metadata/types/index.js";
+export * as namespaces from "./namespaces/index.js";
+export * from "./namespaces/client/requests/index.js";
+export * from "./namespaces/types/index.js";

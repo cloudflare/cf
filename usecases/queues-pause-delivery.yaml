@@ -1,0 +1,9 @@
+description: "Pause message delivery for a Queue"
+command: "wrangler queues pause-delivery <queue>"
+status: "partial"
+sourceCommands:
+  - "wrangler queues pause-delivery <queue>"
+cfReplacementFlow:
+  - "cf queues update <queue-id> --body @pause-delivery.json"
+notes:
+  - "No clearly named generated pause command was identified; this likely maps to queue settings update."

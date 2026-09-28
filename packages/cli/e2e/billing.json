@@ -1,0 +1,19 @@
+{
+  "product": "billing",
+  "tests": [
+    {
+      "command": "cf billing profiles get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf billing usage paygo",
+      "args": ["--from", "2025-01-01T00:00:00Z", "--to", "2025-01-02T00:00:00Z"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

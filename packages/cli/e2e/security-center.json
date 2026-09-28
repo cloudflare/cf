@@ -1,0 +1,201 @@
+{
+  "product": "security-center",
+  "tests": [
+    {
+      "command": "cf security-center insights list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf security-center insights class-get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf security-center insights severity-get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf security-center insights type-get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf security-center insights dismiss",
+      "args": ["placeholder_issue_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf security-center insights-extra class-get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf security-center insights-extra context-get",
+      "args": ["placeholder_issue_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf security-center insights-extra get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf security-center insights-extra severity-get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf security-center insights-extra type-get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf security-center insights-extra dismiss-update",
+      "args": ["placeholder_issue_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf security-center insights class get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf security-center insights class get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf security-center insights severity get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf security-center insights severity get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf security-center insights type get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf security-center insights type get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf security-center insights-extra class get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf security-center insights-extra context get",
+      "args": ["placeholder_issue_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf security-center insights-extra severity get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf security-center insights-extra type get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf security-center insights-extra dismiss update",
+      "args": ["placeholder_issue_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf security-center zone-insights class get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf security-center zone-insights context get",
+      "args": ["placeholder_issue_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf security-center zone-insights get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf security-center zone-insights severity get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf security-center zone-insights type get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf security-center zone-insights dismiss update",
+      "args": ["placeholder_issue_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    }
+  ]
+}

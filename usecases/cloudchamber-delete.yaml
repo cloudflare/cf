@@ -1,0 +1,9 @@
+description: "Delete a Cloudchamber deployment"
+command: "wrangler cloudchamber delete <deployment-id>"
+status: "partial"
+sourceCommands:
+  - "wrangler cloudchamber delete <deployment-id>"
+cfReplacementFlow:
+  - "cf cloudchamber delete <deployment-id> --force"
+notes:
+  - "Verify cf product coverage."

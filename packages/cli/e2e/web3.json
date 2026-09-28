@@ -1,0 +1,236 @@
+{
+  "product": "web3",
+  "tests": [
+    {
+      "command": "cf web3 hostnames create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf web3 hostnames ipfs-universal-paths-content-lists-entries-create",
+      "args": ["placeholder_identifier", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf web3 hostnames ipfs-universal-paths-content-lists-entries-get",
+      "args": ["placeholder_identifier", "placeholder_content_list_entry_identifier"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf web3 hostnames ipfs-universal-paths-content-lists-entries-list",
+      "args": ["placeholder_identifier"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf web3 hostnames ipfs-universal-paths-content-lists-get",
+      "args": ["placeholder_identifier"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf web3 hostnames list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf web3 hostnames get",
+      "args": ["placeholder_identifier"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf web3 hostnames edit",
+      "args": ["placeholder_identifier", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf web3 hostnames ipfs-universal-paths-content-lists-entries-update",
+      "args": ["placeholder_identifier", "placeholder_content_list_entry_identifier", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf web3 hostnames ipfs-universal-paths-content-lists-update",
+      "args": ["placeholder_identifier", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf web3 hostnames delete",
+      "args": ["placeholder_identifier", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf web3 hostnames ipfs-universal-paths-content-lists-entries-delete",
+      "args": ["placeholder_identifier", "placeholder_content_list_entry_identifier", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf web3 hostnames-ipfs-universal-paths-content-lists-entries create",
+      "args": ["placeholder_identifier", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf web3 hostnames-ipfs-universal-paths-content-lists get",
+      "args": ["placeholder_identifier"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf web3 hostnames-ipfs-universal-paths-content-lists-entries get",
+      "args": ["placeholder_identifier", "placeholder_content_list_entry_identifier"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf web3 hostnames-ipfs-universal-paths-content-lists-entries list",
+      "args": ["placeholder_identifier"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf web3 hostnames-ipfs-universal-paths-content-lists update",
+      "args": ["placeholder_identifier", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf web3 hostnames-ipfs-universal-paths-content-lists-entries update",
+      "args": ["placeholder_identifier", "placeholder_content_list_entry_identifier", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf web3 hostnames-ipfs-universal-paths-content-lists-entries delete",
+      "args": ["placeholder_identifier", "placeholder_content_list_entry_identifier", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf web3 hostnames ipfs-universal-paths content-lists entries create",
+      "args": ["placeholder_identifier", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf web3 hostnames ipfs-universal-paths content-lists entries get",
+      "args": ["placeholder_identifier", "placeholder_content_list_entry_identifier"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf web3 hostnames ipfs-universal-paths content-lists entries list",
+      "args": ["placeholder_identifier"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf web3 hostnames ipfs-universal-paths content-lists get",
+      "args": ["placeholder_identifier"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf web3 hostnames ipfs-universal-paths content-lists entries update",
+      "args": ["placeholder_identifier", "placeholder_content_list_entry_identifier", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf web3 hostnames ipfs-universal-paths content-lists update",
+      "args": ["placeholder_identifier", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf web3 hostnames ipfs-universal-paths content-lists entries delete",
+      "args": ["placeholder_identifier", "placeholder_content_list_entry_identifier", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf web3 hostnames ipfs universal paths content lists entries create",
+      "args": ["placeholder_identifier", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf web3 hostnames ipfs universal paths content lists entries get",
+      "args": ["placeholder_identifier", "placeholder_content_list_entry_identifier"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf web3 hostnames ipfs universal paths content lists entries list",
+      "args": ["placeholder_identifier"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf web3 hostnames ipfs universal paths content lists get",
+      "args": ["placeholder_identifier"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf web3 hostnames ipfs universal paths content lists entries update",
+      "args": ["placeholder_identifier", "placeholder_content_list_entry_identifier", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf web3 hostnames ipfs universal paths content lists update",
+      "args": ["placeholder_identifier", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf web3 hostnames ipfs universal paths content lists entries delete",
+      "args": ["placeholder_identifier", "placeholder_content_list_entry_identifier", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+description: "Create a temporary trycloudflare tunnel to a local URL"
+command: "wrangler tunnel quick-start <url>"
+status: "direct"
+sourceCommands:
+  - "wrangler tunnel quick-start http://localhost:8787"
+cfReplacementFlow:
+  - "cf tunnels quick-start http://localhost:8787"
+notes:
+  - "cf downloads and manages the cloudflared binary."

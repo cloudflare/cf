@@ -1,0 +1,59 @@
+{
+	"command": "cf tunnels diag",
+	"name": "diag",
+	"fullPath": ["tunnels", "diag"],
+	"category": "action",
+	"description": "Create a diagnostic report from a local cloudflared instance.",
+	"usage": "cf tunnels diag [options]",
+	"arguments": [],
+	"options": [
+		{
+			"name": "metrics",
+			"type": "string",
+			"required": false,
+			"description": "Metrics server address for the cloudflared instance"
+		},
+		{
+			"name": "diag-container-id",
+			"type": "string",
+			"required": false,
+			"description": "Container ID or name to collect logs from"
+		},
+		{
+			"name": "diag-pod-id",
+			"type": "string",
+			"required": false,
+			"description": "Kubernetes pod to collect logs from"
+		},
+		{
+			"name": "no-diag-logs",
+			"type": "boolean",
+			"required": false,
+			"description": "Exclude logs"
+		},
+		{
+			"name": "no-diag-metrics",
+			"type": "boolean",
+			"required": false,
+			"description": "Exclude metrics"
+		},
+		{
+			"name": "no-diag-network",
+			"type": "boolean",
+			"required": false,
+			"description": "Exclude network diagnostics"
+		},
+		{
+			"name": "no-diag-runtime",
+			"type": "boolean",
+			"required": false,
+			"description": "Exclude runtime information"
+		},
+		{
+			"name": "no-diag-system",
+			"type": "boolean",
+			"required": false,
+			"description": "Exclude system information"
+		}
+	]
+}

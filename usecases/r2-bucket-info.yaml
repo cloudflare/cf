@@ -1,0 +1,9 @@
+description: "Show R2 bucket metadata and metrics"
+command: "wrangler r2 bucket info <bucket>"
+status: "partial"
+sourceCommands:
+  - "wrangler r2 bucket info <bucket>"
+cfReplacementFlow:
+  - "cf r2 buckets get <bucket>"
+notes:
+  - "Wrangler combines metadata and metrics. cf may require additional generated metrics commands for equivalent detail."

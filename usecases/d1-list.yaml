@@ -1,0 +1,9 @@
+description: "List D1 databases"
+command: "wrangler d1 list"
+status: "direct"
+sourceCommands:
+  - "wrangler d1 list"
+cfReplacementFlow:
+  - "cf d1 list"
+notes:
+  - "cf emits JSON by default; Wrangler supports --json for machine-readable output."

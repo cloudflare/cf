@@ -1,0 +1,20 @@
+packages:
+  - packages/*
+  - fixtures/*
+
+# Prevent transitive deps from pulling from git / tarball URLs.
+# Direct deps (vendor/*.tgz) are still allowed.
+blockExoticSubdeps: true
+
+# Allow newly published direct dependencies before pnpm's maturity cutoff.
+minimumReleaseAgeExclude:
+  - "@cloudflare/codemods@0.2.0"
+
+# pnpm 10 blocks install scripts by default; allowlist what needs them.
+allowBuilds:
+  esbuild: true
+  # workerd's postinstall places the platform binary miniflare (`--local`)
+  # execs. Nothing else in miniflare's tree has an install script.
+  workerd: true
+
+gitChecks: false

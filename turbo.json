@@ -1,0 +1,70 @@
+{
+	"$schema": "http://turbo.build/schema.json",
+	"remoteCache": {
+		"signature": true
+	},
+	"globalEnv": ["NODE_VERSION", "CI_OS"],
+	"globalPassThroughEnv": [
+		"CARGO_HOME",
+		"CF_FORCE_OSC_PROGRESS",
+		"CF_HIDE_COMMANDS",
+		"CF_NO_OSC_PROGRESS",
+		"CF_NO_PROMPT",
+		"CF_QUIET",
+		"CF_SEND_TELEMETRY",
+		"CI",
+		"CLI_VERSION",
+		"CLOUDFLARE_ACCOUNT_ID",
+		"CLOUDFLARE_API_TOKEN",
+		"CLOUDFLARE_API_BASE_URL",
+		"CLOUDFLARE_COMPLIANCE_REGION",
+		"CLOUDFLARE_REGISTRY_PATH",
+		"CLOUDFLARE_ZONE_ID",
+		"ConEmuANSI",
+		"DEBUG",
+		"DO_NOT_TRACK",
+		"FORCE_COLOR",
+		"FORGE_OPENAPI_BUNDLE",
+		"GITHUB_TOKEN",
+		"HOME",
+		"LC_ALL",
+		"NO_COLOR",
+		"NODE_EXTRA_CA_CERTS",
+		"PATH",
+		"PWD",
+		"SHELL",
+		"SPARROW_SOURCE_KEY",
+		"TERM_PROGRAM",
+		"TUNNEL_MANAGEMENT_TOKEN",
+		"TZ",
+		"VSCODE_INSPECTOR_OPTIONS",
+		"WRANGLER_AUTH_DOMAIN",
+		"WRANGLER_SEND_METRICS",
+		"WT_SESSION",
+		"XDG_CONFIG_HOME",
+		"npm_config_user_agent"
+	],
+	"tasks": {
+		"dev": {
+			"persistent": true,
+			"cache": false
+		},
+		"generate": {
+			"cache": false,
+			"outputs": ["src/commands/_generated/**", "src/sdk/**"]
+		},
+		"build": {
+			"dependsOn": ["^build", "generate"],
+			"outputLogs": "new-only"
+		},
+		"check:type": {
+			"dependsOn": ["generate", "^build"]
+		},
+		"//#check:lint": {
+			"dependsOn": ["cf#generate"]
+		},
+		"//#check:format": {
+			"cache": true
+		}
+	}
+}

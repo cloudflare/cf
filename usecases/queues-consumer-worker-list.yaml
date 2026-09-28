@@ -1,0 +1,10 @@
+description: "List Worker consumers for a Queue"
+command: "wrangler queues consumer worker list <queue>"
+status: "partial"
+sourceCommands:
+  - "wrangler queues consumer list <queue>"
+  - "wrangler queues consumer worker list <queue>"
+cfReplacementFlow:
+  - "cf queues consumers list --queue-id <queue-id>"
+notes:
+  - "Filter by consumer type manually if cf/API returns all consumer types together."

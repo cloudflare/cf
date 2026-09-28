@@ -1,0 +1,9 @@
+description: "Delete one Workers KV key"
+command: "wrangler kv key delete <key> --namespace-id <id>"
+status: "partial"
+sourceCommands:
+  - "wrangler kv key delete <key>"
+cfReplacementFlow:
+  - "cf kv keys delete <key> --namespace-id <namespace-id> --force"
+notes:
+  - "cf standardizes destructive confirmation bypass as --force."

@@ -1,0 +1,593 @@
+{
+  "product": "user",
+  "tests": [
+    {
+      "command": "cf user tokens create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user audit-logs list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user billing history-list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user invites list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user organizations list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user tokens list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user tokens permission-groups-list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user billing profile-get",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user get",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user invites get",
+      "args": ["placeholder_invite_id"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user organizations get",
+      "args": ["placeholder_organization_id"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user subscriptions get",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user tokens get",
+      "args": ["placeholder_token_id"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user tokens verify",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user edit",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user invites edit",
+      "args": ["placeholder_invite_id", "--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user subscriptions update",
+      "args": ["placeholder_identifier", "--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user tokens update",
+      "args": ["placeholder_token_id", "--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user tokens value-update",
+      "args": ["placeholder_token_id", "--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user organizations delete",
+      "args": ["placeholder_organization_id", "--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user subscriptions delete",
+      "args": ["placeholder_identifier", "--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user tokens delete",
+      "args": ["placeholder_token_id", "--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user firewall access-rules-rules-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user load-balancers monitors-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user load-balancers monitors-preview-create",
+      "args": ["placeholder_monitor_id", "--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user load-balancers pools-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user load-balancers pools-preview-create",
+      "args": ["placeholder_pool_id", "--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user firewall access-rules-rules-list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user load-balancers monitors-list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user load-balancers monitors-references-list",
+      "args": ["placeholder_monitor_id"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user load-balancers pools-list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user load-balancers pools-references-list",
+      "args": ["placeholder_pool_id"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user load-balancing-analytics events-list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user tenants list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user load-balancers monitors-get",
+      "args": ["placeholder_monitor_id"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user load-balancers pools-get",
+      "args": ["placeholder_pool_id"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user load-balancers pools-health-get",
+      "args": ["placeholder_pool_id"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user load-balancers preview-get",
+      "args": ["placeholder_preview_id"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user firewall access-rules-rules-edit",
+      "args": ["placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user load-balancers monitors-edit",
+      "args": ["placeholder_monitor_id", "--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user load-balancers monitors-update",
+      "args": ["placeholder_monitor_id", "--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user load-balancers pools-edit-pools-pool",
+      "args": ["placeholder_pool_id", "--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user load-balancers pools-edit-pools-pools",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user load-balancers pools-update",
+      "args": ["placeholder_pool_id", "--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user firewall access-rules-rules-delete",
+      "args": ["placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user load-balancers monitors-delete",
+      "args": ["placeholder_monitor_id", "--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user load-balancers pools-delete",
+      "args": ["placeholder_pool_id", "--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user billing-history list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user tokens-permission-groups list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user billing-profile get",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user tokens-value update",
+      "args": ["placeholder_token_id", "--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user billing history list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user tokens permission-groups list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user billing profile get",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user tokens value update",
+      "args": ["placeholder_token_id", "--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user firewall access rules rules create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user load-balancers monitors create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user load-balancers monitors preview create",
+      "args": ["placeholder_monitor_id", "--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user load-balancers pools create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user load-balancers pools preview create",
+      "args": ["placeholder_pool_id", "--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user firewall access rules rules list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user load-balancers monitors list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user load-balancers monitors references list",
+      "args": ["placeholder_monitor_id"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user load-balancers pools list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user load-balancers pools references list",
+      "args": ["placeholder_pool_id"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user load-balancing-analytics events list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user load-balancers monitors get",
+      "args": ["placeholder_monitor_id"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user load-balancers pools get",
+      "args": ["placeholder_pool_id"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user load-balancers pools health get",
+      "args": ["placeholder_pool_id"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user load-balancers preview get",
+      "args": ["placeholder_preview_id"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user firewall access rules rules edit",
+      "args": ["placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user load-balancers monitors edit",
+      "args": ["placeholder_monitor_id", "--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user load-balancers monitors update",
+      "args": ["placeholder_monitor_id", "--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user load-balancers pools update",
+      "args": ["placeholder_pool_id", "--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user firewall access rules rules delete",
+      "args": ["placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user load-balancers monitors delete",
+      "args": ["placeholder_monitor_id", "--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user load-balancers pools delete",
+      "args": ["placeholder_pool_id", "--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user load-balancers pools edit pools pool",
+      "args": ["placeholder_pool_id", "--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user load-balancers pools edit pools pools",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user tokens permission groups list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user firewall access-rules create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user firewall access-rules list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user firewall access-rules edit",
+      "args": ["placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf user firewall access-rules delete",
+      "args": ["placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    }
+  ]
+}

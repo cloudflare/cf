@@ -1,0 +1,12 @@
+description: "Configure Workers Assets behavior"
+command: "wrangler.jsonc assets"
+status: "gap"
+sourceCommands:
+  - "wrangler.jsonc assets.directory"
+  - "wrangler.jsonc assets.binding"
+  - "wrangler.jsonc assets.not_found_handling"
+  - "wrangler.jsonc assets.run_worker_first"
+cfReplacementFlow:
+  - "No current cf replacement in this investigation."
+notes:
+  - "Assets are tied to build/deploy flows, which are out of scope."

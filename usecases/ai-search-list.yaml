@@ -1,0 +1,9 @@
+description: "List AI Search instances"
+command: "wrangler ai-search list"
+status: "direct"
+sourceCommands:
+  - "wrangler ai-search list"
+cfReplacementFlow:
+  - "cf ai-search list"
+notes:
+  - "Use namespace/page filters if generated. cf outputs JSON by default."

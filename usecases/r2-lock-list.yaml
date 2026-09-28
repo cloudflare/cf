@@ -1,0 +1,9 @@
+description: "List R2 bucket lock rules"
+command: "wrangler r2 bucket lock list <bucket>"
+status: "direct"
+sourceCommands:
+  - "wrangler r2 bucket lock list <bucket>"
+cfReplacementFlow:
+  - "cf r2 buckets locks get <bucket>"
+notes:
+  - "Command naming follows API config-document shape in cf."

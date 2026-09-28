@@ -1,0 +1,9 @@
+description: "Get Queue details"
+command: "wrangler queues info <queue>"
+status: "partial"
+sourceCommands:
+  - "wrangler queues info <queue>"
+cfReplacementFlow:
+  - "cf queues get <queue-id>"
+notes:
+  - "Name-to-ID lookup is Wrangler convenience; cf is API-shaped."

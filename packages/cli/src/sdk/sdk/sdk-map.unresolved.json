@@ -1,0 +1,6 @@
+[
+  "CreateFindingInstancesExportCSV",
+  "aig-config-delete-gateway",
+  "aig-config-fetch-gateway",
+  "aig-config-update-gateway"
+]

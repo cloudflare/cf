@@ -1,0 +1,38 @@
+{
+	"command": "cf containers build",
+	"name": "build",
+	"fullPath": ["containers", "build"],
+	"category": "action",
+	"description": "Build a Container image from a Dockerfile.",
+	"usage": "cf containers build <path> --tag <name:tag> [--push]",
+	"arguments": [
+		{
+			"name": "path",
+			"position": 0,
+			"type": "string",
+			"required": true,
+			"description": "Directory containing the Dockerfile to build"
+		}
+	],
+	"options": [
+		{
+			"name": "tag",
+			"type": "string",
+			"required": true,
+			"description": "Name and optional tag for the built image"
+		},
+		{
+			"name": "push",
+			"type": "boolean",
+			"required": false,
+			"description": "Push the built image to Cloudflare's managed registry",
+			"default": false
+		},
+		{
+			"name": "path-to-docker",
+			"type": "string",
+			"required": false,
+			"description": "Path to the Docker binary if it is not on PATH"
+		}
+	]
+}

@@ -1,0 +1,152 @@
+{
+  "product": "organizations",
+  "tests": [
+    {
+      "command": "cf organizations create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf organizations organization-profile create",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf organizations list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf organizations get",
+      "args": ["placeholder_organization_id"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf organizations organization-profile get",
+      "args": ["placeholder_organization_id"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf organizations organization-profile update",
+      "args": ["placeholder_organization_id", "--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf organizations update",
+      "args": ["placeholder_organization_id", "--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf organizations delete",
+      "args": ["placeholder_organization_id", "--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf organizations organization-profile delete",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf organizations members create",
+      "args": ["placeholder_organization_id", "--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf organizations members-batch-create create",
+      "args": ["placeholder_organization_id", "--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf organizations list-extra",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf organizations members list",
+      "args": ["placeholder_organization_id"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf organizations shares list",
+      "args": ["placeholder_organization_id"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf organizations accounts get",
+      "args": ["placeholder_organization_id"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf organizations logs audit-get",
+      "args": ["placeholder_organization_id"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf organizations members get",
+      "args": ["placeholder_organization_id", "placeholder_member_id"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf organizations members delete",
+      "args": ["placeholder_organization_id", "placeholder_member_id", "--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf organizations organization-accounts get",
+      "args": ["placeholder_organization_id"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf organizations logs audit get",
+      "args": ["placeholder_organization_id"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf organizations account-organizations list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

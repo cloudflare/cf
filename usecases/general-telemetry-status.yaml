@@ -1,0 +1,10 @@
+description: "Show effective Wrangler telemetry setting"
+command: "wrangler telemetry status"
+status: "gap"
+sourceCommands:
+  - "wrangler telemetry status"
+  - "wrangler metrics status"
+cfReplacementFlow:
+  - "No direct cf replacement."
+notes:
+  - "Wrangler's metrics alias maps to telemetry."

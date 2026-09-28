@@ -1,0 +1,9 @@
+description: "Remove a custom domain from an R2 bucket"
+command: "wrangler r2 bucket domain remove <bucket> --domain <domain>"
+status: "partial"
+sourceCommands:
+  - "wrangler r2 bucket domain remove <bucket> --domain <domain>"
+cfReplacementFlow:
+  - "cf r2 buckets domains custom delete <domain> --bucket-name <bucket> --force"
+notes:
+  - "Exact cf path/flags should be verified with cf schema."

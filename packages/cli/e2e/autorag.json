@@ -1,0 +1,54 @@
+{
+  "product": "autorag",
+  "tests": [
+    {
+      "command": "cf autorag ai-search",
+      "args": ["placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf autorag search",
+      "args": ["placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf autorag jobs list",
+      "args": ["placeholder_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf autorag files",
+      "args": ["placeholder_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf autorag jobs get",
+      "args": ["placeholder_id", "placeholder_job_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf autorag jobs logs",
+      "args": ["placeholder_id", "placeholder_job_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf autorag sync",
+      "args": ["placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

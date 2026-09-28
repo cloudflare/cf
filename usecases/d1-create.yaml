@@ -1,0 +1,9 @@
+description: "Create a D1 database"
+command: "wrangler d1 create <database>"
+status: "partial"
+sourceCommands:
+  - "wrangler d1 create <database>"
+cfReplacementFlow:
+  - "cf d1 create --name <database>"
+notes:
+  - "Wrangler can update config and supports location/jurisdiction conveniences. cf creates the API resource only."

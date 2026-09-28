@@ -1,0 +1,138 @@
+{
+  "product": "pipelines",
+  "tests": [
+    {
+      "command": "cf pipelines create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pipelines create-v1",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pipelines sinks create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pipelines streams create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pipelines validate-sql",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pipelines list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pipelines list-v1",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pipelines sinks list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pipelines streams list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pipelines get",
+      "args": ["placeholder_pipeline_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pipelines get-v1",
+      "args": ["placeholder_pipeline_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pipelines sinks get",
+      "args": ["placeholder_sink_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pipelines streams get",
+      "args": ["placeholder_stream_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pipelines streams update",
+      "args": ["placeholder_stream_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pipelines update",
+      "args": ["placeholder_pipeline_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pipelines delete",
+      "args": ["placeholder_pipeline_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pipelines delete-v1",
+      "args": ["placeholder_pipeline_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pipelines sinks delete",
+      "args": ["placeholder_sink_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pipelines streams delete",
+      "args": ["placeholder_stream_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

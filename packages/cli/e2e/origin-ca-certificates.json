@@ -1,0 +1,33 @@
+{
+  "product": "origin-ca-certificates",
+  "tests": [
+    {
+      "command": "cf origin-ca-certificates create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf origin-ca-certificates list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf origin-ca-certificates get",
+      "args": ["placeholder_certificate_id"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf origin-ca-certificates delete",
+      "args": ["placeholder_certificate_id", "--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    }
+  ]
+}

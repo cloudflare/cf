@@ -1,0 +1,9 @@
+description: "Enable Email Sending for a zone"
+command: "wrangler email sending enable <domain>"
+status: "direct"
+sourceCommands:
+  - "wrangler email sending enable <domain>"
+cfReplacementFlow:
+  - "cf email-sending enable --zone <zone>"
+notes:
+  - "Exact command/body shape should be verified."

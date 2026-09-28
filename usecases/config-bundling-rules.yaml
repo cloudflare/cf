@@ -1,0 +1,12 @@
+description: "Configure Wrangler bundling, module rules, aliases, and defines"
+command: "wrangler.jsonc rules, define, alias, no_bundle"
+status: "gap"
+sourceCommands:
+  - "wrangler.jsonc rules"
+  - "wrangler.jsonc define"
+  - "wrangler.jsonc alias"
+  - "wrangler.jsonc no_bundle"
+cfReplacementFlow:
+  - "No current cf replacement."
+notes:
+  - "This is bundler/build-tool configuration. cf API commands deliberately do not parse it."

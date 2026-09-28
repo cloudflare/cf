@@ -1,0 +1,9 @@
+description: "List Pages projects"
+command: "wrangler pages project list"
+status: "direct"
+sourceCommands:
+  - "wrangler pages project list"
+cfReplacementFlow:
+  - "cf pages projects list"
+notes:
+  - "cf command naming should be verified against generated help."

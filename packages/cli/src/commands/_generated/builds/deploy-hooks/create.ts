@@ -1,0 +1,148 @@
+import {
+	createCommandClient,
+	getAccountId,
+	resolveAccountIdSilent,
+} from "#lib/auth.js";
+import { compactBody, parseBody } from "#lib/body-parser.js";
+import { formatDryRun } from "#lib/dry-run.js";
+import { resolveFileToken } from "#lib/input-validation.js";
+import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
+import { formatOutput } from "#lib/output.js";
+import { withProgress } from "#lib/progress.js";
+import { promptForRequiredField } from "#lib/prompt.js";
+import { runWithTelemetry } from "#lib/telemetry/index.js";
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * create command
+ * @generated from apis/overlays/builds.ts
+ */
+import type { Argv, CommandModule } from "yargs";
+
+function builder(yargs: Argv<CommonYargsOptions>) {
+	return yargs
+		.usage(
+			"$0 builds deploy-hooks create <script-name>\n\nCreate an HTTP hook that starts a build for a selected Worker branch."
+		)
+		.positional("script-name", {
+			type: "string",
+			description: "Human-readable name of the worker.",
+			demandOption: true,
+		})
+		.option("branch", { type: "string", description: "Git branch name." })
+		.option("deploy-hook-name", {
+			type: "string",
+			description: "Deploy hook name (1-58 characters).",
+		})
+		.option("dry-run", {
+			type: "boolean",
+			description: "Validate and show what would happen without executing",
+			default: false,
+		})
+		.option("body", {
+			type: "string",
+			description: "Raw JSON request body (bypasses individual flags)",
+		});
+}
+
+type Args = InferArgs<typeof builder>;
+
+type Request = SdkRequest<"createDeployHook">;
+type Body = Request["body"];
+
+const command: CommandModule<CommonYargsOptions, Args> = {
+	command: "create <script-name>",
+	describe: "Create a deploy hook",
+	builder,
+	handler: async (argv): Promise<void> =>
+		runWithTelemetry(
+			{
+				command: "builds deploy-hooks create",
+				classification: {
+					safeFlags: ["dry-run"],
+				} satisfies ArgClassification<Args>,
+			},
+			argv as Record<string, unknown>,
+			async () => {
+				if (argv.dryRun) {
+					const __cfDryRunAccountId = await resolveAccountIdSilent();
+					formatDryRun({
+						command: "cf builds deploy-hooks create",
+						method: "POST",
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/builds/workers/${argv["script-name"] == null ? "<script-name>" : encodeURIComponent(String(argv["script-name"]))}/deploy_hooks`,
+						pathParams: { "script-name": String(argv["script-name"] ?? "") },
+						bodyKind: "json",
+						body:
+							argv.body !== undefined
+								? parseBody(argv.body)
+								: compactBody({
+										branch: resolveFileToken(
+											argv["branch"] as string | undefined,
+											"branch",
+											"text"
+										),
+										deploy_hook_name: resolveFileToken(
+											argv["deploy-hook-name"] as string | undefined,
+											"deploy-hook-name",
+											"text"
+										),
+									}),
+					});
+					return;
+				}
+				const client = await createCommandClient(argv);
+				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
+				argv.accountId = accountId;
+
+				if (argv.body) {
+					const bodyData = parseBody<Request["body"]>(argv.body);
+					const result = await withProgress(`Creating`, async () =>
+						client.builds.deployHooks.create({
+							body: bodyData,
+							account_id: accountId,
+							script_name: argv["script-name"],
+						} satisfies Request)
+					);
+					formatOutput(result, { successLabel: `Created` });
+					return;
+				}
+				if (argv["branch"] === undefined) {
+					argv["branch"] = await promptForRequiredField(
+						"branch",
+						"Git branch name."
+					);
+				}
+				if (argv["deploy-hook-name"] === undefined) {
+					argv["deploy-hook-name"] = await promptForRequiredField(
+						"deploy-hook-name",
+						"Deploy hook name (1-58 characters)."
+					);
+				}
+
+				// Assemble request body from individual flags
+				const bodyData = compactBody<Body>({
+					branch: resolveFileToken(
+						argv["branch"] as string | undefined,
+						"branch",
+						"text"
+					),
+					deploy_hook_name: resolveFileToken(
+						argv["deploy-hook-name"] as string | undefined,
+						"deploy-hook-name",
+						"text"
+					),
+				});
+				const result = await withProgress(`Creating`, async () =>
+					client.builds.deployHooks.create({
+						body: bodyData,
+						account_id: accountId,
+						script_name: argv["script-name"],
+					} satisfies Request)
+				);
+				formatOutput(result, { successLabel: `Created` });
+			}
+		),
+};
+
+export default command;

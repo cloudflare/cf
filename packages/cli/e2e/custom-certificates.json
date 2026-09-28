@@ -1,0 +1,47 @@
+{
+  "product": "custom-certificates",
+  "tests": [
+    {
+      "command": "cf custom-certificates create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf custom-certificates list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf custom-certificates get",
+      "args": ["placeholder_custom_certificate_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf custom-certificates edit",
+      "args": ["placeholder_custom_certificate_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf custom-certificates prioritize update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf custom-certificates delete",
+      "args": ["placeholder_custom_certificate_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    }
+  ]
+}

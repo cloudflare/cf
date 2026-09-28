@@ -1,0 +1,61 @@
+{
+  "product": "snippets",
+  "tests": [
+    {
+      "command": "cf snippets list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf snippets rules list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf snippets content get",
+      "args": ["placeholder_snippet_name"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf snippets get",
+      "args": ["placeholder_snippet_name"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf snippets rules update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf snippets update",
+      "args": ["placeholder_snippet_name", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf snippets delete",
+      "args": ["placeholder_snippet_name", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf snippets rules delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    }
+  ]
+}

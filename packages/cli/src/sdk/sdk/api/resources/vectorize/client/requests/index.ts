@@ -1,0 +1,11 @@
+export type { CreateVectorizeRequest } from "./CreateVectorizeRequest.js";
+export type { DeleteByIdsVectorizeRequest } from "./DeleteByIdsVectorizeRequest.js";
+export type { DeleteVectorizeRequest } from "./DeleteVectorizeRequest.js";
+export type { GetByIdsVectorizeRequest } from "./GetByIdsVectorizeRequest.js";
+export type { GetVectorizeRequest } from "./GetVectorizeRequest.js";
+export type { InfoVectorizeRequest } from "./InfoVectorizeRequest.js";
+export type { InsertVectorizeRequest } from "./InsertVectorizeRequest.js";
+export type { ListVectorizeRequest } from "./ListVectorizeRequest.js";
+export type { ListVectorsVectorizeRequest } from "./ListVectorsVectorizeRequest.js";
+export type { UpsertVectorizeRequest } from "./UpsertVectorizeRequest.js";
+export { VectorizeIndexQueryV2Request } from "./VectorizeIndexQueryV2Request.js";

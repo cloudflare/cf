@@ -1,0 +1,9 @@
+description: "Unlock or retry Email Routing DNS setup"
+command: "wrangler email routing dns unlock <domain>"
+status: "partial"
+sourceCommands:
+  - "wrangler email routing dns unlock <domain>"
+cfReplacementFlow:
+  - "cf email-routing dns unlock --zone <zone>"
+notes:
+  - "Verify exact generated command path and body requirements."

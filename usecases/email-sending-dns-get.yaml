@@ -1,0 +1,9 @@
+description: "Show DNS records required for Email Sending"
+command: "wrangler email sending dns get <domain>"
+status: "direct"
+sourceCommands:
+  - "wrangler email sending dns get <domain>"
+cfReplacementFlow:
+  - "cf email-sending dns get --zone <zone>"
+notes:
+  - "Verify exact generated command path."

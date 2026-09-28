@@ -1,0 +1,131 @@
+{
+  "product": "origin-tls-client-auth",
+  "tests": [
+    {
+      "command": "cf origin-tls-client-auth create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf origin-tls-client-auth hostname-certificates create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf origin-tls-client-auth zone-certificates create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf origin-tls-client-auth hostname-certificates list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf origin-tls-client-auth list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf origin-tls-client-auth zone-certificates list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf origin-tls-client-auth get",
+      "args": ["placeholder_certificate_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf origin-tls-client-auth hostname-certificates get",
+      "args": ["placeholder_certificate_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf origin-tls-client-auth hostnames get",
+      "args": ["placeholder_hostname"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf origin-tls-client-auth settings get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf origin-tls-client-auth zone-certificates get",
+      "args": ["placeholder_certificate_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf origin-tls-client-auth hostnames update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf origin-tls-client-auth settings update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf origin-tls-client-auth delete",
+      "args": ["placeholder_certificate_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf origin-tls-client-auth hostname-certificates delete",
+      "args": ["placeholder_certificate_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf origin-tls-client-auth zone-certificates delete",
+      "args": ["placeholder_certificate_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf origin-tls-client-auth hostnames-extra list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf origin-tls-client-auth hostname-associations list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+description: "Run a semantic search against an AI Search instance"
+command: "wrangler ai-search search <name> --query <query>"
+status: "partial"
+sourceCommands:
+  - "wrangler ai-search search <name> --query <query>"
+cfReplacementFlow:
+  - "cf ai-search search <name> --query <query>"
+  - "cf ai-search search <name> --body @search.json"
+notes:
+  - "Wrangler exposes filter/reranking/threshold flags. cf may require lower-level body fields."

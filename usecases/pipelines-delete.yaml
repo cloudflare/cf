@@ -1,0 +1,9 @@
+description: "Delete a Cloudflare Pipeline"
+command: "wrangler pipelines delete <pipeline>"
+status: "partial"
+sourceCommands:
+  - "wrangler pipelines delete <pipeline>"
+cfReplacementFlow:
+  - "cf pipelines delete <pipeline-id> --force"
+notes:
+  - "Wrangler accepts names; cf may require IDs."

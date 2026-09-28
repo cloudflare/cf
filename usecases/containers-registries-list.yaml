@@ -1,0 +1,9 @@
+description: "List external registries configured for Containers"
+command: "wrangler containers registries list"
+status: "partial"
+sourceCommands:
+  - "wrangler containers registries list"
+cfReplacementFlow:
+  - "cf containers registries list"
+notes:
+  - "Verify generated cf product coverage."

@@ -1,0 +1,11 @@
+description: "Restore a D1 database to a Time Travel bookmark or timestamp"
+command: "wrangler d1 time-travel restore <database> --bookmark <bookmark>"
+status: "partial"
+sourceCommands:
+  - "wrangler d1 time-travel restore <database> --bookmark <bookmark>"
+  - "wrangler d1 time-travel restore <database> --timestamp <timestamp>"
+cfReplacementFlow:
+  - "cf d1 time-travel restore <database-id> --bookmark <bookmark> --force"
+  - "cf d1 time-travel restore <database-id> --timestamp <timestamp> --force"
+notes:
+  - "Confirm exact generated flags with cf schema."

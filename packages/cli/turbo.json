@@ -1,0 +1,11 @@
+{
+	"$schema": "http://turbo.build/schema.json",
+	"extends": ["//"],
+	"tasks": {
+		"build": {
+			"inputs": ["$TURBO_DEFAULT$", "!e2e/**"],
+			"outputs": ["dist/**"],
+			"env": ["PACKAGE_PRERELEASE_LABEL", "NODE_ENV", "SPARROW_SOURCE_KEY"]
+		}
+	}
+}

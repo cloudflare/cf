@@ -1,0 +1,10 @@
+description: "Trigger a Workflow instance"
+command: "wrangler workflows trigger <workflow> [params]"
+status: "partial"
+sourceCommands:
+  - "wrangler workflows trigger <workflow>"
+  - 'wrangler workflows trigger <workflow> ''{"key":"value"}'''
+cfReplacementFlow:
+  - "cf workflows instances create <workflow> --body @params.json"
+notes:
+  - "Wrangler accepts params as positional JSON and supports --local. cf uses generated instance-create API shape."

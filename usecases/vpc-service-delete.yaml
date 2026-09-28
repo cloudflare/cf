@@ -1,0 +1,9 @@
+description: "Delete a Workers VPC service"
+command: "wrangler vpc service delete <service-id>"
+status: "direct"
+sourceCommands:
+  - "wrangler vpc service delete <service-id>"
+cfReplacementFlow:
+  - "cf workers-vpc services delete <service-id> --force"
+notes:
+  - "Use cf --force for non-interactive deletion."

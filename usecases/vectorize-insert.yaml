@@ -1,0 +1,9 @@
+description: "Insert vectors into a Vectorize index from NDJSON"
+command: "wrangler vectorize insert <index> --file vectors.ndjson"
+status: "partial"
+sourceCommands:
+  - "wrangler vectorize insert <index> --file vectors.ndjson"
+cfReplacementFlow:
+  - "cf vectorize insert <index> --file vectors.ndjson"
+notes:
+  - "Wrangler batches NDJSON. cf generated file handling may be raw API upload and has known rough edges around file errors."

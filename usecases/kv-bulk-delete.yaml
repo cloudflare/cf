@@ -1,0 +1,9 @@
+description: "Delete multiple Workers KV keys from a JSON list"
+command: "wrangler kv bulk delete <file> --namespace-id <id>"
+status: "partial"
+sourceCommands:
+  - "wrangler kv bulk delete keys.json"
+cfReplacementFlow:
+  - "cf kv bulk delete --namespace-id <namespace-id> --body @keys.json --force"
+notes:
+  - "cf generated batching may follow API maxItems; Wrangler has its own batching and local modes."

@@ -1,0 +1,10 @@
+description: "Interactively set up a complete Cloudflare Pipeline"
+command: "wrangler pipelines setup"
+status: "gap"
+sourceCommands:
+  - "wrangler pipelines setup"
+cfReplacementFlow:
+  - "No direct cf replacement."
+  - "Manually create streams, sinks, and pipelines with cf pipelines commands."
+notes:
+  - "This is a multi-step wizard spanning several resources."

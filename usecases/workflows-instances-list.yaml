@@ -1,0 +1,9 @@
+description: "List instances for a Workflow"
+command: "wrangler workflows instances list <workflow>"
+status: "direct"
+sourceCommands:
+  - "wrangler workflows instances list <workflow>"
+cfReplacementFlow:
+  - "cf workflows instances list --workflow-name <workflow>"
+notes:
+  - "Wrangler supports reverse/status pagination filters and local mode. Use generated cf filters where present."

@@ -1,0 +1,11 @@
+description: "Add one R2 bucket lock rule"
+command: "wrangler r2 bucket lock add <bucket> [name] [prefix]"
+status: "partial"
+sourceCommands:
+  - "wrangler r2 bucket lock add <bucket> [name] [prefix]"
+cfReplacementFlow:
+  - "cf r2 buckets locks get <bucket>"
+  - "Edit lock JSON locally to append the rule."
+  - "cf r2 buckets locks update <bucket> --body @lock.json"
+notes:
+  - "Wrangler's rule builder/prompt is compound CLI behavior."

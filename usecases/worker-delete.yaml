@@ -1,0 +1,11 @@
+description: "Delete a Worker script"
+command: "wrangler delete [worker]"
+status: "partial"
+sourceCommands:
+  - "wrangler delete <worker>"
+  - "wrangler delete --name <worker>"
+cfReplacementFlow:
+  - "cf workers delete <worker> --force"
+notes:
+  - "Wrangler performs Worker-specific preflight/dependency checks and Workers Sites cleanup. cf's generated delete is lower-level API deletion."
+  - "Wrangler uses --yes/--skip-confirmation patterns; cf standardizes on --force."

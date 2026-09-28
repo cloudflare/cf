@@ -1,0 +1,215 @@
+{
+  "product": "queues",
+  "tests": [
+    {
+      "command": "cf queues create",
+      "args": ["--body", "{\"queue_name\":\"e2e-q-$RUN_ID\"}"],
+      "env": {
+        "scope": "account"
+      },
+      "capture": {
+        "queue_id": "queue_id"
+      }
+    },
+    {
+      "command": "cf queues list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf queues list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf queues get",
+      "args": ["$queue_id"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["queue_id"]
+    },
+    {
+      "command": "cf queues edit",
+      "args": ["$queue_id", "--body", "{\"queue_name\":\"e2e-q-$RUN_ID-renamed\"}"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["queue_id"]
+    },
+    {
+      "command": "cf queues consumers list",
+      "args": ["$queue_id"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["queue_id"]
+    },
+    {
+      "command": "cf queues delete",
+      "args": ["$queue_id"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["queue_id"]
+    },
+    {
+      "command": "cf queues subscriptions list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf queues consumers get",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf queues purge status",
+      "args": ["placeholder_queue_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf queues subscriptions get",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf queues consumers create",
+      "args": ["placeholder_queue_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf queues messages ack",
+      "args": ["placeholder_queue_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf queues messages bulk-push",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf queues messages pull",
+      "args": ["placeholder_queue_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf queues messages push",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf queues purge start",
+      "args": ["placeholder_queue_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf queues subscriptions create",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf queues consumers update",
+      "args": ["placeholder_consumer_id", "placeholder_queue_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf queues subscriptions update",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf queues update",
+      "args": ["placeholder_queue_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf queues consumers delete",
+      "args": ["placeholder_consumer_id", "placeholder_queue_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf queues subscriptions delete",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf queues messages ack-preview",
+      "args": ["placeholder_queue_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf queues messages preview",
+      "args": ["placeholder_queue_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf queues messages push-batch",
+      "args": ["placeholder_queue_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf queues subscriptions edit",
+      "args": ["placeholder_subscription_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf queues messages ack preview",
+      "args": ["placeholder_queue_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf queues messages push batch",
+      "args": ["placeholder_queue_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

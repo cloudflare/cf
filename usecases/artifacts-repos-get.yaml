@@ -1,0 +1,9 @@
+description: "Get an Artifacts repository"
+command: "wrangler artifacts repos get <repo> --namespace <namespace>"
+status: "partial"
+sourceCommands:
+  - "wrangler artifacts repos get <repo> --namespace <namespace>"
+cfReplacementFlow:
+  - "cf artifacts repos get <repo> --namespace <namespace>"
+notes:
+  - "Verify exact generated command path."

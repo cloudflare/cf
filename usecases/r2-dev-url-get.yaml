@@ -1,0 +1,9 @@
+description: "Show public r2.dev URL status for a bucket"
+command: "wrangler r2 bucket dev-url get <bucket>"
+status: "partial"
+sourceCommands:
+  - "wrangler r2 bucket dev-url get <bucket>"
+cfReplacementFlow:
+  - "cf r2 buckets domains managed list <bucket>"
+notes:
+  - "Wrangler's dev-url wording maps to the managed domain API. Exact generated cf command shape may differ."

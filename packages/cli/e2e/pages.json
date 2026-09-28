@@ -1,0 +1,313 @@
+{
+  "product": "pages",
+  "tests": [
+    {
+      "command": "cf pages projects create",
+      "args": ["--body", "{\"name\":\"e2e-pages-$RUN_ID\",\"production_branch\":\"main\"}"],
+      "env": {
+        "scope": "account"
+      },
+      "capture": {
+        "name": "pages_project"
+      }
+    },
+    {
+      "command": "cf pages projects list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pages projects get",
+      "args": ["$pages_project"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["pages_project"]
+    },
+    {
+      "command": "cf pages projects deployments-list",
+      "args": ["$pages_project"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["pages_project"]
+    },
+    {
+      "command": "cf pages projects domains-list",
+      "args": ["$pages_project"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["pages_project"]
+    },
+    {
+      "command": "cf pages projects delete",
+      "args": ["$pages_project"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["pages_project"]
+    },
+    {
+      "command": "cf pages projects deployments-get",
+      "args": ["placeholder_deployment_id", "placeholder_project_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pages projects deployments-history-logs-get",
+      "args": ["placeholder_deployment_id", "placeholder_project_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pages projects domains-get",
+      "args": ["placeholder_domain_name", "placeholder_project_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pages projects deployments-create",
+      "args": ["placeholder_project_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pages projects deployments-retry",
+      "args": ["placeholder_deployment_id", "placeholder_project_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pages projects deployments-rollback",
+      "args": ["placeholder_deployment_id", "placeholder_project_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pages projects domains-create",
+      "args": ["placeholder_project_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pages projects purge-build-cache",
+      "args": ["placeholder_project_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pages projects domains-edit",
+      "args": ["placeholder_domain_name", "placeholder_project_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pages projects edit",
+      "args": ["placeholder_project_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pages projects deployments-delete",
+      "args": ["placeholder_deployment_id", "placeholder_project_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pages projects domains-delete",
+      "args": ["placeholder_domain_name", "placeholder_project_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pages projects-deployments create",
+      "args": ["placeholder_project_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pages projects-deployments retry",
+      "args": ["placeholder_project_name", "placeholder_deployment_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pages projects-deployments rollback",
+      "args": ["placeholder_project_name", "placeholder_deployment_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pages projects-domains create",
+      "args": ["placeholder_project_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pages projects-deployments list",
+      "args": ["placeholder_project_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pages projects-domains list",
+      "args": ["placeholder_project_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pages projects-deployments get",
+      "args": ["placeholder_project_name", "placeholder_deployment_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pages projects-deployments-history-logs get",
+      "args": ["placeholder_project_name", "placeholder_deployment_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pages projects-domains get",
+      "args": ["placeholder_project_name", "placeholder_domain_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pages projects-domains edit",
+      "args": ["placeholder_project_name", "placeholder_domain_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pages projects-deployments delete",
+      "args": ["placeholder_project_name", "placeholder_deployment_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pages projects-domains delete",
+      "args": ["placeholder_project_name", "placeholder_domain_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pages projects deployments create",
+      "args": ["placeholder_project_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pages projects deployments retry",
+      "args": ["placeholder_project_name", "placeholder_deployment_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pages projects deployments rollback",
+      "args": ["placeholder_project_name", "placeholder_deployment_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pages projects domains create",
+      "args": ["placeholder_project_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pages projects deployments list",
+      "args": ["placeholder_project_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pages projects domains list",
+      "args": ["placeholder_project_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pages projects deployments get",
+      "args": ["placeholder_project_name", "placeholder_deployment_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pages projects deployments history logs get",
+      "args": ["placeholder_project_name", "placeholder_deployment_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pages projects domains get",
+      "args": ["placeholder_project_name", "placeholder_domain_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pages projects domains edit",
+      "args": ["placeholder_project_name", "placeholder_domain_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pages projects deployments delete",
+      "args": ["placeholder_project_name", "placeholder_deployment_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pages projects domains delete",
+      "args": ["placeholder_project_name", "placeholder_domain_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf pages projects purge build cache",
+      "args": ["placeholder_project_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

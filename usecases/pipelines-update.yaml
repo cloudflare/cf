@@ -1,0 +1,9 @@
+description: "Update a legacy or existing Pipeline"
+command: "wrangler pipelines update <pipeline>"
+status: "partial"
+sourceCommands:
+  - "wrangler pipelines update <pipeline>"
+cfReplacementFlow:
+  - "cf pipelines update <pipeline-id> --body @pipeline-update.json"
+notes:
+  - "Wrangler exposes many legacy flags for source, batching, R2 sink, compression, and shard count. cf likely requires the API body for full coverage."

@@ -1,0 +1,6508 @@
+{
+  "product": "radar",
+  "tests": [
+    {
+      "command": "cf radar ai to-markdown-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf radar datasets download",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar leaked-credentials timeseries",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar annotations list",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bgp hijacks-events-list",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bgp leaks-events-list",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bots list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ct authorities-list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ct logs-list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar datasets list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar entities asns-list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar entities locations-list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar geolocations list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai bots-summary-user-agent",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai bots-summary-v2",
+      "args": ["USER_AGENT", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai bots-timeseries",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai bots-timeseries-groups",
+      "args": ["USER_AGENT", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai inference-summary-model",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai inference-summary-task",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai inference-summary-v2",
+      "args": ["MODEL", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai inference-timeseries-groups-summary-model",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai inference-timeseries-groups-summary-task",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai inference-timeseries-groups-v2",
+      "args": ["MODEL", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai timeseries-groups-summary",
+      "args": ["USER_AGENT", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai timeseries-groups-timeseries",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai timeseries-groups-timeseries-groups",
+      "args": ["USER_AGENT", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai timeseries-groups-user-agent",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar annotations outages-get",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar annotations outages-locations",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 summary-dnssec",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 summary-edns",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 summary-ip-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 summary-protocol",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 summary-query-type",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 summary-response-codes",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 summary-v2",
+      "args": ["DNSSEC", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 timeseries",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 timeseries-groups-dnssec",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 timeseries-groups-edns",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 timeseries-groups-ip-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 timeseries-groups-protocol",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 timeseries-groups-query-type",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 timeseries-groups-response-codes",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 timeseries-groups-v2",
+      "args": ["DNSSEC", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 top-dnssec",
+      "args": ["SUPPORTED", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 top-edns",
+      "args": ["SUPPORTED", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 top-ip-version",
+      "args": ["IPv4", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 top-locations",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3-summary-bitrate",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3-summary-duration",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3-summary-industry",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3-summary-ip-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3-summary-protocol",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3-summary-v2",
+      "args": ["PROTOCOL", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3-summary-vector",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3-summary-vertical",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3-timeseries",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3-timeseries-groups-bitrate",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3-timeseries-groups-duration",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3-timeseries-groups-industry",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3-timeseries-groups-ip-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3-timeseries-groups-protocol",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3-timeseries-groups-v2",
+      "args": ["PROTOCOL", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3-timeseries-groups-vector",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3-timeseries-groups-vertical",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3-top-attacks",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3-top-industry",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3-top-locations-origin",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3-top-locations-target",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3-top-vertical",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7-summary-http-method",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7-summary-http-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7-summary-industry",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7-summary-ip-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7-summary-managed-rules",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7-summary-mitigation-product",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7-summary-v2",
+      "args": ["HTTP_METHOD", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7-summary-vertical",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7-timeseries",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7-timeseries-groups-http-method",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7-timeseries-groups-http-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7-timeseries-groups-industry",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7-timeseries-groups-ip-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7-timeseries-groups-managed-rules",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7-timeseries-groups-mitigation-product",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7-timeseries-groups-v2",
+      "args": ["HTTP_METHOD", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7-timeseries-groups-vertical",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7-top-ases-origin",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7-top-attacks",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7-top-industry",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7-top-locations-origin",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7-top-locations-target",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7-top-vertical",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bgp ips-timeseries",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bgp routes-ases",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bgp routes-moas",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bgp routes-pfx2as",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bgp routes-realtime",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bgp routes-stats",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bgp rpki-aspa-changes",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bgp rpki-aspa-snapshot",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bgp rpki-aspa-timeseries",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bgp timeseries",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bgp top-ases-get",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bgp top-ases-prefixes",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bgp top-prefixes",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bots get",
+      "args": ["placeholder_bot_slug"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bots summary",
+      "args": ["BOT", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bots timeseries",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bots timeseries-groups",
+      "args": ["BOT", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bots web-crawlers-summary",
+      "args": ["CLIENT_TYPE", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bots web-crawlers-timeseries-groups",
+      "args": ["CLIENT_TYPE", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ct authorities-get",
+      "args": ["placeholder_ca_slug"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ct logs-get",
+      "args": ["placeholder_log_slug"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ct summary",
+      "args": ["CA", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ct timeseries",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ct timeseries-groups",
+      "args": ["CA", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar datasets get",
+      "args": ["placeholder_alias"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns summary-cache-hit",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns summary-dnssec",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns summary-dnssec-aware",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns summary-dnssec-e2e",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns summary-ip-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns summary-matching-answer",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns summary-protocol",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns summary-query-type",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns summary-response-code",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns summary-response-ttl",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns summary-v2",
+      "args": ["AS", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns timeseries",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns timeseries-groups-cache-hit",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns timeseries-groups-dnssec",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns timeseries-groups-dnssec-aware",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns timeseries-groups-dnssec-e2e",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns timeseries-groups-ip-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns timeseries-groups-matching-answer",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns timeseries-groups-protocol",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns timeseries-groups-query-type",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns timeseries-groups-response-code",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns timeseries-groups-response-ttl",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns timeseries-groups-v2",
+      "args": ["AS", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns top-ases",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns top-locations",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email routing-summary-arc",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email routing-summary-dkim",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email routing-summary-dmarc",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email routing-summary-encrypted",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email routing-summary-ip-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email routing-summary-spf",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email routing-summary-v2",
+      "args": ["IP_VERSION", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email routing-timeseries-groups-arc",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email routing-timeseries-groups-dkim",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email routing-timeseries-groups-dmarc",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email routing-timeseries-groups-encrypted",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email routing-timeseries-groups-ip-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email routing-timeseries-groups-spf",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email routing-timeseries-groups-v2",
+      "args": ["IP_VERSION", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security-summary-arc",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security-summary-dkim",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security-summary-dmarc",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security-summary-malicious",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security-summary-spam",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security-summary-spf",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security-summary-spoof",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security-summary-threat-category",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security-summary-tls-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security-summary-v2",
+      "args": ["SPAM", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security-timeseries-groups-arc",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security-timeseries-groups-dkim",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security-timeseries-groups-dmarc",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security-timeseries-groups-malicious",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security-timeseries-groups-spam",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security-timeseries-groups-spf",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security-timeseries-groups-spoof",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security-timeseries-groups-threat-category",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security-timeseries-groups-tls-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security-timeseries-groups-v2",
+      "args": ["SPAM", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security-top-tlds-get",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security-top-tlds-malicious-get",
+      "args": ["MALICIOUS", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security-top-tlds-spam-get",
+      "args": ["SPAM", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security-top-tlds-spoof-get",
+      "args": ["SPOOF", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar entities asns-as-set",
+      "args": ["placeholder_asn"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar entities asns-botnet-threat-feed",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar entities asns-get",
+      "args": ["placeholder_asn"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar entities asns-ip",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar entities asns-rel",
+      "args": ["placeholder_asn"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar entities get",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar entities locations-get",
+      "args": ["placeholder_location"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar geolocations get",
+      "args": ["placeholder_geo_id"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http ases-bot-class-get",
+      "args": ["LIKELY_AUTOMATED", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http ases-browser-family-get",
+      "args": ["CHROME", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http ases-device-type-get",
+      "args": ["DESKTOP", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http ases-get",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http ases-http-method-get",
+      "args": ["HTTPv1", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http ases-http-protocol-get",
+      "args": ["HTTP", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http ases-ip-version-get",
+      "args": ["IPv4", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http ases-os-get",
+      "args": ["WINDOWS", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http ases-tls-version-get",
+      "args": ["TLSv1_0", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http locations-bot-class-get",
+      "args": ["LIKELY_AUTOMATED", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http locations-browser-family-get",
+      "args": ["CHROME", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http locations-device-type-get",
+      "args": ["DESKTOP", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http locations-get",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http locations-http-method-get",
+      "args": ["HTTPv1", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http locations-http-protocol-get",
+      "args": ["HTTP", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http locations-ip-version-get",
+      "args": ["IPv4", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http locations-os-get",
+      "args": ["WINDOWS", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http locations-tls-version-get",
+      "args": ["TLSv1_0", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http summary-bot-class",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http summary-device-type",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http summary-http-protocol",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http summary-http-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http summary-ip-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http summary-os",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http summary-post-quantum",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http summary-tls-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http summary-v2",
+      "args": ["ADM1", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http timeseries",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http timeseries-groups-bot-class",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http timeseries-groups-browser",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http timeseries-groups-browser-family",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http timeseries-groups-device-type",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http timeseries-groups-http-protocol",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http timeseries-groups-http-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http timeseries-groups-ip-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http timeseries-groups-os",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http timeseries-groups-post-quantum",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http timeseries-groups-tls-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http timeseries-groups-v2",
+      "args": ["ADM1", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http top-browser",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http top-browser-family",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar leaked-credentials summary-bot-class",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar leaked-credentials summary-compromised",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar leaked-credentials summary-v2",
+      "args": ["COMPROMISED", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar leaked-credentials timeseries-groups-bot-class",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar leaked-credentials timeseries-groups-compromised",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar leaked-credentials timeseries-groups-v2",
+      "args": ["COMPROMISED", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar netflows summary",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar netflows summary-v2",
+      "args": ["ADM1", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar netflows timeseries",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar netflows timeseries-groups",
+      "args": ["ADM1", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar netflows top-ases",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar netflows top-locations",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar post-quantum origin-summary",
+      "args": ["KEY_AGREEMENT", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar post-quantum origin-timeseries-groups",
+      "args": ["KEY_AGREEMENT", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar post-quantum tls-support",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar quality iqi-summary",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar quality iqi-timeseries-groups",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar quality speed-histogram",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar quality speed-summary",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar quality speed-top-ases",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar quality speed-top-locations",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ranking domain-get",
+      "args": ["placeholder_domain"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ranking internet-services-categories",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ranking internet-services-timeseries-groups",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ranking internet-services-top",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ranking timeseries-groups",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ranking top",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar robots-txt top-domain-categories",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar robots-txt top-user-agents-directive",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar search global",
+      "args": ["--query", "cloudflare"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar tcp-resets-timeouts summary",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar tcp-resets-timeouts timeseries-groups",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar traffic-anomalies get",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar traffic-anomalies locations-get",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar verified-bots top-bots",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar verified-bots top-categories",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar origins get-origin-details",
+      "args": ["AMAZON"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar origins get-radar-origins",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar origins summary-get",
+      "args": ["REGION", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar origins timeseries-get",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar origins timeseries-groups-get",
+      "args": ["REGION", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar tlds get-radar-tlds",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar tlds get-tld-details",
+      "args": ["placeholder_tld"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar agent-readiness summary",
+      "args": ["CHECK"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai markdown-for-agents-summary",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai markdown-for-agents-timeseries",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai-to-markdown create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf radar bgp-hijacks-events list",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bgp-leaks-events list",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ct-authorities list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ct-logs list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar entities-asns list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar entities-locations list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar origins list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar tlds list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai-bots summary-v2",
+      "args": ["USER_AGENT", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai-bots timeseries",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai-bots timeseries",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai-bots timeseries-groups",
+      "args": ["USER_AGENT", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai-bots timeseries-groups",
+      "args": ["USER_AGENT", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai-bots-summary user-agent",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai-inference summary-v2",
+      "args": ["MODEL", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai-inference timeseries-groups-v2",
+      "args": ["MODEL", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai-inference-summary model",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai-inference-summary task",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai-inference-timeseries-groups-summary model",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai-inference-timeseries-groups-summary task",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai-timeseries-groups summary",
+      "args": ["USER_AGENT", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai-timeseries-groups user-agent",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar annotations-outages get",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar annotations-outages locations",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112-summary dnssec",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112-summary edns",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112-summary ip-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112-summary protocol",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112-summary query-type",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112-summary response-codes",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112-timeseries-groups dnssec",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112-timeseries-groups edns",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112-timeseries-groups ip-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112-timeseries-groups protocol",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112-timeseries-groups query-type",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112-timeseries-groups response-codes",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112-top dnssec",
+      "args": ["SUPPORTED", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112-top edns",
+      "args": ["SUPPORTED", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112-top ip-version",
+      "args": ["IPv4", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112-top locations",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks-layer3 summary-v2",
+      "args": ["PROTOCOL", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks-layer3 timeseries",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks-layer3 timeseries-groups-v2",
+      "args": ["PROTOCOL", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks-layer3-summary bitrate",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks-layer3-summary duration",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks-layer3-summary industry",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks-layer3-summary ip-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks-layer3-summary protocol",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks-layer3-summary vector",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks-layer3-summary vertical",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks-layer3-timeseries-groups bitrate",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks-layer3-timeseries-groups duration",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks-layer3-timeseries-groups industry",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks-layer3-timeseries-groups ip-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks-layer3-timeseries-groups protocol",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks-layer3-timeseries-groups vector",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks-layer3-timeseries-groups vertical",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks-layer3-top attacks",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks-layer3-top industry",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks-layer3-top vertical",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks-layer3-top-locations origin",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks-layer3-top-locations target",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks-layer7 summary-v2",
+      "args": ["HTTP_METHOD", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks-layer7 timeseries",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks-layer7 timeseries-groups-v2",
+      "args": ["HTTP_METHOD", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks-layer7-summary http-method",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks-layer7-summary http-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks-layer7-summary industry",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks-layer7-summary ip-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks-layer7-summary managed-rules",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks-layer7-summary mitigation-product",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks-layer7-summary vertical",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks-layer7-timeseries-groups http-method",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks-layer7-timeseries-groups http-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks-layer7-timeseries-groups industry",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks-layer7-timeseries-groups ip-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks-layer7-timeseries-groups managed-rules",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks-layer7-timeseries-groups mitigation-product",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks-layer7-timeseries-groups vertical",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks-layer7-top attacks",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks-layer7-top industry",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks-layer7-top vertical",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks-layer7-top-ases origin",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks-layer7-top-locations origin",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks-layer7-top-locations target",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bgp-ips timeseries",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bgp-routes ases",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bgp-routes moas",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bgp-routes pfx2as",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bgp-routes realtime",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bgp-routes stats",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bgp-rpki-aspa changes",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bgp-rpki-aspa snapshot",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bgp-rpki-aspa timeseries",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bgp-top prefixes",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bgp-top-ases get",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bgp-top-ases prefixes",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bots-web-crawlers summary",
+      "args": ["CLIENT_TYPE", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bots-web-crawlers timeseries-groups",
+      "args": ["CLIENT_TYPE", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ct-authorities get",
+      "args": ["placeholder_ca_slug"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ct-logs get",
+      "args": ["placeholder_log_slug"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns-summary cache-hit",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns-summary dnssec",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns-summary dnssec-aware",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns-summary dnssec-e2e",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns-summary ip-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns-summary matching-answer",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns-summary protocol",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns-summary query-type",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns-summary response-code",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns-summary response-ttl",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns-timeseries-groups cache-hit",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns-timeseries-groups dnssec",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns-timeseries-groups dnssec-aware",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns-timeseries-groups dnssec-e2e",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns-timeseries-groups ip-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns-timeseries-groups matching-answer",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns-timeseries-groups protocol",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns-timeseries-groups query-type",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns-timeseries-groups response-code",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns-timeseries-groups response-ttl",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns-top ases",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns-top locations",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email-routing summary-v2",
+      "args": ["IP_VERSION", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email-routing timeseries-groups-v2",
+      "args": ["IP_VERSION", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email-routing-summary arc",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email-routing-summary dkim",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email-routing-summary dmarc",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email-routing-summary encrypted",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email-routing-summary ip-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email-routing-summary spf",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email-routing-timeseries-groups arc",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email-routing-timeseries-groups dkim",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email-routing-timeseries-groups dmarc",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email-routing-timeseries-groups encrypted",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email-routing-timeseries-groups ip-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email-routing-timeseries-groups spf",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email-security summary-v2",
+      "args": ["SPAM", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email-security timeseries-groups-v2",
+      "args": ["SPAM", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email-security-summary arc",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email-security-summary dkim",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email-security-summary dmarc",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email-security-summary malicious",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email-security-summary spam",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email-security-summary spf",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email-security-summary spoof",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email-security-summary threat-category",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email-security-summary tls-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email-security-timeseries-groups arc",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email-security-timeseries-groups dkim",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email-security-timeseries-groups dmarc",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email-security-timeseries-groups malicious",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email-security-timeseries-groups spam",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email-security-timeseries-groups spf",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email-security-timeseries-groups spoof",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email-security-timeseries-groups threat-category",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email-security-timeseries-groups tls-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email-security-top-tlds get",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email-security-top-tlds-malicious get",
+      "args": ["MALICIOUS", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email-security-top-tlds-spam get",
+      "args": ["SPAM", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email-security-top-tlds-spoof get",
+      "args": ["SPOOF", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar entities-asns as-set",
+      "args": ["placeholder_asn"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar entities-asns botnet-threat-feed",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar entities-asns get",
+      "args": ["placeholder_asn"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar entities-asns ip",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar entities-asns rel",
+      "args": ["placeholder_asn"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar entities-locations get",
+      "args": ["placeholder_location"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http-ases get",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http-ases-bot-class get",
+      "args": ["LIKELY_AUTOMATED", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http-ases-browser-family get",
+      "args": ["CHROME", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http-ases-device-type get",
+      "args": ["DESKTOP", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http-ases-http-method get",
+      "args": ["HTTPv1", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http-ases-http-protocol get",
+      "args": ["HTTP", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http-ases-ip-version get",
+      "args": ["IPv4", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http-ases-os get",
+      "args": ["WINDOWS", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http-ases-tls-version get",
+      "args": ["TLSv1_0", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http-locations get",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http-locations-bot-class get",
+      "args": ["LIKELY_AUTOMATED", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http-locations-browser-family get",
+      "args": ["CHROME", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http-locations-device-type get",
+      "args": ["DESKTOP", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http-locations-http-method get",
+      "args": ["HTTPv1", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http-locations-http-protocol get",
+      "args": ["HTTP", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http-locations-ip-version get",
+      "args": ["IPv4", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http-locations-os get",
+      "args": ["WINDOWS", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http-locations-tls-version get",
+      "args": ["TLSv1_0", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http-summary bot-class",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http-summary device-type",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http-summary http-protocol",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http-summary http-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http-summary ip-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http-summary os",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http-summary post-quantum",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http-summary tls-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http-timeseries-groups bot-class",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http-timeseries-groups browser",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http-timeseries-groups browser-family",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http-timeseries-groups device-type",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http-timeseries-groups http-protocol",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http-timeseries-groups http-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http-timeseries-groups ip-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http-timeseries-groups os",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http-timeseries-groups post-quantum",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http-timeseries-groups tls-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http-top browser",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http-top browser-family",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar leaked-credentials-summary bot-class",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar leaked-credentials-summary compromised",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar leaked-credentials-timeseries-groups bot-class",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar leaked-credentials-timeseries-groups compromised",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar netflows-top ases",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar netflows-top locations",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar origins get",
+      "args": ["AMAZON"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar origins summary",
+      "args": ["REGION", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar origins timeseries",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar origins timeseries-groups",
+      "args": ["REGION", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar post-quantum-origin summary",
+      "args": ["KEY_AGREEMENT", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar post-quantum-origin timeseries-groups",
+      "args": ["KEY_AGREEMENT", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar post-quantum-tls support",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar quality-iqi summary",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar quality-iqi timeseries-groups",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar quality-speed histogram",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar quality-speed summary",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar quality-speed-top ases",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar quality-speed-top locations",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ranking-domain get",
+      "args": ["placeholder_domain"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ranking-internet-services categories",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ranking-internet-services timeseries-groups",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ranking-internet-services top",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar robots-txt-top domain-categories",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar robots-txt-top-user-agents directive",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar tlds get",
+      "args": ["placeholder_tld"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar traffic-anomalies-locations get",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar verified-bots-top bots",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar verified-bots-top categories",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai to-markdown create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf radar bgp hijacks events list",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bgp leaks events list",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ct authorities list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ct logs list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar entities asns list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar entities locations list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai bots summary user-agent",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai bots summary-v2",
+      "args": ["USER_AGENT", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai bots timeseries",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai bots timeseries",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai bots timeseries-groups",
+      "args": ["USER_AGENT", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai bots timeseries-groups",
+      "args": ["USER_AGENT", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai inference summary model",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai inference summary task",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai inference summary-v2",
+      "args": ["MODEL", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai inference timeseries-groups summary model",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai inference timeseries-groups summary task",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai inference timeseries-groups-v2",
+      "args": ["MODEL", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai timeseries-groups summary",
+      "args": ["USER_AGENT", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai timeseries-groups user-agent",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar annotations outages get",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar annotations outages locations",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 summary dnssec",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 summary edns",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 summary ip-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 summary protocol",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 summary query-type",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 summary response-codes",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 timeseries-groups dnssec",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 timeseries-groups edns",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 timeseries-groups ip-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 timeseries-groups protocol",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 timeseries-groups query-type",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 timeseries-groups response-codes",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 top dnssec",
+      "args": ["SUPPORTED", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 top edns",
+      "args": ["SUPPORTED", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 top ip-version",
+      "args": ["IPv4", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 top locations",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3 summary bitrate",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3 summary duration",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3 summary industry",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3 summary ip-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3 summary protocol",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3 summary vector",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3 summary vertical",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3 summary-v2",
+      "args": ["PROTOCOL", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3 timeseries",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3 timeseries-groups bitrate",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3 timeseries-groups duration",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3 timeseries-groups industry",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3 timeseries-groups ip-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3 timeseries-groups protocol",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3 timeseries-groups vector",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3 timeseries-groups vertical",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3 timeseries-groups-v2",
+      "args": ["PROTOCOL", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3 top attacks",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3 top industry",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3 top locations origin",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3 top locations target",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3 top vertical",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7 summary http-method",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7 summary http-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7 summary industry",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7 summary ip-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7 summary managed-rules",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7 summary mitigation-product",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7 summary vertical",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7 summary-v2",
+      "args": ["HTTP_METHOD", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7 timeseries",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7 timeseries-groups http-method",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7 timeseries-groups http-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7 timeseries-groups industry",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7 timeseries-groups ip-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7 timeseries-groups managed-rules",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7 timeseries-groups mitigation-product",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7 timeseries-groups vertical",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7 timeseries-groups-v2",
+      "args": ["HTTP_METHOD", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7 top ases origin",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7 top attacks",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7 top industry",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7 top locations origin",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7 top locations target",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7 top vertical",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bgp ips timeseries",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bgp routes ases",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bgp routes moas",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bgp routes pfx2as",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bgp routes realtime",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bgp routes stats",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bgp rpki aspa changes",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bgp rpki aspa snapshot",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bgp rpki aspa timeseries",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bgp top ases get",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bgp top ases prefixes",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bgp top prefixes",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bots web-crawlers summary",
+      "args": ["CLIENT_TYPE", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bots web-crawlers timeseries-groups",
+      "args": ["CLIENT_TYPE", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ct authorities get",
+      "args": ["placeholder_ca_slug"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ct logs get",
+      "args": ["placeholder_log_slug"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns summary cache-hit",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns summary dnssec",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns summary dnssec-aware",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns summary dnssec-e2e",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns summary ip-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns summary matching-answer",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns summary protocol",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns summary query-type",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns summary response-code",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns summary response-ttl",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns timeseries-groups cache-hit",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns timeseries-groups dnssec",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns timeseries-groups dnssec-aware",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns timeseries-groups dnssec-e2e",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns timeseries-groups ip-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns timeseries-groups matching-answer",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns timeseries-groups protocol",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns timeseries-groups query-type",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns timeseries-groups response-code",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns timeseries-groups response-ttl",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns top ases",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns top locations",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email routing summary arc",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email routing summary dkim",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email routing summary dmarc",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email routing summary encrypted",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email routing summary ip-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email routing summary spf",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email routing summary-v2",
+      "args": ["IP_VERSION", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email routing timeseries-groups arc",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email routing timeseries-groups dkim",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email routing timeseries-groups dmarc",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email routing timeseries-groups encrypted",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email routing timeseries-groups ip-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email routing timeseries-groups spf",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email routing timeseries-groups-v2",
+      "args": ["IP_VERSION", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security summary arc",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security summary dkim",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security summary dmarc",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security summary malicious",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security summary spam",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security summary spf",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security summary spoof",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security summary threat-category",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security summary tls-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security summary-v2",
+      "args": ["SPAM", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security timeseries-groups arc",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security timeseries-groups dkim",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security timeseries-groups dmarc",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security timeseries-groups malicious",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security timeseries-groups spam",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security timeseries-groups spf",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security timeseries-groups spoof",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security timeseries-groups threat-category",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security timeseries-groups tls-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security timeseries-groups-v2",
+      "args": ["SPAM", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security top tlds get",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security top tlds malicious get",
+      "args": ["MALICIOUS", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security top tlds spam get",
+      "args": ["SPAM", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security top tlds spoof get",
+      "args": ["SPOOF", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar entities asns as-set",
+      "args": ["placeholder_asn"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar entities asns botnet-threat-feed",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar entities asns get",
+      "args": ["placeholder_asn"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar entities asns ip",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar entities asns rel",
+      "args": ["placeholder_asn"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar entities locations get",
+      "args": ["placeholder_location"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http ases bot-class get",
+      "args": ["LIKELY_AUTOMATED", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http ases browser-family get",
+      "args": ["CHROME", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http ases device-type get",
+      "args": ["DESKTOP", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http ases get",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http ases http-method get",
+      "args": ["HTTPv1", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http ases http-protocol get",
+      "args": ["HTTP", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http ases ip-version get",
+      "args": ["IPv4", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http ases os get",
+      "args": ["WINDOWS", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http ases tls-version get",
+      "args": ["TLSv1_0", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http locations bot-class get",
+      "args": ["LIKELY_AUTOMATED", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http locations browser-family get",
+      "args": ["CHROME", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http locations device-type get",
+      "args": ["DESKTOP", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http locations get",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http locations http-method get",
+      "args": ["HTTPv1", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http locations http-protocol get",
+      "args": ["HTTP", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http locations ip-version get",
+      "args": ["IPv4", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http locations os get",
+      "args": ["WINDOWS", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http locations tls-version get",
+      "args": ["TLSv1_0", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http summary bot-class",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http summary device-type",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http summary http-protocol",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http summary http-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http summary ip-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http summary os",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http summary post-quantum",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http summary tls-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http timeseries-groups bot-class",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http timeseries-groups browser",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http timeseries-groups browser-family",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http timeseries-groups device-type",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http timeseries-groups http-protocol",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http timeseries-groups http-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http timeseries-groups ip-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http timeseries-groups os",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http timeseries-groups post-quantum",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http timeseries-groups tls-version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http top browser",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http top browser-family",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar leaked-credentials summary bot-class",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar leaked-credentials summary compromised",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar leaked-credentials timeseries-groups bot-class",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar leaked-credentials timeseries-groups compromised",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar netflows top ases",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar netflows top locations",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar post-quantum origin summary",
+      "args": ["KEY_AGREEMENT", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar post-quantum origin timeseries-groups",
+      "args": ["KEY_AGREEMENT", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar post-quantum tls support",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar quality iqi summary",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar quality iqi timeseries-groups",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar quality speed histogram",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar quality speed summary",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar quality speed top ases",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar quality speed top locations",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ranking domain get",
+      "args": ["placeholder_domain"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ranking internet-services categories",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ranking internet-services timeseries-groups",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ranking internet-services top",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar robots-txt top domain-categories",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar robots-txt top user-agents directive",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar traffic-anomalies locations get",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar verified-bots top bots",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar verified-bots top categories",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai markdown for agents summary",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai markdown for agents timeseries",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai to markdown create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf radar ai bots summary user agent",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai bots summary v2",
+      "args": ["USER_AGENT", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai bots timeseries groups",
+      "args": ["USER_AGENT", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai inference summary v2",
+      "args": ["MODEL", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai inference timeseries groups summary model",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai inference timeseries groups summary task",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai inference timeseries groups v2",
+      "args": ["MODEL", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai timeseries groups summary",
+      "args": ["USER_AGENT", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai timeseries groups timeseries",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai timeseries groups timeseries groups",
+      "args": ["USER_AGENT", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai timeseries groups user agent",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 summary ip version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 summary query type",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 summary response codes",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 summary v2",
+      "args": ["DNSSEC", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 timeseries groups dnssec",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 timeseries groups edns",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 timeseries groups ip version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 timeseries groups protocol",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 timeseries groups query type",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 timeseries groups response codes",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 timeseries groups v2",
+      "args": ["DNSSEC", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 top ip version",
+      "args": ["IPv4", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3 summary ip version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3 summary v2",
+      "args": ["PROTOCOL", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3 timeseries groups bitrate",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3 timeseries groups duration",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3 timeseries groups industry",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3 timeseries groups ip version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3 timeseries groups protocol",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3 timeseries groups v2",
+      "args": ["PROTOCOL", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3 timeseries groups vector",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3 timeseries groups vertical",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7 summary http method",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7 summary http version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7 summary ip version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7 summary managed rules",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7 summary mitigation product",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7 summary v2",
+      "args": ["HTTP_METHOD", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7 timeseries groups http method",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7 timeseries groups http version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7 timeseries groups industry",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7 timeseries groups ip version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7 timeseries groups managed rules",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7 timeseries groups mitigation product",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7 timeseries groups v2",
+      "args": ["HTTP_METHOD", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7 timeseries groups vertical",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bots timeseries groups",
+      "args": ["BOT", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bots web crawlers summary",
+      "args": ["CLIENT_TYPE", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar bots web crawlers timeseries groups",
+      "args": ["CLIENT_TYPE", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ct timeseries groups",
+      "args": ["CA", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns summary cache hit",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns summary dnssec aware",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns summary dnssec e2e",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns summary ip version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns summary matching answer",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns summary query type",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns summary response code",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns summary response ttl",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns summary v2",
+      "args": ["AS", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns timeseries groups cache hit",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns timeseries groups dnssec",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns timeseries groups dnssec aware",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns timeseries groups dnssec e2e",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns timeseries groups ip version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns timeseries groups matching answer",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns timeseries groups protocol",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns timeseries groups query type",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns timeseries groups response code",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns timeseries groups response ttl",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns timeseries groups v2",
+      "args": ["AS", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email routing summary ip version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email routing summary v2",
+      "args": ["IP_VERSION", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email routing timeseries groups arc",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email routing timeseries groups dkim",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email routing timeseries groups dmarc",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email routing timeseries groups encrypted",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email routing timeseries groups ip version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email routing timeseries groups spf",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email routing timeseries groups v2",
+      "args": ["IP_VERSION", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security summary threat category",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security summary tls version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security summary v2",
+      "args": ["SPAM", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security timeseries groups arc",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security timeseries groups dkim",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security timeseries groups dmarc",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security timeseries groups malicious",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security timeseries groups spam",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security timeseries groups spf",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security timeseries groups spoof",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security timeseries groups threat category",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security timeseries groups tls version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar email security timeseries groups v2",
+      "args": ["SPAM", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar entities asns as set",
+      "args": ["placeholder_asn"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar entities asns botnet threat feed",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http ases bot class get",
+      "args": ["LIKELY_AUTOMATED", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http ases browser family get",
+      "args": ["CHROME", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http ases device type get",
+      "args": ["DESKTOP", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http ases http method get",
+      "args": ["HTTPv1", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http ases http protocol get",
+      "args": ["HTTP", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http ases ip version get",
+      "args": ["IPv4", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http ases tls version get",
+      "args": ["TLSv1_0", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http locations bot class get",
+      "args": ["LIKELY_AUTOMATED", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http locations browser family get",
+      "args": ["CHROME", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http locations device type get",
+      "args": ["DESKTOP", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http locations http method get",
+      "args": ["HTTPv1", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http locations http protocol get",
+      "args": ["HTTP", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http locations ip version get",
+      "args": ["IPv4", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http locations tls version get",
+      "args": ["TLSv1_0", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http summary bot class",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http summary device type",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http summary http protocol",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http summary http version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http summary ip version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http summary post quantum",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http summary tls version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http summary v2",
+      "args": ["ADM1", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http timeseries groups bot class",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http timeseries groups browser",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http timeseries groups browser family",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http timeseries groups device type",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http timeseries groups http protocol",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http timeseries groups http version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http timeseries groups ip version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http timeseries groups os",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http timeseries groups post quantum",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http timeseries groups tls version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http timeseries groups v2",
+      "args": ["ADM1", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http top browser family",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar leaked-credentials summary bot class",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar leaked-credentials summary v2",
+      "args": ["COMPROMISED", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar leaked-credentials timeseries groups bot class",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar leaked-credentials timeseries groups compromised",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar leaked-credentials timeseries groups v2",
+      "args": ["COMPROMISED", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar netflows summary v2",
+      "args": ["ADM1", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar netflows timeseries groups",
+      "args": ["ADM1", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar origins get origin details",
+      "args": ["AMAZON"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar origins get radar origins",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar origins summary get",
+      "args": ["REGION", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar origins timeseries get",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar origins timeseries groups get",
+      "args": ["REGION", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar post-quantum origin timeseries groups",
+      "args": ["KEY_AGREEMENT", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar quality iqi timeseries groups",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ranking internet services categories",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ranking internet services timeseries groups",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ranking internet services top",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ranking timeseries groups",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar robots-txt top domain categories",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar robots-txt top user agents directive",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar tcp-resets-timeouts timeseries groups",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar tlds get radar tlds",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar tlds get tld details",
+      "args": ["placeholder_tld"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 timeseries-groups ip version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 timeseries-groups query type",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 timeseries-groups response codes",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar as112 timeseries-groups v2",
+      "args": ["DNSSEC", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3 timeseries-groups ip version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer3 timeseries-groups v2",
+      "args": ["PROTOCOL", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7 timeseries-groups http method",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7 timeseries-groups http version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7 timeseries-groups ip version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7 timeseries-groups managed rules",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7 timeseries-groups mitigation product",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar attacks layer7 timeseries-groups v2",
+      "args": ["HTTP_METHOD", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns timeseries-groups cache hit",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns timeseries-groups dnssec aware",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns timeseries-groups dnssec e2e",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns timeseries-groups ip version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns timeseries-groups matching answer",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns timeseries-groups query type",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns timeseries-groups response code",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns timeseries-groups response ttl",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar dns timeseries-groups v2",
+      "args": ["AS", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http timeseries-groups bot class",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http timeseries-groups browser family",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http timeseries-groups device type",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http timeseries-groups http protocol",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http timeseries-groups http version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http timeseries-groups ip version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http timeseries-groups post quantum",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http timeseries-groups tls version",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar http timeseries-groups v2",
+      "args": ["ADM1", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai timeseries groups timeseries-groups",
+      "args": ["USER_AGENT", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai timeseries-groups timeseries",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai timeseries-groups timeseries-groups",
+      "args": ["USER_AGENT", "--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai markdown-for-agents summary",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf radar ai markdown-for-agents timeseries",
+      "args": ["--date-range", "7d"],
+      "env": {
+        "scope": "global"
+      }
+    }
+  ]
+}

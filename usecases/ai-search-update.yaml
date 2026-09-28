@@ -1,0 +1,9 @@
+description: "Update AI Search instance configuration"
+command: "wrangler ai-search update <name>"
+status: "partial"
+sourceCommands:
+  - "wrangler ai-search update <name>"
+cfReplacementFlow:
+  - "cf ai-search update <name> --body @ai-search-update.json"
+notes:
+  - "cf has known rough edges around required fields on update. Use --body to bypass over-strict generated flags where possible."

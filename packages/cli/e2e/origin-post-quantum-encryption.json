@@ -1,0 +1,19 @@
+{
+  "product": "origin-post-quantum-encryption",
+  "tests": [
+    {
+      "command": "cf origin-post-quantum-encryption get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf origin-post-quantum-encryption update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    }
+  ]
+}

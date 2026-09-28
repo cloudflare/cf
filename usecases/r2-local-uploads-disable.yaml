@@ -1,0 +1,9 @@
+description: "Disable R2 local uploads behavior"
+command: "wrangler r2 bucket local-uploads disable <bucket>"
+status: "partial"
+sourceCommands:
+  - "wrangler r2 bucket local-uploads disable <bucket>"
+cfReplacementFlow:
+  - 'cf r2 buckets local-uploads update <bucket> --body ''{"enabled":false}'''
+notes:
+  - "Exact generated body/flag shape should be confirmed with cf schema."

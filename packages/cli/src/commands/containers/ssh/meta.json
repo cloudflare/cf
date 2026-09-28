@@ -1,0 +1,32 @@
+{
+	"command": "cf containers ssh",
+	"name": "ssh",
+	"fullPath": ["containers", "ssh"],
+	"category": "action",
+	"description": "SSH into a container.",
+	"usage": "cf containers ssh <id> [--stdio] [-- <command...>]",
+	"arguments": [
+		{
+			"name": "id",
+			"position": 0,
+			"type": "string",
+			"required": true,
+			"description": "ID of the container instance"
+		},
+		{
+			"name": "ssh-command",
+			"position": 1,
+			"type": "string",
+			"required": false,
+			"description": "Command and arguments to run in the container"
+		}
+	],
+	"options": [
+		{
+			"name": "stdio",
+			"type": "boolean",
+			"required": false,
+			"description": "Proxy SSH traffic over stdin/stdout"
+		}
+	]
+}

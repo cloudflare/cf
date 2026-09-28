@@ -1,0 +1,9 @@
+description: "Show R2 Sippy configuration/status"
+command: "wrangler r2 bucket sippy get <bucket>"
+status: "direct"
+sourceCommands:
+  - "wrangler r2 bucket sippy get <bucket>"
+cfReplacementFlow:
+  - "cf r2 buckets sippy get <bucket>"
+notes:
+  - "Jurisdiction may be an extra generated header flag."

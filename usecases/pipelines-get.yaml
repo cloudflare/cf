@@ -1,0 +1,9 @@
+description: "Get Pipeline details"
+command: "wrangler pipelines get <pipeline>"
+status: "partial"
+sourceCommands:
+  - "wrangler pipelines get <pipeline>"
+cfReplacementFlow:
+  - "cf pipelines get <pipeline-id>"
+notes:
+  - "Wrangler accepts friendly names. cf generated commands may require IDs depending endpoint."

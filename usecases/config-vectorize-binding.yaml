@@ -1,0 +1,10 @@
+description: "Bind a Vectorize index to a Worker through Wrangler config"
+command: "wrangler.jsonc vectorize"
+status: "gap"
+sourceCommands:
+  - "wrangler.jsonc vectorize"
+cfReplacementFlow:
+  - "Create/list indexes with cf vectorize commands."
+  - "No current cf Worker binding config synchronization."
+notes:
+  - "cf does not read or write wrangler.jsonc."

@@ -1,0 +1,110 @@
+{
+  "product": "network-interconnects",
+  "tests": [
+    {
+      "command": "cf network-interconnects cnis create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf network-interconnects interconnects create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf network-interconnects cnis list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf network-interconnects interconnects list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf network-interconnects slots list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf network-interconnects cnis get",
+      "args": ["placeholder_cni"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf network-interconnects interconnects get",
+      "args": ["placeholder_icon"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf network-interconnects interconnects loa",
+      "args": ["placeholder_icon"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf network-interconnects interconnects status",
+      "args": ["placeholder_icon"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf network-interconnects settings get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf network-interconnects slots get",
+      "args": ["placeholder_slot"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf network-interconnects cnis update",
+      "args": ["placeholder_cni", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf network-interconnects settings update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf network-interconnects cnis delete",
+      "args": ["placeholder_cni", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf network-interconnects interconnects delete",
+      "args": ["placeholder_icon", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

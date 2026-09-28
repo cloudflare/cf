@@ -1,0 +1,9 @@
+description: "List Pages deployments"
+command: "wrangler pages deployment list --project-name <project>"
+status: "direct"
+sourceCommands:
+  - "wrangler pages deployment list --project-name <project>"
+cfReplacementFlow:
+  - "cf pages deployments list --project-name <project>"
+notes:
+  - "Exact generated command path may include projects as a parent group. Verify with cf --help."

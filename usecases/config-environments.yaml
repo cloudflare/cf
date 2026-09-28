@@ -1,0 +1,9 @@
+description: "Define named Wrangler environments for staging/production"
+command: "wrangler.jsonc env.<name>"
+status: "gap"
+sourceCommands:
+  - "wrangler --env <environment> <command>"
+cfReplacementFlow:
+  - "No current cf replacement."
+notes:
+  - "cf reserves future mode/environment-style flags but does not parse Wrangler environments today."

@@ -1,0 +1,9 @@
+description: "Show R2 Data Catalog status and warehouse details"
+command: "wrangler r2 bucket catalog get <bucket>"
+status: "partial"
+sourceCommands:
+  - "wrangler r2 bucket catalog get <bucket>"
+cfReplacementFlow:
+  - "cf r2-data-catalog get <bucket>"
+notes:
+  - "cf has more catalog-native commands than Wrangler in some areas."

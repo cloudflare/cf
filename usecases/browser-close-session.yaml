@@ -1,0 +1,9 @@
+description: "Close a Browser Run session"
+command: "wrangler browser close <session-id>"
+status: "partial"
+sourceCommands:
+  - "wrangler browser close <session-id>"
+cfReplacementFlow:
+  - "cf browser sessions delete <session-id> --force"
+notes:
+  - "Verify exact generated command path."

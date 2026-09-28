@@ -1,0 +1,49 @@
+[
+	{
+		"command": "cf migrate",
+		"name": "migrate",
+		"fullPath": ["migrate"],
+		"category": "action",
+		"description": "Migrate a Wrangler project to cf",
+		"usage": "cf migrate [path] [options]",
+		"arguments": [
+			{
+				"name": "path",
+				"position": 0,
+				"type": "string",
+				"required": false,
+				"description": "Path to a Wrangler configuration file"
+			}
+		],
+		"options": [
+			{
+				"name": "bundler",
+				"type": "string",
+				"required": false,
+				"description": "Bundler to use in the migrated project (defaults to vite when @cloudflare/vite-plugin is declared, otherwise wrangler)",
+				"enum": ["vite", "wrangler"]
+			},
+			{
+				"name": "dry-run",
+				"type": "boolean",
+				"required": false,
+				"description": "Show the files that would change without writing them",
+				"default": false
+			},
+			{
+				"name": "force",
+				"type": "boolean",
+				"required": false,
+				"description": "Run even if the Git worktree is not clean",
+				"default": false
+			},
+			{
+				"name": "install",
+				"type": "boolean",
+				"required": false,
+				"description": "Install cf as a project dependency (use --no-install to skip)",
+				"default": true
+			}
+		]
+	}
+]

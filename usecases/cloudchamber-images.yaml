@@ -1,0 +1,11 @@
+description: "List or delete Cloudchamber managed-registry images"
+command: "wrangler cloudchamber images <list|delete>"
+status: "partial"
+sourceCommands:
+  - "wrangler cloudchamber images list"
+  - "wrangler cloudchamber images delete <image>"
+cfReplacementFlow:
+  - "cf cloudchamber images list"
+  - "cf cloudchamber images delete <image> --force"
+notes:
+  - "Verify cf product coverage."

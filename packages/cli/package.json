@@ -1,0 +1,111 @@
+{
+	"name": "cf",
+	"version": "1.0.0-beta.3",
+	"description": "The Cloudflare CLI",
+	"keywords": [
+		"ai",
+		"api",
+		"cdn",
+		"cf",
+		"cli",
+		"cloudflare",
+		"d1",
+		"dns",
+		"images",
+		"kv",
+		"pages",
+		"queues",
+		"r2",
+		"stream",
+		"waf",
+		"workers",
+		"zero-trust"
+	],
+	"homepage": "https://github.com/cloudflare/cf#readme",
+	"bugs": {
+		"url": "https://github.com/cloudflare/cf/issues"
+	},
+	"license": "MIT OR Apache-2.0",
+	"author": "Cloudflare, Inc.",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/cloudflare/cf.git",
+		"directory": "packages/cli"
+	},
+	"bin": {
+		"cf": "./bin/cf",
+		"cloudflare": "./bin/cf"
+	},
+	"files": [
+		"bin",
+		"dist",
+		"LICENSE-APACHE",
+		"LICENSE-MIT"
+	],
+	"type": "module",
+	"main": "./dist/index.mjs",
+	"imports": {
+		"#commands/*": "./src/commands/*",
+		"#lib/*": "./src/lib/*",
+		"#sdk": "./src/sdk/sdk/index.ts"
+	},
+	"exports": {
+		".": "./dist/index.mjs",
+		"./config": {
+			"types": "./dist/config.d.mts",
+			"import": "./dist/config.mjs"
+		},
+		"./package.json": "./package.json"
+	},
+	"scripts": {
+		"generate": "tsx generate.ts",
+		"dev": "tsx src/dev.ts",
+		"build": "tsdown",
+		"check:type": "tsgo --noEmit",
+		"test": "vitest run",
+		"test:watch": "vitest"
+	},
+	"dependencies": {
+		"@cloudflare/build-output-utils": "0.8.2",
+		"@cloudflare/codemods": "0.2.0",
+		"@cloudflare/config": "0.20.0",
+		"@cloudflare/runtime-types": "0.1.4",
+		"blake3-wasm": "2.1.5",
+		"miniflare": "5.20260926.0-alpha",
+		"minisearch": "7.2.0"
+	},
+	"devDependencies": {
+		"@bomb.sh/tab": "0.0.15",
+		"@clack/core": "1.2.0",
+		"@clack/prompts": "^1.2.0",
+		"@cloudflare/autoconfig": "0.7.0",
+		"@cloudflare/cli-shared-helpers": "0.2.0",
+		"@cloudflare/containers-shared": "0.20.3",
+		"@cloudflare/deploy-helpers": "0.18.1",
+		"@cloudflare/forge": "file:../../vendor/cloudflare-forge-0.1.0.tgz",
+		"@cloudflare/forge-transformer-sdk-ts": "file:../../vendor/cloudflare-forge-transformer-sdk-ts-0.1.0.tgz",
+		"@cloudflare/workers-auth": "0.9.4",
+		"@cloudflare/workers-utils": "0.44.0",
+		"@types/node": "25.3.5",
+		"@types/semver": "7.7.1",
+		"@types/shell-quote": "^1.7.5",
+		"@types/yargs": "17.0.35",
+		"chalk": "5.6.2",
+		"ci-info": "^4.4.0",
+		"execa": "^6.1.0",
+		"figures": "6.1.0",
+		"minimatch": "10.2.5",
+		"msw": "2.14.6",
+		"semver": "7.8.5",
+		"shell-quote": "^1.8.1",
+		"tsdown": "^0.21.0",
+		"tsx": "4.21.0",
+		"undici": "7.29.0",
+		"vitest": "4.1.0",
+		"yargs": "18.0.0",
+		"zod": "4.4.3"
+	},
+	"engines": {
+		"node": ">=22"
+	}
+}

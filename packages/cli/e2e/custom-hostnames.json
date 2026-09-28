@@ -1,0 +1,133 @@
+{
+  "product": "custom-hostnames",
+  "tests": [
+    {
+      "command": "cf custom-hostnames create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf custom-hostnames list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf custom-hostnames fallback-origin get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf custom-hostnames get",
+      "args": ["placeholder_custom_hostname_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf custom-hostnames certificate-pack certificates-update",
+      "args": [
+        "placeholder_custom_hostname_id",
+        "placeholder_certificate_pack_id",
+        "placeholder_certificate_id",
+        "--dry-run"
+      ],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf custom-hostnames edit",
+      "args": ["placeholder_custom_hostname_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf custom-hostnames fallback-origin update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf custom-hostnames certificate-pack certificates-delete",
+      "args": [
+        "placeholder_custom_hostname_id",
+        "placeholder_certificate_pack_id",
+        "placeholder_certificate_id",
+        "--dry-run"
+      ],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf custom-hostnames delete",
+      "args": ["placeholder_custom_hostname_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf custom-hostnames fallback-origin delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf custom-hostnames certificate-pack-certificates update",
+      "args": [
+        "placeholder_custom_hostname_id",
+        "placeholder_certificate_pack_id",
+        "placeholder_certificate_id",
+        "--dry-run"
+      ],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf custom-hostnames certificate-pack-certificates delete",
+      "args": [
+        "placeholder_custom_hostname_id",
+        "placeholder_certificate_pack_id",
+        "placeholder_certificate_id",
+        "--dry-run"
+      ],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf custom-hostnames certificate-pack certificates update",
+      "args": [
+        "placeholder_custom_hostname_id",
+        "placeholder_certificate_pack_id",
+        "placeholder_certificate_id",
+        "--dry-run"
+      ],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf custom-hostnames certificate-pack certificates delete",
+      "args": [
+        "placeholder_custom_hostname_id",
+        "placeholder_certificate_pack_id",
+        "placeholder_certificate_id",
+        "--dry-run"
+      ],
+      "env": {
+        "scope": "zone"
+      }
+    }
+  ]
+}

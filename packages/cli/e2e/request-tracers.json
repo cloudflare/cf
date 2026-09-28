@@ -1,0 +1,12 @@
+{
+  "product": "request-tracers",
+  "tests": [
+    {
+      "command": "cf request-tracers traces create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

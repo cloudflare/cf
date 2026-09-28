@@ -1,0 +1,10 @@
+description: "Configure email send bindings for Workers"
+command: "wrangler.jsonc send_email"
+status: "gap"
+sourceCommands:
+  - "wrangler.jsonc send_email"
+cfReplacementFlow:
+  - "Manage Email Routing/Sending resources with cf email-routing and cf email-sending commands."
+  - "No current cf Worker binding config synchronization."
+notes:
+  - "Resource management and Worker binding config are separate."

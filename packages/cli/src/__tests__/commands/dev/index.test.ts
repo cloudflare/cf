@@ -243,6 +243,68 @@ describe("cf dev", () => {
 			).toEqual(["dev", "--mode", "staging"]);
 		});
 
+		it("runs Vite for a Next.js project with vinext installed", async () => {
+			await seed({
+				"package.json": JSON.stringify({
+					name: "vinext-project",
+					dependencies: {
+						next: "^16.0.0",
+						vinext: "^0.0.1",
+					},
+				}),
+				"package-lock.json": "{}",
+				"node_modules/next/package.json": JSON.stringify({
+					name: "next",
+					version: "16.0.0",
+				}),
+				"node_modules/vinext/package.json": JSON.stringify({
+					name: "vinext",
+					version: "0.0.1",
+				}),
+				"node_modules/.bin/vite":
+					'#!/usr/bin/env bash\nprintf "%s\\n" "$@" > vite-argv.out\nprintf "%s\\n" "$CLOUDFLARE_VITE_FORCE_BUILD_OUTPUT" >> vite-argv.out\n',
+			});
+			chmodSync(resolve(process.cwd(), "node_modules/.bin/vite"), 0o755);
+
+			const result = await runCf(["dev", "--mode", "staging"]);
+
+			expect(result.exitCode).toBe(0);
+			expect(
+				readFileSync(resolve(process.cwd(), "vite-argv.out"), "utf8")
+					.trim()
+					.split("\n")
+			).toEqual(["dev", "--mode", "staging", "true"]);
+		});
+
+		it("does not treat an undeclared vinext installation (installed but not present in the project's manifest) as a vinext project", async () => {
+			await seed({
+				"cloudflare.config.ts": "export default {};",
+				"package.json": JSON.stringify({
+					name: "next-project",
+					dependencies: { next: "^16.0.0" },
+				}),
+				"package-lock.json": "{}",
+				"node_modules/next/package.json": JSON.stringify({
+					name: "next",
+					version: "16.0.0",
+				}),
+				"node_modules/vinext/package.json": JSON.stringify({
+					name: "vinext",
+					version: "0.0.1",
+				}),
+				"node_modules/.bin/next":
+					'#!/usr/bin/env bash\nprintf "next" > selected-command.out\n',
+			});
+			chmodSync(resolve(process.cwd(), "node_modules/.bin/next"), 0o755);
+
+			const result = await runCf(["dev"]);
+
+			expect(result.exitCode).toBe(0);
+			expect(
+				readFileSync(resolve(process.cwd(), "selected-command.out"), "utf8")
+			).toBe("next");
+		});
+
 		it("rejects mode when the detected framework does not support it", async () => {
 			await seed({
 				"cloudflare.config.ts": "export default {};",

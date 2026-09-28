@@ -155,6 +155,39 @@ describe("cf build", () => {
 		expect(readArgv("argv.out")).toEqual(["build", "--mode", "staging"]);
 	});
 
+	it("runs Vite for a Next.js project with vinext installed", async () => {
+		await seed({
+			"package.json": JSON.stringify({
+				name: "vinext-project",
+				dependencies: {
+					next: "^16.0.0",
+					vinext: "^0.0.1",
+				},
+			}),
+			"package-lock.json": "{}",
+			"node_modules/next/package.json": JSON.stringify({
+				name: "next",
+				version: "16.0.0",
+			}),
+			"node_modules/vinext/package.json": JSON.stringify({
+				name: "vinext",
+				version: "0.0.1",
+			}),
+			"node_modules/.bin/vite": `${buildScript(
+				"vinext-worker"
+			)}\nprintf "%s" "$CLOUDFLARE_VITE_FORCE_BUILD_OUTPUT" > env.out\n`,
+		});
+		chmod("node_modules/.bin/vite");
+
+		const result = await runCf(["build", "--mode", "staging"]);
+
+		expect(result.exitCode).toBe(0);
+		expect(readArgv("argv.out")).toEqual(["build", "--mode", "staging"]);
+		expect(readFileSync(resolve(process.cwd(), "env.out"), "utf8")).toBe(
+			"true"
+		);
+	});
+
 	it("rejects mode when the detected framework does not support it", async () => {
 		await seed({
 			"cloudflare.config.ts": "export default {};",

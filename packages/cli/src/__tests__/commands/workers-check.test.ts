@@ -1,8 +1,8 @@
 import { Buffer } from "node:buffer";
-import { existsSync, mkdirSync, readFileSync, symlinkSync } from "node:fs";
+import { existsSync, readFileSync, symlinkSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import * as startupProfile from "@cloudflare/deploy-helpers/startup-profile";
 import {
 	mockConsoleMethods,
@@ -131,15 +131,23 @@ describe("cf workers check", () => {
 	});
 
 	it("builds and profiles a Worker from cloudflare.config.ts", async () => {
-		await seed(
-			Object.fromEntries(
+		const publicEntry = resolveCloudflareConfigPublicEntry();
+		await seed({
+			...Object.fromEntries(
 				WRANGLER_FIXTURE_FILES.map((file) => [
 					file,
 					readFileSync(join(WRANGLER_FIXTURE_ROOT, file), "utf8"),
 				])
-			)
-		);
-		mkdirSync("node_modules");
+			),
+			"node_modules/cf/package.json": JSON.stringify({
+				name: "cf",
+				type: "module",
+				exports: { "./config": "./config.mjs" },
+			}),
+			"node_modules/cf/config.mjs": `export * from ${JSON.stringify(
+				pathToFileURL(publicEntry).href
+			)};\n`,
+		});
 		symlinkSync(
 			join(WRANGLER_FIXTURE_ROOT, "node_modules/wrangler"),
 			resolve("node_modules/wrangler"),
@@ -391,3 +399,14 @@ describe("cf workers check", () => {
 		expect(buildDelegateWasCalled()).toBe(false);
 	});
 });
+
+function resolveCloudflareConfigPublicEntry(): string {
+	const packageRoot = resolve(
+		__dirname,
+		"../../../node_modules/@cloudflare/config"
+	);
+	const packageJson = JSON.parse(
+		readFileSync(join(packageRoot, "package.json"), "utf8")
+	) as { exports: { "./public": { import: string } } };
+	return join(packageRoot, packageJson.exports["./public"].import);
+}

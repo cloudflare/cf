@@ -4,6 +4,7 @@
 	"private": true,
 	"type": "module",
 	"dependencies": {
+		"cf": "workspace:*",
 		"wrangler": "4.143.0"
 	}
 }

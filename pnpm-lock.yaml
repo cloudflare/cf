@@ -88,6 +88,9 @@ importers:
 
   fixtures/wrangler-bundler-project:
     dependencies:
+      cf:
+        specifier: workspace:*
+        version: link:../../packages/cli
       wrangler:
         specifier: 4.143.0
         version: 4.143.0(@cloudflare/workers-types@5.20260927.1)(@types/node@25.3.5)

@@ -67,7 +67,7 @@
 	},
 	"dependencies": {
 		"@cloudflare/build-output-utils": "0.8.2",
-		"@cloudflare/codemods": "0.2.0",
+		"@cloudflare/codemods": "0.2.1",
 		"@cloudflare/config": "0.20.0",
 		"@cloudflare/runtime-types": "0.1.4",
 		"blake3-wasm": "2.1.5",
@@ -78,7 +78,7 @@
 		"@bomb.sh/tab": "0.0.15",
 		"@clack/core": "1.2.0",
 		"@clack/prompts": "^1.2.0",
-		"@cloudflare/autoconfig": "0.7.0",
+		"@cloudflare/autoconfig": "0.7.1",
 		"@cloudflare/cli-shared-helpers": "0.2.0",
 		"@cloudflare/containers-shared": "0.20.3",
 		"@cloudflare/deploy-helpers": "0.18.1",

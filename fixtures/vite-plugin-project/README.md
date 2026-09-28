@@ -22,7 +22,7 @@ The fixture is included by the root `fixtures/*` workspace glob. Its committed d
 The current lockfile resolves:
 
 - `@cloudflare/vite-plugin` 2.0.0-beta.sha-805ec1ff3;
-- Wrangler 4.142.0;
+- Wrangler 4.143.0;
 - Vite 8.3.0.
 
 These versions emit the configuration and Build Output Specification artifacts consumed by cf. The fixture's normal framework-command route does not exercise fallback `bin/cf-vite` discovery.

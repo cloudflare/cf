@@ -4,6 +4,6 @@
 	"private": true,
 	"type": "module",
 	"dependencies": {
-		"wrangler": "4.142.0"
+		"wrangler": "4.143.0"
 	}
 }

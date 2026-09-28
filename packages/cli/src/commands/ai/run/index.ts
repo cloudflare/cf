@@ -1,3 +1,8 @@
+import { withTelemetry } from "../../../lib/telemetry/index.js";
+import { getModelInputSchema } from "./schema.js";
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { SdkRequest } from "#sdk";
+import type { Argv, CommandModule } from "yargs";
 /**
  * `cf ai run` — run inference on a Workers AI model.
  *
@@ -48,12 +53,6 @@ import {
 	validateSupportedJsonSchema,
 } from "#lib/schema-flags.js";
 import { theme } from "#lib/ui/theme.js";
-import { withTelemetry } from "../../../lib/telemetry/index.js";
-import { getModelInputSchema } from "./schema.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { SdkRequest } from "#sdk";
-import type { Argv, CommandModule } from "yargs";
-
 type Request = SdkRequest<"workers-ai-post-run-generic">;
 
 const MODELS_HINT = "Run `cf ai models list` to see the models you can run.";

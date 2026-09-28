@@ -398,9 +398,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												},
 												placement: {
 													mode: resolveFileToken(
-														argv["deployment-configs-preview-placement-mode"] as
-															| string
-															| undefined,
+														argv[
+															"deployment-configs-preview-placement-mode"
+														] as string | undefined,
 														"deployment-configs-preview-placement-mode",
 														"text"
 													),

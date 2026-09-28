@@ -307,9 +307,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 														"text"
 													),
 													organization: resolveFileToken(
-														argv["contacts-billing-postal-info-organization"] as
-															| string
-															| undefined,
+														argv[
+															"contacts-billing-postal-info-organization"
+														] as string | undefined,
 														"contacts-billing-postal-info-organization",
 														"text"
 													),

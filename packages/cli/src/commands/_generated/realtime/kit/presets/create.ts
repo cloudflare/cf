@@ -519,9 +519,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												},
 												screenshare: {
 													can_produce: resolveFileToken(
-														argv["permissions-media-screenshare-can-produce"] as
-															| string
-															| undefined,
+														argv[
+															"permissions-media-screenshare-can-produce"
+														] as string | undefined,
 														"permissions-media-screenshare-can-produce",
 														"text"
 													),

@@ -5,6 +5,7 @@ import { openSession } from "./session.js";
 import { errorBlock } from "./ui/blocks.js";
 import { hint } from "./ui/format.js";
 import { theme } from "./ui/theme.js";
+import { CloudflareApiError } from "#sdk";
 
 /**
  * Drop the protocol+host (and the `/client/v4` API-version prefix)

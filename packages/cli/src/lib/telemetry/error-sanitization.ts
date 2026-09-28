@@ -1,6 +1,7 @@
 import { CloudflareApiError } from "#sdk/errors";
 import { APIError as WorkersUtilsAPIError } from "@cloudflare/workers-utils";
 import type { SanitizedError } from "./types.js";
+import { CloudflareApiError } from "#sdk";
 
 function extractErrorCodes(body: unknown): number[] {
 	if (body === null || typeof body !== "object") {

@@ -460,9 +460,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												requests:
 													argv["public-endpoint-params-rate-limit-requests"],
 												technique: resolveFileToken(
-													argv["public-endpoint-params-rate-limit-technique"] as
-														| string
-														| undefined,
+													argv[
+														"public-endpoint-params-rate-limit-technique"
+													] as string | undefined,
 													"public-endpoint-params-rate-limit-technique",
 													"text"
 												),

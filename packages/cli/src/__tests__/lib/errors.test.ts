@@ -2,6 +2,7 @@ import { CloudflareApiError } from "#sdk/errors";
 import { APIError as WorkersUtilsAPIError } from "@cloudflare/workers-utils";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { handleError } from "../../lib/errors.js";
+import { CloudflareApiError } from "#sdk";
 
 /**
  * Unit tests for `lib/errors.ts` — the central `handleError` funnel that

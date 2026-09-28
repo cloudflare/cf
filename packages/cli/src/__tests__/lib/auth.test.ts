@@ -5,6 +5,7 @@ import {
 	createCommandClient,
 	requestApi,
 } from "../../lib/auth.js";
+import { CloudflareApiError } from "#sdk";
 
 describe("createCommandClient", () => {
 	let originalApiToken: string | undefined;

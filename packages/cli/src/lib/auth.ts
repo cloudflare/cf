@@ -7,6 +7,11 @@ import { getAuthToken } from "./auth-token.js";
 import { getComplianceRegion, resolveAccountIdSilent } from "./context.js";
 import { getDefaultHeaders } from "./request-headers.js";
 import type { BaseClientOptions } from "#sdk";
+import {
+	CloudflareApiClient,
+	CloudflareApiEnvironment,
+	CloudflareApiError,
+} from "#sdk";
 
 // Re-export context helpers used by generated commands and hand-written paths.
 export { getAccountId, getWorkerName, getZoneId } from "./context.js";

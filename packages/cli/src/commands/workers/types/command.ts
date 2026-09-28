@@ -1,12 +1,12 @@
 import * as path from "node:path";
+import { generateWorkerTypes } from "./generate.js";
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { Argv, CommandModule } from "yargs";
 import { formatOutput } from "#lib/output.js";
 import {
 	CLOUDFLARE_CONFIG_FILENAME,
 	findCloudflareConfig,
 } from "#lib/project-settings.js";
-import { generateWorkerTypes } from "./generate.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs.option("include-runtime", {

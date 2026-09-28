@@ -8,10 +8,18 @@
 		"groups": ["builtin", "external", "parent", "sibling", "index", "type"],
 		"newlinesBetween": false,
 	},
+	"overrides": [
+		{
+			"files": ["packages/cli/src/commands/_generated/**"],
+			"options": { "sortImports": false },
+		},
+	],
 	"sortPackageJson": {},
 	"ignorePatterns": [
 		// Changesets owns this generated prerelease state file.
 		".changeset/pre.json",
+		// Keep project fixtures in their existing format.
+		"fixtures/**",
 		// Recorded API-fixture responses; reformatting them creates noise on every re-record.
 		"packages/cli/e2e/**/*.json",
 		// Fern-generated SDK source is committed verbatim.

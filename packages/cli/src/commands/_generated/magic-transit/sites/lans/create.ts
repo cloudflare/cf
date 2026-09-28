@@ -187,9 +187,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											},
 											dhcp_server: {
 												dhcp_pool_end: resolveFileToken(
-													argv["static-addressing-dhcp-server-dhcp-pool-end"] as
-														| string
-														| undefined,
+													argv[
+														"static-addressing-dhcp-server-dhcp-pool-end"
+													] as string | undefined,
 													"static-addressing-dhcp-server-dhcp-pool-end",
 													"text"
 												),

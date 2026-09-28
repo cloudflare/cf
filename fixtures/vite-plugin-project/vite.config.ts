@@ -1,12 +1,12 @@
 import { cloudflare } from "@cloudflare/vite-plugin";
-import { defineConfig, lazyPlugins } from "vite-plus";
+import { defineConfig } from "vite";
 
 export default defineConfig({
-	plugins: lazyPlugins(() => [
+	plugins: [
 		cloudflare({
 			inspectorPort: false,
 			persistState: false,
 			types: { includeRuntime: false },
 		}),
-	]),
+	],
 });

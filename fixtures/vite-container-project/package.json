@@ -3,7 +3,7 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"build:fixture": "vp build",
+		"build:fixture": "vite build",
 		"check:type": "tsgo --noEmit"
 	},
 	"devDependencies": {
@@ -11,8 +11,7 @@
 		"@cloudflare/workers-types": "5.20260930.2",
 		"@typescript/native-preview": "latest",
 		"cf": "workspace:*",
-		"vite": "catalog:",
-		"vite-plus": "catalog:",
+		"vite": "8.3.0",
 		"wrangler": "4.145.0"
 	}
 }

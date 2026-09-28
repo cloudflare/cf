@@ -14,7 +14,7 @@ import { CliExit } from "../../lib/cli-exit.js";
  * failures, handler throws that aren't `CliExit`) propagate.
  *
  * `env` lets a test stub specific env vars for the duration of the call.
- * Vitest's `unstubEnvs: true` (in `vitest.config.mts`) auto-restores
+ * Vitest's `unstubEnvs: true` (in `vite.config.ts`) auto-restores
  * after each test so callers don't need to clean up.
  */
 export async function runCf(

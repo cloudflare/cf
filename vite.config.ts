@@ -19,6 +19,10 @@ export default defineConfig({
 		],
 		sortPackageJson: {},
 		ignorePatterns: [
+			// Changesets owns this prerelease state file and writes its own JSON style.
+			".changeset/pre.json",
+			// Keep product fixtures in their own upstream Vite format.
+			"fixtures/**",
 			// Recorded API-fixture responses; reformatting them creates noise on every re-record.
 			"packages/cli/e2e/**/*.json",
 			// Fern-generated SDK source is committed verbatim.
@@ -60,6 +64,7 @@ export default defineConfig({
 			"vite-plus/prefer-vite-plus-imports": "error",
 		},
 		ignorePatterns: [
+			"fixtures/**",
 			"packages/cli/generator/**",
 			"packages/cli/src/commands/_generated/**",
 			"packages/cli/src/sdk/sdk/**",

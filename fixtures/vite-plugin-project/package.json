@@ -3,14 +3,13 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"dev": "vp dev"
+		"dev": "vite dev"
 	},
 	"devDependencies": {
 		"@cloudflare/vite-plugin": "2.0.0-beta.sha-ad79608dd",
 		"@cloudflare/workers-types": "5.20260930.2",
 		"cf": "workspace:*",
-		"vite": "catalog:",
-		"vite-plus": "catalog:",
+		"vite": "8.3.0",
 		"wrangler": "4.145.0"
 	}
 }

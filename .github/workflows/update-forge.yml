@@ -40,17 +40,11 @@ jobs:
           ref: main
           token: ${{ secrets.GH_ACCESS_TOKEN || github.token }}
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4
-        with:
-          package_json_file: package.json
-
-      - name: Install Node.js
-        uses: actions/setup-node@v6
+      - name: Set up Vite+, Node.js, and pnpm
+        uses: voidzero-dev/setup-vp@3754dd7dbdb32bd8f6d28b6043de13ad3a75f21f # v1.21.1
         with:
           node-version: "22"
-          cache: pnpm
-          cache-dependency-path: pnpm-lock.yaml
+          run-install: false
 
       - name: Update Forge and OpenAPI
         run: node scripts/update-forge.ts

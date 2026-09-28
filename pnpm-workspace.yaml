@@ -12,7 +12,9 @@ minimumReleaseAgeExclude:
 
 # pnpm 10 blocks install scripts by default; allowlist what needs them.
 allowBuilds:
+  "@scarf/scarf": false
   esbuild: true
+  msw: false
   # workerd's postinstall places the platform binary miniflare (`--local`)
   # execs. Nothing else in miniflare's tree has an install script.
   workerd: true

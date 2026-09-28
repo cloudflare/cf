@@ -1,0 +1,13 @@
+export type { CreateRecordsRequest } from "./CreateRecordsRequest.js";
+export type { DeleteRecordsRequest } from "./DeleteRecordsRequest.js";
+export type { DnsRecordsDnsRequestBatchObject } from "./DnsRecordsDnsRequestBatchObject.js";
+export type { DnsRecordsDnsRequestReviewScanObject } from "./DnsRecordsDnsRequestReviewScanObject.js";
+export type { EditRecordsRequest } from "./EditRecordsRequest.js";
+export type { ExportRecordsRequest } from "./ExportRecordsRequest.js";
+export type { GetRecordsRequest } from "./GetRecordsRequest.js";
+export type { ImportRecordsRequest } from "./ImportRecordsRequest.js";
+export type { ListRecordsRequest } from "./ListRecordsRequest.js";
+export type { ScanListRecordsRequest } from "./ScanListRecordsRequest.js";
+export type { ScanRecordsRequest } from "./ScanRecordsRequest.js";
+export type { ScanTriggerRecordsRequest } from "./ScanTriggerRecordsRequest.js";
+export type { UpdateRecordsRequest } from "./UpdateRecordsRequest.js";

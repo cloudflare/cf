@@ -1,0 +1,426 @@
+{
+  "product": "accounts",
+  "tests": [
+    {
+      "command": "cf accounts create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf accounts members create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf accounts subscriptions create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf accounts tokens create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf accounts list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf accounts logs audit-list",
+      "args": ["--since", "2026-01-01", "--before", "2026-01-02"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf accounts members list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      },
+      "capture": {
+        ".[0].id": "member_id"
+      }
+    },
+    {
+      "command": "cf accounts roles list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      },
+      "capture": {
+        ".[0].id": "role_id"
+      }
+    },
+    {
+      "command": "cf accounts tokens list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      },
+      "capture": {
+        ".[0].id": "token_id"
+      }
+    },
+    {
+      "command": "cf accounts tokens permission-groups-list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf accounts get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf accounts members get",
+      "args": ["$member_id"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["member_id"]
+    },
+    {
+      "command": "cf accounts roles get",
+      "args": ["$role_id"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["role_id"]
+    },
+    {
+      "command": "cf accounts subscriptions get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf accounts tokens get",
+      "args": ["$token_id"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["token_id"]
+    },
+    {
+      "command": "cf accounts tokens permission-groups-get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf accounts tokens verify",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf accounts members update",
+      "args": ["placeholder_member_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf accounts subscriptions update",
+      "args": ["placeholder_subscription_identifier", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf accounts tokens update",
+      "args": ["placeholder_token_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf accounts tokens value-update",
+      "args": ["placeholder_token_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf accounts update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf accounts delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf accounts members delete",
+      "args": ["placeholder_member_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf accounts subscriptions delete",
+      "args": ["placeholder_subscription_identifier", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf accounts tokens delete",
+      "args": ["placeholder_token_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf accounts applications create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf accounts create-extra",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf accounts move",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf accounts test",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf accounts applications get-applications",
+      "args": [],
+      "env": {
+        "scope": "account"
+      },
+      "capture": {
+        ".[0].id": "app_id"
+      }
+    },
+    {
+      "command": "cf accounts applications get-by-id",
+      "args": ["$app_id"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["app_id"]
+    },
+    {
+      "command": "cf accounts categories get-by-id",
+      "args": ["$category_id"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["category_id"]
+    },
+    {
+      "command": "cf accounts categories get-categories",
+      "args": [],
+      "env": {
+        "scope": "account"
+      },
+      "capture": {
+        ".[0].id": "category_id"
+      }
+    },
+    {
+      "command": "cf accounts get-extra",
+      "args": [],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["account_profile_available"]
+    },
+    {
+      "command": "cf accounts applications update",
+      "args": ["$app_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["app_id"]
+    },
+    {
+      "command": "cf accounts update-extra",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf accounts account-organizations create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf accounts logs-audit list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf accounts tokens-permission-groups list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf accounts account-profile get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf accounts tokens-permission-groups get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf accounts account-profile update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf accounts tokens-value update",
+      "args": ["placeholder_token_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf accounts logs audit list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf accounts tokens permission-groups list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf accounts tokens permission-groups get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf accounts tokens value update",
+      "args": ["placeholder_token_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf accounts applications get applications",
+      "args": ["placeholder_accountId"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf accounts applications get by id",
+      "args": ["placeholder_accountId", "placeholder_id"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf accounts categories get by id",
+      "args": ["placeholder_accountId", "placeholder_id"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf accounts categories get categories",
+      "args": ["placeholder_accountId"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf accounts tokens permission groups list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf accounts tokens permission groups get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf accounts organizations create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf accounts profile get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf accounts profile update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

@@ -1,0 +1,376 @@
+{
+  "product": "intel",
+  "tests": [
+    {
+      "command": "cf intel indicator-feeds create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel miscategorizations create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel attack-surface-report issues-list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel dns list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel indicator-feeds list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel indicator-feeds permissions-list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel ip-lists get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel sinkholes list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel asn get",
+      "args": ["placeholder_asn"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel asn subnets-get",
+      "args": ["placeholder_asn"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel attack-surface-report issue-types-get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel attack-surface-report issues-class",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel attack-surface-report issues-severity",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel attack-surface-report issues-type",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel domain-history get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel domains bulks-get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel domains get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel indicator-feeds data",
+      "args": ["placeholder_feed_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel indicator-feeds downloads-get",
+      "args": ["placeholder_feed_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel indicator-feeds get",
+      "args": ["placeholder_feed_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel ips get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel whois get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel attack-surface-report issues-dismiss",
+      "args": ["placeholder_issue_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel indicator-feeds permissions-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel indicator-feeds permissions-delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel indicator-feeds snapshots-update",
+      "args": ["placeholder_feed_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel indicator-feeds update",
+      "args": ["placeholder_feed_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel attack-surface-report-issues list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel indicator-feeds-permissions list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel asn-subnets get",
+      "args": ["placeholder_asn"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel attack-surface-report-issue-types get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel attack-surface-report-issues class",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel attack-surface-report-issues severity",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel attack-surface-report-issues type",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel domains-bulks get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel attack-surface-report-issues dismiss",
+      "args": ["placeholder_issue_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel indicator-feeds-permissions create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel indicator-feeds-permissions delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel indicator-feeds-snapshots update",
+      "args": ["placeholder_feed_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel attack-surface-report issues list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel indicator-feeds permissions list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel asn subnets get",
+      "args": ["placeholder_asn"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel attack-surface-report issue-types get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel attack-surface-report issues class",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel attack-surface-report issues severity",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel attack-surface-report issues type",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel domains bulks get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel attack-surface-report issues dismiss",
+      "args": ["placeholder_issue_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel indicator-feeds permissions create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel indicator-feeds permissions delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel indicator-feeds snapshots update",
+      "args": ["placeholder_feed_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel indicator-feeds downloads get",
+      "args": ["placeholder_feed_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf intel attack-surface-report issue types get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

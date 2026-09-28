@@ -1,0 +1,12 @@
+{
+  "product": "audit-logs",
+  "tests": [
+    {
+      "command": "cf audit-logs list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

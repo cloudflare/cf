@@ -1,0 +1,65 @@
+{
+	"command": "cf access tcp",
+	"name": "tcp",
+	"fullPath": ["access", "tcp"],
+	"aliases": ["ssh", "rdp", "smb"],
+	"category": "action",
+	"description": "Proxy a TCP connection through Access. The command is also available as ssh, rdp, and smb.",
+	"usage": "cf access tcp [options]",
+	"arguments": [],
+	"options": [
+		{
+			"name": "hostname",
+			"type": "string",
+			"required": true,
+			"description": "Hostname of the Access application"
+		},
+		{
+			"name": "destination",
+			"type": "string",
+			"required": false,
+			"description": "Destination address of the target server"
+		},
+		{
+			"name": "url",
+			"type": "string",
+			"required": false,
+			"description": "Local host and port to forward to the Cloudflare edge"
+		},
+		{
+			"name": "header",
+			"type": "string",
+			"required": false,
+			"description": "Additional request header; repeat for multiple headers"
+		},
+		{
+			"name": "service-token-id",
+			"type": "string",
+			"required": false,
+			"description": "Access service token ID"
+		},
+		{
+			"name": "service-token-secret",
+			"type": "string",
+			"required": false,
+			"description": "Access service token secret"
+		},
+		{
+			"name": "log-level",
+			"alias": "loglevel",
+			"type": "string",
+			"required": false,
+			"description": "cloudflared log level",
+			"enum": [
+				"trace",
+				"debug",
+				"info",
+				"warn",
+				"error",
+				"fatal",
+				"panic",
+				"disabled"
+			]
+		}
+	]
+}

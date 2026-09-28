@@ -1,0 +1,131 @@
+{
+  "product": "speed",
+  "tests": [
+    {
+      "command": "cf speed pages tests-create",
+      "args": ["placeholder_url", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf speed schedule create",
+      "args": ["placeholder_url", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf speed availabilities list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf speed pages list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf speed pages tests-list",
+      "args": ["placeholder_url"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf speed pages tests-get",
+      "args": ["placeholder_url", "placeholder_test_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf speed pages trend",
+      "args": ["placeholder_url"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf speed schedule get",
+      "args": ["placeholder_url"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf speed pages tests-delete",
+      "args": ["placeholder_url", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf speed schedule delete",
+      "args": ["placeholder_url", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf speed pages-tests create",
+      "args": ["placeholder_url", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf speed pages-tests list",
+      "args": ["placeholder_url"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf speed pages-tests get",
+      "args": ["placeholder_url", "placeholder_test_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf speed pages-tests delete",
+      "args": ["placeholder_url", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf speed pages tests create",
+      "args": ["placeholder_url", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf speed pages tests list",
+      "args": ["placeholder_url"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf speed pages tests get",
+      "args": ["placeholder_url", "placeholder_test_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf speed pages tests delete",
+      "args": ["placeholder_url", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    }
+  ]
+}

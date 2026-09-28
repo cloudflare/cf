@@ -1,0 +1,403 @@
+{
+  "product": "vectorize",
+  "tests": [
+    {
+      "command": "cf vectorize indexes create",
+      "args": ["--body", "{\"name\":\"e2e-vec-$RUN_ID\",\"config\":{\"dimensions\":32,\"metric\":\"cosine\"}}"],
+      "env": {
+        "scope": "account"
+      },
+      "capture": {
+        "name": "vec_name"
+      }
+    },
+    {
+      "command": "cf vectorize indexes list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize indexes list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize indexes get",
+      "args": ["$vec_name"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["vec_name"]
+    },
+    {
+      "command": "cf vectorize indexes info",
+      "args": ["$vec_name"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["vec_name"]
+    },
+    {
+      "command": "cf vectorize indexes delete",
+      "args": ["$vec_name"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["vec_name"]
+    },
+    {
+      "command": "cf vectorize indexes list-vectors",
+      "args": ["placeholder_index_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize indexes metadata-index-list",
+      "args": ["placeholder_index_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize indexes delete-by-ids",
+      "args": ["placeholder_index_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize indexes get-by-ids",
+      "args": ["placeholder_index_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize indexes insert",
+      "args": ["placeholder_index_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize indexes metadata-index-create",
+      "args": ["placeholder_index_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize indexes metadata-index-delete",
+      "args": ["placeholder_index_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize indexes query",
+      "args": ["placeholder_index_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize indexes upsert",
+      "args": ["placeholder_index_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize indexes-extra create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize indexes-extra delete-by-ids-create",
+      "args": ["placeholder_index_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize indexes-extra get-by-ids-create",
+      "args": ["placeholder_index_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize indexes-extra insert-create",
+      "args": ["placeholder_index_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize indexes-extra query-create",
+      "args": ["placeholder_index_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize indexes-extra upsert-create",
+      "args": ["placeholder_index_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize indexes-extra list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize indexes-extra get",
+      "args": ["placeholder_index_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize indexes-extra update",
+      "args": ["placeholder_index_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize indexes-extra delete",
+      "args": ["placeholder_index_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize indexes-metadata-index create",
+      "args": ["placeholder_index_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize indexes-metadata-index delete",
+      "args": ["placeholder_index_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize indexes-metadata-index list",
+      "args": ["placeholder_index_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize indexes metadata-index create",
+      "args": ["placeholder_index_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize indexes metadata-index delete",
+      "args": ["placeholder_index_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize indexes metadata-index list",
+      "args": ["placeholder_index_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize indexes-extra delete by ids create",
+      "args": ["placeholder_index_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize indexes-extra get by ids create",
+      "args": ["placeholder_index_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize indexes-extra insert create",
+      "args": ["placeholder_index_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize indexes-extra query create",
+      "args": ["placeholder_index_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize indexes-extra upsert create",
+      "args": ["placeholder_index_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize indexes delete by ids",
+      "args": ["placeholder_index_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize indexes get by ids",
+      "args": ["placeholder_index_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize indexes metadata index create",
+      "args": ["placeholder_index_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize indexes metadata index delete",
+      "args": ["placeholder_index_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize indexes list vectors",
+      "args": ["placeholder_index_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize indexes metadata index list",
+      "args": ["placeholder_index_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize indexes delete-by ids",
+      "args": ["placeholder_index_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize indexes get-by ids",
+      "args": ["placeholder_index_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize indexes-extra delete-by ids create",
+      "args": ["placeholder_index_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize indexes-extra get-by ids create",
+      "args": ["placeholder_index_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize deprecated-indexes create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize deprecated-indexes delete-by ids create",
+      "args": ["placeholder_index_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize deprecated-indexes get-by ids create",
+      "args": ["placeholder_index_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize deprecated-indexes insert create",
+      "args": ["placeholder_index_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize deprecated-indexes query create",
+      "args": ["placeholder_index_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize deprecated-indexes upsert create",
+      "args": ["placeholder_index_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize deprecated-indexes list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize deprecated-indexes get",
+      "args": ["placeholder_index_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize deprecated-indexes update",
+      "args": ["placeholder_index_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vectorize deprecated-indexes delete",
+      "args": ["placeholder_index_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

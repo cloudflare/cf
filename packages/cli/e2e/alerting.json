@@ -1,0 +1,299 @@
+{
+  "product": "alerting",
+  "tests": [
+    {
+      "command": "cf alerting destinations pagerduty-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf alerting destinations webhooks-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf alerting policies create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf alerting silences create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf alerting available-alerts list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf alerting destinations webhooks-list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf alerting history list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf alerting policies list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf alerting silences list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf alerting destinations eligible-get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf alerting destinations pagerduty-get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf alerting destinations pagerduty-link",
+      "args": ["placeholder_token_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf alerting destinations webhooks-get",
+      "args": ["placeholder_webhook_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf alerting policies get",
+      "args": ["placeholder_policy_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf alerting silences get",
+      "args": ["placeholder_silence_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf alerting destinations webhooks-update",
+      "args": ["placeholder_webhook_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf alerting policies update",
+      "args": ["placeholder_policy_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf alerting silences update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf alerting destinations pagerduty-delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf alerting destinations webhooks-delete",
+      "args": ["placeholder_webhook_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf alerting policies delete",
+      "args": ["placeholder_policy_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf alerting silences delete",
+      "args": ["placeholder_silence_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf alerting destinations-pagerduty create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf alerting destinations-webhooks create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf alerting destinations-webhooks list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf alerting destinations-eligible get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf alerting destinations-pagerduty get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf alerting destinations-pagerduty link",
+      "args": ["placeholder_token_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf alerting destinations-webhooks get",
+      "args": ["placeholder_webhook_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf alerting destinations-webhooks update",
+      "args": ["placeholder_webhook_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf alerting destinations-pagerduty delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf alerting destinations-webhooks delete",
+      "args": ["placeholder_webhook_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf alerting destinations pagerduty create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf alerting destinations webhooks create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf alerting destinations webhooks list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf alerting destinations eligible get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf alerting destinations pagerduty get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf alerting destinations pagerduty link",
+      "args": ["placeholder_token_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf alerting destinations webhooks get",
+      "args": ["placeholder_webhook_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf alerting destinations webhooks update",
+      "args": ["placeholder_webhook_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf alerting destinations pagerduty delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf alerting destinations webhooks delete",
+      "args": ["placeholder_webhook_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "product": "cloud-connector",
+  "tests": [
+    {
+      "command": "cf cloud-connector rules list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf cloud-connector rules update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    }
+  ]
+}

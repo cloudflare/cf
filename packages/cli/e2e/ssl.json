@@ -1,0 +1,145 @@
+{
+  "product": "ssl",
+  "tests": [
+    {
+      "command": "cf ssl analyze create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf ssl certificate-packs create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf ssl certificate-packs list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf ssl certificate-packs get",
+      "args": ["placeholder_certificate_pack_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf ssl certificate-packs quota-get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf ssl recommendations get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf ssl universal settings-get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf ssl verification get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf ssl certificate-packs edit",
+      "args": ["placeholder_certificate_pack_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf ssl universal settings-edit",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf ssl verification edit",
+      "args": ["placeholder_certificate_pack_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf ssl certificate-packs delete",
+      "args": ["placeholder_certificate_pack_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf ssl automatic-upgrader get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf ssl certificate-packs-quota get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf ssl universal-settings get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf ssl automatic-upgrader patch",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf ssl universal-settings edit",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf ssl certificate-packs quota get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf ssl universal settings get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf ssl universal settings edit",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    }
+  ]
+}

@@ -1,0 +1,194 @@
+{
+  "product": "waiting-rooms",
+  "tests": [
+    {
+      "command": "cf waiting-rooms create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf waiting-rooms events create",
+      "args": ["placeholder_waiting_room_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf waiting-rooms page preview",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf waiting-rooms rules create",
+      "args": ["placeholder_waiting_room_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf waiting-rooms events list",
+      "args": ["placeholder_waiting_room_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf waiting-rooms list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf waiting-rooms events details-get",
+      "args": ["placeholder_waiting_room_id", "placeholder_event_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf waiting-rooms events get",
+      "args": ["placeholder_waiting_room_id", "placeholder_event_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf waiting-rooms get",
+      "args": ["placeholder_waiting_room_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf waiting-rooms rules get",
+      "args": ["placeholder_waiting_room_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf waiting-rooms settings get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf waiting-rooms statuses get",
+      "args": ["placeholder_waiting_room_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf waiting-rooms edit",
+      "args": ["placeholder_waiting_room_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf waiting-rooms events edit",
+      "args": ["placeholder_waiting_room_id", "placeholder_event_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf waiting-rooms events update",
+      "args": ["placeholder_waiting_room_id", "placeholder_event_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf waiting-rooms rules edit",
+      "args": ["placeholder_waiting_room_id", "placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf waiting-rooms rules update",
+      "args": ["placeholder_waiting_room_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf waiting-rooms settings edit",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf waiting-rooms settings update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf waiting-rooms update",
+      "args": ["placeholder_waiting_room_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf waiting-rooms delete",
+      "args": ["placeholder_waiting_room_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf waiting-rooms events delete",
+      "args": ["placeholder_waiting_room_id", "placeholder_event_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf waiting-rooms rules delete",
+      "args": ["placeholder_waiting_room_id", "placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf waiting-rooms list-extra",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf waiting-rooms events-details get",
+      "args": ["placeholder_waiting_room_id", "placeholder_event_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf waiting-rooms events details get",
+      "args": ["placeholder_waiting_room_id", "placeholder_event_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf waiting-rooms account-waiting-rooms list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

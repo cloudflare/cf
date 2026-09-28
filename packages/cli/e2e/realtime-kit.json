@@ -1,0 +1,831 @@
+{
+  "product": "realtime-kit",
+  "tests": [
+    {
+      "command": "cf realtime-kit active-session create-poll",
+      "args": ["placeholder_app_id", "placeholder_meeting_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit active-session kick-all-participants",
+      "args": ["placeholder_app_id", "placeholder_meeting_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit active-session kick-participants",
+      "args": ["placeholder_app_id", "placeholder_meeting_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit apps post",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit livestreams create-independent-livestream",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf realtime-kit livestreams disable-livestream",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf realtime-kit livestreams enable-livestream",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf realtime-kit livestreams get-livestream-analytics-daywise",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf realtime-kit livestreams get-livestream-session-details-for-meeting",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf realtime-kit livestreams reset-stream-key",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf realtime-kit livestreams start-livestreaming-a-meeting",
+      "args": ["placeholder_app_id", "placeholder_meeting_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit livestreams stop-livestreaming-a-meeting",
+      "args": ["placeholder_app_id", "placeholder_meeting_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit meetings add-participant",
+      "args": ["placeholder_app_id", "placeholder_meeting_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit meetings create",
+      "args": ["placeholder_app_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit meetings refresh-participant-token",
+      "args": ["placeholder_app_id", "placeholder_meeting_id", "placeholder_participant_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit presets create",
+      "args": ["placeholder_app_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit recordings start-recordings",
+      "args": ["placeholder_app_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit recordings start-track-recording",
+      "args": ["placeholder_app_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit sessions generate-summary-of-transcripts",
+      "args": ["placeholder_app_id", "placeholder_session_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit webhooks create-webhook",
+      "args": ["placeholder_app_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit active-session get-active-session",
+      "args": ["placeholder_app_id", "placeholder_meeting_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit analytics get-org-analytics",
+      "args": ["placeholder_app_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit apps get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit livestreams get-active-livestreams-for-livestream-id",
+      "args": ["placeholder_app_id", "placeholder_livestream_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit livestreams get-all-livestreams",
+      "args": ["placeholder_app_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit livestreams get-livestream-analytics-complete",
+      "args": ["placeholder_app_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit livestreams get-livestream-session-details-for-session-id",
+      "args": ["placeholder_app_id", "placeholder_livestream-session-id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit livestreams get-livestream-session-for-livestream-id",
+      "args": ["placeholder_app_id", "placeholder_livestream_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit livestreams get-meeting-active-livestreams",
+      "args": ["placeholder_app_id", "placeholder_meeting_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit livestreams get-org-analytics",
+      "args": ["placeholder_app_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit meetings get",
+      "args": ["placeholder_app_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit meetings get-meeting-by-id",
+      "args": ["placeholder_app_id", "placeholder_meeting_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit meetings get-meeting-participant",
+      "args": ["placeholder_app_id", "placeholder_meeting_id", "placeholder_participant_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit meetings get-meeting-participants",
+      "args": ["placeholder_app_id", "placeholder_meeting_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit presets get",
+      "args": ["placeholder_app_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit presets get-preset-by-id",
+      "args": ["placeholder_app_id", "placeholder_preset_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit recordings get-active-recordings",
+      "args": ["placeholder_app_id", "placeholder_meeting_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit recordings get-one-recording",
+      "args": ["placeholder_app_id", "placeholder_recording_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit recordings get-recordings",
+      "args": ["placeholder_app_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit sessions get-participant-data-from-peer-id",
+      "args": ["placeholder_app_id", "placeholder_peer_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit sessions get-session-chat",
+      "args": ["placeholder_app_id", "placeholder_session_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit sessions get-session-details",
+      "args": ["placeholder_app_id", "placeholder_session_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit sessions get-session-participant-details",
+      "args": ["placeholder_app_id", "placeholder_session_id", "placeholder_participant_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit sessions get-session-participants",
+      "args": ["placeholder_app_id", "placeholder_session_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit sessions get-session-summary",
+      "args": ["placeholder_app_id", "placeholder_session_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit sessions get-session-transcripts",
+      "args": ["placeholder_app_id", "placeholder_session_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit sessions get-sessions",
+      "args": ["placeholder_app_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit webhooks get-webhook-by-id",
+      "args": ["placeholder_app_id", "placeholder_webhook_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit webhooks get-webhooks",
+      "args": ["placeholder_app_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit meetings edit-participant",
+      "args": ["placeholder_app_id", "placeholder_meeting_id", "placeholder_participant_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit meetings replace-meeting-by-id",
+      "args": ["placeholder_app_id", "placeholder_meeting_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit meetings update-meeting-by-id",
+      "args": ["placeholder_app_id", "placeholder_meeting_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit presets update",
+      "args": ["placeholder_app_id", "placeholder_preset_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit recordings pause-resume-stop-recording",
+      "args": ["placeholder_app_id", "placeholder_recording_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit webhooks edit-webhook",
+      "args": ["placeholder_app_id", "placeholder_webhook_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit webhooks replace-webhook",
+      "args": ["placeholder_app_id", "placeholder_webhook_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit meetings delete-meeting-participant",
+      "args": ["placeholder_app_id", "placeholder_meeting_id", "placeholder_participant_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit presets delete",
+      "args": ["placeholder_app_id", "placeholder_preset_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit webhooks delete-webhook",
+      "args": ["placeholder_app_id", "placeholder_webhook_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit kit meetings-active-session-mute-all-create",
+      "args": ["placeholder_app_id", "placeholder_meeting_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit kit meetings-active-session-mute-create",
+      "args": ["placeholder_app_id", "placeholder_meeting_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit kit meetings-livestream-get",
+      "args": ["placeholder_app_id", "placeholder_meeting_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit kit sessions-livestream-sessions-get",
+      "args": ["placeholder_app_id", "placeholder_session_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit kit meetings active session mute all create",
+      "args": ["placeholder_app_id", "placeholder_meeting_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit kit meetings active session mute create",
+      "args": ["placeholder_app_id", "placeholder_meeting_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit kit meetings livestream get",
+      "args": ["placeholder_app_id", "placeholder_meeting_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit kit sessions livestream sessions get",
+      "args": ["placeholder_app_id", "placeholder_session_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit active-session create poll",
+      "args": ["placeholder_app_id", "placeholder_meeting_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit active-session kick all participants",
+      "args": ["placeholder_app_id", "placeholder_meeting_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit active-session kick participants",
+      "args": ["placeholder_app_id", "placeholder_meeting_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit livestreams start livestreaming a meeting",
+      "args": ["placeholder_app_id", "placeholder_meeting_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit livestreams stop livestreaming a meeting",
+      "args": ["placeholder_app_id", "placeholder_meeting_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit meetings add participant",
+      "args": ["placeholder_app_id", "placeholder_meeting_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit meetings refresh participant token",
+      "args": ["placeholder_app_id", "placeholder_meeting_id", "placeholder_participant_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit recordings start recordings",
+      "args": ["placeholder_app_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit recordings start track recording",
+      "args": ["placeholder_app_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit sessions generate summary of transcripts",
+      "args": ["placeholder_app_id", "placeholder_session_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit webhooks create webhook",
+      "args": ["placeholder_app_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit active-session get active session",
+      "args": ["placeholder_app_id", "placeholder_meeting_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit analytics get org analytics",
+      "args": ["placeholder_app_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit livestreams get active livestreams for livestream id",
+      "args": ["placeholder_app_id", "placeholder_livestream_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit livestreams get all livestreams",
+      "args": ["placeholder_app_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit livestreams get livestream analytics complete",
+      "args": ["placeholder_app_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit livestreams get livestream session details for session id",
+      "args": ["placeholder_app_id", "placeholder_livestream-session-id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit livestreams get livestream session for livestream id",
+      "args": ["placeholder_app_id", "placeholder_livestream_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit livestreams get meeting active livestreams",
+      "args": ["placeholder_app_id", "placeholder_meeting_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit livestreams get org analytics",
+      "args": ["placeholder_app_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit meetings get meeting by id",
+      "args": ["placeholder_app_id", "placeholder_meeting_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit meetings get meeting participant",
+      "args": ["placeholder_app_id", "placeholder_meeting_id", "placeholder_participant_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit meetings get meeting participants",
+      "args": ["placeholder_app_id", "placeholder_meeting_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit presets get preset by id",
+      "args": ["placeholder_app_id", "placeholder_preset_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit recordings get active recordings",
+      "args": ["placeholder_app_id", "placeholder_meeting_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit recordings get one recording",
+      "args": ["placeholder_app_id", "placeholder_recording_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit recordings get recordings",
+      "args": ["placeholder_app_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit sessions get participant data from peer id",
+      "args": ["placeholder_app_id", "placeholder_peer_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit sessions get session chat",
+      "args": ["placeholder_app_id", "placeholder_session_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit sessions get session details",
+      "args": ["placeholder_app_id", "placeholder_session_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit sessions get session participant details",
+      "args": ["placeholder_app_id", "placeholder_session_id", "placeholder_participant_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit sessions get session participants",
+      "args": ["placeholder_app_id", "placeholder_session_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit sessions get session summary",
+      "args": ["placeholder_app_id", "placeholder_session_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit sessions get session transcripts",
+      "args": ["placeholder_app_id", "placeholder_session_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit sessions get sessions",
+      "args": ["placeholder_app_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit webhooks get webhook by id",
+      "args": ["placeholder_app_id", "placeholder_webhook_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit webhooks get webhooks",
+      "args": ["placeholder_app_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit meetings edit participant",
+      "args": ["placeholder_app_id", "placeholder_meeting_id", "placeholder_participant_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit meetings replace meeting by id",
+      "args": ["placeholder_app_id", "placeholder_meeting_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit meetings update meeting by id",
+      "args": ["placeholder_app_id", "placeholder_meeting_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit recordings pause resume stop recording",
+      "args": ["placeholder_app_id", "placeholder_recording_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit webhooks edit webhook",
+      "args": ["placeholder_app_id", "placeholder_webhook_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit webhooks replace webhook",
+      "args": ["placeholder_app_id", "placeholder_webhook_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit meetings delete meeting participant",
+      "args": ["placeholder_app_id", "placeholder_meeting_id", "placeholder_participant_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit webhooks delete webhook",
+      "args": ["placeholder_app_id", "placeholder_webhook_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit meetings get-meeting by id",
+      "args": ["placeholder_app_id", "placeholder_meeting_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit meetings get-meeting participant",
+      "args": ["placeholder_app_id", "placeholder_meeting_id", "placeholder_participant_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit meetings get-meeting participants",
+      "args": ["placeholder_app_id", "placeholder_meeting_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit presets get-preset by id",
+      "args": ["placeholder_app_id", "placeholder_preset_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit kit meetings active-session mute create",
+      "args": ["placeholder_app_id", "placeholder_meeting_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf realtime-kit kit meetings active-session mute-all create",
+      "args": ["placeholder_app_id", "placeholder_meeting_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

@@ -1,0 +1,306 @@
+{
+  "product": "images",
+  "tests": [
+    {
+      "command": "cf images v1 create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf images v1 variants-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf images v2 direct-uploads-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf images v1 keys-list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf images v1 list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf images v1 variants-list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf images v2 list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf images v1 blobs-get",
+      "args": ["placeholder_image_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf images v1 get",
+      "args": ["placeholder_image_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf images v1 stats-get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf images v1 variants-get",
+      "args": ["placeholder_variant_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf images v1 edit",
+      "args": ["placeholder_image_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf images v1 keys-update",
+      "args": ["placeholder_signing_key_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf images v1 variants-edit",
+      "args": ["placeholder_variant_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf images v1 delete",
+      "args": ["placeholder_image_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf images v1 keys-delete",
+      "args": ["placeholder_signing_key_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf images v1 variants-delete",
+      "args": ["placeholder_variant_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf images v1-extra variants-flat-get",
+      "args": ["placeholder_variant_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf images v1-variants create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf images v2-direct-uploads create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf images v1-keys list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf images v1-variants list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf images v1-blobs get",
+      "args": ["placeholder_image_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf images v1-stats get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf images v1-variants get",
+      "args": ["placeholder_variant_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf images v1-keys update",
+      "args": ["placeholder_signing_key_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf images v1-variants edit",
+      "args": ["placeholder_variant_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf images v1-keys delete",
+      "args": ["placeholder_signing_key_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf images v1-variants delete",
+      "args": ["placeholder_variant_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf images v1 variants create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf images v2 direct-uploads create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf images v1 keys list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf images v1 variants list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf images v1 blobs get",
+      "args": ["placeholder_image_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf images v1 stats get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf images v1 variants get",
+      "args": ["placeholder_variant_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf images v1 keys update",
+      "args": ["placeholder_signing_key_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf images v1 variants edit",
+      "args": ["placeholder_variant_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf images v1 keys delete",
+      "args": ["placeholder_signing_key_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf images v1 variants delete",
+      "args": ["placeholder_variant_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf images v1-extra variants flat get",
+      "args": ["placeholder_variant_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf images v2 direct uploads create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf images v1 variants-flat get",
+      "args": ["placeholder_variant_id"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

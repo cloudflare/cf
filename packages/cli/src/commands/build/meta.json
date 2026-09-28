@@ -1,0 +1,12 @@
+[
+	{
+		"command": "cf build",
+		"name": "build",
+		"fullPath": ["build"],
+		"category": "action",
+		"description": "Build a project for Cloudflare",
+		"usage": "cf build [options]",
+		"arguments": [],
+		"options": []
+	}
+]

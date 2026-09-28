@@ -1,0 +1,23 @@
+{
+	"command": "cf containers push",
+	"name": "push",
+	"fullPath": ["containers", "push"],
+	"category": "action",
+	"description": "Push an existing local Docker image to Cloudflare's managed registry.",
+	"usage": "cf containers push --tag <name:tag>",
+	"arguments": [],
+	"options": [
+		{
+			"name": "tag",
+			"type": "string",
+			"required": true,
+			"description": "Tag of the local image to push"
+		},
+		{
+			"name": "path-to-docker",
+			"type": "string",
+			"required": false,
+			"description": "Path to the Docker binary if it is not on PATH"
+		}
+	]
+}

@@ -1,0 +1,33 @@
+{
+	"description": "Run inference on a Workers AI model. The request body is model-specific: fetch the model's input schema with `cf ai get-model-schema --model <id>` (or `cf ai run <model> --help`) to discover its fields, then pass them as flags or as a single JSON payload via --body. `cf ai models list` enumerates the models this account can run.",
+	"usage": "cf ai run <model-name> [--<model-field> ...] [options]",
+	"arguments": [
+		{
+			"name": "model-name",
+			"position": 0,
+			"type": "string",
+			"required": true,
+			"description": "Model ID, e.g. @cf/meta/llama-3.1-8b-instruct"
+		}
+	],
+	"options": [
+		{
+			"name": "body",
+			"type": "string",
+			"required": false,
+			"description": "Raw JSON request body, or @path to a JSON file. Use instead of the model's input flags."
+		},
+		{
+			"name": "dry-run",
+			"type": "boolean",
+			"required": false,
+			"description": "Validate and show what would happen without executing"
+		},
+		{
+			"name": "help",
+			"type": "boolean",
+			"required": false,
+			"description": "Show help, including this model's input flags"
+		}
+	]
+}

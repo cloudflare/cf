@@ -1,0 +1,54 @@
+{
+  "product": "filters",
+  "tests": [
+    {
+      "command": "cf filters create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf filters list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf filters get",
+      "args": ["placeholder_filter_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf filters bulk-update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf filters update",
+      "args": ["placeholder_filter_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf filters bulk-delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf filters delete",
+      "args": ["placeholder_filter_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    }
+  ]
+}

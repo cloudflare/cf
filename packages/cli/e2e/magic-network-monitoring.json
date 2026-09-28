@@ -1,0 +1,145 @@
+{
+  "product": "magic-network-monitoring",
+  "tests": [
+    {
+      "command": "cf magic-network-monitoring configs create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-network-monitoring rules create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-network-monitoring vpc-flows tokens-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-network-monitoring rules list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-network-monitoring configs full-get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-network-monitoring configs get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-network-monitoring rules get",
+      "args": ["placeholder_rule_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-network-monitoring configs edit",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-network-monitoring configs update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-network-monitoring rules advertisements-edit",
+      "args": ["placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-network-monitoring rules edit",
+      "args": ["placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-network-monitoring rules update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-network-monitoring configs delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-network-monitoring rules delete",
+      "args": ["placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-network-monitoring vpc-flows-tokens create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-network-monitoring configs-full get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-network-monitoring rules-advertisements edit",
+      "args": ["placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-network-monitoring vpc-flows tokens create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-network-monitoring configs full get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-network-monitoring rules advertisements edit",
+      "args": ["placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

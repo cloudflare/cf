@@ -1,0 +1,110 @@
+{
+  "product": "scim",
+  "tests": [
+    {
+      "command": "cf scim groups create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf scim users create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf scim groups list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf scim resource-types list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf scim schemas list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf scim users list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf scim groups get",
+      "args": ["placeholder_group_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf scim resource-types get",
+      "args": ["User"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf scim schemas get",
+      "args": ["placeholder_schema_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf scim service-provider-config get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf scim users get",
+      "args": ["placeholder_user_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf scim groups edit",
+      "args": ["placeholder_group_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf scim users edit",
+      "args": ["placeholder_user_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf scim users update",
+      "args": ["placeholder_user_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf scim groups delete",
+      "args": ["placeholder_group_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

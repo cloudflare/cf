@@ -1,0 +1,26 @@
+{
+  "product": "url-normalization",
+  "tests": [
+    {
+      "command": "cf url-normalization get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf url-normalization update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf url-normalization delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    }
+  ]
+}

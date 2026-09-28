@@ -1,0 +1,308 @@
+{
+  "product": "ai-gateway",
+  "tests": [
+    {
+      "command": "cf ai-gateway create",
+      "args": [
+        "--body",
+        "{\"id\":\"e2e-aigw-$RUN_ID\",\"name\":\"e2e gateway\",\"rate_limiting_interval\":0,\"rate_limiting_limit\":0,\"rate_limiting_technique\":\"fixed\",\"collect_logs\":true,\"cache_ttl\":0,\"cache_invalidate_on_update\":true}"
+      ],
+      "env": {
+        "scope": "account"
+      },
+      "capture": {
+        "id": "aigw_id"
+      }
+    },
+    {
+      "command": "cf ai-gateway list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-gateway evaluation-types list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-gateway get",
+      "args": ["$aigw_id"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["aigw_id"]
+    },
+    {
+      "command": "cf ai-gateway logs list",
+      "args": ["$aigw_id"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["aigw_id"]
+    },
+    {
+      "command": "cf ai-gateway datasets list",
+      "args": ["$aigw_id"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["aigw_id"]
+    },
+    {
+      "command": "cf ai-gateway evaluations list",
+      "args": ["$aigw_id"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["aigw_id"]
+    },
+    {
+      "command": "cf ai-gateway update",
+      "args": [
+        "$aigw_id",
+        "--body",
+        "{\"name\":\"e2e gateway updated\",\"rate_limiting_interval\":0,\"rate_limiting_limit\":0,\"rate_limiting_technique\":\"fixed\",\"collect_logs\":true,\"cache_ttl\":0,\"cache_invalidate_on_update\":true}"
+      ],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["aigw_id"]
+    },
+    {
+      "command": "cf ai-gateway delete",
+      "args": ["$aigw_id"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["aigw_id"]
+    },
+    {
+      "command": "cf ai-gateway dynamic-routing list",
+      "args": ["placeholder_gateway_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-gateway dynamic-routing list-deployments",
+      "args": ["placeholder_gateway_id", "placeholder_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-gateway dynamic-routing list-versions",
+      "args": ["placeholder_gateway_id", "placeholder_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-gateway provider-configs list",
+      "args": ["placeholder_gateway_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-gateway datasets get",
+      "args": ["placeholder_gateway_id", "placeholder_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-gateway dynamic-routing get",
+      "args": ["placeholder_gateway_id", "placeholder_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-gateway dynamic-routing get-version",
+      "args": ["placeholder_gateway_id", "placeholder_id", "placeholder_version_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-gateway evaluations get",
+      "args": ["placeholder_gateway_id", "placeholder_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-gateway logs get",
+      "args": ["placeholder_id", "placeholder_gateway_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-gateway logs request",
+      "args": ["placeholder_id", "placeholder_gateway_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-gateway logs response",
+      "args": ["placeholder_id", "placeholder_gateway_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-gateway urls get",
+      "args": ["placeholder_gateway_id", "placeholder_provider"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-gateway datasets create",
+      "args": ["placeholder_gateway_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-gateway dynamic-routing create",
+      "args": ["placeholder_gateway_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-gateway dynamic-routing create-deployment",
+      "args": ["placeholder_gateway_id", "placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-gateway dynamic-routing create-version",
+      "args": ["placeholder_gateway_id", "placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-gateway evaluations create",
+      "args": ["placeholder_gateway_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-gateway provider-configs create",
+      "args": ["placeholder_gateway_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-gateway datasets update",
+      "args": ["placeholder_gateway_id", "placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-gateway dynamic-routing update",
+      "args": ["placeholder_gateway_id", "placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-gateway logs edit",
+      "args": ["placeholder_id", "placeholder_gateway_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-gateway provider-configs update",
+      "args": ["placeholder_gateway_id", "placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-gateway datasets delete",
+      "args": ["placeholder_gateway_id", "placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-gateway dynamic-routing delete",
+      "args": ["placeholder_gateway_id", "placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-gateway evaluations delete",
+      "args": ["placeholder_gateway_id", "placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-gateway logs delete",
+      "args": ["placeholder_gateway_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-gateway provider-configs delete",
+      "args": ["placeholder_gateway_id", "placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-gateway dynamic-routing create deployment",
+      "args": ["placeholder_gateway_id", "placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-gateway dynamic-routing create version",
+      "args": ["placeholder_gateway_id", "placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-gateway dynamic-routing list deployments",
+      "args": ["placeholder_gateway_id", "placeholder_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-gateway dynamic-routing list versions",
+      "args": ["placeholder_gateway_id", "placeholder_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf ai-gateway dynamic-routing get version",
+      "args": ["placeholder_gateway_id", "placeholder_id", "placeholder_version_id"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

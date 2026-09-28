@@ -1,0 +1,47 @@
+{
+  "product": "analytics",
+  "tests": [
+    {
+      "command": "cf analytics colo get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf analytics dashboard get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf analytics latency colos-get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf analytics latency get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf analytics latency-colos get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf analytics latency colos get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    }
+  ]
+}

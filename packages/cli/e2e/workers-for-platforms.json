@@ -1,0 +1,432 @@
+{
+  "product": "workers-for-platforms",
+  "tests": [
+    {
+      "command": "cf workers-for-platforms dispatch namespaces-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch namespaces-scripts-asset-upload-create",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch namespaces-list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch namespaces-scripts-secrets-list",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch namespaces-scripts-tags-list",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch namespaces-get",
+      "args": ["placeholder_dispatch_namespace"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch namespaces-scripts-bindings-get",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch namespaces-scripts-content-get",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch namespaces-scripts-get",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch namespaces-scripts-secrets-get",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name", "placeholder_secret_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch namespaces-scripts-settings-get",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch namespaces-scripts-content-update",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch namespaces-scripts-secrets-update",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch namespaces-scripts-settings-edit",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch namespaces-scripts-tags-update",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch namespaces-scripts-update",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch namespaces-delete",
+      "args": ["placeholder_dispatch_namespace", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch namespaces-scripts-delete",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch namespaces-scripts-secrets-delete",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name", "placeholder_secret_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch namespaces-scripts-tags-delete",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name", "placeholder_tag", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch-namespaces create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch-namespaces-scripts-asset-upload create",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch-namespaces list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch-namespaces-scripts-secrets list",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch-namespaces-scripts-tags list",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch-namespaces get",
+      "args": ["placeholder_dispatch_namespace"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch-namespaces-scripts get",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch-namespaces-scripts-bindings get",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch-namespaces-scripts-content get",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch-namespaces-scripts-secrets get",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name", "placeholder_secret_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch-namespaces-scripts-settings get",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch-namespaces-scripts update",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch-namespaces-scripts-content update",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch-namespaces-scripts-secrets update",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch-namespaces-scripts-settings edit",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch-namespaces-scripts-tags update",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch-namespaces delete",
+      "args": ["placeholder_dispatch_namespace", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch-namespaces-scripts delete",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch-namespaces-scripts-secrets delete",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name", "placeholder_secret_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch-namespaces-scripts-tags delete",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name", "placeholder_tag", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch namespaces create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch namespaces scripts asset-upload create",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch namespaces list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch namespaces scripts secrets list",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch namespaces scripts tags list",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch namespaces get",
+      "args": ["placeholder_dispatch_namespace"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch namespaces scripts bindings get",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch namespaces scripts content get",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch namespaces scripts get",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch namespaces scripts secrets get",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name", "placeholder_secret_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch namespaces scripts settings get",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch namespaces scripts content update",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch namespaces scripts secrets update",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch namespaces scripts settings edit",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch namespaces scripts tags update",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch namespaces scripts update",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch namespaces delete",
+      "args": ["placeholder_dispatch_namespace", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch namespaces scripts delete",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch namespaces scripts secrets delete",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name", "placeholder_secret_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch namespaces scripts tags delete",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name", "placeholder_tag", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers-for-platforms dispatch namespaces scripts asset upload create",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

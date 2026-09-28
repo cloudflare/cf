@@ -1,0 +1,1687 @@
+{
+	"version": "1.0",
+	"generatedAt": "build-time",
+	"commands": [
+		{
+			"command": "cf access curl",
+			"name": "curl",
+			"fullPath": ["access", "curl"],
+			"category": "action",
+			"description": "Run curl against an Access-protected application with its JWT injected by cloudflared.",
+			"usage": "cf access curl [--allow-request] <url> [-- <curl arguments...>]",
+			"arguments": [
+				{
+					"name": "url",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "URL of the Access application"
+				}
+			],
+			"options": [
+				{
+					"name": "allow-request",
+					"alias": "ar",
+					"type": "boolean",
+					"required": false,
+					"description": "Continue the request when no Access token is available"
+				}
+			],
+			"handWritten": {
+				"kind": "leaf",
+				"overrides": false,
+				"dir": "access/curl",
+				"parent": "access"
+			}
+		},
+		{
+			"command": "cf access login",
+			"name": "login",
+			"fullPath": ["access", "login"],
+			"category": "action",
+			"description": "Authenticate with an Access application and store its JWT through cloudflared.",
+			"usage": "cf access login <url>",
+			"arguments": [
+				{
+					"name": "url",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "URL of the Access application"
+				}
+			],
+			"options": [],
+			"handWritten": {
+				"kind": "leaf",
+				"overrides": false,
+				"dir": "access/login",
+				"parent": "access"
+			}
+		},
+		{
+			"command": "cf access ssh-config",
+			"name": "ssh-config",
+			"fullPath": ["access", "ssh-config"],
+			"category": "action",
+			"description": "Print an example SSH configuration for an Access application.",
+			"usage": "cf access ssh-config [--hostname <hostname>] [--short-lived-cert]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "hostname",
+					"type": "string",
+					"required": false,
+					"description": "Hostname of the Access application"
+				},
+				{
+					"name": "short-lived-cert",
+					"type": "boolean",
+					"required": false,
+					"description": "Include short-lived certificate configuration"
+				}
+			],
+			"handWritten": {
+				"kind": "leaf",
+				"overrides": false,
+				"dir": "access/ssh-config",
+				"parent": "access"
+			}
+		},
+		{
+			"command": "cf access ssh-gen",
+			"name": "ssh-gen",
+			"fullPath": ["access", "ssh-gen"],
+			"category": "action",
+			"description": "Generate a short-lived certificate for an Access SSH application.",
+			"usage": "cf access ssh-gen --hostname <hostname>",
+			"arguments": [],
+			"options": [
+				{
+					"name": "hostname",
+					"type": "string",
+					"required": true,
+					"description": "Hostname of the Access application"
+				}
+			],
+			"handWritten": {
+				"kind": "leaf",
+				"overrides": false,
+				"dir": "access/ssh-gen",
+				"parent": "access"
+			}
+		},
+		{
+			"command": "cf access tcp",
+			"name": "tcp",
+			"fullPath": ["access", "tcp"],
+			"aliases": ["ssh", "rdp", "smb"],
+			"category": "action",
+			"description": "Proxy a TCP connection through Access. The command is also available as ssh, rdp, and smb.",
+			"usage": "cf access tcp [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "hostname",
+					"type": "string",
+					"required": true,
+					"description": "Hostname of the Access application"
+				},
+				{
+					"name": "destination",
+					"type": "string",
+					"required": false,
+					"description": "Destination address of the target server"
+				},
+				{
+					"name": "url",
+					"type": "string",
+					"required": false,
+					"description": "Local host and port to forward to the Cloudflare edge"
+				},
+				{
+					"name": "header",
+					"type": "string",
+					"required": false,
+					"description": "Additional request header; repeat for multiple headers"
+				},
+				{
+					"name": "service-token-id",
+					"type": "string",
+					"required": false,
+					"description": "Access service token ID"
+				},
+				{
+					"name": "service-token-secret",
+					"type": "string",
+					"required": false,
+					"description": "Access service token secret"
+				},
+				{
+					"name": "log-level",
+					"alias": "loglevel",
+					"type": "string",
+					"required": false,
+					"description": "cloudflared log level",
+					"enum": [
+						"trace",
+						"debug",
+						"info",
+						"warn",
+						"error",
+						"fatal",
+						"panic",
+						"disabled"
+					]
+				}
+			],
+			"handWritten": {
+				"kind": "leaf",
+				"overrides": false,
+				"dir": "access/tcp",
+				"parent": "access"
+			}
+		},
+		{
+			"command": "cf access token",
+			"name": "token",
+			"fullPath": ["access", "token"],
+			"category": "action",
+			"description": "Print a JWT for authenticating with an Access application.",
+			"usage": "cf access token <url>",
+			"arguments": [
+				{
+					"name": "url",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "URL of the Access application"
+				}
+			],
+			"options": [],
+			"handWritten": {
+				"kind": "leaf",
+				"overrides": false,
+				"dir": "access/token",
+				"parent": "access"
+			}
+		},
+		{
+			"command": "cf ai run",
+			"name": "run",
+			"fullPath": ["ai", "run"],
+			"description": "Run inference on a Workers AI model. The request body is model-specific: fetch the model's input schema with `cf ai get-model-schema --model <id>` (or `cf ai run <model> --help`) to discover its fields, then pass them as flags or as a single JSON payload via --body. `cf ai models list` enumerates the models this account can run.",
+			"summary": "Execute AI Model (Generic)",
+			"usage": "cf ai run <model-name> [--<model-field> ...] [options]",
+			"arguments": [
+				{
+					"name": "model-name",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Model ID, e.g. @cf/meta/llama-3.1-8b-instruct"
+				}
+			],
+			"options": [
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body, or @path to a JSON file. Use instead of the model's input flags."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing"
+				},
+				{
+					"name": "help",
+					"type": "boolean",
+					"required": false,
+					"description": "Show help, including this model's input flags"
+				}
+			],
+			"category": "action",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/ai/run",
+			"operationId": "workers-ai-post-run-generic",
+			"hideCommand": false,
+			"handWritten": {
+				"kind": "leafOverride",
+				"overrides": true,
+				"dir": "ai/run",
+				"emitKey": "ai/run"
+			}
+		},
+		{
+			"command": "cf auth activate",
+			"name": "activate",
+			"fullPath": ["auth", "activate"],
+			"category": "action",
+			"description": "Bind a named auth profile to a directory",
+			"usage": "cf auth activate <name> [dir]",
+			"arguments": [
+				{
+					"name": "name",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Name of the auth profile to activate"
+				},
+				{
+					"name": "dir",
+					"position": 1,
+					"type": "string",
+					"required": false,
+					"description": "Directory to bind the profile to (defaults to current directory)"
+				}
+			],
+			"options": [],
+			"handWritten": {
+				"kind": "root",
+				"overrides": false,
+				"dir": "auth"
+			}
+		},
+		{
+			"command": "cf auth create",
+			"name": "create",
+			"fullPath": ["auth", "create"],
+			"category": "create",
+			"description": "Create or re-authenticate a named auth profile",
+			"usage": "cf auth create <name> [options]",
+			"arguments": [
+				{
+					"name": "name",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Name for the auth profile"
+				}
+			],
+			"options": [
+				{
+					"name": "browser",
+					"type": "boolean",
+					"required": false,
+					"description": "Open the authorization link in a browser (use --no-browser to print it instead)",
+					"default": true
+				},
+				{
+					"name": "device",
+					"type": "boolean",
+					"required": false,
+					"description": "Use OAuth device authorization (use --no-device for the localhost callback flow)",
+					"default": true
+				},
+				{
+					"name": "scopes",
+					"type": "string",
+					"required": false,
+					"description": "The set of OAuth scopes to request"
+				}
+			],
+			"handWritten": {
+				"kind": "root",
+				"overrides": false,
+				"dir": "auth"
+			}
+		},
+		{
+			"command": "cf auth deactivate",
+			"name": "deactivate",
+			"fullPath": ["auth", "deactivate"],
+			"category": "action",
+			"description": "Remove the auth profile binding from a directory",
+			"usage": "cf auth deactivate [dir]",
+			"arguments": [
+				{
+					"name": "dir",
+					"position": 0,
+					"type": "string",
+					"required": false,
+					"description": "Directory to unbind (defaults to current directory). Must be the exact directory the profile was bound to."
+				}
+			],
+			"options": [],
+			"handWritten": {
+				"kind": "root",
+				"overrides": false,
+				"dir": "auth"
+			}
+		},
+		{
+			"command": "cf auth delete",
+			"name": "delete",
+			"fullPath": ["auth", "delete"],
+			"category": "delete",
+			"description": "Delete a named auth profile",
+			"usage": "cf auth delete <name>",
+			"arguments": [
+				{
+					"name": "name",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Name of the auth profile to delete"
+				}
+			],
+			"options": [],
+			"handWritten": {
+				"kind": "root",
+				"overrides": false,
+				"dir": "auth"
+			}
+		},
+		{
+			"command": "cf auth list",
+			"name": "list",
+			"fullPath": ["auth", "list"],
+			"category": "read",
+			"description": "List all auth profiles",
+			"usage": "cf auth list",
+			"arguments": [],
+			"options": [],
+			"handWritten": {
+				"kind": "root",
+				"overrides": false,
+				"dir": "auth"
+			}
+		},
+		{
+			"command": "cf auth login",
+			"name": "login",
+			"fullPath": ["auth", "login"],
+			"category": "action",
+			"description": "Authenticate with Cloudflare",
+			"usage": "cf auth login [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "force",
+					"type": "boolean",
+					"required": false,
+					"description": "Force re-authentication even if already logged in",
+					"default": false
+				},
+				{
+					"name": "browser",
+					"type": "boolean",
+					"required": false,
+					"description": "Open the authorization link in a browser (use --no-browser to print it instead)",
+					"default": true
+				},
+				{
+					"name": "device",
+					"type": "boolean",
+					"required": false,
+					"description": "Use OAuth device authorization (use --no-device for the localhost callback flow)",
+					"default": true
+				},
+				{
+					"name": "scopes",
+					"type": "string",
+					"required": false,
+					"description": "The set of OAuth scopes to request"
+				}
+			],
+			"handWritten": {
+				"kind": "root",
+				"overrides": false,
+				"dir": "auth"
+			}
+		},
+		{
+			"command": "cf auth logout",
+			"name": "logout",
+			"fullPath": ["auth", "logout"],
+			"category": "action",
+			"description": "Log out and remove stored credentials",
+			"usage": "cf auth logout",
+			"arguments": [],
+			"options": [],
+			"handWritten": {
+				"kind": "root",
+				"overrides": false,
+				"dir": "auth"
+			}
+		},
+		{
+			"command": "cf auth whoami",
+			"name": "whoami",
+			"fullPath": ["auth", "whoami"],
+			"category": "read",
+			"description": "Show current user and authentication status",
+			"usage": "cf auth whoami",
+			"arguments": [],
+			"options": [],
+			"handWritten": {
+				"kind": "root",
+				"overrides": false,
+				"dir": "auth"
+			}
+		},
+		{
+			"command": "cf build",
+			"name": "build",
+			"fullPath": ["build"],
+			"category": "action",
+			"description": "Build a project for Cloudflare",
+			"usage": "cf build [options]",
+			"arguments": [],
+			"options": [],
+			"handWritten": {
+				"kind": "root",
+				"overrides": false,
+				"dir": "build"
+			}
+		},
+		{
+			"command": "cf cli search",
+			"name": "search",
+			"fullPath": ["cli", "search"],
+			"category": "read",
+			"description": "Search all CLI commands by intent",
+			"summary": "Search all CLI commands by intent",
+			"usage": "cf cli search <query>",
+			"arguments": [
+				{
+					"name": "query",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Search terms or a description of what you want to do"
+				}
+			],
+			"options": [],
+			"handWritten": {
+				"kind": "root",
+				"overrides": false,
+				"dir": "cli"
+			}
+		},
+		{
+			"command": "cf cli telemetry disable",
+			"name": "disable",
+			"fullPath": ["cli", "telemetry", "disable"],
+			"category": "action",
+			"description": "Disable cf telemetry collection",
+			"usage": "cf cli telemetry disable",
+			"arguments": [],
+			"options": [],
+			"handWritten": {
+				"kind": "root",
+				"overrides": false,
+				"dir": "cli"
+			}
+		},
+		{
+			"command": "cf cli telemetry enable",
+			"name": "enable",
+			"fullPath": ["cli", "telemetry", "enable"],
+			"category": "action",
+			"description": "Enable cf telemetry collection",
+			"usage": "cf cli telemetry enable",
+			"arguments": [],
+			"options": [],
+			"handWritten": {
+				"kind": "root",
+				"overrides": false,
+				"dir": "cli"
+			}
+		},
+		{
+			"command": "cf cli telemetry status",
+			"name": "status",
+			"fullPath": ["cli", "telemetry", "status"],
+			"category": "read",
+			"description": "Check whether cf telemetry collection is enabled",
+			"usage": "cf cli telemetry status",
+			"arguments": [],
+			"options": [],
+			"handWritten": {
+				"kind": "root",
+				"overrides": false,
+				"dir": "cli"
+			}
+		},
+		{
+			"command": "cf complete",
+			"name": "complete",
+			"fullPath": ["complete"],
+			"category": "action",
+			"description": "Generate and handle shell completions",
+			"usage": "cf complete [shell]",
+			"arguments": [
+				{
+					"name": "shell",
+					"position": 0,
+					"type": "string",
+					"required": false,
+					"description": "Shell type to generate completions for",
+					"enum": ["bash", "zsh", "fish", "powershell"]
+				}
+			],
+			"options": [],
+			"handWritten": {
+				"kind": "root",
+				"overrides": false,
+				"dir": "completions"
+			}
+		},
+		{
+			"command": "cf containers build",
+			"name": "build",
+			"fullPath": ["containers", "build"],
+			"category": "action",
+			"description": "Build a Container image from a Dockerfile.",
+			"usage": "cf containers build <path> --tag <name:tag> [--push]",
+			"arguments": [
+				{
+					"name": "path",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Directory containing the Dockerfile to build"
+				}
+			],
+			"options": [
+				{
+					"name": "tag",
+					"type": "string",
+					"required": true,
+					"description": "Name and optional tag for the built image"
+				},
+				{
+					"name": "push",
+					"type": "boolean",
+					"required": false,
+					"description": "Push the built image to Cloudflare's managed registry",
+					"default": false
+				},
+				{
+					"name": "path-to-docker",
+					"type": "string",
+					"required": false,
+					"description": "Path to the Docker binary if it is not on PATH"
+				}
+			],
+			"handWritten": {
+				"kind": "leaf",
+				"overrides": false,
+				"dir": "containers/build",
+				"parent": "containers"
+			}
+		},
+		{
+			"command": "cf containers images delete",
+			"name": "delete",
+			"fullPath": ["containers", "images", "delete"],
+			"category": "delete",
+			"description": "Delete an image tag in the Cloudflare managed registry.",
+			"usage": "cf containers images delete <image:tag> [--force]",
+			"arguments": [
+				{
+					"name": "image",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Image and tag to delete, of the form IMAGE:TAG"
+				}
+			],
+			"options": [
+				{
+					"name": "force",
+					"alias": "f",
+					"type": "boolean",
+					"required": false,
+					"default": false,
+					"description": "Skip the deletion confirmation prompt"
+				}
+			],
+			"handWritten": {
+				"kind": "leaf",
+				"overrides": false,
+				"dir": "containers/images/delete",
+				"parent": "containers/images"
+			}
+		},
+		{
+			"command": "cf containers images list",
+			"name": "list",
+			"fullPath": ["containers", "images", "list"],
+			"category": "read",
+			"description": "List images in the Cloudflare managed registry.",
+			"usage": "cf containers images list [--filter <regex>]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "filter",
+					"type": "string",
+					"required": false,
+					"description": "Regex to filter repository names"
+				}
+			],
+			"handWritten": {
+				"kind": "leaf",
+				"overrides": false,
+				"dir": "containers/images/list",
+				"parent": "containers/images"
+			}
+		},
+		{
+			"command": "cf containers push",
+			"name": "push",
+			"fullPath": ["containers", "push"],
+			"category": "action",
+			"description": "Push an existing local Docker image to Cloudflare's managed registry.",
+			"usage": "cf containers push --tag <name:tag>",
+			"arguments": [],
+			"options": [
+				{
+					"name": "tag",
+					"type": "string",
+					"required": true,
+					"description": "Tag of the local image to push"
+				},
+				{
+					"name": "path-to-docker",
+					"type": "string",
+					"required": false,
+					"description": "Path to the Docker binary if it is not on PATH"
+				}
+			],
+			"handWritten": {
+				"kind": "leaf",
+				"overrides": false,
+				"dir": "containers/push",
+				"parent": "containers"
+			}
+		},
+		{
+			"command": "cf containers ssh",
+			"name": "ssh",
+			"fullPath": ["containers", "ssh"],
+			"category": "action",
+			"description": "SSH into a container.",
+			"usage": "cf containers ssh <id> [--stdio] [-- <command...>]",
+			"arguments": [
+				{
+					"name": "id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of the container instance"
+				},
+				{
+					"name": "ssh-command",
+					"position": 1,
+					"type": "string",
+					"required": false,
+					"description": "Command and arguments to run in the container"
+				}
+			],
+			"options": [
+				{
+					"name": "stdio",
+					"type": "boolean",
+					"required": false,
+					"description": "Proxy SSH traffic over stdin/stdout"
+				}
+			],
+			"handWritten": {
+				"kind": "leaf",
+				"overrides": false,
+				"dir": "containers/ssh",
+				"parent": "containers"
+			}
+		},
+		{
+			"command": "cf d1 migrations apply",
+			"name": "apply",
+			"fullPath": ["d1", "migrations", "apply"],
+			"category": "action",
+			"description": "Apply any unapplied D1 migrations. Creates the bookkeeping table if absent, diffs the migration files under --dir against what the table records, and applies the rest in numeric order. Wire-compatible with `wrangler d1 migrations apply`: same table shape, same --dir-relative recorded names, same ordering. The database must be identified by ID; names and binding names are not accepted.",
+			"usage": "cf d1 migrations apply <database> [--dir <path>] [--pattern <glob>] [--table <name>]",
+			"arguments": [
+				{
+					"name": "database",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "D1 database ID"
+				}
+			],
+			"options": [
+				{
+					"name": "dir",
+					"type": "string",
+					"required": false,
+					"description": "Directory containing migration files (default: ./migrations)"
+				},
+				{
+					"name": "pattern",
+					"type": "string",
+					"required": false,
+					"description": "Glob for discovering migration files. Defaults to \"<dir>/*.sql\"; Drizzle's nested layout uses \"<dir>/*/migration.sql\""
+				},
+				{
+					"name": "table",
+					"type": "string",
+					"required": false,
+					"description": "Table recording applied migrations; must use Wrangler's bookkeeping schema (default: d1_migrations)"
+				}
+			],
+			"handWritten": {
+				"kind": "subgroup",
+				"overrides": false,
+				"dir": "d1/migrations",
+				"parent": "d1"
+			}
+		},
+		{
+			"command": "cf d1 migrations create",
+			"name": "create",
+			"fullPath": ["d1", "migrations", "create"],
+			"category": "create",
+			"description": "Create a new empty D1 migration file, numbered one above the highest existing migration. Entirely local — takes no database, needs no credentials and makes no network calls. If an ORM manages your migrations, use its own generator instead; for Drizzle, use `drizzle-kit generate`.",
+			"usage": "cf d1 migrations create <message> [--dir <path>] [--pattern <glob>]",
+			"arguments": [
+				{
+					"name": "message",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Describes what the migration does"
+				}
+			],
+			"options": [
+				{
+					"name": "dir",
+					"type": "string",
+					"required": false,
+					"description": "Directory containing migration files (default: ./migrations)"
+				},
+				{
+					"name": "pattern",
+					"type": "string",
+					"required": false,
+					"description": "Glob the new file must match, so `apply` will pick it up"
+				}
+			],
+			"handWritten": {
+				"kind": "subgroup",
+				"overrides": false,
+				"dir": "d1/migrations",
+				"parent": "d1"
+			}
+		},
+		{
+			"command": "cf d1 migrations list",
+			"name": "list",
+			"fullPath": ["d1", "migrations", "list"],
+			"category": "read",
+			"description": "List unapplied D1 migrations as JSON. Applies nothing.",
+			"usage": "cf d1 migrations list <database> [--dir <path>] [--pattern <glob>] [--table <name>]",
+			"arguments": [
+				{
+					"name": "database",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "D1 database ID"
+				}
+			],
+			"options": [
+				{
+					"name": "dir",
+					"type": "string",
+					"required": false,
+					"description": "Directory containing migration files (default: ./migrations)"
+				},
+				{
+					"name": "pattern",
+					"type": "string",
+					"required": false,
+					"description": "Glob for discovering migration files. Defaults to \"<dir>/*.sql\""
+				},
+				{
+					"name": "table",
+					"type": "string",
+					"required": false,
+					"description": "Table recording applied migrations; must use Wrangler's bookkeeping schema (default: d1_migrations)"
+				}
+			],
+			"handWritten": {
+				"kind": "subgroup",
+				"overrides": false,
+				"dir": "d1/migrations",
+				"parent": "d1"
+			}
+		},
+		{
+			"command": "cf deploy",
+			"name": "deploy",
+			"fullPath": ["deploy"],
+			"category": "action",
+			"description": "Deploy a worker to Cloudflare",
+			"usage": "cf deploy [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "prebuilt",
+					"type": "boolean",
+					"required": false,
+					"description": "Deploy existing Build Output Specification files without building",
+					"default": false
+				},
+				{
+					"name": "tag",
+					"type": "string",
+					"required": false,
+					"description": "A tag to associate with this Worker Version"
+				},
+				{
+					"name": "message",
+					"type": "string",
+					"required": false,
+					"description": "A message to associate with this Worker Version"
+				},
+				{
+					"name": "secrets-file",
+					"type": "string",
+					"required": false,
+					"description": "Path to a file containing secrets to upload with the version (JSON or .env format)"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Build a project and run checks without actually uploading the Worker",
+					"default": false
+				},
+				{
+					"name": "worker",
+					"type": "string",
+					"required": false,
+					"description": "Name of the Worker in the Build Output to use (defaults to the default Worker)"
+				},
+				{
+					"name": "dispatch-namespace",
+					"type": "string",
+					"required": false,
+					"description": "Name of a dispatch namespace to deploy the Worker to (Workers for Platforms)"
+				},
+				{
+					"name": "containers-rollout",
+					"type": "string",
+					"required": false,
+					"description": "Rollout strategy for Container changes. Immediate rolls out to all instances in one step; none leaves deployed Containers unchanged.",
+					"enum": ["immediate", "gradual", "none"]
+				}
+			],
+			"handWritten": {
+				"kind": "root",
+				"overrides": false,
+				"dir": "deploy"
+			}
+		},
+		{
+			"command": "cf dev",
+			"name": "dev",
+			"fullPath": ["dev"],
+			"category": "action",
+			"description": "Run the project's Cloudflare dev server",
+			"usage": "cf dev [implArgs..]",
+			"arguments": [
+				{
+					"name": "implArgs",
+					"position": 0,
+					"type": "string",
+					"required": false,
+					"description": "Arguments forwarded to the dev-server implementation"
+				}
+			],
+			"options": [],
+			"handWritten": {
+				"kind": "root",
+				"overrides": false,
+				"dir": "dev"
+			}
+		},
+		{
+			"command": "cf init",
+			"name": "init",
+			"fullPath": ["init"],
+			"category": "create",
+			"description": "Create a new Cloudflare project or set up an existing one",
+			"usage": "cf init [directory] [options]",
+			"arguments": [
+				{
+					"name": "directory",
+					"position": 0,
+					"type": "string",
+					"required": false,
+					"description": "Directory to initialize; created when missing (prompts when omitted; use . for the current directory)"
+				}
+			],
+			"options": [
+				{
+					"name": "install",
+					"type": "boolean",
+					"required": false,
+					"description": "Install dependencies after creating a new project (use --no-install to skip)",
+					"default": true
+				},
+				{
+					"name": "package-manager",
+					"type": "string",
+					"required": false,
+					"description": "Package manager for a new project (prompts when interactive)",
+					"enum": ["npm", "pnpm", "yarn", "bun"]
+				}
+			],
+			"handWritten": {
+				"kind": "root",
+				"overrides": false,
+				"dir": "init"
+			}
+		},
+		{
+			"command": "cf init workers",
+			"name": "workers",
+			"fullPath": ["init", "workers"],
+			"category": "create",
+			"description": "Create a new Workers project or set up an existing one",
+			"usage": "cf init workers [directory] [options]",
+			"arguments": [
+				{
+					"name": "directory",
+					"position": 0,
+					"type": "string",
+					"required": false,
+					"description": "Directory to initialize; created when missing (prompts when omitted; use . for the current directory)"
+				}
+			],
+			"options": [
+				{
+					"name": "install",
+					"type": "boolean",
+					"required": false,
+					"description": "Install dependencies after creating a new project (use --no-install to skip)",
+					"default": true
+				},
+				{
+					"name": "package-manager",
+					"type": "string",
+					"required": false,
+					"description": "Package manager for a new project (prompts when interactive)",
+					"enum": ["npm", "pnpm", "yarn", "bun"]
+				}
+			],
+			"handWritten": {
+				"kind": "root",
+				"overrides": false,
+				"dir": "init"
+			}
+		},
+		{
+			"command": "cf migrate",
+			"name": "migrate",
+			"fullPath": ["migrate"],
+			"category": "action",
+			"description": "Migrate a Wrangler project to cf",
+			"usage": "cf migrate [path] [options]",
+			"arguments": [
+				{
+					"name": "path",
+					"position": 0,
+					"type": "string",
+					"required": false,
+					"description": "Path to a Wrangler configuration file"
+				}
+			],
+			"options": [
+				{
+					"name": "bundler",
+					"type": "string",
+					"required": false,
+					"description": "Bundler to use in the migrated project (defaults to vite when @cloudflare/vite-plugin is declared, otherwise wrangler)",
+					"enum": ["vite", "wrangler"]
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Show the files that would change without writing them",
+					"default": false
+				},
+				{
+					"name": "force",
+					"type": "boolean",
+					"required": false,
+					"description": "Run even if the Git worktree is not clean",
+					"default": false
+				},
+				{
+					"name": "install",
+					"type": "boolean",
+					"required": false,
+					"description": "Install cf as a project dependency (use --no-install to skip)",
+					"default": true
+				}
+			],
+			"handWritten": {
+				"kind": "root",
+				"overrides": false,
+				"dir": "migrate"
+			}
+		},
+		{
+			"command": "cf pages deploy",
+			"name": "deploy",
+			"fullPath": ["pages", "deploy"],
+			"category": "action",
+			"description": "Deploy a directory of static assets as a Pages deployment.",
+			"usage": "cf pages deploy [directory]",
+			"arguments": [
+				{
+					"name": "directory",
+					"position": 0,
+					"type": "string",
+					"required": false,
+					"description": "Pages build output directory (not deployed by cf)"
+				}
+			],
+			"options": [],
+			"handWritten": {
+				"kind": "leaf",
+				"overrides": false,
+				"dir": "pages/deploy",
+				"parent": "pages"
+			}
+		},
+		{
+			"command": "cf previews deploy",
+			"name": "deploy",
+			"fullPath": ["previews", "deploy"],
+			"category": "action",
+			"description": "Deploy a Worker Preview",
+			"usage": "cf previews deploy [preview-name] [options]",
+			"arguments": [
+				{
+					"name": "preview-name",
+					"position": 0,
+					"type": "string",
+					"required": false,
+					"description": "Preview name. Defaults to the current CI or Git branch; required if no branch is available."
+				}
+			],
+			"options": [
+				{
+					"name": "prebuilt",
+					"type": "boolean",
+					"required": false,
+					"description": "Use existing Preview Build Output Specification files without building",
+					"default": false
+				},
+				{
+					"name": "worker",
+					"type": "string",
+					"required": false,
+					"description": "Name of the Worker in the Build Output to use (defaults to the default Worker)"
+				}
+			],
+			"handWritten": {
+				"kind": "root",
+				"overrides": false,
+				"dir": "previews"
+			}
+		},
+		{
+			"command": "cf registrar registrations create",
+			"name": "create",
+			"fullPath": ["registrar", "registrations", "create"],
+			"description": "Register a domain. Billable and non-refundable — a successful registration charges the account's default payment method. Input fields are extension-specific: they come from `GET /registrar/extensions/{name}` at run time. Humans can run `create <domain> --help` and use prompts; reusable contacts can be passed as `--contacts @contacts.json`. Agents should call with `--dry-run --body '<json>'`: incomplete input returns structured `missingFields` with paths, choices, labels, and acknowledgement text without submitting. Retain the other input, collect the missing values, and repeat the dry run before checking availability and creating with explicit confirmation. Inspect unfinished workflows with `cf registrar registrations get-registration-status <domain>`.",
+			"summary": "Create Registration",
+			"usage": "cf registrar registrations create [domain-name] [--<field> ...] [options]",
+			"arguments": [
+				{
+					"name": "domain-name",
+					"position": 0,
+					"type": "string",
+					"required": false,
+					"description": "Fully qualified domain name to register, e.g. example.travel"
+				}
+			],
+			"options": [
+				{
+					"name": "extension",
+					"type": "string",
+					"required": false,
+					"description": "Extension whose registration schema to use (default: derived from the domain)"
+				},
+				{
+					"name": "prefer",
+					"type": "string",
+					"required": false,
+					"description": "Set the Prefer header, e.g. `respond-async` to skip the synchronous wait"
+				},
+				{
+					"name": "force",
+					"type": "boolean",
+					"required": false,
+					"description": "Skip the registration confirmation prompt"
+				},
+				{
+					"name": "contacts",
+					"type": "string",
+					"required": false,
+					"description": "Registrant contacts as inline JSON or @path to a reusable JSON file. The JSON value is inserted as the request's `contacts` field, so the file has no outer `contacts` wrapper."
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body, or @path to a JSON file. Use instead of the per-extension fields. With `dry-run`, incomplete input returns structured `missingFields`; rerun with the completed body."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing"
+				},
+				{
+					"name": "help",
+					"type": "boolean",
+					"required": false,
+					"description": "Show help, including this extension's input flags"
+				}
+			],
+			"category": "create",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/registrar/registrations",
+			"operationId": "registrar-domain-registration-create",
+			"hideCommand": false,
+			"handWritten": {
+				"kind": "leafOverride",
+				"overrides": true,
+				"dir": "registrar/registrations/create",
+				"emitKey": "registrar/registrations/create"
+			}
+		},
+		{
+			"command": "cf schema",
+			"name": "schema",
+			"fullPath": ["schema"],
+			"category": "read",
+			"description": "Show API schema details for a command",
+			"usage": "cf schema [command..] [options]",
+			"arguments": [
+				{
+					"name": "command",
+					"position": 0,
+					"type": "string",
+					"required": false,
+					"description": "Command path segments (e.g., dns records create)"
+				}
+			],
+			"options": [
+				{
+					"name": "list",
+					"type": "boolean",
+					"required": false,
+					"description": "List all available schemas",
+					"default": false
+				}
+			],
+			"handWritten": {
+				"kind": "root",
+				"overrides": false,
+				"dir": "schema"
+			}
+		},
+		{
+			"command": "cf tools",
+			"name": "tools",
+			"fullPath": ["tools"],
+			"category": "read",
+			"description": "Output MCP tool definitions",
+			"usage": "cf tools",
+			"arguments": [],
+			"options": [],
+			"hideCommand": true,
+			"handWritten": {
+				"kind": "root",
+				"overrides": false,
+				"dir": "tools"
+			}
+		},
+		{
+			"command": "cf tunnels diag",
+			"name": "diag",
+			"fullPath": ["tunnels", "diag"],
+			"category": "action",
+			"description": "Create a diagnostic report from a local cloudflared instance.",
+			"usage": "cf tunnels diag [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "metrics",
+					"type": "string",
+					"required": false,
+					"description": "Metrics server address for the cloudflared instance"
+				},
+				{
+					"name": "diag-container-id",
+					"type": "string",
+					"required": false,
+					"description": "Container ID or name to collect logs from"
+				},
+				{
+					"name": "diag-pod-id",
+					"type": "string",
+					"required": false,
+					"description": "Kubernetes pod to collect logs from"
+				},
+				{
+					"name": "no-diag-logs",
+					"type": "boolean",
+					"required": false,
+					"description": "Exclude logs"
+				},
+				{
+					"name": "no-diag-metrics",
+					"type": "boolean",
+					"required": false,
+					"description": "Exclude metrics"
+				},
+				{
+					"name": "no-diag-network",
+					"type": "boolean",
+					"required": false,
+					"description": "Exclude network diagnostics"
+				},
+				{
+					"name": "no-diag-runtime",
+					"type": "boolean",
+					"required": false,
+					"description": "Exclude runtime information"
+				},
+				{
+					"name": "no-diag-system",
+					"type": "boolean",
+					"required": false,
+					"description": "Exclude system information"
+				}
+			],
+			"handWritten": {
+				"kind": "leaf",
+				"overrides": false,
+				"dir": "tunnels/diag",
+				"parent": "tunnels"
+			}
+		},
+		{
+			"command": "cf tunnels login",
+			"name": "login",
+			"fullPath": ["tunnels", "login"],
+			"category": "action",
+			"description": "Authorize cloudflared and download an origin certificate for locally managed tunnels.",
+			"usage": "cf tunnels login",
+			"arguments": [],
+			"options": [],
+			"handWritten": {
+				"kind": "leaf",
+				"overrides": false,
+				"dir": "tunnels/login",
+				"parent": "tunnels"
+			}
+		},
+		{
+			"command": "cf tunnels quick-start",
+			"name": "quick-start",
+			"fullPath": ["tunnels", "quick-start"],
+			"category": "action",
+			"description": "Expose a local URL with a temporary trycloudflare.com tunnel. The tunnel remains active until cf exits.",
+			"usage": "cf tunnels quick-start <url> [--log-level <level>]",
+			"arguments": [
+				{
+					"name": "url",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Local URL to expose (for example, http://localhost:3000)"
+				}
+			],
+			"options": [
+				{
+					"name": "log-level",
+					"type": "string",
+					"required": false,
+					"default": "info",
+					"description": "cloudflared log level",
+					"enum": [
+						"trace",
+						"debug",
+						"info",
+						"warn",
+						"error",
+						"fatal",
+						"panic",
+						"disabled"
+					]
+				}
+			],
+			"handWritten": {
+				"kind": "leaf",
+				"overrides": false,
+				"dir": "tunnels/quick-start",
+				"parent": "tunnels"
+			}
+		},
+		{
+			"command": "cf tunnels ready",
+			"name": "ready",
+			"fullPath": ["tunnels", "ready"],
+			"category": "action",
+			"description": "Check the /ready endpoint exposed by a local cloudflared instance.",
+			"usage": "cf tunnels ready --metrics <address>",
+			"arguments": [],
+			"options": [
+				{
+					"name": "metrics",
+					"type": "string",
+					"required": true,
+					"description": "Metrics server address for the cloudflared instance"
+				}
+			],
+			"handWritten": {
+				"kind": "leaf",
+				"overrides": false,
+				"dir": "tunnels/ready",
+				"parent": "tunnels"
+			}
+		},
+		{
+			"command": "cf tunnels run",
+			"name": "run",
+			"fullPath": ["tunnels", "run"],
+			"category": "action",
+			"description": "Run a named Cloudflare Tunnel using the cf-managed cloudflared binary.",
+			"usage": "cf tunnels run [tunnel] [options]",
+			"arguments": [
+				{
+					"name": "tunnel",
+					"position": 0,
+					"type": "string",
+					"required": false,
+					"description": "Tunnel name or UUID; required unless --token is provided"
+				}
+			],
+			"options": [
+				{
+					"name": "token",
+					"type": "string",
+					"required": false,
+					"description": "Tunnel token supplied directly to cloudflared"
+				},
+				{
+					"name": "log-level",
+					"type": "string",
+					"required": false,
+					"default": "info",
+					"description": "cloudflared log level",
+					"enum": [
+						"trace",
+						"debug",
+						"info",
+						"warn",
+						"error",
+						"fatal",
+						"panic",
+						"disabled"
+					]
+				}
+			],
+			"handWritten": {
+				"kind": "leaf",
+				"overrides": false,
+				"dir": "tunnels/run",
+				"parent": "tunnels"
+			}
+		},
+		{
+			"command": "cf tunnels tail",
+			"name": "tail",
+			"fullPath": ["tunnels", "tail"],
+			"category": "action",
+			"description": "Stream logs from a remote cloudflared instance.",
+			"usage": "cf tunnels tail [tunnel-id] [options]",
+			"arguments": [
+				{
+					"name": "tunnel-id",
+					"position": 0,
+					"type": "string",
+					"required": false,
+					"description": "Tunnel UUID to stream logs from"
+				}
+			],
+			"options": [
+				{
+					"name": "connector-id",
+					"type": "string",
+					"required": false,
+					"description": "Target a specific cloudflared connector"
+				},
+				{
+					"name": "event",
+					"type": "string",
+					"required": false,
+					"description": "Filter by event type; may be repeated",
+					"enum": ["cloudflared", "http", "tcp", "udp"]
+				},
+				{
+					"name": "level",
+					"type": "string",
+					"required": false,
+					"default": "debug",
+					"description": "Filter by log level",
+					"enum": ["debug", "info", "warn", "error"]
+				},
+				{
+					"name": "sample",
+					"type": "number",
+					"required": false,
+					"description": "Sample log events by fraction greater than 0.0 and no greater than 1.0"
+				}
+			],
+			"handWritten": {
+				"kind": "leaf",
+				"overrides": false,
+				"dir": "tunnels/tail",
+				"parent": "tunnels"
+			}
+		},
+		{
+			"command": "cf workers check",
+			"name": "check",
+			"fullPath": ["workers", "check"],
+			"category": "action",
+			"description": "Profile a Worker's startup performance locally using Build Output Specification files.",
+			"usage": "cf workers check [--outfile <path>] [--prebuilt] [--worker <name>]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "outfile",
+					"type": "string",
+					"required": false,
+					"description": "Output file for the startup CPU profile",
+					"default": "worker-startup.cpuprofile"
+				},
+				{
+					"name": "prebuilt",
+					"type": "boolean",
+					"required": false,
+					"description": "Use existing Build Output Specification files without building",
+					"default": false
+				},
+				{
+					"name": "worker",
+					"type": "string",
+					"required": false,
+					"description": "Name of the Worker in the Build Output to use (defaults to the default Worker)"
+				}
+			],
+			"handWritten": {
+				"kind": "leaf",
+				"overrides": false,
+				"dir": "workers/check",
+				"parent": "workers"
+			}
+		},
+		{
+			"command": "cf workers triggers deploy",
+			"name": "deploy",
+			"fullPath": ["workers", "triggers", "deploy"],
+			"category": "action",
+			"description": "Apply triggers (Routes, Workflows, Cron triggers etc.)",
+			"usage": "cf workers triggers deploy [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "prebuilt",
+					"type": "boolean",
+					"required": false,
+					"description": "Use existing Build Output Specification files without building",
+					"default": false
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Run checks without applying triggers",
+					"default": false
+				},
+				{
+					"name": "worker",
+					"type": "string",
+					"required": false,
+					"description": "Name of the Worker in the Build Output to use (defaults to the default Worker)"
+				}
+			],
+			"handWritten": {
+				"kind": "subgroup",
+				"overrides": false,
+				"dir": "workers/triggers",
+				"parent": "workers"
+			}
+		},
+		{
+			"command": "cf workers types",
+			"name": "types",
+			"fullPath": ["workers", "types"],
+			"category": "action",
+			"description": "Generate TypeScript declarations for a Worker defined in cloudflare.config.ts.",
+			"usage": "cf workers types [--include-runtime <boolean>]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "include-runtime",
+					"type": "boolean",
+					"required": false,
+					"description": "Include Cloudflare Workers runtime types",
+					"default": true
+				}
+			],
+			"handWritten": {
+				"kind": "leaf",
+				"overrides": false,
+				"dir": "workers/types",
+				"parent": "workers"
+			}
+		},
+		{
+			"command": "cf workers versions create",
+			"name": "create",
+			"fullPath": ["workers", "versions", "create"],
+			"category": "create",
+			"description": "Upload a new Worker Version without deploying it",
+			"usage": "cf workers versions create [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "prebuilt",
+					"type": "boolean",
+					"required": false,
+					"description": "Deploy existing Build Output Specification files without building",
+					"default": false
+				},
+				{
+					"name": "tag",
+					"type": "string",
+					"required": false,
+					"description": "A tag to associate with this Worker Version"
+				},
+				{
+					"name": "message",
+					"type": "string",
+					"required": false,
+					"description": "A message to associate with this Worker Version"
+				},
+				{
+					"name": "secrets-file",
+					"type": "string",
+					"required": false,
+					"description": "Path to a file containing secrets to upload with the version (JSON or .env format)"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Build a project and run checks without actually uploading the Worker",
+					"default": false
+				},
+				{
+					"name": "worker",
+					"type": "string",
+					"required": false,
+					"description": "Name of the Worker in the Build Output to use (defaults to the default Worker)"
+				},
+				{
+					"name": "preview-alias",
+					"type": "string",
+					"required": false,
+					"description": "Preview alias for this Worker Version"
+				}
+			],
+			"handWritten": {
+				"kind": "leaf",
+				"overrides": false,
+				"dir": "workers/versions/create",
+				"parent": "workers/versions"
+			}
+		}
+	],
+	"descriptions": {
+		"access": "Access protected applications and services",
+		"ai": "ai",
+		"containers": "Deploy and manage Containers applications on Cloudflare's global network",
+		"containers images": "Operations for images",
+		"d1": "D1 is Cloudflare's managed, serverless database with SQLite's SQL semantics, built-in disaster recovery, and Worker and HTTP API access.",
+		"d1 migrations": "Create, list, and apply D1 database migrations",
+		"pages": "Full-stack application hosting with Git-integrated builds, preview deployments, and custom domains",
+		"registrar": "registrar",
+		"registrar registrations": "Operations for registrations",
+		"tunnels": "tunnels",
+		"workers": "workers",
+		"workers versions": "Operations for versions",
+		"workers triggers": "Manage triggers (Routes, Workflows, Cron triggers etc.)",
+		"auth": "Manage authentication and profiles",
+		"init": "Create a new Cloudflare project or set up an existing one",
+		"cli": "Discover commands and configure the cf CLI",
+		"previews": "Manage Worker Previews"
+	}
+}

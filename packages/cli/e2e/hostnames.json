@@ -1,0 +1,82 @@
+{
+  "product": "hostnames",
+  "tests": [
+    {
+      "command": "cf hostnames settings tls-get",
+      "args": ["placeholder_setting_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf hostnames settings tls-update",
+      "args": ["placeholder_setting_id", "placeholder_hostname", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf hostnames settings tls-delete",
+      "args": ["placeholder_setting_id", "placeholder_hostname", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf hostnames settings-extra get",
+      "args": ["placeholder_setting_id", "placeholder_hostname"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf hostnames settings-tls get",
+      "args": ["ciphers"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf hostnames settings-tls update",
+      "args": ["ciphers", "placeholder_hostname", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf hostnames settings-tls delete",
+      "args": ["ciphers", "placeholder_hostname", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf hostnames settings tls get",
+      "args": ["ciphers"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf hostnames settings tls update",
+      "args": ["ciphers", "placeholder_hostname", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf hostnames settings tls delete",
+      "args": ["ciphers", "placeholder_hostname", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf hostnames settings tls-single get",
+      "args": ["ciphers", "placeholder_hostname"],
+      "env": {
+        "scope": "zone"
+      }
+    }
+  ]
+}

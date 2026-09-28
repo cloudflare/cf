@@ -1,0 +1,12 @@
+{
+  "product": "dcv-delegation",
+  "tests": [
+    {
+      "command": "cf dcv-delegation get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    }
+  ]
+}

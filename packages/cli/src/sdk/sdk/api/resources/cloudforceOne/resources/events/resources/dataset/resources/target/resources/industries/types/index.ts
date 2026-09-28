@@ -1,0 +1,1 @@
+export * from "./GetIndustriesResponse.js";

@@ -1,0 +1,103 @@
+{
+  "product": "spectrum",
+  "tests": [
+    {
+      "command": "cf spectrum apps create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf spectrum apps list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf spectrum analytics aggregates-currents-get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf spectrum analytics events-bytimes-get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf spectrum analytics events-summaries-get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf spectrum apps get",
+      "args": ["placeholder_app_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf spectrum apps update",
+      "args": ["placeholder_app_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf spectrum apps delete",
+      "args": ["placeholder_app_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf spectrum analytics-aggregates-currents get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf spectrum analytics-events-bytimes get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf spectrum analytics-events-summaries get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf spectrum analytics aggregates currents get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf spectrum analytics events bytimes get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf spectrum analytics events summaries get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+	"command": "cf containers images list",
+	"name": "list",
+	"fullPath": ["containers", "images", "list"],
+	"category": "read",
+	"description": "List images in the Cloudflare managed registry.",
+	"usage": "cf containers images list [--filter <regex>]",
+	"arguments": [],
+	"options": [
+		{
+			"name": "filter",
+			"type": "string",
+			"required": false,
+			"description": "Regex to filter repository names"
+		}
+	]
+}

@@ -1,0 +1,15 @@
+export type { BulkDeleteOriginCloudRegionsRequest } from "./BulkDeleteOriginCloudRegionsRequest.js";
+export type { BulkDeleteV1OriginCloudRegionsRequest } from "./BulkDeleteV1OriginCloudRegionsRequest.js";
+export type { BulkEditV1OriginCloudRegionsRequest } from "./BulkEditV1OriginCloudRegionsRequest.js";
+export type { BulkUpdateOriginCloudRegionsRequest } from "./BulkUpdateOriginCloudRegionsRequest.js";
+export type { CreateV1OriginCloudRegionsRequest } from "./CreateV1OriginCloudRegionsRequest.js";
+export type { DeleteOriginCloudRegionsRequest } from "./DeleteOriginCloudRegionsRequest.js";
+export type { DeleteV1OriginCloudRegionsRequest } from "./DeleteV1OriginCloudRegionsRequest.js";
+export type { EditV1OriginCloudRegionsRequest } from "./EditV1OriginCloudRegionsRequest.js";
+export type { GetOriginCloudRegionsRequest } from "./GetOriginCloudRegionsRequest.js";
+export type { GetV1OriginCloudRegionsRequest } from "./GetV1OriginCloudRegionsRequest.js";
+export type { ListOriginCloudRegionsRequest } from "./ListOriginCloudRegionsRequest.js";
+export type { ListV1OriginCloudRegionsRequest } from "./ListV1OriginCloudRegionsRequest.js";
+export type { SupportedRegionsOriginCloudRegionsRequest } from "./SupportedRegionsOriginCloudRegionsRequest.js";
+export type { SupportedRegionsV1OriginCloudRegionsRequest } from "./SupportedRegionsV1OriginCloudRegionsRequest.js";
+export type { UpdateOriginCloudRegionsRequest } from "./UpdateOriginCloudRegionsRequest.js";

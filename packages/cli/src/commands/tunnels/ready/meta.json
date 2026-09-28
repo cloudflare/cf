@@ -1,0 +1,17 @@
+{
+	"command": "cf tunnels ready",
+	"name": "ready",
+	"fullPath": ["tunnels", "ready"],
+	"category": "action",
+	"description": "Check the /ready endpoint exposed by a local cloudflared instance.",
+	"usage": "cf tunnels ready --metrics <address>",
+	"arguments": [],
+	"options": [
+		{
+			"name": "metrics",
+			"type": "string",
+			"required": true,
+			"description": "Metrics server address for the cloudflared instance"
+		}
+	]
+}

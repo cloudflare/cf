@@ -1,0 +1,40 @@
+{
+  "product": "mtls-certificates",
+  "tests": [
+    {
+      "command": "cf mtls-certificates create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf mtls-certificates list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf mtls-certificates associations get",
+      "args": ["placeholder_mtls_certificate_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf mtls-certificates get",
+      "args": ["placeholder_mtls_certificate_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf mtls-certificates delete",
+      "args": ["placeholder_mtls_certificate_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

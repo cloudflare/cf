@@ -1,0 +1,170 @@
+[
+	{
+		"command": "cf auth login",
+		"name": "login",
+		"fullPath": ["auth", "login"],
+		"category": "action",
+		"description": "Authenticate with Cloudflare",
+		"usage": "cf auth login [options]",
+		"arguments": [],
+		"options": [
+			{
+				"name": "force",
+				"type": "boolean",
+				"required": false,
+				"description": "Force re-authentication even if already logged in",
+				"default": false
+			},
+			{
+				"name": "browser",
+				"type": "boolean",
+				"required": false,
+				"description": "Open the authorization link in a browser (use --no-browser to print it instead)",
+				"default": true
+			},
+			{
+				"name": "device",
+				"type": "boolean",
+				"required": false,
+				"description": "Use OAuth device authorization (use --no-device for the localhost callback flow)",
+				"default": true
+			},
+			{
+				"name": "scopes",
+				"type": "string",
+				"required": false,
+				"description": "The set of OAuth scopes to request"
+			}
+		]
+	},
+	{
+		"command": "cf auth logout",
+		"name": "logout",
+		"fullPath": ["auth", "logout"],
+		"category": "action",
+		"description": "Log out and remove stored credentials",
+		"usage": "cf auth logout",
+		"arguments": [],
+		"options": []
+	},
+	{
+		"command": "cf auth whoami",
+		"name": "whoami",
+		"fullPath": ["auth", "whoami"],
+		"category": "read",
+		"description": "Show current user and authentication status",
+		"usage": "cf auth whoami",
+		"arguments": [],
+		"options": []
+	},
+	{
+		"command": "cf auth create",
+		"name": "create",
+		"fullPath": ["auth", "create"],
+		"category": "create",
+		"description": "Create or re-authenticate a named auth profile",
+		"usage": "cf auth create <name> [options]",
+		"arguments": [
+			{
+				"name": "name",
+				"position": 0,
+				"type": "string",
+				"required": true,
+				"description": "Name for the auth profile"
+			}
+		],
+		"options": [
+			{
+				"name": "browser",
+				"type": "boolean",
+				"required": false,
+				"description": "Open the authorization link in a browser (use --no-browser to print it instead)",
+				"default": true
+			},
+			{
+				"name": "device",
+				"type": "boolean",
+				"required": false,
+				"description": "Use OAuth device authorization (use --no-device for the localhost callback flow)",
+				"default": true
+			},
+			{
+				"name": "scopes",
+				"type": "string",
+				"required": false,
+				"description": "The set of OAuth scopes to request"
+			}
+		]
+	},
+	{
+		"command": "cf auth delete",
+		"name": "delete",
+		"fullPath": ["auth", "delete"],
+		"category": "delete",
+		"description": "Delete a named auth profile",
+		"usage": "cf auth delete <name>",
+		"arguments": [
+			{
+				"name": "name",
+				"position": 0,
+				"type": "string",
+				"required": true,
+				"description": "Name of the auth profile to delete"
+			}
+		],
+		"options": []
+	},
+	{
+		"command": "cf auth activate",
+		"name": "activate",
+		"fullPath": ["auth", "activate"],
+		"category": "action",
+		"description": "Bind a named auth profile to a directory",
+		"usage": "cf auth activate <name> [dir]",
+		"arguments": [
+			{
+				"name": "name",
+				"position": 0,
+				"type": "string",
+				"required": true,
+				"description": "Name of the auth profile to activate"
+			},
+			{
+				"name": "dir",
+				"position": 1,
+				"type": "string",
+				"required": false,
+				"description": "Directory to bind the profile to (defaults to current directory)"
+			}
+		],
+		"options": []
+	},
+	{
+		"command": "cf auth deactivate",
+		"name": "deactivate",
+		"fullPath": ["auth", "deactivate"],
+		"category": "action",
+		"description": "Remove the auth profile binding from a directory",
+		"usage": "cf auth deactivate [dir]",
+		"arguments": [
+			{
+				"name": "dir",
+				"position": 0,
+				"type": "string",
+				"required": false,
+				"description": "Directory to unbind (defaults to current directory). Must be the exact directory the profile was bound to."
+			}
+		],
+		"options": []
+	},
+	{
+		"command": "cf auth list",
+		"name": "list",
+		"fullPath": ["auth", "list"],
+		"category": "read",
+		"description": "List all auth profiles",
+		"usage": "cf auth list",
+		"arguments": [],
+		"options": []
+	}
+]

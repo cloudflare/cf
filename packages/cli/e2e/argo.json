@@ -1,0 +1,33 @@
+{
+  "product": "argo",
+  "tests": [
+    {
+      "command": "cf argo smart-routing get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf argo tiered-caching get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf argo smart-routing edit",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf argo tiered-caching edit",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    }
+  ]
+}

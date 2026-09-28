@@ -1,0 +1,15 @@
+{
+	"name": "vite-plugin-project-fixture",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"dev": "vite dev"
+	},
+	"devDependencies": {
+		"@cloudflare/vite-plugin": "2.0.0-beta.sha-805ec1ff3",
+		"@cloudflare/workers-types": "5.20260927.1",
+		"cf": "workspace:*",
+		"vite": "8.3.0",
+		"wrangler": "4.142.0"
+	}
+}

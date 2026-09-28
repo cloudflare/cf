@@ -1,0 +1,47 @@
+{
+  "product": "hyperdrive",
+  "tests": [
+    {
+      "command": "cf hyperdrive configs create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf hyperdrive configs list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf hyperdrive configs get",
+      "args": ["placeholder_hyperdrive_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf hyperdrive configs edit",
+      "args": ["placeholder_hyperdrive_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf hyperdrive configs update",
+      "args": ["placeholder_hyperdrive_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf hyperdrive configs delete",
+      "args": ["placeholder_hyperdrive_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

@@ -1,0 +1,306 @@
+{
+  "product": "builds",
+  "tests": [
+    {
+      "command": "cf builds tokens create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf builds triggers builds-create",
+      "args": ["placeholder_trigger_uuid", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf builds triggers create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf builds triggers purge-build-cache-purge",
+      "args": ["placeholder_trigger_uuid", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf builds tokens list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf builds triggers environment-variables-list",
+      "args": ["placeholder_trigger_uuid"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf builds workers builds-list",
+      "args": ["placeholder_external_script_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf builds workers triggers-list",
+      "args": ["placeholder_external_script_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf builds account limits-get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf builds builds get-by-uuid",
+      "args": ["placeholder_build_uuid"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf builds builds get-version-ids",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf builds builds latest-get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf builds builds logs-get",
+      "args": ["placeholder_build_uuid"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf builds repos config-autofill-get",
+      "args": ["placeholder_provider_type", "placeholder_provider_account_id", "placeholder_repo_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf builds builds cancel-cancel",
+      "args": ["placeholder_build_uuid", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf builds repos connections-update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf builds triggers environment-variables-edit",
+      "args": ["placeholder_trigger_uuid", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf builds triggers update",
+      "args": ["placeholder_trigger_uuid", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf builds repos connections-delete",
+      "args": ["placeholder_repo_connection_uuid", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf builds tokens delete",
+      "args": ["placeholder_build_token_uuid", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf builds triggers delete",
+      "args": ["placeholder_trigger_uuid", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf builds triggers environment-variables-delete",
+      "args": ["placeholder_trigger_uuid", "placeholder_environment_variable_key", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf builds jobs get-by-uuid",
+      "args": ["placeholder_build_uuid"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf builds jobs get-version-ids",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf builds jobs latest-get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf builds jobs logs-get",
+      "args": ["placeholder_build_uuid"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf builds jobs cancel-cancel",
+      "args": ["placeholder_build_uuid", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf builds triggers builds create",
+      "args": ["placeholder_trigger_uuid", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf builds triggers purge build cache purge",
+      "args": ["placeholder_trigger_uuid", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf builds triggers environment variables list",
+      "args": ["placeholder_trigger_uuid"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf builds workers builds list",
+      "args": ["placeholder_external_script_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf builds workers triggers list",
+      "args": ["placeholder_external_script_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf builds account limits get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf builds jobs get by uuid",
+      "args": ["placeholder_build_uuid"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf builds jobs get version ids",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf builds jobs latest get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf builds jobs logs get",
+      "args": ["placeholder_build_uuid"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf builds repos config autofill get",
+      "args": ["github", "placeholder_provider_account_id", "placeholder_repo_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf builds jobs cancel cancel",
+      "args": ["placeholder_build_uuid", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf builds repos connections update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf builds triggers environment variables edit",
+      "args": ["placeholder_trigger_uuid", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf builds repos connections delete",
+      "args": ["placeholder_repo_connection_uuid", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf builds triggers environment variables delete",
+      "args": ["placeholder_trigger_uuid", "placeholder_environment_variable_key", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

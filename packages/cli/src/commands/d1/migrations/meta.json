@@ -1,0 +1,107 @@
+[
+	{
+		"command": "cf d1 migrations apply",
+		"name": "apply",
+		"fullPath": ["d1", "migrations", "apply"],
+		"category": "action",
+		"description": "Apply any unapplied D1 migrations. Creates the bookkeeping table if absent, diffs the migration files under --dir against what the table records, and applies the rest in numeric order. Wire-compatible with `wrangler d1 migrations apply`: same table shape, same --dir-relative recorded names, same ordering. The database must be identified by ID; names and binding names are not accepted.",
+		"usage": "cf d1 migrations apply <database> [--dir <path>] [--pattern <glob>] [--table <name>]",
+		"arguments": [
+			{
+				"name": "database",
+				"position": 0,
+				"type": "string",
+				"required": true,
+				"description": "D1 database ID"
+			}
+		],
+		"options": [
+			{
+				"name": "dir",
+				"type": "string",
+				"required": false,
+				"description": "Directory containing migration files (default: ./migrations)"
+			},
+			{
+				"name": "pattern",
+				"type": "string",
+				"required": false,
+				"description": "Glob for discovering migration files. Defaults to \"<dir>/*.sql\"; Drizzle's nested layout uses \"<dir>/*/migration.sql\""
+			},
+			{
+				"name": "table",
+				"type": "string",
+				"required": false,
+				"description": "Table recording applied migrations; must use Wrangler's bookkeeping schema (default: d1_migrations)"
+			}
+		]
+	},
+	{
+		"command": "cf d1 migrations create",
+		"name": "create",
+		"fullPath": ["d1", "migrations", "create"],
+		"category": "create",
+		"description": "Create a new empty D1 migration file, numbered one above the highest existing migration. Entirely local — takes no database, needs no credentials and makes no network calls. If an ORM manages your migrations, use its own generator instead; for Drizzle, use `drizzle-kit generate`.",
+		"usage": "cf d1 migrations create <message> [--dir <path>] [--pattern <glob>]",
+		"arguments": [
+			{
+				"name": "message",
+				"position": 0,
+				"type": "string",
+				"required": true,
+				"description": "Describes what the migration does"
+			}
+		],
+		"options": [
+			{
+				"name": "dir",
+				"type": "string",
+				"required": false,
+				"description": "Directory containing migration files (default: ./migrations)"
+			},
+			{
+				"name": "pattern",
+				"type": "string",
+				"required": false,
+				"description": "Glob the new file must match, so `apply` will pick it up"
+			}
+		]
+	},
+	{
+		"command": "cf d1 migrations list",
+		"name": "list",
+		"fullPath": ["d1", "migrations", "list"],
+		"category": "read",
+		"description": "List unapplied D1 migrations as JSON. Applies nothing.",
+		"usage": "cf d1 migrations list <database> [--dir <path>] [--pattern <glob>] [--table <name>]",
+		"arguments": [
+			{
+				"name": "database",
+				"position": 0,
+				"type": "string",
+				"required": true,
+				"description": "D1 database ID"
+			}
+		],
+		"options": [
+			{
+				"name": "dir",
+				"type": "string",
+				"required": false,
+				"description": "Directory containing migration files (default: ./migrations)"
+			},
+			{
+				"name": "pattern",
+				"type": "string",
+				"required": false,
+				"description": "Glob for discovering migration files. Defaults to \"<dir>/*.sql\""
+			},
+			{
+				"name": "table",
+				"type": "string",
+				"required": false,
+				"description": "Table recording applied migrations; must use Wrangler's bookkeeping schema (default: d1_migrations)"
+			}
+		]
+	}
+]

@@ -1,0 +1,341 @@
+{
+  "product": "load-balancers",
+  "tests": [
+    {
+      "command": "cf load-balancers create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf load-balancers monitor-groups create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf load-balancers monitors create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf load-balancers monitors previews-create",
+      "args": ["placeholder_monitor_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf load-balancers pools create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf load-balancers pools health-create",
+      "args": ["placeholder_pool_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf load-balancers list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf load-balancers monitor-groups list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf load-balancers monitors list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf load-balancers pools list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf load-balancers regions list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf load-balancers searches list",
+      "args": ["--query", "cloudflare"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf load-balancers get",
+      "args": ["placeholder_load_balancer_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf load-balancers monitor-groups get",
+      "args": ["placeholder_monitor_group_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf load-balancers monitors get",
+      "args": ["placeholder_monitor_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf load-balancers monitors references-get",
+      "args": ["placeholder_monitor_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf load-balancers pools get",
+      "args": ["placeholder_pool_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf load-balancers pools health-get",
+      "args": ["placeholder_pool_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf load-balancers pools references-get",
+      "args": ["placeholder_pool_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf load-balancers previews get",
+      "args": ["placeholder_preview_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf load-balancers regions get",
+      "args": ["placeholder_region_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf load-balancers edit",
+      "args": ["placeholder_load_balancer_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf load-balancers monitor-groups edit",
+      "args": ["placeholder_monitor_group_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf load-balancers monitor-groups update",
+      "args": ["placeholder_monitor_group_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf load-balancers monitors edit",
+      "args": ["placeholder_monitor_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf load-balancers monitors update",
+      "args": ["placeholder_monitor_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf load-balancers pools bulk-edit",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf load-balancers pools edit",
+      "args": ["placeholder_pool_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf load-balancers pools update",
+      "args": ["placeholder_pool_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf load-balancers update",
+      "args": ["placeholder_load_balancer_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf load-balancers delete",
+      "args": ["placeholder_load_balancer_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf load-balancers monitor-groups delete",
+      "args": ["placeholder_monitor_group_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf load-balancers monitors delete",
+      "args": ["placeholder_monitor_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf load-balancers pools delete",
+      "args": ["placeholder_pool_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf load-balancers monitor-groups-extra references-list",
+      "args": ["placeholder_monitor_group_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf load-balancers monitors-previews create",
+      "args": ["placeholder_monitor_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf load-balancers pools-health create",
+      "args": ["placeholder_pool_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf load-balancers monitors-references get",
+      "args": ["placeholder_monitor_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf load-balancers pools-health get",
+      "args": ["placeholder_pool_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf load-balancers pools-references get",
+      "args": ["placeholder_pool_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf load-balancers monitors previews create",
+      "args": ["placeholder_monitor_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf load-balancers pools health create",
+      "args": ["placeholder_pool_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf load-balancers monitors references get",
+      "args": ["placeholder_monitor_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf load-balancers pools health get",
+      "args": ["placeholder_pool_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf load-balancers pools references get",
+      "args": ["placeholder_pool_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf load-balancers monitor-groups-extra references list",
+      "args": ["placeholder_monitor_group_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf load-balancers pools bulk edit",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf load-balancers monitor-groups references list",
+      "args": ["placeholder_monitor_group_id"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

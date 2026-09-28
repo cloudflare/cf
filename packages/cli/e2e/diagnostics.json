@@ -1,0 +1,47 @@
+{
+  "product": "diagnostics",
+  "tests": [
+    {
+      "command": "cf diagnostics endpoint-healthchecks create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf diagnostics traceroutes create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf diagnostics endpoint-healthchecks list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf diagnostics endpoint-healthchecks get",
+      "args": ["placeholder_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf diagnostics endpoint-healthchecks update",
+      "args": ["placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf diagnostics endpoint-healthchecks delete",
+      "args": ["placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

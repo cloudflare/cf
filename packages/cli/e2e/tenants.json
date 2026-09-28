@@ -1,0 +1,40 @@
+{
+  "product": "tenants",
+  "tests": [
+    {
+      "command": "cf tenants accounts list",
+      "args": ["placeholder_tenant_id"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf tenants entitlements list",
+      "args": ["placeholder_tenant_id"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf tenants memberships list",
+      "args": ["placeholder_tenant_id"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf tenants account-types get",
+      "args": ["placeholder_tenant_id"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf tenants get",
+      "args": ["placeholder_tenant_id"],
+      "env": {
+        "scope": "global"
+      }
+    }
+  ]
+}

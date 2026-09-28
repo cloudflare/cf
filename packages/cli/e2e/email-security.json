@@ -1,0 +1,1013 @@
+{
+  "product": "email-security",
+  "tests": [
+    {
+      "command": "cf email-security investigate move-bulk",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security investigate move-create",
+      "args": ["placeholder_postfix_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security investigate preview-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security investigate reclassify-create",
+      "args": ["placeholder_postfix_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security investigate release-bulk",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings allow-policies-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings block-senders-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings impersonation-registry-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings trusted-domains-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security investigate list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security phishguard reports-list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings allow-policies-list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings block-senders-list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings domains-list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings impersonation-registry-list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings trusted-domains-list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security submissions list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security investigate detections-get",
+      "args": ["placeholder_postfix_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security investigate get",
+      "args": ["placeholder_postfix_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security investigate preview-get",
+      "args": ["placeholder_postfix_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security investigate raw-get",
+      "args": ["placeholder_postfix_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security investigate trace-get",
+      "args": ["placeholder_postfix_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings allow-policies-get",
+      "args": ["placeholder_policy_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings block-senders-get",
+      "args": ["placeholder_pattern_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings domains-get",
+      "args": ["placeholder_domain_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings impersonation-registry-get",
+      "args": ["placeholder_display_name_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings trusted-domains-get",
+      "args": ["placeholder_trusted_domain_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings allow-policies-edit",
+      "args": ["placeholder_policy_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings block-senders-edit",
+      "args": ["placeholder_pattern_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings domains-edit",
+      "args": ["placeholder_domain_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings impersonation-registry-edit",
+      "args": ["placeholder_display_name_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings trusted-domains-edit",
+      "args": ["placeholder_trusted_domain_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings allow-policies-delete",
+      "args": ["placeholder_policy_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings block-senders-delete",
+      "args": ["placeholder_pattern_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings domains-bulk-delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings domains-delete",
+      "args": ["placeholder_domain_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings impersonation-registry-delete",
+      "args": ["placeholder_display_name_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings trusted-domains-delete",
+      "args": ["placeholder_trusted_domain_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings-extra allow-policies-batch-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings-extra block-senders-batch-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings-extra sending-domain-restrictions-batch-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings-extra trusted-domains-batch-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security investigate get-action-log",
+      "args": ["placeholder_investigate_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security investigate-move bulk",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security investigate-move create",
+      "args": ["placeholder_postfix_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security investigate-preview create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security investigate-reclassify create",
+      "args": ["placeholder_postfix_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security investigate-release bulk",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings-allow-policies create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings-block-senders create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings-impersonation-registry create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings-trusted-domains create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security phishguard-reports list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings-allow-policies list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings-block-senders list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings-domains list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings-impersonation-registry list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings-trusted-domains list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security investigate-detections get",
+      "args": ["placeholder_postfix_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security investigate-preview get",
+      "args": ["placeholder_postfix_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security investigate-raw get",
+      "args": ["placeholder_postfix_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security investigate-trace get",
+      "args": ["placeholder_postfix_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings-allow-policies get",
+      "args": ["placeholder_policy_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings-block-senders get",
+      "args": ["placeholder_pattern_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings-domains get",
+      "args": ["placeholder_domain_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings-impersonation-registry get",
+      "args": ["placeholder_display_name_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings-trusted-domains get",
+      "args": ["placeholder_trusted_domain_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings-allow-policies edit",
+      "args": ["placeholder_policy_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings-block-senders edit",
+      "args": ["placeholder_pattern_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings-domains edit",
+      "args": ["placeholder_domain_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings-impersonation-registry edit",
+      "args": ["placeholder_display_name_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings-trusted-domains edit",
+      "args": ["placeholder_trusted_domain_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings-allow-policies delete",
+      "args": ["placeholder_policy_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings-block-senders delete",
+      "args": ["placeholder_pattern_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings-domains bulk-delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings-domains delete",
+      "args": ["placeholder_domain_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings-impersonation-registry delete",
+      "args": ["placeholder_display_name_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings-trusted-domains delete",
+      "args": ["placeholder_trusted_domain_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security investigate move bulk",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security investigate move create",
+      "args": ["placeholder_postfix_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security investigate preview create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security investigate reclassify create",
+      "args": ["placeholder_postfix_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security investigate release bulk",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings allow-policies create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings block-senders create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings impersonation-registry create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings trusted-domains create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security phishguard reports list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings allow-policies list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings block-senders list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings domains list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings impersonation-registry list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings trusted-domains list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security investigate detections get",
+      "args": ["placeholder_postfix_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security investigate preview get",
+      "args": ["placeholder_postfix_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security investigate raw get",
+      "args": ["placeholder_postfix_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security investigate trace get",
+      "args": ["placeholder_postfix_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings allow-policies get",
+      "args": ["placeholder_policy_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings block-senders get",
+      "args": ["placeholder_pattern_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings domains get",
+      "args": ["placeholder_domain_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings impersonation-registry get",
+      "args": ["placeholder_display_name_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings trusted-domains get",
+      "args": ["placeholder_trusted_domain_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings allow-policies edit",
+      "args": ["placeholder_policy_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings block-senders edit",
+      "args": ["placeholder_pattern_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings domains edit",
+      "args": ["placeholder_domain_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings impersonation-registry edit",
+      "args": ["placeholder_display_name_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings trusted-domains edit",
+      "args": ["placeholder_trusted_domain_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings allow-policies delete",
+      "args": ["placeholder_policy_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings block-senders delete",
+      "args": ["placeholder_pattern_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings domains bulk-delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings domains delete",
+      "args": ["placeholder_domain_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings impersonation-registry delete",
+      "args": ["placeholder_display_name_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings trusted-domains delete",
+      "args": ["placeholder_trusted_domain_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings-extra allow policies batch create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings-extra block senders batch create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings-extra sending domain restrictions batch create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings-extra trusted domains batch create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security investigate get action log",
+      "args": ["placeholder_investigate_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings allow policies create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings block senders create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings impersonation registry create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings trusted domains create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings allow policies list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings block senders list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings impersonation registry list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings trusted domains list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings allow policies get",
+      "args": ["placeholder_policy_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings block senders get",
+      "args": ["placeholder_pattern_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings impersonation registry get",
+      "args": ["placeholder_display_name_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings trusted domains get",
+      "args": ["placeholder_trusted_domain_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings allow policies edit",
+      "args": ["placeholder_policy_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings block senders edit",
+      "args": ["placeholder_pattern_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings impersonation registry edit",
+      "args": ["placeholder_display_name_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings trusted domains edit",
+      "args": ["placeholder_trusted_domain_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings allow policies delete",
+      "args": ["placeholder_policy_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings block senders delete",
+      "args": ["placeholder_pattern_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings domains bulk delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings impersonation registry delete",
+      "args": ["placeholder_display_name_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings trusted domains delete",
+      "args": ["placeholder_trusted_domain_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security investigate get-action log",
+      "args": ["placeholder_investigate_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings batch allow policies batch create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings batch block senders batch create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings batch sending domain restrictions batch create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf email-security settings batch trusted domains batch create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

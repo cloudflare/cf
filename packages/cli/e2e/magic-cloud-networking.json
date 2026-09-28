@@ -1,0 +1,341 @@
+{
+  "product": "magic-cloud-networking",
+  "tests": [
+    {
+      "command": "cf magic-cloud-networking catalog-syncs create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-cloud-networking catalog-syncs refresh",
+      "args": ["placeholder_sync_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-cloud-networking cloud-integrations create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-cloud-networking cloud-integrations discover",
+      "args": ["placeholder_provider_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-cloud-networking cloud-integrations discover-all",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-cloud-networking on-ramps apply",
+      "args": ["placeholder_onramp_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-cloud-networking on-ramps create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-cloud-networking on-ramps export",
+      "args": ["placeholder_onramp_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-cloud-networking on-ramps plan",
+      "args": ["placeholder_onramp_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-cloud-networking resources policy-preview",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-cloud-networking catalog-syncs list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-cloud-networking catalog-syncs prebuilt-policies-list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-cloud-networking cloud-integrations list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-cloud-networking on-ramps address-spaces-list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-cloud-networking on-ramps list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-cloud-networking resources list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-cloud-networking catalog-syncs get",
+      "args": ["placeholder_sync_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-cloud-networking cloud-integrations get",
+      "args": ["placeholder_provider_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-cloud-networking cloud-integrations initial-setup",
+      "args": ["placeholder_provider_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-cloud-networking on-ramps get",
+      "args": ["placeholder_onramp_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-cloud-networking resources export",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-cloud-networking resources get",
+      "args": ["placeholder_resource_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-cloud-networking catalog-syncs edit",
+      "args": ["placeholder_sync_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-cloud-networking catalog-syncs update",
+      "args": ["placeholder_sync_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-cloud-networking cloud-integrations edit",
+      "args": ["placeholder_provider_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-cloud-networking cloud-integrations update",
+      "args": ["placeholder_provider_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-cloud-networking on-ramps address-spaces-edit",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-cloud-networking on-ramps address-spaces-update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-cloud-networking on-ramps edit",
+      "args": ["placeholder_onramp_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-cloud-networking on-ramps update",
+      "args": ["placeholder_onramp_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-cloud-networking catalog-syncs delete",
+      "args": ["placeholder_sync_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-cloud-networking cloud-integrations delete",
+      "args": ["placeholder_provider_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-cloud-networking on-ramps delete",
+      "args": ["placeholder_onramp_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-cloud-networking catalog-syncs-prebuilt-policies list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-cloud-networking on-ramps-address-spaces list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-cloud-networking on-ramps-address-spaces edit",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-cloud-networking on-ramps-address-spaces update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-cloud-networking catalog-syncs prebuilt-policies list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-cloud-networking on-ramps address-spaces list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-cloud-networking on-ramps address-spaces edit",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-cloud-networking on-ramps address-spaces update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-cloud-networking cloud-integrations discover all",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-cloud-networking resources policy preview",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-cloud-networking catalog-syncs prebuilt policies list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-cloud-networking on-ramps address spaces list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-cloud-networking cloud-integrations initial setup",
+      "args": ["placeholder_provider_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-cloud-networking on-ramps address spaces edit",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf magic-cloud-networking on-ramps address spaces update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

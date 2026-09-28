@@ -1,0 +1,75 @@
+{
+  "product": "registrar",
+  "tests": [
+    {
+      "command": "cf registrar domains list",
+      "args": [],
+      "env": { "scope": "account" },
+      "capture": { ".[0].domain_name": "domain_name" }
+    },
+    {
+      "command": "cf registrar domains get",
+      "args": ["$domain_name"],
+      "env": { "scope": "account" },
+      "depends": ["domain_name"]
+    },
+    {
+      "command": "cf registrar domains update",
+      "args": ["$domain_name", "--dry-run"],
+      "env": { "scope": "account" },
+      "depends": ["domain_name"]
+    },
+    {
+      "command": "cf registrar registrations create-domain-registration",
+      "args": ["--dry-run"],
+      "env": { "scope": "account" }
+    },
+    {
+      "command": "cf registrar registrations create-registration-lro",
+      "args": ["--dry-run"],
+      "env": { "scope": "account" }
+    },
+    {
+      "command": "cf registrar registrations list",
+      "args": [],
+      "env": { "scope": "account" },
+      "capture": { ".[0].domain_name": "reg_domain_name" }
+    },
+    {
+      "command": "cf registrar registrations get",
+      "args": ["$reg_domain_name"],
+      "env": { "scope": "account" },
+      "depends": ["reg_domain_name"]
+    },
+    {
+      "command": "cf registrar registrations registration-status-get",
+      "args": ["$reg_domain_name"],
+      "env": { "scope": "account" },
+      "depends": ["reg_domain_name"]
+    },
+    {
+      "command": "cf registrar registrations update-status-get",
+      "args": ["$reg_domain_name"],
+      "env": { "scope": "account" },
+      "depends": ["reg_domain_name"]
+    },
+    {
+      "command": "cf registrar registrations edit-domain-registration",
+      "args": ["$reg_domain_name", "--dry-run"],
+      "env": { "scope": "account" },
+      "depends": ["reg_domain_name"]
+    },
+    {
+      "command": "cf registrar registrations edit-registration-lro",
+      "args": ["$reg_domain_name", "--dry-run"],
+      "env": { "scope": "account" },
+      "depends": ["reg_domain_name"]
+    },
+    {
+      "command": "cf registrar operations get",
+      "args": ["$operation_id"],
+      "env": { "scope": "account" },
+      "depends": ["operation_id"]
+    }
+  ]
+}

@@ -1,0 +1,110 @@
+{
+  "product": "connectivity",
+  "tests": [
+    {
+      "command": "cf connectivity directory services-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf connectivity directory services-list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf connectivity directory services-get",
+      "args": ["placeholder_service_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf connectivity directory services-update",
+      "args": ["placeholder_service_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf connectivity directory services-delete",
+      "args": ["placeholder_service_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf connectivity directory-services create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf connectivity directory-services list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf connectivity directory-services get",
+      "args": ["placeholder_service_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf connectivity directory-services update",
+      "args": ["placeholder_service_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf connectivity directory-services delete",
+      "args": ["placeholder_service_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf connectivity directory services create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf connectivity directory services list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf connectivity directory services get",
+      "args": ["placeholder_service_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf connectivity directory services update",
+      "args": ["placeholder_service_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf connectivity directory services delete",
+      "args": ["placeholder_service_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

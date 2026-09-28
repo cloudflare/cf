@@ -1,0 +1,54 @@
+{
+  "product": "acm",
+  "tests": [
+    {
+      "command": "cf acm custom-trust-store create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf acm total-tls edit",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf acm total-tls update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf acm custom-trust-store list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf acm custom-trust-store get",
+      "args": ["placeholder_custom_origin_trust_store_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf acm total-tls get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf acm custom-trust-store delete",
+      "args": ["placeholder_custom_origin_trust_store_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    }
+  ]
+}

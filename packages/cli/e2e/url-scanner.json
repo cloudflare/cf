@@ -1,0 +1,138 @@
+{
+  "product": "url-scanner",
+  "tests": [
+    {
+      "command": "cf url-scanner scans bulk-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf url-scanner scans create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf url-scanner scans list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf url-scanner responses get",
+      "args": ["placeholder_response_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf url-scanner scans dom",
+      "args": ["placeholder_scan_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf url-scanner scans get",
+      "args": ["placeholder_scan_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf url-scanner scans har",
+      "args": ["placeholder_scan_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf url-scanner scans screenshot",
+      "args": ["placeholder_scan_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf url-scanner scan create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf url-scanner response get",
+      "args": ["placeholder_response_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf url-scanner scan get-urlscanner-scan",
+      "args": ["placeholder_scan_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf url-scanner scan get-urlscanner-scans",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf url-scanner scan har-get",
+      "args": ["placeholder_scan_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf url-scanner scan screenshot-get",
+      "args": ["placeholder_scan_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf url-scanner scan get urlscanner scan",
+      "args": ["placeholder_scan_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf url-scanner scan har get",
+      "args": ["placeholder_scan_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf url-scanner scan screenshot get",
+      "args": ["placeholder_scan_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf url-scanner scan get urlscanner scans",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf url-scanner scans bulk create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

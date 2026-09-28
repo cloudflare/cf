@@ -1,0 +1,57 @@
+{
+	"description": "Register a domain. Billable and non-refundable — a successful registration charges the account's default payment method. Input fields are extension-specific: they come from `GET /registrar/extensions/{name}` at run time. Humans can run `create <domain> --help` and use prompts; reusable contacts can be passed as `--contacts @contacts.json`. Agents should call with `--dry-run --body '<json>'`: incomplete input returns structured `missingFields` with paths, choices, labels, and acknowledgement text without submitting. Retain the other input, collect the missing values, and repeat the dry run before checking availability and creating with explicit confirmation. Inspect unfinished workflows with `cf registrar registrations get-registration-status <domain>`.",
+	"usage": "cf registrar registrations create [domain-name] [--<field> ...] [options]",
+	"arguments": [
+		{
+			"name": "domain-name",
+			"position": 0,
+			"type": "string",
+			"required": false,
+			"description": "Fully qualified domain name to register, e.g. example.travel"
+		}
+	],
+	"options": [
+		{
+			"name": "extension",
+			"type": "string",
+			"required": false,
+			"description": "Extension whose registration schema to use (default: derived from the domain)"
+		},
+		{
+			"name": "prefer",
+			"type": "string",
+			"required": false,
+			"description": "Set the Prefer header, e.g. `respond-async` to skip the synchronous wait"
+		},
+		{
+			"name": "force",
+			"type": "boolean",
+			"required": false,
+			"description": "Skip the registration confirmation prompt"
+		},
+		{
+			"name": "contacts",
+			"type": "string",
+			"required": false,
+			"description": "Registrant contacts as inline JSON or @path to a reusable JSON file. The JSON value is inserted as the request's `contacts` field, so the file has no outer `contacts` wrapper."
+		},
+		{
+			"name": "body",
+			"type": "string",
+			"required": false,
+			"description": "Raw JSON request body, or @path to a JSON file. Use instead of the per-extension fields. With `dry-run`, incomplete input returns structured `missingFields`; rerun with the completed body."
+		},
+		{
+			"name": "dry-run",
+			"type": "boolean",
+			"required": false,
+			"description": "Validate and show what would happen without executing"
+		},
+		{
+			"name": "help",
+			"type": "boolean",
+			"required": false,
+			"description": "Show help, including this extension's input flags"
+		}
+	]
+}

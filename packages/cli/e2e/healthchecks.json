@@ -1,0 +1,68 @@
+{
+  "product": "healthchecks",
+  "tests": [
+    {
+      "command": "cf healthchecks create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf healthchecks previews create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf healthchecks list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf healthchecks get",
+      "args": ["placeholder_healthcheck_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf healthchecks previews get",
+      "args": ["placeholder_healthcheck_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf healthchecks edit",
+      "args": ["placeholder_healthcheck_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf healthchecks update",
+      "args": ["placeholder_healthcheck_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf healthchecks delete",
+      "args": ["placeholder_healthcheck_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf healthchecks previews delete",
+      "args": ["placeholder_healthcheck_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "product": "client-certificates",
+  "tests": [
+    {
+      "command": "cf client-certificates create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf client-certificates list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf client-certificates get",
+      "args": ["placeholder_client_certificate_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf client-certificates edit",
+      "args": ["placeholder_client_certificate_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf client-certificates delete",
+      "args": ["placeholder_client_certificate_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    }
+  ]
+}

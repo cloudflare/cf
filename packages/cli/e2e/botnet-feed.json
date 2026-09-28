@@ -1,0 +1,75 @@
+{
+  "product": "botnet-feed",
+  "tests": [
+    {
+      "command": "cf botnet-feed asn day-report",
+      "args": ["placeholder_asn_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf botnet-feed asn full-report",
+      "args": ["placeholder_asn_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf botnet-feed configs asn-get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf botnet-feed configs asn-delete",
+      "args": ["placeholder_asn_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf botnet-feed configs-asn get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf botnet-feed configs-asn delete",
+      "args": ["placeholder_asn_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf botnet-feed configs asn get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf botnet-feed configs asn delete",
+      "args": ["placeholder_asn_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf botnet-feed asn day report",
+      "args": ["placeholder_asn_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf botnet-feed asn full report",
+      "args": ["placeholder_asn_id"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

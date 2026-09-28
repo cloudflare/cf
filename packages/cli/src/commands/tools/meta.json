@@ -1,0 +1,13 @@
+[
+	{
+		"command": "cf tools",
+		"name": "tools",
+		"fullPath": ["tools"],
+		"category": "read",
+		"description": "Output MCP tool definitions",
+		"usage": "cf tools",
+		"arguments": [],
+		"options": [],
+		"hideCommand": true
+	}
+]

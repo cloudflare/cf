@@ -1,0 +1,81 @@
+import {
+	createCommandClient,
+	getAccountId,
+	resolveAccountIdSilent,
+} from "#lib/auth.js";
+import { formatDryRun } from "#lib/dry-run.js";
+import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
+import { formatOutput } from "#lib/output.js";
+import { withProgress } from "#lib/progress.js";
+import { runWithTelemetry } from "#lib/telemetry/index.js";
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * get command
+ * @generated from apis/overlays/cloudforce-one.ts
+ */
+import type { Argv, CommandModule } from "yargs";
+
+function builder(yargs: Argv<CommonYargsOptions>) {
+	return yargs
+		.usage(
+			"$0 cloudforce-one requests priority get <priority-id>\n\nRetrieves a specific priority intelligence request from Cloudforce One."
+		)
+		.positional("priority-id", {
+			type: "string",
+			description: "UUID.",
+			demandOption: true,
+		})
+		.option("dry-run", {
+			type: "boolean",
+			description: "Validate and show what would happen without executing",
+			default: false,
+		});
+}
+
+type Args = InferArgs<typeof builder>;
+
+type Request = SdkRequest<"cloudforce-one-priority-get">;
+
+const command: CommandModule<CommonYargsOptions, Args> = {
+	command: "get <priority-id>",
+	describe: "Get a Priority Intelligence Requirement",
+	builder,
+	handler: async (argv): Promise<void> =>
+		runWithTelemetry(
+			{
+				command: "cloudforce-one requests priority get",
+				classification: {
+					safeFlags: ["dry-run"],
+				} satisfies ArgClassification<Args>,
+			},
+			argv as Record<string, unknown>,
+			async () => {
+				if (argv.dryRun) {
+					const __cfDryRunAccountId = await resolveAccountIdSilent();
+					formatDryRun({
+						command: "cf cloudforce-one requests priority get",
+						method: "GET",
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/cloudforce-one/requests/priority/${argv["priority-id"] == null ? "<priority-id>" : encodeURIComponent(String(argv["priority-id"]))}`,
+						pathParams: { "priority-id": String(argv["priority-id"] ?? "") },
+						bodyKind: "none",
+					});
+					return;
+				}
+				const client = await createCommandClient(argv);
+				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
+				argv.accountId = accountId;
+
+				const result = await withProgress(`Loading`, async () =>
+					client.cloudforceOne.requests.priority.get({
+						account_id: accountId,
+						priority_id: argv["priority-id"],
+					} satisfies Request)
+				);
+				formatOutput(result, { successLabel: `Loaded` });
+			}
+		),
+};
+
+export default command;

@@ -1,0 +1,20 @@
+[
+	{
+		"command": "cf dev",
+		"name": "dev",
+		"fullPath": ["dev"],
+		"category": "action",
+		"description": "Run the project's Cloudflare dev server",
+		"usage": "cf dev [implArgs..]",
+		"arguments": [
+			{
+				"name": "implArgs",
+				"position": 0,
+				"type": "string",
+				"required": false,
+				"description": "Arguments forwarded to the dev-server implementation"
+			}
+		],
+		"options": []
+	}
+]

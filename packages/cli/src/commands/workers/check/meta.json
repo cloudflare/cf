@@ -1,0 +1,31 @@
+{
+	"command": "cf workers check",
+	"name": "check",
+	"fullPath": ["workers", "check"],
+	"category": "action",
+	"description": "Profile a Worker's startup performance locally using Build Output Specification files.",
+	"usage": "cf workers check [--outfile <path>] [--prebuilt] [--worker <name>]",
+	"arguments": [],
+	"options": [
+		{
+			"name": "outfile",
+			"type": "string",
+			"required": false,
+			"description": "Output file for the startup CPU profile",
+			"default": "worker-startup.cpuprofile"
+		},
+		{
+			"name": "prebuilt",
+			"type": "boolean",
+			"required": false,
+			"description": "Use existing Build Output Specification files without building",
+			"default": false
+		},
+		{
+			"name": "worker",
+			"type": "string",
+			"required": false,
+			"description": "Name of the Worker in the Build Output to use (defaults to the default Worker)"
+		}
+	]
+}

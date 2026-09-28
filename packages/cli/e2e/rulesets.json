@@ -1,0 +1,418 @@
+{
+  "product": "rulesets",
+  "tests": [
+    {
+      "command": "cf rulesets create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf rulesets rules create",
+      "args": ["placeholder_ruleset_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf rulesets list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf rulesets phases versions-list",
+      "args": ["placeholder_ruleset_phase"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf rulesets versions list",
+      "args": ["placeholder_ruleset_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf rulesets get",
+      "args": ["placeholder_ruleset_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf rulesets phases get",
+      "args": ["placeholder_ruleset_phase"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf rulesets phases versions-get",
+      "args": ["placeholder_ruleset_phase", "placeholder_ruleset_version"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf rulesets versions get",
+      "args": ["placeholder_ruleset_id", "placeholder_ruleset_version"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf rulesets phases update",
+      "args": ["placeholder_ruleset_phase", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf rulesets rules edit",
+      "args": ["placeholder_ruleset_id", "placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf rulesets update",
+      "args": ["placeholder_ruleset_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf rulesets delete",
+      "args": ["placeholder_ruleset_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf rulesets rules delete",
+      "args": ["placeholder_ruleset_id", "placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf rulesets versions delete",
+      "args": ["placeholder_ruleset_id", "placeholder_ruleset_version", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf rulesets create-extra",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rulesets rules-extra create",
+      "args": ["placeholder_ruleset_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rulesets list-extra",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rulesets phases-extra entrypoint-versions-list",
+      "args": ["placeholder_ruleset_phase"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rulesets versions-extra by-tag-list-by-tag",
+      "args": ["placeholder_ruleset_id", "placeholder_ruleset_version", "placeholder_rule_tag"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rulesets versions-extra by-tag-list-v2",
+      "args": ["placeholder_ruleset_id", "placeholder_ruleset_version", "placeholder_rule_tag"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf rulesets versions-extra list",
+      "args": ["placeholder_ruleset_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rulesets get-extra",
+      "args": ["placeholder_ruleset_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rulesets phases-extra entrypoint-get",
+      "args": ["placeholder_ruleset_phase"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rulesets phases-extra entrypoint-versions-get",
+      "args": ["placeholder_ruleset_phase", "placeholder_ruleset_version"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rulesets versions-extra get",
+      "args": ["placeholder_ruleset_id", "placeholder_ruleset_version"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rulesets phases-extra entrypoint-update",
+      "args": ["placeholder_ruleset_phase", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rulesets rules-extra update",
+      "args": ["placeholder_ruleset_id", "placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rulesets update-extra",
+      "args": ["placeholder_ruleset_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rulesets delete-extra",
+      "args": ["placeholder_ruleset_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rulesets rules-extra delete",
+      "args": ["placeholder_ruleset_id", "placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rulesets versions-extra delete",
+      "args": ["placeholder_ruleset_id", "placeholder_ruleset_version", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rulesets phases versions list",
+      "args": ["ddos_l4"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf rulesets phases versions list",
+      "args": ["ddos_l4"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rulesets phases versions get",
+      "args": ["ddos_l4", "placeholder_ruleset_version"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf rulesets phases versions get",
+      "args": ["ddos_l4", "placeholder_ruleset_version"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rulesets phases-extra entrypoint versions list",
+      "args": ["ddos_l4"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rulesets phases-extra entrypoint get",
+      "args": ["ddos_l4"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rulesets phases-extra entrypoint versions get",
+      "args": ["ddos_l4", "placeholder_ruleset_version"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rulesets phases-extra entrypoint update",
+      "args": ["ddos_l4", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rulesets versions-extra by tag list by tag",
+      "args": ["placeholder_ruleset_id", "placeholder_ruleset_version", "placeholder_rule_tag"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rulesets versions-extra by tag list v2",
+      "args": ["placeholder_ruleset_id", "placeholder_ruleset_version", "placeholder_rule_tag"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf rulesets account-rulesets create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rulesets account-rulesets rules create",
+      "args": ["placeholder_ruleset_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rulesets account-rulesets list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rulesets account-rulesets phases versions list",
+      "args": ["ddos_l4"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rulesets account-rulesets versions list",
+      "args": ["placeholder_ruleset_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rulesets account-rulesets get",
+      "args": ["placeholder_ruleset_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rulesets account-rulesets phases get",
+      "args": ["ddos_l4"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rulesets account-rulesets phases versions get",
+      "args": ["ddos_l4", "placeholder_ruleset_version"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rulesets account-rulesets versions by-tag tag",
+      "args": ["placeholder_ruleset_id", "placeholder_ruleset_version", "placeholder_rule_tag"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rulesets account-rulesets versions get",
+      "args": ["placeholder_ruleset_id", "placeholder_ruleset_version"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rulesets account-rulesets versions zone-by-tag tag",
+      "args": ["placeholder_ruleset_id", "placeholder_ruleset_version", "placeholder_rule_tag"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf rulesets account-rulesets phases update",
+      "args": ["ddos_l4", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rulesets account-rulesets rules update",
+      "args": ["placeholder_ruleset_id", "placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rulesets account-rulesets update",
+      "args": ["placeholder_ruleset_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rulesets account-rulesets delete",
+      "args": ["placeholder_ruleset_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rulesets account-rulesets rules delete",
+      "args": ["placeholder_ruleset_id", "placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf rulesets account-rulesets versions delete",
+      "args": ["placeholder_ruleset_id", "placeholder_ruleset_version", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

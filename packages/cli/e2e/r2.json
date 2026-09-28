@@ -1,0 +1,863 @@
+{
+  "product": "r2",
+  "tests": [
+    {
+      "command": "cf r2 buckets create",
+      "args": ["--body", "{\"name\":\"e2e-r2-$RUN_ID\"}"],
+      "env": {
+        "scope": "account"
+      },
+      "capture": {
+        "name": "r2_bucket"
+      }
+    },
+    {
+      "command": "cf r2 buckets list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets metrics-list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets get",
+      "args": ["$r2_bucket"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["r2_bucket"]
+    },
+    {
+      "command": "cf r2 buckets cors-update",
+      "args": [
+        "$r2_bucket",
+        "--body",
+        "{\"rules\":[{\"allowed\":{\"origins\":[\"https://example.com\"],\"methods\":[\"GET\"]}}]}"
+      ],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["r2_bucket"]
+    },
+    {
+      "command": "cf r2 buckets cors-get",
+      "args": ["$r2_bucket"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["r2_bucket"]
+    },
+    {
+      "command": "cf r2 buckets cors-delete",
+      "args": ["$r2_bucket"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["r2_bucket"]
+    },
+    {
+      "command": "cf r2 buckets lifecycle-get",
+      "args": ["$r2_bucket"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["r2_bucket"]
+    },
+    {
+      "command": "cf r2 buckets locks-get",
+      "args": ["$r2_bucket"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["r2_bucket"]
+    },
+    {
+      "command": "cf r2 buckets domains-managed-list",
+      "args": ["$r2_bucket"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["r2_bucket"]
+    },
+    {
+      "command": "cf r2 buckets domains-managed-update",
+      "args": ["$r2_bucket", "--body", "{\"enabled\":true}"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["r2_bucket"]
+    },
+    {
+      "command": "cf r2 buckets domains-managed-update",
+      "args": ["$r2_bucket", "--body", "{\"enabled\":false}"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["r2_bucket"]
+    },
+    {
+      "command": "cf r2 buckets sippy-get",
+      "args": ["$r2_bucket"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["r2_bucket"]
+    },
+    {
+      "command": "cf r2 super-slurper jobs-list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets delete",
+      "args": ["$r2_bucket"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["r2_bucket"]
+    },
+    {
+      "command": "cf r2 buckets domains-custom-list",
+      "args": ["placeholder_bucket_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets event-notifications-list",
+      "args": ["placeholder_bucket_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 super-slurper jobs-logs-list",
+      "args": ["placeholder_job_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets domains-custom-get",
+      "args": ["placeholder_bucket_name", "placeholder_domain"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets event-notifications-get",
+      "args": ["placeholder_queue_id", "placeholder_bucket_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 super-slurper jobs-get",
+      "args": ["placeholder_job_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 super-slurper jobs-progress",
+      "args": ["placeholder_job_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets domains-custom-create",
+      "args": ["placeholder_bucket_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 super-slurper jobs-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 temporary-credentials create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets domains-custom-update",
+      "args": ["placeholder_bucket_name", "placeholder_domain", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets edit",
+      "args": ["placeholder_bucket_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets event-notifications-update",
+      "args": ["placeholder_queue_id", "placeholder_bucket_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets lifecycle-update",
+      "args": ["placeholder_bucket_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets locks-update",
+      "args": ["placeholder_bucket_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets sippy-update",
+      "args": ["placeholder_bucket_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 super-slurper connectivity-precheck-source",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 super-slurper connectivity-precheck-target",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 super-slurper jobs-abort",
+      "args": ["placeholder_job_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 super-slurper jobs-abort-all",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 super-slurper jobs-pause",
+      "args": ["placeholder_job_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 super-slurper jobs-resume",
+      "args": ["placeholder_job_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets domains-custom-delete",
+      "args": ["placeholder_bucket_name", "placeholder_domain", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets event-notifications-delete",
+      "args": ["placeholder_queue_id", "placeholder_bucket_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets sippy-delete",
+      "args": ["placeholder_bucket_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets-extra local-uploads-get",
+      "args": ["placeholder_bucket_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets-extra local-uploads-update",
+      "args": ["placeholder_bucket_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets-domains-custom create",
+      "args": ["placeholder_bucket_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 super-slurper-jobs create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets-domains-custom list",
+      "args": ["placeholder_bucket_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets-domains-managed list",
+      "args": ["placeholder_bucket_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets-event-notifications list",
+      "args": ["placeholder_bucket_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets-metrics list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 super-slurper-jobs list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 super-slurper-jobs-logs list",
+      "args": ["placeholder_job_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets-cors get",
+      "args": ["placeholder_bucket_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets-domains-custom get",
+      "args": ["placeholder_bucket_name", "placeholder_domain"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets-event-notifications get",
+      "args": ["placeholder_bucket_name", "placeholder_queue_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets-lifecycle get",
+      "args": ["placeholder_bucket_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets-locks get",
+      "args": ["placeholder_bucket_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets-sippy get",
+      "args": ["placeholder_bucket_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 super-slurper-jobs get",
+      "args": ["placeholder_job_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 super-slurper-jobs progress",
+      "args": ["placeholder_job_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets-cors update",
+      "args": ["placeholder_bucket_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets-domains-custom update",
+      "args": ["placeholder_bucket_name", "placeholder_domain", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets-domains-managed update",
+      "args": ["placeholder_bucket_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets-event-notifications update",
+      "args": ["placeholder_bucket_name", "placeholder_queue_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets-lifecycle update",
+      "args": ["placeholder_bucket_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets-locks update",
+      "args": ["placeholder_bucket_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets-sippy update",
+      "args": ["placeholder_bucket_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 super-slurper-connectivity-precheck source",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 super-slurper-connectivity-precheck target",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 super-slurper-jobs abort",
+      "args": ["placeholder_job_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 super-slurper-jobs abort-all",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 super-slurper-jobs pause",
+      "args": ["placeholder_job_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 super-slurper-jobs resume",
+      "args": ["placeholder_job_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets-cors delete",
+      "args": ["placeholder_bucket_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets-domains-custom delete",
+      "args": ["placeholder_bucket_name", "placeholder_domain", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets-event-notifications delete",
+      "args": ["placeholder_bucket_name", "placeholder_queue_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets-sippy delete",
+      "args": ["placeholder_bucket_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets domains custom create",
+      "args": ["placeholder_bucket_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 super-slurper jobs create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets domains custom list",
+      "args": ["placeholder_bucket_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets domains managed list",
+      "args": ["placeholder_bucket_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets event-notifications list",
+      "args": ["placeholder_bucket_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets metrics list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 super-slurper jobs list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 super-slurper jobs logs list",
+      "args": ["placeholder_job_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets cors get",
+      "args": ["placeholder_bucket_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets domains custom get",
+      "args": ["placeholder_bucket_name", "placeholder_domain"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets event-notifications get",
+      "args": ["placeholder_bucket_name", "placeholder_queue_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets lifecycle get",
+      "args": ["placeholder_bucket_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets locks get",
+      "args": ["placeholder_bucket_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets sippy get",
+      "args": ["placeholder_bucket_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 super-slurper jobs get",
+      "args": ["placeholder_job_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 super-slurper jobs progress",
+      "args": ["placeholder_job_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets cors update",
+      "args": ["placeholder_bucket_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets domains custom update",
+      "args": ["placeholder_bucket_name", "placeholder_domain", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets domains managed update",
+      "args": ["placeholder_bucket_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets event-notifications update",
+      "args": ["placeholder_bucket_name", "placeholder_queue_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets lifecycle update",
+      "args": ["placeholder_bucket_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets locks update",
+      "args": ["placeholder_bucket_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets sippy update",
+      "args": ["placeholder_bucket_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 super-slurper connectivity-precheck source",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 super-slurper connectivity-precheck target",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 super-slurper jobs abort",
+      "args": ["placeholder_job_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 super-slurper jobs abort-all",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 super-slurper jobs pause",
+      "args": ["placeholder_job_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 super-slurper jobs resume",
+      "args": ["placeholder_job_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets cors delete",
+      "args": ["placeholder_bucket_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets domains custom delete",
+      "args": ["placeholder_bucket_name", "placeholder_domain", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets event-notifications delete",
+      "args": ["placeholder_bucket_name", "placeholder_queue_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets sippy delete",
+      "args": ["placeholder_bucket_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets-extra local uploads get",
+      "args": ["placeholder_bucket_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets-extra local uploads update",
+      "args": ["placeholder_bucket_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets event notifications list",
+      "args": ["placeholder_bucket_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets event notifications get",
+      "args": ["placeholder_bucket_name", "placeholder_queue_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets event notifications update",
+      "args": ["placeholder_bucket_name", "placeholder_queue_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 super-slurper connectivity precheck source",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 super-slurper connectivity precheck target",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 super-slurper jobs abort all",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets event notifications delete",
+      "args": ["placeholder_bucket_name", "placeholder_queue_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets local-uploads get",
+      "args": ["placeholder_bucket_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf r2 buckets local-uploads update",
+      "args": ["placeholder_bucket_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

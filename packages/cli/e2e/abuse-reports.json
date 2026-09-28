@@ -1,0 +1,47 @@
+{
+  "product": "abuse-reports",
+  "tests": [
+    {
+      "command": "cf abuse-reports create",
+      "args": ["placeholder_report_param", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf abuse-reports mitigations review",
+      "args": ["placeholder_report_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf abuse-reports list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf abuse-reports mitigations list",
+      "args": ["placeholder_report_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf abuse-reports get",
+      "args": ["placeholder_report_param"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf abuse-reports emails list",
+      "args": ["placeholder_report_id"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

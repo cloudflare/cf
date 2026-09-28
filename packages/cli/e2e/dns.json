@@ -1,0 +1,1254 @@
+{
+  "product": "dns",
+  "tests": [
+    {
+      "command": "cf dns records list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns records export",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns records get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns records create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns records update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns records delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns records batch",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns records import",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns records scan",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns dnssec get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns dnssec edit",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns dnssec delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns settings get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns settings edit",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns analytics report",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns analytics bytime",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone_transfers acls_list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      },
+      "capture": {
+        ".[0].id": "acl_id"
+      }
+    },
+    {
+      "command": "cf dns zone_transfers acls_create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns zone_transfers acls_get",
+      "args": ["$acl_id"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["acl_id"]
+    },
+    {
+      "command": "cf dns zone_transfers acls_delete",
+      "args": ["$acl_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["acl_id"]
+    },
+    {
+      "command": "cf dns zone_transfers peers_list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      },
+      "capture": {
+        ".[0].id": "peer_id"
+      }
+    },
+    {
+      "command": "cf dns zone_transfers peers_create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns zone_transfers peers_get",
+      "args": ["$peer_id"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["peer_id"]
+    },
+    {
+      "command": "cf dns zone_transfers peers_delete",
+      "args": ["$peer_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["peer_id"]
+    },
+    {
+      "command": "cf dns zone_transfers tsigs_list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      },
+      "capture": {
+        ".[0].id": "tsig_id"
+      }
+    },
+    {
+      "command": "cf dns zone_transfers tsigs_create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns zone_transfers tsigs_get",
+      "args": ["$tsig_id"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["tsig_id"]
+    },
+    {
+      "command": "cf dns zone_transfers tsigs_delete",
+      "args": ["$tsig_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["tsig_id"]
+    },
+    {
+      "command": "cf dns zone_transfers force_axfr",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone_transfers incoming_create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone_transfers incoming_get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone_transfers incoming_delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone_transfers outgoing_create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone_transfers outgoing_get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone_transfers outgoing_delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone_transfers outgoing_enable",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone_transfers outgoing_disable",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone_transfers outgoing_force_notify",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone_transfers outgoing_status",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns scan review-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns scan trigger-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns views create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns views list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      },
+      "capture": {
+        ".[0].id": "view_id"
+      }
+    },
+    {
+      "command": "cf dns scan review-get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns usage get-account-usage",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns usage get-zone-usage",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns views get",
+      "args": ["$view_id"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["view_id"]
+    },
+    {
+      "command": "cf dns acls update",
+      "args": ["$acl_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["acl_id"]
+    },
+    {
+      "command": "cf dns edit-dns-record",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns edit-dns-settings",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns incoming update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns outgoing update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns peers update",
+      "args": ["$peer_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["peer_id"]
+    },
+    {
+      "command": "cf dns tsigs update",
+      "args": ["$tsig_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["tsig_id"]
+    },
+    {
+      "command": "cf dns views edit",
+      "args": ["$view_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["view_id"]
+    },
+    {
+      "command": "cf dns views delete",
+      "args": ["$view_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["view_id"]
+    },
+    {
+      "command": "cf dns dnssec list-zsks",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns records scan-review",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns records scan-trigger",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns settings-account-views create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers-acls create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers-force-axfr create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers-incoming create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers-outgoing create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers-outgoing disable",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers-outgoing enable",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers-outgoing force-notify",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers-peers create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers-tsigs create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns records scan-list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns settings-account-views list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers-acls list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers-peers list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers-tsigs list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns analytics-reports get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns analytics-reports-bytimes get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns settings-account get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns settings-account-views get",
+      "args": ["placeholder_view_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns settings-zone get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns usage-account get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns usage-zone get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers-acls get",
+      "args": ["placeholder_acl_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers-incoming get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers-outgoing get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers-outgoing-status get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers-peers get",
+      "args": ["placeholder_peer_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers-tsigs get",
+      "args": ["placeholder_tsig_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns records edit",
+      "args": ["placeholder_dns_record_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns settings-account edit",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns settings-account-views edit",
+      "args": ["placeholder_view_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns settings-zone edit",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers-acls update",
+      "args": ["placeholder_acl_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers-incoming update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers-outgoing update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers-peers update",
+      "args": ["placeholder_peer_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers-tsigs update",
+      "args": ["placeholder_tsig_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns settings-account-views delete",
+      "args": ["placeholder_view_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers-acls delete",
+      "args": ["placeholder_acl_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers-incoming delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers-outgoing delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers-peers delete",
+      "args": ["placeholder_peer_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers-tsigs delete",
+      "args": ["placeholder_tsig_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns settings account views create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers acls create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers force-axfr create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers incoming create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers outgoing create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers outgoing disable",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers outgoing enable",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers outgoing force-notify",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers peers create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers tsigs create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns settings account views list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers acls list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers peers list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers tsigs list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns analytics reports bytimes get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns analytics reports get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns settings account get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns settings account views get",
+      "args": ["placeholder_view_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns settings zone get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers acls get",
+      "args": ["placeholder_acl_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers incoming get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers outgoing get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers outgoing status get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers peers get",
+      "args": ["placeholder_peer_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers tsigs get",
+      "args": ["placeholder_tsig_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns settings account edit",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns settings account views edit",
+      "args": ["placeholder_view_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns settings zone edit",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers acls update",
+      "args": ["placeholder_acl_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers incoming update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers outgoing update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers peers update",
+      "args": ["placeholder_peer_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers tsigs update",
+      "args": ["placeholder_tsig_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns settings account views delete",
+      "args": ["placeholder_view_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers acls delete",
+      "args": ["placeholder_acl_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers incoming delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers outgoing delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers peers delete",
+      "args": ["placeholder_peer_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers tsigs delete",
+      "args": ["placeholder_tsig_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns usage account get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns usage zone get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns dnssec list zsks",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns scan review create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns scan trigger create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns scan review get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns usage get account usage",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns usage get zone usage",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers force-axfr acls_create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers force-axfr force_axfr",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers force-axfr incoming_create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers force-axfr outgoing_create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers force-axfr outgoing_disable",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers force-axfr outgoing_enable",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers force-axfr outgoing_force_notify",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers force-axfr peers_create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers force-axfr tsigs_create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers force-axfr acls_list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers force-axfr peers_list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers force-axfr tsigs_list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers force-axfr acls_get",
+      "args": ["placeholder_acl_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers force-axfr incoming_get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers force-axfr outgoing_get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers force-axfr outgoing_status",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers force-axfr peers_get",
+      "args": ["placeholder_peer_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers force-axfr tsigs_get",
+      "args": ["placeholder_tsig_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers force-axfr acls_delete",
+      "args": ["placeholder_acl_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers force-axfr incoming_delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers force-axfr outgoing_delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers force-axfr peers_delete",
+      "args": ["placeholder_peer_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers force-axfr tsigs_delete",
+      "args": ["placeholder_tsig_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers force-axfr",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf dns zone-transfers outgoing status",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    }
+  ]
+}

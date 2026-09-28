@@ -1,0 +1,103 @@
+{
+  "product": "logs",
+  "tests": [
+    {
+      "command": "cf logs control cmb-config-create",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf logs control cmb-config-delete",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf logs control cmb-config-get",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf logs control retention-create",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf logs control retention-get",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf logs received fields-get",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf logs rayid get",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf logs received get",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf logs control cmb config create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logs control retention create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf logs control cmb config get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logs control retention get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf logs received fields get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf logs control cmb config delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

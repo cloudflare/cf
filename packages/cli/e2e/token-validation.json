@@ -1,0 +1,145 @@
+{
+  "product": "token-validation",
+  "tests": [
+    {
+      "command": "cf token-validation configuration create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf token-validation rules bulk-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf token-validation rules create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf token-validation configuration list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf token-validation rules list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf token-validation configuration get",
+      "args": ["placeholder_config_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf token-validation rules get",
+      "args": ["placeholder_rule_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf token-validation configuration credentials-update",
+      "args": ["placeholder_config_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf token-validation configuration edit",
+      "args": ["placeholder_config_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf token-validation rules bulk-edit",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf token-validation rules edit",
+      "args": ["placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf token-validation configuration delete",
+      "args": ["placeholder_config_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf token-validation rules delete",
+      "args": ["placeholder_rule_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf token-validation rules-extra preview-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf token-validation configuration-credentials update",
+      "args": ["placeholder_config_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf token-validation configuration credentials update",
+      "args": ["placeholder_config_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf token-validation rules-extra preview create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf token-validation rules bulk create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf token-validation rules bulk edit",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf token-validation rules preview create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    }
+  ]
+}

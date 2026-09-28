@@ -1,0 +1,249 @@
+{
+  "product": "d1",
+  "tests": [
+    {
+      "command": "cf d1 create",
+      "args": ["e2e-d1-$RUN_ID"],
+      "env": {
+        "scope": "account"
+      },
+      "capture": {
+        "uuid": "d1_id"
+      }
+    },
+    {
+      "command": "cf d1 list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf d1 info",
+      "args": ["$d1_id"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["d1_id"]
+    },
+    {
+      "command": "cf d1 execute",
+      "args": ["$d1_id", "--command", "CREATE TABLE e2e (id INTEGER PRIMARY KEY, val TEXT)"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["d1_id"]
+    },
+    {
+      "command": "cf d1 execute",
+      "args": ["$d1_id", "--command", "INSERT INTO e2e VALUES (1, 'hello')"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["d1_id"]
+    },
+    {
+      "command": "cf d1 execute",
+      "args": ["$d1_id", "--command", "SELECT * FROM e2e"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["d1_id"]
+    },
+    {
+      "command": "cf d1 insights",
+      "args": ["$d1_id"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["d1_id"]
+    },
+    {
+      "command": "cf d1 export",
+      "args": ["$d1_id"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["d1_id"]
+    },
+    {
+      "command": "cf d1 time-travel info",
+      "args": ["$d1_id"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["d1_id"]
+    },
+    {
+      "command": "cf d1 migrations list",
+      "args": ["$d1_id"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["d1_id"]
+    },
+    {
+      "command": "cf d1 time-travel restore",
+      "args": ["$d1_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["d1_id"]
+    },
+    {
+      "command": "cf d1 delete",
+      "args": ["$d1_id", "--skip-confirmation"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["d1_id"]
+    },
+    {
+      "command": "cf d1 migrations apply",
+      "args": ["placeholder_name"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf d1 migrations create",
+      "args": ["placeholder_name", "placeholder_message"],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf d1 database import-create",
+      "args": ["placeholder_database_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf d1 database raw-create",
+      "args": ["placeholder_database_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf d1 database edit",
+      "args": ["placeholder_database_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf d1 database update",
+      "args": ["placeholder_database_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf d1 database create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf d1 database export",
+      "args": ["placeholder_database_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf d1 database import",
+      "args": ["placeholder_database_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf d1 database query",
+      "args": ["placeholder_database_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf d1 database query",
+      "args": ["placeholder_database_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf d1 database raw",
+      "args": ["placeholder_database_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf d1 database-time-travel restore",
+      "args": ["placeholder_database_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf d1 database list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf d1 database get",
+      "args": ["placeholder_database_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf d1 database-time-travel get-bookmark",
+      "args": ["placeholder_database_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf d1 database delete",
+      "args": ["placeholder_database_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf d1 database time-travel restore",
+      "args": ["placeholder_database_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf d1 database time-travel get-bookmark",
+      "args": ["placeholder_database_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf d1 database import create",
+      "args": ["placeholder_database_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf d1 database raw create",
+      "args": ["placeholder_database_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

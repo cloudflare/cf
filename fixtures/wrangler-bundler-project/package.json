@@ -1,0 +1,9 @@
+{
+	"name": "wrangler-bundler-fixture",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"dependencies": {
+		"wrangler": "4.142.0"
+	}
+}

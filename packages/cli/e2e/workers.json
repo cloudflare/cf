@@ -1,0 +1,1713 @@
+{
+  "product": "workers",
+  "tests": [
+    {
+      "command": "cf workers assets upload-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers beta workers-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers beta workers-versions-create",
+      "args": ["placeholder_worker_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers observability destinations-create",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf workers observability destinations-delete",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf workers observability destinations-list",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf workers observability destinations-update",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf workers observability telemetry-keys",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf workers observability telemetry-query",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf workers observability telemetry-values",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf workers routes create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf workers scripts assets-upload-create",
+      "args": ["placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts deployments-create",
+      "args": ["placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts subdomain-create",
+      "args": ["placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts tail-create",
+      "args": ["placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts tail-get",
+      "args": [],
+      "env": {
+        "scope": "global"
+      }
+    },
+    {
+      "command": "cf workers scripts versions-create",
+      "args": ["placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers beta workers-list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers beta workers-versions-list",
+      "args": ["placeholder_worker_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers domains list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers routes list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf workers scripts deployments-list",
+      "args": ["placeholder_script_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts secrets-list",
+      "args": ["placeholder_script_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts versions-list",
+      "args": ["placeholder_script_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers account-settings get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers beta workers-get",
+      "args": ["placeholder_worker_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers beta workers-versions-get",
+      "args": ["placeholder_worker_id", "placeholder_version_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers domains get",
+      "args": ["placeholder_domain_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers routes get",
+      "args": ["placeholder_route_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf workers scripts content-get",
+      "args": ["placeholder_script_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts deployments-get",
+      "args": ["placeholder_script_name", "placeholder_deployment_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts get",
+      "args": ["placeholder_script_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts schedules-get",
+      "args": ["placeholder_script_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts script-and-version-settings-get",
+      "args": ["placeholder_script_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts search",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts secrets-get",
+      "args": ["placeholder_script_name", "placeholder_secret_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts settings-get",
+      "args": ["placeholder_script_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts subdomain-get",
+      "args": ["placeholder_script_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts versions-get",
+      "args": ["placeholder_script_name", "placeholder_version_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers subdomains get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers account-settings update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers beta workers-edit",
+      "args": ["placeholder_worker_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers beta workers-update",
+      "args": ["placeholder_worker_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers domains update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers routes update",
+      "args": ["placeholder_route_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf workers scripts content-update",
+      "args": ["placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts schedules-update",
+      "args": ["placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts script-and-version-settings-edit",
+      "args": ["placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts secrets-update",
+      "args": ["placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts settings-edit",
+      "args": ["placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts update",
+      "args": ["placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers subdomains update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers beta workers-delete",
+      "args": ["placeholder_worker_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers beta workers-versions-delete",
+      "args": ["placeholder_worker_id", "placeholder_version_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers domains delete",
+      "args": ["placeholder_domain_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers routes delete",
+      "args": ["placeholder_route_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf workers scripts delete",
+      "args": ["placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts deployments-delete",
+      "args": ["placeholder_script_name", "placeholder_deployment_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts secrets-delete",
+      "args": ["placeholder_script_name", "placeholder_secret_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts subdomain-delete",
+      "args": ["placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts tail-delete",
+      "args": ["placeholder_script_name", "placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers subdomains delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers configuration create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf workers crawler stripe-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers publisher stripe-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers registries credentials-generate",
+      "args": ["placeholder_domain", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers zones-can-be-enabled query-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers dispatch namespaces-scripts-list",
+      "args": ["placeholder_dispatch_namespace"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers list-extra",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers placement regions-list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers configuration get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf workers crawler stripe-get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers publisher stripe-get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts-extra usage-model-get",
+      "args": ["placeholder_script_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers services environments-content-get",
+      "args": ["placeholder_service_name", "placeholder_environment_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers services environments-settings-get",
+      "args": ["placeholder_service_name", "placeholder_environment_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers configuration edit",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf workers dispatch namespaces-edit",
+      "args": ["placeholder_dispatch_namespace", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers dispatch namespaces-scripts-tags-update",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name", "placeholder_tag", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers dispatch namespaces-update",
+      "args": ["placeholder_dispatch_namespace", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts-extra usage-model-update",
+      "args": ["placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers services environments-content-update",
+      "args": ["placeholder_service_name", "placeholder_environment_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers services environments-settings-edit",
+      "args": ["placeholder_service_name", "placeholder_environment_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers zones-can-be-enabled edit",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers crawler stripe-delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers dispatch namespaces-scripts-delete",
+      "args": ["placeholder_dispatch_namespace", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers publisher stripe-delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers observability queries-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers observability telemetry-keys-list",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers observability telemetry-values-list",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers workflows instances-batch-create",
+      "args": ["placeholder_workflow_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers workflows instances-batch-terminate",
+      "args": ["placeholder_workflow_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers workflows instances-create",
+      "args": ["placeholder_workflow_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers workflows instances-event-create",
+      "args": ["placeholder_workflow_name", "placeholder_instance_id", "placeholder_event_type", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers observability queries-list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers workflows instances-list",
+      "args": ["placeholder_workflow_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers workflows list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers workflows versions-list",
+      "args": ["placeholder_workflow_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers observability queries-get",
+      "args": ["placeholder_queryId"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers workflows get",
+      "args": ["placeholder_workflow_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers workflows instances-batch-terminate-status",
+      "args": ["placeholder_workflow_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers workflows instances-get",
+      "args": ["placeholder_workflow_name", "placeholder_instance_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers workflows versions-dag-get",
+      "args": ["placeholder_workflow_name", "placeholder_version_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers workflows versions-get",
+      "args": ["placeholder_workflow_name", "placeholder_version_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers workflows versions-graph-get",
+      "args": ["placeholder_workflow_name", "placeholder_version_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers observability destinations-edit",
+      "args": ["placeholder_slug", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers observability queries-edit",
+      "args": ["placeholder_queryId", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers workflows create",
+      "args": ["placeholder_workflow_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers workflows instances-status-edit",
+      "args": ["placeholder_workflow_name", "placeholder_instance_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers observability queries-delete",
+      "args": ["placeholder_queryId", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers workflows delete",
+      "args": ["placeholder_workflow_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers assets-upload create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers beta-workers create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers beta-workers-versions create",
+      "args": ["placeholder_worker_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers observability-destinations create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers observability-telemetry keys",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers observability-telemetry query",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers observability-telemetry values",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts-assets-upload create",
+      "args": ["placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts-deployments create",
+      "args": ["placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts-subdomain create",
+      "args": ["placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts-tail create",
+      "args": ["placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts-versions create",
+      "args": ["placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers beta-workers list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers beta-workers-versions list",
+      "args": ["placeholder_worker_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers observability-destinations list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts-deployments list",
+      "args": ["placeholder_script_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts-secrets list",
+      "args": ["placeholder_script_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts-versions list",
+      "args": ["placeholder_script_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers beta-workers get",
+      "args": ["placeholder_worker_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers beta-workers-versions get",
+      "args": ["placeholder_worker_id", "placeholder_version_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts-content get",
+      "args": ["placeholder_script_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts-deployments get",
+      "args": ["placeholder_script_name", "placeholder_deployment_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts-schedules get",
+      "args": ["placeholder_script_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts-script-and-version-settings get",
+      "args": ["placeholder_script_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts-secrets get",
+      "args": ["placeholder_script_name", "placeholder_secret_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts-settings get",
+      "args": ["placeholder_script_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts-subdomain get",
+      "args": ["placeholder_script_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts-versions get",
+      "args": ["placeholder_script_name", "placeholder_version_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers beta-workers edit",
+      "args": ["placeholder_worker_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers beta-workers update",
+      "args": ["placeholder_worker_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers observability-destinations update",
+      "args": ["placeholder_slug", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts-content update",
+      "args": ["placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts-schedules update",
+      "args": ["placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts-script-and-version-settings edit",
+      "args": ["placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts-secrets update",
+      "args": ["placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts-settings edit",
+      "args": ["placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers beta-workers delete",
+      "args": ["placeholder_worker_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers beta-workers-versions delete",
+      "args": ["placeholder_worker_id", "placeholder_version_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers observability-destinations delete",
+      "args": ["placeholder_slug", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts-deployments delete",
+      "args": ["placeholder_script_name", "placeholder_deployment_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts-secrets delete",
+      "args": ["placeholder_script_name", "placeholder_secret_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts-subdomain delete",
+      "args": ["placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts-tail delete",
+      "args": ["placeholder_script_name", "placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers assets upload create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers beta workers create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers beta workers versions create",
+      "args": ["placeholder_worker_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers observability destinations create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers observability telemetry keys",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers observability telemetry query",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers observability telemetry values",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts assets upload create",
+      "args": ["placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts deployments create",
+      "args": ["placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts subdomain create",
+      "args": ["placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts tail create",
+      "args": ["placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts versions create",
+      "args": ["placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers beta workers list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers beta workers versions list",
+      "args": ["placeholder_worker_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers observability destinations list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts deployments list",
+      "args": ["placeholder_script_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts secrets list",
+      "args": ["placeholder_script_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts versions list",
+      "args": ["placeholder_script_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers beta workers get",
+      "args": ["placeholder_worker_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers beta workers versions get",
+      "args": ["placeholder_worker_id", "placeholder_version_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts content get",
+      "args": ["placeholder_script_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts deployments get",
+      "args": ["placeholder_script_name", "placeholder_deployment_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts schedules get",
+      "args": ["placeholder_script_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts script-and-version-settings get",
+      "args": ["placeholder_script_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts secrets get",
+      "args": ["placeholder_script_name", "placeholder_secret_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts settings get",
+      "args": ["placeholder_script_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts subdomain get",
+      "args": ["placeholder_script_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts versions get",
+      "args": ["placeholder_script_name", "placeholder_version_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers beta workers edit",
+      "args": ["placeholder_worker_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers beta workers update",
+      "args": ["placeholder_worker_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers observability destinations update",
+      "args": ["placeholder_slug", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts content update",
+      "args": ["placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts schedules update",
+      "args": ["placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts script-and-version-settings edit",
+      "args": ["placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts secrets update",
+      "args": ["placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts settings edit",
+      "args": ["placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers beta workers delete",
+      "args": ["placeholder_worker_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers beta workers versions delete",
+      "args": ["placeholder_worker_id", "placeholder_version_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers observability destinations delete",
+      "args": ["placeholder_slug", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts deployments delete",
+      "args": ["placeholder_script_name", "placeholder_deployment_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts secrets delete",
+      "args": ["placeholder_script_name", "placeholder_secret_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts subdomain delete",
+      "args": ["placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts tail delete",
+      "args": ["placeholder_script_name", "placeholder_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers crawler stripe create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers observability queries create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers publisher stripe create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers zones-can-be-enabled query create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers dispatch namespaces scripts list",
+      "args": ["placeholder_dispatch_namespace"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers observability queries list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers placement regions list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers crawler stripe get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers observability queries get",
+      "args": ["placeholder_queryId"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers publisher stripe get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts-extra usage model get",
+      "args": ["placeholder_script_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers services environments content get",
+      "args": ["placeholder_service_name", "placeholder_environment_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers services environments settings get",
+      "args": ["placeholder_service_name", "placeholder_environment_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers workflows instances batch terminate status",
+      "args": ["placeholder_workflow_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers workflows versions dag get",
+      "args": ["placeholder_workflow_name", "placeholder_version_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers workflows versions graph get",
+      "args": ["placeholder_workflow_name", "placeholder_version_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers dispatch namespaces edit",
+      "args": ["placeholder_dispatch_namespace", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers dispatch namespaces scripts tags update",
+      "args": ["placeholder_dispatch_namespace", "placeholder_script_name", "placeholder_tag", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers dispatch namespaces update",
+      "args": ["placeholder_dispatch_namespace", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers observability queries edit",
+      "args": ["placeholder_queryId", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts-extra usage model update",
+      "args": ["placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers services environments content update",
+      "args": ["placeholder_service_name", "placeholder_environment_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers services environments settings edit",
+      "args": ["placeholder_service_name", "placeholder_environment_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers crawler stripe delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers dispatch namespaces scripts delete",
+      "args": ["placeholder_dispatch_namespace", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers observability queries delete",
+      "args": ["placeholder_queryId", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers publisher stripe delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers registries credentials generate",
+      "args": ["placeholder_domain", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers workflows instances batch terminate",
+      "args": ["placeholder_workflow_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers observability telemetry keys list",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers observability telemetry values list",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers workflows instances batch create",
+      "args": ["placeholder_workflow_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers workflows instances create",
+      "args": ["placeholder_workflow_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers workflows instances event create",
+      "args": ["placeholder_workflow_name", "placeholder_instance_id", "placeholder_event_type", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers workflows instances list",
+      "args": ["placeholder_workflow_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers workflows versions list",
+      "args": ["placeholder_workflow_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts script and version settings get",
+      "args": ["placeholder_script_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers workflows instances get",
+      "args": ["placeholder_workflow_name", "placeholder_instance_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers workflows versions get",
+      "args": ["placeholder_workflow_name", "placeholder_version_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers observability destinations edit",
+      "args": ["placeholder_slug", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts script and version settings edit",
+      "args": ["placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers workflows instances status edit",
+      "args": ["placeholder_workflow_name", "placeholder_instance_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers workflows instances batch terminate-status",
+      "args": ["placeholder_workflow_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers applications list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts usage-model get",
+      "args": ["placeholder_script_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf workers scripts usage-model update",
+      "args": ["placeholder_script_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

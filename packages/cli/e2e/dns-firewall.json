@@ -1,0 +1,96 @@
+{
+  "product": "dns-firewall",
+  "tests": [
+    {
+      "command": "cf dns-firewall create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns-firewall list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns-firewall analytics reports-bytimes-get",
+      "args": ["placeholder_dns_firewall_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns-firewall analytics reports-get",
+      "args": ["placeholder_dns_firewall_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns-firewall get",
+      "args": ["placeholder_dns_firewall_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns-firewall reverse-dns get",
+      "args": ["placeholder_dns_firewall_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns-firewall edit",
+      "args": ["placeholder_dns_firewall_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns-firewall reverse-dns edit",
+      "args": ["placeholder_dns_firewall_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns-firewall delete",
+      "args": ["placeholder_dns_firewall_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns-firewall analytics-reports get",
+      "args": ["placeholder_dns_firewall_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns-firewall analytics-reports-bytimes get",
+      "args": ["placeholder_dns_firewall_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns-firewall analytics reports bytimes get",
+      "args": ["placeholder_dns_firewall_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf dns-firewall analytics reports get",
+      "args": ["placeholder_dns_firewall_id"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

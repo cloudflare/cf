@@ -1,0 +1,152 @@
+{
+  "product": "vuln-scanner",
+  "tests": [
+    {
+      "command": "cf vuln-scanner credential-sets create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vuln-scanner credential-sets credentials-create",
+      "args": ["placeholder_credential_set_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vuln-scanner scans create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vuln-scanner target-environments create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vuln-scanner credential-sets credentials-list",
+      "args": ["placeholder_credential_set_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vuln-scanner credential-sets list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vuln-scanner scans list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vuln-scanner target-environments list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vuln-scanner credential-sets credentials-get",
+      "args": ["placeholder_credential_set_id", "placeholder_credential_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vuln-scanner credential-sets get",
+      "args": ["placeholder_credential_set_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vuln-scanner scans get",
+      "args": ["placeholder_scan_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vuln-scanner target-environments get",
+      "args": ["placeholder_target_environment_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vuln-scanner credential-sets credentials-edit",
+      "args": ["placeholder_credential_set_id", "placeholder_credential_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vuln-scanner credential-sets credentials-update",
+      "args": ["placeholder_credential_set_id", "placeholder_credential_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vuln-scanner credential-sets edit",
+      "args": ["placeholder_credential_set_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vuln-scanner credential-sets update",
+      "args": ["placeholder_credential_set_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vuln-scanner target-environments edit",
+      "args": ["placeholder_target_environment_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vuln-scanner target-environments update",
+      "args": ["placeholder_target_environment_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vuln-scanner credential-sets credentials-delete",
+      "args": ["placeholder_credential_set_id", "placeholder_credential_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vuln-scanner credential-sets delete",
+      "args": ["placeholder_credential_set_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf vuln-scanner target-environments delete",
+      "args": ["placeholder_target_environment_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

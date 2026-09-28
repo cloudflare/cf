@@ -1,0 +1,670 @@
+{
+  "product": "addressing",
+  "tests": [
+    {
+      "command": "cf addressing address-maps create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing loa-documents create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes bgp-prefixes-create",
+      "args": ["placeholder_prefix_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes delegations-create",
+      "args": ["placeholder_prefix_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes service-bindings-create",
+      "args": ["placeholder_prefix_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing regional-hostnames create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf addressing address-maps list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes bgp-prefixes-list",
+      "args": ["placeholder_prefix_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes delegations-list",
+      "args": ["placeholder_prefix_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes service-bindings-list",
+      "args": ["placeholder_prefix_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing regional-hostnames list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf addressing regional-hostnames regions-list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing services list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing address-maps get",
+      "args": ["placeholder_address_map_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing loa-documents get",
+      "args": ["placeholder_loa_document_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes advertisement-status-get",
+      "args": ["placeholder_prefix_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes bgp-prefixes-get",
+      "args": ["placeholder_prefix_id", "placeholder_bgp_prefix_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes get",
+      "args": ["placeholder_prefix_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes service-bindings-get",
+      "args": ["placeholder_prefix_id", "placeholder_binding_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing regional-hostnames get",
+      "args": ["placeholder_hostname"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf addressing address-maps accounts-update",
+      "args": ["placeholder_address_map_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing address-maps edit",
+      "args": ["placeholder_address_map_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing address-maps ips-update",
+      "args": ["placeholder_address_map_id", "placeholder_ip_address", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing address-maps zones-update",
+      "args": ["placeholder_address_map_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf addressing prefixes advertisement-status-edit",
+      "args": ["placeholder_prefix_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes bgp-prefixes-edit",
+      "args": ["placeholder_prefix_id", "placeholder_bgp_prefix_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes edit",
+      "args": ["placeholder_prefix_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing regional-hostnames edit",
+      "args": ["placeholder_hostname", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf addressing address-maps accounts-delete",
+      "args": ["placeholder_address_map_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing address-maps delete",
+      "args": ["placeholder_address_map_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing address-maps ips-delete",
+      "args": ["placeholder_address_map_id", "placeholder_ip_address", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing address-maps zones-delete",
+      "args": ["placeholder_address_map_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf addressing prefixes delegations-delete",
+      "args": ["placeholder_prefix_id", "placeholder_delegation_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes delete",
+      "args": ["placeholder_prefix_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes service-bindings-delete",
+      "args": ["placeholder_prefix_id", "placeholder_binding_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing regional-hostnames delete",
+      "args": ["placeholder_hostname", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf addressing prefixes-extra validate-create",
+      "args": ["placeholder_prefix_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing leases list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes-extra bgp-prefixes-delete",
+      "args": ["placeholder_prefix_id", "placeholder_bgp_prefix_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes-bgp-prefixes create",
+      "args": ["placeholder_prefix_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes-delegations create",
+      "args": ["placeholder_prefix_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes-service-bindings create",
+      "args": ["placeholder_prefix_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes-bgp-prefixes list",
+      "args": ["placeholder_prefix_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes-delegations list",
+      "args": ["placeholder_prefix_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes-service-bindings list",
+      "args": ["placeholder_prefix_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing regional-hostnames-regions list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes-advertisement-status get",
+      "args": ["placeholder_prefix_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes-bgp-prefixes get",
+      "args": ["placeholder_prefix_id", "placeholder_bgp_prefix_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes-service-bindings get",
+      "args": ["placeholder_prefix_id", "placeholder_binding_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing address-maps-accounts update",
+      "args": ["placeholder_address_map_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing address-maps-ips update",
+      "args": ["placeholder_address_map_id", "placeholder_ip_address", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing address-maps-zones update",
+      "args": ["placeholder_address_map_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf addressing prefixes-advertisement-status edit",
+      "args": ["placeholder_prefix_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes-bgp-prefixes edit",
+      "args": ["placeholder_prefix_id", "placeholder_bgp_prefix_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing address-maps-accounts delete",
+      "args": ["placeholder_address_map_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing address-maps-ips delete",
+      "args": ["placeholder_address_map_id", "placeholder_ip_address", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing address-maps-zones delete",
+      "args": ["placeholder_address_map_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf addressing prefixes-delegations delete",
+      "args": ["placeholder_prefix_id", "placeholder_delegation_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes-service-bindings delete",
+      "args": ["placeholder_prefix_id", "placeholder_binding_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes bgp-prefixes create",
+      "args": ["placeholder_prefix_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes delegations create",
+      "args": ["placeholder_prefix_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes service-bindings create",
+      "args": ["placeholder_prefix_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes bgp-prefixes list",
+      "args": ["placeholder_prefix_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes delegations list",
+      "args": ["placeholder_prefix_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes service-bindings list",
+      "args": ["placeholder_prefix_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing regional-hostnames regions list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes advertisement-status get",
+      "args": ["placeholder_prefix_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes bgp-prefixes get",
+      "args": ["placeholder_prefix_id", "placeholder_bgp_prefix_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes service-bindings get",
+      "args": ["placeholder_prefix_id", "placeholder_binding_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing address-maps accounts update",
+      "args": ["placeholder_address_map_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing address-maps ips update",
+      "args": ["placeholder_address_map_id", "placeholder_ip_address", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing address-maps zones update",
+      "args": ["placeholder_address_map_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf addressing prefixes advertisement-status edit",
+      "args": ["placeholder_prefix_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes bgp-prefixes edit",
+      "args": ["placeholder_prefix_id", "placeholder_bgp_prefix_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing address-maps accounts delete",
+      "args": ["placeholder_address_map_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing address-maps ips delete",
+      "args": ["placeholder_address_map_id", "placeholder_ip_address", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing address-maps zones delete",
+      "args": ["placeholder_address_map_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf addressing prefixes delegations delete",
+      "args": ["placeholder_prefix_id", "placeholder_delegation_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes service-bindings delete",
+      "args": ["placeholder_prefix_id", "placeholder_binding_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes-extra validate create",
+      "args": ["placeholder_prefix_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes-extra bgp prefixes delete",
+      "args": ["placeholder_prefix_id", "placeholder_bgp_prefix_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes bgp prefixes create",
+      "args": ["placeholder_prefix_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes service bindings create",
+      "args": ["placeholder_prefix_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes bgp prefixes list",
+      "args": ["placeholder_prefix_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes service bindings list",
+      "args": ["placeholder_prefix_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes advertisement status get",
+      "args": ["placeholder_prefix_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes bgp prefixes get",
+      "args": ["placeholder_prefix_id", "placeholder_bgp_prefix_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes service bindings get",
+      "args": ["placeholder_prefix_id", "placeholder_binding_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes advertisement status edit",
+      "args": ["placeholder_prefix_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes bgp prefixes edit",
+      "args": ["placeholder_prefix_id", "placeholder_bgp_prefix_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes service bindings delete",
+      "args": ["placeholder_prefix_id", "placeholder_binding_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes validate create",
+      "args": ["placeholder_prefix_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf addressing prefixes bgp-prefixes delete",
+      "args": ["placeholder_prefix_id", "placeholder_bgp_prefix_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

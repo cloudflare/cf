@@ -1,0 +1,47 @@
+{
+  "product": "custom-nameservers",
+  "tests": [
+    {
+      "command": "cf custom-nameservers create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf custom-nameservers get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf custom-nameservers delete",
+      "args": ["placeholder_custom_ns_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf custom-nameservers get-extra",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf custom-nameservers update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf custom-nameservers zone-metadata get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    }
+  ]
+}

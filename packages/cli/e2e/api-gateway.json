@@ -1,0 +1,817 @@
+{
+  "product": "api-gateway",
+  "tests": [
+    {
+      "command": "cf api-gateway expression-template fallthrough-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway operations bulk-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway operations create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway user-schemas create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway discovery operations-list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway operations list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway schemas list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway user-schemas hosts-list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway user-schemas list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway user-schemas operations-list",
+      "args": ["placeholder_schema_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway configurations get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway discovery get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway operations get",
+      "args": ["placeholder_operation_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway operations schema-validation-get",
+      "args": ["placeholder_operation_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway settings schema-validation-get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway user-schemas get",
+      "args": ["placeholder_schema_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway configurations update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway discovery operations-bulk-edit",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway discovery operations-edit",
+      "args": ["placeholder_operation_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway operations schema-validation-edit",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway operations schema-validation-update",
+      "args": ["placeholder_operation_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway settings schema-validation-edit",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway settings schema-validation-update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway user-schemas edit",
+      "args": ["placeholder_schema_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway operations bulk-delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway operations delete",
+      "args": ["placeholder_operation_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway user-schemas delete",
+      "args": ["placeholder_schema_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway labels user-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway operations-extra labels-create-to-operation",
+      "args": ["placeholder_operation_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway operations-extra labels-create-to-operations",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway labels get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway labels managed-get",
+      "args": ["placeholder_name"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway labels user-get",
+      "args": ["placeholder_name"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway labels managed-resources-operation-update",
+      "args": ["placeholder_name", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway labels user-edit",
+      "args": ["placeholder_name", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway labels user-resources-operation-update",
+      "args": ["placeholder_name", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway labels user-update",
+      "args": ["placeholder_name", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway operations-extra labels-update-to-operation",
+      "args": ["placeholder_operation_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway operations-extra labels-update-to-operations",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway labels user-delete-user-label",
+      "args": ["placeholder_name", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway labels user-delete-user-labels",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway operations-extra labels-delete-from-operation",
+      "args": ["placeholder_operation_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway operations-extra labels-delete-to-operations",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway expression-template-fallthrough create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway labels-user bulk-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway operations-labels bulk-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway operations-labels create",
+      "args": ["placeholder_operation_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway discovery-operations list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway labels list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway user-schemas-hosts list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway user-schemas-operations list",
+      "args": ["placeholder_schema_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway labels-managed get",
+      "args": ["placeholder_name"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway labels-user get",
+      "args": ["placeholder_name"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway operations-schema-validation get",
+      "args": ["placeholder_operation_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway settings-schema-validation get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway discovery-operations bulk-edit",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway discovery-operations edit",
+      "args": ["placeholder_operation_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway labels-managed-resources-operation update",
+      "args": ["placeholder_name", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway labels-user edit",
+      "args": ["placeholder_name", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway labels-user update",
+      "args": ["placeholder_name", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway labels-user-resources-operation update",
+      "args": ["placeholder_name", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway operations-labels bulk-update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway operations-labels update",
+      "args": ["placeholder_operation_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway operations-schema-validation edit",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway operations-schema-validation update",
+      "args": ["placeholder_operation_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway settings-schema-validation edit",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway settings-schema-validation update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway labels-user bulk-delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway labels-user delete",
+      "args": ["placeholder_name", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway operations-labels bulk-delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway operations-labels delete",
+      "args": ["placeholder_operation_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway expression-template fallthrough create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway discovery operations list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway user-schemas hosts list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway user-schemas operations list",
+      "args": ["placeholder_schema_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway operations schema-validation get",
+      "args": ["placeholder_operation_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway settings schema-validation get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway discovery operations bulk-edit",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway discovery operations edit",
+      "args": ["placeholder_operation_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway operations schema-validation edit",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway operations schema-validation update",
+      "args": ["placeholder_operation_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway settings schema-validation edit",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway settings schema-validation update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway labels user create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway labels managed get",
+      "args": ["placeholder_name"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway labels user get",
+      "args": ["placeholder_name"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway labels managed resources operation update",
+      "args": ["placeholder_name", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway labels user edit",
+      "args": ["placeholder_name", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway labels user resources operation update",
+      "args": ["placeholder_name", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway labels user update",
+      "args": ["placeholder_name", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway labels user bulk-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway operations labels bulk-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway operations labels create",
+      "args": ["placeholder_operation_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway operations labels bulk-update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway operations labels update",
+      "args": ["placeholder_operation_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway labels user bulk-delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway labels user delete",
+      "args": ["placeholder_name", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway operations labels bulk-delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway operations labels delete",
+      "args": ["placeholder_operation_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway operations bulk create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway operations-extra labels create to operation",
+      "args": ["placeholder_operation_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway operations-extra labels create to operations",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway operations schema validation get",
+      "args": ["placeholder_operation_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway settings schema validation get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway discovery operations bulk edit",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway operations schema validation edit",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway operations schema validation update",
+      "args": ["placeholder_operation_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway operations-extra labels update to operation",
+      "args": ["placeholder_operation_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway operations-extra labels update to operations",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway settings schema validation edit",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway settings schema validation update",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway labels user delete user label",
+      "args": ["placeholder_name", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway labels user delete user labels",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway operations bulk delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway operations-extra labels delete from operation",
+      "args": ["placeholder_operation_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf api-gateway operations-extra labels delete to operations",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    }
+  ]
+}

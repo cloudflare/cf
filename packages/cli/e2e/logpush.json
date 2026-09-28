@@ -1,0 +1,614 @@
+{
+  "product": "logpush",
+  "tests": [
+    {
+      "command": "cf logpush edge create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf logpush jobs create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf logpush ownership create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf logpush ownership validate",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf logpush validate destination",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf logpush validate destination-exists",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf logpush validate origin",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf logpush jobs list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf logpush datasets fields-get",
+      "args": ["placeholder_dataset_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf logpush datasets jobs-get",
+      "args": ["placeholder_dataset_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf logpush edge get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf logpush jobs get",
+      "args": ["placeholder_job_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf logpush jobs update",
+      "args": ["placeholder_job_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf logpush jobs delete",
+      "args": ["placeholder_job_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf logpush jobs-extra create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush ownership-extra create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush ownership-extra validate-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush validate-extra destination-delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush validate-extra destination-exists-delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush validate-extra origin-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush datasets-extra fields-get",
+      "args": ["placeholder_dataset_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush datasets-extra jobs-get",
+      "args": ["placeholder_dataset_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush jobs-extra get-job-id",
+      "args": ["placeholder_job_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush jobs-extra get-logpush-jobs",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush jobs-extra update",
+      "args": ["placeholder_job_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush jobs-extra delete",
+      "args": ["placeholder_job_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush log-explorer-datasets accounts-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush log-explorer-datasets zones-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf logpush log-explorer-query accounts-query",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush log-explorer-query zones-query",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf logpush logcontrol-cmb create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush logs-received retention-flag-create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf logpush log-explorer-datasets accounts-available-list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush log-explorer-datasets accounts-list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush log-explorer-datasets zones-available-list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf logpush log-explorer-datasets zones-list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf logpush logs-received list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf logpush log-explorer-datasets accounts-get",
+      "args": ["placeholder_dataset_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush log-explorer-datasets zones-get",
+      "args": ["placeholder_dataset_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf logpush logcontrol-cmb get",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush logs-received fields-get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf logpush logs-received rayid-get",
+      "args": ["placeholder_ray_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf logpush logs-received retention-flag-get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf logpush log-explorer-datasets accounts-update",
+      "args": ["placeholder_dataset_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush log-explorer-datasets zones-update",
+      "args": ["placeholder_dataset_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf logpush logcontrol-cmb delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush datasets fields get",
+      "args": ["access_requests"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf logpush datasets fields get",
+      "args": ["access_requests"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush datasets jobs get",
+      "args": ["access_requests"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf logpush datasets jobs get",
+      "args": ["access_requests"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush log-explorer-datasets accounts create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush log-explorer-datasets zones create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf logpush log-explorer-query accounts query",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush log-explorer-query zones query",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf logpush ownership-extra validate create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush validate-extra destination delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush validate-extra destination exists delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush validate-extra origin create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush log-explorer-datasets accounts available list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush log-explorer-datasets accounts list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush log-explorer-datasets zones available list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf logpush log-explorer-datasets zones list",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf logpush datasets-extra fields get",
+      "args": ["access_requests"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush datasets-extra jobs get",
+      "args": ["access_requests"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush log-explorer-datasets accounts get",
+      "args": ["placeholder_dataset_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush log-explorer-datasets zones get",
+      "args": ["placeholder_dataset_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf logpush log-explorer-datasets accounts update",
+      "args": ["placeholder_dataset_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush log-explorer-datasets zones update",
+      "args": ["placeholder_dataset_id", "--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf logpush validate destination exists",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf logpush jobs-extra get job id",
+      "args": ["placeholder_job_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush jobs-extra get logpush jobs",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush logs-received retention flag create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf logpush logs-received fields get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf logpush logs-received rayid get",
+      "args": ["placeholder_ray_id"],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf logpush logs-received retention flag get",
+      "args": [],
+      "env": {
+        "scope": "zone"
+      }
+    },
+    {
+      "command": "cf logpush account-jobs create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush account-ownership create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush account-ownership validate create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush account-validate destination delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush account-validate destination-exists-delete",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush account-validate origin create",
+      "args": ["--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush account-jobs list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush account-datasets fields get",
+      "args": ["access_requests"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush account-datasets jobs get",
+      "args": ["access_requests"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush account-jobs get",
+      "args": ["placeholder_job_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush account-jobs update",
+      "args": ["placeholder_job_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf logpush account-jobs delete",
+      "args": ["placeholder_job_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

@@ -1,0 +1,284 @@
+{
+  "product": "kv",
+  "tests": [
+    {
+      "command": "cf kv namespaces create",
+      "args": ["--body", "{\"title\":\"e2e-kv-$RUN_ID\"}"],
+      "env": {
+        "scope": "account"
+      },
+      "capture": {
+        "id": "kv_ns_id"
+      }
+    },
+    {
+      "command": "cf kv namespaces list",
+      "args": [],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf kv namespaces get",
+      "args": ["$kv_ns_id"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["kv_ns_id"]
+    },
+    {
+      "command": "cf kv namespaces values-update",
+      "args": ["$kv_ns_id", "test-key", "--body", "\"hello e2e\""],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["kv_ns_id"]
+    },
+    {
+      "command": "cf kv namespaces values-get",
+      "args": ["$kv_ns_id", "test-key"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["kv_ns_id"]
+    },
+    {
+      "command": "cf kv namespaces keys-list",
+      "args": ["$kv_ns_id"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["kv_ns_id"]
+    },
+    {
+      "command": "cf kv namespaces metadata-get",
+      "args": ["$kv_ns_id", "test-key"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["kv_ns_id"]
+    },
+    {
+      "command": "cf kv namespaces bulk-update",
+      "args": ["$kv_ns_id", "--body", "[{\"key\":\"k1\",\"value\":\"v1\"},{\"key\":\"k2\",\"value\":\"v2\"}]"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["kv_ns_id"]
+    },
+    {
+      "command": "cf kv namespaces bulk-delete",
+      "args": ["$kv_ns_id", "--body", "[\"k1\",\"k2\"]"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["kv_ns_id"]
+    },
+    {
+      "command": "cf kv namespaces values-delete",
+      "args": ["$kv_ns_id", "test-key"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["kv_ns_id"]
+    },
+    {
+      "command": "cf kv namespaces update",
+      "args": ["$kv_ns_id", "--body", "{\"title\":\"e2e-kv-$RUN_ID-renamed\"}"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["kv_ns_id"]
+    },
+    {
+      "command": "cf kv namespaces delete",
+      "args": ["$kv_ns_id"],
+      "env": {
+        "scope": "account"
+      },
+      "depends": ["kv_ns_id"]
+    },
+    {
+      "command": "cf kv namespaces bulk-get",
+      "args": ["placeholder_namespace_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf kv namespaces keys-bulk-delete",
+      "args": ["placeholder_namespace_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf kv namespaces keys-bulk-get",
+      "args": ["placeholder_namespace_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf kv namespaces keys-bulk-update",
+      "args": ["placeholder_namespace_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf kv kv-extra namespaces-bulk-delete",
+      "args": ["placeholder_namespace_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf kv namespaces-keys list",
+      "args": ["placeholder_namespace_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf kv namespaces-metadata get",
+      "args": ["placeholder_namespace_id", "placeholder_key_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf kv namespaces-values get",
+      "args": ["placeholder_namespace_id", "placeholder_key_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf kv namespaces-values update",
+      "args": ["placeholder_namespace_id", "placeholder_key_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf kv namespaces-values delete",
+      "args": ["placeholder_namespace_id", "placeholder_key_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf kv namespaces keys list",
+      "args": ["placeholder_namespace_id"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf kv namespaces metadata get",
+      "args": ["placeholder_namespace_id", "placeholder_key_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf kv namespaces values get",
+      "args": ["placeholder_namespace_id", "placeholder_key_name"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf kv namespaces values update",
+      "args": ["placeholder_namespace_id", "placeholder_key_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf kv namespaces values delete",
+      "args": ["placeholder_namespace_id", "placeholder_key_name", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf kv kv-extra namespaces bulk delete",
+      "args": ["placeholder_namespace_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf kv namespaces bulk delete",
+      "args": ["placeholder_namespace_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf kv namespaces bulk get",
+      "args": ["placeholder_namespace_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf kv namespaces keys bulk delete",
+      "args": ["placeholder_namespace_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf kv namespaces keys bulk get",
+      "args": ["placeholder_namespace_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf kv namespaces bulk update",
+      "args": ["placeholder_namespace_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf kv namespaces keys bulk update",
+      "args": ["placeholder_namespace_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf kv namespaces bulk-deprecated delete",
+      "args": ["placeholder_namespace_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf kv namespaces keys bulk-delete",
+      "args": ["placeholder_namespace_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf kv namespaces keys bulk-get",
+      "args": ["placeholder_namespace_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    },
+    {
+      "command": "cf kv namespaces keys bulk-update",
+      "args": ["placeholder_namespace_id", "--dry-run"],
+      "env": {
+        "scope": "account"
+      }
+    }
+  ]
+}

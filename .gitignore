@@ -1,5 +1,6 @@
 node_modules/
 dist/
+dist-exe/
 packages/cli/src/sdk/openapi*.json
 .DS_Store
 *.log

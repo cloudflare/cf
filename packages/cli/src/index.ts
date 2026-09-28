@@ -1,3 +1,4 @@
+import { isSea } from "node:sea";
 import { setTimeout as sleep } from "node:timers/promises";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
@@ -437,6 +438,10 @@ interface BuildCliOptions {
  * returned starter detaches the registry refresh after that banner renders.
  */
 async function prepareUpdateCheck(): Promise<PreparedUpdateCheck | undefined> {
+	if (isSea()) {
+		return undefined;
+	}
+	
 	const args = process.argv.slice(2);
 	if (hasQuietFlag(args)) {
 		return undefined;

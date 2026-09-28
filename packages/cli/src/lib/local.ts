@@ -1,4 +1,5 @@
 /** Dependency-free request plumbing for `--local`. */
+import { isSea } from "node:sea";
 
 export const NO_LOCAL_EQUIVALENT =
 	"This command has no local equivalent. Re-run without --local to use the Cloudflare API.";
@@ -16,6 +17,10 @@ export async function disposeLocalRuntime(): Promise<void> {
 export function createLocalFetch(
 	options: { persistTo?: string; apiBaseUrl?: string } = {}
 ): typeof globalThis.fetch {
+	if (isSea()) {
+		throw new Error("--local is not supported by the standalone executable.");
+	}
+	
 	return async function localFetch(input, init) {
 		const { dispatchLocal, disposeLocalSession } =
 			await import("./local-runtime.js");

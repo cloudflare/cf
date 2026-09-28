@@ -16,7 +16,8 @@
  * `tsdown` copies all metadata files into `dist/_meta/` at build time
  * (`tsdown.config.ts` → `onSuccess`), so a bundled cf binary finds
  * them next to its own entry chunk; a dev-mode run via `tsx` finds
- * them in the source tree under `_generated/_meta/`. `loadMeta`
+ * them in the source tree under `_generated/_meta/`. The standalone
+ * executable embeds them as SEA assets. `loadMeta` handles each layout.
  * tries both layouts in turn so callers don't have to.
  *
  * Previously the same "try 3 candidate paths, parse JSON, type-guard,
@@ -26,6 +27,7 @@
 
 import { existsSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
+import { getAsset, isSea } from "node:sea";
 import { fileURLToPath } from "node:url";
 import type {
 	ArgumentMeta,
@@ -100,6 +102,18 @@ export function loadMeta<T>(
 	const cached = META_CACHE.get(cacheKey);
 	if (cached !== undefined) {
 		return cached as T | null;
+	}
+
+	if (isSea()) {
+		try {
+			const parsed: unknown = JSON.parse(getAsset(filename, "utf8"));
+			const result = guard(parsed) ? parsed : null;
+			META_CACHE.set(cacheKey, result);
+			return result;
+		} catch {
+			META_CACHE.set(cacheKey, null);
+			return null;
+		}
 	}
 
 	const callerDir = dirname(fileURLToPath(callerMetaUrl));

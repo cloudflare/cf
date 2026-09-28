@@ -1,5 +1,28 @@
 # cf
 
+## 1.0.0-beta.4
+
+### Minor Changes
+
+- 7da026f: Offer to migrate Wrangler projects before running autoconfig
+
+  When `cf dev`, `cf build`, or the build phase of `cf deploy` finds a Wrangler
+  JSON, JSONC, or TOML configuration in a project that is not yet configured for
+  cf, it now offers to run the existing `cf migrate` flow. Accepting the prompt
+  migrates the project and continues the requested command; declining preserves
+  the existing autoconfig behavior. Non-interactive runs do not migrate
+  automatically.
+
+- 900c9ac: Expose `cf workers secrets update` and `cf workers secrets bulk`.
+
+### Patch Changes
+
+- 0d3e88b: Allow prebuilt Build Output with a recorded mode to deploy without `--mode`
+
+  Validate the recorded build mode when a command explicitly requests a mode. This lets `cf deploy --prebuilt` use output from Vite and other builders that record their default mode without requiring the user to repeat it. Use the account ID and compliance region recorded in Build Output without reevaluating source config. When the output omits an account ID, use environment or profile account selection in the built region.
+
+- 8797f9a: Run Vite development and build commands for Next.js projects that have vinext installed.
+
 ## 1.0.0-beta.3
 
 ### Minor Changes

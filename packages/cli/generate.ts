@@ -22,7 +22,7 @@ const sdkVersionPath = join(sdkDir, "openapi-version");
 const FORGE_OPENAPI_VERSION = "6b0fb3cd63aca815f1667a8fa908114886867dc6";
 const FORGE_OPENAPI_RELEASE = `openapi@${FORGE_OPENAPI_VERSION}`;
 const FORGE_OPENAPI_ASSET = "openapi.forge.json";
-const FORGE_OPENAPI_RELEASE_URL = `https://api.github.com/repos/cloudflare/forge/releases/tags/${FORGE_OPENAPI_RELEASE}`;
+const FORGE_OPENAPI_ASSET_URL = `https://github.com/cloudflare/forge/releases/download/${FORGE_OPENAPI_RELEASE}/${FORGE_OPENAPI_ASSET}`;
 const HTTP_METHODS = [
 	"get",
 	"put",
@@ -33,10 +33,6 @@ const HTTP_METHODS = [
 	"patch",
 	"trace",
 ] as const;
-
-type GithubRelease = {
-	assets?: Array<{ name?: string; url?: string }>;
-};
 
 type OpenApiObject = Record<string, unknown>;
 
@@ -72,72 +68,11 @@ function resolveLocalParameter(
 }
 
 async function fetchForgeOpenApi(): Promise<unknown> {
-	const token = process.env.GITHUB_TOKEN;
-	if (!token) {
-		const tempDir = mkdtempSync(join(tmpdir(), "cf-forge-openapi-"));
-		const openapiPath = join(tempDir, FORGE_OPENAPI_ASSET);
-		try {
-			console.log(
-				`[cf-generator] GITHUB_TOKEN is not set; downloading ${FORGE_OPENAPI_RELEASE} with gh`
-			);
-			execFileSync(
-				"gh",
-				[
-					"release",
-					"download",
-					FORGE_OPENAPI_RELEASE,
-					"--repo",
-					"cloudflare/forge",
-					"--pattern",
-					FORGE_OPENAPI_ASSET,
-					"--output",
-					openapiPath,
-				],
-				{
-					env: { ...process.env, TERM: "dumb" },
-					stdio: ["ignore", "inherit", "inherit"],
-				}
-			);
-			return JSON.parse(readFileSync(openapiPath, "utf8"));
-		} finally {
-			rmSync(tempDir, { recursive: true, force: true });
-		}
-	}
-	const headers = {
-		Authorization: `Bearer ${token}`,
-		"X-GitHub-Api-Version": "2022-11-28",
-	};
-	const releaseResponse = await fetch(FORGE_OPENAPI_RELEASE_URL, {
-		headers: {
-			...headers,
-			Accept: "application/vnd.github+json",
-		},
-	});
-	if (!releaseResponse.ok) {
-		throw new Error(
-			`Failed to fetch Forge OpenAPI release ${FORGE_OPENAPI_RELEASE} (${releaseResponse.status} ${releaseResponse.statusText})`
-		);
-	}
-	const release = (await releaseResponse.json()) as GithubRelease;
-	const asset = release.assets?.find(
-		(item) => item.name === FORGE_OPENAPI_ASSET
-	);
-	if (!asset?.url) {
-		throw new Error(
-			`${FORGE_OPENAPI_RELEASE} has no ${FORGE_OPENAPI_ASSET} asset`
-		);
-	}
-
 	console.log(`[cf-generator] Using Forge OpenAPI ${FORGE_OPENAPI_RELEASE}`);
-	const assetResponse = await fetch(asset.url, {
-		headers: {
-			...headers,
-			Accept: "application/octet-stream",
-		},
-	});
+	const assetResponse = await fetch(FORGE_OPENAPI_ASSET_URL);
 	if (!assetResponse.ok) {
 		throw new Error(
-			`Failed to fetch Forge OpenAPI asset (${assetResponse.status} ${assetResponse.statusText})`
+			`Failed to fetch Forge OpenAPI asset from ${FORGE_OPENAPI_ASSET_URL} (${assetResponse.status} ${assetResponse.statusText})`
 		);
 	}
 	return assetResponse.json();

@@ -49,13 +49,9 @@ jobs:
       # also sees the generated tree. Cache-hit no-op when warm.
       - name: Generate command surface
         run: pnpm generate
-        env:
-          GITHUB_TOKEN: ${{ secrets.FORGE_GH_ACCESS_TOKEN }}
 
       - name: Lint, type-check, and format-check
         run: pnpm check
-        env:
-          GITHUB_TOKEN: ${{ secrets.FORGE_GH_ACCESS_TOKEN }}
 
   cli:
     if: ${{ github.repository_owner == 'cloudflare' }}
@@ -81,8 +77,6 @@ jobs:
       # remote cache (configured above) makes this a no-op on cache hits.
       - name: Generate command surface
         run: pnpm generate
-        env:
-          GITHUB_TOKEN: ${{ secrets.FORGE_GH_ACCESS_TOKEN }}
 
       - name: Run cli tests
         run: pnpm --filter cf test
@@ -108,8 +102,6 @@ jobs:
 
       - name: Generate command surface
         run: pnpm generate
-        env:
-          GITHUB_TOKEN: ${{ secrets.FORGE_GH_ACCESS_TOKEN }}
 
       - name: Run Wrangler compatibility tests
         run: pnpm --filter @cloudflare/wrangler-tests test

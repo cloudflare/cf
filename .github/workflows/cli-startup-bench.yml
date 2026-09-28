@@ -67,8 +67,6 @@ jobs:
         if: steps.changes.outputs.buildable == 'true'
         working-directory: head
         run: pnpm build
-        env:
-          GITHUB_TOKEN: ${{ secrets.FORGE_GH_ACCESS_TOKEN }}
 
       # Only on PRs: also build the base ref so we have something to compare
       # against. On pushes to main there's no base — we just record the

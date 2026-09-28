@@ -89,7 +89,6 @@ jobs:
         # workflow never does. See `packages/cli/tsdown.config.ts`.
         run: pnpm build
         env:
-          GITHUB_TOKEN: ${{ secrets.FORGE_GH_ACCESS_TOKEN }}
           SPARROW_SOURCE_KEY: ${{ secrets.SPARROW_SOURCE_KEY }}
 
       - name: Create Version PR or Publish to npm

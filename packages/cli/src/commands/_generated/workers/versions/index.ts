@@ -1,4 +1,3 @@
-import $create from "#commands/workers/versions/create/index.js";
 import $delete from "./delete.js";
 import $get from "./get.js";
 import $list from "./list.js";
@@ -8,6 +7,7 @@ import type { CommonYargsOptions } from "#lib/cli-types.js";
  * @generated from apis/overlays/workers.ts
  */
 import type { CommandModule } from "yargs";
+import $create from "#commands/workers/versions/create/index.js";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "versions",

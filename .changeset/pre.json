@@ -23,7 +23,9 @@
     "detect-migrate-bundler",
     "first-public-beta",
     "load-cloudflare-dotenv",
+    "migrate-before-autoconfig",
     "pages-deploy-guidance",
+    "prebuilt-mode-validation",
     "quiet-delegation-environment",
     "quiet-login-scopes",
     "search-telemetry",
@@ -32,6 +34,9 @@
     "tunnel-ready",
     "tunnel-tail",
     "update-forge",
-    "vite-plugin-v2-beta"
+    "update-setup-migration-deps",
+    "vinext-vite-commands",
+    "vite-plugin-v2-beta",
+    "workers-secrets-cli"
   ]
 }

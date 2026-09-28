@@ -39,13 +39,16 @@ export function computeVariantPromptBlock(
 	// names API fields, while `arg.name` may carry an `x-fern-property-name`
 	// rename.
 	const apiToFlag = new Map<string, string>();
+	const availableApiFields = new Set<string>();
 	const flagToDescription = new Map<string, string>();
 	const byKebab = new Map<string, ArgIR>();
 	for (const a of bodyArgs) {
 		byKebab.set(a.name, a);
-		if (a.origin.kind !== "body" || a.origin.apiFieldPath.length !== 1)
+		if (a.origin.kind !== "body" || a.origin.apiFieldPath.length === 0)
 			continue;
 		const apiField = a.origin.apiFieldPath[0]!;
+		availableApiFields.add(apiField);
+		if (a.origin.apiFieldPath.length !== 1) continue;
 		apiToFlag.set(apiField, a.name);
 		if (a.description) flagToDescription.set(a.name, a.description);
 	}
@@ -58,6 +61,19 @@ export function computeVariantPromptBlock(
 	let needsTextPrompt = false;
 
 	for (const [value, apiFields] of Object.entries(bodyDiscriminator.variants)) {
+		const unavailable = apiFields.filter(
+			(field) => !availableApiFields.has(field)
+		);
+		if (unavailable.length > 0) {
+			block.push(
+				`      if (${discRead} === '${escapeForSingleQuote(value)}') {`
+			);
+			block.push(
+				`        throw new Error('The ${escapeForSingleQuote(value)} variant requires ${escapeForSingleQuote(unavailable.join(", "))}, which cannot be supplied as flags. Pass --body with a complete request body.');`
+			);
+			block.push(`      }`);
+			continue;
+		}
 		const flags = apiFields
 			.map((f) => apiToFlag.get(f))
 			.filter((flag): flag is string => !!flag);

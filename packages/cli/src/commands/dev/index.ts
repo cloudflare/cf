@@ -6,11 +6,7 @@
  * Cloudflare implementation from the project's npm, PyPI, or Cargo manifest
  * and spawns its delegate with inherited stdio and forwarded signals.
  */
-import {
-	analyzeProject,
-	configureProject,
-	runProjectCommand,
-} from "../../lib/autoconfig.js";
+import { prepareProject, runProjectCommand } from "../../lib/autoconfig.js";
 import { CliExit } from "../../lib/cli-exit.js";
 import { getCloudflareRegistryEnvironment } from "../../lib/registry.js";
 import { theme } from "../../lib/ui/index.js";
@@ -63,10 +59,7 @@ const devCommand: CommandModule<CommonYargsOptions, DevArgs> = {
 
 	handler: async (argv: ArgumentsCamelCase<DevArgs>): Promise<void> => {
 		const cwd = process.cwd();
-		const details = await analyzeProject(cwd);
-		if (details && !details.configured) {
-			await configureProject(details);
-		}
+		const { details } = await prepareProject(cwd);
 
 		// Coerce yargs' (string | number)[] back to string[] for the
 		// child_process call. Numbers come from yargs auto-detecting

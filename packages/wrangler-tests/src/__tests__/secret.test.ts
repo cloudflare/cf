@@ -1,3 +1,4 @@
+import { writeFileSync } from "node:fs";
 import { Readable } from "node:stream";
 import { http, HttpResponse } from "msw";
 import { afterEach, beforeEach, describe, it } from "vitest";
@@ -69,10 +70,7 @@ describe("workers secrets", () => {
 		clearDialogs();
 	});
 
-	// The target OpenAPI schema classifies `worker-put-script-secret` as
-	// SDK-only. Keep the canonical Wrangler situations for a future audience
-	// change, but do not treat the removed generated CLI leaf as supported.
-	describe.skip("update", () => {
+	describe("update", () => {
 		function mockPutRequest(
 			expect: ExpectStatic,
 			input: { name: string; text: string },
@@ -495,28 +493,194 @@ describe("workers secrets", () => {
 		});
 	});
 
-	// Wrangler-only: `wrangler secret bulk` is a compound command that
-	// pulls existing settings, merges secrets, and PATCHes the script
-	// settings endpoint. cf has no `workers secrets bulk` equivalent —
-	// it exposes the underlying API primitive rather than a compound wrapper.
-	describe.todo("bulk", () => {
-		it("should error helpfully if pages_build_output_dir is set", async () => {});
-		it("should fail secret bulk w/ no pipe or JSON input", async () => {});
-		it("should use secret bulk w/ pipe input", async () => {});
-		it("should create secrets from JSON file", async () => {});
-		it("should create secrets from a env file", async () => {});
-		it("should fail if file is not valid JSON", async () => {});
-		it("should fail if JSON file contains a record with non-string values", async () => {});
-		it("should count success and network failure on secret bulk", async () => {});
-		it("should handle network failure on secret bulk", async () => {});
-		it("throws a meaningful error", async () => {});
-		it("should merge existing bindings and secrets when patching", async () => {});
-		it("should, in interactive mode, ask to create a new Worker if no Worker is found under the provided name", async () => {});
-		it("should, in non-interactive mode, create a new worker if no worker is found under the provided name", async () => {});
-		describe("multi-env warning", () => {
+	// Wrangler parses flat JSON/.env/stdin input and wraps it in `{ secrets }`.
+	// cf exposes the JSON Merge Patch body directly through --body or --file.
+	describe("bulk", () => {
+		function mockBulkRequest(expect: ExpectStatic) {
+			let resolveRequest!: (body: unknown) => void;
+			const received = new Promise<unknown>((resolve) => {
+				resolveRequest = resolve;
+			});
+			msw.use(
+				http.patch(
+					"*/accounts/:accountId/workers/scripts/:scriptName/secrets-bulk",
+					async ({ params, request }) => {
+						expect(params.accountId).toBe("some-account-id");
+						expect(params.scriptName).toBe("script-name");
+						resolveRequest(await request.json());
+						return HttpResponse.json(createFetchResult(null));
+					},
+					{ once: true }
+				)
+			);
+			return received;
+		}
+
+		it("should fail secret bulk w/ no pipe or JSON input", async ({
+			expect,
+		}) => {
+			await expect(
+				runWrangler("workers secrets bulk --worker script-name")
+			).rejects.toThrow(/--body is required/i);
+		});
+
+		it("should create secrets from JSON file", async ({ expect }) => {
+			const body = {
+				secrets: {
+					"secret-name-1": {
+						name: "secret-name-1",
+						text: "first-value",
+						type: "secret_text",
+					},
+					"secret-name-2": {
+						name: "secret-name-2",
+						text: "second-value",
+						type: "secret_text",
+					},
+				},
+			};
+			writeFileSync("secret.json", JSON.stringify(body));
+			const request = mockBulkRequest(expect);
+			await runWrangler(
+				"workers secrets bulk --worker script-name --file secret.json"
+			);
+			expect(await request).toEqual(body);
+		});
+
+		it("should fail if file is not valid JSON", async ({ expect }) => {
+			writeFileSync("secret.json", "bad file content");
+			await expect(
+				runWrangler(
+					"workers secrets bulk --worker script-name --body @secret.json"
+				)
+			).rejects.toThrow(/Invalid JSON in --body/);
+		});
+
+		it("should only send provided secrets via secrets-bulk endpoint", async ({
+			expect,
+		}) => {
+			const body = {
+				secrets: {
+					"secret-name-2": {
+						name: "secret-name-2",
+						text: "value",
+						type: "secret_text",
+					},
+				},
+			};
+			const request = mockBulkRequest(expect);
+			await runWrangler(
+				`workers secrets bulk --worker script-name --body '${JSON.stringify(body)}'`
+			);
+			expect(await request).toEqual(body);
+		});
+
+		it("should send null values to delete secrets via secrets-bulk endpoint", async ({
+			expect,
+		}) => {
+			const body = {
+				secrets: {
+					"secret-to-create": {
+						name: "secret-to-create",
+						text: "new-value",
+						type: "secret_text",
+					},
+					"secret-to-delete": null,
+				},
+			};
+			const request = mockBulkRequest(expect);
+			await runWrangler(
+				`workers secrets bulk --worker script-name --body '${JSON.stringify(body)}'`
+			);
+			expect(await request).toEqual(body);
+		});
+
+		it("should handle network failure on secret bulk", async ({ expect }) => {
+			msw.use(
+				http.patch(
+					"*/accounts/:accountId/workers/scripts/:scriptName/secrets-bulk",
+					() => HttpResponse.error(),
+					{ once: true }
+				)
+			);
+			await expect(
+				runWrangler(
+					"workers secrets bulk --worker script-name --body '{\"secrets\":{}}'"
+				)
+			).rejects.toThrow(/fetch/i);
+		});
+
+		it("throws a meaningful error", async ({ expect }) => {
+			msw.use(
+				http.patch(
+					"*/accounts/:accountId/workers/scripts/:scriptName/secrets-bulk",
+					() =>
+						HttpResponse.json(
+							createFetchResult(null, false, [
+								{ code: 1, message: "This is a helpful error" },
+							]),
+							{ status: 400 }
+						),
+					{ once: true }
+				)
+			);
+			await expect(
+				runWrangler(
+					"workers secrets bulk --worker script-name --body '{\"secrets\":{}}'"
+				)
+			).rejects.toThrow(/This is a helpful error/);
+		});
+
+		it("should not create a new worker for delete-only bulk input when the worker is not found", async ({
+			expect,
+		}) => {
+			let workerCreateCount = 0;
+			msw.use(
+				http.patch(
+					"*/accounts/:accountId/workers/scripts/:scriptName/secrets-bulk",
+					() =>
+						HttpResponse.json(
+							createFetchResult(null, false, [
+								{
+									code: WORKER_NOT_FOUND_ERR_CODE,
+									message: workerNotFoundErrorMessage,
+								},
+							]),
+							{ status: 404 }
+						),
+					{ once: true }
+				),
+				http.put("*/accounts/:accountId/workers/scripts/:name", () => {
+					workerCreateCount++;
+					return HttpResponse.json(createFetchResult(null));
+				})
+			);
+			await expect(
+				runWrangler(
+					`workers secrets bulk --worker non-existent-worker --body '{"secrets":{"secret-to-delete":null}}'`
+				)
+			).rejects.toThrow(/workers\.api\.error\.script_not_found/);
+			expect(workerCreateCount).toBe(0);
+		});
+
+		// The generated API command does not parse flat JSON/.env/stdin input,
+		// create missing Workers, or inspect Wrangler project environments.
+		it.skip("should error helpfully if pages_build_output_dir is set", async () => {});
+		it.skip("should use secret bulk w/ pipe input", async () => {});
+		it.skip("should create secrets from env stdin", async () => {});
+		it.skip("should create secrets from a env file", async () => {});
+		it.skip("should fail if JSON file contains a record with non-string values", async () => {});
+		it.skip("should fail if JSON stdin contains a record with non-string values", async () => {});
+		it.skip("should count success and network failure on secret bulk", async () => {});
+		it.skip("should show no-op message when bulk input has no secrets", async () => {});
+		it.skip("should, in interactive mode, ask to create a new Worker if no Worker is found under the provided name", async () => {});
+		it.skip("should, in non-interactive mode, create a new worker if no worker is found under the provided name", async () => {});
+		describe.skip("multi-env warning", () => {
 			it("should warn if the wrangler config contains environments but none was specified in the command", async () => {});
 			it("should not warn if the wrangler config contains environments and one was specified in the command", async () => {});
 			it("should not warn if the wrangler config doesn't contain environments and none was specified in the command", async () => {});
+			it("should not warn if the wrangler config contains environments and CLOUDFLARE_ENV is set", async () => {});
+			it('should not warn if --env="" is passed to explicitly target the top-level environment', async () => {});
 		});
 	});
 });

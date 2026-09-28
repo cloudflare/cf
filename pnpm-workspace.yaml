@@ -8,7 +8,7 @@ blockExoticSubdeps: true
 
 # Allow newly published direct dependencies before pnpm's maturity cutoff.
 minimumReleaseAgeExclude:
-  - "@cloudflare/codemods@0.2.0"
+  - "@cloudflare/codemods@0.2.1"
 
 # pnpm 10 blocks install scripts by default; allowlist what needs them.
 allowBuilds:

@@ -99,6 +99,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					return;
 				}
 
+				if (argv["kind"] === "ip") {
+					throw new Error(
+						"The ip variant requires ips, which cannot be supplied as flags. Pass --body with a complete request body."
+					);
+				}
 				if (argv["kind"] === "identity" && argv["kind"] === undefined) {
 					argv["kind"] = await promptForRequiredField(
 						"kind",

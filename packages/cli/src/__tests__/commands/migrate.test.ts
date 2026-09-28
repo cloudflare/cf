@@ -5,6 +5,10 @@ import {
 	seed,
 } from "@cloudflare/workers-utils/test-helpers";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import {
+	findWranglerConfig,
+	maybeMigrateWranglerProject,
+} from "../../lib/wrangler-migration.js";
 import { runCf } from "../helpers/run-cf.js";
 
 const { migrateWranglerToCf } = vi.hoisted(() => ({
@@ -158,6 +162,94 @@ describe("cf migrate", () => {
 		await expect(runCf(["migrate"])).rejects.toThrow(
 			`Multiple Wrangler configs found in ${process.cwd()}. Pass the exact path to cf migrate.`
 		);
+		expect(migrateWranglerToCf).not.toHaveBeenCalled();
+	});
+
+	it("offers to run the same migration for project workflows", async () => {
+		await seed({ "wrangler.jsonc": "{}" });
+		const confirmMigration = vi.fn().mockResolvedValue(true);
+
+		await expect(
+			maybeMigrateWranglerProject(process.cwd(), confirmMigration)
+		).resolves.toBe(true);
+
+		expect(confirmMigration).toHaveBeenCalledWith(
+			expect.stringContaining("wrangler.jsonc"),
+			{
+				defaultValue: true,
+				fallbackValue: false,
+			}
+		);
+		expect(migrateWranglerToCf).toHaveBeenCalledWith(
+			path.join(process.cwd(), "wrangler.jsonc"),
+			{
+				bundler: "wrangler",
+				dryRun: false,
+				force: false,
+				installDependencies: true,
+			}
+		);
+	});
+
+	it("uses Vite for automatic migration when the plugin is declared", async () => {
+		await seed({
+			"config/package.json": JSON.stringify({
+				devDependencies: { "@cloudflare/vite-plugin": "^1.60.2" },
+			}),
+			"config/wrangler.jsonc": "{}",
+		});
+		const confirmMigration = vi.fn().mockResolvedValue(true);
+
+		await expect(
+			maybeMigrateWranglerProject(
+				path.join(process.cwd(), "config"),
+				confirmMigration
+			)
+		).resolves.toBe(true);
+
+		expect(migrateWranglerToCf).toHaveBeenCalledWith(
+			path.join(process.cwd(), "config", "wrangler.jsonc"),
+			expect.objectContaining({ bundler: "vite" })
+		);
+	});
+
+	it("continues without migrating when the project workflow offer is declined", async () => {
+		await seed({ "wrangler.toml": "name = 'worker'" });
+		const confirmMigration = vi.fn().mockResolvedValue(false);
+
+		await expect(
+			maybeMigrateWranglerProject(process.cwd(), confirmMigration)
+		).resolves.toBe(false);
+
+		expect(migrateWranglerToCf).not.toHaveBeenCalled();
+	});
+
+	it("does not offer migration when a project has no Wrangler config", async () => {
+		const confirmMigration = vi.fn();
+
+		await expect(
+			maybeMigrateWranglerProject(process.cwd(), confirmMigration)
+		).resolves.toBe(false);
+
+		expect(confirmMigration).not.toHaveBeenCalled();
+		expect(migrateWranglerToCf).not.toHaveBeenCalled();
+	});
+
+	it("does not offer automatic migration when multiple configs are found", async () => {
+		await seed({
+			"wrangler.json": "{}",
+			"wrangler.toml": "name = 'worker'",
+		});
+		const confirmMigration = vi.fn();
+
+		await expect(findWranglerConfig(process.cwd())).rejects.toThrow(
+			`Multiple Wrangler configs found in ${process.cwd()}. Pass the exact path to cf migrate.`
+		);
+		await expect(
+			maybeMigrateWranglerProject(process.cwd(), confirmMigration)
+		).resolves.toBe(false);
+
+		expect(confirmMigration).not.toHaveBeenCalled();
 		expect(migrateWranglerToCf).not.toHaveBeenCalled();
 	});
 

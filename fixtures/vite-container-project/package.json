@@ -12,6 +12,6 @@
 		"@typescript/native-preview": "latest",
 		"cf": "workspace:*",
 		"vite": "8.3.0",
-		"wrangler": "4.142.0"
+		"wrangler": "4.143.0"
 	}
 }

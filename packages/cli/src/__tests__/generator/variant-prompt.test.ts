@@ -50,4 +50,17 @@ describe("computeVariantPromptBlock", () => {
 			expect(result.lines.join("\n")).not.toContain("promptForRequiredField");
 		}
 	);
+
+	it("requires --body when a variant has an unexposed required field", () => {
+		const result = computeVariantPromptBlock(
+			operation({ key: ["algorithm", "format"] }),
+			[bodyArg("kind", "string"), bodyArg("format", "enum")]
+		);
+
+		expect(result.needsTextPrompt).toBe(false);
+		expect(result.lines.join("\n")).toContain(
+			"The key variant requires algorithm, which cannot be supplied as flags. Pass --body"
+		);
+		expect(result.lines.join("\n")).not.toContain("promptForRequiredField");
+	});
 });

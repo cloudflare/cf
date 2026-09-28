@@ -11,6 +11,8 @@ import { parse as parseShell } from "shell-quote";
 import { CliExit } from "./cli-exit.js";
 import { confirm, prompt, select } from "./dialog.js";
 import { isNonInteractiveOrCI } from "./interactive.js";
+import { maybeApplyVinextCommandOverrides } from "./vinext.js";
+import { maybeMigrateWranglerProject } from "./wrangler-migration.js";
 import type {
 	AutoConfigContext,
 	AutoConfigDetails,
@@ -60,11 +62,12 @@ export async function analyzeProject(
 ): Promise<AutoConfigDetails | undefined> {
 	const context = createAutoConfigContext(options);
 	try {
-		return await getDetailsForAutoConfig({
+		const details = await getDetailsForAutoConfig({
 			projectPath: cwd,
 			target: "cf",
 			context,
 		});
+		return maybeApplyVinextCommandOverrides(details);
 	} catch (error) {
 		if (error instanceof AutoConfigDetectionError) {
 			context.logger.debug("Autoconfig could not detect this project:", error);
@@ -83,6 +86,38 @@ export async function configureProject(
 		context: createAutoConfigContext(options),
 		runBuild: false,
 	});
+}
+
+export async function prepareProject(
+	cwd: string,
+	options: CommandOutputOptions = {}
+): Promise<{
+	details: AutoConfigDetails | undefined;
+	configuration?: AutoConfigSummary;
+}> {
+	let details = await analyzeProject(cwd, options);
+	if (details?.configured) {
+		return { details };
+	}
+
+	const context = createAutoConfigContext(options);
+	if (
+		await maybeMigrateWranglerProject(
+			cwd,
+			(text, confirmOptions) => context.dialogs.confirm(text, confirmOptions),
+			options.output
+		)
+	) {
+		details = await analyzeProject(cwd, options);
+		return { details };
+	}
+
+	return {
+		details,
+		...(details
+			? { configuration: await configureProject(details, options) }
+			: {}),
+	};
 }
 
 export async function runProjectCommand(

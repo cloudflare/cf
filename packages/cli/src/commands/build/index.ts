@@ -1,10 +1,6 @@
 import * as clack from "@clack/prompts";
 import { readBuildOutput } from "@cloudflare/build-output-utils";
-import {
-	analyzeProject,
-	configureProject,
-	runProjectCommand,
-} from "../../lib/autoconfig.js";
+import { prepareProject, runProjectCommand } from "../../lib/autoconfig.js";
 import {
 	parseWorkerConfig,
 	selectBuildOutputWorker,
@@ -37,17 +33,12 @@ export async function runBuild(
 ): Promise<void> {
 	const output = options.output ?? "stdout";
 	const cwd = process.cwd();
-	const details = await analyzeProject(cwd, options);
-	let buildCommand = details?.buildCommand;
+	const { details, configuration } = await prepareProject(cwd, options);
+	const buildCommand = configuration?.buildCommand ?? details?.buildCommand;
 	const env: Record<string, string> = {
 		...details?.env,
 		...(ctx.isPreview ? { CLOUDFLARE_PREVIEW_BUILD: "true" } : {}),
 	};
-
-	if (details && !details.configured) {
-		const summary = await configureProject(details, options);
-		buildCommand = summary.buildCommand;
-	}
 
 	if (buildCommand && mode && !details?.framework?.supportsMode) {
 		throw new Error(

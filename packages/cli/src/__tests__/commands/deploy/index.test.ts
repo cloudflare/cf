@@ -852,6 +852,58 @@ describe("cf deploy", () => {
 				])
 			);
 		});
+
+		it("expands dotenv secrets like cf's .env loader", async () => {
+			const upload = mockWorkerUpload();
+			await seed({
+				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v0/workers/default/worker.config.json":
+					workerConfig(),
+				".cloudflare/output/v0/workers/default/bundle/index.js":
+					"export default { fetch() { return new Response('ok'); } }",
+				".env.production": [
+					"WORKER_SECRET=${CI}",
+					"FILE_VALUE=file-value",
+					"FILE_REFERENCE=${FILE_VALUE}",
+					"ESCAPED_SECRET=\\${CI}",
+					"CI=file-value",
+				].join("\n"),
+			});
+
+			const { exitCode } = await runCf(
+				["deploy", "--secrets-file", ".env.production"],
+				{ CI: "expanded-value" }
+			);
+
+			expect(exitCode).toBe(0);
+			const bindings = upload.metadata?.bindings as
+				| Array<{ name: string; text?: string; type: string }>
+				| undefined;
+			expect(bindings).toEqual(
+				expect.arrayContaining([
+					expect.objectContaining({
+						name: "WORKER_SECRET",
+						text: "expanded-value",
+						type: "secret_text",
+					}),
+					expect.objectContaining({
+						name: "FILE_REFERENCE",
+						text: "file-value",
+						type: "secret_text",
+					}),
+					expect.objectContaining({
+						name: "ESCAPED_SECRET",
+						text: "${CI}",
+						type: "secret_text",
+					}),
+					expect.objectContaining({
+						name: "CI",
+						text: "expanded-value",
+						type: "secret_text",
+					}),
+				])
+			);
+		});
 	});
 
 	describe("multiple module types", () => {

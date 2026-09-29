@@ -1,6 +1,6 @@
 import { cpSync, existsSync, mkdirSync } from "fs";
 import { join } from "path";
-import { defineConfig, type UserConfig } from "tsdown";
+import { defineConfig } from "tsdown";
 
 // `pnpm build` defaults to a production bundle — minified, no source maps.
 // Source maps disclose internal source (including the vendored
@@ -13,7 +13,7 @@ const isProduction = !isDevelopment;
 
 export const runtimeExternals = ["blake3-wasm", "miniflare"];
 
-export const cliConfig: UserConfig = {
+export const cliConfig = defineConfig({
 	// `index` is the CLI bundle. `delegate` is a deliberately small,
 	// standalone entry so `bin/cf` can run local-install delegation
 	// (Wrangler-2 style) WITHOUT importing the full command tree — a
@@ -71,6 +71,6 @@ export const cliConfig: UserConfig = {
 			cpSync(srcMeta, distMeta, { recursive: true });
 		}
 	},
-};
+});
 
-export default defineConfig(cliConfig);
+export default cliConfig;

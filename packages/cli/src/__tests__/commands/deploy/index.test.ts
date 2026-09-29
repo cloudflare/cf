@@ -867,12 +867,13 @@ describe("cf deploy", () => {
 					"FILE_REFERENCE=${FILE_VALUE}",
 					"ESCAPED_SECRET=\\${CI}",
 					"CI=file-value",
+					"EMPTY_SECRET=file-value",
 				].join("\n"),
 			});
 
 			const { exitCode } = await runCf(
 				["deploy", "--secrets-file", ".env.production"],
-				{ CI: "expanded-value" }
+				{ CI: "expanded-value", EMPTY_SECRET: "" }
 			);
 
 			expect(exitCode).toBe(0);
@@ -899,6 +900,11 @@ describe("cf deploy", () => {
 					expect.objectContaining({
 						name: "CI",
 						text: "expanded-value",
+						type: "secret_text",
+					}),
+					expect.objectContaining({
+						name: "EMPTY_SECRET",
+						text: "",
 						type: "secret_text",
 					}),
 				])

@@ -43,13 +43,19 @@ index 41920834b35118ce0fd6b67c9fbc09b15277cc21..9826fc8f576d8b53d25e6f73fea49bb4
          secretFormat = "dotenv";
          if (Object.keys(content).length === 0) {
            throw e;
-@@ -7750,3 +7746,15 @@ async function parseBulkInputToObject(input, includeNull = false) {
+@@ -7750,3 +7746,21 @@ async function parseBulkInputToObject(input, includeNull = false) {
    return { content, secretSource, secretFormat };
  }
  __name(parseBulkInputToObject, "parseBulkInputToObject");
 +function parseDotEnv(content) {
 +  const parsed = parse$1(content);
-+  expandDotenv({ parsed, processEnv: copyProcessEnv() });
++  const processEnv = copyProcessEnv();
++  expandDotenv({ parsed, processEnv: { ...processEnv } });
++  for (const key of Object.keys(parsed)) {
++    if (Object.hasOwn(processEnv, key)) {
++      parsed[key] = processEnv[key];
++    }
++  }
 +  return parsed;
 +}
 +__name(parseDotEnv, "parseDotEnv");

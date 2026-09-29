@@ -165,7 +165,7 @@ settings:
 patchedDependencies:
   '@changesets/cli@2.31.0': 059d085279022eeb7f92871a182f71310e4891b62871cfedccb21b34f4bfcd27
   '@cloudflare/containers-shared@0.20.3': ecd632c350c22e92f11dd426d4aec675be6515b0aa7e21f2ff1367e315e3ac59
-  '@cloudflare/deploy-helpers@0.18.1': fda13f9f3d3e1574acc2a163ba1810f6257e8aa54aa38270c99996995596fb31
+  '@cloudflare/deploy-helpers@0.18.1': 7645eb17c1369c5be9ffd840f594d30b71c366e82125ee682958f151ad8a4d63
 
 importers:
 
@@ -291,7 +291,7 @@ importers:
         version: 0.20.3(patch_hash=ecd632c350c22e92f11dd426d4aec675be6515b0aa7e21f2ff1367e315e3ac59)(vitest@4.1.0(@types/node@25.3.5)(msw@2.14.6(@types/node@25.3.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.3.5)(esbuild@0.28.1)(tsx@4.21.0)(yaml@2.9.0)))
       '@cloudflare/deploy-helpers':
         specifier: 0.18.1
-        version: 0.18.1(patch_hash=fda13f9f3d3e1574acc2a163ba1810f6257e8aa54aa38270c99996995596fb31)(@types/node@25.3.5)(vitest@4.1.0(@types/node@25.3.5)(msw@2.14.6(@types/node@25.3.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.3.5)(esbuild@0.28.1)(tsx@4.21.0)(yaml@2.9.0)))
+        version: 0.18.1(patch_hash=7645eb17c1369c5be9ffd840f594d30b71c366e82125ee682958f151ad8a4d63)(@types/node@25.3.5)(vitest@4.1.0(@types/node@25.3.5)(msw@2.14.6(@types/node@25.3.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.3.5)(esbuild@0.28.1)(tsx@4.21.0)(yaml@2.9.0)))
       '@cloudflare/forge':
         specifier: file:../../vendor/cloudflare-forge-0.1.0.tgz
         version: file:vendor/cloudflare-forge-0.1.0.tgz
@@ -4001,7 +4001,7 @@ snapshots:
     transitivePeerDependencies:
       - vitest
 
-  '@cloudflare/deploy-helpers@0.18.1(patch_hash=fda13f9f3d3e1574acc2a163ba1810f6257e8aa54aa38270c99996995596fb31)(@types/node@25.3.5)(vitest@4.1.0(@types/node@25.3.5)(msw@2.14.6(@types/node@25.3.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.3.5)(esbuild@0.28.1)(tsx@4.21.0)(yaml@2.9.0)))':
+  '@cloudflare/deploy-helpers@0.18.1(patch_hash=7645eb17c1369c5be9ffd840f594d30b71c366e82125ee682958f151ad8a4d63)(@types/node@25.3.5)(vitest@4.1.0(@types/node@25.3.5)(msw@2.14.6(@types/node@25.3.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.3.5)(esbuild@0.28.1)(tsx@4.21.0)(yaml@2.9.0)))':
     dependencies:
       '@cloudflare/cli-shared-helpers': 0.2.0(vitest@4.1.0(@types/node@25.3.5)(msw@2.14.6(@types/node@25.3.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.3.5)(esbuild@0.28.1)(tsx@4.21.0)(yaml@2.9.0)))
       '@cloudflare/config': 0.20.0

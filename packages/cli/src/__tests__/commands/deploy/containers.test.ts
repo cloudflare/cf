@@ -234,6 +234,49 @@ describe("Build Output Containers", () => {
 		});
 	});
 
+	it("maps SSH settings for standard and Durable Object-managed Containers", () => {
+		const ssh = { enabled: true, port: 2222 };
+		const authorizedKeys = [{ name: "laptop", publicKey: "ssh-ed25519 AAAA" }];
+		const result = createContainerDeployConfig(
+			outputContainers(
+				{
+					name: "api",
+					image: { reference: "registry.example/api:latest" },
+					maxInstances: 1,
+					ssh,
+					authorizedKeys,
+				},
+				{
+					name: "session",
+					schedulingPolicy: "durable-object",
+					ssh,
+					authorizedKeys,
+				}
+			),
+			{
+				...config,
+				exports: durableObjectExports({
+					ContainerDO: "api",
+					SessionDO: "session",
+				}),
+			} as Config,
+			{ accountId: "account-id" }
+		);
+		const expected = {
+			ssh,
+			authorized_keys: [{ name: "laptop", public_key: "ssh-ed25519 AAAA" }],
+		};
+
+		expect(result.source).toEqual([
+			expect.objectContaining({ name: "api", ...expected }),
+			expect.objectContaining({
+				name: "session",
+				scheduling_policy: "durable_object",
+				...expected,
+			}),
+		]);
+	});
+
 	it("maps Durable Object-managed registry and local images", () => {
 		const result = createContainerDeployConfig(
 			outputContainers({

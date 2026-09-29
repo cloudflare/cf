@@ -19,3 +19,4 @@ export * from "./threatEvents/client/requests/index.js";
 export * from "./threatEvents/types/index.js";
 export * as threatSignals from "./threatSignals/index.js";
 export * from "./threatSignals/client/requests/index.js";
+export * from "./threatSignals/types/index.js";

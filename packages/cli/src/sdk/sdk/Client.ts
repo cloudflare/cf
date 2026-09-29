@@ -2,7 +2,6 @@
 
 import * as CloudflareApi from "./api/index.js";
 import { AbuseReportsClient } from "./api/resources/abuseReports/client/Client.js";
-import { AccountClient } from "./api/resources/account/client/Client.js";
 import { AccountsClient } from "./api/resources/accounts/client/Client.js";
 import { AccountTagsClient } from "./api/resources/accountTags/client/Client.js";
 import { AcmClient } from "./api/resources/acm/client/Client.js";
@@ -20,6 +19,7 @@ import { ApiSecurityClient } from "./api/resources/apiSecurity/client/Client.js"
 import { ArgoClient } from "./api/resources/argo/client/Client.js";
 import { ArtifactsClient } from "./api/resources/artifacts/client/Client.js";
 import { AuditLogsClient } from "./api/resources/auditLogs/client/Client.js";
+import { BasinCatalogClient } from "./api/resources/basinCatalog/client/Client.js";
 import { BillingClient } from "./api/resources/billing/client/Client.js";
 import { BotManagementClient } from "./api/resources/botManagement/client/Client.js";
 import { BotnetFeedClient } from "./api/resources/botnetFeed/client/Client.js";
@@ -102,7 +102,6 @@ import { OriginPostQuantumEncryptionClient } from "./api/resources/originPostQua
 import { OriginTlsClientAuthClient } from "./api/resources/originTlsClientAuth/client/Client.js";
 import { PageRulesClient } from "./api/resources/pageRules/client/Client.js";
 import { PagesClient } from "./api/resources/pages/client/Client.js";
-import { PagesAssetsClient } from "./api/resources/pagesAssets/client/Client.js";
 import { PayPerCrawlClient } from "./api/resources/payPerCrawl/client/Client.js";
 import { PayPerUseClient } from "./api/resources/payPerUse/client/Client.js";
 import { PipelinesClient } from "./api/resources/pipelines/client/Client.js";
@@ -125,7 +124,7 @@ import { RulesetsClient } from "./api/resources/rulesets/client/Client.js";
 import { RumClient } from "./api/resources/rum/client/Client.js";
 import { ScimClient } from "./api/resources/scim/client/Client.js";
 import { SecretsStoreClient } from "./api/resources/secretsStore/client/Client.js";
-import { SecurityCenterClient } from "./api/resources/securityCenter/client/Client.js";
+import { SecurityInsightsClient } from "./api/resources/securityInsights/client/Client.js";
 import { SecurityTxtClient } from "./api/resources/securityTxt/client/Client.js";
 import { SmartShieldClient } from "./api/resources/smartShield/client/Client.js";
 import { SnippetsClient } from "./api/resources/snippets/client/Client.js";
@@ -181,6 +180,7 @@ export class CloudflareApiClient {
     protected _ai: AiClient | undefined;
     protected _aiGateway: AiGatewayClient | undefined;
     protected _auditLogs: AuditLogsClient | undefined;
+    protected _basinCatalog: BasinCatalogClient | undefined;
     protected _logoMatches: LogoMatchesClient | undefined;
     protected _logos: LogosClient | undefined;
     protected _matches: MatchesClient | undefined;
@@ -203,9 +203,9 @@ export class CloudflareApiClient {
     protected _connectorInterrupts: ConnectorInterruptsClient | undefined;
     protected _connectorTelemetryEvents: ConnectorTelemetryEventsClient | undefined;
     protected _connectorTelemetrySnapshots: ConnectorTelemetrySnapshotsClient | undefined;
-    protected _account: AccountClient | undefined;
     protected _mtlsCertificates: MtlsCertificatesClient | undefined;
     protected _oauthClients: OauthClientsClient | undefined;
+    protected _pages: PagesClient | undefined;
     protected _pipelines: PipelinesClient | undefined;
     protected _queues: QueuesClient | undefined;
     protected _r2DataCatalog: R2DataCatalogClient | undefined;
@@ -220,7 +220,6 @@ export class CloudflareApiClient {
     protected _ips: IpsClient | undefined;
     protected _oauthScopes: OauthScopesClient | undefined;
     protected _organization: OrganizationClient | undefined;
-    protected _pagesAssets: PagesAssetsClient | undefined;
     protected _tenant: TenantClient | undefined;
     protected _tenantCustomNameservers: TenantCustomNameserversClient | undefined;
     protected _user: UserClient | undefined;
@@ -256,6 +255,7 @@ export class CloudflareApiClient {
     protected _customCsrs: CustomCsrsClient | undefined;
     protected _customPages: CustomPagesClient | undefined;
     protected _logs: LogsClient | undefined;
+    protected _securityInsights: SecurityInsightsClient | undefined;
     protected _accountTags: AccountTagsClient | undefined;
     protected _acm: AcmClient | undefined;
     protected _addressing: AddressingClient | undefined;
@@ -301,7 +301,6 @@ export class CloudflareApiClient {
     protected _observability: ObservabilityClient | undefined;
     protected _organizations: OrganizationsClient | undefined;
     protected _originTlsClientAuth: OriginTlsClientAuthClient | undefined;
-    protected _pages: PagesClient | undefined;
     protected _payPerCrawl: PayPerCrawlClient | undefined;
     protected _payPerUse: PayPerUseClient | undefined;
     protected _r2: R2Client | undefined;
@@ -317,7 +316,6 @@ export class CloudflareApiClient {
     protected _rum: RumClient | undefined;
     protected _scim: ScimClient | undefined;
     protected _secretsStore: SecretsStoreClient | undefined;
-    protected _securityCenter: SecurityCenterClient | undefined;
     protected _spectrum: SpectrumClient | undefined;
     protected _speed: SpeedClient | undefined;
     protected _ssl: SslClient | undefined;
@@ -362,6 +360,10 @@ export class CloudflareApiClient {
 
     public get auditLogs(): AuditLogsClient {
         return (this._auditLogs ??= new AuditLogsClient(this._options));
+    }
+
+    public get basinCatalog(): BasinCatalogClient {
+        return (this._basinCatalog ??= new BasinCatalogClient(this._options));
     }
 
     public get logoMatches(): LogoMatchesClient {
@@ -452,16 +454,16 @@ export class CloudflareApiClient {
         return (this._connectorTelemetrySnapshots ??= new ConnectorTelemetrySnapshotsClient(this._options));
     }
 
-    public get account(): AccountClient {
-        return (this._account ??= new AccountClient(this._options));
-    }
-
     public get mtlsCertificates(): MtlsCertificatesClient {
         return (this._mtlsCertificates ??= new MtlsCertificatesClient(this._options));
     }
 
     public get oauthClients(): OauthClientsClient {
         return (this._oauthClients ??= new OauthClientsClient(this._options));
+    }
+
+    public get pages(): PagesClient {
+        return (this._pages ??= new PagesClient(this._options));
     }
 
     public get pipelines(): PipelinesClient {
@@ -518,10 +520,6 @@ export class CloudflareApiClient {
 
     public get organization(): OrganizationClient {
         return (this._organization ??= new OrganizationClient(this._options));
-    }
-
-    public get pagesAssets(): PagesAssetsClient {
-        return (this._pagesAssets ??= new PagesAssetsClient(this._options));
     }
 
     public get tenant(): TenantClient {
@@ -662,6 +660,10 @@ export class CloudflareApiClient {
 
     public get logs(): LogsClient {
         return (this._logs ??= new LogsClient(this._options));
+    }
+
+    public get securityInsights(): SecurityInsightsClient {
+        return (this._securityInsights ??= new SecurityInsightsClient(this._options));
     }
 
     public get accountTags(): AccountTagsClient {
@@ -844,10 +846,6 @@ export class CloudflareApiClient {
         return (this._originTlsClientAuth ??= new OriginTlsClientAuthClient(this._options));
     }
 
-    public get pages(): PagesClient {
-        return (this._pages ??= new PagesClient(this._options));
-    }
-
     public get payPerCrawl(): PayPerCrawlClient {
         return (this._payPerCrawl ??= new PayPerCrawlClient(this._options));
     }
@@ -906,10 +904,6 @@ export class CloudflareApiClient {
 
     public get secretsStore(): SecretsStoreClient {
         return (this._secretsStore ??= new SecretsStoreClient(this._options));
-    }
-
-    public get securityCenter(): SecurityCenterClient {
-        return (this._securityCenter ??= new SecurityCenterClient(this._options));
     }
 
     public get spectrum(): SpectrumClient {

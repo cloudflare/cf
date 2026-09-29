@@ -119,4 +119,138 @@ export class UsersClient {
             "/accounts/{account_id}/access/identity_providers/{identity_provider_id}/scim/users",
         );
     }
+
+    /**
+     * Returns a SCIM User resource synced to Cloudflare via the System for Cross-domain Identity Management (SCIM).
+     *
+     * @param {CloudflareApi.zeroTrust.identityProviders.scim.GetUsersRequest} request
+     * @param {UsersClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @example
+     *     await client.zeroTrust.identityProviders.scim.users.get({
+     *         account_id: "account_id",
+     *         identity_provider_id: "identity_provider_id",
+     *         user_id: "user_id"
+     *     })
+     */
+    public get(
+        request: CloudflareApi.zeroTrust.identityProviders.scim.GetUsersRequest,
+        requestOptions?: UsersClient.RequestOptions,
+    ): core.HttpResponsePromise<CloudflareApi.AccessUsers> {
+        return core.HttpResponsePromise.fromPromise(this.__get(request, requestOptions));
+    }
+
+    private async __get(
+        request: CloudflareApi.zeroTrust.identityProviders.scim.GetUsersRequest,
+        requestOptions?: UsersClient.RequestOptions,
+    ): Promise<core.WithRawResponse<CloudflareApi.AccessUsers>> {
+        const { account_id: accountId, identity_provider_id: identityProviderId, user_id: userId } = request;
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.CloudflareApiEnvironment.Default,
+                `accounts/${core.url.encodePathParam(accountId)}/access/identity_providers/${core.url.encodePathParam(identityProviderId)}/scim/users/${core.url.encodePathParam(userId)}`,
+            ),
+            method: "GET",
+            headers: _headers,
+            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return { data: _response.body as CloudflareApi.AccessUsers, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            throw new errors.CloudflareApiError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
+        }
+
+        return handleNonStatusCodeError(
+            _response.error,
+            _response.rawResponse,
+            "GET",
+            "/accounts/{account_id}/access/identity_providers/{identity_provider_id}/scim/users/{user_id}",
+        );
+    }
+
+    /**
+     * Deletes a SCIM User resource from the identity provider's SCIM population.
+     *
+     * @param {CloudflareApi.zeroTrust.identityProviders.scim.DeleteUsersRequest} request
+     * @param {UsersClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @example
+     *     await client.zeroTrust.identityProviders.scim.users.delete({
+     *         account_id: "account_id",
+     *         identity_provider_id: "identity_provider_id",
+     *         user_id: "user_id"
+     *     })
+     */
+    public delete(
+        request: CloudflareApi.zeroTrust.identityProviders.scim.DeleteUsersRequest,
+        requestOptions?: UsersClient.RequestOptions,
+    ): core.HttpResponsePromise<void> {
+        return core.HttpResponsePromise.fromPromise(this.__delete(request, requestOptions));
+    }
+
+    private async __delete(
+        request: CloudflareApi.zeroTrust.identityProviders.scim.DeleteUsersRequest,
+        requestOptions?: UsersClient.RequestOptions,
+    ): Promise<core.WithRawResponse<void>> {
+        const { account_id: accountId, identity_provider_id: identityProviderId, user_id: userId } = request;
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.CloudflareApiEnvironment.Default,
+                `accounts/${core.url.encodePathParam(accountId)}/access/identity_providers/${core.url.encodePathParam(identityProviderId)}/scim/users/${core.url.encodePathParam(userId)}`,
+            ),
+            method: "DELETE",
+            headers: _headers,
+            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return { data: undefined, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            throw new errors.CloudflareApiError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
+        }
+
+        return handleNonStatusCodeError(
+            _response.error,
+            _response.rawResponse,
+            "DELETE",
+            "/accounts/{account_id}/access/identity_providers/{identity_provider_id}/scim/users/{user_id}",
+        );
+    }
 }

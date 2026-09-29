@@ -20,7 +20,7 @@ const sdkDir = fileURLToPath(new URL("./src/sdk", import.meta.url));
 const sdkEntrypointPath = join(sdkDir, "sdk/index.ts");
 const sdkVersionPath = join(sdkDir, "openapi-version");
 // The SDK is committed. Bump this SHA to regenerate it from a new release.
-const FORGE_OPENAPI_VERSION = "6b0fb3cd63aca815f1667a8fa908114886867dc6";
+const FORGE_OPENAPI_VERSION = "9053fe030901c272e245a63becbe109594584c4e";
 const FORGE_OPENAPI_RELEASE = `openapi@${FORGE_OPENAPI_VERSION}`;
 const FORGE_OPENAPI_ASSET = "openapi.forge.json";
 const FORGE_OPENAPI_ASSET_URL = `https://github.com/cloudflare/forge/releases/download/${FORGE_OPENAPI_RELEASE}/${FORGE_OPENAPI_ASSET}`;

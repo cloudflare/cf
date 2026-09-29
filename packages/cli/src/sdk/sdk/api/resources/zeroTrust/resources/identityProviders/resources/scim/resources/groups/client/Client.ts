@@ -113,4 +113,138 @@ export class GroupsClient {
             "/accounts/{account_id}/access/identity_providers/{identity_provider_id}/scim/groups",
         );
     }
+
+    /**
+     * Returns a SCIM Group resource, including its direct members, synced to Cloudflare via the System for Cross-domain Identity Management (SCIM).
+     *
+     * @param {CloudflareApi.zeroTrust.identityProviders.scim.GetGroupsRequest} request
+     * @param {GroupsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @example
+     *     await client.zeroTrust.identityProviders.scim.groups.get({
+     *         account_id: "account_id",
+     *         identity_provider_id: "identity_provider_id",
+     *         group_id: "group_id"
+     *     })
+     */
+    public get(
+        request: CloudflareApi.zeroTrust.identityProviders.scim.GetGroupsRequest,
+        requestOptions?: GroupsClient.RequestOptions,
+    ): core.HttpResponsePromise<CloudflareApi.AccessGroupDetails> {
+        return core.HttpResponsePromise.fromPromise(this.__get(request, requestOptions));
+    }
+
+    private async __get(
+        request: CloudflareApi.zeroTrust.identityProviders.scim.GetGroupsRequest,
+        requestOptions?: GroupsClient.RequestOptions,
+    ): Promise<core.WithRawResponse<CloudflareApi.AccessGroupDetails>> {
+        const { account_id: accountId, identity_provider_id: identityProviderId, group_id: groupId } = request;
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.CloudflareApiEnvironment.Default,
+                `accounts/${core.url.encodePathParam(accountId)}/access/identity_providers/${core.url.encodePathParam(identityProviderId)}/scim/groups/${core.url.encodePathParam(groupId)}`,
+            ),
+            method: "GET",
+            headers: _headers,
+            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return { data: _response.body as CloudflareApi.AccessGroupDetails, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            throw new errors.CloudflareApiError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
+        }
+
+        return handleNonStatusCodeError(
+            _response.error,
+            _response.rawResponse,
+            "GET",
+            "/accounts/{account_id}/access/identity_providers/{identity_provider_id}/scim/groups/{group_id}",
+        );
+    }
+
+    /**
+     * Deletes a SCIM Group resource from the identity provider's SCIM population.
+     *
+     * @param {CloudflareApi.zeroTrust.identityProviders.scim.DeleteGroupsRequest} request
+     * @param {GroupsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @example
+     *     await client.zeroTrust.identityProviders.scim.groups.delete({
+     *         account_id: "account_id",
+     *         identity_provider_id: "identity_provider_id",
+     *         group_id: "group_id"
+     *     })
+     */
+    public delete(
+        request: CloudflareApi.zeroTrust.identityProviders.scim.DeleteGroupsRequest,
+        requestOptions?: GroupsClient.RequestOptions,
+    ): core.HttpResponsePromise<void> {
+        return core.HttpResponsePromise.fromPromise(this.__delete(request, requestOptions));
+    }
+
+    private async __delete(
+        request: CloudflareApi.zeroTrust.identityProviders.scim.DeleteGroupsRequest,
+        requestOptions?: GroupsClient.RequestOptions,
+    ): Promise<core.WithRawResponse<void>> {
+        const { account_id: accountId, identity_provider_id: identityProviderId, group_id: groupId } = request;
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.CloudflareApiEnvironment.Default,
+                `accounts/${core.url.encodePathParam(accountId)}/access/identity_providers/${core.url.encodePathParam(identityProviderId)}/scim/groups/${core.url.encodePathParam(groupId)}`,
+            ),
+            method: "DELETE",
+            headers: _headers,
+            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return { data: undefined, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            throw new errors.CloudflareApiError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
+        }
+
+        return handleNonStatusCodeError(
+            _response.error,
+            _response.rawResponse,
+            "DELETE",
+            "/accounts/{account_id}/access/identity_providers/{identity_provider_id}/scim/groups/{group_id}",
+        );
+    }
 }

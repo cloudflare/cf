@@ -9,6 +9,7 @@ import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
 import * as CloudflareApi from "../../../../../index.js";
+import { FederationGrantsClient } from "../resources/federationGrants/client/Client.js";
 import { SamlCertificateClient } from "../resources/samlCertificate/client/Client.js";
 import { ScimClient } from "../resources/scim/client/Client.js";
 
@@ -21,6 +22,7 @@ export declare namespace IdentityProvidersClient {
 export class IdentityProvidersClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<IdentityProvidersClient.Options>;
     protected _samlCertificate: SamlCertificateClient | undefined;
+    protected _federationGrants: FederationGrantsClient | undefined;
     protected _scim: ScimClient | undefined;
 
     constructor(options: IdentityProvidersClient.Options = {}) {
@@ -29,6 +31,10 @@ export class IdentityProvidersClient {
 
     public get samlCertificate(): SamlCertificateClient {
         return (this._samlCertificate ??= new SamlCertificateClient(this._options));
+    }
+
+    public get federationGrants(): FederationGrantsClient {
+        return (this._federationGrants ??= new FederationGrantsClient(this._options));
     }
 
     public get scim(): ScimClient {

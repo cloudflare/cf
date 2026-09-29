@@ -26,77 +26,7 @@ export class SkillsClient {
     }
 
     /**
-     * Diagnose Threat Signals default tag skill.
-     *
-     * @param {CloudflareApi.cloudforceOne.threatSignals.articles.DiagnosticSkillsRequest} request
-     * @param {SkillsClient.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @example
-     *     await client.cloudforceOne.threatSignals.articles.skills.diagnostic({
-     *         account_id: "account_id",
-     *         article_id: "article_id",
-     *         skill_id: "default-tagging-skill"
-     *     })
-     */
-    public diagnostic(
-        request: CloudflareApi.cloudforceOne.threatSignals.articles.DiagnosticSkillsRequest,
-        requestOptions?: SkillsClient.RequestOptions,
-    ): core.HttpResponsePromise<CloudflareApi.cloudforceOne.threatSignals.articles.DiagnosticSkillsResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__diagnostic(request, requestOptions));
-    }
-
-    private async __diagnostic(
-        request: CloudflareApi.cloudforceOne.threatSignals.articles.DiagnosticSkillsRequest,
-        requestOptions?: SkillsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<CloudflareApi.cloudforceOne.threatSignals.articles.DiagnosticSkillsResponse>> {
-        const { account_id: accountId, article_id: articleId, skill_id: skillId } = request;
-        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
-        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
-            _authRequest.headers,
-            this._options?.headers,
-            requestOptions?.headers,
-        );
-        const _response = await (this._options.fetcher ?? core.fetcher)({
-            url: core.url.join(
-                (await core.Supplier.get(this._options.baseUrl)) ??
-                    (await core.Supplier.get(this._options.environment)) ??
-                    environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/cloudforce-one/v2/threat-signals/articles/${core.url.encodePathParam(articleId)}/skills/${core.url.encodePathParam(skillId)}/diagnostic`,
-            ),
-            method: "POST",
-            headers: _headers,
-            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
-            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
-            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
-            abortSignal: requestOptions?.abortSignal,
-            fetchFn: this._options?.fetch,
-            logging: this._options.logging,
-        });
-        if (_response.ok) {
-            return {
-                data: _response.body as CloudflareApi.cloudforceOne.threatSignals.articles.DiagnosticSkillsResponse,
-                rawResponse: _response.rawResponse,
-            };
-        }
-
-        if (_response.error.reason === "status-code") {
-            throw new errors.CloudflareApiError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-                rawResponse: _response.rawResponse,
-            });
-        }
-
-        return handleNonStatusCodeError(
-            _response.error,
-            _response.rawResponse,
-            "POST",
-            "/accounts/{account_id}/cloudforce-one/v2/threat-signals/articles/{article_id}/skills/{skill_id}/diagnostic",
-        );
-    }
-
-    /**
-     * Get Threat Signals article skill output.
+     * Retrieves the stored output of a skill for a Threat Signals article.
      *
      * @param {CloudflareApi.cloudforceOne.threatSignals.articles.GetOutputSkillsRequest} request
      * @param {SkillsClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -111,14 +41,14 @@ export class SkillsClient {
     public getOutput(
         request: CloudflareApi.cloudforceOne.threatSignals.articles.GetOutputSkillsRequest,
         requestOptions?: SkillsClient.RequestOptions,
-    ): core.HttpResponsePromise<void> {
+    ): core.HttpResponsePromise<CloudflareApi.cloudforceOne.threatSignals.articles.GetOutputSkillsResponse> {
         return core.HttpResponsePromise.fromPromise(this.__getOutput(request, requestOptions));
     }
 
     private async __getOutput(
         request: CloudflareApi.cloudforceOne.threatSignals.articles.GetOutputSkillsRequest,
         requestOptions?: SkillsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<void>> {
+    ): Promise<core.WithRawResponse<CloudflareApi.cloudforceOne.threatSignals.articles.GetOutputSkillsResponse>> {
         const { account_id: accountId, article_id: articleId, skill_id: skillId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -143,7 +73,10 @@ export class SkillsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: undefined, rawResponse: _response.rawResponse };
+            return {
+                data: _response.body as CloudflareApi.cloudforceOne.threatSignals.articles.GetOutputSkillsResponse,
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {

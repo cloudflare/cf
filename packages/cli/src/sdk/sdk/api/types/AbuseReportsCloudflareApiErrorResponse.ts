@@ -3,7 +3,7 @@
 import * as CloudflareApi from "../index.js";
 
 /**
- * Cloudflare's API layer uses this standard error envelope for requests that fail authentication before they reach the Abuse Reports API. The example shows the authentication error for missing or invalid credentials.
+ * Cloudflare's API layer uses this standard error envelope for requests that fail authentication or authorization before they reach the Abuse Reports API. The example shows error code `10000`, returned for missing or invalid credentials (HTTP 401) and for a token or OAuth grant that lacks the required Trust and Safety permission (HTTP 403).
  */
 export interface AbuseReportsCloudflareApiErrorResponse {
     /** Cloudflare API error details. */

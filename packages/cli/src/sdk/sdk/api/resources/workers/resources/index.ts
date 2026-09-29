@@ -21,7 +21,6 @@ export * from "./scripts/types/index.js";
 export * as secrets from "./secrets/index.js";
 export * from "./secrets/client/requests/index.js";
 export * from "./secrets/types/index.js";
-export * as services from "./services/index.js";
 export * as subdomains from "./subdomains/index.js";
 export * from "./subdomains/client/requests/index.js";
 export * as tail from "./tail/index.js";

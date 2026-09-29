@@ -14,7 +14,7 @@ export interface PagesDeployment {
     environment?: PagesDeployment.Environment | undefined;
     /** Id of the deployment. */
     id?: string | undefined;
-    /** If the deployment has been skipped. */
+    /** Whether the deployment was skipped. */
     is_skipped?: boolean | undefined;
     latest_stage?: CloudflareApi.PagesStage | undefined;
     /** When the deployment was last modified. */
@@ -50,6 +50,7 @@ export namespace PagesDeployment {
         PathConfig: "path_config",
         BranchConfig: "branch_config",
         PagesToWorkersConversion: "pages_to_workers_conversion",
+        SupersededQueuedBuild: "superseded_queued_build",
     } as const;
     export type SkipReason = (typeof SkipReason)[keyof typeof SkipReason];
 }

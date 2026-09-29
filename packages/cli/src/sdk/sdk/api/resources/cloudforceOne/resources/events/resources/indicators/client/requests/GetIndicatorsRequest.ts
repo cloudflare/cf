@@ -44,7 +44,7 @@ export interface GetIndicatorsRequest {
     createdAfter?: string;
     /** Filter indicators created on or before this date. Must use ISO 8601 format (e.g., '2024-12-31T23:59:59Z'). */
     createdBefore?: string;
-    /** Limit the number of related events returned per indicator. Default: 2. Set to 0 for none, -1 for all events. */
+    /** Limit the number of related events returned per indicator. Default: 2. Set to 0 for none, -1 for all events. For JSON responses, when the limit hides events, the indicator carries `relatedEventsHasMore: true` and the response includes an advisory message — the cap is never applied silently. STIX and TAXII representations do not include related-event data. */
     relatedEventsLimit?: number;
     /** Whether to include full tag details for each indicator. Defaults to true. */
     includeTags?: boolean;

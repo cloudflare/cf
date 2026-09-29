@@ -11,7 +11,6 @@ import * as CloudflareApi from "../../../index.js";
 import { AccountClient } from "../resources/account/client/Client.js";
 import { AccountTypeClient } from "../resources/accountType/client/Client.js";
 import { EntitlementClient } from "../resources/entitlement/client/Client.js";
-import { MembershipClient } from "../resources/membership/client/Client.js";
 
 export declare namespace TenantClient {
     export type Options = BaseClientOptions;
@@ -24,7 +23,6 @@ export class TenantClient {
     protected _accountType: AccountTypeClient | undefined;
     protected _account: AccountClient | undefined;
     protected _entitlement: EntitlementClient | undefined;
-    protected _membership: MembershipClient | undefined;
 
     constructor(options: TenantClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
@@ -42,12 +40,8 @@ export class TenantClient {
         return (this._entitlement ??= new EntitlementClient(this._options));
     }
 
-    public get membership(): MembershipClient {
-        return (this._membership ??= new MembershipClient(this._options));
-    }
-
     /**
-     * Retrieves a Tenant by Tenant ID.
+     * Retrieves a tenant's identity, status, metadata, contacts, and organizational units.
      *
      * @param {CloudflareApi.GetTenantRequest} request
      * @param {TenantClient.RequestOptions} requestOptions - Request-specific configuration.

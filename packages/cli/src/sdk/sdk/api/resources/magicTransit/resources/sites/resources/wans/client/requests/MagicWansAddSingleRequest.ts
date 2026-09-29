@@ -15,9 +15,22 @@ export interface MagicWansAddSingleRequest {
     account_id: string;
     /** Identifier */
     site_id: string;
+    /** Magic WAN health check rate for tunnels created on this link. The default value is `mid`. */
+    health_check_rate?: MagicWansAddSingleRequest.HealthCheckRate;
+    load_balance_inner_flows?: boolean;
     name?: string;
     physport: CloudflareApi.MagicPort;
     priority?: number;
     static_addressing?: CloudflareApi.MagicWanStaticAddressing;
     vlan_tag?: CloudflareApi.MagicVlanTag;
+}
+
+export namespace MagicWansAddSingleRequest {
+    /** Magic WAN health check rate for tunnels created on this link. The default value is `mid`. */
+    export const HealthCheckRate = {
+        Low: "low",
+        Mid: "mid",
+        High: "high",
+    } as const;
+    export type HealthCheckRate = (typeof HealthCheckRate)[keyof typeof HealthCheckRate];
 }

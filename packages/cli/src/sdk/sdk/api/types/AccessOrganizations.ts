@@ -20,6 +20,7 @@ export interface AccessOrganizations {
     name?: CloudflareApi.AccessName | undefined;
     service_token_inactivity?: CloudflareApi.AccessServiceTokenInactivity | undefined;
     session_duration?: CloudflareApi.AccessSessionDuration | undefined;
+    strict_service_token_auth?: CloudflareApi.AccessStrictServiceTokenAuth | undefined;
     ui_read_only_toggle_reason?: CloudflareApi.AccessUiReadOnlyToggleReason | undefined;
     updated_at?: CloudflareApi.AccessUpdatedAt | undefined;
     user_seat_expiration_inactive_time?: CloudflareApi.AccessUserSeatExpirationInactiveTime | undefined;

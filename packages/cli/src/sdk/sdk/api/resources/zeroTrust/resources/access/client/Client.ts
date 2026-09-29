@@ -5,18 +5,17 @@ import { normalizeClientOptionsWithAuth, type NormalizedClientOptionsWithAuth } 
 import * as core from "../../../../../../core/index.js";
 import * as environments from "../../../../../../environments.js";
 import { ApplicationsClient } from "../resources/applications/client/Client.js";
-import { AuthenticatorDeviceAaguidsClient } from "../resources/authenticatorDeviceAaguids/client/Client.js";
 import { BookmarksClient } from "../resources/bookmarks/client/Client.js";
-import { CertificatesClient } from "../resources/certificates/client/Client.js";
 import { CustomPagesClient } from "../resources/customPages/client/Client.js";
-import { GatewayCaClient } from "../resources/gatewayCa/client/Client.js";
-import { GroupsClient } from "../resources/groups/client/Client.js";
-import { IdpFederationGrantsClient } from "../resources/idpFederationGrants/client/Client.js";
-import { KeysClient } from "../resources/keys/client/Client.js";
+import { InfrastructureClient } from "../resources/infrastructure/client/Client.js";
 import { LogsClient } from "../resources/logs/client/Client.js";
+import { MfaClient } from "../resources/mfa/client/Client.js";
+import { MtlsCertificatesClient } from "../resources/mtlsCertificates/client/Client.js";
 import { PoliciesClient } from "../resources/policies/client/Client.js";
-import { SamlCertificatesClient } from "../resources/samlCertificates/client/Client.js";
+import { RuleGroupsClient } from "../resources/ruleGroups/client/Client.js";
+import { SamlEncryptionCertificatesClient } from "../resources/samlEncryptionCertificates/client/Client.js";
 import { ServiceTokensClient } from "../resources/serviceTokens/client/Client.js";
+import { SigningKeysClient } from "../resources/signingKeys/client/Client.js";
 import { TagsClient } from "../resources/tags/client/Client.js";
 import { TargetsClient } from "../resources/targets/client/Client.js";
 import { UsersClient } from "../resources/users/client/Client.js";
@@ -27,29 +26,24 @@ export declare namespace AccessClient {
 
 export class AccessClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<AccessClient.Options>;
-    protected _authenticatorDeviceAaguids: AuthenticatorDeviceAaguidsClient | undefined;
     protected _bookmarks: BookmarksClient | undefined;
     protected _customPages: CustomPagesClient | undefined;
-    protected _gatewayCa: GatewayCaClient | undefined;
-    protected _idpFederationGrants: IdpFederationGrantsClient | undefined;
-    protected _keys: KeysClient | undefined;
+    protected _signingKeys: SigningKeysClient | undefined;
     protected _policies: PoliciesClient | undefined;
-    protected _samlCertificates: SamlCertificatesClient | undefined;
+    protected _samlEncryptionCertificates: SamlEncryptionCertificatesClient | undefined;
     protected _serviceTokens: ServiceTokensClient | undefined;
     protected _tags: TagsClient | undefined;
     protected _users: UsersClient | undefined;
     protected _targets: TargetsClient | undefined;
     protected _applications: ApplicationsClient | undefined;
-    protected _certificates: CertificatesClient | undefined;
-    protected _groups: GroupsClient | undefined;
+    protected _mtlsCertificates: MtlsCertificatesClient | undefined;
+    protected _ruleGroups: RuleGroupsClient | undefined;
+    protected _infrastructure: InfrastructureClient | undefined;
     protected _logs: LogsClient | undefined;
+    protected _mfa: MfaClient | undefined;
 
     constructor(options: AccessClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
-    }
-
-    public get authenticatorDeviceAaguids(): AuthenticatorDeviceAaguidsClient {
-        return (this._authenticatorDeviceAaguids ??= new AuthenticatorDeviceAaguidsClient(this._options));
     }
 
     public get bookmarks(): BookmarksClient {
@@ -60,24 +54,16 @@ export class AccessClient {
         return (this._customPages ??= new CustomPagesClient(this._options));
     }
 
-    public get gatewayCa(): GatewayCaClient {
-        return (this._gatewayCa ??= new GatewayCaClient(this._options));
-    }
-
-    public get idpFederationGrants(): IdpFederationGrantsClient {
-        return (this._idpFederationGrants ??= new IdpFederationGrantsClient(this._options));
-    }
-
-    public get keys(): KeysClient {
-        return (this._keys ??= new KeysClient(this._options));
+    public get signingKeys(): SigningKeysClient {
+        return (this._signingKeys ??= new SigningKeysClient(this._options));
     }
 
     public get policies(): PoliciesClient {
         return (this._policies ??= new PoliciesClient(this._options));
     }
 
-    public get samlCertificates(): SamlCertificatesClient {
-        return (this._samlCertificates ??= new SamlCertificatesClient(this._options));
+    public get samlEncryptionCertificates(): SamlEncryptionCertificatesClient {
+        return (this._samlEncryptionCertificates ??= new SamlEncryptionCertificatesClient(this._options));
     }
 
     public get serviceTokens(): ServiceTokensClient {
@@ -100,15 +86,23 @@ export class AccessClient {
         return (this._applications ??= new ApplicationsClient(this._options));
     }
 
-    public get certificates(): CertificatesClient {
-        return (this._certificates ??= new CertificatesClient(this._options));
+    public get mtlsCertificates(): MtlsCertificatesClient {
+        return (this._mtlsCertificates ??= new MtlsCertificatesClient(this._options));
     }
 
-    public get groups(): GroupsClient {
-        return (this._groups ??= new GroupsClient(this._options));
+    public get ruleGroups(): RuleGroupsClient {
+        return (this._ruleGroups ??= new RuleGroupsClient(this._options));
+    }
+
+    public get infrastructure(): InfrastructureClient {
+        return (this._infrastructure ??= new InfrastructureClient(this._options));
     }
 
     public get logs(): LogsClient {
         return (this._logs ??= new LogsClient(this._options));
+    }
+
+    public get mfa(): MfaClient {
+        return (this._mfa ??= new MfaClient(this._options));
     }
 }

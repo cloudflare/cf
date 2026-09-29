@@ -23,7 +23,7 @@ export class EntitlementClient {
     }
 
     /**
-     * List of innate entitlements available for the Tenant.
+     * Retrieves the innate and custom entitlement allocations available to this tenant.
      *
      * @param {CloudflareApi.tenant.ListEntitlementRequest} request
      * @param {EntitlementClient.RequestOptions} requestOptions - Request-specific configuration.

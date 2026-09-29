@@ -30,6 +30,7 @@ export class MitigationsClient {
      * @param {MitigationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.UnauthorizedError}
+     * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.InternalServerError}
      *
      * @example
@@ -110,6 +111,8 @@ export class MitigationsClient {
             switch (_response.error.statusCode) {
                 case 401:
                     throw new CloudflareApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                case 403:
+                    throw new CloudflareApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 500:
                     throw new CloudflareApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
                 default:
@@ -130,12 +133,16 @@ export class MitigationsClient {
     }
 
     /**
-     * Request a review for mitigations on an account. Repeating a request for a mitigation with an unresolved appeal is idempotent and returns that mitigation in the in-review state.
+     * Request a review of mitigations applied because of an abuse report, or submit a report-level appeal.
+     *
+     * - To request a review of specific mitigations, send `appeals` with the mitigation IDs and reasons. Repeating a request for a mitigation with an unresolved appeal is idempotent and returns that mitigation in the in-review state.
+     * - To submit a report-level appeal, send `type` and, for a `counter_notice`, the counter-notice details in `data`. Report-level appeals are currently available only for DMCA (copyright) reports.
      *
      * @param {CloudflareApi.abuseReports.ReviewMitigationsRequest} request
      * @param {MitigationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.UnauthorizedError}
+     * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.InternalServerError}
      *
      * @example
@@ -195,6 +202,8 @@ export class MitigationsClient {
             switch (_response.error.statusCode) {
                 case 401:
                     throw new CloudflareApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                case 403:
+                    throw new CloudflareApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 500:
                     throw new CloudflareApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
                 default:

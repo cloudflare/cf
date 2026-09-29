@@ -12,10 +12,10 @@ import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
 import * as CloudflareApi from "../../../../../../../index.js";
-import { CasClient } from "../resources/cas/client/Client.js";
 import { PoliciesClient } from "../resources/policies/client/Client.js";
 import { PolicyTestsClient } from "../resources/policyTests/client/Client.js";
 import { SettingsClient } from "../resources/settings/client/Client.js";
+import { ShortLivedCertificatesClient } from "../resources/shortLivedCertificates/client/Client.js";
 import { UserPolicyChecksClient } from "../resources/userPolicyChecks/client/Client.js";
 
 export declare namespace ApplicationsClient {
@@ -26,9 +26,9 @@ export declare namespace ApplicationsClient {
 
 export class ApplicationsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<ApplicationsClient.Options>;
-    protected _policyTests: PolicyTestsClient | undefined;
-    protected _cas: CasClient | undefined;
     protected _policies: PoliciesClient | undefined;
+    protected _policyTests: PolicyTestsClient | undefined;
+    protected _shortLivedCertificates: ShortLivedCertificatesClient | undefined;
     protected _settings: SettingsClient | undefined;
     protected _userPolicyChecks: UserPolicyChecksClient | undefined;
 
@@ -36,16 +36,16 @@ export class ApplicationsClient {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 
+    public get policies(): PoliciesClient {
+        return (this._policies ??= new PoliciesClient(this._options));
+    }
+
     public get policyTests(): PolicyTestsClient {
         return (this._policyTests ??= new PolicyTestsClient(this._options));
     }
 
-    public get cas(): CasClient {
-        return (this._cas ??= new CasClient(this._options));
-    }
-
-    public get policies(): PoliciesClient {
-        return (this._policies ??= new PoliciesClient(this._options));
+    public get shortLivedCertificates(): ShortLivedCertificatesClient {
+        return (this._shortLivedCertificates ??= new ShortLivedCertificatesClient(this._options));
     }
 
     public get settings(): SettingsClient {

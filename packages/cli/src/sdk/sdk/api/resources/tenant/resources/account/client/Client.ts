@@ -23,7 +23,7 @@ export class AccountClient {
     }
 
     /**
-     * List of accounts for the Tenant.
+     * Lists the Cloudflare accounts associated with this tenant.
      *
      * @param {CloudflareApi.tenant.ListAccountRequest} request
      * @param {AccountClient.RequestOptions} requestOptions - Request-specific configuration.

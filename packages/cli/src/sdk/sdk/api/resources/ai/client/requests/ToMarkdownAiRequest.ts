@@ -11,6 +11,8 @@ import * as core from "../../../../../core/index.js";
  *     }
  */
 export interface ToMarkdownAiRequest {
+    /** Cloudflare account ID used for this AI model request. */
     account_id: string;
+    /** Files to convert, supplied as multipart file uploads. */
     files: core.file.Uploadable[];
 }

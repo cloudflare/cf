@@ -27,6 +27,8 @@ export class MaintenanceConfigsClient {
     }
 
     /**
+     * @deprecated
+     *
      * Retrieve the maintenance configuration for a specific table,
      * including compaction settings.
      *
@@ -118,10 +120,12 @@ export class MaintenanceConfigsClient {
     }
 
     /**
+     * @deprecated
+     *
      * Update the maintenance configuration for a specific table. This allows you to
      * enable or disable compaction and adjust target file sizes for optimization.
      *
-     * @param {CloudflareApi.r2DataCatalog.namespaces.tables.R2DataCatalogTableMaintenanceUpdateRequest} request
+     * @param {CloudflareApi.r2DataCatalog.namespaces.tables.UpdateMaintenanceConfigsRequest} request
      * @param {MaintenanceConfigsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
@@ -136,29 +140,37 @@ export class MaintenanceConfigsClient {
      *         bucket_name: "bucket_name",
      *         namespace: "my_namespace%1Fsub_namespace",
      *         table_name: "my_table",
-     *         compaction: {
-     *             state: "enabled",
-     *             target_size_mb: "256"
-     *         },
-     *         snapshot_expiration: {
-     *             max_snapshot_age: "14d",
-     *             min_snapshots_to_keep: 5,
-     *             state: "enabled"
+     *         body: {
+     *             compaction: {
+     *                 state: "enabled",
+     *                 target_size_mb: "256"
+     *             },
+     *             snapshot_expiration: {
+     *                 max_snapshot_age: "14d",
+     *                 min_snapshots_to_keep: 5,
+     *                 state: "enabled"
+     *             }
      *         }
      *     })
      */
     public update(
-        request: CloudflareApi.r2DataCatalog.namespaces.tables.R2DataCatalogTableMaintenanceUpdateRequest,
+        request: CloudflareApi.r2DataCatalog.namespaces.tables.UpdateMaintenanceConfigsRequest,
         requestOptions?: MaintenanceConfigsClient.RequestOptions,
     ): core.HttpResponsePromise<CloudflareApi.R2DataCatalogTableMaintenanceConfig> {
         return core.HttpResponsePromise.fromPromise(this.__update(request, requestOptions));
     }
 
     private async __update(
-        request: CloudflareApi.r2DataCatalog.namespaces.tables.R2DataCatalogTableMaintenanceUpdateRequest,
+        request: CloudflareApi.r2DataCatalog.namespaces.tables.UpdateMaintenanceConfigsRequest,
         requestOptions?: MaintenanceConfigsClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.R2DataCatalogTableMaintenanceConfig>> {
-        const { account_id: accountId, bucket_name: bucketName, namespace, table_name: tableName, ..._body } = request;
+        const {
+            account_id: accountId,
+            bucket_name: bucketName,
+            namespace,
+            table_name: tableName,
+            body: _body,
+        } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -221,9 +233,11 @@ export class MaintenanceConfigsClient {
     }
 
     /**
+     * @deprecated
+     *
      * Queue maintenance for normal polling. This request does not start a run.
      *
-     * @param {CloudflareApi.r2DataCatalog.namespaces.tables.R2DataCatalogQueueMaintenanceRequest} request
+     * @param {CloudflareApi.r2DataCatalog.namespaces.tables.QueueMaintenanceConfigsRequest} request
      * @param {MaintenanceConfigsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
@@ -238,18 +252,19 @@ export class MaintenanceConfigsClient {
      *         bucket_name: "bucket_name",
      *         namespace: "namespace",
      *         table_name: "table_name",
-     *         configuration_type: "compaction"
+     *         configuration_type: "compaction",
+     *         body: {}
      *     })
      */
     public queue(
-        request: CloudflareApi.r2DataCatalog.namespaces.tables.R2DataCatalogQueueMaintenanceRequest,
+        request: CloudflareApi.r2DataCatalog.namespaces.tables.QueueMaintenanceConfigsRequest,
         requestOptions?: MaintenanceConfigsClient.RequestOptions,
     ): core.HttpResponsePromise<CloudflareApi.R2DataCatalogQueueMaintenanceResponse> {
         return core.HttpResponsePromise.fromPromise(this.__queue(request, requestOptions));
     }
 
     private async __queue(
-        request: CloudflareApi.r2DataCatalog.namespaces.tables.R2DataCatalogQueueMaintenanceRequest,
+        request: CloudflareApi.r2DataCatalog.namespaces.tables.QueueMaintenanceConfigsRequest,
         requestOptions?: MaintenanceConfigsClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.R2DataCatalogQueueMaintenanceResponse>> {
         const {
@@ -258,7 +273,7 @@ export class MaintenanceConfigsClient {
             namespace,
             table_name: tableName,
             configuration_type: configurationType,
-            ..._body
+            body: _body,
         } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(

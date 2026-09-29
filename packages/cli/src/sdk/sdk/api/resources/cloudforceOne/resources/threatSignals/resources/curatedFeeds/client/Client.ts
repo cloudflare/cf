@@ -27,7 +27,7 @@ export class CuratedFeedsClient {
     }
 
     /**
-     * List curated Threat Signals feeds.
+     * Lists the curated feeds the account can subscribe to.
      *
      * @param {CloudflareApi.cloudforceOne.threatSignals.ListCuratedFeedsRequest} request
      * @param {CuratedFeedsClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -40,14 +40,14 @@ export class CuratedFeedsClient {
     public list(
         request: CloudflareApi.cloudforceOne.threatSignals.ListCuratedFeedsRequest,
         requestOptions?: CuratedFeedsClient.RequestOptions,
-    ): core.HttpResponsePromise<void> {
+    ): core.HttpResponsePromise<CloudflareApi.cloudforceOne.threatSignals.ListCuratedFeedsResponse> {
         return core.HttpResponsePromise.fromPromise(this.__list(request, requestOptions));
     }
 
     private async __list(
         request: CloudflareApi.cloudforceOne.threatSignals.ListCuratedFeedsRequest,
         requestOptions?: CuratedFeedsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<void>> {
+    ): Promise<core.WithRawResponse<CloudflareApi.cloudforceOne.threatSignals.ListCuratedFeedsResponse>> {
         const { account_id: accountId, category, include_inactive: includeInactive } = request;
         const _queryParams: Record<string, unknown> = {
             category,
@@ -80,7 +80,10 @@ export class CuratedFeedsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: undefined, rawResponse: _response.rawResponse };
+            return {
+                data: _response.body as CloudflareApi.cloudforceOne.threatSignals.ListCuratedFeedsResponse,
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -100,151 +103,7 @@ export class CuratedFeedsClient {
     }
 
     /**
-     * Create curated Threat Signals feed.
-     *
-     * @param {CloudflareApi.cloudforceOne.threatSignals.CreateCuratedFeedsRequest} request
-     * @param {CuratedFeedsClient.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @example
-     *     await client.cloudforceOne.threatSignals.curatedFeeds.create({
-     *         account_id: "account_id",
-     *         category_id: "b12a0fd6-f7b9-5393-9ef3-f888d506c550",
-     *         name: "name",
-     *         url: "url"
-     *     })
-     */
-    public create(
-        request: CloudflareApi.cloudforceOne.threatSignals.CreateCuratedFeedsRequest,
-        requestOptions?: CuratedFeedsClient.RequestOptions,
-    ): core.HttpResponsePromise<void> {
-        return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
-    }
-
-    private async __create(
-        request: CloudflareApi.cloudforceOne.threatSignals.CreateCuratedFeedsRequest,
-        requestOptions?: CuratedFeedsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<void>> {
-        const { account_id: accountId, ..._body } = request;
-        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
-        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
-            _authRequest.headers,
-            this._options?.headers,
-            requestOptions?.headers,
-        );
-        const _response = await (this._options.fetcher ?? core.fetcher)({
-            url: core.url.join(
-                (await core.Supplier.get(this._options.baseUrl)) ??
-                    (await core.Supplier.get(this._options.environment)) ??
-                    environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/cloudforce-one/v2/threat-signals/curated-feeds`,
-            ),
-            method: "POST",
-            headers: _headers,
-            contentType: "application/json",
-            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
-            requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
-            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
-            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
-            abortSignal: requestOptions?.abortSignal,
-            fetchFn: this._options?.fetch,
-            logging: this._options.logging,
-        });
-        if (_response.ok) {
-            return { data: undefined, rawResponse: _response.rawResponse };
-        }
-
-        if (_response.error.reason === "status-code") {
-            throw new errors.CloudflareApiError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-                rawResponse: _response.rawResponse,
-            });
-        }
-
-        return handleNonStatusCodeError(
-            _response.error,
-            _response.rawResponse,
-            "POST",
-            "/accounts/{account_id}/cloudforce-one/v2/threat-signals/curated-feeds",
-        );
-    }
-
-    /**
-     * Bulk create curated Threat Signals feeds.
-     *
-     * @param {CloudflareApi.cloudforceOne.threatSignals.BulkCreateCuratedFeedsRequest} request
-     * @param {CuratedFeedsClient.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @example
-     *     await client.cloudforceOne.threatSignals.curatedFeeds.bulkCreate({
-     *         account_id: "account_id",
-     *         feeds: [{
-     *                 category_id: "b12a0fd6-f7b9-5393-9ef3-f888d506c550",
-     *                 name: "name",
-     *                 url: "url"
-     *             }]
-     *     })
-     */
-    public bulkCreate(
-        request: CloudflareApi.cloudforceOne.threatSignals.BulkCreateCuratedFeedsRequest,
-        requestOptions?: CuratedFeedsClient.RequestOptions,
-    ): core.HttpResponsePromise<void> {
-        return core.HttpResponsePromise.fromPromise(this.__bulkCreate(request, requestOptions));
-    }
-
-    private async __bulkCreate(
-        request: CloudflareApi.cloudforceOne.threatSignals.BulkCreateCuratedFeedsRequest,
-        requestOptions?: CuratedFeedsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<void>> {
-        const { account_id: accountId, ..._body } = request;
-        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
-        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
-            _authRequest.headers,
-            this._options?.headers,
-            requestOptions?.headers,
-        );
-        const _response = await (this._options.fetcher ?? core.fetcher)({
-            url: core.url.join(
-                (await core.Supplier.get(this._options.baseUrl)) ??
-                    (await core.Supplier.get(this._options.environment)) ??
-                    environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/cloudforce-one/v2/threat-signals/curated-feeds/bulk`,
-            ),
-            method: "POST",
-            headers: _headers,
-            contentType: "application/json",
-            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
-            requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
-            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
-            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
-            abortSignal: requestOptions?.abortSignal,
-            fetchFn: this._options?.fetch,
-            logging: this._options.logging,
-        });
-        if (_response.ok) {
-            return { data: undefined, rawResponse: _response.rawResponse };
-        }
-
-        if (_response.error.reason === "status-code") {
-            throw new errors.CloudflareApiError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-                rawResponse: _response.rawResponse,
-            });
-        }
-
-        return handleNonStatusCodeError(
-            _response.error,
-            _response.rawResponse,
-            "POST",
-            "/accounts/{account_id}/cloudforce-one/v2/threat-signals/curated-feeds/bulk",
-        );
-    }
-
-    /**
-     * Opt out of curated Threat Signals feeds.
+     * Opts the account out of, or back into, the curated feed catalog.
      *
      * @param {CloudflareApi.cloudforceOne.threatSignals.OptOutCuratedFeedsRequest} request
      * @param {CuratedFeedsClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -258,14 +117,14 @@ export class CuratedFeedsClient {
     public optOut(
         request: CloudflareApi.cloudforceOne.threatSignals.OptOutCuratedFeedsRequest,
         requestOptions?: CuratedFeedsClient.RequestOptions,
-    ): core.HttpResponsePromise<void> {
+    ): core.HttpResponsePromise<CloudflareApi.cloudforceOne.threatSignals.OptOutCuratedFeedsResponse> {
         return core.HttpResponsePromise.fromPromise(this.__optOut(request, requestOptions));
     }
 
     private async __optOut(
         request: CloudflareApi.cloudforceOne.threatSignals.OptOutCuratedFeedsRequest,
         requestOptions?: CuratedFeedsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<void>> {
+    ): Promise<core.WithRawResponse<CloudflareApi.cloudforceOne.threatSignals.OptOutCuratedFeedsResponse>> {
         const { account_id: accountId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -293,7 +152,10 @@ export class CuratedFeedsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: undefined, rawResponse: _response.rawResponse };
+            return {
+                data: _response.body as CloudflareApi.cloudforceOne.threatSignals.OptOutCuratedFeedsResponse,
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -309,141 +171,6 @@ export class CuratedFeedsClient {
             _response.rawResponse,
             "PATCH",
             "/accounts/{account_id}/cloudforce-one/v2/threat-signals/curated-feeds/opt-out",
-        );
-    }
-
-    /**
-     * Delete curated Threat Signals feed.
-     *
-     * @param {CloudflareApi.cloudforceOne.threatSignals.DeleteCuratedFeedsRequest} request
-     * @param {CuratedFeedsClient.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @example
-     *     await client.cloudforceOne.threatSignals.curatedFeeds.delete({
-     *         account_id: "account_id",
-     *         curated_feed_id: "curated_feed_id"
-     *     })
-     */
-    public delete(
-        request: CloudflareApi.cloudforceOne.threatSignals.DeleteCuratedFeedsRequest,
-        requestOptions?: CuratedFeedsClient.RequestOptions,
-    ): core.HttpResponsePromise<void> {
-        return core.HttpResponsePromise.fromPromise(this.__delete(request, requestOptions));
-    }
-
-    private async __delete(
-        request: CloudflareApi.cloudforceOne.threatSignals.DeleteCuratedFeedsRequest,
-        requestOptions?: CuratedFeedsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<void>> {
-        const { account_id: accountId, curated_feed_id: curatedFeedId } = request;
-        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
-        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
-            _authRequest.headers,
-            this._options?.headers,
-            requestOptions?.headers,
-        );
-        const _response = await (this._options.fetcher ?? core.fetcher)({
-            url: core.url.join(
-                (await core.Supplier.get(this._options.baseUrl)) ??
-                    (await core.Supplier.get(this._options.environment)) ??
-                    environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/cloudforce-one/v2/threat-signals/curated-feeds/${core.url.encodePathParam(curatedFeedId)}`,
-            ),
-            method: "DELETE",
-            headers: _headers,
-            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
-            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
-            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
-            abortSignal: requestOptions?.abortSignal,
-            fetchFn: this._options?.fetch,
-            logging: this._options.logging,
-        });
-        if (_response.ok) {
-            return { data: undefined, rawResponse: _response.rawResponse };
-        }
-
-        if (_response.error.reason === "status-code") {
-            throw new errors.CloudflareApiError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-                rawResponse: _response.rawResponse,
-            });
-        }
-
-        return handleNonStatusCodeError(
-            _response.error,
-            _response.rawResponse,
-            "DELETE",
-            "/accounts/{account_id}/cloudforce-one/v2/threat-signals/curated-feeds/{curated_feed_id}",
-        );
-    }
-
-    /**
-     * Update curated Threat Signals feed.
-     *
-     * @param {CloudflareApi.cloudforceOne.threatSignals.UpdateCuratedFeedsRequest} request
-     * @param {CuratedFeedsClient.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @example
-     *     await client.cloudforceOne.threatSignals.curatedFeeds.update({
-     *         account_id: "account_id",
-     *         curated_feed_id: "curated_feed_id"
-     *     })
-     */
-    public update(
-        request: CloudflareApi.cloudforceOne.threatSignals.UpdateCuratedFeedsRequest,
-        requestOptions?: CuratedFeedsClient.RequestOptions,
-    ): core.HttpResponsePromise<void> {
-        return core.HttpResponsePromise.fromPromise(this.__update(request, requestOptions));
-    }
-
-    private async __update(
-        request: CloudflareApi.cloudforceOne.threatSignals.UpdateCuratedFeedsRequest,
-        requestOptions?: CuratedFeedsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<void>> {
-        const { account_id: accountId, curated_feed_id: curatedFeedId, ..._body } = request;
-        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
-        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
-            _authRequest.headers,
-            this._options?.headers,
-            requestOptions?.headers,
-        );
-        const _response = await (this._options.fetcher ?? core.fetcher)({
-            url: core.url.join(
-                (await core.Supplier.get(this._options.baseUrl)) ??
-                    (await core.Supplier.get(this._options.environment)) ??
-                    environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/cloudforce-one/v2/threat-signals/curated-feeds/${core.url.encodePathParam(curatedFeedId)}`,
-            ),
-            method: "PATCH",
-            headers: _headers,
-            contentType: "application/json",
-            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
-            requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
-            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
-            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
-            abortSignal: requestOptions?.abortSignal,
-            fetchFn: this._options?.fetch,
-            logging: this._options.logging,
-        });
-        if (_response.ok) {
-            return { data: undefined, rawResponse: _response.rawResponse };
-        }
-
-        if (_response.error.reason === "status-code") {
-            throw new errors.CloudflareApiError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-                rawResponse: _response.rawResponse,
-            });
-        }
-
-        return handleNonStatusCodeError(
-            _response.error,
-            _response.rawResponse,
-            "PATCH",
-            "/accounts/{account_id}/cloudforce-one/v2/threat-signals/curated-feeds/{curated_feed_id}",
         );
     }
 }

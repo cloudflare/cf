@@ -26,6 +26,8 @@ export class MaintenanceRunsClient {
     }
 
     /**
+     * @deprecated
+     *
      * Retrieves recent table maintenance runs for the current table.
      *
      * @param {CloudflareApi.r2DataCatalog.namespaces.tables.ListMaintenanceRunsRequest} request

@@ -27,7 +27,7 @@ export class TagsClient {
     }
 
     /**
-     * Creates a new tag to be used accross threat events.
+     * Creates an account-owned tag for threat events and returns its complete owner projection.
      *
      * @param {CloudflareApi.cloudforceOne.threatEvents.CreateTagsRequest} request
      * @param {TagsClient.RequestOptions} requestOptions - Request-specific configuration.

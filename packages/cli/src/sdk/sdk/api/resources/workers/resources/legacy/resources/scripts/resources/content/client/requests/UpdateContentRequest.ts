@@ -13,7 +13,7 @@ import * as core from "../../../../../../../../../../../core/index.js";
 export interface UpdateContentRequest {
     /** Identifier. */
     account_id: string;
-    /** Name of the script, used in URLs and route configuration. */
+    /** Name of the script. */
     script_name: string;
     /** The multipart name of a script upload part containing script content in service worker format. Alternative to including in a metadata part. */
     "CF-WORKER-BODY-PART"?: string;

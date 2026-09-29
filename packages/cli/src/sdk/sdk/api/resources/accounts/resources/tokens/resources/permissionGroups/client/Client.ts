@@ -26,7 +26,10 @@ export class PermissionGroupsClient {
     }
 
     /**
-     * Find all available permission groups for Account Owned API Tokens
+     * Find all available permission groups for Account Owned API Tokens.
+     * Each permission group indicates whether the caller can select it when
+     * creating a token. Token creation performs the authoritative permission
+     * check.
      *
      * @param {CloudflareApi.accounts.tokens.ListPermissionGroupsRequest} request
      * @param {PermissionGroupsClient.RequestOptions} requestOptions - Request-specific configuration.

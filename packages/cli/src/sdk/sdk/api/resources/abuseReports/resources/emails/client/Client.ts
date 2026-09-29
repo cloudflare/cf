@@ -30,6 +30,7 @@ export class EmailsClient {
      *
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.UnauthorizedError}
+     * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.InternalServerError}
      *
@@ -94,6 +95,8 @@ export class EmailsClient {
                     throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
                     throw new CloudflareApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                case 403:
+                    throw new CloudflareApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
                     throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 500:
@@ -123,6 +126,7 @@ export class EmailsClient {
      *
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.UnauthorizedError}
+     * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.InternalServerError}
      *
      * @example
@@ -186,6 +190,8 @@ export class EmailsClient {
                     throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
                     throw new CloudflareApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                case 403:
+                    throw new CloudflareApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 500:
                     throw new CloudflareApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
                 default:

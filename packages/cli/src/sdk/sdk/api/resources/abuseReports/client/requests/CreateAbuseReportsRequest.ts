@@ -6,7 +6,7 @@ import * as CloudflareApi from "../../../../index.js";
  * @example
  *     {
  *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
- *         report_param: "report_param",
+ *         "report-type": "report_param",
  *         body: {
  *             act: "abuse_children",
  *             email: "email",
@@ -24,6 +24,6 @@ export interface CreateAbuseReportsRequest {
     /** Cloudflare Account ID */
     account_id: string;
     /** The report type to be submitted. Example: abuse_general */
-    report_param: string;
+    "report-type": string;
     body: CloudflareApi.AbuseReportsSubmitReportRequest;
 }

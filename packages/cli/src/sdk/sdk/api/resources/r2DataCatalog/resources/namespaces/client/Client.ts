@@ -29,6 +29,8 @@ export class NamespacesClient {
     }
 
     /**
+     * @deprecated
+     *
      * Returns a list of namespaces in the specified R2 catalog.
      * Supports hierarchical filtering and pagination for efficient traversal
      * of large namespace hierarchies.

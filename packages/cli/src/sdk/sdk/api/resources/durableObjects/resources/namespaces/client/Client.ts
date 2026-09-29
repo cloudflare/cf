@@ -126,14 +126,14 @@ export class NamespacesClient {
     public query(
         request: CloudflareApi.durableObjects.QueryNamespacesRequest,
         requestOptions?: NamespacesClient.RequestOptions,
-    ): core.HttpResponsePromise<unknown> {
+    ): core.HttpResponsePromise<CloudflareApi.WorkersQueryResult> {
         return core.HttpResponsePromise.fromPromise(this.__query(request, requestOptions));
     }
 
     private async __query(
         request: CloudflareApi.durableObjects.QueryNamespacesRequest,
         requestOptions?: NamespacesClient.RequestOptions,
-    ): Promise<core.WithRawResponse<unknown>> {
+    ): Promise<core.WithRawResponse<CloudflareApi.WorkersQueryResult>> {
         const { account_id: accountId, id, body: _body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -161,7 +161,7 @@ export class NamespacesClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body, rawResponse: _response.rawResponse };
+            return { data: _response.body as CloudflareApi.WorkersQueryResult, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {

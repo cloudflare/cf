@@ -27,7 +27,7 @@ export class TagCategoriesClient {
     }
 
     /**
-     * Get Threat Signals skill tag categories.
+     * Retrieves the tag categories the default tagging skill may choose tags from.
      *
      * @param {CloudflareApi.cloudforceOne.threatSignals.skills.GetTagCategoriesRequest} request
      * @param {TagCategoriesClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -96,7 +96,7 @@ export class TagCategoriesClient {
     }
 
     /**
-     * Replace Threat Signals skill tag categories.
+     * Replaces the tag categories the default tagging skill may choose tags from.
      *
      * @param {CloudflareApi.cloudforceOne.threatSignals.skills.UpdateTagCategoriesRequest} request
      * @param {TagCategoriesClient.RequestOptions} requestOptions - Request-specific configuration.

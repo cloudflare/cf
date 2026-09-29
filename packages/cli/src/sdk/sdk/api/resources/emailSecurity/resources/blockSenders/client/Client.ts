@@ -192,8 +192,9 @@ export class BlockSendersClient {
     }
 
     /**
-     * Executes multiple operations atomically. All four operation arrays
-     * (deletes, patches, puts, posts) are required and executed in order.
+     * Executes multiple blocked sender operations atomically: delete, partially update,
+     * replace, and create blocked sender patterns in a single request. All four operation
+     * arrays (deletes, patches, puts, posts) are required and executed in order.
      * Send empty arrays for unused operations.
      *
      * @param {CloudflareApi.emailSecurity.BatchBlockSendersRequest} request

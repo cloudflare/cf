@@ -34,7 +34,9 @@ export class ActionLogClient {
      * @example
      *     await client.emailSecurity.investigate.actionLog.list({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
-     *         investigate_id: "4Njp3P0STMz2c02Q-2024-01-05T10:00:00-12345678"
+     *         investigate_id: "4Njp3P0STMz2c02Q-2024-01-05T10:00:00-12345678",
+     *         page: 1,
+     *         per_page: 20
      *     })
      */
     public list(
@@ -48,7 +50,11 @@ export class ActionLogClient {
         request: CloudflareApi.emailSecurity.investigate.ListActionLogRequest,
         requestOptions?: ActionLogClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.emailSecurity.investigate.ListActionLogResponse>> {
-        const { account_id: accountId, investigate_id: investigateId } = request;
+        const { account_id: accountId, investigate_id: investigateId, page, per_page: perPage } = request;
+        const _queryParams: Record<string, unknown> = {
+            page,
+            per_page: perPage,
+        };
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -64,7 +70,11 @@ export class ActionLogClient {
             ),
             method: "GET",
             headers: _headers,
-            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,

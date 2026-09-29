@@ -14,7 +14,10 @@ export namespace IndicatorLegacyGetResponse {
             /** The dataset ID this indicator belongs to. Included in list responses. */
             datasetId?: string | undefined;
             indicatorType: string;
+            /** Related events, capped by `relatedEventsLimit` (default 2). Check `relatedEventsHasMore` to detect a capped list; pass `relatedEventsLimit=-1` to retrieve all of them. */
             relatedEvents?: Item.RelatedEvents.Item[] | undefined;
+            /** True when this indicator appears in more events than `relatedEvents` contains because `relatedEventsLimit` capped the list. Pass `relatedEventsLimit=-1` to retrieve every related event. */
+            relatedEventsHasMore?: boolean | undefined;
             /** RSS article sources from which this indicator was extracted. */
             sources: Item.Sources.Item[];
             tags?: Item.Tags.Item[] | undefined;

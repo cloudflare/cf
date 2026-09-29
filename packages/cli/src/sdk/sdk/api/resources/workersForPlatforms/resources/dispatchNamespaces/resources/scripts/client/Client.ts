@@ -407,10 +407,10 @@ export class ScriptsClient {
             account_id: accountId,
             dispatch_namespace: dispatchNamespace,
             script_name: scriptName,
-            force,
+            force: deleteWithReferences,
         } = request;
         const _queryParams: Record<string, unknown> = {
-            force,
+            force: deleteWithReferences,
         };
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(

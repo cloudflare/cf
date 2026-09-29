@@ -184,7 +184,8 @@ export class ContentPoliciesClient {
     }
 
     /**
-     * Executes multiple operations atomically. All four operation arrays
+     * Executes multiple content policy operations atomically: delete, partially update,
+     * replace, and create content policies in a single request. All four operation arrays
      * (deletes, patches, puts, posts) are required and executed in order.
      * Send empty arrays for unused operations.
      *

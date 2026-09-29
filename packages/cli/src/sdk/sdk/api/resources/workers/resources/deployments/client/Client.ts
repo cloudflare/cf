@@ -132,9 +132,9 @@ export class DeploymentsClient {
         request: CloudflareApi.workers.CreateDeploymentsRequest,
         requestOptions?: DeploymentsClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.WorkersDeployment>> {
-        const { account_id: accountId, script_name: scriptName, force, body: _body } = request;
+        const { account_id: accountId, script_name: scriptName, force: bypassDeploymentChecks, body: _body } = request;
         const _queryParams: Record<string, unknown> = {
-            force,
+            force: bypassDeploymentChecks,
         };
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(

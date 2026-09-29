@@ -26,7 +26,7 @@ export class ActorsClient {
     }
 
     /**
-     * Returns all known Actors from the shared CFONE catalog. Non-CFONE accounts receive a redacted public projection: identity (`uuid`, `value`, `categoryUuid`, `categoryName`), metadata (`description`, `dateOfDiscovery`, `tlp`, `confidence`, `properties`), origin (`originCountryISO`, `originCountryISO_annotated`), and public aliases/references (`aliasGroupNames`, `aliases`, `externalReferences`, `externalReferences_annotated`). CFONE-internal fields (internal aliases, attribution, motive, opsec level, etc.) are stripped from the response.
+     * Returns all known Actors from the shared CFONE-owned catalog. Accounts other than the catalog owner receive a redacted public projection: identity (`uuid`, `value`, `categoryUuid`, `categoryName`), metadata (`description`, `dateOfDiscovery`, `tlp`, `confidence`, `properties`), origin (`originCountryISO`, `originCountryISO_annotated`), and public aliases/references (`aliasGroupNames`, `aliases`, `externalReferences`, `externalReferences_annotated`). Owner-private fields (internal aliases, attribution, motive, opsec level, etc.) are stripped from non-owner responses.
      *
      * @param {CloudflareApi.cloudforceOne.events.tags.categories.ListActorsRequest} request
      * @param {ActorsClient.RequestOptions} requestOptions - Request-specific configuration.

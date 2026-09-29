@@ -33,7 +33,7 @@ export class FeedsClient {
     }
 
     /**
-     * List Threat Signals feeds.
+     * Lists the account's Threat Signals feed subscriptions.
      *
      * @param {CloudflareApi.cloudforceOne.threatSignals.ListFeedsRequest} request
      * @param {FeedsClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -46,14 +46,14 @@ export class FeedsClient {
     public list(
         request: CloudflareApi.cloudforceOne.threatSignals.ListFeedsRequest,
         requestOptions?: FeedsClient.RequestOptions,
-    ): core.HttpResponsePromise<void> {
+    ): core.HttpResponsePromise<CloudflareApi.cloudforceOne.threatSignals.ListFeedsResponse> {
         return core.HttpResponsePromise.fromPromise(this.__list(request, requestOptions));
     }
 
     private async __list(
         request: CloudflareApi.cloudforceOne.threatSignals.ListFeedsRequest,
         requestOptions?: FeedsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<void>> {
+    ): Promise<core.WithRawResponse<CloudflareApi.cloudforceOne.threatSignals.ListFeedsResponse>> {
         const {
             account_id: accountId,
             page,
@@ -102,7 +102,10 @@ export class FeedsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: undefined, rawResponse: _response.rawResponse };
+            return {
+                data: _response.body as CloudflareApi.cloudforceOne.threatSignals.ListFeedsResponse,
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -122,7 +125,7 @@ export class FeedsClient {
     }
 
     /**
-     * Create Threat Signals feed.
+     * Subscribes the account to a custom or curated Threat Signals feed.
      *
      * @param {CloudflareApi.cloudforceOne.threatSignals.CreateFeedsRequest} request
      * @param {FeedsClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -135,14 +138,14 @@ export class FeedsClient {
     public create(
         request: CloudflareApi.cloudforceOne.threatSignals.CreateFeedsRequest,
         requestOptions?: FeedsClient.RequestOptions,
-    ): core.HttpResponsePromise<void> {
+    ): core.HttpResponsePromise<CloudflareApi.cloudforceOne.threatSignals.CreateFeedsResponse> {
         return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
     }
 
     private async __create(
         request: CloudflareApi.cloudforceOne.threatSignals.CreateFeedsRequest,
         requestOptions?: FeedsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<void>> {
+    ): Promise<core.WithRawResponse<CloudflareApi.cloudforceOne.threatSignals.CreateFeedsResponse>> {
         const { account_id: accountId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -170,7 +173,10 @@ export class FeedsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: undefined, rawResponse: _response.rawResponse };
+            return {
+                data: _response.body as CloudflareApi.cloudforceOne.threatSignals.CreateFeedsResponse,
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -190,7 +196,7 @@ export class FeedsClient {
     }
 
     /**
-     * Trigger Threat Signals feed poll.
+     * Starts an immediate poll of one or all Threat Signals feeds.
      *
      * @param {CloudflareApi.cloudforceOne.threatSignals.PollFeedsRequest} request
      * @param {FeedsClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -265,7 +271,7 @@ export class FeedsClient {
     }
 
     /**
-     * Delete Threat Signals feed.
+     * Unsubscribes the account from a Threat Signals feed and deletes its articles.
      *
      * @param {CloudflareApi.cloudforceOne.threatSignals.DeleteFeedsRequest} request
      * @param {FeedsClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -279,14 +285,14 @@ export class FeedsClient {
     public delete(
         request: CloudflareApi.cloudforceOne.threatSignals.DeleteFeedsRequest,
         requestOptions?: FeedsClient.RequestOptions,
-    ): core.HttpResponsePromise<void> {
+    ): core.HttpResponsePromise<CloudflareApi.cloudforceOne.threatSignals.DeleteFeedsResponse> {
         return core.HttpResponsePromise.fromPromise(this.__delete(request, requestOptions));
     }
 
     private async __delete(
         request: CloudflareApi.cloudforceOne.threatSignals.DeleteFeedsRequest,
         requestOptions?: FeedsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<void>> {
+    ): Promise<core.WithRawResponse<CloudflareApi.cloudforceOne.threatSignals.DeleteFeedsResponse>> {
         const { account_id: accountId, feed_id: feedId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -311,7 +317,10 @@ export class FeedsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: undefined, rawResponse: _response.rawResponse };
+            return {
+                data: _response.body as CloudflareApi.cloudforceOne.threatSignals.DeleteFeedsResponse,
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -331,7 +340,7 @@ export class FeedsClient {
     }
 
     /**
-     * Update Threat Signals feed.
+     * Updates a Threat Signals feed subscription.
      *
      * @param {CloudflareApi.cloudforceOne.threatSignals.UpdateFeedsRequest} request
      * @param {FeedsClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -345,14 +354,14 @@ export class FeedsClient {
     public update(
         request: CloudflareApi.cloudforceOne.threatSignals.UpdateFeedsRequest,
         requestOptions?: FeedsClient.RequestOptions,
-    ): core.HttpResponsePromise<void> {
+    ): core.HttpResponsePromise<CloudflareApi.cloudforceOne.threatSignals.UpdateFeedsResponse> {
         return core.HttpResponsePromise.fromPromise(this.__update(request, requestOptions));
     }
 
     private async __update(
         request: CloudflareApi.cloudforceOne.threatSignals.UpdateFeedsRequest,
         requestOptions?: FeedsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<void>> {
+    ): Promise<core.WithRawResponse<CloudflareApi.cloudforceOne.threatSignals.UpdateFeedsResponse>> {
         const { account_id: accountId, feed_id: feedId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -380,7 +389,10 @@ export class FeedsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: undefined, rawResponse: _response.rawResponse };
+            return {
+                data: _response.body as CloudflareApi.cloudforceOne.threatSignals.UpdateFeedsResponse,
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -400,7 +412,7 @@ export class FeedsClient {
     }
 
     /**
-     * Get Threat Signals feed XML.
+     * Retrieves the feed document fetched by the most recent poll.
      *
      * @param {CloudflareApi.cloudforceOne.threatSignals.GetRawFeedsRequest} request
      * @param {FeedsClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -414,14 +426,14 @@ export class FeedsClient {
     public getRaw(
         request: CloudflareApi.cloudforceOne.threatSignals.GetRawFeedsRequest,
         requestOptions?: FeedsClient.RequestOptions,
-    ): core.HttpResponsePromise<void> {
+    ): core.HttpResponsePromise<string> {
         return core.HttpResponsePromise.fromPromise(this.__getRaw(request, requestOptions));
     }
 
     private async __getRaw(
         request: CloudflareApi.cloudforceOne.threatSignals.GetRawFeedsRequest,
         requestOptions?: FeedsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<void>> {
+    ): Promise<core.WithRawResponse<string>> {
         const { account_id: accountId, feed_id: feedId, format } = request;
         const _queryParams: Record<string, unknown> = {
             format: format != null ? format : undefined,
@@ -446,6 +458,7 @@ export class FeedsClient {
                 .addMany(_queryParams)
                 .mergeAdditional(requestOptions?.queryParams)
                 .build(),
+            responseType: "text",
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -453,7 +466,7 @@ export class FeedsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: undefined, rawResponse: _response.rawResponse };
+            return { data: _response.body as string, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {

@@ -19,7 +19,6 @@ import { PreviewsClient } from "../resources/previews/client/Client.js";
 import { RoutesClient } from "../resources/routes/client/Client.js";
 import { ScriptsClient } from "../resources/scripts/client/Client.js";
 import { SecretsClient } from "../resources/secrets/client/Client.js";
-import { ServicesClient } from "../resources/services/client/Client.js";
 import { SubdomainsClient } from "../resources/subdomains/client/Client.js";
 import { TailClient } from "../resources/tail/client/Client.js";
 import { VersionsClient } from "../resources/versions/client/Client.js";
@@ -45,7 +44,6 @@ export class WorkersClient {
     protected _assets: AssetsClient | undefined;
     protected _legacy: LegacyClient | undefined;
     protected _placement: PlacementClient | undefined;
-    protected _services: ServicesClient | undefined;
 
     constructor(options: WorkersClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
@@ -101,10 +99,6 @@ export class WorkersClient {
 
     public get placement(): PlacementClient {
         return (this._placement ??= new PlacementClient(this._options));
-    }
-
-    public get services(): ServicesClient {
-        return (this._services ??= new ServicesClient(this._options));
     }
 
     /**
@@ -493,9 +487,9 @@ export class WorkersClient {
         request: CloudflareApi.DeleteWorkersRequest,
         requestOptions?: WorkersClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.WorkersApiResponseCommon>> {
-        const { account_id: accountId, worker_id: workerId, force } = request;
+        const { account_id: accountId, worker_id: workerId, force: deleteWithReferences } = request;
         const _queryParams: Record<string, unknown> = {
-            force,
+            force: deleteWithReferences,
         };
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(

@@ -321,9 +321,9 @@ export class ScriptsClient {
         request: CloudflareApi.workers.legacy.DeleteScriptsRequest,
         requestOptions?: ScriptsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Record<string, unknown> | null>> {
-        const { account_id: accountId, script_name: scriptName, force } = request;
+        const { account_id: accountId, script_name: scriptName, force: deleteWithReferences } = request;
         const _queryParams: Record<string, unknown> = {
-            force,
+            force: deleteWithReferences,
         };
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(

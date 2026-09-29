@@ -11,11 +11,13 @@ export interface EmailSecurityTrustedDomain {
     id?: CloudflareApi.EmailSecurityTrustedDomainId | undefined;
     /** Select to prevent recently registered domains from triggering a Suspicious or Malicious disposition. */
     is_recent?: boolean | undefined;
+    /** Whether `pattern` is a regular expression instead of a literal domain. */
     is_regex?: boolean | undefined;
     /** Select for partner or other approved domains that have similar spelling to your connected domains. Prevents listed domains from triggering a Spoof disposition. */
     is_similarity?: boolean | undefined;
     /** Deprecated, use `modified_at` instead. End of life: November 1, 2026. */
     last_modified?: CloudflareApi.EmailSecurityTimestamp | undefined;
     modified_at?: CloudflareApi.EmailSecurityTimestamp | undefined;
+    /** The domain pattern to trust, e.g. `example.com`. */
     pattern?: string | undefined;
 }

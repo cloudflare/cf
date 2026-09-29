@@ -3,9 +3,22 @@
 import * as CloudflareApi from "../index.js";
 
 export interface MagicWanUpdateRequest {
+    /** Magic WAN health check rate for tunnels created on this link. */
+    health_check_rate?: MagicWanUpdateRequest.HealthCheckRate | undefined;
+    load_balance_inner_flows?: (boolean | null) | undefined;
     name?: string | undefined;
     physport?: CloudflareApi.MagicPort | undefined;
     priority?: number | undefined;
     static_addressing?: CloudflareApi.MagicWanStaticAddressing | undefined;
     vlan_tag?: CloudflareApi.MagicVlanTag | undefined;
+}
+
+export namespace MagicWanUpdateRequest {
+    /** Magic WAN health check rate for tunnels created on this link. */
+    export const HealthCheckRate = {
+        Low: "low",
+        Mid: "mid",
+        High: "high",
+    } as const;
+    export type HealthCheckRate = (typeof HealthCheckRate)[keyof typeof HealthCheckRate];
 }

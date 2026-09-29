@@ -155,7 +155,7 @@ export class OrganizationClient {
     }
 
     /**
-     * Create a new organization for a user. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)
+     * Create a new organization for a user. Sub-organization creation availability depends on the organization's capabilities. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)
      *
      * @param {CloudflareApi.OrganizationsApiOrganization} request
      * @param {OrganizationClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -288,7 +288,7 @@ export class OrganizationClient {
     }
 
     /**
-     * Modify organization. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)
+     * Update an organization's name. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)
      *
      * @param {CloudflareApi.UpdateOrganizationRequest} request
      * @param {OrganizationClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -363,7 +363,8 @@ export class OrganizationClient {
 
     /**
      * Delete an organization. The organization MUST be empty before deleting.
-     * It must not contain any sub-organizations, accounts, members or users. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)
+     * It must not contain any sub-organizations, accounts, members or users. Sub-organization
+     * deletion availability depends on the organization's capabilities. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)
      *
      * **Access Control:** Restricted to enterprise organizations.
      *

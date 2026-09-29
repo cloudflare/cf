@@ -6,6 +6,3 @@ export * from "./accountType/client/requests/index.js";
 export * from "./accountType/types/index.js";
 export * as entitlement from "./entitlement/index.js";
 export * from "./entitlement/client/requests/index.js";
-export * as membership from "./membership/index.js";
-export * from "./membership/client/requests/index.js";
-export * from "./membership/types/index.js";

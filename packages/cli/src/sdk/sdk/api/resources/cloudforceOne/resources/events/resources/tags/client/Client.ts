@@ -39,7 +39,7 @@ export class TagsClient {
     }
 
     /**
-     * Returns all Source-of-Truth tags for an account. Supports legacy free-text `search` on tag value and `categoryUuid` exact match, plus a structured `filters` JSON array for filtering by metadata fields (originCountryISO, actorCategory, motive, priority, etc.). Country values may be passed as alpha-2, alpha-3, name, or common alias.
+     * Returns all Source-of-Truth tags for an account. Supports legacy free-text `search` on tag value and `categoryUuid` exact match, plus a structured `filters` JSON array for filtering by metadata fields (originCountryISO, actorCategory, motive, priority, etc.). The authenticated account owns these account-scoped tags and receives their complete owner projection. Country values may be passed as alpha-2, alpha-3, name, or common alias. Purple TLP remains CFONE-only.
      *
      * @param {CloudflareApi.cloudforceOne.events.GetTagsRequest} request
      * @param {TagsClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -130,7 +130,7 @@ export class TagsClient {
     }
 
     /**
-     * Returns a single Source-of-Truth tag by UUID, including custom fields (properties).
+     * Returns the complete owner projection of an account-scoped Source-of-Truth tag by UUID, including custom fields (properties). Purple TLP remains CFONE-only.
      *
      * @param {CloudflareApi.cloudforceOne.events.GetByIdTagsRequest} request
      * @param {TagsClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -285,7 +285,7 @@ export class TagsClient {
     }
 
     /**
-     * Updates a Source-of-Truth tag by UUID.
+     * Updates an account-owned Source-of-Truth tag by UUID and returns its complete owner projection.
      *
      * @param {CloudflareApi.cloudforceOne.events.PatchTagsRequest} request
      * @param {TagsClient.RequestOptions} requestOptions - Request-specific configuration.

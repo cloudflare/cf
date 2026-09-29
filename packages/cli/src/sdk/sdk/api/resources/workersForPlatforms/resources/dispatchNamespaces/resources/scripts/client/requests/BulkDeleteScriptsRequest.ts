@@ -15,7 +15,7 @@ export interface BulkDeleteScriptsRequest {
     /** Name of the Workers for Platforms dispatch namespace. */
     dispatch_namespace: string;
     /** Filter scripts by tags before deletion. Format: comma-separated list of tag:allowed pairs where allowed is 'yes' or 'no'. */
-    tags?: string;
+    tags: string;
     /** Limit the number of scripts to delete. */
     limit?: number;
 }

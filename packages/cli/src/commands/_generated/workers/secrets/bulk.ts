@@ -28,7 +28,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("worker", {
 			type: "string",
 			alias: "script-name",
-			description: "Name of the script, used in URLs and route configuration.",
+			description: "Name of the script.",
 		})
 		.option("dry-run", {
 			type: "boolean",

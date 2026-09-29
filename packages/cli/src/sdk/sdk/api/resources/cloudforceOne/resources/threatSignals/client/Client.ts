@@ -59,7 +59,7 @@ export class ThreatSignalsClient {
     }
 
     /**
-     * Check Threat Signals service health.
+     * Checks that the Threat Signals API is reachable.
      *
      * @param {CloudflareApi.cloudforceOne.HealthThreatSignalsRequest} request
      * @param {ThreatSignalsClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -72,14 +72,14 @@ export class ThreatSignalsClient {
     public health(
         request: CloudflareApi.cloudforceOne.HealthThreatSignalsRequest,
         requestOptions?: ThreatSignalsClient.RequestOptions,
-    ): core.HttpResponsePromise<void> {
+    ): core.HttpResponsePromise<CloudflareApi.cloudforceOne.HealthThreatSignalsResponse> {
         return core.HttpResponsePromise.fromPromise(this.__health(request, requestOptions));
     }
 
     private async __health(
         request: CloudflareApi.cloudforceOne.HealthThreatSignalsRequest,
         requestOptions?: ThreatSignalsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<void>> {
+    ): Promise<core.WithRawResponse<CloudflareApi.cloudforceOne.HealthThreatSignalsResponse>> {
         const { account_id: accountId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -104,7 +104,10 @@ export class ThreatSignalsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: undefined, rawResponse: _response.rawResponse };
+            return {
+                data: _response.body as CloudflareApi.cloudforceOne.HealthThreatSignalsResponse,
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -120,6 +123,84 @@ export class ThreatSignalsClient {
             _response.rawResponse,
             "GET",
             "/accounts/{account_id}/cloudforce-one/v2/threat-signals/health",
+        );
+    }
+
+    /**
+     * Searches the account's Threat Signals articles using keyword and semantic retrieval.
+     *
+     * @param {CloudflareApi.cloudforceOne.SearchThreatSignalsRequest} request
+     * @param {ThreatSignalsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @example
+     *     await client.cloudforceOne.threatSignals.search({
+     *         account_id: "account_id",
+     *         query: "query"
+     *     })
+     */
+    public search(
+        request: CloudflareApi.cloudforceOne.SearchThreatSignalsRequest,
+        requestOptions?: ThreatSignalsClient.RequestOptions,
+    ): core.HttpResponsePromise<CloudflareApi.cloudforceOne.SearchThreatSignalsResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__search(request, requestOptions));
+    }
+
+    private async __search(
+        request: CloudflareApi.cloudforceOne.SearchThreatSignalsRequest,
+        requestOptions?: ThreatSignalsClient.RequestOptions,
+    ): Promise<core.WithRawResponse<CloudflareApi.cloudforceOne.SearchThreatSignalsResponse>> {
+        const { account_id: accountId, query, max_results: maxResults, feed_id: feedId } = request;
+        const _queryParams: Record<string, unknown> = {
+            query,
+            max_results: maxResults,
+            feed_id: feedId,
+        };
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.CloudflareApiEnvironment.Default,
+                `accounts/${core.url.encodePathParam(accountId)}/cloudforce-one/v2/threat-signals/search`,
+            ),
+            method: "GET",
+            headers: _headers,
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return {
+                data: _response.body as CloudflareApi.cloudforceOne.SearchThreatSignalsResponse,
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            throw new errors.CloudflareApiError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
+        }
+
+        return handleNonStatusCodeError(
+            _response.error,
+            _response.rawResponse,
+            "GET",
+            "/accounts/{account_id}/cloudforce-one/v2/threat-signals/search",
         );
     }
 }

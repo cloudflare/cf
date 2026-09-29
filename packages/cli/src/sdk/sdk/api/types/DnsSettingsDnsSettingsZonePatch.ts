@@ -11,5 +11,5 @@ export interface DnsSettingsDnsSettingsZonePatch {
     secondary_overrides?: CloudflareApi.DnsSettingsSecondaryOverrides | undefined;
     soa?: CloudflareApi.DnsSettingsSoaBase | undefined;
     zone_mode?: CloudflareApi.DnsSettingsZoneMode | undefined;
-    nameservers?: CloudflareApi.DnsSettingsDnsSettingsZonePatchNameservers | undefined;
+    nameservers?: CloudflareApi.DnsSettingsZoneNameservers | undefined;
 }

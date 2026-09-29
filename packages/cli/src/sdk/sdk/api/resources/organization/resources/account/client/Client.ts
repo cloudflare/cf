@@ -23,7 +23,9 @@ export class AccountClient {
     }
 
     /**
-     * Retrieve a list of accounts that belong to a specific organization. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)
+     * Retrieve the accounts immediately attached to a specific organization. Accounts
+     * attached to sub-organizations are not included. (Currently in Public Beta - see
+     * https://developers.cloudflare.com/fundamentals/organizations/)
      *
      * @param {CloudflareApi.organization.ListAccountRequest} request
      * @param {AccountClient.RequestOptions} requestOptions - Request-specific configuration.

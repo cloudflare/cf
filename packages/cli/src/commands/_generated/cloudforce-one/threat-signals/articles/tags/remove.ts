@@ -21,7 +21,7 @@ import type { Argv, CommandModule } from "yargs";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one threat-signals articles tags remove <tag-id>\n\nRemove tag from Threat Signals article."
+			"$0 cloudforce-one threat-signals articles tags remove <tag-id>\n\nRemoves a tag from a Threat Signals article."
 		)
 		.positional("tag-id", {
 			type: "string",

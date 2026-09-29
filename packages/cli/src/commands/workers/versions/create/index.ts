@@ -4,11 +4,15 @@ import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
-	return sharedUploadBuilder(yargs).option("preview-alias", {
-		type: "string",
-		description: "Preview alias for this Worker Version",
-		requiresArg: true,
-	});
+	return sharedUploadBuilder(yargs)
+		.hide("local")
+		.hide("persist-to")
+		.epilogue("Local simulation (--local) is not supported by this command.")
+		.option("preview-alias", {
+			type: "string",
+			description: "Preview alias for this Worker Version",
+			requiresArg: true,
+		});
 }
 
 type VersionsCreateArgs = InferArgs<typeof builder>;
@@ -21,6 +25,12 @@ const versionsCreateCommand: CommandModule<
 	describe: "Upload a new Worker Version without deploying it",
 	builder,
 	handler: async (argv) => {
+		if (argv.local) {
+			throw new Error(
+				"--local is not supported by cf workers versions create."
+			);
+		}
+
 		await runUpload(argv, {
 			command: "Version upload",
 		});

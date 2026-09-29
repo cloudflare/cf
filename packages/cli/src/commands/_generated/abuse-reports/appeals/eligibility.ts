@@ -20,7 +20,7 @@ import type { Argv, CommandModule } from "yargs";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 abuse-reports appeals eligibility <report-id>\n\nReturns whether the report is currently appealable, along with the signals behind that decision: whether it already has an open appeal, how many appeals have been submitted against it, and whether it has at least one mitigation that an appeal could reverse."
+			"$0 abuse-reports appeals eligibility <report-id>\n\nReturns whether the report is currently appealable, along with the signals behind that decision: whether it already has an open appeal, how many appeals have been submitted against it, and whether it has at least one mitigation that an appeal could reverse. Report-level appeals are currently available only for DMCA (copyright) reports. For other report types this operation returns the same `404 Report not found` response as a report that does not exist for the account."
 		)
 		.positional("report-id", {
 			type: "string",

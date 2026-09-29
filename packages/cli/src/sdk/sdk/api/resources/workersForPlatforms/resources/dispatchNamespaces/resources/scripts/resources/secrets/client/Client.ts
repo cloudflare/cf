@@ -204,28 +204,28 @@ export class SecretsClient {
      * - To delete a secret, set its value to `null`.
      * - Secrets not included in the request are left unchanged.
      *
-     * @param {CloudflareApi.workersForPlatforms.dispatchNamespaces.scripts.BulkEditSecretsRequest} request
+     * @param {CloudflareApi.workersForPlatforms.dispatchNamespaces.scripts.BulkSecretsRequest} request
      * @param {SecretsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.TooManyRequestsError}
      *
      * @example
-     *     await client.workersForPlatforms.dispatchNamespaces.scripts.secrets.bulkEdit({
+     *     await client.workersForPlatforms.dispatchNamespaces.scripts.secrets.bulk({
      *         account_id: "account_id",
      *         dispatch_namespace: "dispatch_namespace",
      *         script_name: "script_name",
      *         body: {}
      *     })
      */
-    public bulkEdit(
-        request: CloudflareApi.workersForPlatforms.dispatchNamespaces.scripts.BulkEditSecretsRequest,
+    public bulk(
+        request: CloudflareApi.workersForPlatforms.dispatchNamespaces.scripts.BulkSecretsRequest,
         requestOptions?: SecretsClient.RequestOptions,
     ): core.HttpResponsePromise<CloudflareApi.WorkersSecretPatchResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__bulkEdit(request, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__bulk(request, requestOptions));
     }
 
-    private async __bulkEdit(
-        request: CloudflareApi.workersForPlatforms.dispatchNamespaces.scripts.BulkEditSecretsRequest,
+    private async __bulk(
+        request: CloudflareApi.workersForPlatforms.dispatchNamespaces.scripts.BulkSecretsRequest,
         requestOptions?: SecretsClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.WorkersSecretPatchResponse>> {
         const {

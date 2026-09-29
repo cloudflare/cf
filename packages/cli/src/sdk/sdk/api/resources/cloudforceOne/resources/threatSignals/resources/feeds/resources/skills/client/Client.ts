@@ -27,7 +27,7 @@ export class SkillsClient {
     }
 
     /**
-     * Get Threat Signals feed skills.
+     * Retrieves the effective skill pipeline for a Threat Signals feed.
      *
      * @param {CloudflareApi.cloudforceOne.threatSignals.feeds.GetSkillsRequest} request
      * @param {SkillsClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -41,14 +41,14 @@ export class SkillsClient {
     public get(
         request: CloudflareApi.cloudforceOne.threatSignals.feeds.GetSkillsRequest,
         requestOptions?: SkillsClient.RequestOptions,
-    ): core.HttpResponsePromise<void> {
+    ): core.HttpResponsePromise<CloudflareApi.cloudforceOne.threatSignals.feeds.GetSkillsResponse> {
         return core.HttpResponsePromise.fromPromise(this.__get(request, requestOptions));
     }
 
     private async __get(
         request: CloudflareApi.cloudforceOne.threatSignals.feeds.GetSkillsRequest,
         requestOptions?: SkillsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<void>> {
+    ): Promise<core.WithRawResponse<CloudflareApi.cloudforceOne.threatSignals.feeds.GetSkillsResponse>> {
         const { account_id: accountId, feed_id: feedId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -73,7 +73,10 @@ export class SkillsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: undefined, rawResponse: _response.rawResponse };
+            return {
+                data: _response.body as CloudflareApi.cloudforceOne.threatSignals.feeds.GetSkillsResponse,
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -93,7 +96,7 @@ export class SkillsClient {
     }
 
     /**
-     * Set Threat Signals feed skills.
+     * Replaces the ordered custom skills assigned to a Threat Signals feed.
      *
      * @param {CloudflareApi.cloudforceOne.threatSignals.feeds.UpdateSkillsRequest} request
      * @param {SkillsClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -108,14 +111,14 @@ export class SkillsClient {
     public update(
         request: CloudflareApi.cloudforceOne.threatSignals.feeds.UpdateSkillsRequest,
         requestOptions?: SkillsClient.RequestOptions,
-    ): core.HttpResponsePromise<void> {
+    ): core.HttpResponsePromise<CloudflareApi.cloudforceOne.threatSignals.feeds.UpdateSkillsResponse> {
         return core.HttpResponsePromise.fromPromise(this.__update(request, requestOptions));
     }
 
     private async __update(
         request: CloudflareApi.cloudforceOne.threatSignals.feeds.UpdateSkillsRequest,
         requestOptions?: SkillsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<void>> {
+    ): Promise<core.WithRawResponse<CloudflareApi.cloudforceOne.threatSignals.feeds.UpdateSkillsResponse>> {
         const { account_id: accountId, feed_id: feedId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -143,7 +146,10 @@ export class SkillsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: undefined, rawResponse: _response.rawResponse };
+            return {
+                data: _response.body as CloudflareApi.cloudforceOne.threatSignals.feeds.UpdateSkillsResponse,
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {

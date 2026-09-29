@@ -1,0 +1,119 @@
+import { createCommandClient, getZoneId, requestApi } from "#lib/auth.js";
+import { parseBody } from "#lib/body-parser.js";
+import { formatDryRun } from "#lib/dry-run.js";
+import { formatOutput } from "#lib/output.js";
+import { withProgress } from "#lib/progress.js";
+import { confirmDelete } from "#lib/prompt.js";
+import { runWithTelemetry } from "#lib/telemetry/index.js";
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * invalidate-environment command
+ * @generated from apis/overlays/cache.ts
+ */
+import type { Argv, CommandModule } from "yargs";
+
+function builder(yargs: Argv<CommonYargsOptions>) {
+	return yargs
+		.usage(
+			"$0 cache invalidate-environment <environment-id>\n\nMarks cached content as stale for one environment of the zone. Content cached for the zone's other environments, including production, is not affected. Otherwise this works like `POST /zones/{zone_id}/invalidate_cache`: the next request for invalidated content makes Cloudflare revalidate it with your origin, and the request body takes the same fields. Environments are part of [Version Management](https://developers.cloudflare.com/version-management/). To delete the content instead, use `POST /zones/{zone_id}/environments/{environment_id}/purge_cache`. Invalidating by URL (`files`) does not work for environments that select requests by IP address, country, ASN, or threat score, and fails with error `1136`. Use `tags`, `hosts`, `prefixes`, or `purge_everything` for those environments. ### Availability and limits Rate limits and the number of items you can send in one request depend on your plan. See [Purge cache: availability and limits](https://developers.cloudflare.com/cache/how-to/purge-cache/#availability-and-limits)."
+		)
+		.positional("environment-id", {
+			type: "string",
+			description: "The environment ID, from Version Management.",
+			demandOption: true,
+		})
+		.option("dry-run", {
+			type: "boolean",
+			description: "Validate and show what would happen without executing",
+			default: false,
+		})
+		.option("force", {
+			type: "boolean",
+			alias: "f",
+			description: "Skip confirmation (useful in scripts and CI)",
+			default: false,
+		})
+		.option("body", {
+			type: "string",
+			description: "Raw JSON request body (bypasses individual flags)",
+		});
+}
+
+type Args = InferArgs<typeof builder>;
+
+type Request = SdkRequest<"zone-environment-invalidate">;
+type Body = Request["body"];
+
+const command: CommandModule<CommonYargsOptions, Args> = {
+	command: "invalidate-environment <environment-id>",
+	describe: "Invalidate Cached Content by Environment",
+	builder,
+	handler: async (argv): Promise<void> =>
+		runWithTelemetry(
+			{
+				command: "cache invalidate-environment",
+				classification: {
+					safeFlags: ["dry-run", "force"],
+					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
+				} satisfies ArgClassification<Args>,
+			},
+			argv as Record<string, unknown>,
+			async () => {
+				if (argv.dryRun) {
+					formatDryRun({
+						command: "cf cache invalidate-environment",
+						method: "POST",
+						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/environments/${argv["environment-id"] == null ? "<environment-id>" : encodeURIComponent(String(argv["environment-id"]))}/invalidate_cache`,
+						pathParams: {
+							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
+							"environment-id": String(argv["environment-id"] ?? ""),
+						},
+						bodyKind: "json",
+						body: argv.body !== undefined ? parseBody(argv.body) : undefined,
+					});
+					return;
+				}
+				const client = await createCommandClient(argv);
+				const zoneId = await getZoneId({ zone: argv.zone }, client, {
+					quiet: argv.quiet,
+				});
+				argv.zoneId = zoneId;
+
+				if (
+					!(await confirmDelete({
+						force: Boolean(argv.force),
+						message: `This operation marks the selected content in the environment's cache as stale.`,
+					}))
+				) {
+					process.stderr.write("Aborted.\n");
+					return;
+				}
+
+				if (argv.body) {
+					const bodyData = parseBody<Request["body"]>(argv.body);
+					const result = await withProgress(`Deleting`, async () =>
+						client.cache.invalidateEnvironment({
+							body: bodyData,
+							zone_id: zoneId,
+							environment_id: argv["environment-id"],
+						} satisfies Request)
+					);
+					formatOutput(result, { successLabel: `Deleted` });
+					return;
+				}
+
+				const result = await withProgress(`Deleting`, async () =>
+					requestApi<unknown>(
+						client,
+						"POST",
+						`/zones/${argv.zoneId}/environments/${encodeURIComponent(String(argv["environment-id"]))}/invalidate_cache`
+					)
+				);
+				formatOutput(result, { successLabel: `Deleted` });
+			}
+		),
+};
+
+export default command;

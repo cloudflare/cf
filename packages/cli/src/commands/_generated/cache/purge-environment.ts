@@ -17,11 +17,11 @@ import type { Argv, CommandModule } from "yargs";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cache purge-environment <environment-id>\n\nPurge cached content scoped to a specific environment. Supports the same purge types as the zone-level endpoint (purge everything, by URL, by tag, host, or prefix). ### Availability and limits Please refer to [purge cache availability and limits documentation page](https://developers.cloudflare.com/cache/how-to/purge-cache/#availability-and-limits)."
+			"$0 cache purge-environment <environment-id>\n\nDeletes cached content for one environment of the zone. Content cached for the zone's other environments, including production, is not affected. Otherwise this works like `POST /zones/{zone_id}/purge_cache`: the next request for purged content is a cache `MISS`, and the request body takes the same fields. Environments are part of [Version Management](https://developers.cloudflare.com/version-management/). To keep content cached and have Cloudflare revalidate it instead, use `POST /zones/{zone_id}/environments/{environment_id}/invalidate_cache`. Purging by URL (`files`) does not work for environments that select requests by IP address, country, ASN, or threat score, and fails with error `1136`. Use `tags`, `hosts`, `prefixes`, or `purge_everything` for those environments. ### Availability and limits Rate limits and the number of items you can send in one request depend on your plan. See [Purge cache: availability and limits](https://developers.cloudflare.com/cache/how-to/purge-cache/#availability-and-limits)."
 		)
 		.positional("environment-id", {
 			type: "string",
-			description: "Environment ID",
+			description: "The environment ID, from Version Management.",
 			demandOption: true,
 		})
 		.option("dry-run", {
@@ -84,7 +84,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (
 					!(await confirmDelete({
 						force: Boolean(argv.force),
-						message: `Are you sure you want to purge cache for this environment?`,
+						message: `This operation deletes the selected content from the environment's cache.`,
 					}))
 				) {
 					process.stderr.write("Aborted.\n");

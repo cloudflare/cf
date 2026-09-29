@@ -3,15 +3,14 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { withArgTypes } from "#lib/cli-types.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
+import { fetchRawBytes, writeRawOutput } from "#lib/raw-fetch.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * get-raw command
  * @generated from apis/overlays/cloudforce-one.ts
@@ -21,7 +20,7 @@ import type { Argv, CommandModule } from "yargs";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one threat-signals feeds get-raw <feed-id>\n\nGet Threat Signals feed XML."
+			"$0 cloudforce-one threat-signals feeds get-raw <feed-id>\n\nRetrieves the feed document fetched by the most recent poll."
 		)
 		.positional("feed-id", {
 			type: "string",
@@ -40,21 +39,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		});
 }
 
-type Request = SdkRequest<"rssFeedRawGet">;
-type Query = SdkQuery<"rssFeedRawGet">;
+type Args = InferArgs<typeof builder>;
 
-const typedBuilder = withArgTypes<
-	{
-		format: Query["format"];
-	},
-	typeof builder
->(builder);
-
-type Args = InferArgs<typeof typedBuilder>;
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get-raw <feed-id>",
 	describe: "Get Threat Signals feed XML",
-	builder: typedBuilder,
+	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -65,7 +55,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					format: argv["format"],
 				};
 				if (argv.dryRun) {
@@ -84,14 +74,23 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				const result = await withProgress(`Loading`, async () =>
-					client.cloudforceOne.threatSignals.feeds.getRaw({
-						account_id: accountId,
-						feed_id: argv["feed-id"],
-						...queryParams,
-					} satisfies Request)
+				const qs = new URLSearchParams(
+					Object.entries(queryParams)
+						.filter(([, v]) => v !== undefined)
+						.map(([k, v]) => [k, String(v)])
+				).toString();
+				const __cfRawBytes = await withProgress(`Loading`, async () =>
+					fetchRawBytes(
+						`/accounts/${accountId}/cloudforce-one/v2/threat-signals/feeds/${encodeURIComponent(String(argv["feed-id"]))}/raw${qs ? "?" + qs : ""}`,
+						{
+							method: "GET",
+							local: argv.local === true,
+							persistTo: argv.persistTo as string | undefined,
+						}
+					)
 				);
-				formatOutput(result, { successLabel: `Loaded` });
+				writeRawOutput(__cfRawBytes.toString("utf-8"));
+				return;
 			}
 		),
 };

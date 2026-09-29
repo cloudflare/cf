@@ -78,7 +78,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (
 					!(await confirmDelete({
 						force: Boolean(argv.force),
-						message: `Are you sure? This action cannot be undone.`,
+						message: `Delete this organization membership? The member will lose access to this organization and its sub-organizations.`,
 					}))
 				) {
 					process.stderr.write("Aborted.\n");

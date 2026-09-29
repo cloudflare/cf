@@ -32,5 +32,8 @@ revision, inventory shape, and regeneration command are documented in
 ## Verification
 
 Run `pnpm generate` from the repository root after OpenAPI or Forge changes,
-then run `pnpm test` from this package. Tests import the CLI from TypeScript
-source rather than a previously built `dist/` bundle.
+then run `pnpm test` from this package. Its `pretest` script builds the CLI with
+the test-specific tsdown configuration, and tests import the resulting
+`../cli/dist/index.mjs`. The test build keeps mock-sensitive dependencies
+external while the normal production build bundles them. `pnpm test:watch`
+also builds the test bundle once before starting Vitest.

@@ -17,7 +17,7 @@ export interface UpdateScriptsRequest {
     account_id: string;
     /** Name of the Workers for Platforms dispatch namespace. */
     dispatch_namespace: string;
-    /** Name of the script, used in URLs and route configuration. */
+    /** Name of the script. */
     script_name: string;
     /** When set to "strict", the upload will fail if any `inherit` type bindings cannot be resolved against the previous version of the script. Without this, unresolvable inherit bindings are silently dropped. */
     bindings_inherit?: "strict";

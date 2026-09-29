@@ -21,23 +21,23 @@ export interface CreateInstancesRequest {
 export namespace CreateInstancesRequest {
     export interface InstanceRetention {
         /** Specifies the duration in milliseconds or as a string like '5 minutes'. */
-        error_retention?: InstanceRetention.ErrorRetention | undefined;
+        error_retention?: InstanceRetention.Error_ | undefined;
         /** Specifies the duration in milliseconds or as a string like '5 minutes'. */
-        success_retention?: InstanceRetention.SuccessRetention | undefined;
+        success_retention?: InstanceRetention.Success | undefined;
     }
 
     export namespace InstanceRetention {
         /**
          * Specifies the duration in milliseconds or as a string like '5 minutes'.
          */
-        export type ErrorRetention =
+        export type Error_ =
             /**
              * Specifies the duration in milliseconds. */
             number | string;
         /**
          * Specifies the duration in milliseconds or as a string like '5 minutes'.
          */
-        export type SuccessRetention =
+        export type Success =
             /**
              * Specifies the duration in milliseconds. */
             number | string;

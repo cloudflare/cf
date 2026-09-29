@@ -7,7 +7,6 @@ import {
 } from "../../../../../../../../../../BaseClient.js";
 import * as core from "../../../../../../../../../../core/index.js";
 import { mergeHeaders } from "../../../../../../../../../../core/headers.js";
-import { mergeAdditionalBodyParameters } from "../../../../../../../../../../core/requestBody.js";
 import * as environments from "../../../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../../../errors/index.js";
@@ -27,6 +26,78 @@ export class PoliciesClient {
     }
 
     /**
+     * Converts an application-scoped policy to a reusable policy. The policy will no longer be exclusively scoped to the application. Further updates to the policy should go through the /accounts/{account_id}/policies/{uid} endpoint.
+     *
+     * @param {CloudflareApi.zeroTrust.access.applications.MakeReusablePoliciesRequest} request
+     * @param {PoliciesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @example
+     *     await client.zeroTrust.access.applications.policies.makeReusable({
+     *         account_id: "account_id",
+     *         app_id: "app_id",
+     *         policy_id: "policy_id"
+     *     })
+     */
+    public makeReusable(
+        request: CloudflareApi.zeroTrust.access.applications.MakeReusablePoliciesRequest,
+        requestOptions?: PoliciesClient.RequestOptions,
+    ): core.HttpResponsePromise<CloudflareApi.zeroTrust.access.applications.MakeReusablePoliciesResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__makeReusable(request, requestOptions));
+    }
+
+    private async __makeReusable(
+        request: CloudflareApi.zeroTrust.access.applications.MakeReusablePoliciesRequest,
+        requestOptions?: PoliciesClient.RequestOptions,
+    ): Promise<core.WithRawResponse<CloudflareApi.zeroTrust.access.applications.MakeReusablePoliciesResponse>> {
+        const { account_id: accountId, app_id: appId, policy_id: policyId } = request;
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.CloudflareApiEnvironment.Default,
+                `accounts/${core.url.encodePathParam(accountId)}/access/apps/${core.url.encodePathParam(appId)}/policies/${core.url.encodePathParam(policyId)}/make_reusable`,
+            ),
+            method: "PUT",
+            headers: _headers,
+            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return {
+                data: _response.body as CloudflareApi.zeroTrust.access.applications.MakeReusablePoliciesResponse,
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            throw new errors.CloudflareApiError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
+        }
+
+        return handleNonStatusCodeError(
+            _response.error,
+            _response.rawResponse,
+            "PUT",
+            "/accounts/{account_id}/access/apps/{app_id}/policies/{policy_id}/make_reusable",
+        );
+    }
+
+    /**
+     * @deprecated
+     *
      * Lists Access policies configured for an application. Returns both exclusively scoped and reusable policies used by the application.
      *
      * @param {CloudflareApi.zeroTrust.access.applications.ListPoliciesRequest} request
@@ -111,90 +182,8 @@ export class PoliciesClient {
     }
 
     /**
-     * Creates a policy applying exclusive to a single application that defines the users or groups who can reach it. We recommend creating a reusable policy instead and subsequently referencing its ID in the application's 'policies' array.
+     * @deprecated
      *
-     * @param {CloudflareApi.zeroTrust.access.applications.CreatePoliciesRequest} request
-     * @param {PoliciesClient.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @example
-     *     await client.zeroTrust.access.applications.policies.create({
-     *         account_or_zone: "account_or_zone",
-     *         account_or_zone_id: "account_or_zone_id",
-     *         app_id: "app_id",
-     *         body: {
-     *             decision: "allow",
-     *             include: [{
-     *                     certificate: {
-     *                         "key": "value"
-     *                     }
-     *                 }],
-     *             name: "Allow devs"
-     *         }
-     *     })
-     */
-    public create(
-        request: CloudflareApi.zeroTrust.access.applications.CreatePoliciesRequest,
-        requestOptions?: PoliciesClient.RequestOptions,
-    ): core.HttpResponsePromise<CloudflareApi.AccessAppPolicyResult> {
-        return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
-    }
-
-    private async __create(
-        request: CloudflareApi.zeroTrust.access.applications.CreatePoliciesRequest,
-        requestOptions?: PoliciesClient.RequestOptions,
-    ): Promise<core.WithRawResponse<CloudflareApi.AccessAppPolicyResult>> {
-        const {
-            account_or_zone: accountOrZone,
-            account_or_zone_id: accountOrZoneId,
-            app_id: appId,
-            body: _body,
-        } = request;
-        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
-        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
-            _authRequest.headers,
-            this._options?.headers,
-            requestOptions?.headers,
-        );
-        const _response = await (this._options.fetcher ?? core.fetcher)({
-            url: core.url.join(
-                (await core.Supplier.get(this._options.baseUrl)) ??
-                    (await core.Supplier.get(this._options.environment)) ??
-                    environments.CloudflareApiEnvironment.Default,
-                `${core.url.encodePathParam(accountOrZone)}/${core.url.encodePathParam(accountOrZoneId)}/access/apps/${core.url.encodePathParam(appId)}/policies`,
-            ),
-            method: "POST",
-            headers: _headers,
-            contentType: "application/json",
-            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
-            requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
-            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
-            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
-            abortSignal: requestOptions?.abortSignal,
-            fetchFn: this._options?.fetch,
-            logging: this._options.logging,
-        });
-        if (_response.ok) {
-            return { data: _response.body as CloudflareApi.AccessAppPolicyResult, rawResponse: _response.rawResponse };
-        }
-
-        if (_response.error.reason === "status-code") {
-            throw new errors.CloudflareApiError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-                rawResponse: _response.rawResponse,
-            });
-        }
-
-        return handleNonStatusCodeError(
-            _response.error,
-            _response.rawResponse,
-            "POST",
-            "/{account_or_zone}/{account_or_zone_id}/access/apps/{app_id}/policies",
-        );
-    }
-
-    /**
      * Fetches a single Access policy configured for an application. Returns both exclusively owned and reusable policies used by the application.
      *
      * @param {CloudflareApi.zeroTrust.access.applications.GetPoliciesRequest} request
@@ -263,211 +252,6 @@ export class PoliciesClient {
             _response.error,
             _response.rawResponse,
             "GET",
-            "/{account_or_zone}/{account_or_zone_id}/access/apps/{app_id}/policies/{policy_id}",
-        );
-    }
-
-    /**
-     * Updates an Access policy specific to an application. To update a reusable policy, use the /account or zones/{account or zone_id}/policies/{uid} endpoint.
-     *
-     * @param {CloudflareApi.zeroTrust.access.applications.UpdatePoliciesRequest} request
-     * @param {PoliciesClient.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @example
-     *     await client.zeroTrust.access.applications.policies.update({
-     *         account_or_zone: "account_or_zone",
-     *         account_or_zone_id: "account_or_zone_id",
-     *         app_id: "app_id",
-     *         policy_id: "policy_id",
-     *         body: {
-     *             decision: "allow",
-     *             include: [{
-     *                     everyone: {
-     *                         "key": "value"
-     *                     }
-     *                 }],
-     *             name: "Allow SSH users with a FIDO2 key",
-     *             mfa_config: {
-     *                 allowed_authenticators: ["ssh_fido2_key"]
-     *             }
-     *         }
-     *     })
-     *
-     * @example
-     *     await client.zeroTrust.access.applications.policies.update({
-     *         account_or_zone: "account_or_zone",
-     *         account_or_zone_id: "account_or_zone_id",
-     *         app_id: "app_id",
-     *         policy_id: "policy_id",
-     *         body: {
-     *             decision: "allow",
-     *             include: [{
-     *                     everyone: {
-     *                         "key": "value"
-     *                     }
-     *                 }],
-     *             name: "Allow SSH users with a PIV key or FIDO2 key",
-     *             mfa_config: {
-     *                 allowed_authenticators: ["piv_key", "ssh_fido2_key"]
-     *             }
-     *         }
-     *     })
-     *
-     * @example
-     *     await client.zeroTrust.access.applications.policies.update({
-     *         account_or_zone: "account_or_zone",
-     *         account_or_zone_id: "account_or_zone_id",
-     *         app_id: "app_id",
-     *         policy_id: "policy_id",
-     *         body: {
-     *             decision: "allow",
-     *             include: [{
-     *                     everyone: {
-     *                         "key": "value"
-     *                     }
-     *                 }],
-     *             name: "Allow SSH users with a PIV key",
-     *             mfa_config: {
-     *                 allowed_authenticators: ["piv_key"]
-     *             }
-     *         }
-     *     })
-     */
-    public update(
-        request: CloudflareApi.zeroTrust.access.applications.UpdatePoliciesRequest,
-        requestOptions?: PoliciesClient.RequestOptions,
-    ): core.HttpResponsePromise<CloudflareApi.AccessAppPolicyResult> {
-        return core.HttpResponsePromise.fromPromise(this.__update(request, requestOptions));
-    }
-
-    private async __update(
-        request: CloudflareApi.zeroTrust.access.applications.UpdatePoliciesRequest,
-        requestOptions?: PoliciesClient.RequestOptions,
-    ): Promise<core.WithRawResponse<CloudflareApi.AccessAppPolicyResult>> {
-        const {
-            account_or_zone: accountOrZone,
-            account_or_zone_id: accountOrZoneId,
-            app_id: appId,
-            policy_id: policyId,
-            body: _body,
-        } = request;
-        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
-        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
-            _authRequest.headers,
-            this._options?.headers,
-            requestOptions?.headers,
-        );
-        const _response = await (this._options.fetcher ?? core.fetcher)({
-            url: core.url.join(
-                (await core.Supplier.get(this._options.baseUrl)) ??
-                    (await core.Supplier.get(this._options.environment)) ??
-                    environments.CloudflareApiEnvironment.Default,
-                `${core.url.encodePathParam(accountOrZone)}/${core.url.encodePathParam(accountOrZoneId)}/access/apps/${core.url.encodePathParam(appId)}/policies/${core.url.encodePathParam(policyId)}`,
-            ),
-            method: "PUT",
-            headers: _headers,
-            contentType: "application/json",
-            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
-            requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
-            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
-            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
-            abortSignal: requestOptions?.abortSignal,
-            fetchFn: this._options?.fetch,
-            logging: this._options.logging,
-        });
-        if (_response.ok) {
-            return { data: _response.body as CloudflareApi.AccessAppPolicyResult, rawResponse: _response.rawResponse };
-        }
-
-        if (_response.error.reason === "status-code") {
-            throw new errors.CloudflareApiError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-                rawResponse: _response.rawResponse,
-            });
-        }
-
-        return handleNonStatusCodeError(
-            _response.error,
-            _response.rawResponse,
-            "PUT",
-            "/{account_or_zone}/{account_or_zone_id}/access/apps/{app_id}/policies/{policy_id}",
-        );
-    }
-
-    /**
-     * Deletes an Access policy specific to an application. To delete a reusable policy, use the /account or zones/{account or zone_id}/policies/{uid} endpoint.
-     *
-     * @param {CloudflareApi.zeroTrust.access.applications.DeletePoliciesRequest} request
-     * @param {PoliciesClient.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @example
-     *     await client.zeroTrust.access.applications.policies.delete({
-     *         account_or_zone: "account_or_zone",
-     *         account_or_zone_id: "account_or_zone_id",
-     *         app_id: "app_id",
-     *         policy_id: "policy_id"
-     *     })
-     */
-    public delete(
-        request: CloudflareApi.zeroTrust.access.applications.DeletePoliciesRequest,
-        requestOptions?: PoliciesClient.RequestOptions,
-    ): core.HttpResponsePromise<CloudflareApi.zeroTrust.access.applications.DeletePoliciesResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__delete(request, requestOptions));
-    }
-
-    private async __delete(
-        request: CloudflareApi.zeroTrust.access.applications.DeletePoliciesRequest,
-        requestOptions?: PoliciesClient.RequestOptions,
-    ): Promise<core.WithRawResponse<CloudflareApi.zeroTrust.access.applications.DeletePoliciesResponse>> {
-        const {
-            account_or_zone: accountOrZone,
-            account_or_zone_id: accountOrZoneId,
-            app_id: appId,
-            policy_id: policyId,
-        } = request;
-        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
-        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
-            _authRequest.headers,
-            this._options?.headers,
-            requestOptions?.headers,
-        );
-        const _response = await (this._options.fetcher ?? core.fetcher)({
-            url: core.url.join(
-                (await core.Supplier.get(this._options.baseUrl)) ??
-                    (await core.Supplier.get(this._options.environment)) ??
-                    environments.CloudflareApiEnvironment.Default,
-                `${core.url.encodePathParam(accountOrZone)}/${core.url.encodePathParam(accountOrZoneId)}/access/apps/${core.url.encodePathParam(appId)}/policies/${core.url.encodePathParam(policyId)}`,
-            ),
-            method: "DELETE",
-            headers: _headers,
-            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
-            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
-            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
-            abortSignal: requestOptions?.abortSignal,
-            fetchFn: this._options?.fetch,
-            logging: this._options.logging,
-        });
-        if (_response.ok) {
-            return {
-                data: _response.body as CloudflareApi.zeroTrust.access.applications.DeletePoliciesResponse,
-                rawResponse: _response.rawResponse,
-            };
-        }
-
-        if (_response.error.reason === "status-code") {
-            throw new errors.CloudflareApiError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-                rawResponse: _response.rawResponse,
-            });
-        }
-
-        return handleNonStatusCodeError(
-            _response.error,
-            _response.rawResponse,
-            "DELETE",
             "/{account_or_zone}/{account_or_zone_id}/access/apps/{app_id}/policies/{policy_id}",
         );
     }

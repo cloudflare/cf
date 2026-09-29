@@ -20,7 +20,7 @@ import type { Argv, CommandModule } from "yargs";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 ai listMarkdownSupportedFormats\n\nLists all file formats supported for conversion to Markdown."
+			"$0 ai listMarkdownSupportedFormats\n\nLists the file extensions and MIME types accepted by Workers AI's Markdown conversion endpoint. Use this list to check whether a file can be converted before uploading it."
 		)
 		.option("dry-run", {
 			type: "boolean",
@@ -35,7 +35,7 @@ type Request = SdkRequest<"workers-ai-get-to-markdown-supported">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "listMarkdownSupportedFormats",
-	describe: "Get all converted formats supported",
+	describe: "List supported Markdown conversion formats",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(

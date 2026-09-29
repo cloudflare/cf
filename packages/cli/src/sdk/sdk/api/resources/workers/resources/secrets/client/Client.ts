@@ -194,27 +194,27 @@ export class SecretsClient {
      * - To delete a secret, set its value to `null`.
      * - Secrets not included in the request are left unchanged.
      *
-     * @param {CloudflareApi.workers.BulkEditSecretsRequest} request
+     * @param {CloudflareApi.workers.BulkSecretsRequest} request
      * @param {SecretsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.TooManyRequestsError}
      *
      * @example
-     *     await client.workers.secrets.bulkEdit({
+     *     await client.workers.secrets.bulk({
      *         account_id: "account_id",
      *         script_name: "script_name",
      *         body: {}
      *     })
      */
-    public bulkEdit(
-        request: CloudflareApi.workers.BulkEditSecretsRequest,
+    public bulk(
+        request: CloudflareApi.workers.BulkSecretsRequest,
         requestOptions?: SecretsClient.RequestOptions,
     ): core.HttpResponsePromise<CloudflareApi.WorkersSecretPatchResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__bulkEdit(request, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__bulk(request, requestOptions));
     }
 
-    private async __bulkEdit(
-        request: CloudflareApi.workers.BulkEditSecretsRequest,
+    private async __bulk(
+        request: CloudflareApi.workers.BulkSecretsRequest,
         requestOptions?: SecretsClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.WorkersSecretPatchResponse>> {
         const { account_id: accountId, script_name: scriptName, body: _body } = request;

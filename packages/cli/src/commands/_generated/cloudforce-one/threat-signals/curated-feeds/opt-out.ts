@@ -21,7 +21,7 @@ import type { Argv, CommandModule } from "yargs";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one threat-signals curated-feeds opt-out\n\nOpt out of curated Threat Signals feeds."
+			"$0 cloudforce-one threat-signals curated-feeds opt-out\n\nOpts the account out of, or back into, the curated feed catalog."
 		)
 		.option("opted-out", {
 			type: "boolean",

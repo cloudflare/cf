@@ -23,7 +23,7 @@ export class AccountTypeClient {
     }
 
     /**
-     * List of account types available for the Tenant to provision accounts.
+     * Lists the account types this tenant is allowed to provision.
      *
      * @param {CloudflareApi.tenant.ListAccountTypeRequest} request
      * @param {AccountTypeClient.RequestOptions} requestOptions - Request-specific configuration.

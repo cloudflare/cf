@@ -20,7 +20,7 @@ import type { Argv, CommandModule } from "yargs";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one threat-signals categories list\n\nList Threat Signals feed categories."
+			"$0 cloudforce-one threat-signals categories list\n\nLists the predefined categories that can be assigned to feeds."
 		)
 		.option("dry-run", {
 			type: "boolean",

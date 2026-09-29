@@ -21,7 +21,7 @@ import type { Argv, CommandModule } from "yargs";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 accounts tokens list\n\nList all Account Owned API tokens created for this account. Results include active, disabled, and recently-expired tokens when include_expired is set to true."
+			"$0 accounts tokens list\n\nList Account Owned API tokens created for this account. Callers with `com.cloudflare.api.account.token.list_self` permission only receive tokens they created. Results include active, disabled, and recently-expired tokens when `include_expired` is set to true."
 		)
 		.option("page", {
 			type: "number",

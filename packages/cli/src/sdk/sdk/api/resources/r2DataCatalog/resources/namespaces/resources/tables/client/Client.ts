@@ -38,6 +38,8 @@ export class TablesClient {
     }
 
     /**
+     * @deprecated
+     *
      * Returns a list of tables in the specified namespace within an R2 catalog.
      * Supports pagination for efficient traversal of large table collections.
      *
@@ -147,6 +149,8 @@ export class TablesClient {
     }
 
     /**
+     * @deprecated
+     *
      * Returns full Apache Iceberg metadata for a single table: schema,
      * partition specs, sort orders, properties, and recent snapshot history.
      * Designed for catalog introspection UIs that need per-table details

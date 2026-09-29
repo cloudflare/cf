@@ -7,7 +7,7 @@ import $dex from "./dex/index.js";
 import $dlp from "./dlp/index.js";
 import $gateway from "./gateway/index.js";
 import $identityproviders from "./identity-providers/index.js";
-import $organizations from "./organizations/index.js";
+import $organization from "./organization/index.js";
 import $riskscoring from "./risk-scoring/index.js";
 import $seats from "./seats/index.js";
 import $users from "./users/index.js";
@@ -34,7 +34,7 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($dlp)
 			.command($gateway)
 			.command($identityproviders)
-			.command($organizations)
+			.command($organization)
 			.command($riskscoring)
 			.command($seats)
 			.command($users)

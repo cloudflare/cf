@@ -20,7 +20,7 @@ import type { Argv, CommandModule } from "yargs";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one events tags get-by-id <tag-uuid>\n\nReturns a single Source-of-Truth tag by UUID, including custom fields (properties)."
+			"$0 cloudforce-one events tags get-by-id <tag-uuid>\n\nReturns the complete owner projection of an account-scoped Source-of-Truth tag by UUID, including custom fields (properties). Purple TLP remains CFONE-only."
 		)
 		.positional("tag-uuid", {
 			type: "string",

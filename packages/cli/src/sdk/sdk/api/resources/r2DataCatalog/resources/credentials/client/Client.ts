@@ -24,10 +24,12 @@ export class CredentialsClient {
     }
 
     /**
+     * @deprecated
+     *
      * Store authentication credentials for a catalog. These credentials are used
      * to authenticate with R2 storage when performing catalog operations.
      *
-     * @param {CloudflareApi.r2DataCatalog.R2DataCatalogCatalogCredentialRequest} request
+     * @param {CloudflareApi.r2DataCatalog.CreateCredentialsRequest} request
      * @param {CredentialsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
@@ -40,21 +42,23 @@ export class CredentialsClient {
      *     await client.r2DataCatalog.credentials.create({
      *         account_id: "account_id",
      *         bucket_name: "bucket_name",
-     *         token: "your-cloudflare-api-token-here"
+     *         body: {
+     *             token: "your-cloudflare-api-token-here"
+     *         }
      *     })
      */
     public create(
-        request: CloudflareApi.r2DataCatalog.R2DataCatalogCatalogCredentialRequest,
+        request: CloudflareApi.r2DataCatalog.CreateCredentialsRequest,
         requestOptions?: CredentialsClient.RequestOptions,
     ): core.HttpResponsePromise<Record<string, unknown> | null> {
         return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
     }
 
     private async __create(
-        request: CloudflareApi.r2DataCatalog.R2DataCatalogCatalogCredentialRequest,
+        request: CloudflareApi.r2DataCatalog.CreateCredentialsRequest,
         requestOptions?: CredentialsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Record<string, unknown> | null>> {
-        const { account_id: accountId, bucket_name: bucketName, ..._body } = request;
+        const { account_id: accountId, bucket_name: bucketName, body: _body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,

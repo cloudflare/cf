@@ -13,7 +13,7 @@ import { DexClient } from "../resources/dex/client/Client.js";
 import { DlpClient } from "../resources/dlp/client/Client.js";
 import { GatewayClient } from "../resources/gateway/client/Client.js";
 import { IdentityProvidersClient } from "../resources/identityProviders/client/Client.js";
-import { OrganizationsClient } from "../resources/organizations/client/Client.js";
+import { OrganizationClient } from "../resources/organization/client/Client.js";
 import { RiskScoringClient } from "../resources/riskScoring/client/Client.js";
 import { SeatsClient } from "../resources/seats/client/Client.js";
 import { UsersClient } from "../resources/users/client/Client.js";
@@ -30,7 +30,7 @@ export class ZeroTrustClient {
     protected _connectivitySettings: ConnectivitySettingsClient | undefined;
     protected _riskScoring: RiskScoringClient | undefined;
     protected _identityProviders: IdentityProvidersClient | undefined;
-    protected _organizations: OrganizationsClient | undefined;
+    protected _organization: OrganizationClient | undefined;
     protected _access: AccessClient | undefined;
     protected _apps: AppsClient | undefined;
     protected _casb: CasbClient | undefined;
@@ -66,8 +66,8 @@ export class ZeroTrustClient {
         return (this._identityProviders ??= new IdentityProvidersClient(this._options));
     }
 
-    public get organizations(): OrganizationsClient {
-        return (this._organizations ??= new OrganizationsClient(this._options));
+    public get organization(): OrganizationClient {
+        return (this._organization ??= new OrganizationClient(this._options));
     }
 
     public get access(): AccessClient {

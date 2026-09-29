@@ -7,11 +7,11 @@ import {
 } from "../../../../../../../../../../BaseClient.js";
 import * as core from "../../../../../../../../../../core/index.js";
 import { mergeHeaders } from "../../../../../../../../../../core/headers.js";
+import { mergeAdditionalBodyParameters } from "../../../../../../../../../../core/requestBody.js";
 import * as environments from "../../../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../../../errors/index.js";
 import * as CloudflareApi from "../../../../../../../../../index.js";
-import { BulkClient } from "../resources/bulk/client/Client.js";
 
 export declare namespace TagsClient {
     export type Options = BaseClientOptions;
@@ -21,14 +21,9 @@ export declare namespace TagsClient {
 
 export class TagsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<TagsClient.Options>;
-    protected _bulk: BulkClient | undefined;
 
     constructor(options: TagsClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
-    }
-
-    public get bulk(): BulkClient {
-        return (this._bulk ??= new BulkClient(this._options));
     }
 
     /**
@@ -97,6 +92,85 @@ export class TagsClient {
             _response.error,
             _response.rawResponse,
             "GET",
+            "/accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/tags",
+        );
+    }
+
+    /**
+     * Replace tags for a script uploaded to a Workers for Platforms dispatch namespace.
+     *
+     * @param {CloudflareApi.workersForPlatforms.dispatchNamespaces.scripts.UpdateTagsRequest} request
+     * @param {TagsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @example
+     *     await client.workersForPlatforms.dispatchNamespaces.scripts.tags.update({
+     *         account_id: "account_id",
+     *         dispatch_namespace: "dispatch_namespace",
+     *         script_name: "script_name",
+     *         body: ["my-team", "my-public-api"]
+     *     })
+     */
+    public update(
+        request: CloudflareApi.workersForPlatforms.dispatchNamespaces.scripts.UpdateTagsRequest,
+        requestOptions?: TagsClient.RequestOptions,
+    ): core.HttpResponsePromise<CloudflareApi.workersForPlatforms.dispatchNamespaces.scripts.UpdateTagsResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__update(request, requestOptions));
+    }
+
+    private async __update(
+        request: CloudflareApi.workersForPlatforms.dispatchNamespaces.scripts.UpdateTagsRequest,
+        requestOptions?: TagsClient.RequestOptions,
+    ): Promise<core.WithRawResponse<CloudflareApi.workersForPlatforms.dispatchNamespaces.scripts.UpdateTagsResponse>> {
+        const {
+            account_id: accountId,
+            dispatch_namespace: dispatchNamespace,
+            script_name: scriptName,
+            body: _body,
+        } = request;
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.CloudflareApiEnvironment.Default,
+                `accounts/${core.url.encodePathParam(accountId)}/workers/dispatch/namespaces/${core.url.encodePathParam(dispatchNamespace)}/scripts/${core.url.encodePathParam(scriptName)}/tags`,
+            ),
+            method: "PUT",
+            headers: _headers,
+            contentType: "application/json",
+            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
+            requestType: "json",
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return {
+                data: _response.body as CloudflareApi.workersForPlatforms.dispatchNamespaces.scripts.UpdateTagsResponse,
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            throw new errors.CloudflareApiError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
+        }
+
+        return handleNonStatusCodeError(
+            _response.error,
+            _response.rawResponse,
+            "PUT",
             "/accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/tags",
         );
     }

@@ -20,7 +20,7 @@ import type { Argv, CommandModule } from "yargs";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one threat-signals curated-feeds list\n\nList curated Threat Signals feeds."
+			"$0 cloudforce-one threat-signals curated-feeds list\n\nLists the curated feeds the account can subscribe to."
 		)
 		.option("category", { type: "string", description: "Category" })
 		.option("include-inactive", {

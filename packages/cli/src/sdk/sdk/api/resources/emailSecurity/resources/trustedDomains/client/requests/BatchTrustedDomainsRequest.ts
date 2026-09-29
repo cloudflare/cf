@@ -30,9 +30,13 @@ import * as CloudflareApi from "../../../../../../index.js";
 export interface BatchTrustedDomainsRequest {
     /** Account identifier tag. */
     account_id: CloudflareApi.EmailSecurityIdentifier;
+    /** IDs of the trusted domain patterns to delete. */
     deletes: BatchTrustedDomainsRequest.Deletes.Item[];
+    /** Partial updates to apply — each entry carries the pattern's ID and only the fields to change. */
     patches: BatchTrustedDomainsRequest.Patches.Item[];
+    /** Trusted domain patterns to create. */
     posts: CloudflareApi.EmailSecurityCreateTrustedDomain[];
+    /** Full replacements to apply — each entry carries the pattern's ID and every field of its new value. */
     puts: BatchTrustedDomainsRequest.Puts.Item[];
 }
 

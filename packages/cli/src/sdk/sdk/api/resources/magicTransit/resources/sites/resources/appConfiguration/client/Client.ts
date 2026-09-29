@@ -167,29 +167,28 @@ export class AppConfigurationClient {
     /**
      * Updates an App Config for a site
      *
-     * @param {CloudflareApi.magicTransit.sites.UpdateAppConfigurationRequest} request
+     * @param {CloudflareApi.magicTransit.sites.MagicAppConfigUpdateRequest} request
      * @param {AppConfigurationClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @example
      *     await client.magicTransit.sites.appConfiguration.update({
      *         account_id: "account_id",
      *         site_id: "site_id",
-     *         app_config_id: "app_config_id",
-     *         body: {}
+     *         app_config_id: "app_config_id"
      *     })
      */
     public update(
-        request: CloudflareApi.magicTransit.sites.UpdateAppConfigurationRequest,
+        request: CloudflareApi.magicTransit.sites.MagicAppConfigUpdateRequest,
         requestOptions?: AppConfigurationClient.RequestOptions,
     ): core.HttpResponsePromise<CloudflareApi.MagicAppConfig> {
         return core.HttpResponsePromise.fromPromise(this.__update(request, requestOptions));
     }
 
     private async __update(
-        request: CloudflareApi.magicTransit.sites.UpdateAppConfigurationRequest,
+        request: CloudflareApi.magicTransit.sites.MagicAppConfigUpdateRequest,
         requestOptions?: AppConfigurationClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.MagicAppConfig>> {
-        const { account_id: accountId, site_id: siteId, app_config_id: appConfigId, body: _body } = request;
+        const { account_id: accountId, site_id: siteId, app_config_id: appConfigId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -298,77 +297,6 @@ export class AppConfigurationClient {
             _response.error,
             _response.rawResponse,
             "DELETE",
-            "/accounts/{account_id}/magic/sites/{site_id}/app_configs/{app_config_id}",
-        );
-    }
-
-    /**
-     * Updates an App Config for a site
-     *
-     * @param {CloudflareApi.magicTransit.sites.EditAppConfigurationRequest} request
-     * @param {AppConfigurationClient.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @example
-     *     await client.magicTransit.sites.appConfiguration.edit({
-     *         account_id: "account_id",
-     *         site_id: "site_id",
-     *         app_config_id: "app_config_id",
-     *         body: {}
-     *     })
-     */
-    public edit(
-        request: CloudflareApi.magicTransit.sites.EditAppConfigurationRequest,
-        requestOptions?: AppConfigurationClient.RequestOptions,
-    ): core.HttpResponsePromise<CloudflareApi.MagicAppConfig> {
-        return core.HttpResponsePromise.fromPromise(this.__edit(request, requestOptions));
-    }
-
-    private async __edit(
-        request: CloudflareApi.magicTransit.sites.EditAppConfigurationRequest,
-        requestOptions?: AppConfigurationClient.RequestOptions,
-    ): Promise<core.WithRawResponse<CloudflareApi.MagicAppConfig>> {
-        const { account_id: accountId, site_id: siteId, app_config_id: appConfigId, body: _body } = request;
-        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
-        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
-            _authRequest.headers,
-            this._options?.headers,
-            requestOptions?.headers,
-        );
-        const _response = await (this._options.fetcher ?? core.fetcher)({
-            url: core.url.join(
-                (await core.Supplier.get(this._options.baseUrl)) ??
-                    (await core.Supplier.get(this._options.environment)) ??
-                    environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/magic/sites/${core.url.encodePathParam(siteId)}/app_configs/${core.url.encodePathParam(appConfigId)}`,
-            ),
-            method: "PATCH",
-            headers: _headers,
-            contentType: "application/json",
-            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
-            requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
-            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
-            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
-            abortSignal: requestOptions?.abortSignal,
-            fetchFn: this._options?.fetch,
-            logging: this._options.logging,
-        });
-        if (_response.ok) {
-            return { data: _response.body as CloudflareApi.MagicAppConfig, rawResponse: _response.rawResponse };
-        }
-
-        if (_response.error.reason === "status-code") {
-            throw new errors.CloudflareApiError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-                rawResponse: _response.rawResponse,
-            });
-        }
-
-        return handleNonStatusCodeError(
-            _response.error,
-            _response.rawResponse,
-            "PATCH",
             "/accounts/{account_id}/magic/sites/{site_id}/app_configs/{app_config_id}",
         );
     }

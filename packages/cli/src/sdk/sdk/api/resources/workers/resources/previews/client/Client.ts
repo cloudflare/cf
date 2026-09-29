@@ -392,9 +392,14 @@ export class PreviewsClient {
         request: CloudflareApi.workers.DeletePreviewsRequest,
         requestOptions?: PreviewsClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.WorkersApiResponseCommon>> {
-        const { account_id: accountId, worker_id: workerId, preview_id: previewId, force } = request;
+        const {
+            account_id: accountId,
+            worker_id: workerId,
+            preview_id: previewId,
+            force: deleteWithReferences,
+        } = request;
         const _queryParams: Record<string, unknown> = {
-            force,
+            force: deleteWithReferences,
         };
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(

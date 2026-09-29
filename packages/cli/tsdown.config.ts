@@ -11,7 +11,9 @@ import { defineConfig } from "tsdown";
 const isDevelopment = process.env.NODE_ENV === "development";
 const isProduction = !isDevelopment;
 
-export default defineConfig({
+export const runtimeExternals = ["blake3-wasm", "miniflare"];
+
+export const cliConfig = defineConfig({
 	// `index` is the CLI bundle. `delegate` is a deliberately small,
 	// standalone entry so `bin/cf` can run local-install delegation
 	// (Wrangler-2 style) WITHOUT importing the full command tree — a
@@ -39,7 +41,9 @@ export default defineConfig({
 	// resolves the local-explorer UI assets, the workerd binary, and its
 	// bundled worker scripts relative to its own on-disk location, and
 	// throws ERR_MISSING_EXPLORER_UI if they aren't beside the module.
-	external: ["blake3-wasm", "miniflare"],
+	deps: {
+		neverBundle: runtimeExternals,
+	},
 	// The CLI version is inlined directly via a JSON import in src/version.ts
 	// (statically resolved by rolldown). PACKAGE_PRERELEASE_LABEL stays here
 	// because it's a CI-only build-time string with no package.json source.
@@ -68,3 +72,5 @@ export default defineConfig({
 		}
 	},
 });
+
+export default cliConfig;

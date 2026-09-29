@@ -3,7 +3,7 @@
 import * as CloudflareApi from "../index.js";
 
 /**
- * For HTTP 401 responses, use one of these error shapes. Cloudflare's API layer rejects requests with missing or invalid credentials before they reach the Abuse Reports API and returns the standard Cloudflare API error envelope. The Abuse Reports API returns its authorization error shape when valid credentials fail the Abuse Reports permission check or the submission entitlement check.
+ * For HTTP 401 responses, use one of these error shapes. Cloudflare's API layer rejects requests with missing or invalid credentials before they reach the Abuse Reports API and returns the standard Cloudflare API error envelope. The Abuse Reports API returns its authorization error shape when valid credentials fail the Trust and Safety permission check or the submission entitlement check.
  */
 export type AbuseReportsUnauthorizedErrorResponse =
     | CloudflareApi.AbuseReportsCloudflareApiErrorResponse

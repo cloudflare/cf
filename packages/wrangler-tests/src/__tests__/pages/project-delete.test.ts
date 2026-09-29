@@ -25,7 +25,7 @@ describe("pages project delete", () => {
 		);
 
 		// cf calls Wrangler's --yes-equivalent confirmation bypass --force.
-		await runWrangler("pages projects delete example-project --force");
+		await runWrangler("pages delete example-project --force");
 		expect(requests).toBe(1);
 	});
 });

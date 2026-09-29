@@ -195,8 +195,9 @@ export class TrustedDomainsClient {
     }
 
     /**
-     * Executes multiple operations atomically. All four operation arrays
-     * (deletes, patches, puts, posts) are required and executed in order.
+     * Executes multiple trusted domain operations atomically: delete, partially update,
+     * replace, and create trusted domain patterns in a single request. All four operation
+     * arrays (deletes, patches, puts, posts) are required and executed in order.
      * Send empty arrays for unused operations.
      *
      * @param {CloudflareApi.emailSecurity.BatchTrustedDomainsRequest} request

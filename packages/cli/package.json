@@ -61,6 +61,7 @@
 		"generate": "tsx generate.ts",
 		"dev": "tsx src/dev.ts",
 		"build": "tsdown",
+		"build:test": "tsdown --config tsdown.test.config.ts",
 		"check:type": "tsgo --noEmit",
 		"test": "vitest run",
 		"test:watch": "vitest"
@@ -100,7 +101,7 @@
 		"shell-quote": "^1.8.1",
 		"tsdown": "^0.21.0",
 		"tsx": "4.21.0",
-		"undici": "7.29.0",
+		"undici": "7.29.1",
 		"vitest": "4.1.0",
 		"yargs": "18.0.0",
 		"zod": "4.4.3"

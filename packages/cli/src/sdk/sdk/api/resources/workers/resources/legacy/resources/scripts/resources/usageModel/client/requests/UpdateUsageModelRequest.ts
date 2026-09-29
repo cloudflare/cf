@@ -12,7 +12,7 @@ import * as CloudflareApi from "../../../../../../../../../../index.js";
 export interface UpdateUsageModelRequest {
     /** Identifier. */
     account_id: string;
-    /** Name of the script, used in URLs and route configuration. */
+    /** Name of the script. */
     script_name: string;
     usage_model?: CloudflareApi.WorkersUsageModel;
     user_limits?: CloudflareApi.WorkersUserLimits | null;

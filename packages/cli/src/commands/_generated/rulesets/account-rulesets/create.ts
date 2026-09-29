@@ -10,10 +10,6 @@ import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
-import {
-	promptForRequiredEnumField,
-	promptForRequiredField,
-} from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
@@ -197,51 +193,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"The human-readable name of the ruleset."
-					);
-				}
-				if (argv["kind"] === undefined) {
-					argv["kind"] = await promptForRequiredEnumField(
-						"kind",
-						"The kind of the ruleset.",
-						["managed", "custom", "root", "zone"] as const
-					);
-				}
-				if (argv["phase"] === undefined) {
-					argv["phase"] = await promptForRequiredEnumField(
-						"phase",
-						"The phase of the ruleset.",
-						[
-							"ddos_l4",
-							"ddos_l7",
-							"http_config_settings",
-							"http_custom_errors",
-							"http_log_custom_fields",
-							"http_ratelimit",
-							"http_request_cache_settings",
-							"http_request_dynamic_redirect",
-							"http_request_firewall_custom",
-							"http_request_firewall_managed",
-							"http_request_late_transform",
-							"http_request_origin",
-							"http_request_redirect",
-							"http_request_sanitize",
-							"http_request_sbfm",
-							"http_request_transform",
-							"http_response_cache_settings",
-							"http_response_compression",
-							"http_response_firewall_managed",
-							"http_response_headers_transform",
-							"magic_transit",
-							"magic_transit_ids_managed",
-							"magic_transit_managed",
-							"magic_transit_ratelimit",
-						] as const
-					);
 				}
 
 				// Assemble request body from individual flags

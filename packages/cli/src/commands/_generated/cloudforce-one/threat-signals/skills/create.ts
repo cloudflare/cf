@@ -26,7 +26,7 @@ import type { Argv, CommandModule } from "yargs";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one threat-signals skills create\n\nCreate Threat Signals skill."
+			"$0 cloudforce-one threat-signals skills create\n\nCreates a custom AI skill for the account."
 		)
 		.option("name", { type: "string", description: "The name field" })
 		.option("output-schema", {

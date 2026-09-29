@@ -37,7 +37,9 @@ export class ReportsClient {
      *         start: "2020-08-01T00:00:00Z",
      *         end: "2020-09-01T00:00:00Z",
      *         from_date: "2020-08-01",
-     *         to_date: "2020-09-01"
+     *         to_date: "2020-09-01",
+     *         page: 1,
+     *         per_page: 20
      *     })
      */
     public list(
@@ -51,12 +53,22 @@ export class ReportsClient {
         request: CloudflareApi.emailSecurity.phishguard.ListReportsRequest,
         requestOptions?: ReportsClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.emailSecurity.phishguard.ListReportsResponse>> {
-        const { account_id: accountId, start, end, from_date: fromDate, to_date: toDate } = request;
+        const {
+            account_id: accountId,
+            start,
+            end,
+            from_date: fromDate,
+            to_date: toDate,
+            page,
+            per_page: perPage,
+        } = request;
         const _queryParams: Record<string, unknown> = {
             start: start != null ? start : undefined,
             end: end != null ? end : undefined,
             from_date: fromDate != null ? fromDate : undefined,
             to_date: toDate != null ? toDate : undefined,
+            page,
+            per_page: perPage,
         };
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(

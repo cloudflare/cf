@@ -19,22 +19,13 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./abuse-reports/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
 			"access",
 			"Access protected applications and services",
 			() => import("./access/index.js"),
-			null
-		),
-		hideCommand: false,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
-			"account",
-			"account",
-			() => import("./account/index.js"),
 			null
 		),
 		hideCommand: false,
@@ -209,6 +200,15 @@ export const generatedCommands: GeneratedCommand[] = [
 			null
 		),
 		hideCommand: true,
+	},
+	{
+		command: lazyCommand<CommonYargsOptions>(
+			"basin-catalog",
+			"Iceberg-compatible data catalog for R2 — organize objects into tables and namespaces for SQL query engines",
+			() => import("./basin-catalog/index.js"),
+			null
+		),
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -1000,7 +1000,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./pages/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -1072,7 +1072,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./r2-data-catalog/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -1194,11 +1194,11 @@ export const generatedCommands: GeneratedCommand[] = [
 	{
 		command: lazyCommand<CommonYargsOptions>(
 			"rules",
-			"Account-level IP lists, hostname lists, and other reusable lists referenced by Rulesets rules",
+			"Resources used by Cloudflare rules and rulesets",
 			() => import("./rules/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -1265,9 +1265,9 @@ export const generatedCommands: GeneratedCommand[] = [
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
-			"security-center",
-			"Security posture dashboard — view and manage security insights, misconfigurations, and vulnerabilities",
-			() => import("./security-center/index.js"),
+			"security-insights",
+			"security-insights",
+			() => import("./security-insights/index.js"),
 			null
 		),
 		hideCommand: false,
@@ -1279,7 +1279,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./security-txt/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(

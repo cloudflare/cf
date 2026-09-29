@@ -31,6 +31,7 @@ export namespace PagesStage {
         Active: "active",
         Failure: "failure",
         Canceled: "canceled",
+        Skipped: "skipped",
     } as const;
     export type Status = (typeof Status)[keyof typeof Status];
 }

@@ -195,6 +195,7 @@ export class DatasetsClient {
      * @param {DatasetsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link CloudflareApi.NotFoundError}
      *
      * @example
      *     await client.cloudforceOne.threatEvents.datasets.get({
@@ -247,6 +248,8 @@ export class DatasetsClient {
             switch (_response.error.statusCode) {
                 case 400:
                     throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 404:
+                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,

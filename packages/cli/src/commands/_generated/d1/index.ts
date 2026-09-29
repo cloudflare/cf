@@ -2,9 +2,7 @@ import $migrations from "#commands/d1/migrations/index.js";
 import $create from "./create.js";
 import $delete from "./delete.js";
 import $edit from "./edit.js";
-import $export from "./export.js";
 import $get from "./get.js";
-import $import from "./import.js";
 import $list from "./list.js";
 import $query from "./query.js";
 import $raw from "./raw.js";
@@ -27,9 +25,7 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($create)
 			.command($delete)
 			.command($edit)
-			.command($export)
 			.command($get)
-			.command($import)
 			.command($list)
 			.command($query)
 			.command($raw)

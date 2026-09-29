@@ -69,6 +69,7 @@ describe("cf ai run", () => {
 	let schemaRequests: string[];
 	let schemaAuthorization: string | null;
 	let runBodies: unknown[];
+	let runModels: unknown[];
 	let runUrls: string[];
 
 	beforeEach(() => {
@@ -76,6 +77,7 @@ describe("cf ai run", () => {
 		schemaRequests = [];
 		schemaAuthorization = null;
 		runBodies = [];
+		runModels = [];
 		runUrls = [];
 		promptMocks.enabled = false;
 		promptMocks.requiredEnum.mockReset();
@@ -106,9 +108,14 @@ describe("cf ai run", () => {
 
 	/** Inference endpoint, recording each request body. */
 	function runHandler() {
-		return http.post(/\/ai\/run\//, async ({ request }) => {
+		return http.post(/\/ai\/run$/, async ({ request }) => {
 			runUrls.push(request.url);
-			runBodies.push(await request.json());
+			const body = (await request.json()) as {
+				model?: unknown;
+				input?: unknown;
+			};
+			runModels.push(body.model);
+			runBodies.push(body.input);
 			return HttpResponse.json({
 				success: true,
 				errors: [],
@@ -119,7 +126,7 @@ describe("cf ai run", () => {
 
 	function rawRunHandler(bytes: Uint8Array) {
 		return http.post(
-			/\/ai\/run\//,
+			/\/ai\/run$/,
 			() =>
 				new HttpResponse(bytes, {
 					headers: { "content-type": "audio/wav" },
@@ -144,10 +151,9 @@ describe("cf ai run", () => {
 
 		expect(exitCode).toBe(0);
 		expect(schemaRequests).toEqual([MODEL]);
+		expect(runModels).toEqual([MODEL]);
 		expect(runBodies).toEqual([{ prompt: "hello", max_tokens: 64 }]);
-		expect(new URL(runUrls[0] ?? TEST_BASE_URL).pathname).toMatch(
-			/\/ai\/run\/%40cf\/test\/tiny$/
-		);
+		expect(new URL(runUrls[0] ?? TEST_BASE_URL).pathname).toMatch(/\/ai\/run$/);
 		expect(stdout()).toContain("hi");
 	});
 
@@ -768,7 +774,9 @@ describe("cf ai run", () => {
 
 		expect(exitCode).toBe(0);
 		expect(stdout()).toContain('"prompt": "hi"');
-		expect(stdout()).toContain("/ai/run/");
+		expect(stdout()).toContain("/ai/run");
+		expect(stdout()).toContain(`"model": "${MODEL}"`);
+		expect(stdout()).toContain('"input"');
 
 		await expect(run(MODEL, "--max-tokens", "64", "--dry-run")).rejects.toThrow(
 			/--prompt is required/
@@ -922,7 +930,7 @@ describe("cf ai run", () => {
 
 /**
  * Drift guard: this command is hand-written, so a change to
- * `/ai/run/{model_name}` no longer regenerates it. Compares its
+ * `/ai/run` no longer regenerates it. Compares its
  * assumptions against the generated `_meta/*.json`, which does track the
  * spec — if this fails, the command needs updating.
  */
@@ -942,22 +950,21 @@ describe("cf ai run — spec drift guard", () => {
 				path: string;
 				pathParams: { name: string; required: boolean }[];
 				hasRequestBody: boolean;
+				requestBodyFields: { name: string; required: boolean }[];
 			}
 		>;
 	}>("../../commands/_generated/_meta/schemas.json").schemas;
-	const spec = schemas["ai run-model"];
+	const spec = schemas["ai run"];
 
-	it("still targets POST /accounts/{account_id}/ai/run/{model_name}", () => {
+	it("still targets POST /accounts/{account_id}/ai/run", () => {
 		expect(spec).toBeDefined();
 		expect(spec?.httpMethod).toBe("POST");
-		expect(spec?.path).toBe("/accounts/{account_id}/ai/run/{model_name}");
-		expect(spec?.operationId).toBe("workers-ai-post-run-model");
+		expect(spec?.path).toBe("/accounts/{account_id}/ai/run");
+		expect(spec?.operationId).toBe("workers-ai-post-run-generic");
 		expect(spec?.hasRequestBody).toBe(true);
-		// The yargs positional is optional so `cf ai run --help` can be
-		// answered rather than rejected; the handler enforces requiredness.
-		expect(
-			spec?.pathParams.find((p) => p.name === "model_name")?.required
-		).toBe(true);
+		expect(spec?.requestBodyFields).toContainEqual(
+			expect.objectContaining({ name: "model", required: true })
+		);
 	});
 
 	it("publishes the hand-written metadata, merged over the spec", () => {

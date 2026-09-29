@@ -29,7 +29,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"$0 email-security block-senders create\n\nCreates a new blocked sender pattern. Emails matching this pattern will be blocked from delivery. Patterns can be email addresses, domains, or IP addresses, and support regular expressions."
 		)
 		.option("comments", { type: "string", description: "The comments field" })
-		.option("is-regex", { type: "boolean", description: "The is_regex field" })
+		.option("is-regex", {
+			type: "boolean",
+			description:
+				"Whether `pattern` is a regular expression instead of a literal value.",
+		})
 		.option("pattern", {
 			type: "string",
 			description:

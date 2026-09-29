@@ -36,10 +36,157 @@ export class CacheClient {
     }
 
     /**
-     * Purge cached content scoped to a specific environment. Supports the same purge types as the zone-level endpoint (purge everything, by URL, by tag, host, or prefix).
+     * Marks cached content as stale for one environment of the zone. Content cached for the zone's other environments, including production, is not affected. Otherwise this works like `POST /zones/{zone_id}/invalidate_cache`: the next request for invalidated content makes Cloudflare revalidate it with your origin, and the request body takes the same fields.
+     *
+     * Environments are part of [Version Management](https://developers.cloudflare.com/version-management/). To delete the content instead, use `POST /zones/{zone_id}/environments/{environment_id}/purge_cache`.
+     *
+     * Invalidating by URL (`files`) does not work for environments that select requests by IP address, country, ASN, or threat score, and fails with error `1136`. Use `tags`, `hosts`, `prefixes`, or `purge_everything` for those environments.
      *
      * ### Availability and limits
-     * Please refer to [purge cache availability and limits documentation page](https://developers.cloudflare.com/cache/how-to/purge-cache/#availability-and-limits).
+     *
+     * Rate limits and the number of items you can send in one request depend on your plan. See [Purge cache: availability and limits](https://developers.cloudflare.com/cache/how-to/purge-cache/#availability-and-limits).
+     *
+     * @param {CloudflareApi.InvalidateEnvironmentCacheRequest} request
+     * @param {CacheClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @example
+     *     await client.cache.invalidateEnvironment({
+     *         zone_id: "zone_id",
+     *         environment_id: "environment_id",
+     *         body: {
+     *             tags: ["product-1234", "homepage"]
+     *         }
+     *     })
+     *
+     * @example
+     *     await client.cache.invalidateEnvironment({
+     *         zone_id: "zone_id",
+     *         environment_id: "environment_id",
+     *         body: {
+     *             purge_everything: true
+     *         }
+     *     })
+     *
+     * @example
+     *     await client.cache.invalidateEnvironment({
+     *         zone_id: "zone_id",
+     *         environment_id: "environment_id",
+     *         body: {
+     *             hosts: ["www.example.com", "images.example.com"]
+     *         }
+     *     })
+     *
+     * @example
+     *     await client.cache.invalidateEnvironment({
+     *         zone_id: "zone_id",
+     *         environment_id: "environment_id",
+     *         body: {
+     *             prefixes: ["www.example.com/blog/", "images.example.com/avatars/"]
+     *         }
+     *     })
+     *
+     * @example
+     *     await client.cache.invalidateEnvironment({
+     *         zone_id: "zone_id",
+     *         environment_id: "environment_id",
+     *         body: {
+     *             files: ["https://www.example.com/css/styles.css", "https://www.example.com/js/index.js"]
+     *         }
+     *     })
+     *
+     * @example
+     *     await client.cache.invalidateEnvironment({
+     *         zone_id: "zone_id",
+     *         environment_id: "environment_id",
+     *         body: {
+     *             files: [{
+     *                     headers: {
+     *                         "Accept-Language": "zh-CN",
+     *                         "CF-Device-Type": "desktop",
+     *                         "CF-IPCountry": "US"
+     *                     },
+     *                     url: "https://www.example.com/cat_picture.jpg"
+     *                 }, {
+     *                     headers: {
+     *                         "Accept-Language": "en-US",
+     *                         "CF-Device-Type": "mobile",
+     *                         "CF-IPCountry": "DE"
+     *                     },
+     *                     url: "https://www.example.com/dog_picture.jpg"
+     *                 }]
+     *         }
+     *     })
+     */
+    public invalidateEnvironment(
+        request: CloudflareApi.InvalidateEnvironmentCacheRequest,
+        requestOptions?: CacheClient.RequestOptions,
+    ): core.HttpResponsePromise<CloudflareApi.CachePurgeApiResponseSingleIdResult | null> {
+        return core.HttpResponsePromise.fromPromise(this.__invalidateEnvironment(request, requestOptions));
+    }
+
+    private async __invalidateEnvironment(
+        request: CloudflareApi.InvalidateEnvironmentCacheRequest,
+        requestOptions?: CacheClient.RequestOptions,
+    ): Promise<core.WithRawResponse<CloudflareApi.CachePurgeApiResponseSingleIdResult | null>> {
+        const { zone_id: zoneId, environment_id: environmentId, body: _body } = request;
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.CloudflareApiEnvironment.Default,
+                `zones/${core.url.encodePathParam(zoneId)}/environments/${core.url.encodePathParam(environmentId)}/invalidate_cache`,
+            ),
+            method: "POST",
+            headers: _headers,
+            contentType: "application/json",
+            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
+            requestType: "json",
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return {
+                data: _response.body as CloudflareApi.CachePurgeApiResponseSingleIdResult | null,
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            throw new errors.CloudflareApiError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
+        }
+
+        return handleNonStatusCodeError(
+            _response.error,
+            _response.rawResponse,
+            "POST",
+            "/zones/{zone_id}/environments/{environment_id}/invalidate_cache",
+        );
+    }
+
+    /**
+     * Deletes cached content for one environment of the zone. Content cached for the zone's other environments, including production, is not affected. Otherwise this works like `POST /zones/{zone_id}/purge_cache`: the next request for purged content is a cache `MISS`, and the request body takes the same fields.
+     *
+     * Environments are part of [Version Management](https://developers.cloudflare.com/version-management/). To keep content cached and have Cloudflare revalidate it instead, use `POST /zones/{zone_id}/environments/{environment_id}/invalidate_cache`.
+     *
+     * Purging by URL (`files`) does not work for environments that select requests by IP address, country, ASN, or threat score, and fails with error `1136`. Use `tags`, `hosts`, `prefixes`, or `purge_everything` for those environments.
+     *
+     * ### Availability and limits
+     *
+     * Rate limits and the number of items you can send in one request depend on your plan. See [Purge cache: availability and limits](https://developers.cloudflare.com/cache/how-to/purge-cache/#availability-and-limits).
      *
      * @param {CloudflareApi.PurgeEnvironmentCacheRequest} request
      * @param {CacheClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -49,25 +196,7 @@ export class CacheClient {
      *         zone_id: "zone_id",
      *         environment_id: "environment_id",
      *         body: {
-     *             hosts: ["www.example.com", "images.example.com"]
-     *         }
-     *     })
-     *
-     * @example
-     *     await client.cache.purgeEnvironment({
-     *         zone_id: "zone_id",
-     *         environment_id: "environment_id",
-     *         body: {
-     *             prefixes: ["www.example.com/foo", "images.example.com/bar/baz"]
-     *         }
-     *     })
-     *
-     * @example
-     *     await client.cache.purgeEnvironment({
-     *         zone_id: "zone_id",
-     *         environment_id: "environment_id",
-     *         body: {
-     *             tags: ["a-cache-tag", "another-cache-tag"]
+     *             tags: ["product-1234", "homepage"]
      *         }
      *     })
      *
@@ -85,7 +214,25 @@ export class CacheClient {
      *         zone_id: "zone_id",
      *         environment_id: "environment_id",
      *         body: {
-     *             files: ["http://www.example.com/css/styles.css", "http://www.example.com/js/index.js"]
+     *             hosts: ["www.example.com", "images.example.com"]
+     *         }
+     *     })
+     *
+     * @example
+     *     await client.cache.purgeEnvironment({
+     *         zone_id: "zone_id",
+     *         environment_id: "environment_id",
+     *         body: {
+     *             prefixes: ["www.example.com/blog/", "images.example.com/avatars/"]
+     *         }
+     *     })
+     *
+     * @example
+     *     await client.cache.purgeEnvironment({
+     *         zone_id: "zone_id",
+     *         environment_id: "environment_id",
+     *         body: {
+     *             files: ["https://www.example.com/css/styles.css", "https://www.example.com/js/index.js"]
      *         }
      *     })
      *
@@ -100,14 +247,14 @@ export class CacheClient {
      *                         "CF-Device-Type": "desktop",
      *                         "CF-IPCountry": "US"
      *                     },
-     *                     url: "http://www.example.com/cat_picture.jpg"
+     *                     url: "https://www.example.com/cat_picture.jpg"
      *                 }, {
      *                     headers: {
      *                         "Accept-Language": "en-US",
      *                         "CF-Device-Type": "mobile",
-     *                         "CF-IPCountry": "EU"
+     *                         "CF-IPCountry": "DE"
      *                     },
-     *                     url: "http://www.example.com/dog_picture.jpg"
+     *                     url: "https://www.example.com/dog_picture.jpg"
      *                 }]
      *         }
      *     })
@@ -173,46 +320,187 @@ export class CacheClient {
     }
 
     /**
-     * ### Purge All Cached Content
-     * Removes ALL files from Cloudflare's cache. All tiers can purge everything.
-     * ```
-     * {"purge_everything": true}
-     * ```
+     * Marks cached content as stale in every Cloudflare data center and cache tier, including Cache Reserve. The content stays in cache. The next request for it makes Cloudflare revalidate it with your origin, using the `ETag` and `Last-Modified` values it was cached with:
      *
-     * ### Purge Cached Content by URL
-     * Granularly removes one or more files from Cloudflare's cache by specifying URLs. All tiers can purge by URL.
+     * - If your origin answers `304 Not Modified`, Cloudflare serves the cached copy without downloading it again, and `CF-Cache-Status` is `REVALIDATED`.
+     * - If your origin sends a full response, Cloudflare serves and caches the new content, and `CF-Cache-Status` is `EXPIRED`.
      *
-     * To purge files with custom cache keys, include the headers used to compute the cache key as in the example. If you have a device type or geo in your cache key, you will need to include the CF-Device-Type or CF-IPCountry headers. If you have lang in your cache key, you will need to include the Accept-Language header.
+     * With Tiered Cache, each tier revalidates with the tier above it, so a visitor can see `EXPIRED` even when your origin answered `304`.
      *
-     * **NB:** When including the Origin header, be sure to include the **scheme** and **hostname**. The port number can be omitted if it is the default port (80 for http, 443 for https), but must be included otherwise.
+     * Until content is revalidated, your `stale-while-revalidate` and `stale-if-error` directives still apply, counted from the time you invalidated it. For example, if your origin fails during revalidation, Cloudflare can keep serving the stale copy for the `stale-if-error` window.
      *
-     * Single file purge example with files:
-     * ```
-     * {"files": ["http://www.example.com/css/styles.css", "http://www.example.com/js/index.js"]}
-     * ```
-     * Single file purge example with url and header pairs:
-     * ```
-     * {"files": [{"url": "http://www.example.com/cat_picture.jpg", "headers": {"CF-IPCountry": "US", "CF-Device-Type": "desktop", "Accept-Language": "zh-CN"}}, {"url": "http://www.example.com/dog_picture.jpg", "headers": {"CF-IPCountry": "EU", "CF-Device-Type": "mobile", "Accept-Language": "en-US"}}]}
-     * ```
+     * ### Invalidate or purge?
      *
-     * ### Purge Cached Content by Tag, Host or Prefix
-     * Granularly removes one or more files from Cloudflare's cache either by specifying the host, the associated Cache-Tag, or a Prefix.
+     * - **Invalidate** when content may not have changed, for example after a deploy. Unchanged content costs your origin a `304` instead of a full response. That saving needs an origin that sends `ETag` or `Last-Modified` and answers conditional requests. Otherwise, every revalidation downloads the full response.
+     * - **Purge**, with `POST /zones/{zone_id}/purge_cache`, when content must not be served again, for example content you removed for legal or security reasons.
      *
-     * Flex purge with tags:
-     * ```
-     * {"tags": ["a-cache-tag", "another-cache-tag"]}
-     * ```
-     * Flex purge with hosts:
-     * ```
-     * {"hosts": ["www.example.com", "images.example.com"]}
-     * ```
-     * Flex purge with prefixes:
-     * ```
-     * {"prefixes": ["www.example.com/foo", "images.example.com/bar/baz"]}
-     * ```
+     * Invalidating takes the same request bodies as purging, needs the same permission, and counts against the same rate limits. After a broad invalidation, such as `purge_everything`, expect more conditional requests to your origin while visitors request the invalidated content again.
+     *
+     * ### Choose what to invalidate
+     *
+     * Send one of these fields in the request body:
+     *
+     * - `files`: specific URLs. If your cache key includes request headers, send each URL with the header values it was cached with.
+     * - `tags`: all content whose `Cache-Tag` response header contains one of the tags.
+     * - `hosts`: all content cached for the hostnames.
+     * - `prefixes`: all content whose URL starts with one of the prefixes.
+     * - `purge_everything`: all cached content in the zone.
+     *
+     * ### Check the result
+     *
+     * A `200` response with `success: true` means Cloudflare accepted the request. To check, request an invalidated URL and confirm that the `CF-Cache-Status` response header is `REVALIDATED` or `EXPIRED`.
      *
      * ### Availability and limits
-     * Please refer to [purge cache availability and limits documentation page](https://developers.cloudflare.com/cache/how-to/purge-cache/#availability-and-limits).
+     *
+     * Rate limits and the number of items you can send in one request depend on your plan. See [Purge cache: availability and limits](https://developers.cloudflare.com/cache/how-to/purge-cache/#availability-and-limits).
+     *
+     * @param {CloudflareApi.InvalidateCacheRequest} request
+     * @param {CacheClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @example
+     *     await client.cache.invalidate({
+     *         zone_id: "zone_id",
+     *         body: {
+     *             tags: ["product-1234", "homepage"]
+     *         }
+     *     })
+     *
+     * @example
+     *     await client.cache.invalidate({
+     *         zone_id: "zone_id",
+     *         body: {
+     *             purge_everything: true
+     *         }
+     *     })
+     *
+     * @example
+     *     await client.cache.invalidate({
+     *         zone_id: "zone_id",
+     *         body: {
+     *             hosts: ["www.example.com", "images.example.com"]
+     *         }
+     *     })
+     *
+     * @example
+     *     await client.cache.invalidate({
+     *         zone_id: "zone_id",
+     *         body: {
+     *             prefixes: ["www.example.com/blog/", "images.example.com/avatars/"]
+     *         }
+     *     })
+     *
+     * @example
+     *     await client.cache.invalidate({
+     *         zone_id: "zone_id",
+     *         body: {
+     *             files: ["https://www.example.com/css/styles.css", "https://www.example.com/js/index.js"]
+     *         }
+     *     })
+     *
+     * @example
+     *     await client.cache.invalidate({
+     *         zone_id: "zone_id",
+     *         body: {
+     *             files: [{
+     *                     headers: {
+     *                         "Accept-Language": "zh-CN",
+     *                         "CF-Device-Type": "desktop",
+     *                         "CF-IPCountry": "US"
+     *                     },
+     *                     url: "https://www.example.com/cat_picture.jpg"
+     *                 }, {
+     *                     headers: {
+     *                         "Accept-Language": "en-US",
+     *                         "CF-Device-Type": "mobile",
+     *                         "CF-IPCountry": "DE"
+     *                     },
+     *                     url: "https://www.example.com/dog_picture.jpg"
+     *                 }]
+     *         }
+     *     })
+     */
+    public invalidate(
+        request: CloudflareApi.InvalidateCacheRequest,
+        requestOptions?: CacheClient.RequestOptions,
+    ): core.HttpResponsePromise<CloudflareApi.CachePurgeApiResponseSingleIdResult | null> {
+        return core.HttpResponsePromise.fromPromise(this.__invalidate(request, requestOptions));
+    }
+
+    private async __invalidate(
+        request: CloudflareApi.InvalidateCacheRequest,
+        requestOptions?: CacheClient.RequestOptions,
+    ): Promise<core.WithRawResponse<CloudflareApi.CachePurgeApiResponseSingleIdResult | null>> {
+        const { zone_id: zoneId, body: _body } = request;
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.CloudflareApiEnvironment.Default,
+                `zones/${core.url.encodePathParam(zoneId)}/invalidate_cache`,
+            ),
+            method: "POST",
+            headers: _headers,
+            contentType: "application/json",
+            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
+            requestType: "json",
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return {
+                data: _response.body as CloudflareApi.CachePurgeApiResponseSingleIdResult | null,
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            throw new errors.CloudflareApiError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
+        }
+
+        return handleNonStatusCodeError(
+            _response.error,
+            _response.rawResponse,
+            "POST",
+            "/zones/{zone_id}/invalidate_cache",
+        );
+    }
+
+    /**
+     * Deletes cached content in every Cloudflare data center and cache tier, including Cache Reserve. The next request for purged content is a cache `MISS`: Cloudflare fetches the full response from your origin and caches it again. Cloudflare does not serve purged content from cache again, even if your origin is unavailable.
+     *
+     * To keep content cached and have Cloudflare revalidate it with your origin instead, use `POST /zones/{zone_id}/invalidate_cache`.
+     *
+     * ### Choose what to purge
+     *
+     * Send one of these fields in the request body:
+     *
+     * - `files`: specific URLs. If your cache key includes request headers, send each URL with the header values it was cached with.
+     * - `tags`: all content whose `Cache-Tag` response header contains one of the tags.
+     * - `hosts`: all content cached for the hostnames.
+     * - `prefixes`: all content whose URL starts with one of the prefixes.
+     * - `purge_everything`: all cached content in the zone.
+     *
+     * ### Check the result
+     *
+     * A `200` response with `success: true` means Cloudflare accepted the request. It does not confirm that any content was cached or removed. To check, request a purged URL and confirm that the `CF-Cache-Status` response header is `MISS`.
+     *
+     * ### Availability and limits
+     *
+     * Rate limits and the number of items you can send in one request depend on your plan. See [Purge cache: availability and limits](https://developers.cloudflare.com/cache/how-to/purge-cache/#availability-and-limits).
      *
      * @param {CloudflareApi.PurgeCacheRequest} request
      * @param {CacheClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -221,23 +509,7 @@ export class CacheClient {
      *     await client.cache.purge({
      *         zone_id: "zone_id",
      *         body: {
-     *             hosts: ["www.example.com", "images.example.com"]
-     *         }
-     *     })
-     *
-     * @example
-     *     await client.cache.purge({
-     *         zone_id: "zone_id",
-     *         body: {
-     *             prefixes: ["www.example.com/foo", "images.example.com/bar/baz"]
-     *         }
-     *     })
-     *
-     * @example
-     *     await client.cache.purge({
-     *         zone_id: "zone_id",
-     *         body: {
-     *             tags: ["a-cache-tag", "another-cache-tag"]
+     *             tags: ["product-1234", "homepage"]
      *         }
      *     })
      *
@@ -253,7 +525,23 @@ export class CacheClient {
      *     await client.cache.purge({
      *         zone_id: "zone_id",
      *         body: {
-     *             files: ["http://www.example.com/css/styles.css", "http://www.example.com/js/index.js"]
+     *             hosts: ["www.example.com", "images.example.com"]
+     *         }
+     *     })
+     *
+     * @example
+     *     await client.cache.purge({
+     *         zone_id: "zone_id",
+     *         body: {
+     *             prefixes: ["www.example.com/blog/", "images.example.com/avatars/"]
+     *         }
+     *     })
+     *
+     * @example
+     *     await client.cache.purge({
+     *         zone_id: "zone_id",
+     *         body: {
+     *             files: ["https://www.example.com/css/styles.css", "https://www.example.com/js/index.js"]
      *         }
      *     })
      *
@@ -267,14 +555,14 @@ export class CacheClient {
      *                         "CF-Device-Type": "desktop",
      *                         "CF-IPCountry": "US"
      *                     },
-     *                     url: "http://www.example.com/cat_picture.jpg"
+     *                     url: "https://www.example.com/cat_picture.jpg"
      *                 }, {
      *                     headers: {
      *                         "Accept-Language": "en-US",
      *                         "CF-Device-Type": "mobile",
-     *                         "CF-IPCountry": "EU"
+     *                         "CF-IPCountry": "DE"
      *                     },
-     *                     url: "http://www.example.com/dog_picture.jpg"
+     *                     url: "https://www.example.com/dog_picture.jpg"
      *                 }]
      *         }
      *     })

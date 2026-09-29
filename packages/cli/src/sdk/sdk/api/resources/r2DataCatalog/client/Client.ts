@@ -41,6 +41,8 @@ export class R2DataCatalogClient {
     }
 
     /**
+     * @deprecated
+     *
      * Returns a list of R2 buckets that have been enabled as Apache Iceberg catalogs
      * for the specified account. Each catalog represents an R2 bucket configured
      * to store Iceberg metadata and data files.
@@ -127,6 +129,8 @@ export class R2DataCatalogClient {
     }
 
     /**
+     * @deprecated
+     *
      * Retrieve detailed information about a specific R2 catalog by bucket name.
      * Returns catalog status, maintenance configuration, and credential status.
      *
@@ -213,6 +217,8 @@ export class R2DataCatalogClient {
     }
 
     /**
+     * @deprecated
+     *
      * Removes the catalog from the control plane without deleting R2 bucket objects.
      * Set force=true to remove catalog namespaces, tables, views, and maintenance
      * metadata. Force deletion is limited to a configured catalog object count.
@@ -307,6 +313,8 @@ export class R2DataCatalogClient {
     }
 
     /**
+     * @deprecated
+     *
      * Disable an R2 bucket as a catalog. This operation deactivates the catalog
      * but preserves existing metadata and data files. The catalog can be
      * re-enabled later.
@@ -394,6 +402,8 @@ export class R2DataCatalogClient {
     }
 
     /**
+     * @deprecated
+     *
      * Enable an R2 bucket as an Apache Iceberg catalog. This operation creates
      * the necessary catalog infrastructure and activates the bucket for storing
      * Iceberg metadata and data files.

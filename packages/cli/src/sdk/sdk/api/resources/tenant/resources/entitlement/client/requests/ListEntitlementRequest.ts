@@ -7,5 +7,6 @@
  *     }
  */
 export interface ListEntitlementRequest {
+    /** The ID of the tenant whose entitlement allocations to retrieve. */
     tenant_id: string;
 }

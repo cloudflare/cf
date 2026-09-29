@@ -26,7 +26,7 @@ export class IndicatorsClient {
     }
 
     /**
-     * List Threat Signals article indicators.
+     * Lists indicators of compromise extracted from the account's Threat Signals articles.
      *
      * @param {CloudflareApi.cloudforceOne.threatSignals.ListIndicatorsRequest} request
      * @param {IndicatorsClient.RequestOptions} requestOptions - Request-specific configuration.

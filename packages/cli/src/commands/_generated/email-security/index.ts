@@ -1,6 +1,7 @@
 import $allowpolicies from "./allow-policies/index.js";
 import $analytics from "./analytics/index.js";
 import $blocksenders from "./block-senders/index.js";
+import $bulkactions from "./bulk-actions/index.js";
 import $contentpolicies from "./content-policies/index.js";
 import $domains from "./domains/index.js";
 import $impersonationregistry from "./impersonation-registry/index.js";
@@ -27,6 +28,7 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($allowpolicies)
 			.command($analytics)
 			.command($blocksenders)
+			.command($bulkactions)
 			.command($contentpolicies)
 			.command($domains)
 			.command($impersonationregistry)

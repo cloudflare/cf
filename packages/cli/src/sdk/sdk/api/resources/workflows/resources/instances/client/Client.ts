@@ -81,8 +81,8 @@ export class InstancesClient {
             cursor,
             direction,
             status,
-            date_start: dateStart,
-            date_end: dateEnd,
+            date_start: start,
+            date_end: end,
         } = request;
         const _queryParams: Record<string, unknown> = {
             page,
@@ -90,8 +90,8 @@ export class InstancesClient {
             cursor,
             direction: direction != null ? direction : undefined,
             status: status != null ? status : undefined,
-            date_start: dateStart != null ? dateStart : undefined,
-            date_end: dateEnd != null ? dateEnd : undefined,
+            date_start: start != null ? start : undefined,
+            date_end: end != null ? end : undefined,
         };
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(

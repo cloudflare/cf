@@ -35,13 +35,20 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Select to prevent recently registered domains from triggering a Suspicious or Malicious disposition.",
 		})
-		.option("is-regex", { type: "boolean", description: "The is_regex field" })
+		.option("is-regex", {
+			type: "boolean",
+			description:
+				"Whether `pattern` is a regular expression instead of a literal domain.",
+		})
 		.option("is-similarity", {
 			type: "boolean",
 			description:
 				"Select for partner or other approved domains that have similar spelling to your connected domains. Prevents listed domains from triggering a Spoof disposition.",
 		})
-		.option("pattern", { type: "string", description: "The pattern field" })
+		.option("pattern", {
+			type: "string",
+			description: "The domain pattern to trust, e.g. `example.com`.",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

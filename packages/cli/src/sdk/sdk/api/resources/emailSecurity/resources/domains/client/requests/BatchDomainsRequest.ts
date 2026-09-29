@@ -31,9 +31,13 @@ import * as CloudflareApi from "../../../../../../index.js";
 export interface BatchDomainsRequest {
     /** Account identifier tag. */
     account_id: CloudflareApi.EmailSecurityIdentifier;
+    /** IDs of the domains to remove protection from. */
     deletes: BatchDomainsRequest.Deletes.Item[];
+    /** Partial updates to apply — each entry carries the domain's ID and only the fields to change. */
     patches: BatchDomainsRequest.Patches.Item[];
+    /** Domains to add protection for. */
     posts: CloudflareApi.EmailSecurityCreateDomain[];
+    /** Full replacements to apply — each entry carries the domain's ID and every field of its new value. */
     puts: BatchDomainsRequest.Puts.Item[];
 }
 

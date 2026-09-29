@@ -35,6 +35,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "The description field",
 		})
+		.option("ha-mode", {
+			type: "boolean",
+			description:
+				"Site high availability mode. If set to true, the site can have two connectors and runs in high availability mode.",
+		})
 		.option("location-lat", { type: "string", description: "Latitude" })
 		.option("location-lon", { type: "string", description: "Longitude" })
 		.option("name", { type: "string", description: "The name of the site." })
@@ -68,7 +73,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "magic-transit sites edit",
 				classification: {
-					safeFlags: ["dry-run"],
+					safeFlags: ["ha-mode", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -95,6 +100,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"description",
 											"text"
 										),
+										ha_mode: argv["ha-mode"],
 										location: {
 											lat: resolveFileToken(
 												argv["location-lat"] as string | undefined,
@@ -150,6 +156,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"description",
 						"text"
 					),
+					ha_mode: argv["ha-mode"],
 					location: {
 						lat: resolveFileToken(
 							argv["location-lat"] as string | undefined,

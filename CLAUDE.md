@@ -79,8 +79,8 @@ cf/
 │                               # cleanup ownership
 ├── scripts/sync-forge.ts       # re-vendor pipeline (FORGE_REPO=...)
 ├── .github/workflows/          # CI, changesets publish, prerelease, benchmark, review
-├── pnpm-workspace.yaml         # blockExoticSubdeps + allowBuilds
-├── package.json                # scripts/deps + pnpm patchedDependencies
+├── pnpm-workspace.yaml         # blockExoticSubdeps + allowBuilds + patches
+├── package.json                # scripts/deps + pnpm version
 ├── turbo.json                  # task orchestration; remoteCache + signature
 ├── .oxlintrc.jsonc             # type-aware lint via oxlint-tsgolint
 └── .oxfmtrc.jsonc              # tabs, double quotes, printWidth 80
@@ -95,7 +95,7 @@ Aligned with `workers-sdk`:
 - **oxfmt** — formatting (tabs, double quotes, printWidth 80).
 - **oxlint** — linting, type-aware via `oxlint-tsgolint`.
 - **tsgo** (`@typescript/native-preview`) — type checking, no `tsc`.
-- **pnpm 10** with `blockExoticSubdeps` +
+- **pnpm 12** with `blockExoticSubdeps` +
   `allowBuilds: { esbuild: true, workerd: true }`.
 - **tsdown** — ESM bundler (Rolldown-based; replaced `tsup` for faster
   builds). Outputs chunked `dist/*.mjs` so command modules can be
@@ -661,8 +661,8 @@ The Forge packages are not published to npm yet, so
 `packages/cli/package.json` references them via `file:` specifiers.
 `build-output-utils`, `config`, `containers-shared`, `workers-auth`,
 `workers-utils`, and `deploy-helpers` are installed from npm at exact versions.
-Dependency patches are registered under the root `package.json`'s
-`pnpm.patchedDependencies`; workers-auth is not patched.
+Dependency patches are registered in `pnpm-workspace.yaml` under
+`patchedDependencies`; workers-auth is not patched.
 
 To re-vendor **forge**: `pnpm sync:forge` (defaults to
 `FORGE_REPO=../forge`, override to point at any forge checkout). The
@@ -685,7 +685,7 @@ local image cleanup to cf's successful workflow boundary — see "Patched deps".
 
 ## Patched deps
 
-Three dependency patches are registered in `package.json#pnpm.patchedDependencies`:
+Three dependency patches are registered in `pnpm-workspace.yaml#patchedDependencies`:
 
 - `patches/@changesets__cli@2.31.0.patch`
 - `patches/@cloudflare__containers-shared@0.20.3.patch`

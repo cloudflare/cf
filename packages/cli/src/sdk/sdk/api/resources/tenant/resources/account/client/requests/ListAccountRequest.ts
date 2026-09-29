@@ -7,5 +7,6 @@
  *     }
  */
 export interface ListAccountRequest {
+    /** The ID of the tenant whose accounts to list. */
     tenant_id: string;
 }

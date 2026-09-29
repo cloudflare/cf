@@ -29,6 +29,18 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Identifier",
 			demandOption: true,
 		})
+		.option("health-check-rate", {
+			type: "string",
+			description:
+				"Magic WAN health check rate for tunnels created on this link. The default value is `mid`.",
+			choices: ["low", "mid", "high"],
+			default: "mid",
+		})
+		.option("load-balance-inner-flows", {
+			type: "boolean",
+			description: "The load_balance_inner_flows field",
+			default: true,
+		})
 		.option("name", { type: "string", description: "The name field" })
 		.option("physport", { type: "number", description: "The physport field" })
 		.option("priority", { type: "number", description: "The priority field" })
@@ -92,7 +104,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "magic-transit sites wans create",
 				classification: {
-					safeFlags: ["dry-run"],
+					safeFlags: [
+						"health-check-rate",
+						"load-balance-inner-flows",
+						"dry-run",
+					],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -109,6 +125,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
+										health_check_rate: resolveFileToken(
+											argv["health-check-rate"] as string | undefined,
+											"health-check-rate",
+											"text"
+										),
+										load_balance_inner_flows: argv["load-balance-inner-flows"],
 										name: resolveFileToken(
 											argv["name"] as string | undefined,
 											"name",
@@ -166,6 +188,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
+					health_check_rate: resolveFileToken(
+						argv["health-check-rate"] as string | undefined,
+						"health-check-rate",
+						"text"
+					),
+					load_balance_inner_flows: argv["load-balance-inner-flows"],
 					name: resolveFileToken(
 						argv["name"] as string | undefined,
 						"name",

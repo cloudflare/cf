@@ -44,17 +44,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("original-disposition", {
 			type: "string",
-			description: "Original disposition",
+			description: "The disposition a message is submitted to have.",
 			choices: ["MALICIOUS", "SUSPICIOUS", "SPOOF", "SPAM", "BULK", "NONE"],
 		})
 		.option("requested-disposition", {
 			type: "string",
-			description: "Requested disposition",
+			description: "The disposition a message is submitted to have.",
 			choices: ["MALICIOUS", "SUSPICIOUS", "SPOOF", "SPAM", "BULK", "NONE"],
 		})
 		.option("outcome-disposition", {
 			type: "string",
-			description: "Outcome disposition",
+			description: "The disposition a message is submitted to have.",
 			choices: ["MALICIOUS", "SUSPICIOUS", "SPOOF", "SPAM", "BULK", "NONE"],
 		})
 		.option("status", {

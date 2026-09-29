@@ -54,7 +54,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				'JSON string object of metadata filters. Supports two formats: 1) Simple values for exact match (backward compatible): {"status": "open"} 2) Operator objects for advanced filtering: {"identifiers": {"operator": "contains_line", "value": "blah.com"}}. Available operators: \'eq\' (exact match, default), \'contains\' (substring match), \'contains_line\' (match complete line in newline-separated text). Date fields are automatically normalized to YYYY-MM-DD format.',
 		})
-		.option("order-by", { type: "string", description: "OrderBy" })
+		.option("order-by", {
+			type: "string",
+			description:
+				"Sort field. SOC Communications support customer-safe latest_activity ordering.",
+		})
 		.option("order", { type: "string", description: "Order" })
 		.option("dry-run", {
 			type: "boolean",

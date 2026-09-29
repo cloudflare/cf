@@ -30,7 +30,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			demandOption: true,
 		})
 		.option("comments", { type: "string", description: "The comments field" })
-		.option("is-regex", { type: "boolean", description: "The is_regex field" })
+		.option("is-regex", {
+			type: "boolean",
+			description:
+				"Whether `pattern` is a regular expression instead of a literal value.",
+		})
 		.option("pattern", {
 			type: "string",
 			description:

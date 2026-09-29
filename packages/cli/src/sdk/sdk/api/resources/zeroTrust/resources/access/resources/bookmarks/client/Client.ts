@@ -26,6 +26,8 @@ export class BookmarksClient {
     }
 
     /**
+     * @deprecated
+     *
      * Lists Bookmark applications.
      *
      * @param {CloudflareApi.zeroTrust.access.ListBookmarksRequest} request
@@ -94,6 +96,8 @@ export class BookmarksClient {
     }
 
     /**
+     * @deprecated
+     *
      * Fetches a single Bookmark application.
      *
      * @param {CloudflareApi.zeroTrust.access.GetBookmarksRequest} request
@@ -160,6 +164,8 @@ export class BookmarksClient {
     }
 
     /**
+     * @deprecated
+     *
      * Create a new Bookmark application.
      *
      * @param {CloudflareApi.zeroTrust.access.CreateBookmarksRequest} request
@@ -226,6 +232,8 @@ export class BookmarksClient {
     }
 
     /**
+     * @deprecated
+     *
      * Updates a configured Bookmark application.
      *
      * @param {CloudflareApi.zeroTrust.access.UpdateBookmarksRequest} request
@@ -292,6 +300,8 @@ export class BookmarksClient {
     }
 
     /**
+     * @deprecated
+     *
      * Deletes a Bookmark application.
      *
      * @param {CloudflareApi.zeroTrust.access.DeleteBookmarksRequest} request

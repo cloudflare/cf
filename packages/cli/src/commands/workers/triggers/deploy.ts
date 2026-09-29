@@ -22,6 +22,9 @@ import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
+		.hide("local")
+		.hide("persist-to")
+		.epilogue("Local simulation (--local) is not supported by this command.")
 		.option("prebuilt", {
 			type: "boolean",
 			description:
@@ -46,6 +49,12 @@ const triggersDeployCommand: CommandModule<
 	describe: "Apply triggers (Routes, Workflows, Cron triggers etc.)",
 	builder,
 	handler: async (argv) => {
+		if (argv.local) {
+			throw new Error(
+				"--local is not supported by cf workers triggers deploy."
+			);
+		}
+
 		if (!argv.prebuilt) {
 			await runBuild(argv.mode, { worker: argv.worker });
 			clack.log.message("", { spacing: 0 });

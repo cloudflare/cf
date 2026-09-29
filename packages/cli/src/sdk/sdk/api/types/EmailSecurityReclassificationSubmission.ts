@@ -3,7 +3,9 @@
 import * as CloudflareApi from "../index.js";
 
 export interface EmailSecurityReclassificationSubmission {
+    /** Alert ID of the detection to reclassify. */
     alert_id: string;
+    /** Submission ID of the original user submission, when reclassifying an escalated user report. */
     escalated_submission_id?: string | undefined;
     expected_disposition: CloudflareApi.EmailSecuritySubmissionDisposition;
 }

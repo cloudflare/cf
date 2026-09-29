@@ -27,7 +27,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.option("destination", {
 			type: "string",
-			description: "The destination field",
+			description: "The mailbox folder to move messages to.",
 			choices: [
 				"Inbox",
 				"JunkEmail",
@@ -118,7 +118,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv["destination"] === undefined) {
 					argv["destination"] = await promptForRequiredEnumField(
 						"destination",
-						"The destination field",
+						"The mailbox folder to move messages to.",
 						[
 							"Inbox",
 							"JunkEmail",

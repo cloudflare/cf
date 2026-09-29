@@ -14,10 +14,12 @@ import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
-		.usage("$0 tenant get <tenant-id>\n\nRetrieves a Tenant by Tenant ID.")
+		.usage(
+			"$0 tenant get <tenant-id>\n\nRetrieves a tenant's identity, status, metadata, contacts, and organizational units."
+		)
 		.positional("tenant-id", {
 			type: "string",
-			description: "Tenant ID",
+			description: "The ID of the tenant to retrieve.",
 			demandOption: true,
 		})
 		.option("dry-run", {
@@ -33,7 +35,7 @@ type Request = SdkRequest<"Tenants_retrieveTenant">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <tenant-id>",
-	describe: "Get tenant",
+	describe: "Get tenant details",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(

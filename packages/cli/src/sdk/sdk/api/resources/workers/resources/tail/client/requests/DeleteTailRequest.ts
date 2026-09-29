@@ -11,7 +11,7 @@
 export interface DeleteTailRequest {
     /** Identifier. */
     account_id: string;
-    /** Name of the script, used in URLs and route configuration. */
+    /** Name of the script. */
     script_name: string;
     /** Identifier. */
     id: string;

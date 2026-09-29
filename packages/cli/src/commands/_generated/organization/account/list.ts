@@ -16,7 +16,7 @@ import type { Argv, CommandModule } from "yargs";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 organization account list\n\nRetrieve a list of accounts that belong to a specific organization. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)"
+			"$0 organization account list\n\nRetrieve the accounts immediately attached to a specific organization. Accounts attached to sub-organizations are not included. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)"
 		)
 		.option("organization-id", {
 			type: "string",
@@ -116,7 +116,7 @@ const typedBuilder = withArgTypes<
 type Args = InferArgs<typeof typedBuilder>;
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "list",
-	describe: "Get organization accounts",
+	describe: "List organization accounts",
 	builder: typedBuilder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(

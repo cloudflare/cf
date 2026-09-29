@@ -1,6 +1,5 @@
 import $list from "./list.js";
 import $objects from "./objects/index.js";
-import $query from "./query.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * namespaces command group
@@ -15,7 +14,6 @@ const command: CommandModule<CommonYargsOptions> = {
 	builder: (yargs) => {
 		return yargs
 			.command($list)
-			.command($query)
 			.command($objects)
 			.demandCommand(1, "Please specify a subcommand");
 	},

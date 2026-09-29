@@ -25,25 +25,37 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			"$0 email-security impersonation-registry create\n\nCreates a new entry in the impersonation registry to protect against impersonation. Emails attempting to impersonate this identity will be flagged. Supports regex patterns for flexible email matching."
 		)
-		.option("comments", { type: "string", description: "The comments field" })
+		.option("comments", {
+			type: "string",
+			description: "Optional note describing the entry.",
+		})
 		.option("directory-id", {
 			type: "number",
-			description: "The directory_id field",
+			description:
+				"Identifier of the directory the entry was synced from, when directory-synced.",
 		})
 		.option("directory-node-id", {
 			type: "number",
-			description: "The directory_node_id field",
+			description:
+				"Identifier of the directory node the entry was synced from, when directory-synced.",
 		})
-		.option("email", { type: "string", description: "The email field" })
+		.option("email", {
+			type: "string",
+			description: "Email address (or pattern) of the protected identity.",
+		})
 		.option("external-directory-node-id", {
 			type: "string",
-			description: "The external_directory_node_id field",
+			description: "Deprecated. External identifier of the directory node.",
 		})
 		.option("is-email-regex", {
 			type: "boolean",
-			description: "The is_email_regex field",
+			description:
+				"Whether `email` is a regular expression instead of a literal address.",
 		})
-		.option("name", { type: "string", description: "The name field" })
+		.option("name", {
+			type: "string",
+			description: "Display name of the protected identity.",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -131,7 +143,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv["email"] === undefined) {
 					argv["email"] = await promptForRequiredField(
 						"email",
-						"The email field"
+						"Email address (or pattern) of the protected identity."
 					);
 				}
 				if (argv["is-email-regex"] === undefined) {
@@ -140,7 +152,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 				}
 				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField("name", "The name field");
+					argv["name"] = await promptForRequiredField(
+						"name",
+						"Display name of the protected identity."
+					);
 				}
 
 				// Assemble request body from individual flags

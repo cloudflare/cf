@@ -21,7 +21,7 @@ import type { Argv, CommandModule } from "yargs";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one events tags get\n\nReturns all Source-of-Truth tags for an account. Supports legacy free-text `search` on tag value and `categoryUuid` exact match, plus a structured `filters` JSON array for filtering by metadata fields (originCountryISO, actorCategory, motive, priority, etc.). Country values may be passed as alpha-2, alpha-3, name, or common alias."
+			"$0 cloudforce-one events tags get\n\nReturns all Source-of-Truth tags for an account. Supports legacy free-text `search` on tag value and `categoryUuid` exact match, plus a structured `filters` JSON array for filtering by metadata fields (originCountryISO, actorCategory, motive, priority, etc.). The authenticated account owns these account-scoped tags and receives their complete owner projection. Country values may be passed as alpha-2, alpha-3, name, or common alias. Purple TLP remains CFONE-only."
 		)
 		.option("page", { type: "number", description: "Page" })
 		.option("page-size", { type: "number", description: "PageSize" })

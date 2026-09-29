@@ -21,7 +21,7 @@ import type { Argv, CommandModule } from "yargs";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one threat-signals feeds delete <feed-id>\n\nDelete Threat Signals feed."
+			"$0 cloudforce-one threat-signals feeds delete <feed-id>\n\nUnsubscribes the account from a Threat Signals feed and deletes its articles."
 		)
 		.positional("feed-id", {
 			type: "string",

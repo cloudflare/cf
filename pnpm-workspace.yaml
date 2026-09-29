@@ -2,17 +2,26 @@ packages:
   - packages/*
   - fixtures/*
 
+patchedDependencies:
+  "@changesets/cli@2.31.0": patches/@changesets__cli@2.31.0.patch
+  "@cloudflare/containers-shared@0.20.3": patches/@cloudflare__containers-shared@0.20.3.patch
+  "@cloudflare/deploy-helpers@0.18.1": patches/@cloudflare__deploy-helpers@0.18.1.patch
+
 # Prevent transitive deps from pulling from git / tarball URLs.
 # Direct deps (vendor/*.tgz) are still allowed.
 blockExoticSubdeps: true
 
 # Allow newly published direct dependencies before pnpm's maturity cutoff.
 minimumReleaseAgeExclude:
+  - "@cloudflare/autoconfig@0.7.1"
   - "@cloudflare/codemods@0.2.1"
+  - "wrangler@4.143.0"
 
-# pnpm 10 blocks install scripts by default; allowlist what needs them.
+# pnpm blocks install scripts by default; allowlist what needs them.
 allowBuilds:
+  "@scarf/scarf": false
   esbuild: true
+  msw: false
   # workerd's postinstall places the platform binary miniflare (`--local`)
   # execs. Nothing else in miniflare's tree has an install script.
   workerd: true

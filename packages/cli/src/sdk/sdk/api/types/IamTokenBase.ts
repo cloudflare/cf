@@ -4,6 +4,7 @@ import * as CloudflareApi from "../index.js";
 
 export interface IamTokenBase {
     condition?: CloudflareApi.IamCondition | undefined;
+    creator_email_at_creation?: CloudflareApi.IamCreatorEmailAtCreation | undefined;
     expires_on?: CloudflareApi.IamExpiresOn | undefined;
     id?: CloudflareApi.IamTokenIdentifier | undefined;
     issued_on?: CloudflareApi.IamIssuedOn | undefined;
@@ -12,5 +13,7 @@ export interface IamTokenBase {
     name?: CloudflareApi.IamName | undefined;
     not_before?: CloudflareApi.IamNotBefore | undefined;
     policies?: CloudflareApi.IamTokenPolicies | undefined;
+    provisioner_id?: (CloudflareApi.IamProvisionerId | null) | undefined;
+    provisioner_type?: CloudflareApi.IamProvisionerType | undefined;
     status?: CloudflareApi.IamTokenStatus | undefined;
 }

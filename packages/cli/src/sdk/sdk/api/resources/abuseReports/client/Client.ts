@@ -42,12 +42,13 @@ export class AbuseReportsClient {
     }
 
     /**
-     * List the abuse reports for a given account
+     * List abuse reports made against domains or other content associated with the account. To list reports that the account submitted, use the submitted abuse reports endpoint instead.
      *
      * @param {CloudflareApi.ListAbuseReportsRequest} request
      * @param {AbuseReportsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.UnauthorizedError}
+     * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.InternalServerError}
      *
      * @example
@@ -130,6 +131,8 @@ export class AbuseReportsClient {
             switch (_response.error.statusCode) {
                 case 401:
                     throw new CloudflareApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                case 403:
+                    throw new CloudflareApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 500:
                     throw new CloudflareApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
                 default:
@@ -157,6 +160,7 @@ export class AbuseReportsClient {
      *
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.UnauthorizedError}
+     * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.InternalServerError}
      *
      * @example
@@ -238,6 +242,8 @@ export class AbuseReportsClient {
                     throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
                     throw new CloudflareApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                case 403:
+                    throw new CloudflareApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 500:
                     throw new CloudflareApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
                 default:
@@ -265,6 +271,7 @@ export class AbuseReportsClient {
      *
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.UnauthorizedError}
+     * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.InternalServerError}
      *
@@ -321,6 +328,8 @@ export class AbuseReportsClient {
                     throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
                     throw new CloudflareApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                case 403:
+                    throw new CloudflareApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
                     throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 500:
@@ -343,19 +352,20 @@ export class AbuseReportsClient {
     }
 
     /**
-     * Retrieve the details of an abuse report.
+     * Retrieve the details of an abuse report made against a domain or other content associated with the account. To retrieve a report that the account submitted, use the submitted abuse report endpoint instead.
      *
      * @param {CloudflareApi.GetAbuseReportsRequest} request
      * @param {AbuseReportsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.UnauthorizedError}
+     * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.InternalServerError}
      *
      * @example
      *     await client.abuseReports.get({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
-     *         report_param: "report_param"
+     *         "report-id": "report_param"
      *     })
      */
     public get(
@@ -369,7 +379,7 @@ export class AbuseReportsClient {
         request: CloudflareApi.GetAbuseReportsRequest,
         requestOptions?: AbuseReportsClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.AbuseReportsAbuseReport>> {
-        const { account_id: accountId, report_param: reportParam } = request;
+        const { account_id: accountId, "report-id": reportId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -381,7 +391,7 @@ export class AbuseReportsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/abuse-reports/${core.url.encodePathParam(reportParam)}`,
+                `accounts/${core.url.encodePathParam(accountId)}/abuse-reports/${core.url.encodePathParam(reportId)}`,
             ),
             method: "GET",
             headers: _headers,
@@ -405,6 +415,8 @@ export class AbuseReportsClient {
                     throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
                     throw new CloudflareApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                case 403:
+                    throw new CloudflareApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 500:
                     throw new CloudflareApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
                 default:
@@ -420,7 +432,7 @@ export class AbuseReportsClient {
             _response.error,
             _response.rawResponse,
             "GET",
-            "/accounts/{account_id}/abuse-reports/{report_param}",
+            "/accounts/{account_id}/abuse-reports/{report-id}",
         );
     }
 
@@ -429,21 +441,22 @@ export class AbuseReportsClient {
      *
      * Requires the abuse-reports entitlement on the account (Enterprise
      * accounts have it by default; other accounts must request access) and an
-     * API token with the `Account > Abuse Reports > Edit` permission. If the
-     * account is not entitled, the request is rejected with an HTTP `401`
-     * response (see below).
+     * API token with the `Trust and Safety Write` permission. If the account
+     * is not entitled, the request is rejected with an HTTP `401` response
+     * (see below).
      *
      * @param {CloudflareApi.CreateAbuseReportsRequest} request
      * @param {AbuseReportsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.UnauthorizedError}
+     * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.InternalServerError}
      *
      * @example
      *     await client.abuseReports.create({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
-     *         report_param: "report_param",
+     *         "report-type": "report_param",
      *         body: {
      *             act: "abuse_children",
      *             email: "email",
@@ -468,7 +481,7 @@ export class AbuseReportsClient {
         request: CloudflareApi.CreateAbuseReportsRequest,
         requestOptions?: AbuseReportsClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.AbuseReportsSubmitReportResponse>> {
-        const { account_id: accountId, report_param: reportParam, body: _body } = request;
+        const { account_id: accountId, "report-type": reportType, body: _body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -480,7 +493,7 @@ export class AbuseReportsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/abuse-reports/${core.url.encodePathParam(reportParam)}`,
+                `accounts/${core.url.encodePathParam(accountId)}/abuse-reports/${core.url.encodePathParam(reportType)}`,
             ),
             method: "POST",
             headers: _headers,
@@ -507,6 +520,8 @@ export class AbuseReportsClient {
                     throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
                     throw new CloudflareApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                case 403:
+                    throw new CloudflareApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 500:
                     throw new CloudflareApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
                 default:
@@ -522,7 +537,7 @@ export class AbuseReportsClient {
             _response.error,
             _response.rawResponse,
             "POST",
-            "/accounts/{account_id}/abuse-reports/{report_param}",
+            "/accounts/{account_id}/abuse-reports/{report-type}",
         );
     }
 }

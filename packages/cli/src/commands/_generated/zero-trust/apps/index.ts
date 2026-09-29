@@ -1,4 +1,3 @@
-import $policies from "./policies/index.js";
 import $review from "./review/index.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
@@ -13,7 +12,6 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
-			.command($policies)
 			.command($review)
 			.demandCommand(1, "Please specify a subcommand");
 	},

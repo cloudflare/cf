@@ -29,12 +29,5 @@
 	"engines": {
 		"node": ">=22.0.0"
 	},
-	"packageManager": "pnpm@10.27.0",
-	"pnpm": {
-		"patchedDependencies": {
-			"@cloudflare/containers-shared@0.20.3": "patches/@cloudflare__containers-shared@0.20.3.patch",
-			"@cloudflare/deploy-helpers@0.18.1": "patches/@cloudflare__deploy-helpers@0.18.1.patch",
-			"@changesets/cli@2.31.0": "patches/@changesets__cli@2.31.0.patch"
-		}
-	}
+	"packageManager": "pnpm@12.6.0"
 }

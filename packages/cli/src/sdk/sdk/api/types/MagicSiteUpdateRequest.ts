@@ -5,6 +5,8 @@ import * as CloudflareApi from "../index.js";
 export interface MagicSiteUpdateRequest {
     connector_id?: CloudflareApi.MagicConnectorId | undefined;
     description?: string | undefined;
+    /** Site high availability mode. If set to true, the site can have two connectors and runs in high availability mode. */
+    ha_mode?: boolean | undefined;
     location?: CloudflareApi.MagicSiteLocation | undefined;
     name?: CloudflareApi.MagicSiteName | undefined;
     secondary_connector_id?: CloudflareApi.MagicSecondaryConnectorId | undefined;

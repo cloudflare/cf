@@ -1,3 +1,10 @@
-export * as projects from "./projects/index.js";
-export * from "./projects/client/requests/index.js";
-export * from "./projects/types/index.js";
+export * as buildCache from "./buildCache/index.js";
+export * from "./buildCache/client/requests/index.js";
+export * as deployments from "./deployments/index.js";
+export * from "./deployments/client/requests/index.js";
+export * from "./deployments/types/index.js";
+export * as domains from "./domains/index.js";
+export * from "./domains/client/requests/index.js";
+export * from "./domains/types/index.js";
+export * as source from "./source/index.js";
+export * from "./source/client/requests/index.js";

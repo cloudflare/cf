@@ -21,7 +21,7 @@ import type { Argv, CommandModule } from "yargs";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one threat-signals feeds skills update <feed-id>\n\nSet Threat Signals feed skills."
+			"$0 cloudforce-one threat-signals feeds skills update <feed-id>\n\nReplaces the ordered custom skills assigned to a Threat Signals feed."
 		)
 		.positional("feed-id", {
 			type: "string",

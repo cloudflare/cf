@@ -1,6 +1,6 @@
 name: CI
 
-# Three jobs on every PR and on pushes to main:
+# Three jobs on every PR, merge-queue candidate, and push to main:
 #
 #   check — `pnpm check` (oxlint --type-aware + tsgo + oxfmt --check) over
 #           the whole repo.
@@ -10,6 +10,10 @@ name: CI
 
 on:
   pull_request:
+  merge_group:
+    types: [checks_requested]
+    branches:
+      - main
   push:
     branches:
       - main

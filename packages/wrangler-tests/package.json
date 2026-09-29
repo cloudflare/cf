@@ -5,8 +5,9 @@
 	"description": "Canonical Wrangler test situations re-targeted at cf. See packages/wrangler-tests/README.md.",
 	"type": "module",
 	"scripts": {
+		"pretest": "pnpm --filter cf build:test",
 		"test": "vitest run",
-		"test:watch": "vitest"
+		"test:watch": "pnpm --filter cf build:test && vitest"
 	},
 	"devDependencies": {
 		"@cloudflare/workers-utils": "0.44.0",
@@ -24,9 +25,9 @@
 		"prompts": "^2.4.2",
 		"shell-quote": "^1.8.1",
 		"ts-dedent": "^2.2.0",
-		"undici": "7.24.8",
-		"vitest": "4.1.0",
-		"ws": "8.18.0"
+		"undici": "7.29.1",
+		"vitest": "4.1.11",
+		"ws": "8.21.0"
 	},
 	"engines": {
 		"node": ">=22"

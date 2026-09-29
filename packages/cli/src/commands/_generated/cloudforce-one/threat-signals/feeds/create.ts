@@ -22,7 +22,7 @@ import type { Argv, CommandModule } from "yargs";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one threat-signals feeds create\n\nCreate Threat Signals feed."
+			"$0 cloudforce-one threat-signals feeds create\n\nSubscribes the account to a custom or curated Threat Signals feed."
 		)
 		.option("category-id", {
 			type: "string",

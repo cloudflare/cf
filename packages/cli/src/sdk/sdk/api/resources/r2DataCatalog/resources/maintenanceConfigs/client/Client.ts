@@ -24,6 +24,8 @@ export class MaintenanceConfigsClient {
     }
 
     /**
+     * @deprecated
+     *
      * Retrieve the maintenance configuration for a specific catalog,
      * including compaction settings and credential status.
      *
@@ -113,10 +115,12 @@ export class MaintenanceConfigsClient {
     }
 
     /**
+     * @deprecated
+     *
      * Update the maintenance configuration for a catalog. This allows you to
      * enable or disable compaction and adjust target file sizes for optimization.
      *
-     * @param {CloudflareApi.r2DataCatalog.R2DataCatalogCatalogMaintenanceUpdateRequest} request
+     * @param {CloudflareApi.r2DataCatalog.UpdateMaintenanceConfigsRequest} request
      * @param {MaintenanceConfigsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
@@ -129,29 +133,31 @@ export class MaintenanceConfigsClient {
      *     await client.r2DataCatalog.maintenanceConfigs.update({
      *         account_id: "account_id",
      *         bucket_name: "bucket_name",
-     *         compaction: {
-     *             state: "enabled",
-     *             target_size_mb: "256"
-     *         },
-     *         snapshot_expiration: {
-     *             max_snapshot_age: "14d",
-     *             min_snapshots_to_keep: 5,
-     *             state: "enabled"
+     *         body: {
+     *             compaction: {
+     *                 state: "enabled",
+     *                 target_size_mb: "256"
+     *             },
+     *             snapshot_expiration: {
+     *                 max_snapshot_age: "14d",
+     *                 min_snapshots_to_keep: 5,
+     *                 state: "enabled"
+     *             }
      *         }
      *     })
      */
     public update(
-        request: CloudflareApi.r2DataCatalog.R2DataCatalogCatalogMaintenanceUpdateRequest,
+        request: CloudflareApi.r2DataCatalog.UpdateMaintenanceConfigsRequest,
         requestOptions?: MaintenanceConfigsClient.RequestOptions,
     ): core.HttpResponsePromise<CloudflareApi.R2DataCatalogCatalogMaintenanceConfig> {
         return core.HttpResponsePromise.fromPromise(this.__update(request, requestOptions));
     }
 
     private async __update(
-        request: CloudflareApi.r2DataCatalog.R2DataCatalogCatalogMaintenanceUpdateRequest,
+        request: CloudflareApi.r2DataCatalog.UpdateMaintenanceConfigsRequest,
         requestOptions?: MaintenanceConfigsClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.R2DataCatalogCatalogMaintenanceConfig>> {
-        const { account_id: accountId, bucket_name: bucketName, ..._body } = request;
+        const { account_id: accountId, bucket_name: bucketName, body: _body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,

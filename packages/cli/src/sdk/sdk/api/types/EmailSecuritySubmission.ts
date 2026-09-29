@@ -5,22 +5,30 @@ import * as CloudflareApi from "../index.js";
 export interface EmailSecuritySubmission {
     customer_status?: (CloudflareApi.EmailSecurityCustomerStatus | null) | undefined;
     escalated_as?: (CloudflareApi.EmailSecurityOptionalSubmissionDisposition | null) | undefined;
+    /** When the submission was escalated to the security team. */
     escalated_at?: (string | null) | undefined;
+    /** Email address of the user who escalated the submission. */
     escalated_by?: (string | null) | undefined;
+    /** Submission ID of the escalated team submission, when this user submission was escalated. */
     escalated_submission_id?: (string | null) | undefined;
     original_disposition?: (CloudflareApi.EmailSecurityOptionalSubmissionDisposition | null) | undefined;
+    /** EDF hash of the original message. */
     original_edf_hash?: (string | null) | undefined;
     /** The postfix ID of the original message that was submitted. */
     original_postfix_id?: (string | null) | undefined;
+    /** Processing outcome of the submission. */
     outcome?: (string | null) | undefined;
     outcome_disposition?: (CloudflareApi.EmailSecurityOptionalSubmissionDisposition | null) | undefined;
     /** When the submission was requested (UTC). */
     requested_at: string;
+    /** Email address of the user who requested the submission. */
     requested_by?: (string | null) | undefined;
     requested_disposition?: (CloudflareApi.EmailSecurityOptionalSubmissionDisposition | null) | undefined;
     /** Deprecated, use `requested_at` instead. */
     requested_ts?: string | undefined;
+    /** Processing status of the submission. */
     status?: (string | null) | undefined;
+    /** Subject line of the submitted message. */
     subject?: (string | null) | undefined;
     submission_id: string;
     /** Indicates whether a team member or an end user created the submission. */

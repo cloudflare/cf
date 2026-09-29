@@ -26,7 +26,7 @@ export class CategoriesClient {
     }
 
     /**
-     * List Threat Signals feed categories.
+     * Lists the predefined categories that can be assigned to feeds.
      *
      * @param {CloudflareApi.cloudforceOne.threatSignals.ListCategoriesRequest} request
      * @param {CategoriesClient.RequestOptions} requestOptions - Request-specific configuration.

@@ -37,7 +37,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Custom page type.",
 			choices: ["identity_denied", "forbidden", "login", "interstitial"],
 		})
-		.option("version", {
+		.option("contract-version", {
 			type: "number",
 			description: "Contract version to validate against; omit for the latest.",
 		})
@@ -94,7 +94,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"type",
 											"text"
 										),
-										version: argv["version"],
+										version: argv["contract-version"],
 									}),
 					});
 					return;
@@ -140,7 +140,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"type",
 						"text"
 					),
-					version: argv["version"],
+					version: argv["contract-version"],
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.zeroTrust.access.customPages.validate({

@@ -13,14 +13,14 @@ import { type ForgeOpenApiDocument, initFromOpenApi } from "@cloudflare/forge";
 import { filterForCliAudience } from "./generator/cli-audience.js";
 import { dropSdkMethodGroupCollisions } from "./generator/sdk-method-group-collisions.js";
 import { hasAccountOrZoneScope } from "./generator/util.js";
-import { forceEnableWorkersSecrets } from "./generator/workers-secret-cli-override.js";
+import { preserveWorkersSecretUpdatePositional } from "./generator/workers-secret-cli-compat.js";
 
 const bundle = process.env.FORGE_OPENAPI_BUNDLE;
 const sdkDir = fileURLToPath(new URL("./src/sdk", import.meta.url));
 const sdkEntrypointPath = join(sdkDir, "sdk/index.ts");
 const sdkVersionPath = join(sdkDir, "openapi-version");
 // The SDK is committed. Bump this SHA to regenerate it from a new release.
-const FORGE_OPENAPI_VERSION = "6b0fb3cd63aca815f1667a8fa908114886867dc6";
+const FORGE_OPENAPI_VERSION = "9053fe030901c272e245a63becbe109594584c4e";
 const FORGE_OPENAPI_RELEASE = `openapi@${FORGE_OPENAPI_VERSION}`;
 const FORGE_OPENAPI_ASSET = "openapi.forge.json";
 const FORGE_OPENAPI_ASSET_URL = `https://github.com/cloudflare/forge/releases/download/${FORGE_OPENAPI_RELEASE}/${FORGE_OPENAPI_ASSET}`;
@@ -240,7 +240,7 @@ if (sdkCollisionResult.collisions > 0) {
 
 const { transformer } = await import("./generator/index.ts");
 const cliSource = structuredClone(source);
-forceEnableWorkersSecrets(cliSource);
+preserveWorkersSecretUpdatePositional(cliSource);
 const audienceExcluded = filterForCliAudience(cliSource);
 console.log(
 	`[cf-generator] Excluded ${audienceExcluded} operation(s) not targeting the cf-cli audience`

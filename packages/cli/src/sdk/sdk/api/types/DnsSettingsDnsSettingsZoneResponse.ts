@@ -11,5 +11,5 @@ export interface DnsSettingsDnsSettingsZoneResponse {
     secondary_overrides: CloudflareApi.DnsSettingsSecondaryOverrides;
     soa: CloudflareApi.DnsSettingsSoaResponse;
     zone_mode: CloudflareApi.DnsSettingsZoneMode;
-    nameservers: CloudflareApi.DnsSettingsDnsSettingsZoneResponseNameservers;
+    nameservers: CloudflareApi.DnsSettingsZoneNameservers;
 }

@@ -29,9 +29,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("worker", {
 			type: "string",
 			alias: "script-name",
-			description: "Name of the script, used in URLs and route configuration.",
+			description: "Name of the script.",
 		})
-		.option("force", {
+		.option("bypass-deployment-checks", {
 			type: "boolean",
 			description:
 				"If set to true, the deployment will be created even if normally blocked by something such rolling back to an older version when a secret has changed.",
@@ -72,13 +72,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "workers deployments create",
 				classification: {
-					safeFlags: ["force", "strategy", "dry-run"],
+					safeFlags: ["bypass-deployment-checks", "strategy", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
 				const queryParams: Query = {
-					force: argv["force"],
+					force: argv["bypass-deployment-checks"],
 				};
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();

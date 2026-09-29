@@ -35,6 +35,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			demandOption: true,
 		})
 		.option("bond-id", { type: "number", description: "The bond_id field" })
+		.option("ha-link", {
+			type: "boolean",
+			description:
+				"mark true to use this LAN for HA probing. only works for site with HA turned on. only one LAN can be set as the ha_link.",
+		})
 		.option("is-breakout", {
 			type: "boolean",
 			description:
@@ -137,7 +142,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "magic-transit sites lans update",
 				classification: {
-					safeFlags: ["is-breakout", "is-prioritized", "dry-run"],
+					safeFlags: ["ha-link", "is-breakout", "is-prioritized", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -158,6 +163,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								? parseBody(argv.body)
 								: compactBody({
 										bond_id: argv["bond-id"],
+										ha_link: argv["ha-link"],
 										is_breakout: argv["is-breakout"],
 										is_prioritized: argv["is-prioritized"],
 										name: resolveFileToken(
@@ -246,6 +252,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
 					bond_id: argv["bond-id"],
+					ha_link: argv["ha-link"],
 					is_breakout: argv["is-breakout"],
 					is_prioritized: argv["is-prioritized"],
 					name: resolveFileToken(

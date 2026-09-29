@@ -3,10 +3,14 @@
 import * as CloudflareApi from "../index.js";
 
 export interface EmailSecurityMissedDetectionSubmission {
+    /** Base64 encoded content of the EML file. */
     eml_content?: string | undefined;
+    /** Submission ID of the original user submission, when escalating an escalated user report. */
     escalated_submission_id?: string | undefined;
     expected_disposition: CloudflareApi.EmailSecuritySubmissionDisposition;
+    /** Message-ID header value of the reported message. */
     message_id: string;
     postfix_id: CloudflareApi.EmailSecurityPostfixId;
+    /** Recipient email addresses of the reported message. */
     recipient_emails: string[];
 }

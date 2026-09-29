@@ -28,7 +28,7 @@ import {
 	QS_FROM_PARAMS_EXPR,
 } from "../../codegen/opts-builder.js";
 import {
-	bodyArgs,
+	bodyOptionArgs,
 	isPathArg,
 	positionalArgs,
 } from "../../intermediate-representation.js";
@@ -121,7 +121,7 @@ function emitBodyAssembly(ctx: EmitContext): string[] {
 		lines.push(`      );`);
 	} else {
 		lines.push(`      const bodyData: Record<string, unknown> = {};`);
-		for (const arg of bodyArgs(derived.args)) {
+		for (const arg of bodyOptionArgs(derived.args)) {
 			if (arg.origin.kind !== "body") continue;
 			const path = arg.origin.apiFieldPath
 				.map((segment) => JSON.stringify(segment))

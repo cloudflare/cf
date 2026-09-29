@@ -19,7 +19,6 @@ import {
 import { buildLabels } from "../codegen/labels.js";
 import { deriveOutputKind } from "../codegen/output-kind.js";
 import {
-	bodyArgs,
 	headerArgs,
 	optionArgs,
 	positionalArgs,
@@ -127,7 +126,10 @@ export function buildEmitContext(input: BuildContextInput): BuildContextResult {
 	// emitter can splice it in after the required-field prompts, once the
 	// discriminator is already set.
 	const { lines: variantPromptBlock, needsTextPrompt: variantPromptNeedsText } =
-		computeVariantPromptBlock(opInfo, bodyArgs(derived.args));
+		computeVariantPromptBlock(
+			opInfo,
+			derived.args.filter((arg) => arg.origin.kind === "body")
+		);
 
 	// Destructive-op classification. `x-forge-require-confirmation`
 	// (a "This operation …." sentence) extends DELETE-style prompting
@@ -146,7 +148,10 @@ export function buildEmitContext(input: BuildContextInput): BuildContextResult {
 	// Zone and worker-name positionals render as [optional] in the yargs
 	// command string; others render as <required>.
 	const positionalStr = positional
-		.map((a) => (a.isZone || a.isWorkerName ? `[${a.name}]` : `<${a.name}>`))
+		.map((a) => {
+			const name = a.type === "array" ? `${a.name}...` : a.name;
+			return a.isZone || a.isWorkerName ? `[${name}]` : `<${name}>`;
+		})
 		.join(" ");
 	const commandStr = positionalStr
 		? `${method.name} ${positionalStr}`

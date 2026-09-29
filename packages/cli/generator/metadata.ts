@@ -116,7 +116,10 @@ export function generateCommandMeta(
 
 	// Build usage string with positional args
 	const positionalUsage = positional
-		.map((a) => (a.required ? `<${a.name}>` : `[${a.name}]`))
+		.map((a) => {
+			const name = a.type === "array" ? `${a.name}...` : a.name;
+			return a.required ? `<${name}>` : `[${name}]`;
+		})
 		.join(" ");
 
 	const hasOptions = options.length > 0;

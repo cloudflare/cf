@@ -35,6 +35,19 @@ describe("computeVariantPromptBlock", () => {
 		);
 	});
 
+	it("recognizes a positional discriminator", () => {
+		const kind = { ...bodyArg("kind", "string"), positional: true };
+		const result = computeVariantPromptBlock(
+			operation({ report: ["reason"] }),
+			[kind, bodyArg("reason", "string")]
+		);
+
+		expect(result.needsTextPrompt).toBe(true);
+		expect(result.lines.join("\n")).toContain(
+			`if (argv["kind"] === 'report' && argv["reason"] === undefined)`
+		);
+	});
+
 	it.each(["number", "boolean", "array"] as const)(
 		"requires missing %s fields without prompting",
 		(type) => {

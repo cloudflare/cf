@@ -89,7 +89,7 @@ export function optionArgs(args: readonly ArgIR[]): ArgIR[] {
  * Body-param option args: body origin, not promoted to a positional.
  * In declaration order.
  */
-export function bodyArgs(args: readonly ArgIR[]): ArgIR[] {
+export function bodyOptionArgs(args: readonly ArgIR[]): ArgIR[] {
 	return args.filter((a) => a.origin.kind === "body" && !a.positional);
 }
 

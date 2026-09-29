@@ -29,7 +29,7 @@ export interface VariantPromptBlock {
 
 export function computeVariantPromptBlock(
 	opInfo: OperationInfo,
-	bodyArgs: readonly ArgIR[]
+	bodyFields: readonly ArgIR[]
 ): VariantPromptBlock {
 	const bodyDiscriminator = opInfo.bodyDiscriminator;
 	if (!bodyDiscriminator) return { lines: [], needsTextPrompt: false };
@@ -42,7 +42,7 @@ export function computeVariantPromptBlock(
 	const availableApiFields = new Set<string>();
 	const flagToDescription = new Map<string, string>();
 	const byKebab = new Map<string, ArgIR>();
-	for (const a of bodyArgs) {
+	for (const a of bodyFields) {
 		byKebab.set(a.name, a);
 		if (a.origin.kind !== "body" || a.origin.apiFieldPath.length === 0)
 			continue;

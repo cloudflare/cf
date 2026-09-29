@@ -14,7 +14,7 @@
 import { toKebabCase } from "@cloudflare/forge";
 import { argvKey } from "../../codegen/identifiers.js";
 import {
-	bodyArgs,
+	bodyOptionArgs,
 	isPathArg,
 	pathParamReadKey,
 	positionalArgs,
@@ -105,7 +105,9 @@ export function emitDryRun(ctx: EmitContext): string[] {
 		? [
 				...new Set([
 					...positional.filter((a) => !isPathArg(a)).map((a) => a.name),
-					...(hasBodyParams ? bodyArgs(derived.args).map((a) => a.name) : []),
+					...(hasBodyParams
+						? bodyOptionArgs(derived.args).map((a) => a.name)
+						: []),
 					...(hasBody ? ["body"] : []),
 					...(hasFileUpload ? ["file"] : []),
 					...multipartFlagFields.map((f) => toKebabCase(f.name)),

@@ -8,7 +8,7 @@
  * those rollups here keeps the orchestrator focused on context
  * construction.
  */
-import { bodyArgs } from "../../intermediate-representation.js";
+import { bodyOptionArgs } from "../../intermediate-representation.js";
 import { ImportSet } from "../imports.js";
 import {
 	canEmitTypedBodySdkCall,
@@ -36,7 +36,7 @@ export function buildImportSet(ctx: EmitContext): ImportSet {
 	} = ctx;
 	const { hasBody, hasBodyParams, hasFileUpload, multipartFlagFields } =
 		derived;
-	const bodyFlags = bodyArgs(derived.args);
+	const bodyFlags = bodyOptionArgs(derived.args);
 
 	const imports = new ImportSet();
 

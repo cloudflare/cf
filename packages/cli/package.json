@@ -61,6 +61,7 @@
 		"generate": "tsx generate.ts",
 		"dev": "tsx src/dev.ts",
 		"build": "tsdown",
+		"build:test": "tsdown --config tsdown.test.config.ts",
 		"check:type": "tsgo --noEmit",
 		"test": "vitest run",
 		"test:watch": "vitest"

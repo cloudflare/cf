@@ -3,7 +3,7 @@ import { http, HttpResponse } from "msw";
 import { describe, it, vi } from "vitest";
 import { mockConsoleMethods } from "../helpers/mock-console";
 import { useMockIsTTY } from "../helpers/mock-istty";
-import { msw } from "../helpers/msw";
+import { createFetchResult, msw } from "../helpers/msw";
 import { runInTempDir } from "../helpers/run-in-tmp";
 import { runWrangler } from "../helpers/run-wrangler";
 
@@ -160,26 +160,42 @@ describe("migrate", () => {
 			setIsTTY(false);
 			writeMigration();
 			delete process.env.CLOUDFLARE_ACCOUNT_ID;
-			const oauth = await import("cf/oauth");
-			const getAccount = vi
-				.spyOn(oauth, "getOrSelectAccountId")
-				.mockImplementation(async (accountId) => {
-					expect(accountId).toBeUndefined();
-					throw new Error(
-						"More than one account available but unable to select one in non-interactive mode."
-					);
-				});
+			const accounts = [
+				{ id: "account-1", name: "Account One" },
+				{ id: "account-2", name: "Account Two" },
+			];
+			const resultInfo = {
+				page: 1,
+				per_page: 20,
+				count: accounts.length,
+				total_count: accounts.length,
+				total_pages: 1,
+			};
+			msw.use(
+				http.get("*/accounts", () =>
+					HttpResponse.json(
+						createFetchResult(accounts, true, [], [], resultInfo)
+					)
+				),
+				http.get("*/memberships", () =>
+					HttpResponse.json(
+						createFetchResult(
+							accounts.map((account) => ({ account })),
+							true,
+							[],
+							[],
+							resultInfo
+						)
+					)
+				)
+			);
 
-			try {
-				await expect(
-					runWrangler(`d1 migrations apply ${DB}`, {
-						CLOUDFLARE_API_TOKEN: "test-token",
-						CLOUDFLARE_ACCOUNT_ID: undefined,
-					})
-				).rejects.toThrow(/More than one account.*unable to select one/i);
-			} finally {
-				getAccount.mockRestore();
-			}
+			await expect(
+				runWrangler(`d1 migrations apply ${DB}`, {
+					CLOUDFLARE_API_TOKEN: "test-token",
+					CLOUDFLARE_ACCOUNT_ID: undefined,
+				})
+			).rejects.toThrow(/More than one account.*unable to select one/i);
 		});
 
 		it("multiple accounts: should let the user apply migrations with an account_id in config", async ({

@@ -5,6 +5,7 @@
 	"description": "Canonical Wrangler test situations re-targeted at cf. See packages/wrangler-tests/README.md.",
 	"type": "module",
 	"scripts": {
+		"pretest": "pnpm --filter cf build:test",
 		"test": "vitest run",
 		"test:watch": "vitest"
 	},

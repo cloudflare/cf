@@ -1,9 +1,10 @@
 import { existsSync, mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { getGlobalConfigPath } from "@cloudflare/workers-utils";
-import { getGlobalDispatcher, MockAgent, setGlobalDispatcher } from "undici";
+import { http, HttpResponse } from "msw";
 import { describe, it } from "vitest";
 import { mockConsoleMethods } from "./helpers/mock-console";
+import { msw } from "./helpers/msw";
 import { runInTempDir } from "./helpers/run-in-tmp";
 import { runWrangler } from "./helpers/run-wrangler";
 
@@ -58,9 +59,6 @@ describe("logout", () => {
 	// the temp dir we can seed that file, then assert the token is
 	// revoked and the file removed.
 	//
-	// workers-auth uses undici directly, so intercept it at the dispatcher
-	// instead of binding a loopback server (which is unavailable in some CI
-	// sandboxes).
 	it("should logout user that has been properly logged in", async ({
 		expect,
 	}) => {
@@ -78,30 +76,24 @@ describe("logout", () => {
 			})
 		);
 
-		const mockAgent = new MockAgent();
-		mockAgent.disableNetConnect();
-		mockAgent
-			.get("https://dash.cloudflare.com")
-			.intercept({ path: "/oauth2/revoke", method: "POST" })
-			.reply(200, "");
-		const previousDispatcher = getGlobalDispatcher();
-		setGlobalDispatcher(mockAgent);
+		let revoked = false;
+		msw.use(
+			http.post("https://dash.cloudflare.com/oauth2/revoke", () => {
+				revoked = true;
+				return new HttpResponse(null, { status: 200 });
+			})
+		);
 
-		try {
-			expect(existsSync(authFile)).toBe(true);
+		expect(existsSync(authFile)).toBe(true);
 
-			await runWrangler("auth logout", { CLOUDFLARE_API_TOKEN: undefined });
+		await runWrangler("auth logout", { CLOUDFLARE_API_TOKEN: undefined });
 
-			// cf reports the credential kind and path that it removed.
-			expect(std.out).toContain("Removed: OAuth tokens from");
-			// The one-shot revocation intercept was consumed.
-			expect(mockAgent.pendingInterceptors()).toEqual([]);
-			// And the on-disk token file was removed.
-			expect(existsSync(authFile)).toBe(false);
-		} finally {
-			setGlobalDispatcher(previousDispatcher);
-			await mockAgent.close();
-		}
+		// cf reports the credential kind and path that it removed.
+		expect(std.out).toContain("Removed: OAuth tokens from");
+		// The refresh token was sent to the revocation endpoint.
+		expect(revoked).toBe(true);
+		// And the on-disk token file was removed.
+		expect(existsSync(authFile)).toBe(false);
 	});
 
 	// Wrangler-internal: asserted that `wrangler.jsonc` parsing warnings

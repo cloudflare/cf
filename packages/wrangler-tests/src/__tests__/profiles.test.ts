@@ -1,10 +1,11 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { getGlobalDispatcher, MockAgent, setGlobalDispatcher } from "undici";
-import { afterAll, beforeAll, beforeEach, describe, it, vi } from "vitest";
+import { http, HttpResponse } from "msw";
+import { beforeEach, describe, it, vi } from "vitest";
 import { getProfileStore } from "../../../cli/src/lib/oauth/index";
 import { mockConsoleMethods } from "./helpers/mock-console";
+import { msw } from "./helpers/msw";
 import { runInTempDir } from "./helpers/run-in-tmp";
 import { runWrangler } from "./helpers/run-wrangler";
 
@@ -41,29 +42,18 @@ function createDeprecatedProfileFile(name: string): void {
 describe("Profiles", () => {
 	runInTempDir();
 	const std = mockConsoleMethods();
-	const mockAgent = new MockAgent();
-	const previousDispatcher = getGlobalDispatcher();
 
 	beforeEach(() => {
 		// Profile management is unavailable when environment credentials are
 		// present. Keep the suite independent of the invoking shell; individual
 		// tests opt back into the variable when exercising that behaviour.
 		vi.stubEnv("CLOUDFLARE_API_TOKEN", undefined);
-	});
-
-	beforeAll(() => {
-		mockAgent.disableNetConnect();
-		mockAgent
-			.get("https://dash.cloudflare.com")
-			.intercept({ path: "/oauth2/revoke", method: "POST" })
-			.reply(200, "")
-			.persist();
-		setGlobalDispatcher(mockAgent);
-	});
-
-	afterAll(async () => {
-		setGlobalDispatcher(previousDispatcher);
-		await mockAgent.close();
+		msw.use(
+			http.post(
+				"https://dash.cloudflare.com/oauth2/revoke",
+				() => new HttpResponse(null, { status: 200 })
+			)
+		);
 	});
 
 	describe("validateProfileName", () => {

@@ -41,9 +41,21 @@ From this directory:
 pnpm test
 ```
 
-The `cf` import resolves to `../cli/src/index.ts`, so run `pnpm generate` from the repository root first when generated commands have changed. CI does this before running the suite on pull requests and pushes to `main` in the Cloudflare-owned repository.
+The `pretest` script builds `cf` with its test-specific tsdown configuration,
+and the `cf` import resolves to the resulting `../cli/dist/index.mjs`. This
+build keeps mock-sensitive dependencies external; the normal production build
+still bundles them. `pnpm test:watch` likewise builds the test bundle once
+before starting Vitest. Run `pnpm generate` from the repository root first
+when generated commands have changed. CI does this before running the suite on
+pull requests and pushes to `main` in the Cloudflare-owned repository.
 
-The Vitest configuration uses fork workers, a 15-second per-test timeout, no retries, UTC/`LC_ALL=C`, MSW with unhandled remote requests rejected, and a Clack bridge backed by shared dialog queues. It aliases Miniflare to the CLI package's exact installation and exposes narrow test-only aliases for D1 migration bookkeeping and OAuth.
+The Vitest configuration runs the compatibility project in fork workers with
+isolation disabled, a 15-second per-test timeout, no retries, UTC/`LC_ALL=C`,
+and MSW with unhandled remote requests rejected. A separate setup-free project
+records the generated skipped/todo inventory. Test-only bridges keep Clack
+backed by shared dialog queues and route Undici fetches through MSW. Miniflare
+is aliased to the CLI package's exact installation, and a narrow source alias
+exposes D1 migration bookkeeping.
 
 ## Regenerating fallback classifications
 

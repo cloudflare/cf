@@ -164,6 +164,7 @@ export * from "./matches/client/requests/index.js";
 export * as mcp from "./mcp/index.js";
 export * as media from "./media/index.js";
 export * as mesh from "./mesh/index.js";
+export * as monetization from "./monetization/index.js";
 export * as mtlsCertificates from "./mtlsCertificates/index.js";
 export * from "./mtlsCertificates/client/requests/index.js";
 export * from "./mtlsCertificates/types/index.js";

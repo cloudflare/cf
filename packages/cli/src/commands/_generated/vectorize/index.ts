@@ -19,7 +19,8 @@ import type { CommandModule } from "yargs";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "vectorize",
-	describe: "vectorize",
+	describe:
+		"Globally distributed vector database for building semantic search, recommendations, and RAG applications on Workers",
 
 	builder: (yargs) => {
 		return yargs

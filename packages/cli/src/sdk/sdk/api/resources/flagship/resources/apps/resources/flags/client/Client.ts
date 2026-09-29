@@ -33,6 +33,104 @@ export class FlagsClient {
     }
 
     /**
+     * Evaluates a flag against the provided context, passed as a JSON request body (OFREP-shaped) rather than query parameters. Returns the same response shape as the GET variant.
+     *
+     * @param {CloudflareApi.flagship.apps.EvaluateFlagsRequest} request
+     * @param {FlagsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link CloudflareApi.UnauthorizedError}
+     * @throws {@link CloudflareApi.ForbiddenError}
+     * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link CloudflareApi.ServiceUnavailableError}
+     *
+     * @example
+     *     await client.flagship.apps.flags.evaluate({
+     *         account_id: "account_id",
+     *         app_id: "app_id",
+     *         flagKey: "flagKey"
+     *     })
+     */
+    public evaluate(
+        request: CloudflareApi.flagship.apps.EvaluateFlagsRequest,
+        requestOptions?: FlagsClient.RequestOptions,
+    ): core.HttpResponsePromise<CloudflareApi.FlagshipEvaluationResult> {
+        return core.HttpResponsePromise.fromPromise(this.__evaluate(request, requestOptions));
+    }
+
+    private async __evaluate(
+        request: CloudflareApi.flagship.apps.EvaluateFlagsRequest,
+        requestOptions?: FlagsClient.RequestOptions,
+    ): Promise<core.WithRawResponse<CloudflareApi.FlagshipEvaluationResult>> {
+        const { account_id: accountId, app_id: appId, ..._body } = request;
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.CloudflareApiEnvironment.Default,
+                `accounts/${core.url.encodePathParam(accountId)}/flagship/apps/${core.url.encodePathParam(appId)}/evaluate`,
+            ),
+            method: "POST",
+            headers: _headers,
+            contentType: "application/json",
+            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
+            requestType: "json",
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return {
+                data: _response.body as CloudflareApi.FlagshipEvaluationResult,
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new CloudflareApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                case 403:
+                    throw new CloudflareApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                case 404:
+                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new CloudflareApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                case 503:
+                    throw new CloudflareApi.ServiceUnavailableError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
+                default:
+                    throw new errors.CloudflareApiError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(
+            _response.error,
+            _response.rawResponse,
+            "POST",
+            "/accounts/{account_id}/flagship/apps/{app_id}/evaluate",
+        );
+    }
+
+    /**
      * Lists an app's flags ordered by key. Pass `cursor` from `result_info` to page forward; a null cursor indicates the last page.
      *
      * @param {CloudflareApi.flagship.apps.ListFlagsRequest} request
@@ -334,7 +432,7 @@ export class FlagsClient {
     }
 
     /**
-     * Replaces the entire flag definition. Omitted fields are dropped, not preserved — read before writing. Each update appends a changelog entry.
+     * Replaces the entire flag definition. Omitted fields are dropped, not preserved — read before writing. The path key identifies the flag and cannot be renamed by changing the body `key`. Each update appends a changelog entry.
      *
      * @param {CloudflareApi.flagship.apps.UpdateFlagsRequest} request
      * @param {FlagsClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -442,7 +540,7 @@ export class FlagsClient {
     }
 
     /**
-     * Deletes a flag permanently. Subsequent evaluations fall back to the caller-supplied default. Cannot be undone.
+     * Deletes a flag permanently. After deletion propagates, direct evaluations return not found; typed binding accessors may return the caller-supplied default. Cannot be undone.
      *
      * @param {CloudflareApi.flagship.apps.DeleteFlagsRequest} request
      * @param {FlagsClient.RequestOptions} requestOptions - Request-specific configuration.

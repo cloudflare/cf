@@ -52841,7 +52841,7 @@
 					"name": "name",
 					"type": "string",
 					"required": true,
-					"description": "The name field"
+					"description": "Name of the Flagship app (1–64 letters, numbers, hyphens, or underscores)."
 				},
 				{
 					"name": "dry-run",
@@ -52862,7 +52862,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/flagship/apps",
 			"operationId": "flagship_create_app",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf flagship apps definitions get",
@@ -52877,7 +52877,7 @@
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "App identifier."
+					"description": "Flagship app ID returned when the app was created."
 				}
 			],
 			"options": [
@@ -52900,7 +52900,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/flagship/apps/{app_id}/definitions",
 			"operationId": "flagship_get_definitions",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf flagship apps delete",
@@ -52915,7 +52915,7 @@
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "App identifier."
+					"description": "Flagship app ID returned when the app was created."
 				}
 			],
 			"options": [
@@ -52932,58 +52932,14 @@
 			"httpMethod": "DELETE",
 			"apiPath": "/accounts/{account_id}/flagship/apps/{app_id}",
 			"operationId": "flagship_delete_app",
-			"hideCommand": true
-		},
-		{
-			"command": "cf flagship apps evaluate create",
-			"name": "create",
-			"fullPath": ["flagship", "apps", "evaluate", "create"],
-			"description": "Evaluates a flag against the provided context, passed as a JSON request body (OFREP-shaped) rather than query parameters. Returns the same response shape as the GET variant.",
-			"summary": "Evaluate flag (POST)",
-			"usage": "cf flagship apps evaluate create <app-id> [options]",
-			"arguments": [
-				{
-					"name": "app-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "App identifier."
-				}
-			],
-			"options": [
-				{
-					"name": "flag-key",
-					"type": "string",
-					"required": true,
-					"description": "The flagKey field"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "create",
-			"hasRequestBody": true,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/flagship/apps/{app_id}/evaluate",
-			"operationId": "flagship_evaluate_flag_post",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf flagship apps evaluate get",
 			"name": "get",
 			"fullPath": ["flagship", "apps", "evaluate", "get"],
-			"description": "Evaluates a flag against the provided context. Pass context attributes as query parameters; values are forwarded as strings. For low-latency in-Worker evaluation, prefer the Flagship binding over this endpoint.",
-			"summary": "Evaluate flag",
+			"description": "Evaluates a flag against the provided context. Pass context attributes as query parameters; values are coerced to numbers or booleans where unambiguous. For low-latency in-Worker evaluation, prefer the Flagship binding over this endpoint.",
+			"summary": "Evaluate flag from query context",
 			"usage": "cf flagship apps evaluate get <app-id> [options]",
 			"arguments": [
 				{
@@ -52991,7 +52947,7 @@
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "App identifier."
+					"description": "Flagship app ID returned when the app was created."
 				}
 			],
 			"options": [
@@ -53020,14 +52976,14 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/flagship/apps/{app_id}/evaluate",
 			"operationId": "flagship_evaluate_flag",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf flagship apps flags changelog list",
 			"name": "list",
 			"fullPath": ["flagship", "apps", "flags", "changelog", "list"],
 			"description": "Returns the audit history for a flag, newest first. Each entry includes the event type and full flag state after the change; `update` entries include a field-level diff. Capped at 200 entries per flag.",
-			"summary": "Get flag changelog",
+			"summary": "List flag changelog entries",
 			"usage": "cf flagship apps flags changelog list [options]",
 			"arguments": [],
 			"options": [
@@ -53035,17 +52991,17 @@
 					"name": "app-id",
 					"type": "string",
 					"required": true,
-					"description": "App identifier."
+					"description": "Flagship app ID returned when the app was created."
 				},
 				{
 					"name": "flag-key",
 					"type": "string",
 					"required": true,
-					"description": "Flag key (slug)."
+					"description": "Case-sensitive key identifying the flag within the app."
 				},
 				{
 					"name": "limit",
-					"type": "string",
+					"type": "number",
 					"required": false,
 					"description": "Max items to return (1–200)."
 				},
@@ -53068,7 +53024,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/flagship/apps/{app_id}/flags/{flag_key}/changelog",
 			"operationId": "flagship_get_flag_changelog",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf flagship apps flags create",
@@ -53083,7 +53039,7 @@
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "App identifier."
+					"description": "Flagship app ID returned when the app was created."
 				}
 			],
 			"options": [
@@ -53097,7 +53053,7 @@
 					"name": "description",
 					"type": "string",
 					"required": false,
-					"description": "The description field"
+					"description": "Optional operator-facing description. It does not affect flag evaluation."
 				},
 				{
 					"name": "enabled",
@@ -53143,13 +53099,13 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/flagship/apps/{app_id}/flags",
 			"operationId": "flagship_create_flag",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf flagship apps flags delete",
 			"name": "delete",
 			"fullPath": ["flagship", "apps", "flags", "delete"],
-			"description": "Deletes a flag permanently. Subsequent evaluations fall back to the caller-supplied default. Cannot be undone.",
+			"description": "Deletes a flag permanently. After deletion propagates, direct evaluations return not found; typed binding accessors may return the caller-supplied default. Cannot be undone.",
 			"summary": "Delete flag",
 			"usage": "cf flagship apps flags delete <flag-key> [options]",
 			"arguments": [
@@ -53158,7 +53114,7 @@
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "Flag key (slug)."
+					"description": "Case-sensitive key identifying the flag within the app."
 				}
 			],
 			"options": [
@@ -53166,7 +53122,7 @@
 					"name": "app-id",
 					"type": "string",
 					"required": true,
-					"description": "App identifier."
+					"description": "Flagship app ID returned when the app was created."
 				},
 				{
 					"name": "dry-run",
@@ -53181,7 +53137,51 @@
 			"httpMethod": "DELETE",
 			"apiPath": "/accounts/{account_id}/flagship/apps/{app_id}/flags/{flag_key}",
 			"operationId": "flagship_delete_flag",
-			"hideCommand": true
+			"hideCommand": false
+		},
+		{
+			"command": "cf flagship apps flags evaluate",
+			"name": "evaluate",
+			"fullPath": ["flagship", "apps", "flags", "evaluate"],
+			"description": "Evaluates a flag against the provided context, passed as a JSON request body (OFREP-shaped) rather than query parameters. Returns the same response shape as the GET variant.",
+			"summary": "Evaluate flag with JSON context",
+			"usage": "cf flagship apps flags evaluate <app-id> [options]",
+			"arguments": [
+				{
+					"name": "app-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Flagship app ID returned when the app was created."
+				}
+			],
+			"options": [
+				{
+					"name": "flag-key",
+					"type": "string",
+					"required": true,
+					"description": "Key of the flag to evaluate within the app."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "action",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/flagship/apps/{app_id}/evaluate",
+			"operationId": "flagship_evaluate_flag_post",
+			"hideCommand": false
 		},
 		{
 			"command": "cf flagship apps flags get",
@@ -53196,7 +53196,7 @@
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "Flag key (slug)."
+					"description": "Case-sensitive key identifying the flag within the app."
 				}
 			],
 			"options": [
@@ -53204,7 +53204,7 @@
 					"name": "app-id",
 					"type": "string",
 					"required": true,
-					"description": "App identifier."
+					"description": "Flagship app ID returned when the app was created."
 				},
 				{
 					"name": "dry-run",
@@ -53219,7 +53219,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/flagship/apps/{app_id}/flags/{flag_key}",
 			"operationId": "flagship_get_flag",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf flagship apps flags list",
@@ -53234,11 +53234,11 @@
 					"name": "app-id",
 					"type": "string",
 					"required": true,
-					"description": "App identifier."
+					"description": "Flagship app ID returned when the app was created."
 				},
 				{
 					"name": "limit",
-					"type": "string",
+					"type": "number",
 					"required": false,
 					"description": "Max items to return (1–200)."
 				},
@@ -53261,13 +53261,13 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/flagship/apps/{app_id}/flags",
 			"operationId": "flagship_list_flags",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf flagship apps flags update",
 			"name": "update",
 			"fullPath": ["flagship", "apps", "flags", "update"],
-			"description": "Replaces the entire flag definition. Omitted fields are dropped, not preserved — read before writing. Each update appends a changelog entry.",
+			"description": "Replaces the entire flag definition. Omitted fields are dropped, not preserved — read before writing. The path key identifies the flag and cannot be renamed by changing the body `key`. Each update appends a changelog entry.",
 			"summary": "Update flag",
 			"usage": "cf flagship apps flags update <flag-key> [options]",
 			"arguments": [
@@ -53276,7 +53276,7 @@
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "Flag key (slug)."
+					"description": "Case-sensitive key identifying the flag within the app."
 				}
 			],
 			"options": [
@@ -53284,7 +53284,7 @@
 					"name": "app-id",
 					"type": "string",
 					"required": true,
-					"description": "App identifier."
+					"description": "Flagship app ID returned when the app was created."
 				},
 				{
 					"name": "default-variation",
@@ -53296,7 +53296,7 @@
 					"name": "description",
 					"type": "string",
 					"required": false,
-					"description": "The description field"
+					"description": "Optional operator-facing description. It does not affect flag evaluation."
 				},
 				{
 					"name": "enabled",
@@ -53342,7 +53342,7 @@
 			"httpMethod": "PUT",
 			"apiPath": "/accounts/{account_id}/flagship/apps/{app_id}/flags/{flag_key}",
 			"operationId": "flagship_update_flag",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf flagship apps get",
@@ -53357,7 +53357,7 @@
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "App identifier."
+					"description": "Flagship app ID returned when the app was created."
 				}
 			],
 			"options": [
@@ -53374,13 +53374,13 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/flagship/apps/{app_id}",
 			"operationId": "flagship_get_app",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf flagship apps list",
 			"name": "list",
 			"fullPath": ["flagship", "apps", "list"],
-			"description": "Lists all apps in the account. Returns identity and audit fields only — flag definitions are not included.",
+			"description": "Lists all Flagship apps in the account. Returns identity and audit fields only; flag definitions are not included.",
 			"summary": "List apps",
 			"usage": "cf flagship apps list",
 			"arguments": [],
@@ -53398,7 +53398,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/flagship/apps",
 			"operationId": "flagship_list_apps",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf flagship apps update",
@@ -53413,7 +53413,7 @@
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "App identifier."
+					"description": "Flagship app ID returned when the app was created."
 				}
 			],
 			"options": [
@@ -53421,7 +53421,7 @@
 					"name": "name",
 					"type": "string",
 					"required": false,
-					"description": "The name field"
+					"description": "Name of the Flagship app (1–64 letters, numbers, hyphens, or underscores)."
 				},
 				{
 					"name": "dry-run",
@@ -53442,7 +53442,7 @@
 			"httpMethod": "PUT",
 			"apiPath": "/accounts/{account_id}/flagship/apps/{app_id}",
 			"operationId": "flagship_update_app",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf fraud get",
@@ -63924,156 +63924,6 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/logpush/transformers/{transformer_id}/versions",
 			"operationId": "get-accounts-account_id-logpush-transformers-transformer_id-versions",
-			"hideCommand": false
-		},
-		{
-			"command": "cf logs control cmb config create",
-			"name": "create",
-			"fullPath": ["logs", "control", "cmb", "config", "create"],
-			"description": "Updates CMB config.",
-			"summary": "Update CMB config",
-			"usage": "cf logs control cmb config create [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "allow-out-of-region-access",
-					"type": "boolean",
-					"required": false,
-					"description": "Allow out of region access"
-				},
-				{
-					"name": "regions",
-					"type": "string",
-					"required": false,
-					"description": "Name of the region."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "create",
-			"hasRequestBody": true,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/logs/control/cmb/config",
-			"operationId": "post-accounts-account_id-logs-control-cmb-config",
-			"hideCommand": false
-		},
-		{
-			"command": "cf logs control cmb config delete",
-			"name": "delete",
-			"fullPath": ["logs", "control", "cmb", "config", "delete"],
-			"description": "Deletes CMB config.",
-			"summary": "Delete CMB config",
-			"usage": "cf logs control cmb config delete",
-			"arguments": [],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "delete",
-			"hasRequestBody": false,
-			"httpMethod": "DELETE",
-			"apiPath": "/accounts/{account_id}/logs/control/cmb/config",
-			"operationId": "delete-accounts-account_id-logs-control-cmb-config",
-			"hideCommand": false
-		},
-		{
-			"command": "cf logs control cmb config get",
-			"name": "get",
-			"fullPath": ["logs", "control", "cmb", "config", "get"],
-			"description": "Gets CMB config.",
-			"summary": "Get CMB config",
-			"usage": "cf logs control cmb config get",
-			"arguments": [],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/logs/control/cmb/config",
-			"operationId": "get-accounts-account_id-logs-control-cmb-config",
-			"hideCommand": false
-		},
-		{
-			"command": "cf logs control retention create",
-			"name": "create",
-			"fullPath": ["logs", "control", "retention", "create"],
-			"description": "Updates log retention flag for Logpull API.",
-			"summary": "Update log retention flag",
-			"usage": "cf logs control retention create [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "flag",
-					"type": "boolean",
-					"required": false,
-					"description": "The log retention flag for Logpull API."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "create",
-			"hasRequestBody": true,
-			"httpMethod": "POST",
-			"apiPath": "/zones/{zone_id}/logs/control/retention/flag",
-			"operationId": "post-zones-zone_id-logs-control-retention-flag",
-			"hideCommand": false
-		},
-		{
-			"command": "cf logs control retention get",
-			"name": "get",
-			"fullPath": ["logs", "control", "retention", "get"],
-			"description": "Gets log retention flag for Logpull API.",
-			"summary": "Get log retention flag",
-			"usage": "cf logs control retention get",
-			"arguments": [],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/zones/{zone_id}/logs/control/retention/flag",
-			"operationId": "get-zones-zone_id-logs-control-retention-flag",
 			"hideCommand": false
 		},
 		{
@@ -75995,6 +75845,289 @@
 					"default": true
 				}
 			]
+		},
+		{
+			"command": "cf monetization account-eligibility check",
+			"name": "check",
+			"fullPath": ["monetization", "account-eligibility", "check"],
+			"description": "Checks the account or zone for Monetization Gateway eligibility and returns its pending, approved, or rejected decision.",
+			"summary": "Check account or zone monetization eligibility",
+			"usage": "cf monetization account-eligibility check [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "accepted-terms-of-service",
+					"type": "boolean",
+					"required": true,
+					"description": "Confirms acceptance of the Monetization Gateway terms of service."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "action",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/{account_or_zone}/{account_or_zone_id}/monetization",
+			"operationId": "generated:post:/{account_or_zone}/{account_or_zone_id}/monetization",
+			"hideCommand": false
+		},
+		{
+			"command": "cf monetization account-eligibility get",
+			"name": "get",
+			"fullPath": ["monetization", "account-eligibility", "get"],
+			"description": "Returns the account or zone's latest stored monetization eligibility result.",
+			"summary": "Get account or zone monetization eligibility",
+			"usage": "cf monetization account-eligibility get",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/{account_or_zone}/{account_or_zone_id}/monetization",
+			"operationId": "generated:get:/{account_or_zone}/{account_or_zone_id}/monetization",
+			"hideCommand": false
+		},
+		{
+			"command": "cf monetization rules delete",
+			"name": "delete",
+			"fullPath": ["monetization", "rules", "delete"],
+			"description": "Removes a single Payment Required rule identified by its ID. Every other rule is preserved. Returns the resulting rule collection.",
+			"summary": "Delete a payment rule",
+			"usage": "cf monetization rules delete <rule-id>",
+			"arguments": [
+				{
+					"name": "rule-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "The unique ID of the payment rule."
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "delete",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/zones/{zone_id}/monetization/rules/{rule_id}",
+			"operationId": "monetization-delete-rule",
+			"hideCommand": false
+		},
+		{
+			"command": "cf monetization rules delete-all",
+			"name": "delete-all",
+			"fullPath": ["monetization", "rules", "delete-all"],
+			"description": "Removes every Payment Required rule from the zone. Any rules the service does not own are preserved. Deleting a zone with no payment rules is a no-op. Returns the resulting (empty) rule collection.",
+			"summary": "Delete all payment rules",
+			"usage": "cf monetization rules delete-all",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/zones/{zone_id}/monetization/rules",
+			"operationId": "monetization-delete-ruleset",
+			"hideCommand": false
+		},
+		{
+			"command": "cf monetization rules edit",
+			"name": "edit",
+			"fullPath": ["monetization", "rules", "edit"],
+			"description": "Applies a partial update to a single Payment Required rule. Only the fields present in the request body are changed; omitted fields keep their current values. Returns the full resulting rule collection.",
+			"summary": "Update a payment rule",
+			"usage": "cf monetization rules edit <rule-id> [options]",
+			"arguments": [
+				{
+					"name": "rule-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "The unique ID of the payment rule."
+				}
+			],
+			"options": [
+				{
+					"name": "address",
+					"type": "string",
+					"required": false,
+					"description": "0x-prefixed 20-byte hexadecimal Ethereum address. Mixed-case addresses must carry a valid EIP-55 checksum; all-lowercase or all-uppercase addresses are also accepted. The effective address must pass wallet screening whenever the rule is patched."
+				},
+				{
+					"name": "description",
+					"type": "string",
+					"required": false,
+					"description": "The description field"
+				},
+				{
+					"name": "enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "The enabled field"
+				},
+				{
+					"name": "expression",
+					"type": "string",
+					"required": false,
+					"description": "Wirefilter expression identifying the requests that require payment. Forwarded verbatim to the Rulesets API, which validates its syntax."
+				},
+				{
+					"name": "price",
+					"type": "string",
+					"required": false,
+					"description": "Price in the smallest indivisible unit of the configured payment token, encoded as a decimal string. Must be a canonical decimal integer in [1000, 100000000]: no leading zeros, and a bare JSON number is rejected. The price is required for the fixed-price schemes (\"exact\" and \"upto\") and must be at least 1000, the smallest amount the payment facilitator can settle ($0.001 for a 6-decimal token such as USDC), and at most 100000000 ($100 for a 6-decimal token). When the scheme is \"origin_controlled\" the origin server sets pricing dynamically and the rule carries no price: the field must be omitted — any provided value, including \"0\", is rejected because it would not be enforced. Responses always encode this as a string and omit it for \"origin_controlled\" rules; the pattern matches exactly the set of values the server accepts."
+				},
+				{
+					"name": "scheme",
+					"type": "string",
+					"required": false,
+					"description": "X402 payment scheme. \"exact\" requires the specified payment amount; \"upto\" permits a payment up to the specified amount; \"origin_controlled\" lets the origin server set pricing dynamically, in which case the rule carries no price and the price field must be omitted.",
+					"enum": ["exact", "upto", "origin_controlled"]
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PATCH",
+			"apiPath": "/zones/{zone_id}/monetization/rules/{rule_id}",
+			"operationId": "monetization-patch-rule",
+			"hideCommand": false
+		},
+		{
+			"command": "cf monetization rules get",
+			"name": "get",
+			"fullPath": ["monetization", "rules", "get"],
+			"description": "Returns a single Payment Required rule identified by its ID.",
+			"summary": "Get a payment rule",
+			"usage": "cf monetization rules get <rule-id>",
+			"arguments": [
+				{
+					"name": "rule-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "The unique ID of the payment rule."
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/zones/{zone_id}/monetization/rules/{rule_id}",
+			"operationId": "monetization-get-rule",
+			"hideCommand": false
+		},
+		{
+			"command": "cf monetization rules list",
+			"name": "list",
+			"fullPath": ["monetization", "rules", "list"],
+			"description": "Returns the currently deployed Payment Required rules for a zone. A zone with no Payment Required ruleset returns 404.",
+			"summary": "List payment rules",
+			"usage": "cf monetization rules list",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/zones/{zone_id}/monetization/rules",
+			"operationId": "monetization-list-rules",
+			"hideCommand": false
+		},
+		{
+			"command": "cf monetization rules update",
+			"name": "update",
+			"fullPath": ["monetization", "rules", "update"],
+			"description": "Replaces the zone's Payment Required ruleset with the submitted desired state. Submit an empty rules array to clear all payment rules.",
+			"summary": "Deploy payment ruleset",
+			"usage": "cf monetization rules update [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "rules",
+					"type": "string",
+					"required": true,
+					"description": "Full desired Payment Required ruleset. An empty array clears all payment rules. The ruleset may contain at most 40 unique wallet addresses; address comparison is case-insensitive. Every address must pass wallet screening before deployment. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PUT",
+			"apiPath": "/zones/{zone_id}/monetization/rules",
+			"operationId": "monetization-deploy-ruleset",
+			"hideCommand": false
 		},
 		{
 			"command": "cf mtls-certificates associations get",
@@ -126649,7 +126782,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/vectorize/v2/indexes",
 			"operationId": "vectorize-create-vectorize-index",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf vectorize delete",
@@ -126681,7 +126814,7 @@
 			"httpMethod": "DELETE",
 			"apiPath": "/accounts/{account_id}/vectorize/v2/indexes/{index_name}",
 			"operationId": "vectorize-delete-vectorize-index",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf vectorize delete-by-ids",
@@ -126725,7 +126858,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/vectorize/v2/indexes/{index_name}/delete_by_ids",
 			"operationId": "vectorize-delete-vectors-by-id",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf vectorize get",
@@ -126757,7 +126890,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/vectorize/v2/indexes/{index_name}",
 			"operationId": "vectorize-get-vectorize-index",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf vectorize get-by-ids",
@@ -126801,7 +126934,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/vectorize/v2/indexes/{index_name}/get_by_ids",
 			"operationId": "vectorize-get-vectors-by-id",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf vectorize info",
@@ -126833,7 +126966,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/vectorize/v2/indexes/{index_name}/info",
 			"operationId": "vectorize-index-info",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf vectorize insert",
@@ -126884,7 +127017,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/vectorize/v2/indexes/{index_name}/insert",
 			"operationId": "vectorize-insert-vector",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf vectorize list",
@@ -126908,7 +127041,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/vectorize/v2/indexes",
 			"operationId": "vectorize-list-vectorize-indexes",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf vectorize list-vectors",
@@ -126952,7 +127085,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/vectorize/v2/indexes/{index_name}/list",
 			"operationId": "vectorize-list-vectors",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf vectorize metadata-index create",
@@ -127003,7 +127136,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/vectorize/v2/indexes/{index_name}/metadata_index/create",
 			"operationId": "vectorize-create-metadata-index",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf vectorize metadata-index delete",
@@ -127047,7 +127180,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/vectorize/v2/indexes/{index_name}/metadata_index/delete",
 			"operationId": "vectorize-delete-metadata-index",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf vectorize metadata-index list",
@@ -127077,7 +127210,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/vectorize/v2/indexes/{index_name}/metadata_index/list",
 			"operationId": "vectorize-list-metadata-indexes",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf vectorize query",
@@ -127143,7 +127276,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/vectorize/v2/indexes/{index_name}/query",
 			"operationId": "vectorize-query-vector",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf vectorize upsert",
@@ -127194,7 +127327,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/vectorize/v2/indexes/{index_name}/upsert",
 			"operationId": "vectorize-upsert-vector",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf waiting-rooms account-waiting-rooms list",
@@ -156803,6 +156936,9 @@
 		"mesh nodes connections": "Operations for nodes.connections",
 		"mesh nodes connectors": "Operations for nodes.connectors",
 		"mesh nodes token": "Operations for nodes.token",
+		"monetization": "monetization",
+		"monetization account-eligibility": "Operations for account-eligibility",
+		"monetization rules": "Operations for rules",
 		"mtls-certificates": "mtls-certificates",
 		"mtls-certificates associations": "Operations for associations",
 		"network": "network",
@@ -157243,8 +157379,8 @@
 		"user tokens": "Create and manage personal API tokens scoped to your user for programmatic API access",
 		"user tokens permission-groups": "Operations for tokens.permission-groups",
 		"values": "values",
-		"vectorize": "vectorize",
-		"vectorize deprecated-indexes": "Operations for deprecated-indexes",
+		"vectorize": "Globally distributed vector database for building semantic search, recommendations, and RAG applications on Workers",
+		"vectorize deprecated-indexes": "Deprecated v1 Vectorize index operations",
 		"vectorize deprecated-indexes delete-by": "Operations for deprecated-indexes.delete-by",
 		"vectorize deprecated-indexes delete-by ids": "Operations for deprecated-indexes.delete-by.ids",
 		"vectorize deprecated-indexes get-by": "Operations for deprecated-indexes.get-by",
@@ -157252,7 +157388,7 @@
 		"vectorize deprecated-indexes insert": "Operations for deprecated-indexes.insert",
 		"vectorize deprecated-indexes query": "Operations for deprecated-indexes.query",
 		"vectorize deprecated-indexes upsert": "Operations for deprecated-indexes.upsert",
-		"vectorize metadata-index": "Operations for metadata-index",
+		"vectorize metadata-index": "Metadata indexes for filtered vector search",
 		"verify": "verify",
 		"waiting-rooms": "Virtual queues that throttle traffic to your site during peak demand with customizable waiting pages",
 		"waiting-rooms account-waiting-rooms": "Account-scoped waiting room listing",

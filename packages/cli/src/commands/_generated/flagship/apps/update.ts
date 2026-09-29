@@ -26,10 +26,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.positional("app-id", {
 			type: "string",
-			description: "App identifier.",
+			description: "Flagship app ID returned when the app was created.",
 			demandOption: true,
 		})
-		.option("name", { type: "string", description: "The name field" })
+		.option("name", {
+			type: "string",
+			description:
+				"Name of the Flagship app (1–64 letters, numbers, hyphens, or underscores).",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

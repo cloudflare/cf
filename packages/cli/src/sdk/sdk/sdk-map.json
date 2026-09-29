@@ -17321,12 +17321,12 @@
     "accessor": [
       "flagship",
       "apps",
-      "evaluate"
+      "flags"
     ],
-    "method": "create",
+    "method": "evaluate",
     "httpMethod": "POST",
     "path": "/accounts/{account_id}/flagship/apps/{app_id}/evaluate",
-    "requestType": "CreateEvaluateRequest",
+    "requestType": "EvaluateFlagsRequest",
     "responseType": "FlagshipEvaluationResult",
     "requiredRequestProperties": [
       "account_id",
@@ -18431,6 +18431,21 @@
     ],
     "operationIdSource": "synthetic"
   },
+  "generated:get:/{account_or_zone}/{account_or_zone_id}/monetization": {
+    "accessor": [
+      "monetization",
+      "accountEligibility"
+    ],
+    "method": "get",
+    "httpMethod": "GET",
+    "path": "/{account_or_zone}/{account_or_zone_id}/monetization",
+    "requestType": "GetAccountEligibilityRequest",
+    "responseType": "MonetizationMonetizationEligibilityResult",
+    "requiredRequestProperties": [
+      "account_or_zone",
+      "account_or_zone_id"
+    ]
+  },
   "generated:get:/{account_or_zone}/{account_or_zone_id}/pay-per-use/usage-stats": {
     "accessor": [
       "payPerCrawl",
@@ -19238,6 +19253,21 @@
     "path": "/{account_or_zone}/{account_or_zone_id}/logs/explorer/query/sql",
     "requestType": "QueryLogsRequest",
     "responseType": "QueryLogsResponse",
+    "requiredRequestProperties": [
+      "account_or_zone",
+      "account_or_zone_id"
+    ]
+  },
+  "generated:post:/{account_or_zone}/{account_or_zone_id}/monetization": {
+    "accessor": [
+      "monetization",
+      "accountEligibility"
+    ],
+    "method": "check",
+    "httpMethod": "POST",
+    "path": "/{account_or_zone}/{account_or_zone_id}/monetization",
+    "requestType": "MonetizationMonetizationAccountEligibilityCheckInput",
+    "responseType": "MonetizationMonetizationEligibilityResult",
     "requiredRequestProperties": [
       "account_or_zone",
       "account_or_zone_id"
@@ -25168,7 +25198,7 @@
     "path": "/user/load_balancers/pools",
     "responseType": "PoolsPoolsResponse",
     "requiredRequestProperties": [
-      "__@iterator@7503",
+      "__@iterator@7505",
       "anchor",
       "at",
       "big",
@@ -27589,6 +27619,94 @@
     "requiredRequestProperties": [
       "account_id",
       "application_id"
+    ]
+  },
+  "monetization-delete-rule": {
+    "accessor": [
+      "monetization",
+      "rules"
+    ],
+    "method": "delete",
+    "httpMethod": "DELETE",
+    "path": "/zones/{zone_id}/monetization/rules/{rule_id}",
+    "requestType": "DeleteRulesRequest",
+    "responseType": "MonetizationMonetizationRuleCollection",
+    "requiredRequestProperties": [
+      "rule_id",
+      "zone_id"
+    ]
+  },
+  "monetization-delete-ruleset": {
+    "accessor": [
+      "monetization",
+      "rules"
+    ],
+    "method": "deleteAll",
+    "httpMethod": "DELETE",
+    "path": "/zones/{zone_id}/monetization/rules",
+    "requestType": "DeleteAllRulesRequest",
+    "responseType": "MonetizationMonetizationRuleCollection",
+    "requiredRequestProperties": [
+      "zone_id"
+    ]
+  },
+  "monetization-deploy-ruleset": {
+    "accessor": [
+      "monetization",
+      "rules"
+    ],
+    "method": "update",
+    "httpMethod": "PUT",
+    "path": "/zones/{zone_id}/monetization/rules",
+    "requestType": "MonetizationMonetizationRulesetInput",
+    "responseType": "MonetizationMonetizationRuleCollection",
+    "requiredRequestProperties": [
+      "rules",
+      "zone_id"
+    ]
+  },
+  "monetization-get-rule": {
+    "accessor": [
+      "monetization",
+      "rules"
+    ],
+    "method": "get",
+    "httpMethod": "GET",
+    "path": "/zones/{zone_id}/monetization/rules/{rule_id}",
+    "requestType": "GetRulesRequest",
+    "responseType": "MonetizationMonetizationRule",
+    "requiredRequestProperties": [
+      "rule_id",
+      "zone_id"
+    ]
+  },
+  "monetization-list-rules": {
+    "accessor": [
+      "monetization",
+      "rules"
+    ],
+    "method": "list",
+    "httpMethod": "GET",
+    "path": "/zones/{zone_id}/monetization/rules",
+    "requestType": "ListRulesRequest",
+    "responseType": "MonetizationMonetizationRuleCollection",
+    "requiredRequestProperties": [
+      "zone_id"
+    ]
+  },
+  "monetization-patch-rule": {
+    "accessor": [
+      "monetization",
+      "rules"
+    ],
+    "method": "edit",
+    "httpMethod": "PATCH",
+    "path": "/zones/{zone_id}/monetization/rules/{rule_id}",
+    "requestType": "MonetizationMonetizationRulePatch",
+    "responseType": "MonetizationMonetizationRuleCollection",
+    "requiredRequestProperties": [
+      "rule_id",
+      "zone_id"
     ]
   },
   "moq-relays-create": {

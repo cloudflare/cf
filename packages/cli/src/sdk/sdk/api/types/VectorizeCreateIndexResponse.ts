@@ -3,11 +3,17 @@
 import * as CloudflareApi from "../index.js";
 
 export interface VectorizeCreateIndexResponse {
-    config?: CloudflareApi.VectorizeIndexDimensionConfiguration | undefined;
+    config?: VectorizeCreateIndexResponse.Config | undefined;
     /** Specifies the timestamp the resource was created as an ISO8601 string. */
     created_on?: string | undefined;
     description?: CloudflareApi.VectorizeIndexDescription | undefined;
     /** Specifies the timestamp the resource was modified as an ISO8601 string. */
     modified_on?: string | undefined;
     name?: CloudflareApi.VectorizeIndexName | undefined;
+}
+
+export namespace VectorizeCreateIndexResponse {
+    export interface Config extends CloudflareApi.VectorizeIndexDimensionConfiguration {
+        preset?: CloudflareApi.VectorizeIndexPreset | undefined;
+    }
 }

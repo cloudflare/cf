@@ -88,6 +88,7 @@ import { MatchesClient } from "./api/resources/matches/client/Client.js";
 import { McpClient } from "./api/resources/mcp/client/Client.js";
 import { MediaClient } from "./api/resources/media/client/Client.js";
 import { MeshClient } from "./api/resources/mesh/client/Client.js";
+import { MonetizationClient } from "./api/resources/monetization/client/Client.js";
 import { MtlsCertificatesClient } from "./api/resources/mtlsCertificates/client/Client.js";
 import { NelSettingsClient } from "./api/resources/nelSettings/client/Client.js";
 import { NetworkClient } from "./api/resources/network/client/Client.js";
@@ -296,6 +297,7 @@ export class CloudflareApiClient {
     protected _mcp: McpClient | undefined;
     protected _media: MediaClient | undefined;
     protected _mesh: MeshClient | undefined;
+    protected _monetization: MonetizationClient | undefined;
     protected _network: NetworkClient | undefined;
     protected _networkInterconnects: NetworkInterconnectsClient | undefined;
     protected _observability: ObservabilityClient | undefined;
@@ -824,6 +826,10 @@ export class CloudflareApiClient {
 
     public get mesh(): MeshClient {
         return (this._mesh ??= new MeshClient(this._options));
+    }
+
+    public get monetization(): MonetizationClient {
+        return (this._monetization ??= new MonetizationClient(this._options));
     }
 
     public get network(): NetworkClient {

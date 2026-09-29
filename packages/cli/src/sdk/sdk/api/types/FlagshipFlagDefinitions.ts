@@ -50,7 +50,9 @@ export namespace FlagshipFlagDefinitions {
                                       | "starts_with"
                                       | "ends_with"
                                       | "in"
-                                      | "not_in";
+                                      | "not_in"
+                                      | "has"
+                                      | "not_has";
                                   value: CloudflareApi.FlagshipJsonValue;
                               }
                             | {
@@ -68,7 +70,9 @@ export namespace FlagshipFlagDefinitions {
                                                 | "starts_with"
                                                 | "ends_with"
                                                 | "in"
-                                                | "not_in";
+                                                | "not_in"
+                                                | "has"
+                                                | "not_has";
                                             value: CloudflareApi.FlagshipJsonValue;
                                         }
                                       | {
@@ -86,7 +90,9 @@ export namespace FlagshipFlagDefinitions {
                                                           | "starts_with"
                                                           | "ends_with"
                                                           | "in"
-                                                          | "not_in";
+                                                          | "not_in"
+                                                          | "has"
+                                                          | "not_has";
                                                       value: CloudflareApi.FlagshipJsonValue;
                                                   }
                                                 | {
@@ -104,7 +110,9 @@ export namespace FlagshipFlagDefinitions {
                                                                     | "starts_with"
                                                                     | "ends_with"
                                                                     | "in"
-                                                                    | "not_in";
+                                                                    | "not_in"
+                                                                    | "has"
+                                                                    | "not_has";
                                                                 value: CloudflareApi.FlagshipJsonValue;
                                                             }
                                                           | {
@@ -122,7 +130,9 @@ export namespace FlagshipFlagDefinitions {
                                                                               | "starts_with"
                                                                               | "ends_with"
                                                                               | "in"
-                                                                              | "not_in";
+                                                                              | "not_in"
+                                                                              | "has"
+                                                                              | "not_has";
                                                                           value: CloudflareApi.FlagshipJsonValue;
                                                                       }
                                                                     | {
@@ -140,7 +150,9 @@ export namespace FlagshipFlagDefinitions {
                                                                                         | "starts_with"
                                                                                         | "ends_with"
                                                                                         | "in"
-                                                                                        | "not_in";
+                                                                                        | "not_in"
+                                                                                        | "has"
+                                                                                        | "not_has";
                                                                                     value: CloudflareApi.FlagshipJsonValue;
                                                                                 }
                                                                               | {
@@ -167,7 +179,7 @@ export namespace FlagshipFlagDefinitions {
                     export interface Rollout {
                         /** Context attribute used for sticky bucketing. Defaults to `targetingKey`. If absent at evaluation time, bucketing is random per request. */
                         attribute?: string | undefined;
-                        /** Percentage of matching traffic (0–100) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100). */
+                        /** Percentage of matching traffic (0–100, up to 2 decimal places) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100). */
                         percentage: number;
                     }
                 }

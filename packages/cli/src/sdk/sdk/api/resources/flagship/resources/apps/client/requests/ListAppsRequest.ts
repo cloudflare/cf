@@ -7,6 +7,6 @@
  *     }
  */
 export interface ListAppsRequest {
-    /** Cloudflare account ID. */
+    /** Cloudflare account ID that owns the Flagship app. */
     account_id: string;
 }

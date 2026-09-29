@@ -25,7 +25,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			"$0 flagship apps create\n\nCreates an app. The returned `id` is used in all subsequent flag, changelog, and evaluation requests."
 		)
-		.option("name", { type: "string", description: "The name field" })
+		.option("name", {
+			type: "string",
+			description:
+				"Name of the Flagship app (1–64 letters, numbers, hyphens, or underscores).",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -93,7 +97,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					return;
 				}
 				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField("name", "The name field");
+					argv["name"] = await promptForRequiredField(
+						"name",
+						"Name of the Flagship app (1–64 letters, numbers, hyphens, or underscores)."
+					);
 				}
 
 				// Assemble request body from individual flags

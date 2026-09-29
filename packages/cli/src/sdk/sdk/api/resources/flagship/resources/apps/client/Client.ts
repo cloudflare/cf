@@ -42,7 +42,7 @@ export class AppsClient {
     }
 
     /**
-     * Lists all apps in the account. Returns identity and audit fields only — flag definitions are not included.
+     * Lists all Flagship apps in the account. Returns identity and audit fields only; flag definitions are not included.
      *
      * @param {CloudflareApi.flagship.ListAppsRequest} request
      * @param {AppsClient.RequestOptions} requestOptions - Request-specific configuration.

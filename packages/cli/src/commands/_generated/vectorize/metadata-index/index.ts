@@ -10,7 +10,7 @@ import type { CommandModule } from "yargs";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "metadata-index",
-	describe: "Operations for metadata-index",
+	describe: "Metadata indexes for filtered vector search",
 
 	builder: (yargs) => {
 		return yargs

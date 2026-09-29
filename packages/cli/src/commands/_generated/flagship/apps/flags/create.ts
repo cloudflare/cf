@@ -27,7 +27,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.positional("app-id", {
 			type: "string",
-			description: "App identifier.",
+			description: "Flagship app ID returned when the app was created.",
 			demandOption: true,
 		})
 		.option("default-variation", {
@@ -37,7 +37,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("description", {
 			type: "string",
-			description: "The description field",
+			description:
+				"Optional operator-facing description. It does not affect flag evaluation.",
 		})
 		.option("enabled", {
 			type: "boolean",

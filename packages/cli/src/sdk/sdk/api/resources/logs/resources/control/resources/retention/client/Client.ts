@@ -27,6 +27,8 @@ export class RetentionClient {
     }
 
     /**
+     * @deprecated
+     *
      * Gets log retention flag for Logpull API.
      *
      * @param {CloudflareApi.logs.control.GetRetentionRequest} request
@@ -95,6 +97,8 @@ export class RetentionClient {
     }
 
     /**
+     * @deprecated
+     *
      * Updates log retention flag for Logpull API.
      *
      * @param {CloudflareApi.logs.control.CreateRetentionRequest} request

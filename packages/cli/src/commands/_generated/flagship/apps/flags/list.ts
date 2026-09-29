@@ -24,11 +24,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.option("app-id", {
 			type: "string",
-			description: "App identifier.",
+			description: "Flagship app ID returned when the app was created.",
 			demandOption: true,
 		})
 		.option("limit", {
-			type: "string",
+			type: "number",
 			description: "Max items to return (1–200).",
 		})
 		.option("cursor", {

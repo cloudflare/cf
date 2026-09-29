@@ -24,14 +24,15 @@ import * as CloudflareApi from "../../../../../../../../index.js";
  *     }
  */
 export interface UpdateFlagsRequest {
-    /** Cloudflare account ID. */
+    /** Cloudflare account ID that owns the Flagship app. */
     account_id: string;
-    /** App identifier. */
+    /** Flagship app ID returned when the app was created. */
     app_id: string;
-    /** Flag key (slug). */
+    /** Case-sensitive key identifying the flag within the app. */
     flag_key: string;
     /** Variation the API serves when the flag is off, or when it's on but no rule matches the context. Must be a key in `variations`. */
     default_variation: string;
+    /** Optional operator-facing description. It does not affect flag evaluation. */
     description?: string | null;
     /** When false, the flag bypasses all rules and always serves `default_variation`. */
     enabled: boolean;
@@ -77,7 +78,9 @@ export namespace UpdateFlagsRequest {
                               | "starts_with"
                               | "ends_with"
                               | "in"
-                              | "not_in";
+                              | "not_in"
+                              | "has"
+                              | "not_has";
                           value: CloudflareApi.FlagshipJsonValue;
                       }
                     | {
@@ -95,7 +98,9 @@ export namespace UpdateFlagsRequest {
                                         | "starts_with"
                                         | "ends_with"
                                         | "in"
-                                        | "not_in";
+                                        | "not_in"
+                                        | "has"
+                                        | "not_has";
                                     value: CloudflareApi.FlagshipJsonValue;
                                 }
                               | {
@@ -113,7 +118,9 @@ export namespace UpdateFlagsRequest {
                                                   | "starts_with"
                                                   | "ends_with"
                                                   | "in"
-                                                  | "not_in";
+                                                  | "not_in"
+                                                  | "has"
+                                                  | "not_has";
                                               value: CloudflareApi.FlagshipJsonValue;
                                           }
                                         | {
@@ -131,7 +138,9 @@ export namespace UpdateFlagsRequest {
                                                             | "starts_with"
                                                             | "ends_with"
                                                             | "in"
-                                                            | "not_in";
+                                                            | "not_in"
+                                                            | "has"
+                                                            | "not_has";
                                                         value: CloudflareApi.FlagshipJsonValue;
                                                     }
                                                   | {
@@ -149,7 +158,9 @@ export namespace UpdateFlagsRequest {
                                                                       | "starts_with"
                                                                       | "ends_with"
                                                                       | "in"
-                                                                      | "not_in";
+                                                                      | "not_in"
+                                                                      | "has"
+                                                                      | "not_has";
                                                                   value: CloudflareApi.FlagshipJsonValue;
                                                               }
                                                             | {
@@ -167,7 +178,9 @@ export namespace UpdateFlagsRequest {
                                                                                 | "starts_with"
                                                                                 | "ends_with"
                                                                                 | "in"
-                                                                                | "not_in";
+                                                                                | "not_in"
+                                                                                | "has"
+                                                                                | "not_has";
                                                                             value: CloudflareApi.FlagshipJsonValue;
                                                                         }
                                                                       | {
@@ -194,7 +207,7 @@ export namespace UpdateFlagsRequest {
             export interface Rollout {
                 /** Context attribute used for sticky bucketing. Defaults to `targetingKey`. If absent at evaluation time, bucketing is random per request. */
                 attribute?: string | undefined;
-                /** Percentage of matching traffic (0–100) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100). */
+                /** Percentage of matching traffic (0–100, up to 2 decimal places) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100). */
                 percentage: number;
             }
         }

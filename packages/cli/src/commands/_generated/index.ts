@@ -622,7 +622,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./flagship/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -884,6 +884,15 @@ export const generatedCommands: GeneratedCommand[] = [
 			null
 		),
 		hideCommand: true,
+	},
+	{
+		command: lazyCommand<CommonYargsOptions>(
+			"monetization",
+			"monetization",
+			() => import("./monetization/index.js"),
+			null
+		),
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -1473,11 +1482,11 @@ export const generatedCommands: GeneratedCommand[] = [
 	{
 		command: lazyCommand<CommonYargsOptions>(
 			"vectorize",
-			"vectorize",
+			"Globally distributed vector database for building semantic search, recommendations, and RAG applications on Workers",
 			() => import("./vectorize/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(

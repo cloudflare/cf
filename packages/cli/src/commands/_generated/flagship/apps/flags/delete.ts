@@ -21,16 +21,16 @@ import type { Argv, CommandModule } from "yargs";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 flagship apps flags delete <flag-key>\n\nDeletes a flag permanently. Subsequent evaluations fall back to the caller-supplied default. Cannot be undone."
+			"$0 flagship apps flags delete <flag-key>\n\nDeletes a flag permanently. After deletion propagates, direct evaluations return not found; typed binding accessors may return the caller-supplied default. Cannot be undone."
 		)
 		.positional("flag-key", {
 			type: "string",
-			description: "Flag key (slug).",
+			description: "Case-sensitive key identifying the flag within the app.",
 			demandOption: true,
 		})
 		.option("app-id", {
 			type: "string",
-			description: "App identifier.",
+			description: "Flagship app ID returned when the app was created.",
 			demandOption: true,
 		})
 		.option("dry-run", {
@@ -83,7 +83,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (!(await confirmDelete({ force: Boolean(argv.force) }))) {
+				if (
+					!(await confirmDelete({
+						force: Boolean(argv.force),
+						message: `Delete this feature flag? After the deletion propagates, evaluation requests can no longer resolve it. This action cannot be undone.`,
+					}))
+				) {
 					process.stderr.write("Aborted.\n");
 					return;
 				}

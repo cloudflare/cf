@@ -36985,7 +36985,7 @@
 					"name": "name",
 					"type": "string",
 					"required": true,
-					"description": "The name field"
+					"description": "Name of the Flagship app (1–64 letters, numbers, hyphens, or underscores)."
 				}
 			]
 		},
@@ -37028,33 +37028,6 @@
 			"queryParams": [],
 			"hasRequestBody": false,
 			"requestBodyFields": []
-		},
-		"flagship apps evaluate create": {
-			"operationId": "flagship_evaluate_flag_post",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/flagship/apps/{app_id}/evaluate",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "app_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "flag-key",
-					"type": "string",
-					"required": true,
-					"description": "The flagKey field"
-				}
-			]
 		},
 		"flagship apps evaluate get": {
 			"operationId": "flagship_evaluate_flag",
@@ -37111,7 +37084,7 @@
 			"queryParams": [
 				{
 					"name": "limit",
-					"type": "string",
+					"type": "number",
 					"required": false
 				},
 				{
@@ -37152,7 +37125,7 @@
 					"name": "description",
 					"type": "string",
 					"required": false,
-					"description": "The description field"
+					"description": "Optional operator-facing description. It does not affect flag evaluation."
 				},
 				{
 					"name": "enabled",
@@ -37205,6 +37178,33 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"flagship apps flags evaluate": {
+			"operationId": "flagship_evaluate_flag_post",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/flagship/apps/{app_id}/evaluate",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "app_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "flag-key",
+					"type": "string",
+					"required": true,
+					"description": "Key of the flag to evaluate within the app."
+				}
+			]
+		},
 		"flagship apps flags get": {
 			"operationId": "flagship_get_flag",
 			"httpMethod": "GET",
@@ -37249,7 +37249,7 @@
 			"queryParams": [
 				{
 					"name": "limit",
-					"type": "string",
+					"type": "number",
 					"required": false
 				},
 				{
@@ -37295,7 +37295,7 @@
 					"name": "description",
 					"type": "string",
 					"required": false,
-					"description": "The description field"
+					"description": "Optional operator-facing description. It does not affect flag evaluation."
 				},
 				{
 					"name": "enabled",
@@ -37381,7 +37381,7 @@
 					"name": "name",
 					"type": "string",
 					"required": false,
-					"description": "The name field"
+					"description": "Name of the Flagship app (1–64 letters, numbers, hyphens, or underscores)."
 				}
 			]
 		},
@@ -44946,101 +44946,6 @@
 					"required": false
 				}
 			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"logs control cmb config create": {
-			"operationId": "post-accounts-account_id-logs-control-cmb-config",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/logs/control/cmb/config",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "allow-out-of-region-access",
-					"type": "boolean",
-					"required": false,
-					"description": "Allow out of region access"
-				},
-				{
-					"name": "regions",
-					"type": "string",
-					"required": false,
-					"description": "Name of the region."
-				}
-			]
-		},
-		"logs control cmb config delete": {
-			"operationId": "delete-accounts-account_id-logs-control-cmb-config",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/logs/control/cmb/config",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"logs control cmb config get": {
-			"operationId": "get-accounts-account_id-logs-control-cmb-config",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/logs/control/cmb/config",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"logs control retention create": {
-			"operationId": "post-zones-zone_id-logs-control-retention-flag",
-			"httpMethod": "POST",
-			"path": "/zones/{zone_id}/logs/control/retention/flag",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "flag",
-					"type": "boolean",
-					"required": false,
-					"description": "The log retention flag for Logpull API."
-				}
-			]
-		},
-		"logs control retention get": {
-			"operationId": "get-zones-zone_id-logs-control-retention-flag",
-			"httpMethod": "GET",
-			"path": "/zones/{zone_id}/logs/control/retention/flag",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
@@ -53174,6 +53079,202 @@
 			"queryParams": [],
 			"hasRequestBody": false,
 			"requestBodyFields": []
+		},
+		"monetization account-eligibility check": {
+			"operationId": "generated:post:/{account_or_zone}/{account_or_zone_id}/monetization",
+			"httpMethod": "POST",
+			"path": "/{account_or_zone}/{account_or_zone_id}/monetization",
+			"pathParams": [
+				{
+					"name": "account_or_zone",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_or_zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "accepted-terms-of-service",
+					"type": "boolean",
+					"required": true,
+					"description": "Confirms acceptance of the Monetization Gateway terms of service."
+				}
+			]
+		},
+		"monetization account-eligibility get": {
+			"operationId": "generated:get:/{account_or_zone}/{account_or_zone_id}/monetization",
+			"httpMethod": "GET",
+			"path": "/{account_or_zone}/{account_or_zone_id}/monetization",
+			"pathParams": [
+				{
+					"name": "account_or_zone",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_or_zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"monetization rules delete": {
+			"operationId": "monetization-delete-rule",
+			"httpMethod": "DELETE",
+			"path": "/zones/{zone_id}/monetization/rules/{rule_id}",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "rule_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"monetization rules delete-all": {
+			"operationId": "monetization-delete-ruleset",
+			"httpMethod": "DELETE",
+			"path": "/zones/{zone_id}/monetization/rules",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"monetization rules edit": {
+			"operationId": "monetization-patch-rule",
+			"httpMethod": "PATCH",
+			"path": "/zones/{zone_id}/monetization/rules/{rule_id}",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "rule_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "address",
+					"type": "string",
+					"required": false,
+					"description": "0x-prefixed 20-byte hexadecimal Ethereum address. Mixed-case addresses must carry a valid EIP-55 checksum; all-lowercase or all-uppercase addresses are also accepted. The effective address must pass wallet screening whenever the rule is patched."
+				},
+				{
+					"name": "description",
+					"type": "string",
+					"required": false,
+					"description": "The description field"
+				},
+				{
+					"name": "enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "The enabled field"
+				},
+				{
+					"name": "expression",
+					"type": "string",
+					"required": false,
+					"description": "Wirefilter expression identifying the requests that require payment. Forwarded verbatim to the Rulesets API, which validates its syntax."
+				},
+				{
+					"name": "price",
+					"type": "string",
+					"required": false,
+					"description": "Price in the smallest indivisible unit of the configured payment token, encoded as a decimal string. Must be a canonical decimal integer in [1000, 100000000]: no leading zeros, and a bare JSON number is rejected. The price is required for the fixed-price schemes (\"exact\" and \"upto\") and must be at least 1000, the smallest amount the payment facilitator can settle ($0.001 for a 6-decimal token such as USDC), and at most 100000000 ($100 for a 6-decimal token). When the scheme is \"origin_controlled\" the origin server sets pricing dynamically and the rule carries no price: the field must be omitted — any provided value, including \"0\", is rejected because it would not be enforced. Responses always encode this as a string and omit it for \"origin_controlled\" rules; the pattern matches exactly the set of values the server accepts."
+				},
+				{
+					"name": "scheme",
+					"type": "string",
+					"required": false,
+					"description": "X402 payment scheme. \"exact\" requires the specified payment amount; \"upto\" permits a payment up to the specified amount; \"origin_controlled\" lets the origin server set pricing dynamically, in which case the rule carries no price and the price field must be omitted."
+				}
+			]
+		},
+		"monetization rules get": {
+			"operationId": "monetization-get-rule",
+			"httpMethod": "GET",
+			"path": "/zones/{zone_id}/monetization/rules/{rule_id}",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "rule_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"monetization rules list": {
+			"operationId": "monetization-list-rules",
+			"httpMethod": "GET",
+			"path": "/zones/{zone_id}/monetization/rules",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"monetization rules update": {
+			"operationId": "monetization-deploy-ruleset",
+			"httpMethod": "PUT",
+			"path": "/zones/{zone_id}/monetization/rules",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "rules",
+					"type": "string",
+					"required": true,
+					"description": "Full desired Payment Required ruleset. An empty array clears all payment rules. The ruleset may contain at most 40 unique wallet addresses; address comparison is case-insensitive. Every address must pass wallet screening before deployment. Provide as a JSON array of objects or @path/to/file.json."
+				}
+			]
 		},
 		"mtls-certificates associations get": {
 			"operationId": "m-tls-certificate-management-list-m-tls-certificate-associations",

@@ -1,4 +1,3 @@
-import $control from "./control/index.js";
 import $datasets from "./datasets/index.js";
 import $list from "./list/index.js";
 import $query from "./query.js";
@@ -20,7 +19,6 @@ const command: CommandModule<CommonYargsOptions> = {
 	builder: (yargs) => {
 		return yargs
 			.command($query)
-			.command($control)
 			.command($datasets)
 			.command($list)
 			.command($rayid)

@@ -24,12 +24,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.positional("flag-key", {
 			type: "string",
-			description: "Flag key (slug).",
+			description: "Case-sensitive key identifying the flag within the app.",
 			demandOption: true,
 		})
 		.option("app-id", {
 			type: "string",
-			description: "App identifier.",
+			description: "Flagship app ID returned when the app was created.",
 			demandOption: true,
 		})
 		.option("dry-run", {

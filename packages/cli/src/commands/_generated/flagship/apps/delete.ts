@@ -25,7 +25,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.positional("app-id", {
 			type: "string",
-			description: "App identifier.",
+			description: "Flagship app ID returned when the app was created.",
 			demandOption: true,
 		})
 		.option("dry-run", {
@@ -75,7 +75,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				if (!(await confirmDelete({ force: Boolean(argv.force) }))) {
+				if (
+					!(await confirmDelete({
+						force: Boolean(argv.force),
+						message: `Delete this Flagship app, all of its flags, and all changelog history? This action cannot be undone.`,
+					}))
+				) {
 					process.stderr.write("Aborted.\n");
 					return;
 				}

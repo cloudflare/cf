@@ -20,11 +20,11 @@ import type { Argv, CommandModule } from "yargs";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 flagship apps evaluate get <app-id>\n\nEvaluates a flag against the provided context. Pass context attributes as query parameters; values are forwarded as strings. For low-latency in-Worker evaluation, prefer the Flagship binding over this endpoint."
+			"$0 flagship apps evaluate get <app-id>\n\nEvaluates a flag against the provided context. Pass context attributes as query parameters; values are coerced to numbers or booleans where unambiguous. For low-latency in-Worker evaluation, prefer the Flagship binding over this endpoint."
 		)
 		.positional("app-id", {
 			type: "string",
-			description: "App identifier.",
+			description: "Flagship app ID returned when the app was created.",
 			demandOption: true,
 		})
 		.option("flag-key", {
@@ -51,7 +51,7 @@ type Query = SdkQuery<"flagship_evaluate_flag">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <app-id>",
-	describe: "Evaluate flag",
+	describe: "Evaluate flag from query context",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(

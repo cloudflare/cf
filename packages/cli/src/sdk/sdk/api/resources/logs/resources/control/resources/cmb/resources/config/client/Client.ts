@@ -27,6 +27,8 @@ export class ConfigClient {
     }
 
     /**
+     * @deprecated
+     *
      * Gets CMB config.
      *
      * @param {CloudflareApi.logs.control.cmb.GetConfigRequest} request
@@ -95,6 +97,8 @@ export class ConfigClient {
     }
 
     /**
+     * @deprecated
+     *
      * Updates CMB config.
      *
      * @param {CloudflareApi.logs.control.cmb.CreateConfigRequest} request
@@ -167,6 +171,8 @@ export class ConfigClient {
     }
 
     /**
+     * @deprecated
+     *
      * Deletes CMB config.
      *
      * @param {CloudflareApi.logs.control.cmb.DeleteConfigRequest} request

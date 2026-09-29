@@ -1030,7 +1030,7 @@ export interface SdkOperationRequestMap {
   "flagship_delete_app": CloudflareApi.flagship.DeleteAppsRequest;
   "flagship_delete_flag": CloudflareApi.flagship.apps.DeleteFlagsRequest;
   "flagship_evaluate_flag": CloudflareApi.flagship.apps.GetEvaluateRequest;
-  "flagship_evaluate_flag_post": CloudflareApi.flagship.apps.CreateEvaluateRequest;
+  "flagship_evaluate_flag_post": CloudflareApi.flagship.apps.EvaluateFlagsRequest;
   "flagship_get_app": CloudflareApi.flagship.GetAppsRequest;
   "flagship_get_definitions": CloudflareApi.flagship.apps.GetDefinitionsRequest;
   "flagship_get_flag": CloudflareApi.flagship.apps.GetFlagsRequest;
@@ -1098,6 +1098,7 @@ export interface SdkOperationRequestMap {
   "generated:get:/{account_or_zone}/{account_or_zone_id}/logs/explorer/datasets/{dataset_id}": CloudflareApi.logs.GetDatasetsRequest;
   "generated:get:/{account_or_zone}/{account_or_zone_id}/logs/explorer/datasets/available": CloudflareApi.logs.AvailableDatasetsRequest;
   "generated:get:/{account_or_zone}/{account_or_zone_id}/media/usage": CloudflareApi.media.GetUsageRequest;
+  "generated:get:/{account_or_zone}/{account_or_zone_id}/monetization": CloudflareApi.monetization.GetAccountEligibilityRequest;
   "generated:get:/{account_or_zone}/{account_or_zone_id}/pay-per-use/usage-stats": CloudflareApi.payPerCrawl.payPerUse.GetAccountUsageStatsRequest;
   "generated:get:/{account_or_zone}/{account_or_zone_id}/rulesets": CloudflareApi.rulesets.ListAccountRulesetsRequest;
   "generated:get:/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}": CloudflareApi.rulesets.GetAccountRulesetsRequest;
@@ -1147,6 +1148,7 @@ export interface SdkOperationRequestMap {
   "generated:post:/{account_or_zone}/{account_or_zone_id}/logpush/validate/origin": CloudflareApi.logpush.accountValidate.CreateOriginRequest;
   "generated:post:/{account_or_zone}/{account_or_zone_id}/logs/explorer/datasets": CloudflareApi.logs.LexCreateDatasetRequest;
   "generated:post:/{account_or_zone}/{account_or_zone_id}/logs/explorer/query/sql": CloudflareApi.QueryLogsRequest;
+  "generated:post:/{account_or_zone}/{account_or_zone_id}/monetization": CloudflareApi.monetization.MonetizationMonetizationAccountEligibilityCheckInput;
   "generated:post:/{account_or_zone}/{account_or_zone_id}/rulesets": CloudflareApi.rulesets.CreateAccountRulesetsRequest;
   "generated:post:/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}/rules": CloudflareApi.rulesets.accountRulesets.CreateRulesRequest;
   "generated:post:/{account_or_zone}/{account_or_zone_id}/security-center/insights/scans": CloudflareApi.securityInsights.StartScansRequest;
@@ -1709,6 +1711,12 @@ export interface SdkOperationRequestMap {
   "migrateWorkerToPreviews": CloudflareApi.workersBuilds.BuildsMigrateToPreviewsRequest;
   "miscategorization-create-miscategorization": CloudflareApi.intel.IntelMiscategorization;
   "modifyApplication": CloudflareApi.containers.CcContainersModifyApplicationRequestBody;
+  "monetization-delete-rule": CloudflareApi.monetization.DeleteRulesRequest;
+  "monetization-delete-ruleset": CloudflareApi.monetization.DeleteAllRulesRequest;
+  "monetization-deploy-ruleset": CloudflareApi.monetization.MonetizationMonetizationRulesetInput;
+  "monetization-get-rule": CloudflareApi.monetization.GetRulesRequest;
+  "monetization-list-rules": CloudflareApi.monetization.ListRulesRequest;
+  "monetization-patch-rule": CloudflareApi.monetization.MonetizationMonetizationRulePatch;
   "moq-relays-create": CloudflareApi.realtime.moq.CreateRelaysRequest;
   "moq-relays-delete": CloudflareApi.realtime.moq.DeleteRelaysRequest;
   "moq-relays-get": CloudflareApi.realtime.moq.GetRelaysRequest;

@@ -24,7 +24,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.positional("app-id", {
 			type: "string",
-			description: "App identifier.",
+			description: "Flagship app ID returned when the app was created.",
 			demandOption: true,
 		})
 		.option("dry-run", {

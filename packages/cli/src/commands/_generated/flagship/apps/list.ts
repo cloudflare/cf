@@ -20,7 +20,7 @@ import type { Argv, CommandModule } from "yargs";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 flagship apps list\n\nLists all apps in the account. Returns identity and audit fields only — flag definitions are not included."
+			"$0 flagship apps list\n\nLists all Flagship apps in the account. Returns identity and audit fields only; flag definitions are not included."
 		)
 		.option("dry-run", {
 			type: "boolean",

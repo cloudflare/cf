@@ -23,16 +23,16 @@ import type { Argv, CommandModule } from "yargs";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 flagship apps flags update <flag-key>\n\nReplaces the entire flag definition. Omitted fields are dropped, not preserved — read before writing. Each update appends a changelog entry."
+			"$0 flagship apps flags update <flag-key>\n\nReplaces the entire flag definition. Omitted fields are dropped, not preserved — read before writing. The path key identifies the flag and cannot be renamed by changing the body `key`. Each update appends a changelog entry."
 		)
 		.positional("flag-key", {
 			type: "string",
-			description: "Flag key (slug).",
+			description: "Case-sensitive key identifying the flag within the app.",
 			demandOption: true,
 		})
 		.option("app-id", {
 			type: "string",
-			description: "App identifier.",
+			description: "Flagship app ID returned when the app was created.",
 			demandOption: true,
 		})
 		.option("default-variation", {
@@ -42,7 +42,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("description", {
 			type: "string",
-			description: "The description field",
+			description:
+				"Optional operator-facing description. It does not affect flag evaluation.",
 		})
 		.option("enabled", {
 			type: "boolean",

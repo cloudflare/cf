@@ -3,14 +3,19 @@
 import * as CloudflareApi from "../index.js";
 
 export interface FlagshipEvaluationResult {
+    /** Key of the evaluated flag. */
     flagKey: string;
+    /** Reason the evaluator selected this variation. */
     reason: FlagshipEvaluationResult.Reason;
     value?: CloudflareApi.FlagshipJsonValue | undefined;
+    /** Name of the variation that supplied the resolved value. */
     variant: string;
 }
 
 export namespace FlagshipEvaluationResult {
+    /** Reason the evaluator selected this variation. */
     export const Reason = {
+        Static: "STATIC",
         TargetingMatch: "TARGETING_MATCH",
         Default: "DEFAULT",
         Disabled: "DISABLED",

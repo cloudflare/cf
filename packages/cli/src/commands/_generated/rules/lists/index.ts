@@ -15,7 +15,7 @@ import type { CommandModule } from "yargs";
 const command: CommandModule<CommonYargsOptions> = {
 	command: "lists",
 	describe:
-		"Named lists of IPs, hostnames, ASNs, or redirects that can be referenced in rule expressions",
+		"Custom account-level lists of IPs, hostnames, ASNs, or redirects used in rule expressions",
 
 	builder: (yargs) => {
 		return yargs

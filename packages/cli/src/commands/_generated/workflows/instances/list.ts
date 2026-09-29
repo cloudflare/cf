@@ -58,11 +58,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"rollingBack",
 			],
 		})
-		.option("date-start", {
+		.option("start", {
 			type: "string",
 			description: "Accepts ISO 8601 with no timezone offsets and in UTC.",
 		})
-		.option("date-end", {
+		.option("end", {
 			type: "string",
 			description: "Accepts ISO 8601 with no timezone offsets and in UTC.",
 		})
@@ -105,8 +105,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					cursor: argv["cursor"],
 					direction: argv["direction"],
 					status: argv["status"],
-					date_start: argv["date-start"],
-					date_end: argv["date-end"],
+					date_start: argv["start"],
+					date_end: argv["end"],
 				};
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();

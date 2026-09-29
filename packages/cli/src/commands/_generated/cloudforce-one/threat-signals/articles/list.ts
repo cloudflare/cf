@@ -21,7 +21,7 @@ import type { Argv, CommandModule } from "yargs";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one threat-signals articles list\n\nList Threat Signals articles."
+			"$0 cloudforce-one threat-signals articles list\n\nLists articles from the account's Threat Signals feeds."
 		)
 		.option("cursor", {
 			type: "string",

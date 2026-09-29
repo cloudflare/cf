@@ -21,7 +21,7 @@ import type { Argv, CommandModule } from "yargs";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one threat-signals skills delete <skill-id>\n\nDelete Threat Signals skill."
+			"$0 cloudforce-one threat-signals skills delete <skill-id>\n\nDeletes a custom skill. Default skills cannot be deleted."
 		)
 		.positional("skill-id", {
 			type: "string",

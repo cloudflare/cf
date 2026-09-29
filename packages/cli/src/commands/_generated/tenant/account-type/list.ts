@@ -15,11 +15,12 @@ import type { Argv, CommandModule } from "yargs";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 tenant account-type list\n\nList of account types available for the Tenant to provision accounts."
+			"$0 tenant account-type list\n\nLists the account types this tenant is allowed to provision."
 		)
 		.option("tenant-id", {
 			type: "string",
-			description: "Tenant ID",
+			description:
+				"The ID of the tenant whose available account types to list.",
 			demandOption: true,
 		})
 		.option("dry-run", {
@@ -35,7 +36,7 @@ type Request = SdkRequest<"Tenants_validAccountTypes">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "list",
-	describe: "Get tenant account types",
+	describe: "List tenant account types",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(

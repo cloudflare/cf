@@ -10,7 +10,7 @@ import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
+import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * list command
  * @generated from apis/overlays/email-security.ts
@@ -28,6 +28,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Unique identifier for a message retrieved from investigation.",
 			demandOption: true,
 		})
+		.option("page", {
+			type: "number",
+			description: "Current page within paginated list of results.",
+		})
+		.option("per-page", {
+			type: "number",
+			description: "The number of results per page. Maximum value is 1000.",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -38,6 +46,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 type Request = SdkRequest<"email_security_get_message_action_log">;
+type Query = SdkQuery<"email_security_get_message_action_log">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "list",
@@ -53,6 +62,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
+				const queryParams: Query = {
+					page: argv["page"],
+					per_page: argv["per-page"],
+				};
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
@@ -62,6 +75,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						pathParams: {
 							"investigate-id": String(argv["investigate-id"] ?? ""),
 						},
+						query: queryParams,
 						bodyKind: "none",
 					});
 					return;
@@ -74,6 +88,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					client.emailSecurity.investigate.actionLog.list({
 						account_id: accountId,
 						investigate_id: argv["investigate-id"],
+						...queryParams,
 					} satisfies Request)
 				);
 				formatOutput(result, { successLabel: `Loaded` });

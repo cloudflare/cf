@@ -11,7 +11,10 @@
  * wires this module in place of the
  * generated leaf.
  *
- * `__tests__/ai-run.test.ts` carries a drift guard, since nothing
+ * The operation accepts the model in the request body and nests the model's
+ * own fields under `input`; this command keeps the friendlier positional
+ * model plus dynamically generated input flags. `__tests__/ai-run.test.ts`
+ * carries a drift guard, since nothing
  * regenerates this command when the spec moves.
  */
 import {
@@ -48,10 +51,10 @@ import { theme } from "#lib/ui/theme.js";
 import { withTelemetry } from "../../../lib/telemetry/index.js";
 import { getModelInputSchema } from "./schema.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { CloudflareApi, SdkRequest } from "#sdk";
+import type { SdkRequest } from "#sdk";
 import type { Argv, CommandModule } from "yargs";
 
-type Request = SdkRequest<"workers-ai-post-run-model">;
+type Request = SdkRequest<"workers-ai-post-run-generic">;
 
 const MODELS_HINT = "Run `cf ai models list` to see the models you can run.";
 
@@ -163,8 +166,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 		const accountId = argv.dryRun
 			? ((await resolveAccountIdSilent()) ?? "<account-id>")
 			: await getAccountId();
-		const encodedModel = model.split("/").map(encodeURIComponent).join("/");
-
 		let body: unknown;
 		if (argv.body !== undefined) {
 			if (
@@ -248,13 +249,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 		}
 
 		if (argv.dryRun) {
+			const requestBody = {
+				model,
+				input: body as Request["input"],
+			} satisfies Omit<Request, "account_id">;
 			formatDryRun({
 				command: "cf ai run",
 				method: "POST",
-				url: `https://api.cloudflare.com/client/v4/accounts/${accountId}/ai/run/${encodedModel}`,
-				pathParams: { "model-name": model },
+				url: `https://api.cloudflare.com/client/v4/accounts/${accountId}/ai/run`,
+				pathParams: {},
 				bodyKind: "json",
-				body,
+				body: requestBody,
 			});
 			return;
 		}
@@ -262,12 +267,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 		const client = await createCommandClient(argv);
 		argv.accountId = accountId;
 		const result = await withProgress(`Running`, async () =>
-			requestApi<CloudflareApi.RunModelAiResponse["result"] | Buffer>(
+			requestApi<Record<string, unknown> | Buffer>(
 				client,
 				"POST",
-				`/accounts/${accountId}/ai/run/${encodedModel}`,
+				`/accounts/${accountId}/ai/run`,
 				{
-					body: body as Request["body"],
+					body: {
+						model,
+						input: body as Request["input"],
+					} satisfies Omit<Request, "account_id">,
 					preserveNonJsonBytes: true,
 				}
 			)

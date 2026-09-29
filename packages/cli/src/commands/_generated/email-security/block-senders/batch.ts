@@ -22,27 +22,27 @@ import type { Argv, CommandModule } from "yargs";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 email-security block-senders batch\n\nExecutes multiple operations atomically. All four operation arrays (deletes, patches, puts, posts) are required and executed in order. Send empty arrays for unused operations."
+			"$0 email-security block-senders batch\n\nExecutes multiple blocked sender operations atomically: delete, partially update, replace, and create blocked sender patterns in a single request. All four operation arrays (deletes, patches, puts, posts) are required and executed in order. Send empty arrays for unused operations."
 		)
 		.option("deletes", {
 			type: "string",
 			description:
-				"The deletes field. Provide as a JSON array of objects or @path/to/file.json.",
+				"IDs of the blocked sender patterns to delete. Provide as a JSON array of objects or @path/to/file.json.",
 		})
 		.option("patches", {
 			type: "string",
 			description:
-				"The patches field. Provide as a JSON array of objects or @path/to/file.json.",
+				"Partial updates to apply — each entry carries the pattern's ID and only the fields to change. Provide as a JSON array of objects or @path/to/file.json.",
 		})
 		.option("posts", {
 			type: "string",
 			description:
-				"The posts field. Provide as a JSON array of objects or @path/to/file.json.",
+				"Blocked sender patterns to create. Provide as a JSON array of objects or @path/to/file.json.",
 		})
 		.option("puts", {
 			type: "string",
 			description:
-				"The puts field. Provide as a JSON array of objects or @path/to/file.json.",
+				"Full replacements to apply — each entry carries the pattern's ID and every field of its new value. Provide as a JSON array of objects or @path/to/file.json.",
 		})
 		.option("dry-run", {
 			type: "boolean",

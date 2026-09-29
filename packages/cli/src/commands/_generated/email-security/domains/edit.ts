@@ -32,40 +32,49 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("allowed-delivery-modes", {
 			type: "string",
 			array: true,
-			description: "The allowed_delivery_modes field",
+			description: "Delivery modes to onboard the domain through.",
 		})
 		.option("drop-dispositions", {
 			type: "string",
 			array: true,
-			description: "The drop_dispositions field",
+			description:
+				'Dispositions to drop instead of delivering, e.g. `["MALICIOUS", "SPAM"]`.',
 		})
 		.option("integration-id", {
 			type: "string",
-			description: "The integration_id field",
+			description:
+				"Identifier of the CASB integration that authorizes this domain. The integration also enables API scanning, post-delivery actions, and directory sync.",
 		})
 		.option("ip-restrictions", {
 			type: "string",
 			array: true,
-			description: "The ip_restrictions field",
+			description:
+				"Source IP ranges mail is accepted from. Any other source is rejected.",
 		})
 		.option("lookback-hops", {
 			type: "number",
-			description: "The lookback_hops field",
+			description:
+				"Number of hops to trace back through received headers when reconstructing the original message (1-20).",
 		})
 		.option("regions", {
 			type: "string",
 			array: true,
-			description: "The regions field",
+			description:
+				'Regions that process messages for this domain, e.g. `["GLOBAL"]` or `["US"]`.',
 		})
 		.option("require-tls-inbound", {
 			type: "boolean",
-			description: "The require_tls_inbound field",
+			description: "Require TLS on inbound connections.",
 		})
 		.option("require-tls-outbound", {
 			type: "boolean",
-			description: "The require_tls_outbound field",
+			description: "Require TLS on outbound connections.",
 		})
-		.option("transport", { type: "string", description: "The transport field" })
+		.option("transport", {
+			type: "string",
+			description:
+				"The mail transport hostname for MX/Inline delivery — the MX record Cloudflare delivers email to (e.g. `mx.example.com`).",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

@@ -3,7 +3,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
@@ -23,6 +23,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			"$0 email-security investigate release\n\nDelivers one or more quarantined messages to their intended recipients, for cases where a message was incorrectly quarantined. Operates on an explicit list of messages; to release all messages matching a search, create a bulk action job instead. The response includes delivery status for each recipient."
 		)
+		.option("ids", {
+			type: "string",
+			array: true,
+			description: "Investigate IDs of the messages to release.",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -31,14 +36,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("body", {
 			type: "string",
 			description:
-				"A list of investigate IDs identifying the messages to release.",
+				"The messages to release, identified by their investigate IDs.",
 		});
 }
 
 type Args = InferArgs<typeof builder>;
 
 type Request = SdkRequest<"email_security_post_release">;
-type Body = Request["body"];
+type Body = Request;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "release",
@@ -62,7 +67,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/email-security/investigate/release`,
 						pathParams: {},
 						bodyKind: "json",
-						body: argv.body !== undefined ? parseBody(argv.body) : undefined,
+						body:
+							argv.body !== undefined
+								? parseBody(argv.body)
+								: compactBody({
+										ids: argv["ids"],
+									}),
 					});
 					return;
 				}
@@ -71,22 +81,33 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody<Request>(argv.body);
 					const result = await withProgress(`Creating`, async () =>
 						client.emailSecurity.investigate.release({
-							body: bodyData,
+							...bodyData,
 							account_id: accountId,
 						} satisfies Request)
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-
-				if (argv.body === undefined) {
+				if (argv["ids"] === undefined) {
 					throw new Error(
-						"--body is required for this command. Pass --body '<json>' or --body @path/to/file.json."
+						"--ids is required (or pass --body with this field set)."
 					);
 				}
+
+				// Assemble request body from individual flags
+				const bodyData = compactBody<Body>({
+					ids: argv["ids"],
+				});
+				const result = await withProgress(`Creating`, async () =>
+					client.emailSecurity.investigate.release({
+						...bodyData,
+						account_id: accountId,
+					} satisfies Request)
+				);
+				formatOutput(result, { successLabel: `Created` });
 			}
 		),
 };

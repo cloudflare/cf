@@ -13,7 +13,7 @@ import { type ForgeOpenApiDocument, initFromOpenApi } from "@cloudflare/forge";
 import { filterForCliAudience } from "./generator/cli-audience.js";
 import { dropSdkMethodGroupCollisions } from "./generator/sdk-method-group-collisions.js";
 import { hasAccountOrZoneScope } from "./generator/util.js";
-import { forceEnableWorkersSecrets } from "./generator/workers-secret-cli-override.js";
+import { preserveWorkersSecretUpdatePositional } from "./generator/workers-secret-cli-compat.js";
 
 const bundle = process.env.FORGE_OPENAPI_BUNDLE;
 const sdkDir = fileURLToPath(new URL("./src/sdk", import.meta.url));
@@ -240,7 +240,7 @@ if (sdkCollisionResult.collisions > 0) {
 
 const { transformer } = await import("./generator/index.ts");
 const cliSource = structuredClone(source);
-forceEnableWorkersSecrets(cliSource);
+preserveWorkersSecretUpdatePositional(cliSource);
 const audienceExcluded = filterForCliAudience(cliSource);
 console.log(
 	`[cf-generator] Excluded ${audienceExcluded} operation(s) not targeting the cf-cli audience`

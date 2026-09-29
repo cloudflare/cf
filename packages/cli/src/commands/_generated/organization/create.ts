@@ -18,7 +18,7 @@ import type { Argv, CommandModule } from "yargs";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 organization create\n\nCreate a new organization for a user. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)"
+			"$0 organization create\n\nCreate a new organization for a user. Sub-organization creation availability depends on the organization's capabilities. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)"
 		)
 		.option("name", { type: "string", description: "The name field" })
 		.option("parent-id", { type: "string", description: "The parent.id field" })

@@ -18,7 +18,7 @@ import type { Argv, CommandModule } from "yargs";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 organization update <organization-id>\n\nModify organization. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)"
+			"$0 organization update <organization-id>\n\nUpdate an organization's name. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)"
 		)
 		.positional("organization-id", {
 			type: "string",
@@ -102,7 +102,7 @@ type Body = Request["body"];
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update <organization-id>",
-	describe: "Modify organization.",
+	describe: "Update organization",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(

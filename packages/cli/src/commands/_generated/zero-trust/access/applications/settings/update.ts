@@ -52,7 +52,7 @@ type Args = InferArgs<typeof builder>;
 
 type Request =
 	SdkRequest<"generated:put:/{account_or_zone}/{account_or_zone_id}/access/apps/{app_id}/settings">;
-type Body = Request["body"];
+type Body = Request;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update <app-id>",
@@ -113,10 +113,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody<Request>(argv.body);
 					const result = await withProgress(`Updating`, async () =>
 						client.zeroTrust.access.applications.settings.update({
-							body: bodyData,
+							...bodyData,
 							account_or_zone: accountOrZone,
 							account_or_zone_id: accountOrZoneId,
 							app_id: argv["app-id"],
@@ -133,7 +133,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				});
 				const result = await withProgress(`Updating`, async () =>
 					client.zeroTrust.access.applications.settings.update({
-						body: bodyData,
+						...bodyData,
 						account_or_zone: accountOrZone,
 						account_or_zone_id: accountOrZoneId,
 						app_id: argv["app-id"],

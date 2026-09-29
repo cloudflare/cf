@@ -21,7 +21,7 @@ import type { Argv, CommandModule } from "yargs";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one threat-signals articles bulk-mark-read\n\nBulk update Threat Signals article read status."
+			"$0 cloudforce-one threat-signals articles bulk-mark-read\n\nMarks up to 50 Threat Signals articles as read or unread."
 		)
 		.option("article-ids", {
 			type: "string",

@@ -20,7 +20,7 @@ import type { Argv, CommandModule } from "yargs";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one threat-signals indicators list\n\nList Threat Signals article indicators."
+			"$0 cloudforce-one threat-signals indicators list\n\nLists indicators of compromise extracted from the account's Threat Signals articles."
 		)
 		.option("feed-id", { type: "string", description: "Feed ID" })
 		.option("article-id", { type: "string", description: "Article ID" })

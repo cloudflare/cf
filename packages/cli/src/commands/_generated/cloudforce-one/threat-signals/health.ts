@@ -20,7 +20,7 @@ import type { Argv, CommandModule } from "yargs";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one threat-signals health\n\nCheck Threat Signals service health."
+			"$0 cloudforce-one threat-signals health\n\nChecks that the Threat Signals API is reachable."
 		)
 		.option("dry-run", {
 			type: "boolean",

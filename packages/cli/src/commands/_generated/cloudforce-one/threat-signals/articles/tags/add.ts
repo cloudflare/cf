@@ -23,7 +23,7 @@ import type { Argv, CommandModule } from "yargs";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one threat-signals articles tags add <article-id>\n\nAdd tag to Threat Signals article."
+			"$0 cloudforce-one threat-signals articles tags add <article-id>\n\nApplies a tag from the account's tag catalog to a Threat Signals article."
 		)
 		.positional("article-id", {
 			type: "string",

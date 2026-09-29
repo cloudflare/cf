@@ -27,22 +27,22 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("deletes", {
 			type: "string",
 			description:
-				"The deletes field. Provide as a JSON array of objects or @path/to/file.json.",
+				"IDs of the domains to remove protection from. Provide as a JSON array of objects or @path/to/file.json.",
 		})
 		.option("patches", {
 			type: "string",
 			description:
-				"The patches field. Provide as a JSON array of objects or @path/to/file.json.",
+				"Partial updates to apply — each entry carries the domain's ID and only the fields to change. Provide as a JSON array of objects or @path/to/file.json.",
 		})
 		.option("posts", {
 			type: "string",
 			description:
-				"The posts field. Provide as a JSON array of objects or @path/to/file.json.",
+				"Domains to add protection for. Provide as a JSON array of objects or @path/to/file.json.",
 		})
 		.option("puts", {
 			type: "string",
 			description:
-				"The puts field. Provide as a JSON array of objects or @path/to/file.json.",
+				"Full replacements to apply — each entry carries the domain's ID and every field of its new value. Provide as a JSON array of objects or @path/to/file.json.",
 		})
 		.option("dry-run", {
 			type: "boolean",

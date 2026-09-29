@@ -22,14 +22,14 @@ import type { Argv, CommandModule } from "yargs";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one threat-signals skills update <skill-id>\n\nUpdate Threat Signals skill."
+			"$0 cloudforce-one threat-signals skills update <skill-id>\n\nUpdates a custom skill. Default skills are read-only."
 		)
 		.positional("skill-id", {
 			type: "string",
 			description: "Skill ID",
 			demandOption: true,
 		})
-		.option("config", { type: "string", description: "The config field" })
+		.option("skill-config", { type: "string", description: "The config field" })
 		.option("is-active", {
 			type: "boolean",
 			description: "The is_active field",
@@ -83,8 +83,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								? parseBody(argv.body)
 								: compactBody({
 										config: resolveFileToken(
-											argv["config"] as string | undefined,
-											"config",
+											argv["skill-config"] as string | undefined,
+											"skill-config",
 											"text"
 										),
 										is_active: argv["is-active"],
@@ -127,8 +127,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
 					config: resolveFileToken(
-						argv["config"] as string | undefined,
-						"config",
+						argv["skill-config"] as string | undefined,
+						"skill-config",
 						"text"
 					),
 					is_active: argv["is-active"],

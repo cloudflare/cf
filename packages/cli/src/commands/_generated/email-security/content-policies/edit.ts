@@ -29,14 +29,26 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Content policy identifier.",
 			demandOption: true,
 		})
-		.option("enabled", { type: "boolean", description: "The enabled field" })
-		.option("name", { type: "string", description: "The name field" })
-		.option("notes", { type: "string", description: "The notes field" })
-		.option("pattern", { type: "string", description: "The pattern field" })
+		.option("enabled", {
+			type: "boolean",
+			description: "Whether the policy is active.",
+		})
+		.option("name", {
+			type: "string",
+			description: "Human-readable name of the policy.",
+		})
+		.option("notes", {
+			type: "string",
+			description: "Optional note describing the purpose of the policy.",
+		})
+		.option("pattern", {
+			type: "string",
+			description: "Regular expression the policy matches against.",
+		})
 		.option("targets", {
 			type: "string",
 			array: true,
-			description: "The targets field",
+			description: "Parts of the email the pattern is matched against.",
 		})
 		.option("dry-run", {
 			type: "boolean",

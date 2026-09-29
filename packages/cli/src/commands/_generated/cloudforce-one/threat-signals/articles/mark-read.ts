@@ -21,7 +21,7 @@ import type { Argv, CommandModule } from "yargs";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one threat-signals articles mark-read <article-id>\n\nUpdate Threat Signals article read status."
+			"$0 cloudforce-one threat-signals articles mark-read <article-id>\n\nMarks a Threat Signals article as read or unread."
 		)
 		.positional("article-id", {
 			type: "string",

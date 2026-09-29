@@ -14,10 +14,12 @@ import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
-		.usage("$0 tenant account list\n\nList of accounts for the Tenant.")
+		.usage(
+			"$0 tenant account list\n\nLists the Cloudflare accounts associated with this tenant."
+		)
 		.option("tenant-id", {
 			type: "string",
-			description: "Tenant ID",
+			description: "The ID of the tenant whose accounts to list.",
 			demandOption: true,
 		})
 		.option("dry-run", {

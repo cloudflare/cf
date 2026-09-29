@@ -15,11 +15,12 @@ import type { Argv, CommandModule } from "yargs";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 tenant entitlement list\n\nList of innate entitlements available for the Tenant."
+			"$0 tenant entitlement list\n\nRetrieves the innate and custom entitlement allocations available to this tenant."
 		)
 		.option("tenant-id", {
 			type: "string",
-			description: "Tenant ID",
+			description:
+				"The ID of the tenant whose entitlement allocations to retrieve.",
 			demandOption: true,
 		})
 		.option("dry-run", {

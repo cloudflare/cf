@@ -22,7 +22,7 @@ import type { Argv, CommandModule } from "yargs";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one events tags patch <tag-uuid>\n\nUpdates a Source-of-Truth tag by UUID."
+			"$0 cloudforce-one events tags patch <tag-uuid>\n\nUpdates an account-owned Source-of-Truth tag by UUID and returns its complete owner projection."
 		)
 		.positional("tag-uuid", {
 			type: "string",
@@ -75,7 +75,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("internal-aliases", {
 			type: "string",
 			description:
-				"Internal structured aliases ({ value, confidence 1-10, tlp }). CFONE-only: never returned to non-CFONE accounts. Provide as a JSON array of objects or @path/to/file.json.",
+				"Owner-private structured aliases ({ value, confidence 1-10, tlp }). Returned to the owning account and omitted from shared-catalog non-owner responses. Provide as a JSON array of objects or @path/to/file.json.",
 		})
 		.option("internal-description", {
 			type: "string",

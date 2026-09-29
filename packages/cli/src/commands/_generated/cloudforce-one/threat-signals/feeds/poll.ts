@@ -21,7 +21,7 @@ import type { Argv, CommandModule } from "yargs";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one threat-signals feeds poll\n\nTrigger Threat Signals feed poll."
+			"$0 cloudforce-one threat-signals feeds poll\n\nStarts an immediate poll of one or all Threat Signals feeds."
 		)
 		.option("feed-id", { type: "string", description: "Feed ID" })
 		.option("dry-run", {

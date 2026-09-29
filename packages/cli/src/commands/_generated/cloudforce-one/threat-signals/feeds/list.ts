@@ -21,7 +21,7 @@ import type { Argv, CommandModule } from "yargs";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one threat-signals feeds list\n\nList Threat Signals feeds."
+			"$0 cloudforce-one threat-signals feeds list\n\nLists the account's Threat Signals feed subscriptions."
 		)
 		.option("page", { type: "number", description: "Page" })
 		.option("per-page", { type: "number", description: "Per page" })

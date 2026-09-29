@@ -8,7 +8,7 @@ import type { CommandModule } from "yargs";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "appeals",
-	describe: "Operations for appeals",
+	describe: "Appeal eligibility for abuse reports",
 
 	builder: (yargs) => {
 		return yargs

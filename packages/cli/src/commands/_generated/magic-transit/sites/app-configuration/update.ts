@@ -72,7 +72,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 type Request = SdkRequest<"magic-site-app-configs-update-app-config">;
-type Body = Request["body"];
+type Body = Request;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update <app-config-id>",
@@ -125,10 +125,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody<Request>(argv.body);
 					const result = await withProgress(`Updating`, async () =>
 						client.magicTransit.sites.appConfiguration.update({
-							body: bodyData,
+							...bodyData,
 							account_id: accountId,
 							site_id: argv["site-id"],
 							app_config_id: argv["app-config-id"],
@@ -156,7 +156,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				});
 				const result = await withProgress(`Updating`, async () =>
 					client.magicTransit.sites.appConfiguration.update({
-						body: bodyData,
+						...bodyData,
 						account_id: accountId,
 						site_id: argv["site-id"],
 						app_config_id: argv["app-config-id"],

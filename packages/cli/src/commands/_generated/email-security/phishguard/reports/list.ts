@@ -42,6 +42,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Deprecated, use `end` instead. End date in YYYY-MM-DD format.",
 		})
+		.option("page", {
+			type: "number",
+			description: "Current page within paginated list of results.",
+		})
+		.option("per-page", {
+			type: "number",
+			description: "The number of results per page. Maximum value is 1000.",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -73,6 +81,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					end: argv["end"],
 					from_date: argv["from-date"],
 					to_date: argv["to-date"],
+					page: argv["page"],
+					per_page: argv["per-page"],
 				};
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();

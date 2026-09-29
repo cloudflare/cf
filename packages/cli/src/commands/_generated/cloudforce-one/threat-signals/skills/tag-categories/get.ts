@@ -21,7 +21,7 @@ import type { Argv, CommandModule } from "yargs";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one threat-signals skills tag-categories get <skill-id>\n\nGet Threat Signals skill tag categories."
+			"$0 cloudforce-one threat-signals skills tag-categories get <skill-id>\n\nRetrieves the tag categories the default tagging skill may choose tags from."
 		)
 		.positional("skill-id", {
 			type: "string",

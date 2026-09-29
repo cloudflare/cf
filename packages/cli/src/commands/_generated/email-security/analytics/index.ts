@@ -8,7 +8,8 @@ import type { CommandModule } from "yargs";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "analytics",
-	describe: "Operations for analytics",
+	describe:
+		"Analytics and reporting — monthly report and per-day breakdowns of threat activity",
 
 	builder: (yargs) => {
 		return yargs

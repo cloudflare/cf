@@ -5,7 +5,6 @@ import $delete from "./delete.js";
 import $deployments from "./deployments/index.js";
 import $get from "./get.js";
 import $list from "./list.js";
-import $placement from "./placement/index.js";
 import $scripts from "./scripts/index.js";
 import $secrets from "./secrets/index.js";
 import $versions from "./versions/index.js";
@@ -28,7 +27,6 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($list)
 			.command($types)
 			.command($deployments)
-			.command($placement)
 			.command($scripts)
 			.command($secrets)
 			.command($triggers)

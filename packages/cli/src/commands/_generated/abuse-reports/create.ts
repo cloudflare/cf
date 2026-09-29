@@ -1,9 +1,10 @@
 import {
 	createCommandClient,
 	getAccountId,
+	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, setNestedValue } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -16,7 +17,6 @@ import {
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * create command
  * @generated from apis/overlays/abuse-reports.ts
@@ -26,9 +26,9 @@ import type { Argv, CommandModule } from "yargs";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 abuse-reports create <report-param>\n\nSubmit an abuse report of a particular type. Requires the abuse-reports entitlement on the account (Enterprise accounts have it by default; other accounts must request access) and an API token with the `Account > Abuse Reports > Edit` permission. If the account is not entitled, the request is rejected with an HTTP `401` response (see below)."
+			"$0 abuse-reports create <report-type>\n\nSubmit an abuse report of a particular type. Requires the abuse-reports entitlement on the account (Enterprise accounts have it by default; other accounts must request access) and an API token with the `Trust and Safety Write` permission. If the account is not entitled, the request is rejected with an HTTP `401` response (see below)."
 		)
-		.positional("report-param", {
+		.positional("report-type", {
 			type: "string",
 			description: "The report type to be submitted. Example: abuse_general",
 			demandOption: true,
@@ -959,11 +959,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"SubmitAbuseReport">;
-type Body = Request["body"];
-
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "create <report-param>",
+	command: "create <report-type>",
 	describe: "Submit an abuse report",
 	builder,
 	handler: async (argv): Promise<void> =>
@@ -992,8 +989,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf abuse-reports create",
 						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/abuse-reports/${argv["report-param"] == null ? "<report-param>" : encodeURIComponent(String(argv["report-param"]))}`,
-						pathParams: { "report-param": String(argv["report-param"] ?? "") },
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/abuse-reports/${argv["report-type"] == null ? "<report-type>" : encodeURIComponent(String(argv["report-type"]))}`,
+						pathParams: { "report-type": String(argv["report-type"] ?? "") },
 						bodyKind: "json",
 						body:
 							argv.body !== undefined
@@ -1189,13 +1186,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
-						client.abuseReports.create({
-							body: bodyData,
-							account_id: accountId,
-							report_param: argv["report-param"],
-						} satisfies Request)
+						requestApi<unknown>(
+							client,
+							"POST",
+							`/accounts/${accountId}/abuse-reports/${encodeURIComponent(String(argv["report-type"]))}`,
+							{ body: bodyData }
+						)
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
@@ -1475,190 +1473,355 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
-					act: resolveFileToken(
-						argv["act"] as string | undefined,
-						"act",
-						"text"
-					),
-					comments: resolveFileToken(
-						argv["comments"] as string | undefined,
-						"comments",
-						"text"
-					),
-					company: resolveFileToken(
-						argv["company"] as string | undefined,
-						"company",
-						"text"
-					),
-					email: resolveFileToken(
-						argv["email"] as string | undefined,
-						"email",
-						"text"
-					),
-					email2: resolveFileToken(
-						argv["email2"] as string | undefined,
-						"email2",
-						"text"
-					),
-					name: resolveFileToken(
-						argv["name"] as string | undefined,
-						"name",
-						"text"
-					),
-					reported_country: resolveFileToken(
-						argv["reported-country"] as string | undefined,
-						"reported-country",
-						"text"
-					),
-					reported_user_agent: resolveFileToken(
-						argv["reported-user-agent"] as string | undefined,
-						"reported-user-agent",
-						"text"
-					),
-					tele: resolveFileToken(
-						argv["tele"] as string | undefined,
-						"tele",
-						"text"
-					),
-					title: resolveFileToken(
-						argv["title"] as string | undefined,
-						"title",
-						"text"
-					),
-					urls: resolveFileToken(
-						argv["urls"] as string | undefined,
-						"urls",
-						"text"
-					),
-					address1: resolveFileToken(
-						argv["address1"] as string | undefined,
-						"address1",
-						"text"
-					),
-					agent_name: resolveFileToken(
-						argv["agent-name"] as string | undefined,
-						"agent-name",
-						"text"
-					),
-					agree: argv["agree"],
-					city: resolveFileToken(
-						argv["city"] as string | undefined,
-						"city",
-						"text"
-					),
-					country: resolveFileToken(
-						argv["country"] as string | undefined,
-						"country",
-						"text"
-					),
-					host_notification: resolveFileToken(
-						argv["host-notification"] as string | undefined,
-						"host-notification",
-						"text"
-					),
-					original_work: resolveFileToken(
-						argv["original-work"] as string | undefined,
-						"original-work",
-						"text"
-					),
-					owner_notification: resolveFileToken(
-						argv["owner-notification"] as string | undefined,
-						"owner-notification",
-						"text"
-					),
-					signature: resolveFileToken(
-						argv["signature"] as string | undefined,
-						"signature",
-						"text"
-					),
-					state: resolveFileToken(
-						argv["state"] as string | undefined,
-						"state",
-						"text"
-					),
-					justification: resolveFileToken(
-						argv["justification"] as string | undefined,
-						"justification",
-						"text"
-					),
-					trademark_number: resolveFileToken(
-						argv["trademark-number"] as string | undefined,
-						"trademark-number",
-						"text"
-					),
-					trademark_office: resolveFileToken(
-						argv["trademark-office"] as string | undefined,
-						"trademark-office",
-						"text"
-					),
-					trademark_symbol: resolveFileToken(
-						argv["trademark-symbol"] as string | undefined,
-						"trademark-symbol",
-						"text"
-					),
-					destination_ips: resolveFileToken(
-						argv["destination-ips"] as string | undefined,
-						"destination-ips",
-						"text"
-					),
-					ports_protocols: resolveFileToken(
-						argv["ports-protocols"] as string | undefined,
-						"ports-protocols",
-						"text"
-					),
-					source_ips: resolveFileToken(
-						argv["source-ips"] as string | undefined,
-						"source-ips",
-						"text"
-					),
-					ncmec_notification: resolveFileToken(
-						argv["ncmec-notification"] as string | undefined,
-						"ncmec-notification",
-						"text"
-					),
-					reg_who_request: {
-						reg_who_authorization_statement: resolveFileToken(
+				const bodyData: Record<string, unknown> = {};
+				if (argv["act"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["act"],
+						resolveFileToken(argv["act"] as string | undefined, "act", "text")
+					);
+				if (argv["comments"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["comments"],
+						resolveFileToken(
+							argv["comments"] as string | undefined,
+							"comments",
+							"text"
+						)
+					);
+				if (argv["company"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["company"],
+						resolveFileToken(
+							argv["company"] as string | undefined,
+							"company",
+							"text"
+						)
+					);
+				if (argv["email"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["email"],
+						resolveFileToken(
+							argv["email"] as string | undefined,
+							"email",
+							"text"
+						)
+					);
+				if (argv["email2"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["email2"],
+						resolveFileToken(
+							argv["email2"] as string | undefined,
+							"email2",
+							"text"
+						)
+					);
+				if (argv["name"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["name"],
+						resolveFileToken(argv["name"] as string | undefined, "name", "text")
+					);
+				if (argv["reported-country"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["reported_country"],
+						resolveFileToken(
+							argv["reported-country"] as string | undefined,
+							"reported-country",
+							"text"
+						)
+					);
+				if (argv["reported-user-agent"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["reported_user_agent"],
+						resolveFileToken(
+							argv["reported-user-agent"] as string | undefined,
+							"reported-user-agent",
+							"text"
+						)
+					);
+				if (argv["tele"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["tele"],
+						resolveFileToken(argv["tele"] as string | undefined, "tele", "text")
+					);
+				if (argv["title"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["title"],
+						resolveFileToken(
+							argv["title"] as string | undefined,
+							"title",
+							"text"
+						)
+					);
+				if (argv["urls"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["urls"],
+						resolveFileToken(argv["urls"] as string | undefined, "urls", "text")
+					);
+				if (argv["address1"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["address1"],
+						resolveFileToken(
+							argv["address1"] as string | undefined,
+							"address1",
+							"text"
+						)
+					);
+				if (argv["agent-name"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["agent_name"],
+						resolveFileToken(
+							argv["agent-name"] as string | undefined,
+							"agent-name",
+							"text"
+						)
+					);
+				if (argv["agree"] !== undefined)
+					setNestedValue(bodyData, ["agree"], argv["agree"]);
+				if (argv["city"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["city"],
+						resolveFileToken(argv["city"] as string | undefined, "city", "text")
+					);
+				if (argv["country"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["country"],
+						resolveFileToken(
+							argv["country"] as string | undefined,
+							"country",
+							"text"
+						)
+					);
+				if (argv["host-notification"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["host_notification"],
+						resolveFileToken(
+							argv["host-notification"] as string | undefined,
+							"host-notification",
+							"text"
+						)
+					);
+				if (argv["original-work"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["original_work"],
+						resolveFileToken(
+							argv["original-work"] as string | undefined,
+							"original-work",
+							"text"
+						)
+					);
+				if (argv["owner-notification"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["owner_notification"],
+						resolveFileToken(
+							argv["owner-notification"] as string | undefined,
+							"owner-notification",
+							"text"
+						)
+					);
+				if (argv["signature"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["signature"],
+						resolveFileToken(
+							argv["signature"] as string | undefined,
+							"signature",
+							"text"
+						)
+					);
+				if (argv["state"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["state"],
+						resolveFileToken(
+							argv["state"] as string | undefined,
+							"state",
+							"text"
+						)
+					);
+				if (argv["justification"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["justification"],
+						resolveFileToken(
+							argv["justification"] as string | undefined,
+							"justification",
+							"text"
+						)
+					);
+				if (argv["trademark-number"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["trademark_number"],
+						resolveFileToken(
+							argv["trademark-number"] as string | undefined,
+							"trademark-number",
+							"text"
+						)
+					);
+				if (argv["trademark-office"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["trademark_office"],
+						resolveFileToken(
+							argv["trademark-office"] as string | undefined,
+							"trademark-office",
+							"text"
+						)
+					);
+				if (argv["trademark-symbol"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["trademark_symbol"],
+						resolveFileToken(
+							argv["trademark-symbol"] as string | undefined,
+							"trademark-symbol",
+							"text"
+						)
+					);
+				if (argv["destination-ips"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["destination_ips"],
+						resolveFileToken(
+							argv["destination-ips"] as string | undefined,
+							"destination-ips",
+							"text"
+						)
+					);
+				if (argv["ports-protocols"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["ports_protocols"],
+						resolveFileToken(
+							argv["ports-protocols"] as string | undefined,
+							"ports-protocols",
+							"text"
+						)
+					);
+				if (argv["source-ips"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["source_ips"],
+						resolveFileToken(
+							argv["source-ips"] as string | undefined,
+							"source-ips",
+							"text"
+						)
+					);
+				if (argv["ncmec-notification"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["ncmec_notification"],
+						resolveFileToken(
+							argv["ncmec-notification"] as string | undefined,
+							"ncmec-notification",
+							"text"
+						)
+					);
+				if (
+					argv["reg-who-request-reg-who-authorization-statement"] !== undefined
+				)
+					setNestedValue(
+						bodyData,
+						["reg_who_request", "reg_who_authorization_statement"],
+						resolveFileToken(
 							argv["reg-who-request-reg-who-authorization-statement"] as
 								| string
 								| undefined,
 							"reg-who-request-reg-who-authorization-statement",
 							"text"
-						),
-						reg_who_good_faith_affirmation:
-							argv["reg-who-request-reg-who-good-faith-affirmation"],
-						reg_who_lawful_processing_agreement:
-							argv["reg-who-request-reg-who-lawful-processing-agreement"],
-						reg_who_legal_basis: resolveFileToken(
+						)
+					);
+				if (
+					argv["reg-who-request-reg-who-good-faith-affirmation"] !== undefined
+				)
+					setNestedValue(
+						bodyData,
+						["reg_who_request", "reg_who_good_faith_affirmation"],
+						argv["reg-who-request-reg-who-good-faith-affirmation"]
+					);
+				if (
+					argv["reg-who-request-reg-who-lawful-processing-agreement"] !==
+					undefined
+				)
+					setNestedValue(
+						bodyData,
+						["reg_who_request", "reg_who_lawful_processing_agreement"],
+						argv["reg-who-request-reg-who-lawful-processing-agreement"]
+					);
+				if (argv["reg-who-request-reg-who-legal-basis"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["reg_who_request", "reg_who_legal_basis"],
+						resolveFileToken(
 							argv["reg-who-request-reg-who-legal-basis"] as string | undefined,
 							"reg-who-request-reg-who-legal-basis",
 							"text"
-						),
-						reg_who_request_type: resolveFileToken(
+						)
+					);
+				if (argv["reg-who-request-reg-who-request-type"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["reg_who_request", "reg_who_request_type"],
+						resolveFileToken(
 							argv["reg-who-request-reg-who-request-type"] as
 								| string
 								| undefined,
 							"reg-who-request-reg-who-request-type",
 							"text"
-						),
-						reg_who_requested_data_elements:
-							argv["reg-who-request-reg-who-requested-data-elements"],
-						reg_who_requestor_type: resolveFileToken(
+						)
+					);
+				if (
+					argv["reg-who-request-reg-who-requested-data-elements"] !== undefined
+				)
+					setNestedValue(
+						bodyData,
+						["reg_who_request", "reg_who_requested_data_elements"],
+						argv["reg-who-request-reg-who-requested-data-elements"]
+					);
+				if (argv["reg-who-request-reg-who-requestor-type"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["reg_who_request", "reg_who_requestor_type"],
+						resolveFileToken(
 							argv["reg-who-request-reg-who-requestor-type"] as
 								| string
 								| undefined,
 							"reg-who-request-reg-who-requestor-type",
 							"text"
-						),
-					},
-					ncsei_subject_representation: argv["ncsei-subject-representation"],
-				});
+						)
+					);
+				if (argv["ncsei-subject-representation"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["ncsei_subject_representation"],
+						argv["ncsei-subject-representation"]
+					);
 				const result = await withProgress(`Creating`, async () =>
-					client.abuseReports.create({
-						body: bodyData,
-						account_id: accountId,
-						report_param: argv["report-param"],
-					} satisfies Request)
+					requestApi<unknown>(
+						client,
+						"POST",
+						`/accounts/${accountId}/abuse-reports/${encodeURIComponent(String(argv["report-type"]))}`,
+						{ body: Object.keys(bodyData).length > 0 ? bodyData : undefined }
+					)
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

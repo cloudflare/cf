@@ -667,126 +667,6 @@
 				}
 			]
 		},
-		"account batch move": {
-			"operationId": "Accounts_batchMoveAccounts",
-			"httpMethod": "POST",
-			"path": "/accounts/move",
-			"pathParams": [],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "account-ids",
-					"type": "string",
-					"required": true,
-					"description": "Move these accounts to the destination organization."
-				},
-				{
-					"name": "destination-organization-id",
-					"type": "string",
-					"required": true,
-					"description": "Move accounts to this organization ID."
-				}
-			]
-		},
-		"account move": {
-			"operationId": "Accounts_moveAccounts",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/move",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "destination-organization-id",
-					"type": "string",
-					"required": true,
-					"description": "The destination_organization_id field"
-				}
-			]
-		},
-		"account organization list": {
-			"operationId": "Accounts_listAccountOrganizations",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/organizations",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"account profile get": {
-			"operationId": "Accounts_getAccountProfile",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/profile",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"account profile update": {
-			"operationId": "Accounts_modifyAccountProfile",
-			"httpMethod": "PUT",
-			"path": "/accounts/{account_id}/profile",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "business-address",
-					"type": "string",
-					"required": true,
-					"description": "The business_address field"
-				},
-				{
-					"name": "business-email",
-					"type": "string",
-					"required": true,
-					"description": "The business_email field"
-				},
-				{
-					"name": "business-name",
-					"type": "string",
-					"required": true,
-					"description": "The business_name field"
-				},
-				{
-					"name": "business-phone",
-					"type": "string",
-					"required": true,
-					"description": "The business_phone field"
-				},
-				{
-					"name": "external-metadata",
-					"type": "string",
-					"required": true,
-					"description": "The external_metadata field"
-				}
-			]
-		},
 		"account-tags delete": {
 			"operationId": "generated:delete:/{account_or_zone}/{account_or_zone_id}/tags",
 			"httpMethod": "DELETE",
@@ -2289,6 +2169,104 @@
 					"type": "string",
 					"required": false,
 					"description": "Array of policies associated with this member. Provide as a JSON array of objects or @path/to/file.json."
+				}
+			]
+		},
+		"accounts move": {
+			"operationId": "Accounts_moveAccounts",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/move",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "destination-organization-id",
+					"type": "string",
+					"required": true,
+					"description": "The ID of the organization to move the account into."
+				}
+			]
+		},
+		"accounts organization list": {
+			"operationId": "Accounts_listAccountOrganizations",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/organizations",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"accounts profile get": {
+			"operationId": "Accounts_getAccountProfile",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/profile",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"accounts profile update": {
+			"operationId": "Accounts_modifyAccountProfile",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/profile",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "business-address",
+					"type": "string",
+					"required": true,
+					"description": "The business_address field"
+				},
+				{
+					"name": "business-email",
+					"type": "string",
+					"required": true,
+					"description": "The business_email field"
+				},
+				{
+					"name": "business-name",
+					"type": "string",
+					"required": true,
+					"description": "The business_name field"
+				},
+				{
+					"name": "business-phone",
+					"type": "string",
+					"required": true,
+					"description": "The business_phone field"
+				},
+				{
+					"name": "external-metadata",
+					"type": "string",
+					"required": true,
+					"description": "The external_metadata field"
 				}
 			]
 		},
@@ -4800,7 +4778,7 @@
 					"name": "model",
 					"type": "string",
 					"required": true,
-					"description": "The AI model to execute (e.g., openai/gpt-5.5, anthropic/claude-opus-4.7)"
+					"description": "The AI model to execute (e.g., @cf/google/gemma-4-26b-a4b-it, openai/gpt-5.5, anthropic/claude-opus-4.7)"
 				},
 				{
 					"name": "options-gateway-cache-ttl",
@@ -4819,129 +4797,6 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Skip cache lookup for this request"
-				}
-			]
-		},
-		"ai run-model": {
-			"operationId": "workers-ai-post-run-model",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/ai/run/{model_name}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "model_name",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "text",
-					"type": "string",
-					"required": false,
-					"description": "The text that you want to classify"
-				},
-				{
-					"name": "guidance",
-					"type": "number",
-					"required": false,
-					"description": "Controls how closely the generated image should adhere to the prompt; higher values make the image more aligned with the prompt"
-				},
-				{
-					"name": "height",
-					"type": "number",
-					"required": false,
-					"description": "The height of the generated image in pixels"
-				},
-				{
-					"name": "image",
-					"type": "string",
-					"required": false,
-					"description": "For use with img2img tasks. An array of integers that represent the image data constrained to 8-bit unsigned integer values"
-				},
-				{
-					"name": "image-b64",
-					"type": "string",
-					"required": false,
-					"description": "For use with img2img tasks. A base64-encoded string of the input image"
-				},
-				{
-					"name": "mask",
-					"type": "string",
-					"required": false,
-					"description": "An array representing An array of integers that represent mask image data for inpainting constrained to 8-bit unsigned integer values"
-				},
-				{
-					"name": "negative-prompt",
-					"type": "string",
-					"required": false,
-					"description": "Text describing elements to avoid in the generated image"
-				},
-				{
-					"name": "num-steps",
-					"type": "number",
-					"required": false,
-					"description": "The number of diffusion steps; higher values can improve quality but take longer"
-				},
-				{
-					"name": "prompt",
-					"type": "string",
-					"required": false,
-					"description": "A text description of the image you want to generate"
-				},
-				{
-					"name": "seed",
-					"type": "number",
-					"required": false,
-					"description": "Random seed for reproducibility of the image generation"
-				},
-				{
-					"name": "strength",
-					"type": "number",
-					"required": false,
-					"description": "A value between 0 and 1 indicating how strongly to apply the transformation during img2img tasks; lower values make the output closer to the input image"
-				},
-				{
-					"name": "width",
-					"type": "number",
-					"required": false,
-					"description": "The width of the generated image in pixels"
-				},
-				{
-					"name": "lang",
-					"type": "string",
-					"required": false,
-					"description": "The speech language (e.g., 'en' for English, 'fr' for French). Defaults to 'en' if not specified"
-				},
-				{
-					"name": "source-lang",
-					"type": "string",
-					"required": false,
-					"description": "The language code of the source text (e.g., 'en' for English). Defaults to 'en' if not specified"
-				},
-				{
-					"name": "target-lang",
-					"type": "string",
-					"required": false,
-					"description": "The language code to translate the text into (e.g., 'es' for Spanish)"
-				},
-				{
-					"name": "input-text",
-					"type": "string",
-					"required": false,
-					"description": "The text that you want the model to summarize"
-				},
-				{
-					"name": "max-length",
-					"type": "number",
-					"required": false,
-					"description": "The maximum length of the generated summary in tokens"
 				}
 			]
 		},
@@ -13102,6 +12957,477 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"basin-catalog credentials create": {
+			"operationId": "basin-store-credentials",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/basin-catalog/{bucket_name}/credential",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "bucket_name",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "token",
+					"type": "string",
+					"required": true,
+					"description": "Provides the Cloudflare API token for accessing R2."
+				}
+			]
+		},
+		"basin-catalog delete": {
+			"operationId": "basin-delete-catalog",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/basin-catalog/{bucket_name}/delete",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "bucket_name",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "force",
+					"type": "boolean",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"basin-catalog disable": {
+			"operationId": "basin-disable-catalog",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/basin-catalog/{bucket_name}/disable",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "bucket_name",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"basin-catalog enable": {
+			"operationId": "basin-enable-catalog",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/basin-catalog/{bucket_name}/enable",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "bucket_name",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"basin-catalog get": {
+			"operationId": "basin-get-catalog-details",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/basin-catalog/{bucket_name}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "bucket_name",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"basin-catalog list": {
+			"operationId": "basin-list-catalogs",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/basin-catalog",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"basin-catalog maintenance-configs get": {
+			"operationId": "basin-get-maintenance-config",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/basin-catalog/{bucket_name}/maintenance-configs",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "bucket_name",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"basin-catalog maintenance-configs update": {
+			"operationId": "basin-update-maintenance-config",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/basin-catalog/{bucket_name}/maintenance-configs",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "bucket_name",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "snapshot-expiration-max-snapshot-age",
+					"type": "string",
+					"required": false,
+					"description": "Updates the maximum age for snapshots optionally."
+				},
+				{
+					"name": "snapshot-expiration-min-snapshots-to-keep",
+					"type": "number",
+					"required": false,
+					"description": "Updates the minimum number of snapshots to retain optionally."
+				}
+			]
+		},
+		"basin-catalog namespaces list": {
+			"operationId": "basin-list-namespaces",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/basin-catalog/{bucket_name}/namespaces",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "bucket_name",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "page_token",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "page_size",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "parent",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "return_uuids",
+					"type": "boolean",
+					"required": false
+				},
+				{
+					"name": "return_details",
+					"type": "boolean",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"basin-catalog namespaces tables get": {
+			"operationId": "basin-get-table",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/basin-catalog/{bucket_name}/namespaces/{namespace}/tables/{table_name}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "bucket_name",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "namespace",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "table_name",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"basin-catalog namespaces tables list": {
+			"operationId": "basin-list-tables",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/basin-catalog/{bucket_name}/namespaces/{namespace}/tables",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "bucket_name",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "namespace",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "page_token",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "page_size",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "return_uuids",
+					"type": "boolean",
+					"required": false
+				},
+				{
+					"name": "return_details",
+					"type": "boolean",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"basin-catalog namespaces tables maintenance-configs get": {
+			"operationId": "basin-get-table-maintenance-config",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/basin-catalog/{bucket_name}/namespaces/{namespace}/tables/{table_name}/maintenance-configs",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "bucket_name",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "namespace",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "table_name",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"basin-catalog namespaces tables maintenance-configs queue": {
+			"operationId": "basin-queue-table-maintenance",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/basin-catalog/{bucket_name}/namespaces/{namespace}/tables/{table_name}/maintenance-configs/{configuration_type}/queue",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "bucket_name",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "namespace",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "table_name",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "configuration_type",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "request-id",
+					"type": "string",
+					"required": false,
+					"description": "The request_id field"
+				}
+			]
+		},
+		"basin-catalog namespaces tables maintenance-configs update": {
+			"operationId": "basin-update-table-maintenance-config",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/basin-catalog/{bucket_name}/namespaces/{namespace}/tables/{table_name}/maintenance-configs",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "bucket_name",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "namespace",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "table_name",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "compaction-state",
+					"type": "string",
+					"required": false,
+					"description": "Specifies the state of maintenance operations."
+				},
+				{
+					"name": "compaction-target-size-mb",
+					"type": "string",
+					"required": false,
+					"description": "Sets the target file size for compaction in megabytes. Defaults to \"128\"."
+				},
+				{
+					"name": "snapshot-expiration-max-snapshot-age",
+					"type": "string",
+					"required": false,
+					"description": "Updates the maximum age for snapshots optionally."
+				},
+				{
+					"name": "snapshot-expiration-min-snapshots-to-keep",
+					"type": "number",
+					"required": false,
+					"description": "Updates the minimum number of snapshots to retain optionally."
+				}
+			]
+		},
+		"basin-catalog namespaces tables maintenance-runs list": {
+			"operationId": "basin-list-table-maintenance-runs",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/basin-catalog/{bucket_name}/namespaces/{namespace}/tables/{table_name}/maintenance-runs",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "bucket_name",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "namespace",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "table_name",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "page_size",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "page_token",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
 		"billing addresses validate": {
 			"operationId": "billing-validate-address",
 			"httpMethod": "POST",
@@ -18055,6 +18381,41 @@
 				}
 			]
 		},
+		"cache invalidate": {
+			"operationId": "zone-invalidate",
+			"httpMethod": "POST",
+			"path": "/zones/{zone_id}/invalidate_cache",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": []
+		},
+		"cache invalidate-environment": {
+			"operationId": "zone-environment-invalidate",
+			"httpMethod": "POST",
+			"path": "/zones/{zone_id}/environments/{environment_id}/invalidate_cache",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "environment_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": []
+		},
 		"cache origin-cloud-regions bulk-delete": {
 			"operationId": "origin-cloud-regions-v2-batch-delete",
 			"httpMethod": "DELETE",
@@ -21455,7 +21816,7 @@
 					"name": "internal-aliases",
 					"type": "string",
 					"required": false,
-					"description": "Internal structured aliases ({ value, confidence 1-10, tlp }). CFONE-only: never returned to non-CFONE accounts. Provide as a JSON array of objects or @path/to/file.json."
+					"description": "Owner-private structured aliases ({ value, confidence 1-10, tlp }). Returned to the owning account and omitted from shared-catalog non-owner responses. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "internal-description",
@@ -25806,7 +26167,7 @@
 					"name": "internal-aliases",
 					"type": "string",
 					"required": false,
-					"description": "Internal structured aliases ({ value, confidence 1-10, tlp }). CFONE-only: never returned to non-CFONE accounts. Provide as a JSON array of objects or @path/to/file.json."
+					"description": "Owner-private structured aliases ({ value, confidence 1-10, tlp }). Returned to the owning account and omitted from shared-catalog non-owner responses. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "internal-description",
@@ -26067,31 +26428,6 @@
 				}
 			]
 		},
-		"cloudforce-one threat-signals articles skills diagnostic": {
-			"operationId": "rssArticleTagDiagnostic",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/articles/{article_id}/skills/{skill_id}/diagnostic",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "article_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "skill_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
 		"cloudforce-one threat-signals articles skills get-output": {
 			"operationId": "rssArticleSkillOutputGet",
 			"httpMethod": "GET",
@@ -26204,100 +26540,6 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"cloudforce-one threat-signals curated-feeds bulk-create": {
-			"operationId": "rssCuratedFeedBulkCreate",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/curated-feeds/bulk",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "feeds",
-					"type": "string",
-					"required": true,
-					"description": "The feeds field. Provide as a JSON array of objects or @path/to/file.json."
-				}
-			]
-		},
-		"cloudforce-one threat-signals curated-feeds create": {
-			"operationId": "rssCuratedFeedCreate",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/curated-feeds",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "category-id",
-					"type": "string",
-					"required": true,
-					"description": "One of the predefined Threat Signals feed categories; see GET /:account_id/v2/threat-signals/categories."
-				},
-				{
-					"name": "display-order",
-					"type": "number",
-					"required": false,
-					"description": "The display_order field"
-				},
-				{
-					"name": "is-active",
-					"type": "boolean",
-					"required": false,
-					"description": "The is_active field"
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": true,
-					"description": "The name field"
-				},
-				{
-					"name": "url",
-					"type": "string",
-					"required": true,
-					"description": "The url field"
-				},
-				{
-					"name": "why-valuable",
-					"type": "string",
-					"required": false,
-					"description": "The why_valuable field"
-				}
-			]
-		},
-		"cloudforce-one threat-signals curated-feeds delete": {
-			"operationId": "rssCuratedFeedDelete",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/curated-feeds/{curated_feed_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "curated_feed_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
 		"cloudforce-one threat-signals curated-feeds list": {
 			"operationId": "rssCuratedFeedList",
 			"httpMethod": "GET",
@@ -26343,63 +26585,6 @@
 					"type": "boolean",
 					"required": true,
 					"description": "The opted_out field"
-				}
-			]
-		},
-		"cloudforce-one threat-signals curated-feeds update": {
-			"operationId": "rssCuratedFeedUpdate",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/curated-feeds/{curated_feed_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "curated_feed_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "category-id",
-					"type": "string",
-					"required": false,
-					"description": "One of the predefined Threat Signals feed categories; see GET /:account_id/v2/threat-signals/categories."
-				},
-				{
-					"name": "display-order",
-					"type": "number",
-					"required": false,
-					"description": "The display_order field"
-				},
-				{
-					"name": "is-active",
-					"type": "boolean",
-					"required": false,
-					"description": "The is_active field"
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": false,
-					"description": "The name field"
-				},
-				{
-					"name": "url",
-					"type": "string",
-					"required": false,
-					"description": "The url field"
-				},
-				{
-					"name": "why-valuable",
-					"type": "string",
-					"required": false,
-					"description": "The why_valuable field"
 				}
 			]
 		},
@@ -26748,6 +26933,37 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"cloudforce-one threat-signals search": {
+			"operationId": "searchThreatSignals",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/search",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "query",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "max_results",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "feed_id",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
 		"cloudforce-one threat-signals skills create": {
 			"operationId": "rssSkillCreate",
 			"httpMethod": "POST",
@@ -26921,7 +27137,7 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
-					"name": "config",
+					"name": "skill-config",
 					"type": "string",
 					"required": false,
 					"description": "The config field"
@@ -29562,57 +29778,6 @@
 				}
 			]
 		},
-		"d1 export": {
-			"operationId": "d1-export-database",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/d1/database/{database_id}/export",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "database_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "current-bookmark",
-					"type": "string",
-					"required": false,
-					"description": "To poll an in-progress export, provide the current bookmark (returned by your first polling response)"
-				},
-				{
-					"name": "dump-options-no-data",
-					"type": "boolean",
-					"required": false,
-					"description": "Export only the table definitions, not their contents"
-				},
-				{
-					"name": "dump-options-no-schema",
-					"type": "boolean",
-					"required": false,
-					"description": "Export only each table's contents, not its definition"
-				},
-				{
-					"name": "dump-options-tables",
-					"type": "string",
-					"required": false,
-					"description": "Filter the export to just one or more tables. Passing an empty array is the same as not passing anything and means: export all tables."
-				},
-				{
-					"name": "output-format",
-					"type": "string",
-					"required": true,
-					"description": "Specifies that you will poll this endpoint until the export completes"
-				}
-			]
-		},
 		"d1 get": {
 			"operationId": "d1-get-database",
 			"httpMethod": "GET",
@@ -29638,51 +29803,6 @@
 			],
 			"hasRequestBody": false,
 			"requestBodyFields": []
-		},
-		"d1 import": {
-			"operationId": "d1-import-database",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/d1/database/{database_id}/import",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "database_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "action",
-					"type": "string",
-					"required": true,
-					"description": "Indicates you have a new SQL file to upload."
-				},
-				{
-					"name": "etag",
-					"type": "string",
-					"required": false,
-					"description": "Required when action is 'init' or 'ingest'. An md5 hash of the file you're uploading. Used to check if it already exists, and validate its contents before ingesting."
-				},
-				{
-					"name": "filename",
-					"type": "string",
-					"required": false,
-					"description": "The filename you have successfully uploaded."
-				},
-				{
-					"name": "current-bookmark",
-					"type": "string",
-					"required": false,
-					"description": "This identifies the currently-running import, checking its status."
-				}
-			]
 		},
 		"d1 list": {
 			"operationId": "d1-list-databases",
@@ -30942,6 +31062,106 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"dns settings account nameserver-sets create": {
+			"operationId": "dns-settings-for-an-account-create-custom-nameserver-set",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/dns_settings/nameserver_sets",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "advanced",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether to allocate the nameservers from distinct Advanced anycast groups."
+				},
+				{
+					"name": "ip-set",
+					"type": "number",
+					"required": false,
+					"description": "Selects the account-specific IP set that supplies the nameserver addresses. The account's entitlement determines the maximum value. Nameserver sets with the same `ip_set` and `advanced` value may reuse addresses; otherwise, they use disjoint address groups."
+				},
+				{
+					"name": "nameservers",
+					"type": "string",
+					"required": true,
+					"description": "Lists each nameserver and the number of addresses to allocate to it. Requires a unique name for each entry in the set. Provide as a JSON array of objects or @path/to/file.json."
+				}
+			]
+		},
+		"dns settings account nameserver-sets delete": {
+			"operationId": "dns-settings-for-an-account-delete-custom-nameserver-set",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/dns_settings/nameserver_sets/{nameserver_set_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "nameserver_set_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"dns settings account nameserver-sets get": {
+			"operationId": "dns-settings-for-an-account-get-custom-nameserver-set",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/dns_settings/nameserver_sets/{nameserver_set_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "nameserver_set_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"dns settings account nameserver-sets list": {
+			"operationId": "dns-settings-for-an-account-list-custom-nameserver-sets",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/dns_settings/nameserver_sets",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"type": "number",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
 		"dns settings account views create": {
 			"operationId": "dns-views-for-an-account-create-internal-dns-views",
 			"httpMethod": "POST",
@@ -32108,51 +32328,6 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"durable-objects namespaces query": {
-			"operationId": "durable-objects-namespace-query",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/workers/durable_objects/namespaces/{id}/query/v2",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "durable-object-id",
-					"type": "string",
-					"required": false,
-					"description": "The durable_object_id field"
-				},
-				{
-					"name": "queries",
-					"type": "string",
-					"required": true,
-					"description": "The queries field. Provide as a JSON array of objects or @path/to/file.json."
-				},
-				{
-					"name": "durable-object-name",
-					"type": "string",
-					"required": false,
-					"description": "The durable_object_name field"
-				},
-				{
-					"name": "jurisdiction",
-					"type": "string",
-					"required": false,
-					"description": "The jurisdiction field"
-				}
-			]
-		},
 		"email-auth dmarc-reports edit": {
 			"operationId": "configure_dmarc_reports",
 			"httpMethod": "PATCH",
@@ -32828,25 +33003,25 @@
 					"name": "deletes",
 					"type": "string",
 					"required": true,
-					"description": "The deletes field. Provide as a JSON array of objects or @path/to/file.json."
+					"description": "IDs of the allow policies to delete. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "patches",
 					"type": "string",
 					"required": true,
-					"description": "The patches field. Provide as a JSON array of objects or @path/to/file.json."
+					"description": "Partial updates to apply — each entry carries the policy's ID and only the fields to change. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "posts",
 					"type": "string",
 					"required": true,
-					"description": "The posts field. Provide as a JSON array of objects or @path/to/file.json."
+					"description": "Allow policies to create. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "puts",
 					"type": "string",
 					"required": true,
-					"description": "The puts field. Provide as a JSON array of objects or @path/to/file.json."
+					"description": "Full replacements to apply — each entry carries the policy's ID and every field of its new value. Provide as a JSON array of objects or @path/to/file.json."
 				}
 			]
 		},
@@ -33250,25 +33425,25 @@
 					"name": "deletes",
 					"type": "string",
 					"required": true,
-					"description": "The deletes field. Provide as a JSON array of objects or @path/to/file.json."
+					"description": "IDs of the blocked sender patterns to delete. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "patches",
 					"type": "string",
 					"required": true,
-					"description": "The patches field. Provide as a JSON array of objects or @path/to/file.json."
+					"description": "Partial updates to apply — each entry carries the pattern's ID and only the fields to change. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "posts",
 					"type": "string",
 					"required": true,
-					"description": "The posts field. Provide as a JSON array of objects or @path/to/file.json."
+					"description": "Blocked sender patterns to create. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "puts",
 					"type": "string",
 					"required": true,
-					"description": "The puts field. Provide as a JSON array of objects or @path/to/file.json."
+					"description": "Full replacements to apply — each entry carries the pattern's ID and every field of its new value. Provide as a JSON array of objects or @path/to/file.json."
 				}
 			]
 		},
@@ -33296,7 +33471,7 @@
 					"name": "is-regex",
 					"type": "boolean",
 					"required": true,
-					"description": "The is_regex field"
+					"description": "Whether `pattern` is a regular expression instead of a literal value."
 				},
 				{
 					"name": "pattern",
@@ -33361,7 +33536,7 @@
 					"name": "is-regex",
 					"type": "boolean",
 					"required": false,
-					"description": "The is_regex field"
+					"description": "Whether `pattern` is a regular expression instead of a literal value."
 				},
 				{
 					"name": "pattern",
@@ -33477,7 +33652,7 @@
 					"name": "is-regex",
 					"type": "boolean",
 					"required": true,
-					"description": "The is_regex field"
+					"description": "Whether `pattern` is a regular expression instead of a literal value."
 				},
 				{
 					"name": "pattern",
@@ -33492,6 +33667,262 @@
 					"description": "Type of pattern matching.\n- EMAIL: matches a full email address (e.g. `user@example.com`)\n- DOMAIN: matches a domain name (e.g. `example.com`)\n- IP: matches a plain IPv4 or IPv6 address (e.g. `1.2.3.4` or `2606:4700:4700::1111`) or CIDR block (e.g. `1.2.3.0/24` or `2606:4700:4700::/48`). The API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.\n- UNKNOWN: deprecated; you cannot use this when creating or updating policies, but it may appear on existing entries.\n"
 				}
 			]
+		},
+		"email-security bulk-actions cancel": {
+			"operationId": "email_security_cancel_bulk_job",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/email-security/investigate/bulk/{job_id}/cancel",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "job_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"email-security bulk-actions create": {
+			"operationId": "email_security_create_bulk_job",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/email-security/investigate/bulk",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "action",
+					"type": "string",
+					"required": true,
+					"description": "The action the job performs on every message matching the search parameters."
+				},
+				{
+					"name": "comment",
+					"type": "string",
+					"required": false,
+					"description": "Optional note describing the job."
+				},
+				{
+					"name": "search-params-action-log",
+					"type": "boolean",
+					"required": false,
+					"description": "Deprecated, use `GET /investigate/{investigate_id}/action_log` instead. End of life: November 1, 2026."
+				},
+				{
+					"name": "search-params-alert-id",
+					"type": "string",
+					"required": false,
+					"description": "Alert ID of the detection to filter by."
+				},
+				{
+					"name": "search-params-detections-only",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether to include only detections in search results."
+				},
+				{
+					"name": "search-params-domain",
+					"type": "string",
+					"required": false,
+					"description": "Match messages that mention this domain — sender domain, recipient domain, or a domain in a link."
+				},
+				{
+					"name": "search-params-end",
+					"type": "string",
+					"required": false,
+					"description": "End of search date range."
+				},
+				{
+					"name": "search-params-exact-subject",
+					"type": "string",
+					"required": false,
+					"description": "Match messages whose subject line equals this value exactly."
+				},
+				{
+					"name": "search-params-message-action",
+					"type": "string",
+					"required": false,
+					"description": "Message actions to filter by."
+				},
+				{
+					"name": "search-params-message-id",
+					"type": "string",
+					"required": false,
+					"description": "Message-ID header value to filter by."
+				},
+				{
+					"name": "search-params-metric",
+					"type": "string",
+					"required": false,
+					"description": "Metric name to filter the search by."
+				},
+				{
+					"name": "search-params-query",
+					"type": "string",
+					"required": false,
+					"description": "Space-delimited search term. Case-insensitive."
+				},
+				{
+					"name": "search-params-recipient",
+					"type": "string",
+					"required": false,
+					"description": "Match messages whose recipient is this email address or domain."
+				},
+				{
+					"name": "search-params-sender",
+					"type": "string",
+					"required": false,
+					"description": "Match messages whose sender is this email address or domain."
+				},
+				{
+					"name": "search-params-smtp-helo-ip",
+					"type": "string",
+					"required": false,
+					"description": "Matches messages whose SMTP HELO server IP address equals this value."
+				},
+				{
+					"name": "search-params-start",
+					"type": "string",
+					"required": false,
+					"description": "Beginning of search date range."
+				},
+				{
+					"name": "search-params-subject",
+					"type": "string",
+					"required": false,
+					"description": "Match messages whose subject contains these keywords, in any order."
+				},
+				{
+					"name": "search-params-submissions",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether to search reclassification submissions instead of original messages."
+				}
+			]
+		},
+		"email-security bulk-actions delete": {
+			"operationId": "email_security_delete_bulk_job",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/email-security/investigate/bulk/{job_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "job_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"email-security bulk-actions get": {
+			"operationId": "email_security_get_bulk_job",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/email-security/investigate/bulk/{job_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "job_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"email-security bulk-actions list": {
+			"operationId": "email_security_get_bulk_jobs",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/email-security/investigate/bulk",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "action_type",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "status",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"email-security bulk-actions messages list": {
+			"operationId": "email_security_get_bulk_job_messages",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/email-security/investigate/bulk/{job_id}/messages",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "job_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "status",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
 		},
 		"email-security content-policies batch": {
 			"operationId": "email_security_batch_content_policies",
@@ -33511,25 +33942,25 @@
 					"name": "deletes",
 					"type": "string",
 					"required": true,
-					"description": "The deletes field. Provide as a JSON array of objects or @path/to/file.json."
+					"description": "IDs of the content policies to delete. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "patches",
 					"type": "string",
 					"required": true,
-					"description": "The patches field. Provide as a JSON array of objects or @path/to/file.json."
+					"description": "Partial updates to apply — each entry carries the policy's ID and only the fields to change. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "posts",
 					"type": "string",
 					"required": true,
-					"description": "The posts field. Provide as a JSON array of objects or @path/to/file.json."
+					"description": "Content policies to create. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "puts",
 					"type": "string",
 					"required": true,
-					"description": "The puts field. Provide as a JSON array of objects or @path/to/file.json."
+					"description": "Full replacements to apply — each entry carries the policy's ID and every field of its new value. Provide as a JSON array of objects or @path/to/file.json."
 				}
 			]
 		},
@@ -33551,31 +33982,31 @@
 					"name": "enabled",
 					"type": "boolean",
 					"required": true,
-					"description": "The enabled field"
+					"description": "Whether the policy is active."
 				},
 				{
 					"name": "name",
 					"type": "string",
 					"required": true,
-					"description": "The name field"
+					"description": "Human-readable name of the policy."
 				},
 				{
 					"name": "notes",
 					"type": "string",
 					"required": false,
-					"description": "The notes field"
+					"description": "Optional note describing the purpose of the policy."
 				},
 				{
 					"name": "pattern",
 					"type": "string",
 					"required": true,
-					"description": "The pattern field"
+					"description": "Regular expression the policy matches against."
 				},
 				{
 					"name": "targets",
 					"type": "string",
 					"required": true,
-					"description": "The targets field"
+					"description": "Parts of the email the pattern is matched against."
 				}
 			]
 		},
@@ -33622,31 +34053,31 @@
 					"name": "enabled",
 					"type": "boolean",
 					"required": false,
-					"description": "The enabled field"
+					"description": "Whether the policy is active."
 				},
 				{
 					"name": "name",
 					"type": "string",
 					"required": false,
-					"description": "The name field"
+					"description": "Human-readable name of the policy."
 				},
 				{
 					"name": "notes",
 					"type": "string",
 					"required": false,
-					"description": "The notes field"
+					"description": "Optional note describing the purpose of the policy."
 				},
 				{
 					"name": "pattern",
 					"type": "string",
 					"required": false,
-					"description": "The pattern field"
+					"description": "Regular expression the policy matches against."
 				},
 				{
 					"name": "targets",
 					"type": "string",
 					"required": false,
-					"description": "The targets field"
+					"description": "Parts of the email the pattern is matched against."
 				}
 			]
 		},
@@ -33739,25 +34170,25 @@
 					"name": "deletes",
 					"type": "string",
 					"required": true,
-					"description": "The deletes field. Provide as a JSON array of objects or @path/to/file.json."
+					"description": "IDs of the domains to remove protection from. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "patches",
 					"type": "string",
 					"required": true,
-					"description": "The patches field. Provide as a JSON array of objects or @path/to/file.json."
+					"description": "Partial updates to apply — each entry carries the domain's ID and only the fields to change. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "posts",
 					"type": "string",
 					"required": true,
-					"description": "The posts field. Provide as a JSON array of objects or @path/to/file.json."
+					"description": "Domains to add protection for. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "puts",
 					"type": "string",
 					"required": true,
-					"description": "The puts field. Provide as a JSON array of objects or @path/to/file.json."
+					"description": "Full replacements to apply — each entry carries the domain's ID and every field of its new value. Provide as a JSON array of objects or @path/to/file.json."
 				}
 			]
 		},
@@ -33779,61 +34210,61 @@
 					"name": "allowed-delivery-modes",
 					"type": "string",
 					"required": true,
-					"description": "The allowed_delivery_modes field"
+					"description": "Delivery modes to onboard the domain through."
 				},
 				{
 					"name": "domain",
 					"type": "string",
 					"required": true,
-					"description": "The domain field"
+					"description": "The email domain to protect."
 				},
 				{
 					"name": "drop-dispositions",
 					"type": "string",
 					"required": true,
-					"description": "The drop_dispositions field"
+					"description": "Dispositions to drop instead of delivering, e.g. `[\"MALICIOUS\", \"SPAM\"]`."
 				},
 				{
 					"name": "integration-id",
 					"type": "string",
 					"required": false,
-					"description": "The integration_id field"
+					"description": "Identifier of the CASB integration that authorizes this domain. The integration also enables API scanning, post-delivery actions, and directory sync."
 				},
 				{
 					"name": "ip-restrictions",
 					"type": "string",
 					"required": true,
-					"description": "The ip_restrictions field"
+					"description": "Source IP ranges mail is accepted from. Any other source is rejected."
 				},
 				{
 					"name": "lookback-hops",
 					"type": "number",
 					"required": false,
-					"description": "The lookback_hops field"
+					"description": "Number of hops to trace back through received headers when reconstructing the original message (1-20)."
 				},
 				{
 					"name": "regions",
 					"type": "string",
 					"required": true,
-					"description": "The regions field"
+					"description": "Regions that process messages for this domain, e.g. `[\"GLOBAL\"]` or `[\"US\"]`."
 				},
 				{
 					"name": "require-tls-inbound",
 					"type": "boolean",
 					"required": false,
-					"description": "The require_tls_inbound field"
+					"description": "Require TLS on inbound connections."
 				},
 				{
 					"name": "require-tls-outbound",
 					"type": "boolean",
 					"required": false,
-					"description": "The require_tls_outbound field"
+					"description": "Require TLS on outbound connections."
 				},
 				{
 					"name": "transport",
 					"type": "string",
 					"required": false,
-					"description": "The transport field"
+					"description": "The mail transport hostname for MX/Inline delivery — the MX record Cloudflare delivers email to (e.g. `mx.example.com`)."
 				}
 			]
 		},
@@ -33880,55 +34311,55 @@
 					"name": "allowed-delivery-modes",
 					"type": "string",
 					"required": false,
-					"description": "The allowed_delivery_modes field"
+					"description": "Delivery modes to onboard the domain through."
 				},
 				{
 					"name": "drop-dispositions",
 					"type": "string",
 					"required": false,
-					"description": "The drop_dispositions field"
+					"description": "Dispositions to drop instead of delivering, e.g. `[\"MALICIOUS\", \"SPAM\"]`."
 				},
 				{
 					"name": "integration-id",
 					"type": "string",
 					"required": false,
-					"description": "The integration_id field"
+					"description": "Identifier of the CASB integration that authorizes this domain. The integration also enables API scanning, post-delivery actions, and directory sync."
 				},
 				{
 					"name": "ip-restrictions",
 					"type": "string",
 					"required": false,
-					"description": "The ip_restrictions field"
+					"description": "Source IP ranges mail is accepted from. Any other source is rejected."
 				},
 				{
 					"name": "lookback-hops",
 					"type": "number",
 					"required": false,
-					"description": "The lookback_hops field"
+					"description": "Number of hops to trace back through received headers when reconstructing the original message (1-20)."
 				},
 				{
 					"name": "regions",
 					"type": "string",
 					"required": false,
-					"description": "The regions field"
+					"description": "Regions that process messages for this domain, e.g. `[\"GLOBAL\"]` or `[\"US\"]`."
 				},
 				{
 					"name": "require-tls-inbound",
 					"type": "boolean",
 					"required": false,
-					"description": "The require_tls_inbound field"
+					"description": "Require TLS on inbound connections."
 				},
 				{
 					"name": "require-tls-outbound",
 					"type": "boolean",
 					"required": false,
-					"description": "The require_tls_outbound field"
+					"description": "Require TLS on outbound connections."
 				},
 				{
 					"name": "transport",
 					"type": "string",
 					"required": false,
-					"description": "The transport field"
+					"description": "The mail transport hostname for MX/Inline delivery — the MX record Cloudflare delivers email to (e.g. `mx.example.com`)."
 				}
 			]
 		},
@@ -34041,55 +34472,55 @@
 					"name": "allowed-delivery-modes",
 					"type": "string",
 					"required": true,
-					"description": "The allowed_delivery_modes field"
+					"description": "Delivery modes to onboard the domain through."
 				},
 				{
 					"name": "drop-dispositions",
 					"type": "string",
 					"required": true,
-					"description": "The drop_dispositions field"
+					"description": "Dispositions to drop instead of delivering, e.g. `[\"MALICIOUS\", \"SPAM\"]`."
 				},
 				{
 					"name": "integration-id",
 					"type": "string",
 					"required": false,
-					"description": "The integration_id field"
+					"description": "Identifier of the CASB integration that authorizes this domain. The integration also enables API scanning, post-delivery actions, and directory sync."
 				},
 				{
 					"name": "ip-restrictions",
 					"type": "string",
 					"required": true,
-					"description": "The ip_restrictions field"
+					"description": "Source IP ranges mail is accepted from. Any other source is rejected."
 				},
 				{
 					"name": "lookback-hops",
 					"type": "number",
 					"required": false,
-					"description": "The lookback_hops field"
+					"description": "Number of hops to trace back through received headers when reconstructing the original message (1-20)."
 				},
 				{
 					"name": "regions",
 					"type": "string",
 					"required": true,
-					"description": "The regions field"
+					"description": "Regions that process messages for this domain, e.g. `[\"GLOBAL\"]` or `[\"US\"]`."
 				},
 				{
 					"name": "require-tls-inbound",
 					"type": "boolean",
 					"required": false,
-					"description": "The require_tls_inbound field"
+					"description": "Require TLS on inbound connections."
 				},
 				{
 					"name": "require-tls-outbound",
 					"type": "boolean",
 					"required": false,
-					"description": "The require_tls_outbound field"
+					"description": "Require TLS on outbound connections."
 				},
 				{
 					"name": "transport",
 					"type": "string",
 					"required": false,
-					"description": "The transport field"
+					"description": "The mail transport hostname for MX/Inline delivery — the MX record Cloudflare delivers email to (e.g. `mx.example.com`)."
 				}
 			]
 		},
@@ -34131,43 +34562,43 @@
 					"name": "comments",
 					"type": "string",
 					"required": false,
-					"description": "The comments field"
+					"description": "Optional note describing the entry."
 				},
 				{
 					"name": "directory-id",
 					"type": "number",
 					"required": false,
-					"description": "The directory_id field"
+					"description": "Identifier of the directory the entry was synced from, when directory-synced."
 				},
 				{
 					"name": "directory-node-id",
 					"type": "number",
 					"required": false,
-					"description": "The directory_node_id field"
+					"description": "Identifier of the directory node the entry was synced from, when directory-synced."
 				},
 				{
 					"name": "email",
 					"type": "string",
 					"required": true,
-					"description": "The email field"
+					"description": "Email address (or pattern) of the protected identity."
 				},
 				{
 					"name": "external-directory-node-id",
 					"type": "string",
 					"required": false,
-					"description": "The external_directory_node_id field"
+					"description": "Deprecated. External identifier of the directory node."
 				},
 				{
 					"name": "is-email-regex",
 					"type": "boolean",
 					"required": true,
-					"description": "The is_email_regex field"
+					"description": "Whether `email` is a regular expression instead of a literal address."
 				},
 				{
 					"name": "name",
 					"type": "string",
 					"required": true,
-					"description": "The name field"
+					"description": "Display name of the protected identity."
 				}
 			]
 		},
@@ -34214,43 +34645,43 @@
 					"name": "comments",
 					"type": "string",
 					"required": false,
-					"description": "The comments field"
+					"description": "Optional note describing the entry."
 				},
 				{
 					"name": "directory-id",
 					"type": "number",
 					"required": false,
-					"description": "The directory_id field"
+					"description": "Identifier of the directory the entry was synced from, when directory-synced."
 				},
 				{
 					"name": "directory-node-id",
 					"type": "number",
 					"required": false,
-					"description": "The directory_node_id field"
+					"description": "Identifier of the directory node the entry was synced from, when directory-synced."
 				},
 				{
 					"name": "email",
 					"type": "string",
 					"required": false,
-					"description": "The email field"
+					"description": "Email address (or pattern) of the protected identity."
 				},
 				{
 					"name": "external-directory-node-id",
 					"type": "string",
 					"required": false,
-					"description": "The external_directory_node_id field"
+					"description": "Deprecated. External identifier of the directory node."
 				},
 				{
 					"name": "is-email-regex",
 					"type": "boolean",
 					"required": false,
-					"description": "The is_email_regex field"
+					"description": "Whether `email` is a regular expression instead of a literal address."
 				},
 				{
 					"name": "name",
 					"type": "string",
 					"required": false,
-					"description": "The name field"
+					"description": "Display name of the protected identity."
 				}
 			]
 		},
@@ -34336,205 +34767,6 @@
 					"required": true
 				}
 			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"email-security investigate bulk cancel": {
-			"operationId": "email_security_cancel_bulk_job",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/email-security/investigate/bulk/{job_id}/cancel",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "job_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"email-security investigate bulk create": {
-			"operationId": "email_security_create_bulk_job",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/email-security/investigate/bulk",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "action",
-					"type": "string",
-					"required": true,
-					"description": "The action field"
-				},
-				{
-					"name": "comment",
-					"type": "string",
-					"required": false,
-					"description": "The comment field"
-				},
-				{
-					"name": "search-params-action-log",
-					"type": "boolean",
-					"required": false,
-					"description": "Deprecated, use `GET /investigate/{investigate_id}/action_log` instead. End of life: November 1, 2026."
-				},
-				{
-					"name": "search-params-alert-id",
-					"type": "string",
-					"required": false,
-					"description": "The search_params.alert_id field"
-				},
-				{
-					"name": "search-params-detections-only",
-					"type": "boolean",
-					"required": false,
-					"description": "The search_params.detections_only field"
-				},
-				{
-					"name": "search-params-domain",
-					"type": "string",
-					"required": false,
-					"description": "The search_params.domain field"
-				},
-				{
-					"name": "search-params-end",
-					"type": "string",
-					"required": false,
-					"description": "End of search date range."
-				},
-				{
-					"name": "search-params-exact-subject",
-					"type": "string",
-					"required": false,
-					"description": "The search_params.exact_subject field"
-				},
-				{
-					"name": "search-params-message-action",
-					"type": "string",
-					"required": false,
-					"description": "The search_params.message_action field"
-				},
-				{
-					"name": "search-params-message-id",
-					"type": "string",
-					"required": false,
-					"description": "The search_params.message_id field"
-				},
-				{
-					"name": "search-params-metric",
-					"type": "string",
-					"required": false,
-					"description": "The search_params.metric field"
-				},
-				{
-					"name": "search-params-query",
-					"type": "string",
-					"required": false,
-					"description": "The search_params.query field"
-				},
-				{
-					"name": "search-params-recipient",
-					"type": "string",
-					"required": false,
-					"description": "The search_params.recipient field"
-				},
-				{
-					"name": "search-params-sender",
-					"type": "string",
-					"required": false,
-					"description": "The search_params.sender field"
-				},
-				{
-					"name": "search-params-smtp-helo-ip",
-					"type": "string",
-					"required": false,
-					"description": "Matches messages whose SMTP HELO server IP address equals this value."
-				},
-				{
-					"name": "search-params-start",
-					"type": "string",
-					"required": false,
-					"description": "Beginning of search date range."
-				},
-				{
-					"name": "search-params-subject",
-					"type": "string",
-					"required": false,
-					"description": "The search_params.subject field"
-				},
-				{
-					"name": "search-params-submissions",
-					"type": "boolean",
-					"required": false,
-					"description": "The search_params.submissions field"
-				}
-			]
-		},
-		"email-security investigate bulk delete": {
-			"operationId": "email_security_delete_bulk_job",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/email-security/investigate/bulk/{job_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "job_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"email-security investigate bulk get": {
-			"operationId": "email_security_get_bulk_job",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/email-security/investigate/bulk/{job_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "job_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"email-security investigate bulk list": {
-			"operationId": "email_security_get_bulk_jobs",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/email-security/investigate/bulk",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
 			"queryParams": [
 				{
 					"name": "page",
@@ -34544,52 +34776,6 @@
 				{
 					"name": "per_page",
 					"type": "number",
-					"required": false
-				},
-				{
-					"name": "action_type",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "status",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"email-security investigate bulk messages list": {
-			"operationId": "email_security_get_bulk_job_messages",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/email-security/investigate/bulk/{job_id}/messages",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "job_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "page",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "per_page",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "status",
-					"type": "string",
 					"required": false
 				}
 			],
@@ -34766,7 +34952,7 @@
 					"name": "destination",
 					"type": "string",
 					"required": true,
-					"description": "The destination field"
+					"description": "The mailbox folder to move messages to."
 				},
 				{
 					"name": "ids",
@@ -34857,7 +35043,14 @@
 			],
 			"queryParams": [],
 			"hasRequestBody": true,
-			"requestBodyFields": []
+			"requestBodyFields": [
+				{
+					"name": "ids",
+					"type": "string",
+					"required": true,
+					"description": "Investigate IDs of the messages to release."
+				}
+			]
 		},
 		"email-security investigate trace get": {
 			"operationId": "email_security_get_message_trace",
@@ -34909,6 +35102,16 @@
 				{
 					"name": "to_date",
 					"type": "string",
+					"required": false
+				},
+				{
+					"name": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"type": "number",
 					"required": false
 				}
 			],
@@ -35201,25 +35404,25 @@
 					"name": "deletes",
 					"type": "string",
 					"required": true,
-					"description": "The deletes field. Provide as a JSON array of objects or @path/to/file.json."
+					"description": "IDs of the trusted domain patterns to delete. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "patches",
 					"type": "string",
 					"required": true,
-					"description": "The patches field. Provide as a JSON array of objects or @path/to/file.json."
+					"description": "Partial updates to apply — each entry carries the pattern's ID and only the fields to change. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "posts",
 					"type": "string",
 					"required": true,
-					"description": "The posts field. Provide as a JSON array of objects or @path/to/file.json."
+					"description": "Trusted domain patterns to create. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "puts",
 					"type": "string",
 					"required": true,
-					"description": "The puts field. Provide as a JSON array of objects or @path/to/file.json."
+					"description": "Full replacements to apply — each entry carries the pattern's ID and every field of its new value. Provide as a JSON array of objects or @path/to/file.json."
 				}
 			]
 		},
@@ -35253,7 +35456,7 @@
 					"name": "is-regex",
 					"type": "boolean",
 					"required": true,
-					"description": "The is_regex field"
+					"description": "Whether `pattern` is a regular expression instead of a literal domain."
 				},
 				{
 					"name": "is-similarity",
@@ -35265,7 +35468,7 @@
 					"name": "pattern",
 					"type": "string",
 					"required": true,
-					"description": "The pattern field"
+					"description": "The domain pattern to trust, e.g. `example.com`."
 				}
 			]
 		},
@@ -35324,7 +35527,7 @@
 					"name": "is-regex",
 					"type": "boolean",
 					"required": false,
-					"description": "The is_regex field"
+					"description": "Whether `pattern` is a regular expression instead of a literal domain."
 				},
 				{
 					"name": "is-similarity",
@@ -35336,7 +35539,7 @@
 					"name": "pattern",
 					"type": "string",
 					"required": false,
-					"description": "The pattern field"
+					"description": "The domain pattern to trust, e.g. `example.com`."
 				}
 			]
 		},
@@ -35451,7 +35654,7 @@
 					"name": "is-regex",
 					"type": "boolean",
 					"required": true,
-					"description": "The is_regex field"
+					"description": "Whether `pattern` is a regular expression instead of a literal domain."
 				},
 				{
 					"name": "is-similarity",
@@ -35463,7 +35666,7 @@
 					"name": "pattern",
 					"type": "string",
 					"required": true,
-					"description": "The pattern field"
+					"description": "The domain pattern to trust, e.g. `example.com`."
 				}
 			]
 		},
@@ -35485,25 +35688,25 @@
 					"name": "deletes",
 					"type": "string",
 					"required": true,
-					"description": "The deletes field. Provide as a JSON array of objects or @path/to/file.json."
+					"description": "IDs of the URL ignore patterns to delete. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "patches",
 					"type": "string",
 					"required": true,
-					"description": "The patches field. Provide as a JSON array of objects or @path/to/file.json."
+					"description": "Partial updates to apply — each entry carries the pattern's ID and only the fields to change. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "posts",
 					"type": "string",
 					"required": true,
-					"description": "The posts field. Provide as a JSON array of objects or @path/to/file.json."
+					"description": "URL ignore patterns to create. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "puts",
 					"type": "string",
 					"required": true,
-					"description": "The puts field. Provide as a JSON array of objects or @path/to/file.json."
+					"description": "Full replacements to apply — each entry carries the pattern's ID and every field of its new value. Provide as a JSON array of objects or @path/to/file.json."
 				}
 			]
 		},
@@ -48178,45 +48381,6 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"magic-transit apps edit": {
-			"operationId": "magic-account-apps-patch-app",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/magic/apps/{account_app_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_app_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "hostnames",
-					"type": "string",
-					"required": false,
-					"description": "FQDNs to associate with traffic decisions."
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": false,
-					"description": "Display name for the app."
-				},
-				{
-					"name": "type",
-					"type": "string",
-					"required": false,
-					"description": "Category of the app."
-				}
-			]
-		},
 		"magic-transit apps list": {
 			"operationId": "magic-account-apps-list-apps",
 			"httpMethod": "GET",
@@ -50526,62 +50690,6 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"magic-transit sites app-configuration edit": {
-			"operationId": "magic-site-app-configs-patch-app-config",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/magic/sites/{site_id}/app_configs/{app_config_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "site_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "app_config_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "account-app-id",
-					"type": "string",
-					"required": false,
-					"description": "Magic account app ID."
-				},
-				{
-					"name": "breakout",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior."
-				},
-				{
-					"name": "managed-app-id",
-					"type": "string",
-					"required": false,
-					"description": "Managed app ID."
-				},
-				{
-					"name": "preferred-wans",
-					"type": "string",
-					"required": false,
-					"description": "WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true)."
-				},
-				{
-					"name": "priority",
-					"type": "number",
-					"required": false,
-					"description": "Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported)"
-				}
-			]
-		},
 		"magic-transit sites app-configuration list": {
 			"operationId": "magic-site-app-configs-list-app-configs",
 			"httpMethod": "GET",
@@ -50766,6 +50874,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The description field"
+				},
+				{
+					"name": "ha-mode",
+					"type": "boolean",
+					"required": false,
+					"description": "Site high availability mode. If set to true, the site can have two connectors and runs in high availability mode."
 				},
 				{
 					"name": "location-lat",
@@ -50986,6 +51100,12 @@
 					"description": "The bond_id field"
 				},
 				{
+					"name": "ha-link",
+					"type": "boolean",
+					"required": false,
+					"description": "mark true to use this LAN for HA probing. only works for site with HA turned on. only one LAN can be set as the ha_link."
+				},
+				{
 					"name": "is-breakout",
 					"type": "boolean",
 					"required": false,
@@ -51145,6 +51265,12 @@
 					"type": "number",
 					"required": false,
 					"description": "The bond_id field"
+				},
+				{
+					"name": "ha-link",
+					"type": "boolean",
+					"required": false,
+					"description": "mark true to use this LAN for HA probing. only works for site with HA turned on. only one LAN can be set as the ha_link."
 				},
 				{
 					"name": "is-breakout",
@@ -51478,6 +51604,12 @@
 					"description": "The description field"
 				},
 				{
+					"name": "ha-mode",
+					"type": "boolean",
+					"required": false,
+					"description": "Site high availability mode. If set to true, the site can have two connectors and runs in high availability mode."
+				},
+				{
 					"name": "location-lat",
 					"type": "string",
 					"required": false,
@@ -51522,6 +51654,18 @@
 			"queryParams": [],
 			"hasRequestBody": true,
 			"requestBodyFields": [
+				{
+					"name": "health-check-rate",
+					"type": "string",
+					"required": false,
+					"description": "Magic WAN health check rate for tunnels created on this link. The default value is `mid`."
+				},
+				{
+					"name": "load-balance-inner-flows",
+					"type": "boolean",
+					"required": false,
+					"description": "The load_balance_inner_flows field"
+				},
 				{
 					"name": "name",
 					"type": "string",
@@ -51615,6 +51759,18 @@
 			"queryParams": [],
 			"hasRequestBody": true,
 			"requestBodyFields": [
+				{
+					"name": "health-check-rate",
+					"type": "string",
+					"required": false,
+					"description": "Magic WAN health check rate for tunnels created on this link."
+				},
+				{
+					"name": "load-balance-inner-flows",
+					"type": "boolean",
+					"required": false,
+					"description": "The load_balance_inner_flows field"
+				},
 				{
 					"name": "name",
 					"type": "string",
@@ -51728,6 +51884,18 @@
 			"queryParams": [],
 			"hasRequestBody": true,
 			"requestBodyFields": [
+				{
+					"name": "health-check-rate",
+					"type": "string",
+					"required": false,
+					"description": "Magic WAN health check rate for tunnels created on this link."
+				},
+				{
+					"name": "load-balance-inner-flows",
+					"type": "boolean",
+					"required": false,
+					"description": "The load_balance_inner_flows field"
+				},
 				{
 					"name": "name",
 					"type": "string",
@@ -57726,10 +57894,10 @@
 				}
 			]
 		},
-		"pages projects connect-source": {
-			"operationId": "pages-project-connect-project-source",
+		"pages build-cache purge": {
+			"operationId": "pages-purge-build-cache",
 			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/pages/projects/{project_name}/source",
+			"path": "/accounts/{account_id}/pages/projects/{project_name}/purge_build_cache",
 			"pathParams": [
 				{
 					"name": "project_name",
@@ -57743,95 +57911,10 @@
 				}
 			],
 			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "config-deployments-enabled",
-					"type": "boolean",
-					"required": true,
-					"description": "Whether to enable automatic deployments when pushing to the source repository.\nWhen disabled, no deployments (production or preview) will be triggered automatically.\n"
-				},
-				{
-					"name": "config-owner",
-					"type": "string",
-					"required": true,
-					"description": "The owner of the repository."
-				},
-				{
-					"name": "config-owner-id",
-					"type": "string",
-					"required": true,
-					"description": "The owner ID of the repository."
-				},
-				{
-					"name": "config-path-excludes",
-					"type": "string",
-					"required": true,
-					"description": "A list of paths that should be excluded from triggering a preview deployment. Wildcard syntax (`*`) is supported."
-				},
-				{
-					"name": "config-path-includes",
-					"type": "string",
-					"required": true,
-					"description": "A list of paths that should be watched to trigger a preview deployment. Wildcard syntax (`*`) is supported."
-				},
-				{
-					"name": "config-pr-comments-enabled",
-					"type": "boolean",
-					"required": true,
-					"description": "Whether to enable PR comments."
-				},
-				{
-					"name": "config-preview-branch-excludes",
-					"type": "string",
-					"required": true,
-					"description": "A list of branches that should not trigger a preview deployment. Wildcard syntax (`*`) is supported. Must be used with `preview_deployment_setting` set to `custom`."
-				},
-				{
-					"name": "config-preview-branch-includes",
-					"type": "string",
-					"required": true,
-					"description": "A list of branches that should trigger a preview deployment. Wildcard syntax (`*`) is supported. Must be used with `preview_deployment_setting` set to `custom`."
-				},
-				{
-					"name": "config-preview-deployment-setting",
-					"type": "string",
-					"required": true,
-					"description": "Controls whether commits to preview branches trigger a preview deployment."
-				},
-				{
-					"name": "config-production-branch",
-					"type": "string",
-					"required": true,
-					"description": "The production branch of the repository."
-				},
-				{
-					"name": "config-production-deployments-enabled",
-					"type": "boolean",
-					"required": true,
-					"description": "Whether to trigger a production deployment on commits to the production branch."
-				},
-				{
-					"name": "config-repo-id",
-					"type": "string",
-					"required": true,
-					"description": "The ID of the repository."
-				},
-				{
-					"name": "config-repo-name",
-					"type": "string",
-					"required": true,
-					"description": "The name of the repository."
-				},
-				{
-					"name": "type",
-					"type": "string",
-					"required": true,
-					"description": "The source control management provider."
-				}
-			]
+			"hasRequestBody": false,
+			"requestBodyFields": []
 		},
-		"pages projects create": {
+		"pages create": {
 			"operationId": "pages-project-create-project",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/pages/projects",
@@ -57993,7 +58076,7 @@
 					"name": "name",
 					"type": "string",
 					"required": true,
-					"description": "Name of the project."
+					"description": "Name for the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens."
 				},
 				{
 					"name": "production-branch",
@@ -58087,7 +58170,7 @@
 				}
 			]
 		},
-		"pages projects delete": {
+		"pages delete": {
 			"operationId": "pages-project-delete-project",
 			"httpMethod": "DELETE",
 			"path": "/accounts/{account_id}/pages/projects/{project_name}",
@@ -58107,7 +58190,7 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"pages projects deployments create": {
+		"pages deployments create": {
 			"operationId": "pages-deployment-create-deployment",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/pages/projects/{project_name}/deployments",
@@ -58127,7 +58210,7 @@
 			"hasRequestBody": true,
 			"requestBodyFields": []
 		},
-		"pages projects deployments delete": {
+		"pages deployments delete": {
 			"operationId": "pages-deployment-delete-deployment",
 			"httpMethod": "DELETE",
 			"path": "/accounts/{account_id}/pages/projects/{project_name}/deployments/{deployment_id}",
@@ -58158,7 +58241,7 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"pages projects deployments get": {
+		"pages deployments get": {
 			"operationId": "pages-deployment-get-deployment-info",
 			"httpMethod": "GET",
 			"path": "/accounts/{account_id}/pages/projects/{project_name}/deployments/{deployment_id}",
@@ -58183,7 +58266,7 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"pages projects deployments history logs get": {
+		"pages deployments history logs get": {
 			"operationId": "pages-deployment-get-deployment-logs",
 			"httpMethod": "GET",
 			"path": "/accounts/{account_id}/pages/projects/{project_name}/deployments/{deployment_id}/history/logs",
@@ -58208,7 +58291,7 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"pages projects deployments list": {
+		"pages deployments list": {
 			"operationId": "pages-deployment-get-deployments",
 			"httpMethod": "GET",
 			"path": "/accounts/{account_id}/pages/projects/{project_name}/deployments",
@@ -58244,7 +58327,7 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"pages projects deployments retry": {
+		"pages deployments retry": {
 			"operationId": "pages-deployment-retry-deployment",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/pages/projects/{project_name}/deployments/{deployment_id}/retry",
@@ -58269,7 +58352,7 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"pages projects deployments rollback": {
+		"pages deployments rollback": {
 			"operationId": "pages-deployment-rollback-deployment",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/pages/projects/{project_name}/deployments/{deployment_id}/rollback",
@@ -58294,89 +58377,7 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"pages projects deployments tails create": {
-			"operationId": "pages-deployment-create-tail",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/pages/projects/{project_name}/deployments/{deployment_id}/tails",
-			"pathParams": [
-				{
-					"name": "deployment_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "project_name",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "filters",
-					"type": "string",
-					"required": false,
-					"description": "Filters to apply to the tail session. Provide as a JSON array of objects or @path/to/file.json."
-				}
-			]
-		},
-		"pages projects deployments tails delete": {
-			"operationId": "pages-deployment-delete-tail",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/pages/projects/{project_name}/deployments/{deployment_id}/tails/{tail_id}",
-			"pathParams": [
-				{
-					"name": "tail_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "deployment_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "project_name",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"pages projects disconnect-source": {
-			"operationId": "pages-project-disconnect-project-source",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/pages/projects/{project_name}/source",
-			"pathParams": [
-				{
-					"name": "project_name",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"pages projects domains create": {
+		"pages domains create": {
 			"operationId": "pages-domains-add-domain",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/pages/projects/{project_name}/domains",
@@ -58399,11 +58400,11 @@
 					"name": "name",
 					"type": "string",
 					"required": true,
-					"description": "The domain name."
+					"description": "Fully qualified domain name for the Pages project, such as `example.com`."
 				}
 			]
 		},
-		"pages projects domains delete": {
+		"pages domains delete": {
 			"operationId": "pages-domains-delete-domain",
 			"httpMethod": "DELETE",
 			"path": "/accounts/{account_id}/pages/projects/{project_name}/domains/{domain_name}",
@@ -58428,32 +58429,7 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"pages projects domains edit": {
-			"operationId": "pages-domains-patch-domain",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/pages/projects/{project_name}/domains/{domain_name}",
-			"pathParams": [
-				{
-					"name": "domain_name",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "project_name",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"pages projects domains get": {
+		"pages domains get": {
 			"operationId": "pages-domains-get-domain",
 			"httpMethod": "GET",
 			"path": "/accounts/{account_id}/pages/projects/{project_name}/domains/{domain_name}",
@@ -58478,7 +58454,7 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"pages projects domains list": {
+		"pages domains list": {
 			"operationId": "pages-domains-get-domains",
 			"httpMethod": "GET",
 			"path": "/accounts/{account_id}/pages/projects/{project_name}/domains",
@@ -58498,7 +58474,32 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"pages projects edit": {
+		"pages domains validation retry": {
+			"operationId": "pages-domains-patch-domain",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/pages/projects/{project_name}/domains/{domain_name}",
+			"pathParams": [
+				{
+					"name": "domain_name",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "project_name",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"pages edit": {
 			"operationId": "pages-project-update-project",
 			"httpMethod": "PATCH",
 			"path": "/accounts/{account_id}/pages/projects/{project_name}",
@@ -58665,7 +58666,7 @@
 					"name": "name",
 					"type": "string",
 					"required": false,
-					"description": "Name of the project."
+					"description": "Name for the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens."
 				},
 				{
 					"name": "production-branch",
@@ -58759,7 +58760,7 @@
 				}
 			]
 		},
-		"pages projects get": {
+		"pages get": {
 			"operationId": "pages-project-get-project",
 			"httpMethod": "GET",
 			"path": "/accounts/{account_id}/pages/projects/{project_name}",
@@ -58779,27 +58780,7 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"pages projects get-upload-token": {
-			"operationId": "pages-project-get-upload-token",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/pages/projects/{project_name}/upload-token",
-			"pathParams": [
-				{
-					"name": "project_name",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"pages projects list": {
+		"pages list": {
 			"operationId": "pages-project-get-projects",
 			"httpMethod": "GET",
 			"path": "/accounts/{account_id}/pages/projects",
@@ -58825,10 +58806,115 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"pages projects purge-build-cache": {
-			"operationId": "pages-purge-build-cache",
+		"pages source connect": {
+			"operationId": "pages-project-connect-project-source",
 			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/pages/projects/{project_name}/purge_build_cache",
+			"path": "/accounts/{account_id}/pages/projects/{project_name}/source",
+			"pathParams": [
+				{
+					"name": "project_name",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "source-config-deployments-enabled",
+					"type": "boolean",
+					"required": true,
+					"description": "Whether to enable automatic deployments when pushing to the source repository.\nWhen disabled, no deployments (production or preview) will be triggered automatically.\n"
+				},
+				{
+					"name": "source-config-owner",
+					"type": "string",
+					"required": true,
+					"description": "The owner of the repository."
+				},
+				{
+					"name": "source-config-owner-id",
+					"type": "string",
+					"required": true,
+					"description": "The owner ID of the repository."
+				},
+				{
+					"name": "source-config-path-excludes",
+					"type": "string",
+					"required": true,
+					"description": "A list of paths that should be excluded from triggering a preview deployment. Wildcard syntax (`*`) is supported."
+				},
+				{
+					"name": "source-config-path-includes",
+					"type": "string",
+					"required": true,
+					"description": "A list of paths that should be watched to trigger a preview deployment. Wildcard syntax (`*`) is supported."
+				},
+				{
+					"name": "source-config-pr-comments-enabled",
+					"type": "boolean",
+					"required": true,
+					"description": "Whether to enable PR comments."
+				},
+				{
+					"name": "source-config-preview-branch-excludes",
+					"type": "string",
+					"required": true,
+					"description": "A list of branches that should not trigger a preview deployment. Wildcard syntax (`*`) is supported. Must be used with `preview_deployment_setting` set to `custom`."
+				},
+				{
+					"name": "source-config-preview-branch-includes",
+					"type": "string",
+					"required": true,
+					"description": "A list of branches that should trigger a preview deployment. Wildcard syntax (`*`) is supported. Must be used with `preview_deployment_setting` set to `custom`."
+				},
+				{
+					"name": "source-config-preview-deployment-setting",
+					"type": "string",
+					"required": true,
+					"description": "Controls whether commits to preview branches trigger a preview deployment."
+				},
+				{
+					"name": "source-config-production-branch",
+					"type": "string",
+					"required": true,
+					"description": "The production branch of the repository."
+				},
+				{
+					"name": "source-config-production-deployments-enabled",
+					"type": "boolean",
+					"required": true,
+					"description": "Whether to trigger a production deployment on commits to the production branch."
+				},
+				{
+					"name": "source-config-repo-id",
+					"type": "string",
+					"required": true,
+					"description": "The ID of the repository."
+				},
+				{
+					"name": "source-config-repo-name",
+					"type": "string",
+					"required": true,
+					"description": "The name of the repository."
+				},
+				{
+					"name": "type",
+					"type": "string",
+					"required": true,
+					"description": "The source control management provider."
+				}
+			]
+		},
+		"pages source disconnect": {
+			"operationId": "pages-project-disconnect-project-source",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/pages/projects/{project_name}/source",
 			"pathParams": [
 				{
 					"name": "project_name",
@@ -63038,477 +63124,6 @@
 					"description": "Lifetime of the temporary credentials in seconds, up to 604800 seconds (7 days)."
 				}
 			]
-		},
-		"r2-data-catalog credentials create": {
-			"operationId": "store-credentials",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/r2-catalog/{bucket_name}/credential",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "bucket_name",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "token",
-					"type": "string",
-					"required": true,
-					"description": "Provides the Cloudflare API token for accessing R2."
-				}
-			]
-		},
-		"r2-data-catalog delete": {
-			"operationId": "delete-catalog",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/r2-catalog/{bucket_name}/delete",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "bucket_name",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "force",
-					"type": "boolean",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"r2-data-catalog disable": {
-			"operationId": "disable-catalog",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/r2-catalog/{bucket_name}/disable",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "bucket_name",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"r2-data-catalog enable": {
-			"operationId": "enable-catalog",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/r2-catalog/{bucket_name}/enable",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "bucket_name",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"r2-data-catalog get": {
-			"operationId": "get-catalog-details",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/r2-catalog/{bucket_name}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "bucket_name",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"r2-data-catalog list": {
-			"operationId": "list-catalogs",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/r2-catalog",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"r2-data-catalog maintenance-configs get": {
-			"operationId": "get-maintenance-config",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/r2-catalog/{bucket_name}/maintenance-configs",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "bucket_name",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"r2-data-catalog maintenance-configs update": {
-			"operationId": "update-maintenance-config",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/r2-catalog/{bucket_name}/maintenance-configs",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "bucket_name",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "snapshot-expiration-max-snapshot-age",
-					"type": "string",
-					"required": false,
-					"description": "Updates the maximum age for snapshots optionally."
-				},
-				{
-					"name": "snapshot-expiration-min-snapshots-to-keep",
-					"type": "number",
-					"required": false,
-					"description": "Updates the minimum number of snapshots to retain optionally."
-				}
-			]
-		},
-		"r2-data-catalog namespaces list": {
-			"operationId": "list-namespaces",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/r2-catalog/{bucket_name}/namespaces",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "bucket_name",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "page_token",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "page_size",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "parent",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "return_uuids",
-					"type": "boolean",
-					"required": false
-				},
-				{
-					"name": "return_details",
-					"type": "boolean",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"r2-data-catalog namespaces tables get": {
-			"operationId": "get-table",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/r2-catalog/{bucket_name}/namespaces/{namespace}/tables/{table_name}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "bucket_name",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "namespace",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "table_name",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"r2-data-catalog namespaces tables list": {
-			"operationId": "list-tables",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/r2-catalog/{bucket_name}/namespaces/{namespace}/tables",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "bucket_name",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "namespace",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "page_token",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "page_size",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "return_uuids",
-					"type": "boolean",
-					"required": false
-				},
-				{
-					"name": "return_details",
-					"type": "boolean",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"r2-data-catalog namespaces tables maintenance-configs get": {
-			"operationId": "get-table-maintenance-config",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/r2-catalog/{bucket_name}/namespaces/{namespace}/tables/{table_name}/maintenance-configs",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "bucket_name",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "namespace",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "table_name",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"r2-data-catalog namespaces tables maintenance-configs queue": {
-			"operationId": "queue-table-maintenance",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/r2-catalog/{bucket_name}/namespaces/{namespace}/tables/{table_name}/maintenance-configs/{configuration_type}/queue",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "bucket_name",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "namespace",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "table_name",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "configuration_type",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "request-id",
-					"type": "string",
-					"required": false,
-					"description": "The request_id field"
-				}
-			]
-		},
-		"r2-data-catalog namespaces tables maintenance-configs update": {
-			"operationId": "update-table-maintenance-config",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/r2-catalog/{bucket_name}/namespaces/{namespace}/tables/{table_name}/maintenance-configs",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "bucket_name",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "namespace",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "table_name",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "compaction-state",
-					"type": "string",
-					"required": false,
-					"description": "Specifies the state of maintenance operations."
-				},
-				{
-					"name": "compaction-target-size-mb",
-					"type": "string",
-					"required": false,
-					"description": "Sets the target file size for compaction in megabytes. Defaults to \"128\"."
-				},
-				{
-					"name": "snapshot-expiration-max-snapshot-age",
-					"type": "string",
-					"required": false,
-					"description": "Updates the maximum age for snapshots optionally."
-				},
-				{
-					"name": "snapshot-expiration-min-snapshots-to-keep",
-					"type": "number",
-					"required": false,
-					"description": "Updates the minimum number of snapshots to retain optionally."
-				}
-			]
-		},
-		"r2-data-catalog namespaces tables maintenance-runs list": {
-			"operationId": "list-table-maintenance-runs",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/r2-catalog/{bucket_name}/namespaces/{namespace}/tables/{table_name}/maintenance-runs",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "bucket_name",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "namespace",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "table_name",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "page_size",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "page_token",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
 		},
 		"radar agent-readiness summary": {
 			"operationId": "radar-get-agent-readiness-summary",
@@ -79432,7 +79047,7 @@
 					"name": "items",
 					"type": "string",
 					"required": false,
-					"description": "The items field. Provide as a JSON array of objects or @path/to/file.json."
+					"description": "The list items to delete, identified by their unique IDs. Provide as a JSON array of objects or @path/to/file.json."
 				}
 			]
 		},
@@ -79593,19 +79208,19 @@
 				{
 					"name": "name",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "The human-readable name of the ruleset."
 				},
 				{
 					"name": "kind",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "The kind of the ruleset."
 				},
 				{
 					"name": "phase",
 					"type": "string",
-					"required": true,
+					"required": false,
 					"description": "The phase of the ruleset."
 				},
 				{
@@ -81191,7 +80806,7 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"security-center audit-logs get": {
+		"security-insights audit-logs get": {
 			"operationId": "generated:get:/{account_or_zone}/{account_or_zone_id}/security-center/insights/{issue_id}/audit-log",
 			"httpMethod": "GET",
 			"path": "/{account_or_zone}/{account_or_zone_id}/security-center/insights/{issue_id}/audit-log",
@@ -81252,7 +80867,7 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"security-center audit-logs list": {
+		"security-insights audit-logs list": {
 			"operationId": "generated:get:/{account_or_zone}/{account_or_zone_id}/security-center/insights/audit-log",
 			"httpMethod": "GET",
 			"path": "/{account_or_zone}/{account_or_zone_id}/security-center/insights/audit-log",
@@ -81308,7 +80923,65 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"security-center insights class get": {
+		"security-insights classify": {
+			"operationId": "generated:patch:/{account_or_zone}/{account_or_zone_id}/security-center/insights/{issue_id}/classification",
+			"httpMethod": "PATCH",
+			"path": "/{account_or_zone}/{account_or_zone_id}/security-center/insights/{issue_id}/classification",
+			"pathParams": [
+				{
+					"name": "account_or_zone",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_or_zone_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "issue_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "classification",
+					"type": "string",
+					"required": false,
+					"description": "User-defined classification for the insight. Can be 'false_positive', 'accept_risk', 'other', or null."
+				},
+				{
+					"name": "rationale",
+					"type": "string",
+					"required": false,
+					"description": "Rationale for the classification change. Required when classification is 'accept_risk' or 'other'."
+				}
+			]
+		},
+		"security-insights context get": {
+			"operationId": "get-security-center-insight-context",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/security-center/insights/{issue_id}/context",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "issue_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"security-insights count by-class": {
 			"operationId": "generated:get:/{account_or_zone}/{account_or_zone_id}/security-center/insights/class",
 			"httpMethod": "GET",
 			"path": "/{account_or_zone}/{account_or_zone_id}/security-center/insights/class",
@@ -81389,7 +81062,195 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"security-center insights dismiss": {
+		"security-insights count by-partner": {
+			"operationId": "generated:get:/{account_or_zone}/{account_or_zone_id}/security-center/insights/partner-count",
+			"httpMethod": "GET",
+			"path": "/{account_or_zone}/{account_or_zone_id}/security-center/insights/partner-count",
+			"pathParams": [
+				{
+					"name": "account_or_zone",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_or_zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "source",
+					"type": "string",
+					"required": true
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"security-insights count by-severity": {
+			"operationId": "generated:get:/{account_or_zone}/{account_or_zone_id}/security-center/insights/severity",
+			"httpMethod": "GET",
+			"path": "/{account_or_zone}/{account_or_zone_id}/security-center/insights/severity",
+			"pathParams": [
+				{
+					"name": "account_or_zone",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_or_zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "dismissed",
+					"type": "boolean",
+					"required": false
+				},
+				{
+					"name": "issue_class",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "issue_type",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "product",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "source",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "severity",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "subject",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "issue_class~neq",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "issue_type~neq",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "product~neq",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "severity~neq",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "subject~neq",
+					"type": "array",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"security-insights count by-type": {
+			"operationId": "generated:get:/{account_or_zone}/{account_or_zone_id}/security-center/insights/type",
+			"httpMethod": "GET",
+			"path": "/{account_or_zone}/{account_or_zone_id}/security-center/insights/type",
+			"pathParams": [
+				{
+					"name": "account_or_zone",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_or_zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "dismissed",
+					"type": "boolean",
+					"required": false
+				},
+				{
+					"name": "issue_class",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "issue_type",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "product",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "source",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "severity",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "subject",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "issue_class~neq",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "issue_type~neq",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "product~neq",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "severity~neq",
+					"type": "array",
+					"required": false
+				},
+				{
+					"name": "subject~neq",
+					"type": "array",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"security-insights dismiss": {
 			"operationId": "generated:put:/{account_or_zone}/{account_or_zone_id}/security-center/insights/{issue_id}/dismiss",
 			"httpMethod": "PUT",
 			"path": "/{account_or_zone}/{account_or_zone_id}/security-center/insights/{issue_id}/dismiss",
@@ -81421,33 +81282,7 @@
 				}
 			]
 		},
-		"security-center insights get-partner-count": {
-			"operationId": "generated:get:/{account_or_zone}/{account_or_zone_id}/security-center/insights/partner-count",
-			"httpMethod": "GET",
-			"path": "/{account_or_zone}/{account_or_zone_id}/security-center/insights/partner-count",
-			"pathParams": [
-				{
-					"name": "account_or_zone",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_or_zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "source",
-					"type": "string",
-					"required": true
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"security-center insights list": {
+		"security-insights list": {
 			"operationId": "generated:get:/{account_or_zone}/{account_or_zone_id}/security-center/insights",
 			"httpMethod": "GET",
 			"path": "/{account_or_zone}/{account_or_zone_id}/security-center/insights",
@@ -81538,185 +81373,38 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"security-center insights severity get": {
-			"operationId": "generated:get:/{account_or_zone}/{account_or_zone_id}/security-center/insights/severity",
+		"security-insights partners settings get": {
+			"operationId": "get-security-center-partner-settings",
 			"httpMethod": "GET",
-			"path": "/{account_or_zone}/{account_or_zone_id}/security-center/insights/severity",
+			"path": "/accounts/{account_id}/security-center/partners/{partner}/settings",
 			"pathParams": [
 				{
-					"name": "account_or_zone",
+					"name": "account_id",
 					"type": "string",
 					"required": true
 				},
 				{
-					"name": "account_or_zone_id",
+					"name": "partner",
 					"type": "string",
 					"required": true
 				}
 			],
-			"queryParams": [
-				{
-					"name": "dismissed",
-					"type": "boolean",
-					"required": false
-				},
-				{
-					"name": "issue_class",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "issue_type",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "product",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "source",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "severity",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "subject",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "issue_class~neq",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "issue_type~neq",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "product~neq",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "severity~neq",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "subject~neq",
-					"type": "array",
-					"required": false
-				}
-			],
+			"queryParams": [],
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"security-center insights type get": {
-			"operationId": "generated:get:/{account_or_zone}/{account_or_zone_id}/security-center/insights/type",
-			"httpMethod": "GET",
-			"path": "/{account_or_zone}/{account_or_zone_id}/security-center/insights/type",
+		"security-insights partners settings update": {
+			"operationId": "update-security-center-partner-settings",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/security-center/partners/{partner}/settings",
 			"pathParams": [
 				{
-					"name": "account_or_zone",
+					"name": "account_id",
 					"type": "string",
 					"required": true
 				},
 				{
-					"name": "account_or_zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "dismissed",
-					"type": "boolean",
-					"required": false
-				},
-				{
-					"name": "issue_class",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "issue_type",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "product",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "source",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "severity",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "subject",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "issue_class~neq",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "issue_type~neq",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "product~neq",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "severity~neq",
-					"type": "array",
-					"required": false
-				},
-				{
-					"name": "subject~neq",
-					"type": "array",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"security-center insights update-classification": {
-			"operationId": "generated:patch:/{account_or_zone}/{account_or_zone_id}/security-center/insights/{issue_id}/classification",
-			"httpMethod": "PATCH",
-			"path": "/{account_or_zone}/{account_or_zone_id}/security-center/insights/{issue_id}/classification",
-			"pathParams": [
-				{
-					"name": "account_or_zone",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_or_zone_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "issue_id",
+					"name": "partner",
 					"type": "string",
 					"required": true
 				}
@@ -81725,20 +81413,112 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
-					"name": "classification",
-					"type": "string",
-					"required": false,
-					"description": "User-defined classification for the insight. Can be 'false_positive', 'accept_risk', 'other', or null."
-				},
-				{
-					"name": "rationale",
-					"type": "string",
-					"required": false,
-					"description": "Rationale for the classification change. Required when classification is 'accept_risk' or 'other'."
+					"name": "enabled",
+					"type": "boolean",
+					"required": true,
+					"description": "Whether the partner integration is enabled for the account."
 				}
 			]
 		},
-		"security-center scans list": {
+		"security-insights partners shadow-hosts list": {
+			"operationId": "get-zone-security-center-partner-shadow-hosts",
+			"httpMethod": "GET",
+			"path": "/zones/{zone_id}/security-center/partners/{partner}/shadow-hosts",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "partner",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"type": "number",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"security-insights partners shadow-zone-hosts list": {
+			"operationId": "get-security-center-partner-shadow-zone-hosts",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/security-center/partners/{partner}/shadow-zones/{domain}/hosts",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "partner",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "domain",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"type": "number",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"security-insights partners shadow-zones list": {
+			"operationId": "get-security-center-partner-shadow-zones",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/security-center/partners/{partner}/shadow-zones",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "partner",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"type": "number",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"security-insights scans list": {
 			"operationId": "generated:get:/{account_or_zone}/{account_or_zone_id}/security-center/insights/scans",
 			"httpMethod": "GET",
 			"path": "/{account_or_zone}/{account_or_zone_id}/security-center/insights/scans",
@@ -81758,7 +81538,7 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"security-center scans start": {
+		"security-insights scans start": {
 			"operationId": "generated:post:/{account_or_zone}/{account_or_zone_id}/security-center/insights/scans",
 			"httpMethod": "POST",
 			"path": "/{account_or_zone}/{account_or_zone_id}/security-center/insights/scans",
@@ -81791,7 +81571,7 @@
 				}
 			]
 		},
-		"security-center state get": {
+		"security-insights state get": {
 			"operationId": "get-security-center-account-state",
 			"httpMethod": "GET",
 			"path": "/accounts/{account_id}/security-center/state",
@@ -81806,7 +81586,7 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"security-center state update": {
+		"security-insights state update": {
 			"operationId": "update-security-center-account-state",
 			"httpMethod": "PUT",
 			"path": "/accounts/{account_id}/security-center/state",
@@ -81827,26 +81607,6 @@
 					"description": "Enable or disable scans for the account."
 				}
 			]
-		},
-		"security-center zone-insights context get": {
-			"operationId": "get-security-center-insight-context",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/security-center/insights/{issue_id}/context",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "issue_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
 		},
 		"security-txt delete": {
 			"operationId": "delete-security-txt",
@@ -85379,21 +85139,6 @@
 			"operationId": "Tenants_retrieveTenant",
 			"httpMethod": "GET",
 			"path": "/tenants/{tenant_id}",
-			"pathParams": [
-				{
-					"name": "tenant_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"tenant membership list": {
-			"operationId": "Tenants_listMemberships",
-			"httpMethod": "GET",
-			"path": "/tenants/{tenant_id}/memberships",
 			"pathParams": [
 				{
 					"name": "tenant_id",
@@ -91372,21 +91117,6 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"workers placement regions list": {
-			"operationId": "worker-placement-list-regions",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/workers/placement/regions",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
 		"workers scripts search": {
 			"operationId": "worker-script-search-workers",
 			"httpMethod": "GET",
@@ -91971,39 +91701,6 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"workers-for-platforms dispatch-namespaces edit": {
-			"operationId": "namespace-worker-patch-namespace",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "dispatch_namespace",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "name",
-					"type": "string",
-					"required": false,
-					"description": "The name of the dispatch namespace."
-				},
-				{
-					"name": "trusted-workers",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether the Workers in the namespace are executed in a \"trusted\" manner. When a Worker is trusted, it has access to the shared caches for the zone in the Cache API, and has access to the `request.cf` object on incoming Requests. When a Worker is untrusted, caches are not shared across the zone, and `request.cf` is undefined. By default, Workers in a namespace are \"untrusted\"."
-				}
-			]
-		},
 		"workers-for-platforms dispatch-namespaces get": {
 			"operationId": "namespace-worker-get-namespace",
 			"httpMethod": "GET",
@@ -92039,10 +91736,10 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"workers-for-platforms dispatch-namespaces scripts bulk-delete": {
-			"operationId": "namespace-worker-delete-scripts",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts",
+		"workers-for-platforms dispatch-namespaces scripts bindings get": {
+			"operationId": "namespace-worker-get-script-bindings",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/bindings",
 			"pathParams": [
 				{
 					"name": "account_id",
@@ -92053,20 +91750,14 @@
 					"name": "dispatch_namespace",
 					"type": "string",
 					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "tags",
-					"type": "string",
-					"required": false
 				},
 				{
-					"name": "limit",
-					"type": "number",
-					"required": false
+					"name": "script_name",
+					"type": "string",
+					"required": true
 				}
 			],
+			"queryParams": [],
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
@@ -92152,10 +91843,10 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"workers-for-platforms dispatch-namespaces scripts update": {
-			"operationId": "namespace-worker-script-upload-worker-module",
-			"httpMethod": "PUT",
-			"path": "/accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}",
+		"workers-for-platforms dispatch-namespaces scripts secrets bulk": {
+			"operationId": "namespace-worker-patch-script-secrets-bulk",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/secrets-bulk",
 			"pathParams": [
 				{
 					"name": "account_id",
@@ -92173,13 +91864,296 @@
 					"required": true
 				}
 			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": []
+		},
+		"workers-for-platforms dispatch-namespaces scripts secrets delete": {
+			"operationId": "namespace-worker-delete-script-secret",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/secrets/{secret_name}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "dispatch_namespace",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "script_name",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "secret_name",
+					"type": "string",
+					"required": true
+				}
+			],
 			"queryParams": [
 				{
-					"name": "bindings_inherit",
-					"type": "string",
+					"name": "url_encoded",
+					"type": "boolean",
 					"required": false
 				}
 			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"workers-for-platforms dispatch-namespaces scripts secrets get": {
+			"operationId": "namespace-worker-get-script-secrets",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/secrets/{secret_name}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "dispatch_namespace",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "script_name",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "secret_name",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "url_encoded",
+					"type": "boolean",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"workers-for-platforms dispatch-namespaces scripts secrets list": {
+			"operationId": "namespace-worker-list-script-secrets",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/secrets",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "dispatch_namespace",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "script_name",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"workers-for-platforms dispatch-namespaces scripts secrets update": {
+			"operationId": "namespace-worker-put-script-secrets",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/secrets",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "dispatch_namespace",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "script_name",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "A JavaScript variable name for the binding."
+				},
+				{
+					"name": "text",
+					"type": "string",
+					"required": false,
+					"description": "The secret value to use."
+				},
+				{
+					"name": "type",
+					"type": "string",
+					"required": true,
+					"description": "The kind of resource that the binding provides."
+				},
+				{
+					"name": "format",
+					"type": "string",
+					"required": false,
+					"description": "Data format of the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#format)."
+				},
+				{
+					"name": "key-base64",
+					"type": "string",
+					"required": false,
+					"description": "Base64-encoded key data. Required if `format` is \"raw\", \"pkcs8\", or \"spki\"."
+				},
+				{
+					"name": "usages",
+					"type": "string",
+					"required": false,
+					"description": "Allowed operations with the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#keyUsages)."
+				}
+			]
+		},
+		"workers-for-platforms dispatch-namespaces scripts settings edit": {
+			"operationId": "namespace-worker-patch-script-settings",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/settings",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "dispatch_namespace",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "script_name",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": []
+		},
+		"workers-for-platforms dispatch-namespaces scripts settings get": {
+			"operationId": "namespace-worker-get-script-settings",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/settings",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "dispatch_namespace",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "script_name",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"workers-for-platforms dispatch-namespaces scripts tags delete": {
+			"operationId": "namespace-worker-delete-script-tag",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/tags/{tag}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "dispatch_namespace",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "script_name",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "tag",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"workers-for-platforms dispatch-namespaces scripts tags list": {
+			"operationId": "namespace-worker-get-script-tags",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/tags",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "dispatch_namespace",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "script_name",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"workers-for-platforms dispatch-namespaces scripts tags update": {
+			"operationId": "namespace-worker-put-script-tags",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/tags",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "dispatch_namespace",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "script_name",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
 			"hasRequestBody": true,
 			"requestBodyFields": []
 		},
@@ -93512,112 +93486,6 @@
 			"hasRequestBody": true,
 			"requestBodyFields": []
 		},
-		"zero-trust access applications cas create": {
-			"operationId": "generated:post:/{account_or_zone}/{account_or_zone_id}/access/apps/{app_id}/ca",
-			"httpMethod": "POST",
-			"path": "/{account_or_zone}/{account_or_zone_id}/access/apps/{app_id}/ca",
-			"pathParams": [
-				{
-					"name": "account_or_zone",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "app_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_or_zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"zero-trust access applications cas delete": {
-			"operationId": "generated:delete:/{account_or_zone}/{account_or_zone_id}/access/apps/{app_id}/ca",
-			"httpMethod": "DELETE",
-			"path": "/{account_or_zone}/{account_or_zone_id}/access/apps/{app_id}/ca",
-			"pathParams": [
-				{
-					"name": "account_or_zone",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "app_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_or_zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"zero-trust access applications cas get": {
-			"operationId": "generated:get:/{account_or_zone}/{account_or_zone_id}/access/apps/{app_id}/ca",
-			"httpMethod": "GET",
-			"path": "/{account_or_zone}/{account_or_zone_id}/access/apps/{app_id}/ca",
-			"pathParams": [
-				{
-					"name": "account_or_zone",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "app_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_or_zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"zero-trust access applications cas list": {
-			"operationId": "generated:get:/{account_or_zone}/{account_or_zone_id}/access/apps/ca",
-			"httpMethod": "GET",
-			"path": "/{account_or_zone}/{account_or_zone_id}/access/apps/ca",
-			"pathParams": [
-				{
-					"name": "account_or_zone",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_or_zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "page",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "per_page",
-					"type": "number",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
 		"zero-trust access applications create": {
 			"operationId": "generated:post:/{account_or_zone}/{account_or_zone_id}/access/apps",
 			"httpMethod": "POST",
@@ -93749,137 +93617,11 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"zero-trust access applications policies create": {
-			"operationId": "generated:post:/{account_or_zone}/{account_or_zone_id}/access/apps/{app_id}/policies",
-			"httpMethod": "POST",
-			"path": "/{account_or_zone}/{account_or_zone_id}/access/apps/{app_id}/policies",
-			"pathParams": [
-				{
-					"name": "account_or_zone",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "app_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_or_zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": []
-		},
-		"zero-trust access applications policies delete": {
-			"operationId": "generated:delete:/{account_or_zone}/{account_or_zone_id}/access/apps/{app_id}/policies/{policy_id}",
-			"httpMethod": "DELETE",
-			"path": "/{account_or_zone}/{account_or_zone_id}/access/apps/{app_id}/policies/{policy_id}",
-			"pathParams": [
-				{
-					"name": "account_or_zone",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "app_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "policy_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_or_zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"zero-trust access applications policies get": {
-			"operationId": "generated:get:/{account_or_zone}/{account_or_zone_id}/access/apps/{app_id}/policies/{policy_id}",
-			"httpMethod": "GET",
-			"path": "/{account_or_zone}/{account_or_zone_id}/access/apps/{app_id}/policies/{policy_id}",
-			"pathParams": [
-				{
-					"name": "account_or_zone",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "app_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "policy_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_or_zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"zero-trust access applications policies list": {
-			"operationId": "generated:get:/{account_or_zone}/{account_or_zone_id}/access/apps/{app_id}/policies",
-			"httpMethod": "GET",
-			"path": "/{account_or_zone}/{account_or_zone_id}/access/apps/{app_id}/policies",
-			"pathParams": [
-				{
-					"name": "account_or_zone",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "app_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_or_zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "page",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "per_page",
-					"type": "number",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"zero-trust access applications policies update": {
-			"operationId": "generated:put:/{account_or_zone}/{account_or_zone_id}/access/apps/{app_id}/policies/{policy_id}",
+		"zero-trust access applications policies make-reusable": {
+			"operationId": "access-policies-convert-reusable",
 			"httpMethod": "PUT",
-			"path": "/{account_or_zone}/{account_or_zone_id}/access/apps/{app_id}/policies/{policy_id}",
+			"path": "/accounts/{account_id}/access/apps/{app_id}/policies/{policy_id}/make_reusable",
 			"pathParams": [
-				{
-					"name": "account_or_zone",
-					"type": "string",
-					"required": true
-				},
 				{
 					"name": "app_id",
 					"type": "string",
@@ -93891,13 +93633,13 @@
 					"required": true
 				},
 				{
-					"name": "account_or_zone_id",
+					"name": "account_id",
 					"type": "string",
 					"required": true
 				}
 			],
 			"queryParams": [],
-			"hasRequestBody": true,
+			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
 		"zero-trust access applications policy-tests create": {
@@ -93996,44 +93738,6 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"zero-trust access applications settings edit": {
-			"operationId": "generated:patch:/{account_or_zone}/{account_or_zone_id}/access/apps/{app_id}/settings",
-			"httpMethod": "PATCH",
-			"path": "/{account_or_zone}/{account_or_zone_id}/access/apps/{app_id}/settings",
-			"pathParams": [
-				{
-					"name": "account_or_zone",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "app_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_or_zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "allow-iframe",
-					"type": "boolean",
-					"required": false,
-					"description": "Enables loading application content in an iFrame."
-				},
-				{
-					"name": "skip-interstitial",
-					"type": "boolean",
-					"required": false,
-					"description": "Enables automatic authentication through cloudflared."
-				}
-			]
-		},
 		"zero-trust access applications settings update": {
 			"operationId": "generated:put:/{account_or_zone}/{account_or_zone_id}/access/apps/{app_id}/settings",
 			"httpMethod": "PUT",
@@ -94071,6 +93775,112 @@
 					"description": "Enables automatic authentication through cloudflared."
 				}
 			]
+		},
+		"zero-trust access applications short-lived-certificates create": {
+			"operationId": "generated:post:/{account_or_zone}/{account_or_zone_id}/access/apps/{app_id}/ca",
+			"httpMethod": "POST",
+			"path": "/{account_or_zone}/{account_or_zone_id}/access/apps/{app_id}/ca",
+			"pathParams": [
+				{
+					"name": "account_or_zone",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "app_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_or_zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust access applications short-lived-certificates delete": {
+			"operationId": "generated:delete:/{account_or_zone}/{account_or_zone_id}/access/apps/{app_id}/ca",
+			"httpMethod": "DELETE",
+			"path": "/{account_or_zone}/{account_or_zone_id}/access/apps/{app_id}/ca",
+			"pathParams": [
+				{
+					"name": "account_or_zone",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "app_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_or_zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust access applications short-lived-certificates get": {
+			"operationId": "generated:get:/{account_or_zone}/{account_or_zone_id}/access/apps/{app_id}/ca",
+			"httpMethod": "GET",
+			"path": "/{account_or_zone}/{account_or_zone_id}/access/apps/{app_id}/ca",
+			"pathParams": [
+				{
+					"name": "account_or_zone",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "app_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_or_zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust access applications short-lived-certificates list": {
+			"operationId": "generated:get:/{account_or_zone}/{account_or_zone_id}/access/apps/ca",
+			"httpMethod": "GET",
+			"path": "/{account_or_zone}/{account_or_zone_id}/access/apps/ca",
+			"pathParams": [
+				{
+					"name": "account_or_zone",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_or_zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"type": "number",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
 		},
 		"zero-trust access applications update": {
 			"operationId": "generated:put:/{account_or_zone}/{account_or_zone_id}/access/apps/{app_id}",
@@ -94121,321 +93931,6 @@
 			"queryParams": [],
 			"hasRequestBody": false,
 			"requestBodyFields": []
-		},
-		"zero-trust access authenticator-device-aaguids list": {
-			"operationId": "access-authenticator-device-aaguids-list",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/access/authenticator_device_aaguids",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"zero-trust access bookmarks create": {
-			"operationId": "access-bookmark-applications-(-deprecated)-create-a-bookmark-application",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/access/bookmarks/{bookmark_id}",
-			"pathParams": [
-				{
-					"name": "bookmark_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"zero-trust access bookmarks delete": {
-			"operationId": "access-bookmark-applications-(-deprecated)-delete-a-bookmark-application",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/access/bookmarks/{bookmark_id}",
-			"pathParams": [
-				{
-					"name": "bookmark_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"zero-trust access bookmarks get": {
-			"operationId": "access-bookmark-applications-(-deprecated)-get-a-bookmark-application",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/access/bookmarks/{bookmark_id}",
-			"pathParams": [
-				{
-					"name": "bookmark_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"zero-trust access bookmarks list": {
-			"operationId": "access-bookmark-applications-(-deprecated)-list-bookmark-applications",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/access/bookmarks",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"zero-trust access bookmarks update": {
-			"operationId": "access-bookmark-applications-(-deprecated)-update-a-bookmark-application",
-			"httpMethod": "PUT",
-			"path": "/accounts/{account_id}/access/bookmarks/{bookmark_id}",
-			"pathParams": [
-				{
-					"name": "bookmark_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"zero-trust access certificates create": {
-			"operationId": "generated:post:/{account_or_zone}/{account_or_zone_id}/access/certificates",
-			"httpMethod": "POST",
-			"path": "/{account_or_zone}/{account_or_zone_id}/access/certificates",
-			"pathParams": [
-				{
-					"name": "account_or_zone",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_or_zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "associated-hostnames",
-					"type": "string",
-					"required": false,
-					"description": "The hostnames of the applications that will use this certificate."
-				},
-				{
-					"name": "certificate",
-					"type": "string",
-					"required": true,
-					"description": "The certificate content."
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": true,
-					"description": "The name of the certificate."
-				}
-			]
-		},
-		"zero-trust access certificates delete": {
-			"operationId": "generated:delete:/{account_or_zone}/{account_or_zone_id}/access/certificates/{certificate_id}",
-			"httpMethod": "DELETE",
-			"path": "/{account_or_zone}/{account_or_zone_id}/access/certificates/{certificate_id}",
-			"pathParams": [
-				{
-					"name": "account_or_zone",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "certificate_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_or_zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"zero-trust access certificates get": {
-			"operationId": "generated:get:/{account_or_zone}/{account_or_zone_id}/access/certificates/{certificate_id}",
-			"httpMethod": "GET",
-			"path": "/{account_or_zone}/{account_or_zone_id}/access/certificates/{certificate_id}",
-			"pathParams": [
-				{
-					"name": "account_or_zone",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "certificate_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_or_zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"zero-trust access certificates list": {
-			"operationId": "generated:get:/{account_or_zone}/{account_or_zone_id}/access/certificates",
-			"httpMethod": "GET",
-			"path": "/{account_or_zone}/{account_or_zone_id}/access/certificates",
-			"pathParams": [
-				{
-					"name": "account_or_zone",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_or_zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "page",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "per_page",
-					"type": "number",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"zero-trust access certificates settings get": {
-			"operationId": "generated:get:/{account_or_zone}/{account_or_zone_id}/access/certificates/settings",
-			"httpMethod": "GET",
-			"path": "/{account_or_zone}/{account_or_zone_id}/access/certificates/settings",
-			"pathParams": [
-				{
-					"name": "account_or_zone",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_or_zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"zero-trust access certificates settings update": {
-			"operationId": "generated:put:/{account_or_zone}/{account_or_zone_id}/access/certificates/settings",
-			"httpMethod": "PUT",
-			"path": "/{account_or_zone}/{account_or_zone_id}/access/certificates/settings",
-			"pathParams": [
-				{
-					"name": "account_or_zone",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_or_zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "settings",
-					"type": "string",
-					"required": true,
-					"description": "The settings field. Provide as a JSON array of objects or @path/to/file.json."
-				}
-			]
-		},
-		"zero-trust access certificates update": {
-			"operationId": "generated:put:/{account_or_zone}/{account_or_zone_id}/access/certificates/{certificate_id}",
-			"httpMethod": "PUT",
-			"path": "/{account_or_zone}/{account_or_zone_id}/access/certificates/{certificate_id}",
-			"pathParams": [
-				{
-					"name": "account_or_zone",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "certificate_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_or_zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "associated-hostnames",
-					"type": "string",
-					"required": true,
-					"description": "The hostnames of the applications that will use this certificate."
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": false,
-					"description": "The name of the certificate."
-				}
-			]
 		},
 		"zero-trust access custom-pages create": {
 			"operationId": "access-custom-pages-create-a-custom-page",
@@ -94639,14 +94134,14 @@
 					"description": "Custom page type."
 				},
 				{
-					"name": "version",
+					"name": "contract-version",
 					"type": "number",
 					"required": false,
 					"description": "Contract version to validate against; omit for the latest."
 				}
 			]
 		},
-		"zero-trust access gateway-ca create": {
+		"zero-trust access infrastructure ssh-ca create": {
 			"operationId": "access-gateway-ca-add-an-SSH-ca",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/access/gateway_ca",
@@ -94661,7 +94156,7 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"zero-trust access gateway-ca delete": {
+		"zero-trust access infrastructure ssh-ca delete": {
 			"operationId": "access-gateway-ca-delete-an-SSH-ca",
 			"httpMethod": "DELETE",
 			"path": "/accounts/{account_id}/access/gateway_ca/{certificate_id}",
@@ -94681,7 +94176,7 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"zero-trust access gateway-ca list": {
+		"zero-trust access infrastructure ssh-ca list": {
 			"operationId": "access-gateway-ca-list-SSH-ca",
 			"httpMethod": "GET",
 			"path": "/accounts/{account_id}/access/gateway_ca",
@@ -94695,333 +94190,6 @@
 			"queryParams": [],
 			"hasRequestBody": false,
 			"requestBodyFields": []
-		},
-		"zero-trust access groups create": {
-			"operationId": "generated:post:/{account_or_zone}/{account_or_zone_id}/access/groups",
-			"httpMethod": "POST",
-			"path": "/{account_or_zone}/{account_or_zone_id}/access/groups",
-			"pathParams": [
-				{
-					"name": "account_or_zone",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_or_zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "exclude",
-					"type": "string",
-					"required": false,
-					"description": "Rules evaluated with a NOT logical operator. To match a policy, a user cannot meet any of the Exclude rules. Provide as a JSON array of objects or @path/to/file.json."
-				},
-				{
-					"name": "include",
-					"type": "string",
-					"required": true,
-					"description": "Rules evaluated with an OR logical operator. A user needs to meet only one of the Include rules. Provide as a JSON array of objects or @path/to/file.json."
-				},
-				{
-					"name": "is-default",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether this is the default group"
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": true,
-					"description": "The name of the Access group."
-				},
-				{
-					"name": "require",
-					"type": "string",
-					"required": false,
-					"description": "Rules evaluated with an AND logical operator. To match a policy, a user must meet all of the Require rules. Provide as a JSON array of objects or @path/to/file.json."
-				}
-			]
-		},
-		"zero-trust access groups delete": {
-			"operationId": "generated:delete:/{account_or_zone}/{account_or_zone_id}/access/groups/{group_id}",
-			"httpMethod": "DELETE",
-			"path": "/{account_or_zone}/{account_or_zone_id}/access/groups/{group_id}",
-			"pathParams": [
-				{
-					"name": "account_or_zone",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "group_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_or_zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"zero-trust access groups get": {
-			"operationId": "generated:get:/{account_or_zone}/{account_or_zone_id}/access/groups/{group_id}",
-			"httpMethod": "GET",
-			"path": "/{account_or_zone}/{account_or_zone_id}/access/groups/{group_id}",
-			"pathParams": [
-				{
-					"name": "account_or_zone",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "group_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_or_zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"zero-trust access groups list": {
-			"operationId": "generated:get:/{account_or_zone}/{account_or_zone_id}/access/groups",
-			"httpMethod": "GET",
-			"path": "/{account_or_zone}/{account_or_zone_id}/access/groups",
-			"pathParams": [
-				{
-					"name": "account_or_zone",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_or_zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "name",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "search",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "page",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "per_page",
-					"type": "number",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"zero-trust access groups update": {
-			"operationId": "generated:put:/{account_or_zone}/{account_or_zone_id}/access/groups/{group_id}",
-			"httpMethod": "PUT",
-			"path": "/{account_or_zone}/{account_or_zone_id}/access/groups/{group_id}",
-			"pathParams": [
-				{
-					"name": "account_or_zone",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "group_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_or_zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "exclude",
-					"type": "string",
-					"required": false,
-					"description": "Rules evaluated with a NOT logical operator. To match a policy, a user cannot meet any of the Exclude rules. Provide as a JSON array of objects or @path/to/file.json."
-				},
-				{
-					"name": "include",
-					"type": "string",
-					"required": true,
-					"description": "Rules evaluated with an OR logical operator. A user needs to meet only one of the Include rules. Provide as a JSON array of objects or @path/to/file.json."
-				},
-				{
-					"name": "is-default",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether this is the default group"
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": true,
-					"description": "The name of the Access group."
-				},
-				{
-					"name": "require",
-					"type": "string",
-					"required": false,
-					"description": "Rules evaluated with an AND logical operator. To match a policy, a user must meet all of the Require rules. Provide as a JSON array of objects or @path/to/file.json."
-				}
-			]
-		},
-		"zero-trust access idp-federation-grants create": {
-			"operationId": "access-idp-federation-grants-create",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/access/idp_federation_grants",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "idp-id",
-					"type": "string",
-					"required": true,
-					"description": "UID of the identity provider to federate. Must be an existing identity provider in this account. One-time pin and Cloudflare-managed identity providers cannot be federated."
-				}
-			]
-		},
-		"zero-trust access idp-federation-grants delete": {
-			"operationId": "access-idp-federation-grants-delete",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/access/idp_federation_grants/{grant_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "grant_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"zero-trust access idp-federation-grants get": {
-			"operationId": "access-idp-federation-grants-get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/access/idp_federation_grants/{grant_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "grant_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"zero-trust access idp-federation-grants list": {
-			"operationId": "access-idp-federation-grants-list",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/access/idp_federation_grants",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"zero-trust access keys get": {
-			"operationId": "access-key-configuration-get-the-access-key-configuration",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/access/keys",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"zero-trust access keys rotate": {
-			"operationId": "access-key-configuration-rotate-access-keys",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/access/keys/rotate",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"zero-trust access keys update": {
-			"operationId": "access-key-configuration-update-the-access-key-configuration",
-			"httpMethod": "PUT",
-			"path": "/accounts/{account_id}/access/keys",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "key-rotation-interval-days",
-					"type": "number",
-					"required": true,
-					"description": "The number of days between key rotations."
-				}
-			]
 		},
 		"zero-trust access logs access-requests list": {
 			"operationId": "access-authentication-logs-get-access-authentication-logs",
@@ -95286,6 +94454,226 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"zero-trust access mfa authenticator-catalog list": {
+			"operationId": "access-authenticator-device-aaguids-list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/access/authenticator_device_aaguids",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust access mtls-certificates create": {
+			"operationId": "generated:post:/{account_or_zone}/{account_or_zone_id}/access/certificates",
+			"httpMethod": "POST",
+			"path": "/{account_or_zone}/{account_or_zone_id}/access/certificates",
+			"pathParams": [
+				{
+					"name": "account_or_zone",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_or_zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "associated-hostnames",
+					"type": "string",
+					"required": false,
+					"description": "The hostnames of the applications that will use this certificate."
+				},
+				{
+					"name": "certificate",
+					"type": "string",
+					"required": true,
+					"description": "The certificate content."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "The name of the certificate."
+				}
+			]
+		},
+		"zero-trust access mtls-certificates delete": {
+			"operationId": "generated:delete:/{account_or_zone}/{account_or_zone_id}/access/certificates/{certificate_id}",
+			"httpMethod": "DELETE",
+			"path": "/{account_or_zone}/{account_or_zone_id}/access/certificates/{certificate_id}",
+			"pathParams": [
+				{
+					"name": "account_or_zone",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "certificate_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_or_zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust access mtls-certificates get": {
+			"operationId": "generated:get:/{account_or_zone}/{account_or_zone_id}/access/certificates/{certificate_id}",
+			"httpMethod": "GET",
+			"path": "/{account_or_zone}/{account_or_zone_id}/access/certificates/{certificate_id}",
+			"pathParams": [
+				{
+					"name": "account_or_zone",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "certificate_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_or_zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust access mtls-certificates list": {
+			"operationId": "generated:get:/{account_or_zone}/{account_or_zone_id}/access/certificates",
+			"httpMethod": "GET",
+			"path": "/{account_or_zone}/{account_or_zone_id}/access/certificates",
+			"pathParams": [
+				{
+					"name": "account_or_zone",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_or_zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"type": "number",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust access mtls-certificates settings get": {
+			"operationId": "generated:get:/{account_or_zone}/{account_or_zone_id}/access/certificates/settings",
+			"httpMethod": "GET",
+			"path": "/{account_or_zone}/{account_or_zone_id}/access/certificates/settings",
+			"pathParams": [
+				{
+					"name": "account_or_zone",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_or_zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust access mtls-certificates settings update": {
+			"operationId": "generated:put:/{account_or_zone}/{account_or_zone_id}/access/certificates/settings",
+			"httpMethod": "PUT",
+			"path": "/{account_or_zone}/{account_or_zone_id}/access/certificates/settings",
+			"pathParams": [
+				{
+					"name": "account_or_zone",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_or_zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "settings",
+					"type": "string",
+					"required": true,
+					"description": "The settings field. Provide as a JSON array of objects or @path/to/file.json."
+				}
+			]
+		},
+		"zero-trust access mtls-certificates update": {
+			"operationId": "generated:put:/{account_or_zone}/{account_or_zone_id}/access/certificates/{certificate_id}",
+			"httpMethod": "PUT",
+			"path": "/{account_or_zone}/{account_or_zone_id}/access/certificates/{certificate_id}",
+			"pathParams": [
+				{
+					"name": "account_or_zone",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "certificate_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_or_zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "associated-hostnames",
+					"type": "string",
+					"required": true,
+					"description": "The hostnames of the applications that will use this certificate."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": false,
+					"description": "The name of the certificate."
+				}
+			]
+		},
 		"zero-trust access policies create": {
 			"operationId": "access-policies-create-an-access-reusable-policy",
 			"httpMethod": "POST",
@@ -95449,7 +94837,205 @@
 				}
 			]
 		},
-		"zero-trust access saml-certificates get": {
+		"zero-trust access rule-groups create": {
+			"operationId": "generated:post:/{account_or_zone}/{account_or_zone_id}/access/groups",
+			"httpMethod": "POST",
+			"path": "/{account_or_zone}/{account_or_zone_id}/access/groups",
+			"pathParams": [
+				{
+					"name": "account_or_zone",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_or_zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "exclude",
+					"type": "string",
+					"required": false,
+					"description": "Rules evaluated with a NOT logical operator. To match a policy, a user cannot meet any of the Exclude rules. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "include",
+					"type": "string",
+					"required": true,
+					"description": "Rules evaluated with an OR logical operator. A user needs to meet only one of the Include rules. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "is-default",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether this is the default group"
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "The name of the Access group."
+				},
+				{
+					"name": "require",
+					"type": "string",
+					"required": false,
+					"description": "Rules evaluated with an AND logical operator. To match a policy, a user must meet all of the Require rules. Provide as a JSON array of objects or @path/to/file.json."
+				}
+			]
+		},
+		"zero-trust access rule-groups delete": {
+			"operationId": "generated:delete:/{account_or_zone}/{account_or_zone_id}/access/groups/{group_id}",
+			"httpMethod": "DELETE",
+			"path": "/{account_or_zone}/{account_or_zone_id}/access/groups/{group_id}",
+			"pathParams": [
+				{
+					"name": "account_or_zone",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "group_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_or_zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust access rule-groups get": {
+			"operationId": "generated:get:/{account_or_zone}/{account_or_zone_id}/access/groups/{group_id}",
+			"httpMethod": "GET",
+			"path": "/{account_or_zone}/{account_or_zone_id}/access/groups/{group_id}",
+			"pathParams": [
+				{
+					"name": "account_or_zone",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "group_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_or_zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust access rule-groups list": {
+			"operationId": "generated:get:/{account_or_zone}/{account_or_zone_id}/access/groups",
+			"httpMethod": "GET",
+			"path": "/{account_or_zone}/{account_or_zone_id}/access/groups",
+			"pathParams": [
+				{
+					"name": "account_or_zone",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_or_zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "name",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "search",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"type": "number",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust access rule-groups update": {
+			"operationId": "generated:put:/{account_or_zone}/{account_or_zone_id}/access/groups/{group_id}",
+			"httpMethod": "PUT",
+			"path": "/{account_or_zone}/{account_or_zone_id}/access/groups/{group_id}",
+			"pathParams": [
+				{
+					"name": "account_or_zone",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "group_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_or_zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "exclude",
+					"type": "string",
+					"required": false,
+					"description": "Rules evaluated with a NOT logical operator. To match a policy, a user cannot meet any of the Exclude rules. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "include",
+					"type": "string",
+					"required": true,
+					"description": "Rules evaluated with an OR logical operator. A user needs to meet only one of the Include rules. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "is-default",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether this is the default group"
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "The name of the Access group."
+				},
+				{
+					"name": "require",
+					"type": "string",
+					"required": false,
+					"description": "Rules evaluated with an AND logical operator. To match a policy, a user must meet all of the Require rules. Provide as a JSON array of objects or @path/to/file.json."
+				}
+			]
+		},
+		"zero-trust access saml-encryption-certificates get": {
 			"operationId": "access-saml-certificates-get-certificate-set",
 			"httpMethod": "GET",
 			"path": "/accounts/{account_id}/access/saml_certificates/{saml_cert_set_id}",
@@ -95469,7 +95055,7 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"zero-trust access saml-certificates get-pem": {
+		"zero-trust access saml-encryption-certificates get-pem": {
 			"operationId": "access-saml-certificates-get-pem",
 			"httpMethod": "GET",
 			"path": "/accounts/{account_id}/access/saml_certificates/{saml_cert_set_id}/pem",
@@ -95489,7 +95075,7 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"zero-trust access saml-certificates list": {
+		"zero-trust access saml-encryption-certificates list": {
 			"operationId": "access-saml-certificates-list-certificate-sets",
 			"httpMethod": "GET",
 			"path": "/accounts/{account_id}/access/saml_certificates",
@@ -95520,7 +95106,7 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"zero-trust access saml-certificates rotate": {
+		"zero-trust access saml-encryption-certificates rotate": {
 			"operationId": "access-saml-certificates-rotate-certificate",
 			"httpMethod": "POST",
 			"path": "/accounts/{account_id}/access/saml_certificates/{saml_cert_set_id}/rotate",
@@ -95782,6 +95368,58 @@
 					"type": "string",
 					"required": false,
 					"description": "The expiration of the previous `client_secret`. This can be modified at any point after a rotation. For example, you may extend it further into the future if you need more time to update services with the new secret; or move it into the past to immediately invalidate the previous token in case of compromise."
+				}
+			]
+		},
+		"zero-trust access signing-keys get": {
+			"operationId": "access-key-configuration-get-the-access-key-configuration",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/access/keys",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust access signing-keys rotate": {
+			"operationId": "access-key-configuration-rotate-access-keys",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/access/keys/rotate",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust access signing-keys update": {
+			"operationId": "access-key-configuration-update-the-access-key-configuration",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/access/keys",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "key-rotation-interval-days",
+					"type": "number",
+					"required": true,
+					"description": "The number of days between key rotations."
 				}
 			]
 		},
@@ -96411,6 +96049,51 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"zero-trust access users revoke": {
+			"operationId": "generated:post:/{account_or_zone}/{account_or_zone_id}/access/organizations/revoke_user",
+			"httpMethod": "POST",
+			"path": "/{account_or_zone}/{account_or_zone_id}/access/organizations/revoke_user",
+			"pathParams": [
+				{
+					"name": "account_or_zone",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_or_zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "devices",
+					"type": "boolean",
+					"required": false,
+					"description": "When set to `true`, all devices associated with the user will be revoked."
+				},
+				{
+					"name": "email",
+					"type": "string",
+					"required": true,
+					"description": "The email of the user to revoke."
+				},
+				{
+					"name": "user-uid",
+					"type": "string",
+					"required": false,
+					"description": "The uuid of the user to revoke."
+				},
+				{
+					"name": "warp-session-reauth",
+					"type": "boolean",
+					"required": false,
+					"description": "When set to `true`, the user will be required to re-authenticate to WARP for all Gateway policies that enforce a WARP client session duration. When `false`, the user’s WARP session will remain active"
+				}
+			]
+		},
 		"zero-trust access users update": {
 			"operationId": "zero-trust-users-update-user",
 			"httpMethod": "PUT",
@@ -96443,31 +96126,6 @@
 					"description": "The name of the user."
 				}
 			]
-		},
-		"zero-trust apps policies make reusable update": {
-			"operationId": "access-policies-convert-reusable",
-			"httpMethod": "PUT",
-			"path": "/accounts/{account_id}/access/apps/{app_id}/policies/{policy_id}/make_reusable",
-			"pathParams": [
-				{
-					"name": "app_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "policy_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
 		},
 		"zero-trust apps review status list": {
 			"operationId": "zero-trust-applications-review-status-list",
@@ -106835,6 +106493,83 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"zero-trust identity-providers federation-grants create": {
+			"operationId": "access-idp-federation-grants-create",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/access/idp_federation_grants",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "idp-id",
+					"type": "string",
+					"required": true,
+					"description": "UID of the identity provider to federate. Must be an existing identity provider in this account. One-time pin and Cloudflare-managed identity providers cannot be federated."
+				}
+			]
+		},
+		"zero-trust identity-providers federation-grants delete": {
+			"operationId": "access-idp-federation-grants-delete",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/access/idp_federation_grants/{grant_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "grant_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust identity-providers federation-grants get": {
+			"operationId": "access-idp-federation-grants-get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/access/idp_federation_grants/{grant_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "grant_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust identity-providers federation-grants list": {
+			"operationId": "access-idp-federation-grants-list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/access/idp_federation_grants",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
 		"zero-trust identity-providers get": {
 			"operationId": "generated:get:/{account_or_zone}/{account_or_zone_id}/access/identity_providers/{identity_provider_id}",
 			"httpMethod": "GET",
@@ -106916,6 +106651,56 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"zero-trust identity-providers scim groups delete": {
+			"operationId": "access-identity-providers-delete-scim-group-resource",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/access/identity_providers/{identity_provider_id}/scim/groups/{group_id}",
+			"pathParams": [
+				{
+					"name": "identity_provider_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "group_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust identity-providers scim groups get": {
+			"operationId": "access-identity-providers-get-scim-group-resource",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/access/identity_providers/{identity_provider_id}/scim/groups/{group_id}",
+			"pathParams": [
+				{
+					"name": "identity_provider_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "group_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
 		"zero-trust identity-providers scim groups list": {
 			"operationId": "access-identity-providers-list-scim-group-resources",
 			"httpMethod": "GET",
@@ -106959,6 +106744,56 @@
 					"required": false
 				}
 			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust identity-providers scim users delete": {
+			"operationId": "access-identity-providers-delete-scim-user-resource",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/access/identity_providers/{identity_provider_id}/scim/users/{user_id}",
+			"pathParams": [
+				{
+					"name": "identity_provider_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "user_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust identity-providers scim users get": {
+			"operationId": "access-identity-providers-get-scim-user-resource",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/access/identity_providers/{identity_provider_id}/scim/users/{user_id}",
+			"pathParams": [
+				{
+					"name": "identity_provider_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "user_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
@@ -107043,7 +106878,7 @@
 			"hasRequestBody": true,
 			"requestBodyFields": []
 		},
-		"zero-trust organizations create": {
+		"zero-trust organization create": {
 			"operationId": "generated:post:/{account_or_zone}/{account_or_zone_id}/access/organizations",
 			"httpMethod": "POST",
 			"path": "/{account_or_zone}/{account_or_zone_id}/access/organizations",
@@ -107219,6 +107054,12 @@
 					"description": "The amount of time that tokens issued for applications will be valid. Must be in the format `300ms` or `2h45m`. Valid time units are: ns, us (or µs), ms, s, m, h."
 				},
 				{
+					"name": "strict-service-token-auth",
+					"type": "boolean",
+					"required": false,
+					"description": "Enables new behaviors for requests made with Access service tokens. Unauthorized requests emit audit logs, and return a 401 or 403 status code in the response instead of redirecting to the login page. Successful requests no longer receive a CF_Authorization cookie in the response. Zero Trust organizations created on or after October 5, 2026 will have this setting enabled by default, and cannot disable it."
+				},
+				{
 					"name": "ui-read-only-toggle-reason",
 					"type": "string",
 					"required": false,
@@ -107244,7 +107085,7 @@
 				}
 			]
 		},
-		"zero-trust organizations doh get": {
+		"zero-trust organization doh get": {
 			"operationId": "zero-trust-organization-get-your-zero-trust-organization-doh-settings",
 			"httpMethod": "GET",
 			"path": "/accounts/{account_id}/access/organizations/doh",
@@ -107259,7 +107100,7 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"zero-trust organizations doh update": {
+		"zero-trust organization doh update": {
 			"operationId": "zero-trust-organization-update-your-zero-trust-organization-doh-settings",
 			"httpMethod": "PUT",
 			"path": "/accounts/{account_id}/access/organizations/doh",
@@ -107287,7 +107128,7 @@
 				}
 			]
 		},
-		"zero-trust organizations list": {
+		"zero-trust organization get": {
 			"operationId": "generated:get:/{account_or_zone}/{account_or_zone_id}/access/organizations",
 			"httpMethod": "GET",
 			"path": "/{account_or_zone}/{account_or_zone_id}/access/organizations",
@@ -107307,52 +107148,7 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"zero-trust organizations revoke-users": {
-			"operationId": "generated:post:/{account_or_zone}/{account_or_zone_id}/access/organizations/revoke_user",
-			"httpMethod": "POST",
-			"path": "/{account_or_zone}/{account_or_zone_id}/access/organizations/revoke_user",
-			"pathParams": [
-				{
-					"name": "account_or_zone",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_or_zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "devices",
-					"type": "boolean",
-					"required": false,
-					"description": "When set to `true`, all devices associated with the user will be revoked."
-				},
-				{
-					"name": "email",
-					"type": "string",
-					"required": true,
-					"description": "The email of the user to revoke."
-				},
-				{
-					"name": "user-uid",
-					"type": "string",
-					"required": false,
-					"description": "The uuid of the user to revoke."
-				},
-				{
-					"name": "warp-session-reauth",
-					"type": "boolean",
-					"required": false,
-					"description": "When set to `true`, the user will be required to re-authenticate to WARP for all Gateway policies that enforce a WARP client session duration. When `false`, the user’s WARP session will remain active"
-				}
-			]
-		},
-		"zero-trust organizations update": {
+		"zero-trust organization update": {
 			"operationId": "generated:put:/{account_or_zone}/{account_or_zone_id}/access/organizations",
 			"httpMethod": "PUT",
 			"path": "/{account_or_zone}/{account_or_zone_id}/access/organizations",
@@ -107538,6 +107334,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The amount of time that tokens issued for applications will be valid. Must be in the format `300ms` or `2h45m`. Valid time units are: ns, us (or µs), ms, s, m, h."
+				},
+				{
+					"name": "strict-service-token-auth",
+					"type": "boolean",
+					"required": false,
+					"description": "Enables new behaviors for requests made with Access service tokens. Unauthorized requests emit audit logs, and return a 401 or 403 status code in the response instead of redirecting to the login page. Successful requests no longer receive a CF_Authorization cookie in the response. Zero Trust organizations created on or after October 5, 2026 will have this setting enabled by default, and cannot disable it."
 				},
 				{
 					"name": "ui-read-only-toggle-reason",

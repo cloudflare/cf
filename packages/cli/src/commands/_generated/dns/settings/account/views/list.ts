@@ -64,7 +64,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("per-page", {
 			type: "number",
-			description: "Number of DNS views per page.",
+			description: "Number of results per page.",
 		})
 		.option("order", {
 			type: "string",

@@ -26,7 +26,6 @@ describe("dispatch-namespaces", () => {
 		expect(std.out).toContain("delete");
 		expect(std.out).toContain("get");
 		expect(std.out).toContain("list");
-		expect(std.out).toContain("edit");
 	});
 
 	describe("create namespace", () => {
@@ -192,7 +191,9 @@ describe("dispatch-namespaces", () => {
 		});
 	});
 
-	describe("rename namespace", () => {
+	// The namespace PATCH operation is now SDK-only in Forge's OpenAPI, so cf
+	// no longer exposes the Wrangler-compatible rename command.
+	describe.skip("rename namespace", () => {
 		const namespaceName = "my-namespace";
 
 		it("should display help for rename", async () => {

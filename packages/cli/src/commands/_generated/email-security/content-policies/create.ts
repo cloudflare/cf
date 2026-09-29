@@ -25,14 +25,26 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			"$0 email-security content-policies create\n\nCreates a new content policy. Emails whose subject or body matches the pattern will be subject to the configured action."
 		)
-		.option("enabled", { type: "boolean", description: "The enabled field" })
-		.option("name", { type: "string", description: "The name field" })
-		.option("notes", { type: "string", description: "The notes field" })
-		.option("pattern", { type: "string", description: "The pattern field" })
+		.option("enabled", {
+			type: "boolean",
+			description: "Whether the policy is active.",
+		})
+		.option("name", {
+			type: "string",
+			description: "Human-readable name of the policy.",
+		})
+		.option("notes", {
+			type: "string",
+			description: "Optional note describing the purpose of the policy.",
+		})
+		.option("pattern", {
+			type: "string",
+			description: "Regular expression the policy matches against.",
+		})
 		.option("targets", {
 			type: "string",
 			array: true,
-			description: "The targets field",
+			description: "Parts of the email the pattern is matched against.",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -118,12 +130,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 				}
 				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField("name", "The name field");
+					argv["name"] = await promptForRequiredField(
+						"name",
+						"Human-readable name of the policy."
+					);
 				}
 				if (argv["pattern"] === undefined) {
 					argv["pattern"] = await promptForRequiredField(
 						"pattern",
-						"The pattern field"
+						"Regular expression the policy matches against."
 					);
 				}
 				if (argv["targets"] === undefined) {

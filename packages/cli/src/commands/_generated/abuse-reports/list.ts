@@ -21,7 +21,7 @@ import type { Argv, CommandModule } from "yargs";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 abuse-reports list\n\nList the abuse reports for a given account"
+			"$0 abuse-reports list\n\nList abuse reports made against domains or other content associated with the account. To list reports that the account submitted, use the submitted abuse reports endpoint instead."
 		)
 		.option("page", {
 			type: "number",
@@ -96,7 +96,7 @@ const typedBuilder = withArgTypes<
 type Args = InferArgs<typeof typedBuilder>;
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "list",
-	describe: "List abuse reports",
+	describe: "List abuse reports against the account",
 	builder: typedBuilder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(

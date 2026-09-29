@@ -48,8 +48,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("metric", {
 			type: "string",
-			description:
-				"Metric to aggregate the results by, as used by the Email Security dashboard.",
+			description: "Metric to aggregate the results by.",
 		})
 		.option("message-action", {
 			type: "string",
@@ -101,7 +100,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("cursor", {
 			type: "string",
 			description:
-				"Opaque cursor from a previous response's `result_info.next` or `result_info.previous` for cursor-based pagination. When omitted, the first page is returned.",
+				"Pagination cursor from the previous response's `result_info`.",
 		})
 		.option("per-page", {
 			type: "number",

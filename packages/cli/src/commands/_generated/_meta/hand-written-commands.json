@@ -210,7 +210,7 @@
 			"name": "run",
 			"fullPath": ["ai", "run"],
 			"description": "Run inference on a Workers AI model. The request body is model-specific: fetch the model's input schema with `cf ai get-model-schema --model <id>` (or `cf ai run <model> --help`) to discover its fields, then pass them as flags or as a single JSON payload via --body. `cf ai models list` enumerates the models this account can run.",
-			"summary": "Execute AI Model (Generic)",
+			"summary": "Run an AI model with request options",
 			"usage": "cf ai run <model-name> [--<model-field> ...] [options]",
 			"arguments": [
 				{

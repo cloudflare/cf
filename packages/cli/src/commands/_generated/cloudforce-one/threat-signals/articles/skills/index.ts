@@ -1,4 +1,3 @@
-import $diagnostic from "./diagnostic.js";
 import $getoutput from "./get-output.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
@@ -13,7 +12,6 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
-			.command($diagnostic)
 			.command($getoutput)
 			.demandCommand(1, "Please specify a subcommand");
 	},

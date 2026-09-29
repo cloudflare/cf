@@ -70,7 +70,9 @@ describe("export", () => {
 	// (positional databaseId, --output-format=polling, body assembled
 	// from --dump-options-* flags) and that the response is printed
 	// verbatim.
-	it("should POST to the export endpoint and print the polling response", async ({
+	// Forge now explicitly ignores the D1 import/export operations, so cf no
+	// longer exposes this API-only approximation of Wrangler's polling flow.
+	it.skip("should POST to the export endpoint and print the polling response", async ({
 		expect,
 	}) => {
 		setIsTTY(false);

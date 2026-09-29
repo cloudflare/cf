@@ -20,7 +20,7 @@ import type { Argv, CommandModule } from "yargs";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 accounts tokens permission-groups list\n\nFind all available permission groups for Account Owned API Tokens"
+			"$0 accounts tokens permission-groups list\n\nFind all available permission groups for Account Owned API Tokens. Each permission group indicates whether the caller can select it when creating a token. Token creation performs the authoritative permission check."
 		)
 		.option("name", {
 			type: "string",

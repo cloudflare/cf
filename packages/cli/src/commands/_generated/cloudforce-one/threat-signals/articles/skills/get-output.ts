@@ -20,7 +20,7 @@ import type { Argv, CommandModule } from "yargs";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one threat-signals articles skills get-output <skill-id>\n\nGet Threat Signals article skill output."
+			"$0 cloudforce-one threat-signals articles skills get-output <skill-id>\n\nRetrieves the stored output of a skill for a Threat Signals article."
 		)
 		.positional("skill-id", {
 			type: "string",

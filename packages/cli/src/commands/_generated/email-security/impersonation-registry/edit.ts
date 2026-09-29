@@ -29,25 +29,37 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Impersonation registry entry identifier.",
 			demandOption: true,
 		})
-		.option("comments", { type: "string", description: "The comments field" })
+		.option("comments", {
+			type: "string",
+			description: "Optional note describing the entry.",
+		})
 		.option("directory-id", {
 			type: "number",
-			description: "The directory_id field",
+			description:
+				"Identifier of the directory the entry was synced from, when directory-synced.",
 		})
 		.option("directory-node-id", {
 			type: "number",
-			description: "The directory_node_id field",
+			description:
+				"Identifier of the directory node the entry was synced from, when directory-synced.",
 		})
-		.option("email", { type: "string", description: "The email field" })
+		.option("email", {
+			type: "string",
+			description: "Email address (or pattern) of the protected identity.",
+		})
 		.option("external-directory-node-id", {
 			type: "string",
-			description: "The external_directory_node_id field",
+			description: "Deprecated. External identifier of the directory node.",
 		})
 		.option("is-email-regex", {
 			type: "boolean",
-			description: "The is_email_regex field",
+			description:
+				"Whether `email` is a regular expression instead of a literal address.",
 		})
-		.option("name", { type: "string", description: "The name field" })
+		.option("name", {
+			type: "string",
+			description: "Display name of the protected identity.",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

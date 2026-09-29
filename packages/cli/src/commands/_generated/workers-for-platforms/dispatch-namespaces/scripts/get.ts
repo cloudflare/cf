@@ -24,7 +24,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.positional("script-name", {
 			type: "string",
-			description: "Name of the script, used in URLs and route configuration.",
+			description: "Name of the script.",
 			demandOption: true,
 		})
 		.option("dispatch-namespace", {

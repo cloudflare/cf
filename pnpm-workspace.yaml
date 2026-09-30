@@ -13,8 +13,6 @@ blockExoticSubdeps: true
 
 # Allow newly published direct dependencies before pnpm's maturity cutoff.
 minimumReleaseAgeExclude:
-  - "@cloudflare/autoconfig@0.7.1"
-  - "@cloudflare/codemods@0.2.1"
   - "@cloudflare/runtime-types@0.1.6"
   - "@cloudflare/workerd-darwin-64@1.20260930.2"
   - "@cloudflare/workerd-darwin-arm64@1.20260930.2"
@@ -23,7 +21,6 @@ minimumReleaseAgeExclude:
   - "@cloudflare/workerd-windows-64@1.20260930.2"
   - "miniflare@5.20260930.0-alpha"
   - "workerd@1.20260930.2"
-  - "wrangler@4.143.0"
 
 # pnpm blocks install scripts by default; allowlist what needs them.
 allowBuilds:

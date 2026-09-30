@@ -847,7 +847,7 @@ describe("hyperdrive commands", () => {
 	}) => {
 		const reqProm = mockHyperdriveUpdate();
 		await runWrangler(
-			"hyperdrive update xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx --mtls-ca-certificate-id=2345 --mtls-mtls-certificate-id=234 --mtls-sslmode=verify-full"
+			"hyperdrive update xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx --mtls-ca-certificate-id=2345 --mtls-certificate-id=234 --mtls-sslmode=verify-full"
 		);
 		await expect(reqProm).resolves.toMatchInlineSnapshot(`
 			{

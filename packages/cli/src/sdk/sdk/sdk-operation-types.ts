@@ -339,6 +339,7 @@ export interface SdkOperationRequestMap {
   "basin-disable-catalog": CloudflareApi.DisableBasinCatalogRequest;
   "basin-enable-catalog": CloudflareApi.EnableBasinCatalogRequest;
   "basin-get-catalog-details": CloudflareApi.GetBasinCatalogRequest;
+  "basin-get-credential-status": CloudflareApi.basinCatalog.StatusCredentialsRequest;
   "basin-get-maintenance-config": CloudflareApi.basinCatalog.GetMaintenanceConfigsRequest;
   "basin-get-table": CloudflareApi.basinCatalog.namespaces.GetTablesRequest;
   "basin-get-table-maintenance-config": CloudflareApi.basinCatalog.namespaces.tables.GetMaintenanceConfigsRequest;
@@ -1274,6 +1275,7 @@ export interface SdkOperationRequestMap {
   "get-commands-quota": CloudflareApi.zeroTrust.dex.commands.GetQuotaRequest;
   "get-credential": CloudflareApi.apiSecurity.vulnerabilityScanner.credentialSets.GetCredentialsRequest;
   "get-credential-set": CloudflareApi.apiSecurity.vulnerabilityScanner.GetCredentialSetsRequest;
+  "get-credential-status": CloudflareApi.r2DataCatalog.StatusCredentialsRequest;
   "get-deployment-group": CloudflareApi.zeroTrust.devices.GetDeploymentGroupsRequest;
   "get-device": CloudflareApi.zeroTrust.GetDevicesRequest;
   "get-dex-rule": CloudflareApi.zeroTrust.dex.GetRulesRequest;
@@ -2064,7 +2066,6 @@ export interface SdkOperationRequestMap {
   "r2-add-custom-domain": CloudflareApi.r2.buckets.domains.R2AddCustomDomainRequest;
   "r2-create-bucket": CloudflareApi.r2.CreateBucketsRequest;
   "r2-create-bucket-by-name": CloudflareApi.r2.CreateByNameBucketsRequest;
-  "r2-create-storage-class-migration-job": CloudflareApi.r2.buckets.CreateStorageClassMigrationJobsRequest;
   "r2-create-temp-access-credentials": CloudflareApi.r2.R2TempAccessCredsRequest;
   "r2-delete-bucket": CloudflareApi.r2.DeleteBucketsRequest;
   "r2-delete-bucket-cors-policy": CloudflareApi.r2.buckets.DeleteCorsRequest;
@@ -2088,12 +2089,10 @@ export interface SdkOperationRequestMap {
   "r2-get-event-notification-config": CloudflareApi.r2.buckets.GetEventNotificationsRequest;
   "r2-get-event-notification-configs": CloudflareApi.r2.buckets.ListEventNotificationsRequest;
   "r2-get-object": CloudflareApi.r2.GetObjectsRequest;
-  "r2-get-storage-class-migration-job": CloudflareApi.r2.buckets.GetStorageClassMigrationJobsRequest;
   "r2-list-bucket-jobs": CloudflareApi.r2.buckets.ListJobsRequest;
   "r2-list-buckets": CloudflareApi.r2.ListBucketsRequest;
   "r2-list-custom-domains": CloudflareApi.r2.buckets.domains.ListCustomRequest;
   "r2-list-objects": CloudflareApi.r2.ListObjectsRequest;
-  "r2-list-storage-class-migration-jobs": CloudflareApi.r2.buckets.ListStorageClassMigrationJobsRequest;
   "r2-patch-bucket": CloudflareApi.r2.EditBucketsRequest;
   "r2-put-bucket-cors-policy": CloudflareApi.r2.buckets.UpdateCorsRequest;
   "r2-put-bucket-lifecycle-configuration": CloudflareApi.r2.buckets.UpdateLifecycleRequest;
@@ -3604,7 +3603,6 @@ export interface SdkOperationQueryMap {
   "r2-list-bucket-jobs": Pick<CloudflareApi.r2.buckets.ListJobsRequest, Extract<"jobType" | "status" | "maxKeys" | "continuationToken", keyof CloudflareApi.r2.buckets.ListJobsRequest>>;
   "r2-list-buckets": Pick<CloudflareApi.r2.ListBucketsRequest, Extract<"name_contains" | "start_after" | "per_page" | "order" | "direction" | "cursor", keyof CloudflareApi.r2.ListBucketsRequest>>;
   "r2-list-objects": Pick<CloudflareApi.r2.ListObjectsRequest, Extract<"per_page" | "prefix" | "delimiter" | "cursor" | "start_after", keyof CloudflareApi.r2.ListObjectsRequest>>;
-  "r2-list-storage-class-migration-jobs": Pick<CloudflareApi.r2.buckets.ListStorageClassMigrationJobsRequest, Extract<"status" | "maxKeys" | "continuationToken", keyof CloudflareApi.r2.buckets.ListStorageClassMigrationJobsRequest>>;
   "radar-get-agent-readiness-summary": Pick<CloudflareApi.radar.SummaryAgentReadinessRequest, Extract<"date" | "domainCategory" | "name" | "format", keyof CloudflareApi.radar.SummaryAgentReadinessRequest>>;
   "radar-get-ai-bots-summary": Pick<CloudflareApi.radar.ai.SummaryTimeseriesGroupsRequest, Extract<"name" | "dateRange" | "dateStart" | "dateEnd" | "asn" | "location" | "continent" | "crawlPurpose" | "userAgent" | "vertical" | "industry" | "contentType" | "responseStatus" | "responseStatusCategory" | "limitPerGroup" | "format", keyof CloudflareApi.radar.ai.SummaryTimeseriesGroupsRequest>>;
   "radar-get-ai-bots-summary-by-user-agent": Pick<CloudflareApi.radar.ai.bots.UserAgentSummaryRequest, Extract<"name" | "dateRange" | "dateStart" | "dateEnd" | "asn" | "location" | "continent" | "limitPerGroup" | "format", keyof CloudflareApi.radar.ai.bots.UserAgentSummaryRequest>>;

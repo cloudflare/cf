@@ -18,7 +18,6 @@ import { LocalUploadsClient } from "../resources/localUploads/client/Client.js";
 import { LocksClient } from "../resources/locks/client/Client.js";
 import { MetricsClient } from "../resources/metrics/client/Client.js";
 import { SippyClient } from "../resources/sippy/client/Client.js";
-import { StorageClassMigrationJobsClient } from "../resources/storageClassMigrationJobs/client/Client.js";
 
 export declare namespace BucketsClient {
     export type Options = BaseClientOptions;
@@ -35,7 +34,6 @@ export class BucketsClient {
     protected _localUploads: LocalUploadsClient | undefined;
     protected _locks: LocksClient | undefined;
     protected _sippy: SippyClient | undefined;
-    protected _storageClassMigrationJobs: StorageClassMigrationJobsClient | undefined;
     protected _metrics: MetricsClient | undefined;
     protected _domains: DomainsClient | undefined;
 
@@ -69,10 +67,6 @@ export class BucketsClient {
 
     public get sippy(): SippyClient {
         return (this._sippy ??= new SippyClient(this._options));
-    }
-
-    public get storageClassMigrationJobs(): StorageClassMigrationJobsClient {
-        return (this._storageClassMigrationJobs ??= new StorageClassMigrationJobsClient(this._options));
     }
 
     public get metrics(): MetricsClient {

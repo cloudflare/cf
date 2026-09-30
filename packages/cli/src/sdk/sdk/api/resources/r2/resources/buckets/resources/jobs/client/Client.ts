@@ -26,9 +26,9 @@ export class JobsClient {
     }
 
     /**
-     * Lists a page of prefix-deletion and bucket-emptying jobs for an R2 bucket.
-     * Use the returned job identifiers to inspect progress with Get Bucket Job.
-     * Storage-class migration jobs are listed by the separate List Storage Class Migration Jobs endpoint.
+     * Lists background jobs for an R2 bucket, including prefix-delete (and bucket-emptying)
+     * jobs and storage-class migration jobs. Jobs of every type are returned unless `jobType`
+     * is provided.
      *
      * @param {CloudflareApi.r2.buckets.ListJobsRequest} request
      * @param {JobsClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -113,9 +113,9 @@ export class JobsClient {
     }
 
     /**
-     * Gets the current status of a prefix-deletion or bucket-emptying job for an R2 bucket. Poll this endpoint with
-     * the job identifier returned when the operation was submitted until the status is
-     * `COMPLETED`, `FAILED`, or `CANCELLED`.
+     * Gets the current status of a background job of any type for an R2 bucket. Poll this
+     * endpoint with the job identifier returned when the operation was submitted until the
+     * status is `COMPLETED`, `FAILED`, or `CANCELLED`.
      *
      * @param {CloudflareApi.r2.buckets.GetJobsRequest} request
      * @param {JobsClient.RequestOptions} requestOptions - Request-specific configuration.

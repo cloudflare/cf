@@ -543,8 +543,7 @@ export class HyperdriveClient {
      *
      * @example
      *     await client.hyperdrive.createDatabaseSignature({
-     *         account_id: "account_id",
-     *         integration: "integration"
+     *         account_id: "account_id"
      *     })
      */
     public createDatabaseSignature(
@@ -558,7 +557,7 @@ export class HyperdriveClient {
         request: CloudflareApi.CreateDatabaseSignatureHyperdriveRequest,
         requestOptions?: HyperdriveClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.HyperdriveHyperdriveDatabaseSignatureResponse>> {
-        const { account_id: accountId, integration } = request;
+        const { account_id: accountId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -570,7 +569,7 @@ export class HyperdriveClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/hyperdrive/integrationsOperations/${core.url.encodePathParam(integration)}/createDatabaseSignature`,
+                `accounts/${core.url.encodePathParam(accountId)}/hyperdrive/integrationsOperations/planetScale/createDatabaseSignature`,
             ),
             method: "POST",
             headers: _headers,
@@ -600,7 +599,7 @@ export class HyperdriveClient {
             _response.error,
             _response.rawResponse,
             "POST",
-            "/accounts/{account_id}/hyperdrive/integrationsOperations/{integration}/createDatabaseSignature",
+            "/accounts/{account_id}/hyperdrive/integrationsOperations/planetScale/createDatabaseSignature",
         );
     }
 }

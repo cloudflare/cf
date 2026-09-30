@@ -10,8 +10,6 @@ export interface R2R2StorageClassMigrationJob {
     endTime?: string | undefined;
     /** Unique identifier used to poll the job. */
     id: string;
-    /** The job kind. */
-    jobType: "storageClassMigration";
     /** When the job was created. */
     startTime: string;
     status: CloudflareApi.R2R2BucketJobStatus;

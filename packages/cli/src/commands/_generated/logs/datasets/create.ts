@@ -38,7 +38,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("filter", {
 			type: "string",
 			description:
-				"Optional Logpush filter predicate to restrict which events are ingested.\nIf provided, replaces the dataset's default filter entirely.\nSee [Logpush filters](https://developers.cloudflare.com/logs/reference/filters/)\nfor syntax and examples.\n",
+				"Optional Logpush filter predicate to restrict which events are ingested.\nSee [Logpush filters](https://developers.cloudflare.com/logs/reference/filters/)\nfor syntax and examples.\n",
+		})
+		.option("filter-attack-traffic", {
+			type: "boolean",
+			description:
+				"Whether to filter attack traffic from the Logpush job. Defaults to\n`true` for supported datasets when omitted. Supported datasets are\n`http_requests`, `firewall_events`, and `network_analytics_logs`.\n",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -66,7 +71,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "logs datasets create",
 				classification: {
-					safeFlags: ["dry-run"],
+					safeFlags: ["filter-attack-traffic", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -103,6 +108,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"filter",
 											"text"
 										),
+										filter_attack_traffic: argv["filter-attack-traffic"],
 									}),
 					});
 					return;
@@ -155,6 +161,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"filter",
 						"text"
 					),
+					filter_attack_traffic: argv["filter-attack-traffic"],
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.logs.datasets.create({

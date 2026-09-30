@@ -6,8 +6,6 @@ import * as CloudflareApi from "../index.js";
  * Updates compaction configuration (all fields optional).
  */
 export interface R2DataCatalogCompactionUpdateParams {
-    /** Updates the state optionally. */
     state?: CloudflareApi.R2DataCatalogCatalogMaintenanceState | undefined;
-    /** Updates the target file size optionally. */
     target_size_mb?: CloudflareApi.R2DataCatalogCatalogTargetFileSize | undefined;
 }

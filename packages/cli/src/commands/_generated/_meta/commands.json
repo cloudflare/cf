@@ -1184,7 +1184,7 @@
 			"command": "cf account-tags update",
 			"name": "update",
 			"fullPath": ["account-tags", "update"],
-			"description": "Creates or updates tags for a specific account or zone-level resource.",
+			"description": "Creates or updates tags for a specific account or zone-level resource. Replaces all existing tags for the resource.",
 			"summary": "Set tags for an account or zone-level resource",
 			"usage": "cf account-tags update [options]",
 			"arguments": [],
@@ -6896,12 +6896,12 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf ai listMarkdownSupportedFormats",
-			"name": "listMarkdownSupportedFormats",
-			"fullPath": ["ai", "listMarkdownSupportedFormats"],
+			"command": "cf ai list-markdown-supported-formats",
+			"name": "list-markdown-supported-formats",
+			"fullPath": ["ai", "list-markdown-supported-formats"],
 			"description": "Lists the file extensions and MIME types accepted by Workers AI's Markdown conversion endpoint. Use this list to check whether a file can be converted before uploading it.",
 			"summary": "List supported Markdown conversion formats",
-			"usage": "cf ai listMarkdownSupportedFormats",
+			"usage": "cf ai list-markdown-supported-formats",
 			"arguments": [],
 			"options": [
 				{
@@ -18694,6 +18694,38 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf basin-catalog credentials status",
+			"name": "status",
+			"fullPath": ["basin-catalog", "credentials", "status"],
+			"description": "Check whether the configured catalog credentials are valid, invalid, or absent by probing authentication against the catalog.",
+			"summary": "Get Basin Catalog credential status",
+			"usage": "cf basin-catalog credentials status <bucket-name>",
+			"arguments": [
+				{
+					"name": "bucket-name",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Specifies the R2 bucket name."
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/basin-catalog/{bucket_name}/credential/status",
+			"operationId": "basin-get-credential-status",
+			"hideCommand": false
+		},
+		{
 			"command": "cf basin-catalog delete",
 			"name": "delete",
 			"fullPath": ["basin-catalog", "delete"],
@@ -18901,6 +18933,20 @@
 			],
 			"options": [
 				{
+					"name": "compaction-state",
+					"type": "string",
+					"required": false,
+					"description": "Specifies the state of maintenance operations.",
+					"enum": ["enabled", "disabled"]
+				},
+				{
+					"name": "compaction-target-size-mb",
+					"type": "string",
+					"required": false,
+					"description": "Sets the target file size for compaction in megabytes. Defaults to \"128\".",
+					"enum": ["64", "128", "256", "512"]
+				},
+				{
 					"name": "snapshot-expiration-max-snapshot-age",
 					"type": "string",
 					"required": false,
@@ -18911,6 +18957,13 @@
 					"type": "number",
 					"required": false,
 					"description": "Updates the minimum number of snapshots to retain optionally."
+				},
+				{
+					"name": "snapshot-expiration-state",
+					"type": "string",
+					"required": false,
+					"description": "Specifies the state of maintenance operations.",
+					"enum": ["enabled", "disabled"]
 				},
 				{
 					"name": "dry-run",
@@ -19275,6 +19328,13 @@
 					"type": "number",
 					"required": false,
 					"description": "Updates the minimum number of snapshots to retain optionally."
+				},
+				{
+					"name": "snapshot-expiration-state",
+					"type": "string",
+					"required": false,
+					"description": "Specifies the state of maintenance operations.",
+					"enum": ["enabled", "disabled"]
 				},
 				{
 					"name": "dry-run",
@@ -54605,7 +54665,7 @@
 					"description": "Define CA certificate ID obtained after uploading CA cert."
 				},
 				{
-					"name": "mtls-mtls-certificate-id",
+					"name": "mtls-certificate-id",
 					"type": "string",
 					"required": false,
 					"description": "Define mTLS certificate ID obtained after uploading client cert."
@@ -54655,17 +54715,17 @@
 					"description": "The name of the PlanetScale database."
 				},
 				{
-					"name": "integration-integration",
-					"type": "string",
-					"required": false,
-					"description": "The database integration used by this operation.",
-					"enum": ["planetscale"]
-				},
-				{
 					"name": "integration-organization-name",
 					"type": "string",
 					"required": false,
 					"description": "The name of the PlanetScale organization."
+				},
+				{
+					"name": "integration-provider",
+					"type": "string",
+					"required": false,
+					"description": "The database integration provider used by this operation.",
+					"enum": ["planetscale"]
 				},
 				{
 					"name": "integration-scheme",
@@ -54693,38 +54753,6 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/hyperdrive/configs",
 			"operationId": "create-hyperdrive",
-			"hideCommand": false
-		},
-		{
-			"command": "cf hyperdrive create-database-signature",
-			"name": "create-database-signature",
-			"fullPath": ["hyperdrive", "create-database-signature"],
-			"description": "Returns a short-lived signed authorization for creating a database that is billed through Cloudflare. The caller passes these values to the integration partner's own CLI, which verifies the signature before creating the database. Requires the account to be entitled to Cloudflare-billed databases for the integration.",
-			"summary": "Create Database Signature",
-			"usage": "cf hyperdrive create-database-signature <integration>",
-			"arguments": [
-				{
-					"name": "integration",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "The database integration to authorize against. This value is case-insensitive."
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/hyperdrive/integrationsOperations/{integration}/createDatabaseSignature",
-			"operationId": "create-hyperdrive-database-signature",
 			"hideCommand": false
 		},
 		{
@@ -54789,6 +54817,30 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/hyperdrive/configs/{hyperdrive_id}",
 			"operationId": "get-hyperdrive",
+			"hideCommand": false
+		},
+		{
+			"command": "cf hyperdrive integration planetscale signature",
+			"name": "signature",
+			"fullPath": ["hyperdrive", "integration", "planetscale", "signature"],
+			"description": "Returns a short-lived signed authorization for creating a database that is billed through Cloudflare. The caller passes these values to the integration partner's own CLI, which verifies the signature before creating the database. Requires the account to be entitled to Cloudflare-billed databases for the integration.",
+			"summary": "Create Database Signature",
+			"usage": "cf hyperdrive integration planetscale signature",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/hyperdrive/integrationsOperations/planetScale/createDatabaseSignature",
+			"operationId": "create-hyperdrive-database-signature",
 			"hideCommand": false
 		},
 		{
@@ -54869,7 +54921,7 @@
 					"description": "Define CA certificate ID obtained after uploading CA cert."
 				},
 				{
-					"name": "mtls-mtls-certificate-id",
+					"name": "mtls-certificate-id",
 					"type": "string",
 					"required": false,
 					"description": "Define mTLS certificate ID obtained after uploading client cert."
@@ -55050,7 +55102,7 @@
 					"description": "Define CA certificate ID obtained after uploading CA cert."
 				},
 				{
-					"name": "mtls-mtls-certificate-id",
+					"name": "mtls-certificate-id",
 					"type": "string",
 					"required": false,
 					"description": "Define mTLS certificate ID obtained after uploading client cert."
@@ -59253,7 +59305,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/tags/keys",
 			"operationId": "tags-list-keys",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf kv bulk delete",
@@ -63975,7 +64027,13 @@
 					"name": "filter",
 					"type": "string",
 					"required": false,
-					"description": "Optional Logpush filter predicate to restrict which events are ingested.\nIf provided, replaces the dataset's default filter entirely.\nSee [Logpush filters](https://developers.cloudflare.com/logs/reference/filters/)\nfor syntax and examples.\n"
+					"description": "Optional Logpush filter predicate to restrict which events are ingested.\nSee [Logpush filters](https://developers.cloudflare.com/logs/reference/filters/)\nfor syntax and examples.\n"
+				},
+				{
+					"name": "filter-attack-traffic",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether to filter attack traffic from the Logpush job. Defaults to\n`true` for supported datasets when omitted. Supported datasets are\n`http_requests`, `firewall_events`, and `network_analytics_logs`.\n"
 				},
 				{
 					"name": "dry-run",
@@ -64132,6 +64190,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Optional Logpush filter predicate to restrict which events are\ningested. If omitted, the existing filter is left unchanged. Set\nto an empty string (`\"\"`) to clear the filter. Otherwise,\nreplaces the dataset's filter entirely.\nSee [Logpush filters](https://developers.cloudflare.com/logs/reference/filters/)\nfor syntax and examples.\n"
+				},
+				{
+					"name": "filter-attack-traffic",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether to filter attack traffic from the Logpush job. If omitted,\nthe existing setting is left unchanged. Supported datasets are\n`http_requests`, `firewall_events`, and `network_analytics_logs`.\n"
 				},
 				{
 					"name": "dry-run",
@@ -88812,7 +88876,7 @@
 			"command": "cf r2 buckets jobs get",
 			"name": "get",
 			"fullPath": ["r2", "buckets", "jobs", "get"],
-			"description": "Gets the current status of a prefix-deletion or bucket-emptying job for an R2 bucket. Poll this endpoint with the job identifier returned when the operation was submitted until the status is `COMPLETED`, `FAILED`, or `CANCELLED`.",
+			"description": "Gets the current status of a background job of any type for an R2 bucket. Poll this endpoint with the job identifier returned when the operation was submitted until the status is `COMPLETED`, `FAILED`, or `CANCELLED`.",
 			"summary": "Get Bucket Job",
 			"usage": "cf r2 buckets jobs get <job-id> [options]",
 			"arguments": [
@@ -88856,7 +88920,7 @@
 			"command": "cf r2 buckets jobs list",
 			"name": "list",
 			"fullPath": ["r2", "buckets", "jobs", "list"],
-			"description": "Lists a page of prefix-deletion and bucket-emptying jobs for an R2 bucket. Use the returned job identifiers to inspect progress with Get Bucket Job. Storage-class migration jobs are listed by the separate List Storage Class Migration Jobs endpoint.",
+			"description": "Lists background jobs for an R2 bucket, including prefix-delete (and bucket-emptying) jobs and storage-class migration jobs. Jobs of every type are returned unless `jobType` is provided.",
 			"summary": "List Bucket Jobs",
 			"usage": "cf r2 buckets jobs list [options]",
 			"arguments": [],
@@ -88872,7 +88936,7 @@
 					"type": "string",
 					"required": false,
 					"description": "Restricts results to jobs of the specified type.",
-					"enum": ["prefixDelete"]
+					"enum": ["prefixDelete", "storageClassMigration"]
 				},
 				{
 					"name": "status",
@@ -89506,170 +89570,6 @@
 			"httpMethod": "PUT",
 			"apiPath": "/accounts/{account_id}/r2/buckets/{bucket_name}/sippy",
 			"operationId": "r2-put-bucket-sippy-config",
-			"hideCommand": false
-		},
-		{
-			"command": "cf r2 buckets storage-class-migration-jobs create",
-			"name": "create",
-			"fullPath": ["r2", "buckets", "storage-class-migration-jobs", "create"],
-			"description": "Creates a background job to migrate existing objects in an R2 bucket between storage classes. Provide both source and destination classes, or omit both to migrate from InfrequentAccess to Standard. Use the returned job ID with Get Storage Class Migration Job to inspect progress.",
-			"summary": "Create a Storage Class Migration Job",
-			"usage": "cf r2 buckets storage-class-migration-jobs create <bucket-name> [options]",
-			"arguments": [
-				{
-					"name": "bucket-name",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Name of the bucket."
-				}
-			],
-			"options": [
-				{
-					"name": "cf-r2-jurisdiction",
-					"type": "string",
-					"required": false,
-					"description": "Jurisdiction where objects in this bucket are guaranteed to be stored."
-				},
-				{
-					"name": "destination-storage-class",
-					"type": "string",
-					"required": false,
-					"description": "Storage class to migrate objects to. Provide together with sourceStorageClass; the two classes must differ.",
-					"enum": ["Standard", "InfrequentAccess"]
-				},
-				{
-					"name": "job-type",
-					"type": "string",
-					"required": true,
-					"description": "The jobType field",
-					"enum": ["storageClassMigration"]
-				},
-				{
-					"name": "source-storage-class",
-					"type": "string",
-					"required": false,
-					"description": "Storage class to migrate objects from. Provide together with destinationStorageClass; the two classes must differ.",
-					"enum": ["Standard", "InfrequentAccess"]
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "create",
-			"hasRequestBody": true,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/r2/buckets/{bucket_name}/storage-class-migration-jobs",
-			"operationId": "r2-create-storage-class-migration-job",
-			"hideCommand": false
-		},
-		{
-			"command": "cf r2 buckets storage-class-migration-jobs get",
-			"name": "get",
-			"fullPath": ["r2", "buckets", "storage-class-migration-jobs", "get"],
-			"description": "Gets the current status of a storage-class migration job.",
-			"summary": "Get Storage Class Migration Job",
-			"usage": "cf r2 buckets storage-class-migration-jobs get <job-id> [options]",
-			"arguments": [
-				{
-					"name": "job-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Identifier returned when the migration job was submitted."
-				}
-			],
-			"options": [
-				{
-					"name": "bucket-name",
-					"type": "string",
-					"required": true,
-					"description": "Name of the bucket."
-				},
-				{
-					"name": "cf-r2-jurisdiction",
-					"type": "string",
-					"required": false,
-					"description": "Jurisdiction where objects in this bucket are guaranteed to be stored."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/r2/buckets/{bucket_name}/storage-class-migration-jobs/{job_id}",
-			"operationId": "r2-get-storage-class-migration-job",
-			"hideCommand": false
-		},
-		{
-			"command": "cf r2 buckets storage-class-migration-jobs list",
-			"name": "list",
-			"fullPath": ["r2", "buckets", "storage-class-migration-jobs", "list"],
-			"description": "Lists storage-class migration jobs for an R2 bucket.",
-			"summary": "List Storage Class Migration Jobs",
-			"usage": "cf r2 buckets storage-class-migration-jobs list [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "bucket-name",
-					"type": "string",
-					"required": true,
-					"description": "Name of the bucket."
-				},
-				{
-					"name": "status",
-					"type": "string",
-					"required": false,
-					"description": "Restricts results to jobs with the specified status.",
-					"enum": ["ENQUEUED", "RUNNING", "COMPLETED", "FAILED", "CANCELLED"]
-				},
-				{
-					"name": "maxKeys",
-					"type": "number",
-					"required": false,
-					"description": "Maximum number of jobs to return."
-				},
-				{
-					"name": "continuationToken",
-					"type": "string",
-					"required": false,
-					"description": "Pagination token received as `nextContinuationToken` in the previous response."
-				},
-				{
-					"name": "cf-r2-jurisdiction",
-					"type": "string",
-					"required": false,
-					"description": "Jurisdiction where objects in this bucket are guaranteed to be stored."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/r2/buckets/{bucket_name}/storage-class-migration-jobs",
-			"operationId": "r2-list-storage-class-migration-jobs",
 			"hideCommand": false
 		},
 		{
@@ -112715,7 +112615,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/tags/summary",
 			"operationId": "tags-list-key-summary",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf rules lists bulk-operations get",
@@ -121587,7 +121487,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/tags/resources",
 			"operationId": "tags-list",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf tenant account list",
@@ -126714,7 +126614,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/tags/values/{tag_key}",
 			"operationId": "tags-list-values",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf vectorize create",
@@ -156754,6 +156654,8 @@
 		"hostnames settings tls": "Operations for settings.tls",
 		"hostnames settings tls-single": "Operations for settings.tls-single",
 		"hyperdrive": "Accelerate access to existing databases by caching queries and pooling connections at the edge",
+		"hyperdrive integration": "Operations for integration",
+		"hyperdrive integration planetscale": "Operations for integration.planetscale",
 		"iam": "Identity and access management — permission groups, resource groups, user groups, and SSO connectors",
 		"iam permission-groups": "View the permission groups that can be assigned to API tokens and policies",
 		"iam resource-groups": "Define scopes that limit which account resources a policy or token can access",
@@ -157040,7 +156942,6 @@
 		"r2 buckets locks": "Operations for buckets.locks",
 		"r2 buckets metrics": "Operations for buckets.metrics",
 		"r2 buckets sippy": "Operations for buckets.sippy",
-		"r2 buckets storage-class-migration-jobs": "Operations for buckets.storage-class-migration-jobs",
 		"r2 objects": "Operations for objects",
 		"r2 super-slurper": "Migrate data from external S3-compatible storage into R2 buckets with resumable transfer jobs",
 		"r2 super-slurper connectivity-precheck": "Operations for super-slurper.connectivity-precheck",

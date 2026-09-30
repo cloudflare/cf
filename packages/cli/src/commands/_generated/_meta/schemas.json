@@ -4684,7 +4684,7 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"ai listMarkdownSupportedFormats": {
+		"ai list-markdown-supported-formats": {
 			"operationId": "workers-ai-get-to-markdown-supported",
 			"httpMethod": "GET",
 			"path": "/accounts/{account_id}/ai/tomarkdown/supported",
@@ -12984,6 +12984,26 @@
 				}
 			]
 		},
+		"basin-catalog credentials status": {
+			"operationId": "basin-get-credential-status",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/basin-catalog/{bucket_name}/credential/status",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "bucket_name",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
 		"basin-catalog delete": {
 			"operationId": "basin-delete-catalog",
 			"httpMethod": "POST",
@@ -13125,6 +13145,18 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
+					"name": "compaction-state",
+					"type": "string",
+					"required": false,
+					"description": "Specifies the state of maintenance operations."
+				},
+				{
+					"name": "compaction-target-size-mb",
+					"type": "string",
+					"required": false,
+					"description": "Sets the target file size for compaction in megabytes. Defaults to \"128\"."
+				},
+				{
 					"name": "snapshot-expiration-max-snapshot-age",
 					"type": "string",
 					"required": false,
@@ -13135,6 +13167,12 @@
 					"type": "number",
 					"required": false,
 					"description": "Updates the minimum number of snapshots to retain optionally."
+				},
+				{
+					"name": "snapshot-expiration-state",
+					"type": "string",
+					"required": false,
+					"description": "Specifies the state of maintenance operations."
 				}
 			]
 		},
@@ -13384,6 +13422,12 @@
 					"type": "number",
 					"required": false,
 					"description": "Updates the minimum number of snapshots to retain optionally."
+				},
+				{
+					"name": "snapshot-expiration-state",
+					"type": "string",
+					"required": false,
+					"description": "Specifies the state of maintenance operations."
 				}
 			]
 		},
@@ -38289,7 +38333,7 @@
 					"description": "Define CA certificate ID obtained after uploading CA cert."
 				},
 				{
-					"name": "mtls-mtls-certificate-id",
+					"name": "mtls-certificate-id",
 					"type": "string",
 					"required": false,
 					"description": "Define mTLS certificate ID obtained after uploading client cert."
@@ -38331,16 +38375,16 @@
 					"description": "The name of the PlanetScale database."
 				},
 				{
-					"name": "integration-integration",
-					"type": "string",
-					"required": false,
-					"description": "The database integration used by this operation."
-				},
-				{
 					"name": "integration-organization-name",
 					"type": "string",
 					"required": false,
 					"description": "The name of the PlanetScale organization."
+				},
+				{
+					"name": "integration-provider",
+					"type": "string",
+					"required": false,
+					"description": "The database integration provider used by this operation."
 				},
 				{
 					"name": "integration-scheme",
@@ -38349,26 +38393,6 @@
 					"description": "Specifies the URL scheme used to connect to your origin database."
 				}
 			]
-		},
-		"hyperdrive create-database-signature": {
-			"operationId": "create-hyperdrive-database-signature",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/hyperdrive/integrationsOperations/{integration}/createDatabaseSignature",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "integration",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
 		},
 		"hyperdrive delete": {
 			"operationId": "delete-hyperdrive",
@@ -38402,6 +38426,21 @@
 				},
 				{
 					"name": "hyperdrive_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"hyperdrive integration planetscale signature": {
+			"operationId": "create-hyperdrive-database-signature",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/hyperdrive/integrationsOperations/planetScale/createDatabaseSignature",
+			"pathParams": [
+				{
+					"name": "account_id",
 					"type": "string",
 					"required": true
 				}
@@ -38480,7 +38519,7 @@
 					"description": "Define CA certificate ID obtained after uploading CA cert."
 				},
 				{
-					"name": "mtls-mtls-certificate-id",
+					"name": "mtls-certificate-id",
 					"type": "string",
 					"required": false,
 					"description": "Define mTLS certificate ID obtained after uploading client cert."
@@ -38623,7 +38662,7 @@
 					"description": "Define CA certificate ID obtained after uploading CA cert."
 				},
 				{
-					"name": "mtls-mtls-certificate-id",
+					"name": "mtls-certificate-id",
 					"type": "string",
 					"required": false,
 					"description": "Define mTLS certificate ID obtained after uploading client cert."
@@ -45004,7 +45043,13 @@
 					"name": "filter",
 					"type": "string",
 					"required": false,
-					"description": "Optional Logpush filter predicate to restrict which events are ingested.\nIf provided, replaces the dataset's default filter entirely.\nSee [Logpush filters](https://developers.cloudflare.com/logs/reference/filters/)\nfor syntax and examples.\n"
+					"description": "Optional Logpush filter predicate to restrict which events are ingested.\nSee [Logpush filters](https://developers.cloudflare.com/logs/reference/filters/)\nfor syntax and examples.\n"
+				},
+				{
+					"name": "filter-attack-traffic",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether to filter attack traffic from the Logpush job. Defaults to\n`true` for supported datasets when omitted. Supported datasets are\n`http_requests`, `firewall_events`, and `network_analytics_logs`.\n"
 				}
 			]
 		},
@@ -45131,6 +45176,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Optional Logpush filter predicate to restrict which events are\ningested. If omitted, the existing filter is left unchanged. Set\nto an empty string (`\"\"`) to clear the filter. Otherwise,\nreplaces the dataset's filter entirely.\nSee [Logpush filters](https://developers.cloudflare.com/logs/reference/filters/)\nfor syntax and examples.\n"
+				},
+				{
+					"name": "filter-attack-traffic",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether to filter attack traffic from the Logpush job. If omitted,\nthe existing setting is left unchanged. Supported datasets are\n`http_requests`, `firewall_events`, and `network_analytics_logs`.\n"
 				}
 			]
 		},
@@ -62488,106 +62539,6 @@
 					"description": "Shared Access Signature token for the Azure Storage account. Mutually exclusive with accountKey."
 				}
 			]
-		},
-		"r2 buckets storage-class-migration-jobs create": {
-			"operationId": "r2-create-storage-class-migration-job",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/r2/buckets/{bucket_name}/storage-class-migration-jobs",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "bucket_name",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "destination-storage-class",
-					"type": "string",
-					"required": false,
-					"description": "Storage class to migrate objects to. Provide together with sourceStorageClass; the two classes must differ."
-				},
-				{
-					"name": "job-type",
-					"type": "string",
-					"required": true,
-					"description": "The jobType field"
-				},
-				{
-					"name": "source-storage-class",
-					"type": "string",
-					"required": false,
-					"description": "Storage class to migrate objects from. Provide together with destinationStorageClass; the two classes must differ."
-				}
-			]
-		},
-		"r2 buckets storage-class-migration-jobs get": {
-			"operationId": "r2-get-storage-class-migration-job",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/r2/buckets/{bucket_name}/storage-class-migration-jobs/{job_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "bucket_name",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "job_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"r2 buckets storage-class-migration-jobs list": {
-			"operationId": "r2-list-storage-class-migration-jobs",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/r2/buckets/{bucket_name}/storage-class-migration-jobs",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "bucket_name",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "status",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "maxKeys",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "continuationToken",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
 		},
 		"r2 objects bulk-delete": {
 			"operationId": "r2-delete-objects",

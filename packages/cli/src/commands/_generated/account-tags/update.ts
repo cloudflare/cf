@@ -27,7 +27,7 @@ import type { Argv, CommandModule } from "yargs";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 account-tags update\n\nCreates or updates tags for a specific account or zone-level resource."
+			"$0 account-tags update\n\nCreates or updates tags for a specific account or zone-level resource. Replaces all existing tags for the resource."
 		)
 		.option("if-match", {
 			type: "string",

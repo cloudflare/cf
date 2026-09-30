@@ -1,4 +1,5 @@
 import $create from "./create.js";
+import $status from "./status.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * credentials command group
@@ -14,6 +15,7 @@ const command: CommandModule<CommonYargsOptions> = {
 	builder: (yargs) => {
 		return yargs
 			.command($create)
+			.command($status)
 			.demandCommand(1, "Please specify a subcommand");
 	},
 

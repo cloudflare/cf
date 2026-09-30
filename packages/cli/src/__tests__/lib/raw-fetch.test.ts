@@ -1,5 +1,5 @@
 import assert from "node:assert";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { fetchRawBytes } from "../../lib/raw-fetch.js";
 
 describe("fetchRawBytes", () => {
@@ -93,6 +93,23 @@ describe("fetchRawBytes", () => {
 
 			expect(signal).toBeInstanceOf(AbortSignal);
 			expect(signal?.aborted).toBe(false);
+		});
+
+		it("extends the timeout for large binary bodies", async () => {
+			process.env.CLOUDFLARE_API_TOKEN = "prod-token";
+			globalThis.fetch = (async () =>
+				new Response(null, { status: 204 })) as typeof globalThis.fetch;
+			const timeout = vi.spyOn(AbortSignal, "timeout");
+
+			try {
+				await fetchRawBytes("/accounts/abc/anything", {
+					method: "PUT",
+					body: Buffer.alloc(31 * 1024 * 1024),
+				});
+				expect(timeout).toHaveBeenCalledWith(61_000);
+			} finally {
+				timeout.mockRestore();
+			}
 		});
 	});
 

@@ -5,6 +5,7 @@ import {
 } from "#sdk";
 import { getAuthFromEnv } from "@cloudflare/workers-auth";
 import { getCloudflareApiBaseUrl } from "@cloudflare/workers-utils";
+import { API_TIMEOUT_MS, getApiTimeoutMs } from "./api-timeout.js";
 import { getComplianceRegion, resolveAccountIdSilent } from "./context.js";
 import { getValidToken as getOAuthToken } from "./oauth/index.js";
 import { getDefaultHeaders } from "./request-headers.js";
@@ -27,8 +28,7 @@ export {
 	setProfile,
 } from "./oauth/index.js";
 
-/** Default timeout for API calls (30 seconds). */
-export const API_TIMEOUT_MS = 30_000;
+export { API_TIMEOUT_MS } from "./api-timeout.js";
 const DEFAULT_BASE_URL = CloudflareApiEnvironment.Default;
 
 type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
@@ -135,6 +135,7 @@ function passthroughUrl(
 }
 
 const clientBaseUrls = new WeakMap<CloudflareApiClient, string>();
+const clientTimeouts = new WeakMap<CloudflareApiClient, number>();
 
 export async function requestApi<T>(
 	client: CloudflareApiClient,
@@ -159,12 +160,15 @@ export async function requestApi<T>(
 	}
 
 	let response: Response;
+	const timeout =
+		options.timeout ??
+		getApiTimeoutMs(body, clientTimeouts.get(client) ?? API_TIMEOUT_MS);
 	try {
 		response = await client.fetch(
 			url,
 			{ method, headers, body, signal: options.signal },
 			{
-				timeoutInSeconds: options.timeout ? options.timeout / 1000 : undefined,
+				timeoutInSeconds: timeout / 1000,
 				abortSignal: options.signal,
 			}
 		);
@@ -172,10 +176,11 @@ export async function requestApi<T>(
 		if (options.signal?.aborted) {
 			throw new Error("Request aborted");
 		}
-		if (error instanceof Error && error.name === "AbortError") {
-			throw new Error(
-				`Request timed out after ${options.timeout ?? API_TIMEOUT_MS}ms`
-			);
+		if (
+			error === "timeout" ||
+			(error instanceof Error && error.name === "AbortError")
+		) {
+			throw new Error(`Request timed out after ${timeout}ms`);
 		}
 		if (error instanceof Error) {
 			// Network failures have no HTTP status, so keep them as plain errors.
@@ -247,6 +252,7 @@ export function createCloudflareClientWithToken(
 
 	const client = new CloudflareApiClient(clientOptions);
 	clientBaseUrls.set(client, baseURL);
+	clientTimeouts.set(client, options.timeout ?? API_TIMEOUT_MS);
 	return client;
 }
 

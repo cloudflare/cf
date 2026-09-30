@@ -22,7 +22,7 @@ import type { Cloudflare } from "../../lib/auth.js";
  *  - `resolveZoneId` ties them together against a fake SDK client.
  *    Its 60s in-memory cache is module-level, so each test uses a
  *    distinct accountId to stay isolated; one test asserts the cache
- *    explicitly by resolving twice under the same accountId.
+ *    explicitly by resolving multiple names under the same accountId.
  */
 
 describe("isUUID", () => {
@@ -102,7 +102,7 @@ describe("isValidDomainName", () => {
 });
 
 /**
- * Build a fake SDK client whose `zones.list` returns the supplied page
+ * Build a fake SDK client whose `zones.list` filters the supplied zones by name
  * and records how many times it was called (to assert caching).
  */
 function fakeClient(zones: Array<{ id: string; name: string }>): {
@@ -112,9 +112,11 @@ function fakeClient(zones: Array<{ id: string; name: string }>): {
 	let calls = 0;
 	const client = {
 		zones: {
-			list: async () => {
+			list: async (request: { name: string }) => {
 				calls++;
-				return { result: zones };
+				return {
+					result: zones.filter((zone) => zone.name === request.name),
+				};
 			},
 		},
 	} as unknown as Cloudflare;
@@ -163,7 +165,7 @@ describe("resolveZoneId", () => {
 		).rejects.toThrow(/Zone not found: example\.com/);
 	});
 
-	it("caches the zone listing across repeated resolves in the same account", async () => {
+	it("caches each normalized zone name separately in the same account", async () => {
 		const { client, calls } = fakeClient([
 			{ id: "zone-a", name: "a.example.com" },
 			{ id: "zone-b", name: "b.example.com" },
@@ -176,8 +178,10 @@ describe("resolveZoneId", () => {
 		await expect(resolveZoneId(client, acct, "b.example.com")).resolves.toBe(
 			"zone-b"
 		);
-		// Second resolve served from cache: only one underlying list call.
-		expect(calls()).toBe(1);
+		await expect(resolveZoneId(client, acct, "A.EXAMPLE.COM")).resolves.toBe(
+			"zone-a"
+		);
+		expect(calls()).toBe(2);
 	});
 
 	it("does not consult the cache for ID inputs", async () => {

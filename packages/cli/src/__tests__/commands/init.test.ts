@@ -153,12 +153,10 @@ describe("cf init", () => {
 		});
 
 		it("treats cf init workers as the same initializer", async () => {
-			const result = await runCf([
-				"init",
-				"workers",
-				"other-app",
-				"--no-install",
-			]);
+			const result = await runCf(
+				["init", "workers", "other-app", "--no-install"],
+				{ npm_config_user_agent: undefined }
+			);
 
 			expect(result.exitCode).toBe(0);
 			expect(readdirSync("other-app").sort()).toEqual(TEMPLATE_FILES);
@@ -181,7 +179,9 @@ describe("cf init", () => {
 			vi.mocked(isNonInteractiveOrCI).mockReturnValue(false);
 			vi.mocked(prompt).mockResolvedValueOnce(".");
 
-			const result = await runCf(["init", "--no-install"]);
+			const result = await runCf(["init", "--no-install"], {
+				npm_config_user_agent: undefined,
+			});
 
 			expect(result.exitCode).toBe(0);
 			expect(prompt).toHaveBeenCalledExactlyOnceWith(
@@ -201,7 +201,9 @@ describe("cf init", () => {
 			vi.mocked(isNonInteractiveOrCI).mockReturnValue(false);
 			vi.mocked(prompt).mockResolvedValueOnce(" prompted-app ");
 
-			const result = await runCf(["init", "--no-install"]);
+			const result = await runCf(["init", "--no-install"], {
+				npm_config_user_agent: undefined,
+			});
 
 			expect(result.exitCode).toBe(0);
 			expect(readdirSync("prompted-app").sort()).toEqual(TEMPLATE_FILES);
@@ -237,7 +239,9 @@ describe("cf init", () => {
 		it("initializes a directory that only contains .git", async () => {
 			await seed({ "repo/.git/HEAD": "ref: refs/heads/main\n" });
 
-			const result = await runCf(["init", "repo", "--no-install"]);
+			const result = await runCf(["init", "repo", "--no-install"], {
+				npm_config_user_agent: undefined,
+			});
 
 			expect(result.exitCode).toBe(0);
 			expect(readdirSync("repo").sort()).toEqual(
@@ -293,6 +297,13 @@ describe("cf init", () => {
 
 	describe("dependency installation", () => {
 		it("installs with the package manager that launched cf", async () => {
+			vi.mocked(runProjectCommand).mockImplementationOnce(async () => {
+				expect(readFileSync("my-app/pnpm-workspace.yaml", "utf8")).toBe(
+					"# Approve build scripts needed by the generated Worker's dependencies.\n" +
+						"allowBuilds:\n  esbuild: true\n  workerd: true\n"
+				);
+				return { exitCode: 0 };
+			});
 			const result = await runCf(["init", "my-app"], {
 				npm_config_user_agent: PNPM_USER_AGENT,
 			});
@@ -304,6 +315,22 @@ describe("cf init", () => {
 			);
 			expect(stdout()).toMatch(/cf dev\s+Start a local development server/);
 			expect(stdout()).not.toContain("Install dependencies");
+		});
+
+		it("writes pnpm build approvals when installation is skipped", async () => {
+			const result = await runCf(
+				["init", "my-app", "--package-manager", "pnpm", "--no-install"],
+				{ npm_config_user_agent: undefined }
+			);
+
+			expect(result.exitCode).toBe(0);
+			expect(readdirSync("my-app").sort()).toEqual(
+				[...TEMPLATE_FILES, "pnpm-workspace.yaml"].sort()
+			);
+			expect(readFileSync("my-app/pnpm-workspace.yaml", "utf8")).toContain(
+				"  workerd: true"
+			);
+			expect(runProjectCommand).not.toHaveBeenCalled();
 		});
 
 		it("shows the target directory when prompting for the package manager", async () => {
@@ -351,6 +378,7 @@ describe("cf init", () => {
 				"bun install",
 				resolve("my-app")
 			);
+			expect(existsSync("my-app/pnpm-workspace.yaml")).toBe(false);
 		});
 
 		it("rejects unknown package managers", async () => {

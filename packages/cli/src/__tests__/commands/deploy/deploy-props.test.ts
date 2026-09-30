@@ -85,6 +85,8 @@ describe("cf deploy — keep_vars", () => {
 		const { exitCode } = await runCf(["deploy"]);
 
 		expect(exitCode).toBe(0);
+		// API-only secrets rely on this type-level inheritance.
+		expect(upload.metadata?.keep_bindings).toContain("secret_text");
 		// For existing workers with secrets, deploy-helpers adds inherit bindings
 		const bindings = upload.metadata?.bindings as
 			| Array<{ type: string; name: string }>

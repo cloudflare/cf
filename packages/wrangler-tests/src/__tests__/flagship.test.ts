@@ -85,7 +85,7 @@ describe("flagship", () => {
 	it("deletes an app with confirmation", async ({ expect }) => {
 		let requests = 0;
 		mockConfirm({
-			text: "This permanently deletes the resource. Continue?",
+			text: "Delete this Flagship app, all of its flags, and all changelog history? This action cannot be undone. Continue?",
 			result: true,
 		});
 		msw.use(
@@ -200,7 +200,7 @@ describe("flagship", () => {
 	it("deletes a flag with confirmation", async ({ expect }) => {
 		let requests = 0;
 		mockConfirm({
-			text: "This permanently deletes the resource. Continue?",
+			text: "Delete this feature flag? After the deletion propagates, evaluation requests can no longer resolve it. This action cannot be undone. Continue?",
 			result: true,
 		});
 		msw.use(

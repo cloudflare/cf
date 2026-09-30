@@ -90,7 +90,10 @@ export async function spawnImpl(
 	// PyPI impls under uv use a `uv:<pkg>` sentinel from the discoverer
 	// to signal "invoke via `uv run` rather than the bare binary." Split
 	// it out into the right argv shape for child_process.spawn.
-	const { command, prefixArgs } = parseBinaryToken(binary);
+	const { command, prefixArgs } =
+		process.platform === "win32" && discovered.impl.runtime === "node"
+			? { command: process.execPath, prefixArgs: [binary] }
+			: parseBinaryToken(binary);
 
 	const child = spawn(command, [...prefixArgs, verb, ...argv], {
 		// Dev inherits stdout so the implementation owns the terminal. A

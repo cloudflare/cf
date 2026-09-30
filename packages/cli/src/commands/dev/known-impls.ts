@@ -38,6 +38,8 @@ export type Ecosystem = "npm" | "pypi" | "cargo";
  */
 export interface KnownImpl {
 	ecosystem: Ecosystem;
+	/** Invoke this delegate with Node on Windows, where scripts cannot be spawned directly. */
+	runtime?: "node";
 	/** Package name as it appears in the project manifest. */
 	pkg: string;
 	/** Fallback impls are used only when no primary impl is declared. */
@@ -116,6 +118,7 @@ function resolveCargoBinary(): string | null {
 export const KNOWN_IMPLS: readonly KnownImpl[] = [
 	{
 		ecosystem: "npm",
+		runtime: "node",
 		pkg: "@cloudflare/vite-plugin",
 		versionConstraint: {
 			range: ">=2.0.0-0 <3.0.0-0",
@@ -129,6 +132,7 @@ export const KNOWN_IMPLS: readonly KnownImpl[] = [
 	},
 	{
 		ecosystem: "npm",
+		runtime: "node",
 		pkg: "wrangler",
 		fallback: true,
 		versionConstraint: {

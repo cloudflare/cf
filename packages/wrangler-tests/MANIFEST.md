@@ -6,9 +6,9 @@ their representation in cf: `passing`, `todo`, or `skip`.
 
 | Status    |    Count |
 | --------- | -------: |
-| passing   |      606 |
+| passing   |      605 |
 | todo      |     1498 |
-| skip      |     3372 |
+| skip      |     3373 |
 | **total** | **5476** |
 
 | Wrangler file                                                            | Wrangler test                                                                                                                                                                                                                                                                               | cf status |
@@ -922,7 +922,7 @@ their representation in cf: `passing`, `todo`, or `skip`.
 | <code>hyperdrive.test.ts</code>                                          | <code>hyperdrive commands › should handle creating a hyperdrive config if the user is URL encoded</code>                                                                                                                                                                                    | skip      |
 | <code>hyperdrive.test.ts</code>                                          | <code>hyperdrive commands › should handle creating a hyperdrive config if the password is URL encoded</code>                                                                                                                                                                                | skip      |
 | <code>hyperdrive.test.ts</code>                                          | <code>hyperdrive commands › should handle creating a hyperdrive config if the database name is URL encoded</code>                                                                                                                                                                           | skip      |
-| <code>hyperdrive.test.ts</code>                                          | <code>hyperdrive commands › should create a hyperdrive config given individual params instead of a connection string without a scheme set</code>                                                                                                                                            | passing   |
+| <code>hyperdrive.test.ts</code>                                          | <code>hyperdrive commands › should create a hyperdrive config given individual params instead of a connection string without a scheme set</code>                                                                                                                                            | skip      |
 | <code>hyperdrive.test.ts</code>                                          | <code>hyperdrive commands › should create a hyperdrive config given individual params instead of a connection string</code>                                                                                                                                                                 | passing   |
 | <code>hyperdrive.test.ts</code>                                          | <code>hyperdrive commands › should create a hyperdrive config given individual params instead of a connection string</code>                                                                                                                                                                 | todo      |
 | <code>hyperdrive.test.ts</code>                                          | <code>hyperdrive commands › should reject a create hyperdrive command if individual params are empty strings</code>                                                                                                                                                                         | skip      |

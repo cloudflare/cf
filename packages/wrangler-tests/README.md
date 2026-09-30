@@ -17,7 +17,7 @@ Each upstream case has exactly one outcome:
 - `it.skip()` when the situation is tied to Wrangler internals or conflicts
   with `cf`'s design.
 
-[MANIFEST.md](./MANIFEST.md) records every canonical upstream identity, including full `describe()` ancestry where leaf names repeat. It currently contains 5,476 cases: 617 passing, 1,498 todo, and 3,361 skip.
+[MANIFEST.md](./MANIFEST.md) records every canonical upstream identity, including full `describe()` ancestry where leaf names repeat. It currently contains 5,476 cases: 605 passing, 1,498 todo, and 3,373 skip.
 
 The package has 109 test files: 97 ported/adapted files and 12 generated fallback shards under `src/__tests__/upstream/`. File count and canonical-case count are different units.
 

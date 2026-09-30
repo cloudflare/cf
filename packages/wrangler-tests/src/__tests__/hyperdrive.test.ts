@@ -99,7 +99,10 @@ describe("hyperdrive commands", () => {
 
 	// The current create schema exposes caller-supplied origins through raw
 	// `--body`; only the managed-integration variant has individual flags.
-	it("should create a hyperdrive config given individual params instead of a connection string without a scheme set", async ({
+	// Wrangler verifies that omitting --scheme from its individual origin flags
+	// defaults the submitted scheme to PostgreSQL. cf exposes caller-supplied
+	// origins only through raw --body, which has no equivalent defaulting path.
+	it.skip("should create a hyperdrive config given individual params instead of a connection string without a scheme set", async ({
 		expect,
 	}) => {
 		const reqProm = mockHyperdriveCreate();

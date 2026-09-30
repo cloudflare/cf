@@ -10,7 +10,6 @@ const root = import.meta.dirname;
 // source project below.
 const compiledFiles = [
 	"src/__tests__/command-recommendations.test.ts",
-	"src/__tests__/commands/account-or-zone.test.ts",
 	"src/__tests__/commands/body-bypass-query-params.test.ts",
 	"src/__tests__/commands/cli-search.test.ts",
 	"src/__tests__/commands/d1.test.ts",

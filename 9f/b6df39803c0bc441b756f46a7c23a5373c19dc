@@ -1,0 +1,47 @@
+.changeset/previews-delete.md
+  s_22c15c79e66d32::t_8cc9ea0744c1ec 1-5
+packages/cli/AGENTS.md
+  s_22c15c79e66d32::t_f664d9b3a596d2 18,43-44,80-82
+packages/cli/src/__tests__/commands/hand-written-metadata.test.ts
+  s_22c15c79e66d32::t_79fe819f34425e 110-124,220,222-223
+packages/cli/src/__tests__/commands/previews-delete.test.ts
+  s_22c15c79e66d32::t_11b288051b3e28 1-149
+packages/cli/src/__tests__/generator/hand-written-leaf-commands.test.ts
+  s_22c15c79e66d32::t_2685515f2d67dd 78-112
+packages/cli/src/commands/_generated/_meta/hand-written-commands.json
+  s_22c15c79e66d32::t_009d07682a730f 713,715-716
+packages/cli/src/commands/_generated/_meta/schemas.json
+  s_22c15c79e66d32::t_064e07a92f21b3 63615-63645
+packages/cli/src/commands/_generated/index.ts
+  s_22c15c79e66d32::t_2a129f1f210324 935-942
+packages/cli/src/commands/_generated/previews/delete.ts
+  s_22c15c79e66d32::t_83ad9fbc618e60 1-118
+packages/cli/src/commands/_generated/previews/index.ts
+  s_22c15c79e66d32::t_9a6a6c79c9a0f7 1-7,13-20
+packages/cli/src/commands/hand-written.ts
+  s_22c15c79e66d32::t_616582af0954b3 104-107
+packages/cli/src/commands/previews/deploy.ts
+  s_22c15c79e66d32::t_3926203ea9157f 187-189
+packages/cli/src/commands/previews/deploy/index.ts
+  s_22c15c79e66d32::t_f7da947902bbd5 1-7
+packages/cli/src/commands/previews/deploy/meta.json
+  s_22c15c79e66d32::t_2b340847373d54 1-32
+packages/cli/src/commands/_generated/_meta/commands.json
+  s_22c15c79e66d32::t_365f3cee5200ee 90503-90546
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "9fb6df39803c0bc441b756f46a7c23a5373c19dc",
+  "prompts": {},
+  "sessions": {
+    "s_22c15c79e66d32": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0f3b7-5e69-7b03-93cc-5bed297ee91e",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Greg Brimble <gbrimble@cloudflare.com>"
+    }
+  }
+}

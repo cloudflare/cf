@@ -12,7 +12,7 @@ patchedDependencies:
 blockExoticSubdeps: true
 
 # Allow Cloudflare release batches before pnpm's maturity cutoff. Keep these
-# exclusions independent of the current package versions so the updater can
+# exclusions independent of the current package versions so Dependabot can
 # install a newly published batch without editing this list each time.
 minimumReleaseAgeExclude:
   - "@cloudflare/autoconfig"

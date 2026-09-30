@@ -55,7 +55,7 @@ describe("dataset upsert", () => {
 	// no cf equivalent — cf only targets the v2 endpoint.
 	it.skip("should batch uploads in ndjson format for Vectorize v1", async () => {});
 
-	it("should upload ndjson as raw body for Vectorize insert", async ({
+	it("should batch uploads in ndjson format for Vectorize", async ({
 		expect,
 	}) => {
 		writeFileSync(
@@ -105,7 +105,7 @@ describe("dataset upsert", () => {
 		`);
 	});
 
-	it("should upload ndjson as raw body for Vectorize upsert", async ({
+	it("should batch uploads for upsert in ndjson format for Vectorize", async ({
 		expect,
 	}) => {
 		writeFileSync(
@@ -160,7 +160,9 @@ describe("dataset upsert", () => {
 	// below assert the same default-JSON output as the upload tests
 	// above; they're kept for parity with wrangler's coverage of the
 	// JSON-output happy path but no longer carry a `--json` flag.
-	it("should output JSON for insert", async ({ expect }) => {
+	it("should output valid JSON for insert with --json flag", async ({
+		expect,
+	}) => {
 		writeFileSync(
 			"vectors.ndjson",
 			testVectors.map((v) => JSON.stringify(v)).join(`\n`)
@@ -189,7 +191,9 @@ describe("dataset upsert", () => {
 		expect(std.err).toBe("");
 	});
 
-	it("should output JSON for upsert", async ({ expect }) => {
+	it("should output valid JSON for upsert with --json flag", async ({
+		expect,
+	}) => {
 		writeFileSync(
 			"vectors.ndjson",
 			testVectors.map((v) => JSON.stringify(v)).join(`\n`)

@@ -965,9 +965,7 @@ describe("wrangler pipelines", () => {
 		// now expressible via the per-field `--config-*` form. The shared
 		// required leaves (`--config-account-id`, `--config-bucket`) are
 		// still demanded — they are required in BOTH variants.
-		it("should create R2 Data Catalog sink via per-field flags", async ({
-			expect,
-		}) => {
+		it("should create R2 Data Catalog sink", async ({ expect }) => {
 			let capturedBody: Record<string, unknown> | undefined;
 			msw.use(
 				http.post(

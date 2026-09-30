@@ -62,7 +62,7 @@ describe("export", () => {
 	it.skip("should skip confirmation when --skip-confirmation flag is used", async () => {});
 	it.skip("should handle remote presigned URL errors", async () => {});
 	it.skip("should export locally without database_id", async () => {});
-	it.skip("should not export remotely without database_id", async () => {});
+	it.skip("should fail when database_id absent from config and not found in API", async () => {});
 	it.skip("should handle multiple tables", async () => {});
 
 	// cf-native coverage: a single POST against the export endpoint

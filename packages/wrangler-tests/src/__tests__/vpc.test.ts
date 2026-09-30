@@ -137,9 +137,7 @@ describe("vpc service commands", () => {
 		`);
 	});
 
-	it("should handle creating an HTTP service with IPv4 (via --body)", async ({
-		expect,
-	}) => {
+	it("should handle creating an HTTP service with IPv4", async ({ expect }) => {
 		const reqProm = mockWvpcServiceCreate();
 		const body = JSON.stringify({
 			name: "test-http-ipv4",
@@ -167,7 +165,7 @@ describe("vpc service commands", () => {
 		`);
 	});
 
-	it("should handle creating a service with hostname and resolver network (via --body)", async ({
+	it("should handle creating a service with hostname and resolver network", async ({
 		expect,
 	}) => {
 		const reqProm = mockWvpcServiceCreate();
@@ -246,7 +244,7 @@ describe("vpc service commands", () => {
 		expect(std.out).toMatchInlineSnapshot(`""`);
 	});
 
-	it("should handle updating a service (via --body)", async ({ expect }) => {
+	it("should handle updating a service", async ({ expect }) => {
 		const reqProm = mockWvpcServiceUpdate();
 		const body = JSON.stringify({
 			name: "test-updated",
@@ -307,7 +305,7 @@ describe("vpc service commands", () => {
 		expect(JSON.parse(std.out)).toEqual(serviceWithoutResolverIps);
 	});
 
-	it("should handle creating a service and display without resolver_ips (via --body)", async ({
+	it("should handle creating a service and display without resolver_ips", async ({
 		expect,
 	}) => {
 		const serviceResponse = {
@@ -355,9 +353,7 @@ describe("vpc service commands", () => {
 		expect(JSON.parse(std.out)).toEqual(serviceResponse);
 	});
 
-	it("should handle creating a TCP service with IPv4 (via --body)", async ({
-		expect,
-	}) => {
+	it("should handle creating a TCP service with IPv4", async ({ expect }) => {
 		const reqProm = mockWvpcServiceCreate();
 		const body = JSON.stringify({
 			name: "test-tcp-db",
@@ -387,7 +383,7 @@ describe("vpc service commands", () => {
 		`);
 	});
 
-	it("should handle creating a TCP service with hostname (via --body)", async ({
+	it("should handle creating a TCP service with hostname", async ({
 		expect,
 	}) => {
 		const reqProm = mockWvpcServiceCreate();
@@ -431,9 +427,7 @@ describe("vpc service commands", () => {
 		// optional at the flag layer; the API decides.
 	);
 
-	it("should handle updating a TCP service (via --body)", async ({
-		expect,
-	}) => {
+	it("should handle updating a TCP service", async ({ expect }) => {
 		const reqProm = mockWvpcServiceUpdate();
 		const body = JSON.stringify({
 			name: "test-tcp-updated",
@@ -470,29 +464,19 @@ describe("vpc service commands", () => {
 		expect(JSON.parse(std.out)).toEqual(mockTcpService);
 	});
 
-	it("should handle listing TCP services", async ({ expect }) => {
+	it("should handle listing services", async ({ expect }) => {
 		mockWvpcTcpServiceList();
 		await runWrangler("workers-vpc services list");
 
 		expect(JSON.parse(std.out)).toEqual([mockTcpService]);
 	});
 
-	it("should handle creating a TCP service with --app-protocol postgresql (via --body)", async ({
+	it("should handle creating a TCP service with --app-protocol postgresql", async ({
 		expect,
 	}) => {
 		const reqProm = mockWvpcServiceCreate();
-		const body = JSON.stringify({
-			name: "test-pg",
-			type: "tcp",
-			tcp_port: 5432,
-			app_protocol: "postgresql",
-			host: {
-				ipv4: "10.0.0.5",
-				network: { tunnel_id: "550e8400-e29b-41d4-a716-446655440000" },
-			},
-		});
 		await runWrangler(
-			`workers-vpc services create --name test-pg --type tcp --tls-settings-cert-verification-mode verify_full --body ${JSON.stringify(body)}`
+			"workers-vpc services create --name test-pg --type tcp --tcp-port 5432 --app-protocol postgresql --host-ipv4 10.0.0.5 --host-network-tunnel-id 550e8400-e29b-41d4-a716-446655440000 --host-resolver-network-tunnel-id 550e8400-e29b-41d4-a716-446655440099"
 		);
 
 		await expect(reqProm).resolves.toMatchInlineSnapshot(`
@@ -503,6 +487,9 @@ describe("vpc service commands", () => {
 			    "network": {
 			      "tunnel_id": "550e8400-e29b-41d4-a716-446655440000",
 			    },
+			    "resolver_network": {
+			      "tunnel_id": "550e8400-e29b-41d4-a716-446655440099",
+			    },
 			  },
 			  "name": "test-pg",
 			  "tcp_port": 5432,
@@ -511,22 +498,12 @@ describe("vpc service commands", () => {
 		`);
 	});
 
-	it("should handle creating a TCP service with --app-protocol mysql (via --body)", async ({
+	it("should handle creating a TCP service with --app-protocol mysql", async ({
 		expect,
 	}) => {
 		const reqProm = mockWvpcServiceCreate();
-		const body = JSON.stringify({
-			name: "test-mysql",
-			type: "tcp",
-			tcp_port: 3306,
-			app_protocol: "mysql",
-			host: {
-				ipv4: "10.0.0.6",
-				network: { tunnel_id: "550e8400-e29b-41d4-a716-446655440000" },
-			},
-		});
 		await runWrangler(
-			`workers-vpc services create --name test-mysql --type tcp --tls-settings-cert-verification-mode verify_full --body ${JSON.stringify(body)}`
+			"workers-vpc services create --name test-mysql --type tcp --tcp-port 3306 --app-protocol mysql --host-ipv4 10.0.0.6 --host-network-tunnel-id 550e8400-e29b-41d4-a716-446655440000 --host-resolver-network-tunnel-id 550e8400-e29b-41d4-a716-446655440099"
 		);
 
 		await expect(reqProm).resolves.toMatchInlineSnapshot(`
@@ -536,6 +513,9 @@ describe("vpc service commands", () => {
 			    "ipv4": "10.0.0.6",
 			    "network": {
 			      "tunnel_id": "550e8400-e29b-41d4-a716-446655440000",
+			    },
+			    "resolver_network": {
+			      "tunnel_id": "550e8400-e29b-41d4-a716-446655440099",
 			    },
 			  },
 			  "name": "test-mysql",
@@ -560,22 +540,12 @@ describe("vpc service commands", () => {
 		);
 	});
 
-	it("should handle updating a TCP service with --app-protocol (via --body)", async ({
+	it("should handle updating a TCP service with --app-protocol", async ({
 		expect,
 	}) => {
 		const reqProm = mockWvpcServiceUpdate();
-		const body = JSON.stringify({
-			name: "test-pg-updated",
-			type: "tcp",
-			tcp_port: 5432,
-			app_protocol: "postgresql",
-			host: {
-				ipv4: "10.0.0.5",
-				network: { tunnel_id: "550e8400-e29b-41d4-a716-446655440000" },
-			},
-		});
 		await runWrangler(
-			`workers-vpc services update service-uuid --name test-pg-updated --type tcp --tls-settings-cert-verification-mode verify_full --body ${JSON.stringify(body)}`
+			"workers-vpc services update service-uuid --name test-pg-updated --type tcp --tcp-port 5432 --app-protocol postgresql --host-ipv4 10.0.0.5 --host-network-tunnel-id 550e8400-e29b-41d4-a716-446655440000 --host-resolver-network-tunnel-id 550e8400-e29b-41d4-a716-446655440099"
 		);
 
 		await expect(reqProm).resolves.toMatchInlineSnapshot(`
@@ -586,6 +556,9 @@ describe("vpc service commands", () => {
 			    "network": {
 			      "tunnel_id": "550e8400-e29b-41d4-a716-446655440000",
 			    },
+			    "resolver_network": {
+			      "tunnel_id": "550e8400-e29b-41d4-a716-446655440099",
+			    },
 			  },
 			  "name": "test-pg-updated",
 			  "tcp_port": 5432,
@@ -594,22 +567,12 @@ describe("vpc service commands", () => {
 		`);
 	});
 
-	it("should handle creating a TCP service with --tls-settings-cert-verification-mode verify_ca (via --body)", async ({
+	it("should handle creating a TCP service with --cert-verification-mode verify_ca", async ({
 		expect,
 	}) => {
 		const reqProm = mockWvpcServiceCreate();
-		const body = JSON.stringify({
-			name: "test-tcp-tls",
-			type: "tcp",
-			tcp_port: 5432,
-			tls_settings: { cert_verification_mode: "verify_ca" },
-			host: {
-				ipv4: "10.0.0.5",
-				network: { tunnel_id: "550e8400-e29b-41d4-a716-446655440000" },
-			},
-		});
 		await runWrangler(
-			`workers-vpc services create --name test-tcp-tls --type tcp --tls-settings-cert-verification-mode verify_ca --body ${JSON.stringify(body)}`
+			"workers-vpc services create --name test-tcp-tls --type tcp --tcp-port 5432 --tls-settings-cert-verification-mode verify_ca --host-ipv4 10.0.0.5 --host-network-tunnel-id 550e8400-e29b-41d4-a716-446655440000 --host-resolver-network-tunnel-id 550e8400-e29b-41d4-a716-446655440099"
 		);
 
 		await expect(reqProm).resolves.toMatchInlineSnapshot(`
@@ -618,6 +581,9 @@ describe("vpc service commands", () => {
 			    "ipv4": "10.0.0.5",
 			    "network": {
 			      "tunnel_id": "550e8400-e29b-41d4-a716-446655440000",
+			    },
+			    "resolver_network": {
+			      "tunnel_id": "550e8400-e29b-41d4-a716-446655440099",
 			    },
 			  },
 			  "name": "test-tcp-tls",
@@ -630,22 +596,12 @@ describe("vpc service commands", () => {
 		`);
 	});
 
-	it("should handle creating an HTTP service with --tls-settings-cert-verification-mode disabled (via --body)", async ({
+	it("should handle creating an HTTP service with --cert-verification-mode disabled", async ({
 		expect,
 	}) => {
 		const reqProm = mockWvpcServiceCreate();
-		const body = JSON.stringify({
-			name: "test-http-tls",
-			type: "http",
-			http_port: 80,
-			tls_settings: { cert_verification_mode: "disabled" },
-			host: {
-				ipv4: "10.0.0.1",
-				network: { tunnel_id: "550e8400-e29b-41d4-a716-446655440000" },
-			},
-		});
 		await runWrangler(
-			`workers-vpc services create --name test-http-tls --type http --tls-settings-cert-verification-mode disabled --body ${JSON.stringify(body)}`
+			"workers-vpc services create --name test-http-tls --type http --http-port 80 --tls-settings-cert-verification-mode disabled --host-ipv4 10.0.0.1 --host-network-tunnel-id 550e8400-e29b-41d4-a716-446655440000 --host-resolver-network-tunnel-id 550e8400-e29b-41d4-a716-446655440099"
 		);
 
 		await expect(reqProm).resolves.toMatchInlineSnapshot(`
@@ -654,6 +610,9 @@ describe("vpc service commands", () => {
 			    "ipv4": "10.0.0.1",
 			    "network": {
 			      "tunnel_id": "550e8400-e29b-41d4-a716-446655440000",
+			    },
+			    "resolver_network": {
+			      "tunnel_id": "550e8400-e29b-41d4-a716-446655440099",
 			    },
 			  },
 			  "http_port": 80,
@@ -720,22 +679,12 @@ describe("vpc service commands", () => {
 		expect(JSON.parse(std.out)).toEqual(serviceWithTls);
 	});
 
-	it("should handle updating a service with --tls-settings-cert-verification-mode (via --body)", async ({
+	it("should handle updating a service with --cert-verification-mode", async ({
 		expect,
 	}) => {
 		const reqProm = mockWvpcServiceUpdate();
-		const body = JSON.stringify({
-			name: "test-updated",
-			type: "http",
-			http_port: 80,
-			tls_settings: { cert_verification_mode: "verify_full" },
-			host: {
-				ipv4: "10.0.0.2",
-				network: { tunnel_id: "550e8400-e29b-41d4-a716-446655440001" },
-			},
-		});
 		await runWrangler(
-			`workers-vpc services update service-uuid --name test-updated --type http --tls-settings-cert-verification-mode verify_full --body ${JSON.stringify(body)}`
+			"workers-vpc services update service-uuid --name test-updated --type http --http-port 80 --tls-settings-cert-verification-mode verify_full --host-ipv4 10.0.0.2 --host-network-tunnel-id 550e8400-e29b-41d4-a716-446655440001 --host-resolver-network-tunnel-id 550e8400-e29b-41d4-a716-446655440099"
 		);
 
 		await expect(reqProm).resolves.toMatchInlineSnapshot(`
@@ -744,6 +693,9 @@ describe("vpc service commands", () => {
 			    "ipv4": "10.0.0.2",
 			    "network": {
 			      "tunnel_id": "550e8400-e29b-41d4-a716-446655440001",
+			    },
+			    "resolver_network": {
+			      "tunnel_id": "550e8400-e29b-41d4-a716-446655440099",
 			    },
 			  },
 			  "http_port": 80,

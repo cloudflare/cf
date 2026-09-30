@@ -56,7 +56,7 @@ describe("delete", () => {
 		expect(std.err).toMatchInlineSnapshot(`""`);
 	});
 
-	it("should skip confirmation when --force flag is used", async ({
+	it("should skip confirmation when --skip-confirmation flag is used", async ({
 		expect,
 	}) => {
 		setIsTTY(false);

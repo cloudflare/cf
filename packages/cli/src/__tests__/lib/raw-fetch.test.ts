@@ -108,6 +108,23 @@ describe("fetchRawBytes", () => {
 			expect(signal).toBeInstanceOf(AbortSignal);
 			expect(signal?.aborted).toBe(false);
 		});
+
+		it("extends the timeout for large binary bodies", async () => {
+			process.env.CLOUDFLARE_API_TOKEN = "prod-token";
+			globalThis.fetch = (async () =>
+				new Response(null, { status: 204 })) as typeof globalThis.fetch;
+			const timeout = vi.spyOn(AbortSignal, "timeout");
+
+			try {
+				await fetchRawBytes("/accounts/abc/anything", {
+					method: "PUT",
+					body: Buffer.alloc(31 * 1024 * 1024),
+				});
+				expect(timeout).toHaveBeenCalledWith(61_000);
+			} finally {
+				timeout.mockRestore();
+			}
+		});
 	});
 
 	describe("error handling", () => {

@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, it } from "vite-plus/test";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import {
 	createCloudflareClientWithToken,
 	createCommandClient,
@@ -118,6 +118,53 @@ describe("createCommandClient", () => {
 			await expect(
 				requestApi(client, "GET", "/zones", { timeout: 1234 })
 			).rejects.toThrow("Request timed out after 1234ms");
+		});
+
+		it("turns the SDK's string timeout into an actionable error", async () => {
+			const client = createCloudflareClientWithToken({
+				apiToken: "test-token",
+				baseURL: "https://api.test/client/v4",
+				fetch: async (_url, init) =>
+					new Promise<Response>((_resolve, reject) => {
+						init?.signal?.addEventListener(
+							"abort",
+							() => reject(init.signal?.reason),
+							{ once: true }
+						);
+					}),
+			});
+
+			await expect(
+				requestApi(
+					client,
+					"PUT",
+					"/accounts/test/r2/buckets/test/objects/test",
+					{
+						body: Buffer.from("data"),
+						timeout: 10,
+					}
+				)
+			).rejects.toThrow("Request timed out after 10ms");
+		});
+
+		it("extends the timeout for large binary bodies", async () => {
+			const client = createCloudflareClientWithToken({
+				apiToken: "test-token",
+			});
+			const fetch = vi
+				.spyOn(client, "fetch")
+				.mockResolvedValue(new Response(null, { status: 204 }));
+
+			await requestApi(
+				client,
+				"PUT",
+				"/accounts/test/r2/buckets/test/objects/test",
+				{
+					body: Buffer.alloc(31 * 1024 * 1024),
+				}
+			);
+
+			expect(fetch.mock.calls[0]?.[2]?.timeoutInSeconds).toBe(61);
 		});
 
 		it("returns null for 204 responses and empty response bodies", async () => {

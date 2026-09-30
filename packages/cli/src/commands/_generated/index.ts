@@ -181,7 +181,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./artifacts/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -722,6 +722,15 @@ export const generatedCommands: GeneratedCommand[] = [
 			null
 		),
 		hideCommand: true,
+	},
+	{
+		command: lazyCommand<CommonYargsOptions>(
+			"k2",
+			"Durable, ordered event streams that you produce records to and consume from with subscriptions",
+			() => import("./k2/index.js"),
+			null
+		),
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(

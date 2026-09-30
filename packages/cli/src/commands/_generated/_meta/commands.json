@@ -8147,10 +8147,212 @@
 					"description": "The collect_logs field"
 				},
 				{
+					"name": "guardrails-prompt-p1",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.prompt.P1 field",
+					"enum": ["FLAG", "BLOCK"]
+				},
+				{
+					"name": "guardrails-prompt-s1",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.prompt.S1 field",
+					"enum": ["FLAG", "BLOCK"]
+				},
+				{
+					"name": "guardrails-prompt-s10",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.prompt.S10 field",
+					"enum": ["FLAG", "BLOCK"]
+				},
+				{
+					"name": "guardrails-prompt-s11",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.prompt.S11 field",
+					"enum": ["FLAG", "BLOCK"]
+				},
+				{
+					"name": "guardrails-prompt-s12",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.prompt.S12 field",
+					"enum": ["FLAG", "BLOCK"]
+				},
+				{
+					"name": "guardrails-prompt-s13",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.prompt.S13 field",
+					"enum": ["FLAG", "BLOCK"]
+				},
+				{
+					"name": "guardrails-prompt-s2",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.prompt.S2 field",
+					"enum": ["FLAG", "BLOCK"]
+				},
+				{
+					"name": "guardrails-prompt-s3",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.prompt.S3 field",
+					"enum": ["FLAG", "BLOCK"]
+				},
+				{
+					"name": "guardrails-prompt-s4",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.prompt.S4 field",
+					"enum": ["FLAG", "BLOCK"]
+				},
+				{
+					"name": "guardrails-prompt-s5",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.prompt.S5 field",
+					"enum": ["FLAG", "BLOCK"]
+				},
+				{
+					"name": "guardrails-prompt-s6",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.prompt.S6 field",
+					"enum": ["FLAG", "BLOCK"]
+				},
+				{
+					"name": "guardrails-prompt-s7",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.prompt.S7 field",
+					"enum": ["FLAG", "BLOCK"]
+				},
+				{
+					"name": "guardrails-prompt-s8",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.prompt.S8 field",
+					"enum": ["FLAG", "BLOCK"]
+				},
+				{
+					"name": "guardrails-prompt-s9",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.prompt.S9 field",
+					"enum": ["FLAG", "BLOCK"]
+				},
+				{
+					"name": "guardrails-response-p1",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.response.P1 field",
+					"enum": ["FLAG", "BLOCK"]
+				},
+				{
+					"name": "guardrails-response-s1",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.response.S1 field",
+					"enum": ["FLAG", "BLOCK"]
+				},
+				{
+					"name": "guardrails-response-s10",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.response.S10 field",
+					"enum": ["FLAG", "BLOCK"]
+				},
+				{
+					"name": "guardrails-response-s11",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.response.S11 field",
+					"enum": ["FLAG", "BLOCK"]
+				},
+				{
+					"name": "guardrails-response-s12",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.response.S12 field",
+					"enum": ["FLAG", "BLOCK"]
+				},
+				{
+					"name": "guardrails-response-s13",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.response.S13 field",
+					"enum": ["FLAG", "BLOCK"]
+				},
+				{
+					"name": "guardrails-response-s2",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.response.S2 field",
+					"enum": ["FLAG", "BLOCK"]
+				},
+				{
+					"name": "guardrails-response-s3",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.response.S3 field",
+					"enum": ["FLAG", "BLOCK"]
+				},
+				{
+					"name": "guardrails-response-s4",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.response.S4 field",
+					"enum": ["FLAG", "BLOCK"]
+				},
+				{
+					"name": "guardrails-response-s5",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.response.S5 field",
+					"enum": ["FLAG", "BLOCK"]
+				},
+				{
+					"name": "guardrails-response-s6",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.response.S6 field",
+					"enum": ["FLAG", "BLOCK"]
+				},
+				{
+					"name": "guardrails-response-s7",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.response.S7 field",
+					"enum": ["FLAG", "BLOCK"]
+				},
+				{
+					"name": "guardrails-response-s8",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.response.S8 field",
+					"enum": ["FLAG", "BLOCK"]
+				},
+				{
+					"name": "guardrails-response-s9",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.response.S9 field",
+					"enum": ["FLAG", "BLOCK"]
+				},
+				{
 					"name": "id",
 					"type": "string",
 					"required": true,
 					"description": "Unique identifier of the AI Gateway within the account."
+				},
+				{
+					"name": "log-classification",
+					"type": "boolean",
+					"required": false,
+					"description": "The log_classification field"
 				},
 				{
 					"name": "log-management",
@@ -8176,6 +8378,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The logpush_public_key field"
+				},
+				{
+					"name": "otel",
+					"type": "string",
+					"required": false,
+					"description": "The otel field. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "rate-limiting-interval",
@@ -8216,10 +8424,22 @@
 					"description": "Maximum number of retry attempts for failed requests (1-5)"
 				},
 				{
+					"name": "spend-limits-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "The spend_limits.enabled field"
+				},
+				{
 					"name": "store-id",
 					"type": "string",
 					"required": false,
 					"description": "The store_id field"
+				},
+				{
+					"name": "stripe-authorization",
+					"type": "string",
+					"required": false,
+					"description": "The stripe.authorization field"
 				},
 				{
 					"name": "workers-ai-billing-mode",
@@ -8517,6 +8737,44 @@
 			"httpMethod": "DELETE",
 			"apiPath": "/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/provider_configs/{id}",
 			"operationId": "aig-config-delete-providers",
+			"hideCommand": false
+		},
+		{
+			"command": "cf ai-gateway gateways providers get",
+			"name": "get",
+			"fullPath": ["ai-gateway", "gateways", "providers", "get"],
+			"description": "Retrieves a provider key configuration for an AI Gateway. The response shows a masked preview of the key, never the key itself.",
+			"summary": "Get a provider key",
+			"usage": "cf ai-gateway gateways providers get <id> [options]",
+			"arguments": [
+				{
+					"name": "id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID"
+				}
+			],
+			"options": [
+				{
+					"name": "gateway-id",
+					"type": "string",
+					"required": true,
+					"description": "Unique identifier of the AI Gateway within the account."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/provider_configs/{id}",
+			"operationId": "aig-config-fetch-providers",
 			"hideCommand": false
 		},
 		{
@@ -14679,7 +14937,7 @@
 			"command": "cf analytics sql get",
 			"name": "get",
 			"fullPath": ["analytics", "sql", "get"],
-			"description": "Executes a SQL query against the analytics datasets available to the caller. SQL placeholders can be bound with query parameters named `param_<name>`, such as `param_status=404` for `$status`.",
+			"description": "Executes a SQL query against the analytics datasets available to the caller. SQL placeholders can be bound with query parameters named `param_<name>`, such as `param_status=404` for `$status`. A trailing `FORMAT JSON`, `FORMAT JSONEachRow`, `FORMAT TabSeparated`, or `FORMAT TSV` is supported for all datasets. Without FORMAT, each backend retains its existing default JSON response.",
 			"summary": "Query analytics datasets",
 			"usage": "cf analytics sql get [options]",
 			"arguments": [],
@@ -14688,7 +14946,7 @@
 					"name": "query",
 					"type": "string",
 					"required": true,
-					"description": "SQL query to execute."
+					"description": "SQL query to execute. A trailing FORMAT selects JSON, JSONEachRow, TabSeparated, or TSV output on any dataset."
 				},
 				{
 					"name": "dry-run",
@@ -14769,7 +15027,7 @@
 			"command": "cf analytics sql post",
 			"name": "post",
 			"fullPath": ["analytics", "sql", "post"],
-			"description": "Executes a SQL query against the analytics datasets available to the caller. Send either raw SQL or a JSON object containing the query and optional positional or named parameters, time range, and account or zone scope. Raw SQL placeholders can also be bound with query parameters named `param_<name>`.",
+			"description": "Executes a SQL query against the analytics datasets available to the caller. Send either raw SQL or a JSON object containing the query and optional positional or named parameters, time range, and account or zone scope. Raw SQL placeholders can also be bound with query parameters named `param_<name>`. A trailing `FORMAT JSON`, `FORMAT JSONEachRow`, `FORMAT TabSeparated`, or `FORMAT TSV` is supported for all datasets. Without FORMAT, each backend retains its existing default JSON response.",
 			"summary": "Query analytics datasets",
 			"usage": "cf analytics sql post [options]",
 			"arguments": [],
@@ -14778,7 +15036,7 @@
 					"name": "query",
 					"type": "string",
 					"required": true,
-					"description": "SQL query to execute."
+					"description": "SQL query to execute. A trailing FORMAT selects JSON, JSONEachRow, TabSeparated, or TSV output on any dataset.\n"
 				},
 				{
 					"name": "scope-account-tag",
@@ -17514,7 +17772,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/artifacts/namespaces",
 			"operationId": "artifacts_namespaces_create",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf artifacts namespaces delete",
@@ -17546,7 +17804,7 @@
 			"httpMethod": "DELETE",
 			"apiPath": "/accounts/{account_id}/artifacts/namespaces/{namespace}",
 			"operationId": "artifacts_namespaces_delete",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf artifacts namespaces get",
@@ -17578,7 +17836,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/artifacts/namespaces/{namespace}",
 			"operationId": "artifacts_namespaces_get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf artifacts namespaces list",
@@ -17614,7 +17872,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/artifacts/namespaces",
 			"operationId": "artifacts_namespaces_list",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf artifacts namespaces repos blobs get",
@@ -17658,7 +17916,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/artifacts/namespaces/{namespace}/repos/{name}/blob/{hash}",
 			"operationId": "artifacts_repos_blob_get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf artifacts namespaces repos commits get",
@@ -17702,7 +17960,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/artifacts/namespaces/{namespace}/repos/{name}/commit/{hash}",
 			"operationId": "artifacts_repos_commit_get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf artifacts namespaces repos create",
@@ -17764,7 +18022,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/artifacts/namespaces/{namespace}/repos",
 			"operationId": "artifacts_repos_create",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf artifacts namespaces repos delete",
@@ -17802,7 +18060,7 @@
 			"httpMethod": "DELETE",
 			"apiPath": "/accounts/{account_id}/artifacts/namespaces/{namespace}/repos/{name}",
 			"operationId": "artifacts_repos_delete",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf artifacts namespaces repos files get",
@@ -17852,7 +18110,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/artifacts/namespaces/{namespace}/repos/{name}/file",
 			"operationId": "artifacts_repos_file_get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf artifacts namespaces repos fork",
@@ -17914,7 +18172,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/artifacts/namespaces/{namespace}/repos/{name}/fork",
 			"operationId": "artifacts_repos_fork",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf artifacts namespaces repos get",
@@ -17952,7 +18210,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/artifacts/namespaces/{namespace}/repos/{name}",
 			"operationId": "artifacts_repos_get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf artifacts namespaces repos import",
@@ -18020,7 +18278,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/artifacts/namespaces/{namespace}/repos/{name}/import",
 			"operationId": "artifacts_repos_import",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf artifacts namespaces repos list",
@@ -18082,7 +18340,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/artifacts/namespaces/{namespace}/repos",
 			"operationId": "artifacts_repos_list",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf artifacts namespaces repos logs get",
@@ -18138,7 +18396,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/artifacts/namespaces/{namespace}/repos/{name}/log",
 			"operationId": "artifacts_repos_log_get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf artifacts namespaces repos raw get",
@@ -18188,7 +18446,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/artifacts/namespaces/{namespace}/repos/{name}/raw/{ref}/{path}",
 			"operationId": "artifacts_repos_raw_get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf artifacts namespaces repos tokens list",
@@ -18243,7 +18501,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/artifacts/namespaces/{namespace}/repos/{name}/tokens",
 			"operationId": "artifacts_repo_tokens_list",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf artifacts namespaces repos trees get",
@@ -18287,7 +18545,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/artifacts/namespaces/{namespace}/repos/{name}/tree/{hash}",
 			"operationId": "artifacts_repos_tree_get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf artifacts namespaces tokens create",
@@ -18344,13 +18602,13 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/artifacts/namespaces/{namespace}/tokens",
 			"operationId": "artifacts_tokens_create",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf artifacts namespaces tokens revoke",
 			"name": "revoke",
 			"fullPath": ["artifacts", "namespaces", "tokens", "revoke"],
-			"description": "Revokes an Artifacts repository token.",
+			"description": "Revokes an Artifacts repository token. Token IDs are resolved through an eventually consistent index, so revoking a token within about a second of creating it can return 404; retry after a short delay.",
 			"summary": "Revoke a token",
 			"usage": "cf artifacts namespaces tokens revoke <id> [options]",
 			"arguments": [
@@ -18382,7 +18640,7 @@
 			"httpMethod": "DELETE",
 			"apiPath": "/accounts/{account_id}/artifacts/namespaces/{namespace}/tokens/{id}",
 			"operationId": "artifacts_tokens_revoke",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf audit-logs list",
@@ -59040,6 +59298,266 @@
 			"hideCommand": true
 		},
 		{
+			"command": "cf k2 streams create",
+			"name": "create",
+			"fullPath": ["k2", "streams", "create"],
+			"description": "Create a new K2 stream.",
+			"summary": "Create K2 stream",
+			"usage": "cf k2 streams create [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "http-enabled",
+					"type": "boolean",
+					"required": true,
+					"description": "Indicates whether the HTTP endpoint accepts records."
+				},
+				{
+					"name": "http-authentication",
+					"type": "boolean",
+					"required": false,
+					"description": "Indicates whether the HTTP endpoint requires an API token with K2 produce permission. When false or omitted, the endpoint accepts unauthenticated records.",
+					"default": false
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Specifies the name of the K2 stream."
+				},
+				{
+					"name": "retention-seconds",
+					"type": "number",
+					"required": false,
+					"description": "Sets the record retention period from 1 hour (3600 seconds) to 30 days (2592000 seconds), inclusive.",
+					"default": 604800
+				},
+				{
+					"name": "worker-binding-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Indicates whether Workers bindings can produce records to the stream."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "create",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/k2/streams",
+			"operationId": "postV4AccountsByAccount_idK2Streams",
+			"hideCommand": false
+		},
+		{
+			"command": "cf k2 streams delete",
+			"name": "delete",
+			"fullPath": ["k2", "streams", "delete"],
+			"description": "Delete a K2 stream in an account. Deleting a stream that does not exist also succeeds.",
+			"summary": "Delete K2 stream",
+			"usage": "cf k2 streams delete <stream-id>",
+			"arguments": [
+				{
+					"name": "stream-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Specifies the public ID of the K2 stream."
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "delete",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/k2/streams/{stream_id}",
+			"operationId": "deleteV4AccountsByAccount_idK2StreamsByStream_id",
+			"hideCommand": false
+		},
+		{
+			"command": "cf k2 streams get",
+			"name": "get",
+			"fullPath": ["k2", "streams", "get"],
+			"description": "Get K2 stream details.",
+			"summary": "Get K2 stream",
+			"usage": "cf k2 streams get <stream-id>",
+			"arguments": [
+				{
+					"name": "stream-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Specifies the public ID of the K2 stream."
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/k2/streams/{stream_id}",
+			"operationId": "getV4AccountsByAccount_idK2StreamsByStream_id",
+			"hideCommand": false
+		},
+		{
+			"command": "cf k2 streams list",
+			"name": "list",
+			"fullPath": ["k2", "streams", "list"],
+			"description": "List or filter K2 streams in an account.",
+			"summary": "List K2 streams",
+			"usage": "cf k2 streams list [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "name",
+					"type": "string",
+					"required": false,
+					"description": "Filters K2 streams by name using a case-insensitive substring."
+				},
+				{
+					"name": "page",
+					"type": "number",
+					"required": false,
+					"description": "Page"
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": false,
+					"description": "Per page"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/k2/streams",
+			"operationId": "getV4AccountsByAccount_idK2Streams",
+			"hideCommand": false
+		},
+		{
+			"command": "cf k2 streams subscriptions list",
+			"name": "list",
+			"fullPath": ["k2", "streams", "subscriptions", "list"],
+			"description": "Lists every subscription on one stream, oldest first. Lag uses committed positions, not reserved read positions. A failed tail observation preserves subscription metadata and returns unavailable lag.",
+			"summary": "List K2 stream subscriptions",
+			"usage": "cf k2 streams subscriptions list [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "stream-id",
+					"type": "string",
+					"required": true,
+					"description": "Specifies the public ID of the K2 stream."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/k2/streams/{stream_id}/subscriptions",
+			"operationId": "getV4AccountsByAccount_idK2StreamsByStream_idSubscriptions",
+			"hideCommand": false
+		},
+		{
+			"command": "cf k2 streams update",
+			"name": "update",
+			"fullPath": ["k2", "streams", "update"],
+			"description": "Update a K2 stream. Each provided input replaces that input's full configuration, so include every `http` setting to keep, such as `authentication` and `cors`. At least one input must remain enabled.",
+			"summary": "Update K2 stream",
+			"usage": "cf k2 streams update <stream-id> [options]",
+			"arguments": [
+				{
+					"name": "stream-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Specifies the public ID of the K2 stream."
+				}
+			],
+			"options": [
+				{
+					"name": "http-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Indicates whether the HTTP endpoint accepts records."
+				},
+				{
+					"name": "http-authentication",
+					"type": "boolean",
+					"required": false,
+					"description": "Indicates whether the HTTP endpoint requires an API token with K2 produce permission. When false or omitted, the endpoint accepts unauthenticated records."
+				},
+				{
+					"name": "retention-seconds",
+					"type": "number",
+					"required": false,
+					"description": "Sets the record retention period from 1 hour (3600 seconds) to 30 days (2592000 seconds), inclusive."
+				},
+				{
+					"name": "worker-binding-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Indicates whether Workers bindings can produce records to the stream."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PATCH",
+			"apiPath": "/accounts/{account_id}/k2/streams/{stream_id}",
+			"operationId": "patchV4AccountsByAccount_idK2StreamsByStream_id",
+			"hideCommand": false
+		},
+		{
 			"command": "cf keyless-certificates create",
 			"name": "create",
 			"fullPath": ["keyless-certificates", "create"],
@@ -86069,7 +86587,7 @@
 					"type": "string",
 					"required": true,
 					"description": "Specifies the type of sink.",
-					"enum": ["r2", "r2_data_catalog"]
+					"enum": ["r2", "r2_data_catalog", "basin_catalog"]
 				},
 				{
 					"name": "dry-run",
@@ -156692,6 +157210,9 @@
 		"intel whois": "WHOIS registration data for domains including registrant, registrar, and nameservers",
 		"internal": "internal",
 		"ips": "ips",
+		"k2": "Durable, ordered event streams that you produce records to and consume from with subscriptions",
+		"k2 streams": "K2 streams, their retention, and the HTTP and Workers binding inputs used to produce records",
+		"k2 streams subscriptions": "Subscriptions that consume a K2 stream, with committed-position lag",
 		"keyless-certificates": "keyless-certificates",
 		"keys": "keys",
 		"kv": "kv",

@@ -70,6 +70,7 @@ import { IamClient } from "./api/resources/iam/client/Client.js";
 import { ImagesClient } from "./api/resources/images/client/Client.js";
 import { IntelClient } from "./api/resources/intel/client/Client.js";
 import { IpsClient } from "./api/resources/ips/client/Client.js";
+import { K2Client } from "./api/resources/k2/client/Client.js";
 import { KeylessCertificatesClient } from "./api/resources/keylessCertificates/client/Client.js";
 import { KeysClient } from "./api/resources/keys/client/Client.js";
 import { KvClient } from "./api/resources/kv/client/Client.js";
@@ -287,6 +288,7 @@ export class CloudflareApiClient {
     protected _hostnames: HostnamesClient | undefined;
     protected _iam: IamClient | undefined;
     protected _intel: IntelClient | undefined;
+    protected _k2: K2Client | undefined;
     protected _kv: KvClient | undefined;
     protected _loadBalancers: LoadBalancersClient | undefined;
     protected _logpush: LogpushClient | undefined;
@@ -786,6 +788,10 @@ export class CloudflareApiClient {
 
     public get intel(): IntelClient {
         return (this._intel ??= new IntelClient(this._options));
+    }
+
+    public get k2(): K2Client {
+        return (this._k2 ??= new K2Client(this._options));
     }
 
     public get kv(): KvClient {

@@ -122,7 +122,7 @@ export class TokensClient {
     }
 
     /**
-     * Revokes an Artifacts repository token.
+     * Revokes an Artifacts repository token. Token IDs are resolved through an eventually consistent index, so revoking a token within about a second of creating it can return 404; retry after a short delay.
      *
      * @param {CloudflareApi.artifacts.namespaces.RevokeTokensRequest} request
      * @param {TokensClient.RequestOptions} requestOptions - Request-specific configuration.

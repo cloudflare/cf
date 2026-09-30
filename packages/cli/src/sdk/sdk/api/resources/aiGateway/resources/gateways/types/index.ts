@@ -1,3 +1,4 @@
+export * from "./CreateGatewaysRequestSpendLimitsRulesItemMetadataValue.js";
 export * from "./CreateGatewaysResponse.js";
 export * from "./CreateGatewaysResponseSpendLimitsRulesItemMetadataValue.js";
 export * from "./DeleteGatewaysResponse.js";

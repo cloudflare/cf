@@ -120,9 +120,17 @@ export class TokensClient {
      *                     effect: "allow",
      *                     permission_groups: [{
      *                             id: "c8fed203ed3043cba015a93ad1616f1f",
+     *                             meta: {
+     *                                 label: "load_balancer_admin",
+     *                                 scopes: "com.cloudflare.api.account"
+     *                             },
      *                             name: "Zone Read"
      *                         }, {
      *                             id: "82e64a83756745bbbb1c9c2701bf816b",
+     *                             meta: {
+     *                                 label: "fbm_user",
+     *                                 scopes: "com.cloudflare.api.account"
+     *                             },
      *                             name: "Magic Network Monitoring"
      *                         }],
      *                     resources: {

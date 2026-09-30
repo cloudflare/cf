@@ -5587,10 +5587,184 @@
 					"description": "The collect_logs field"
 				},
 				{
+					"name": "guardrails-prompt-p1",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.prompt.P1 field"
+				},
+				{
+					"name": "guardrails-prompt-s1",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.prompt.S1 field"
+				},
+				{
+					"name": "guardrails-prompt-s10",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.prompt.S10 field"
+				},
+				{
+					"name": "guardrails-prompt-s11",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.prompt.S11 field"
+				},
+				{
+					"name": "guardrails-prompt-s12",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.prompt.S12 field"
+				},
+				{
+					"name": "guardrails-prompt-s13",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.prompt.S13 field"
+				},
+				{
+					"name": "guardrails-prompt-s2",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.prompt.S2 field"
+				},
+				{
+					"name": "guardrails-prompt-s3",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.prompt.S3 field"
+				},
+				{
+					"name": "guardrails-prompt-s4",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.prompt.S4 field"
+				},
+				{
+					"name": "guardrails-prompt-s5",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.prompt.S5 field"
+				},
+				{
+					"name": "guardrails-prompt-s6",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.prompt.S6 field"
+				},
+				{
+					"name": "guardrails-prompt-s7",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.prompt.S7 field"
+				},
+				{
+					"name": "guardrails-prompt-s8",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.prompt.S8 field"
+				},
+				{
+					"name": "guardrails-prompt-s9",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.prompt.S9 field"
+				},
+				{
+					"name": "guardrails-response-p1",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.response.P1 field"
+				},
+				{
+					"name": "guardrails-response-s1",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.response.S1 field"
+				},
+				{
+					"name": "guardrails-response-s10",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.response.S10 field"
+				},
+				{
+					"name": "guardrails-response-s11",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.response.S11 field"
+				},
+				{
+					"name": "guardrails-response-s12",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.response.S12 field"
+				},
+				{
+					"name": "guardrails-response-s13",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.response.S13 field"
+				},
+				{
+					"name": "guardrails-response-s2",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.response.S2 field"
+				},
+				{
+					"name": "guardrails-response-s3",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.response.S3 field"
+				},
+				{
+					"name": "guardrails-response-s4",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.response.S4 field"
+				},
+				{
+					"name": "guardrails-response-s5",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.response.S5 field"
+				},
+				{
+					"name": "guardrails-response-s6",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.response.S6 field"
+				},
+				{
+					"name": "guardrails-response-s7",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.response.S7 field"
+				},
+				{
+					"name": "guardrails-response-s8",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.response.S8 field"
+				},
+				{
+					"name": "guardrails-response-s9",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.response.S9 field"
+				},
+				{
 					"name": "id",
 					"type": "string",
 					"required": true,
 					"description": "Unique identifier of the AI Gateway within the account."
+				},
+				{
+					"name": "log-classification",
+					"type": "boolean",
+					"required": false,
+					"description": "The log_classification field"
 				},
 				{
 					"name": "log-management",
@@ -5615,6 +5789,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The logpush_public_key field"
+				},
+				{
+					"name": "otel",
+					"type": "string",
+					"required": false,
+					"description": "The otel field. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "rate-limiting-interval",
@@ -5653,10 +5833,22 @@
 					"description": "Maximum number of retry attempts for failed requests (1-5)"
 				},
 				{
+					"name": "spend-limits-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "The spend_limits.enabled field"
+				},
+				{
 					"name": "store-id",
 					"type": "string",
 					"required": false,
 					"description": "The store_id field"
+				},
+				{
+					"name": "stripe-authorization",
+					"type": "string",
+					"required": false,
+					"description": "The stripe.authorization field"
 				},
 				{
 					"name": "workers-ai-billing-mode",
@@ -5834,6 +6026,31 @@
 		"ai-gateway gateways providers delete": {
 			"operationId": "aig-config-delete-providers",
 			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/provider_configs/{id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "gateway_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"ai-gateway gateways providers get": {
+			"operationId": "aig-config-fetch-providers",
+			"httpMethod": "GET",
 			"path": "/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/provider_configs/{id}",
 			"pathParams": [
 				{
@@ -10560,7 +10777,7 @@
 					"name": "query",
 					"type": "string",
 					"required": true,
-					"description": "SQL query to execute."
+					"description": "SQL query to execute. A trailing FORMAT selects JSON, JSONEachRow, TabSeparated, or TSV output on any dataset.\n"
 				},
 				{
 					"name": "scope-account-tag",
@@ -41342,6 +41559,188 @@
 			],
 			"hasRequestBody": false,
 			"requestBodyFields": []
+		},
+		"k2 streams create": {
+			"operationId": "postV4AccountsByAccount_idK2Streams",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/k2/streams",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "http-enabled",
+					"type": "boolean",
+					"required": true,
+					"description": "Indicates whether the HTTP endpoint accepts records."
+				},
+				{
+					"name": "http-authentication",
+					"type": "boolean",
+					"required": false,
+					"description": "Indicates whether the HTTP endpoint requires an API token with K2 produce permission. When false or omitted, the endpoint accepts unauthenticated records."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Specifies the name of the K2 stream."
+				},
+				{
+					"name": "retention-seconds",
+					"type": "number",
+					"required": false,
+					"description": "Sets the record retention period from 1 hour (3600 seconds) to 30 days (2592000 seconds), inclusive."
+				},
+				{
+					"name": "worker-binding-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Indicates whether Workers bindings can produce records to the stream."
+				}
+			]
+		},
+		"k2 streams delete": {
+			"operationId": "deleteV4AccountsByAccount_idK2StreamsByStream_id",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/k2/streams/{stream_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "stream_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"k2 streams get": {
+			"operationId": "getV4AccountsByAccount_idK2StreamsByStream_id",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/k2/streams/{stream_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "stream_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"k2 streams list": {
+			"operationId": "getV4AccountsByAccount_idK2Streams",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/k2/streams",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "name",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"type": "number",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"k2 streams subscriptions list": {
+			"operationId": "getV4AccountsByAccount_idK2StreamsByStream_idSubscriptions",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/k2/streams/{stream_id}/subscriptions",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "stream_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"k2 streams update": {
+			"operationId": "patchV4AccountsByAccount_idK2StreamsByStream_id",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/k2/streams/{stream_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "stream_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "http-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Indicates whether the HTTP endpoint accepts records."
+				},
+				{
+					"name": "http-authentication",
+					"type": "boolean",
+					"required": false,
+					"description": "Indicates whether the HTTP endpoint requires an API token with K2 produce permission. When false or omitted, the endpoint accepts unauthenticated records."
+				},
+				{
+					"name": "retention-seconds",
+					"type": "number",
+					"required": false,
+					"description": "Sets the record retention period from 1 hour (3600 seconds) to 30 days (2592000 seconds), inclusive."
+				},
+				{
+					"name": "worker-binding-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Indicates whether Workers bindings can produce records to the stream."
+				}
+			]
 		},
 		"keyless-certificates create": {
 			"operationId": "keyless-ssl-for-a-zone-create-keyless-ssl-configuration",

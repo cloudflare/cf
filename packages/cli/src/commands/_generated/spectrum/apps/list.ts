@@ -101,7 +101,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						...queryParams,
 					} satisfies Request)
 				);
-				formatOutput(result, { successLabel: `Loaded` });
+				formatOutput(result, {
+					successLabel: `Loaded`,
+					paginationQuery: queryParams,
+				});
 			}
 		),
 };

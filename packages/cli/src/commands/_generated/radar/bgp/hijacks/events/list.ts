@@ -156,7 +156,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const result = await withProgress(`Loading`, async () =>
 					client.radar.bgp.hijacks.events.list(queryParams)
 				);
-				formatOutput(result, { successLabel: `Loaded` });
+				formatOutput(result, {
+					successLabel: `Loaded`,
+					paginationQuery: queryParams,
+				});
 			}
 		),
 };

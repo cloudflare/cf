@@ -83,6 +83,65 @@ describe("formatOutput", () => {
 		expect(loggedJson()).toEqual([{ id: "one" }, { id: "two" }]);
 	});
 
+	it("warns on stderr when an unfiltered page omits later results", () => {
+		formatOutput(
+			{
+				result: Array.from({ length: 10 }, (_, id) => ({ id })),
+				result_info: { page: 1, per_page: 10, count: 10, total_count: 46 },
+			},
+			{ paginationQuery: { page: undefined, per_page: undefined } }
+		);
+		expect(loggedJson()).toHaveLength(10);
+		expect(stderrWrite.join("")).toBe(
+			"Showing 10 of 46 results (page 1 of 5); use --page 2 for more.\n"
+		);
+	});
+
+	it("uses total_pages when the response omits total_count", () => {
+		formatOutput(
+			{ result: [{ id: "one" }], result_info: { page: 2, total_pages: 3 } },
+			{ paginationQuery: { page: 2, per_page: undefined } }
+		);
+		expect(stderrWrite.join("")).toBe(
+			"Showing page 2 of 3; use --page 3 for more.\n"
+		);
+	});
+
+	it("does not mistake an unfiltered total for more matching results", () => {
+		formatOutput(
+			{
+				result: [{ id: "match" }],
+				result_info: { page: 1, per_page: 10, count: 1, total_count: 46 },
+			},
+			{
+				paginationQuery: {
+					page: undefined,
+					per_page: undefined,
+					name: "match",
+				},
+			}
+		);
+		expect(stderrWrite).toEqual([]);
+	});
+
+	it("does not warn on the final page or inconsistent metadata", () => {
+		formatOutput(
+			{
+				result: [{ id: "last" }],
+				result_info: { page: 3, per_page: 10, count: 1, total_count: 21 },
+			},
+			{ paginationQuery: { page: 3, per_page: 10 } }
+		);
+		formatOutput(
+			{
+				result: [{ id: "one" }],
+				result_info: { page: 1, per_page: 10, count: 9, total_count: 46 },
+			},
+			{ paginationQuery: { page: undefined, per_page: undefined } }
+		);
+		expect(stderrWrite).toEqual([]);
+	});
+
 	it("prints the items from a Fern Page instance", () => {
 		const items = [{ name: "bar" }, { name: "foo" }];
 		const response = {

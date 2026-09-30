@@ -85,7 +85,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const result = await withProgress(`Loading`, async () =>
 					client.accounts.list(queryParams)
 				);
-				formatOutput(result, { successLabel: `Loaded` });
+				formatOutput(result, {
+					successLabel: `Loaded`,
+					paginationQuery: queryParams,
+				});
 			}
 		),
 };

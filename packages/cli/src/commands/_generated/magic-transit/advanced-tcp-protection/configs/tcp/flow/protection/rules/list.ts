@@ -95,7 +95,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						{ account_id: accountId, ...queryParams } satisfies Request
 					)
 				);
-				formatOutput(result, { successLabel: `Loaded` });
+				formatOutput(result, {
+					successLabel: `Loaded`,
+					paginationQuery: queryParams,
+				});
 			}
 		),
 };

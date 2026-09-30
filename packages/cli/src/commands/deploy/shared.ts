@@ -78,6 +78,7 @@ export type SharedUploadArgs = InferArgs<typeof sharedUploadBuilder>;
 
 type UploadCommand = { command: "Deploy" } | { command: "Version upload" };
 type UploadArgs = SharedUploadArgs & {
+	provision?: boolean;
 	"preview-alias"?: string;
 	"containers-rollout"?: "immediate" | "gradual" | "none";
 };

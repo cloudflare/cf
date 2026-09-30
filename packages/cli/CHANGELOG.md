@@ -1,5 +1,13 @@
 # cf
 
+## 1.0.0-beta.8
+
+### Patch Changes
+
+- 8782301: Update Workers authentication to the latest release
+
+  Use `@cloudflare/workers-auth` 0.11.0 for cf's bundled authentication flows.
+
 ## 1.0.0-beta.7
 
 ### Patch Changes

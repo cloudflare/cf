@@ -44,6 +44,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Validate and show what would happen without executing",
 			default: false,
 		})
+		.option("show-secrets", {
+			type: "boolean",
+			description: "Show sensitive values in dry-run output",
+			default: false,
+		})
 		.option("body", {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
@@ -64,40 +69,43 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "alerting destinations webhooks create",
 				classification: {
-					safeFlags: ["dry-run"],
+					safeFlags: ["dry-run", "show-secrets"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf alerting destinations webhooks create",
-						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/alerting/v3/destinations/webhooks`,
-						pathParams: {},
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										name: resolveFileToken(
-											argv["name"] as string | undefined,
-											"name",
-											"text"
-										),
-										secret: resolveFileToken(
-											argv["secret"] as string | undefined,
-											"secret",
-											"text"
-										),
-										url: resolveFileToken(
-											argv["url"] as string | undefined,
-											"url",
-											"text"
-										),
-									}),
-					});
+					formatDryRun(
+						{
+							command: "cf alerting destinations webhooks create",
+							method: "POST",
+							url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/alerting/v3/destinations/webhooks`,
+							pathParams: {},
+							bodyKind: "json",
+							body:
+								argv.body !== undefined
+									? parseBody(argv.body)
+									: compactBody({
+											name: resolveFileToken(
+												argv["name"] as string | undefined,
+												"name",
+												"text"
+											),
+											secret: resolveFileToken(
+												argv["secret"] as string | undefined,
+												"secret",
+												"text"
+											),
+											url: resolveFileToken(
+												argv["url"] as string | undefined,
+												"url",
+												"text"
+											),
+										}),
+						},
+						{ sensitiveBodyPaths: [["secret"]], showSecrets: argv.showSecrets }
+					);
 					return;
 				}
 				const client = await createCommandClient(argv);

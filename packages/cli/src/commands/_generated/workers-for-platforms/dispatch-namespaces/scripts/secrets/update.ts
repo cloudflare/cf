@@ -70,6 +70,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Validate and show what would happen without executing",
 			default: false,
 		})
+		.option("show-secrets", {
+			type: "boolean",
+			description: "Show sensitive values in dry-run output",
+			default: false,
+		})
 		.option("body", {
 			type: "string",
 			description: "A secret value accessible through a binding.",
@@ -97,55 +102,61 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				command:
 					"workers-for-platforms dispatch-namespaces scripts secrets update",
 				classification: {
-					safeFlags: ["type", "format", "dry-run"],
+					safeFlags: ["type", "format", "dry-run", "show-secrets"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command:
-							"cf workers-for-platforms dispatch-namespaces scripts secrets update",
-						method: "PUT",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/workers/dispatch/namespaces/${argv["dispatch-namespace"] == null ? "<dispatch-namespace>" : encodeURIComponent(String(argv["dispatch-namespace"]))}/scripts/${argv["script-name"] == null ? "<script-name>" : encodeURIComponent(String(argv["script-name"]))}/secrets`,
-						pathParams: {
-							"dispatch-namespace": String(argv["dispatch-namespace"] ?? ""),
-							"script-name": String(argv["script-name"] ?? ""),
+					formatDryRun(
+						{
+							command:
+								"cf workers-for-platforms dispatch-namespaces scripts secrets update",
+							method: "PUT",
+							url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/workers/dispatch/namespaces/${argv["dispatch-namespace"] == null ? "<dispatch-namespace>" : encodeURIComponent(String(argv["dispatch-namespace"]))}/scripts/${argv["script-name"] == null ? "<script-name>" : encodeURIComponent(String(argv["script-name"]))}/secrets`,
+							pathParams: {
+								"dispatch-namespace": String(argv["dispatch-namespace"] ?? ""),
+								"script-name": String(argv["script-name"] ?? ""),
+							},
+							bodyKind: "json",
+							body:
+								argv.body !== undefined
+									? parseBody(argv.body)
+									: compactBody({
+											name: resolveFileToken(
+												argv["name"] as string | undefined,
+												"name",
+												"text"
+											),
+											text: resolveFileToken(
+												argv["text"] as string | undefined,
+												"text",
+												"text"
+											),
+											type: resolveFileToken(
+												argv["type"] as string | undefined,
+												"type",
+												"text"
+											),
+											format: resolveFileToken(
+												argv["format"] as string | undefined,
+												"format",
+												"text"
+											),
+											key_base64: resolveFileToken(
+												argv["key-base64"] as string | undefined,
+												"key-base64",
+												"text"
+											),
+											usages: argv["usages"],
+										}),
 						},
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										name: resolveFileToken(
-											argv["name"] as string | undefined,
-											"name",
-											"text"
-										),
-										text: resolveFileToken(
-											argv["text"] as string | undefined,
-											"text",
-											"text"
-										),
-										type: resolveFileToken(
-											argv["type"] as string | undefined,
-											"type",
-											"text"
-										),
-										format: resolveFileToken(
-											argv["format"] as string | undefined,
-											"format",
-											"text"
-										),
-										key_base64: resolveFileToken(
-											argv["key-base64"] as string | undefined,
-											"key-base64",
-											"text"
-										),
-										usages: argv["usages"],
-									}),
-					});
+						{
+							sensitiveBodyPaths: [["text"], ["key_base64"]],
+							showSecrets: argv.showSecrets,
+						}
+					);
 					return;
 				}
 				const client = await createCommandClient(argv);

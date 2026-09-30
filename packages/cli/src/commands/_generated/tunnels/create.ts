@@ -46,6 +46,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Validate and show what would happen without executing",
 			default: false,
 		})
+		.option("show-secrets", {
+			type: "boolean",
+			description: "Show sensitive values in dry-run output",
+			default: false,
+		})
 		.option("body", {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
@@ -66,40 +71,46 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "tunnels create",
 				classification: {
-					safeFlags: ["config-src", "dry-run"],
+					safeFlags: ["config-src", "dry-run", "show-secrets"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf tunnels create",
-						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/cfd_tunnel`,
-						pathParams: {},
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										config_src: resolveFileToken(
-											argv["config-src"] as string | undefined,
-											"config-src",
-											"text"
-										),
-										name: resolveFileToken(
-											argv["name"] as string | undefined,
-											"name",
-											"text"
-										),
-										tunnel_secret: resolveFileToken(
-											argv["tunnel-secret"] as string | undefined,
-											"tunnel-secret",
-											"text"
-										),
-									}),
-					});
+					formatDryRun(
+						{
+							command: "cf tunnels create",
+							method: "POST",
+							url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/cfd_tunnel`,
+							pathParams: {},
+							bodyKind: "json",
+							body:
+								argv.body !== undefined
+									? parseBody(argv.body)
+									: compactBody({
+											config_src: resolveFileToken(
+												argv["config-src"] as string | undefined,
+												"config-src",
+												"text"
+											),
+											name: resolveFileToken(
+												argv["name"] as string | undefined,
+												"name",
+												"text"
+											),
+											tunnel_secret: resolveFileToken(
+												argv["tunnel-secret"] as string | undefined,
+												"tunnel-secret",
+												"text"
+											),
+										}),
+						},
+						{
+							sensitiveBodyPaths: [["tunnel_secret"]],
+							showSecrets: argv.showSecrets,
+						}
+					);
 					return;
 				}
 				const client = await createCommandClient(argv);

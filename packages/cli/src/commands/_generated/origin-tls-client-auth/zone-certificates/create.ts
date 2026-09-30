@@ -33,6 +33,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Validate and show what would happen without executing",
 			default: false,
 		})
+		.option("show-secrets", {
+			type: "boolean",
+			description: "Show sensitive values in dry-run output",
+			default: false,
+		})
 		.option("body", {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
@@ -54,36 +59,42 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "origin-tls-client-auth zone-certificates create",
 				classification: {
-					safeFlags: ["dry-run"],
+					safeFlags: ["dry-run", "show-secrets"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
 				if (argv.dryRun) {
-					formatDryRun({
-						command: "cf origin-tls-client-auth zone-certificates create",
-						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/origin_tls_client_auth`,
-						pathParams: {
-							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
+					formatDryRun(
+						{
+							command: "cf origin-tls-client-auth zone-certificates create",
+							method: "POST",
+							url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/origin_tls_client_auth`,
+							pathParams: {
+								"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
+							},
+							bodyKind: "json",
+							body:
+								argv.body !== undefined
+									? parseBody(argv.body)
+									: compactBody({
+											certificate: resolveFileToken(
+												argv["certificate"] as string | undefined,
+												"certificate",
+												"text"
+											),
+											private_key: resolveFileToken(
+												argv["private-key"] as string | undefined,
+												"private-key",
+												"text"
+											),
+										}),
 						},
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										certificate: resolveFileToken(
-											argv["certificate"] as string | undefined,
-											"certificate",
-											"text"
-										),
-										private_key: resolveFileToken(
-											argv["private-key"] as string | undefined,
-											"private-key",
-											"text"
-										),
-									}),
-					});
+						{
+							sensitiveBodyPaths: [["private_key"]],
+							showSecrets: argv.showSecrets,
+						}
+					);
 					return;
 				}
 				const client = await createCommandClient(argv);

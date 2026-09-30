@@ -59,6 +59,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Validate and show what would happen without executing",
 			default: false,
 		})
+		.option("show-secrets", {
+			type: "boolean",
+			description: "Show sensitive values in dry-run output",
+			default: false,
+		})
 		.option("body", {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
@@ -79,48 +84,51 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "ai-gateway gateways providers create",
 				classification: {
-					safeFlags: ["default-config", "dry-run"],
+					safeFlags: ["default-config", "dry-run", "show-secrets"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf ai-gateway gateways providers create",
-						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-gateway/gateways/${argv["gateway-id"] == null ? "<gateway-id>" : encodeURIComponent(String(argv["gateway-id"]))}/provider_configs`,
-						pathParams: { "gateway-id": String(argv["gateway-id"] ?? "") },
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										alias: resolveFileToken(
-											argv["alias"] as string | undefined,
-											"alias",
-											"text"
-										),
-										default_config: argv["default-config"],
-										provider_slug: resolveFileToken(
-											argv["provider-slug"] as string | undefined,
-											"provider-slug",
-											"text"
-										),
-										rate_limit: argv["rate-limit"],
-										rate_limit_period: argv["rate-limit-period"],
-										secret: resolveFileToken(
-											argv["secret"] as string | undefined,
-											"secret",
-											"text"
-										),
-										secret_id: resolveFileToken(
-											argv["secret-id"] as string | undefined,
-											"secret-id",
-											"text"
-										),
-									}),
-					});
+					formatDryRun(
+						{
+							command: "cf ai-gateway gateways providers create",
+							method: "POST",
+							url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-gateway/gateways/${argv["gateway-id"] == null ? "<gateway-id>" : encodeURIComponent(String(argv["gateway-id"]))}/provider_configs`,
+							pathParams: { "gateway-id": String(argv["gateway-id"] ?? "") },
+							bodyKind: "json",
+							body:
+								argv.body !== undefined
+									? parseBody(argv.body)
+									: compactBody({
+											alias: resolveFileToken(
+												argv["alias"] as string | undefined,
+												"alias",
+												"text"
+											),
+											default_config: argv["default-config"],
+											provider_slug: resolveFileToken(
+												argv["provider-slug"] as string | undefined,
+												"provider-slug",
+												"text"
+											),
+											rate_limit: argv["rate-limit"],
+											rate_limit_period: argv["rate-limit-period"],
+											secret: resolveFileToken(
+												argv["secret"] as string | undefined,
+												"secret",
+												"text"
+											),
+											secret_id: resolveFileToken(
+												argv["secret-id"] as string | undefined,
+												"secret-id",
+												"text"
+											),
+										}),
+						},
+						{ sensitiveBodyPaths: [["secret"]], showSecrets: argv.showSecrets }
+					);
 					return;
 				}
 				const client = await createCommandClient(argv);

@@ -129,6 +129,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Validate and show what would happen without executing",
 			default: false,
 		})
+		.option("show-secrets", {
+			type: "boolean",
+			description: "Show sensitive values in dry-run output",
+			default: false,
+		})
 		.option("body", {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
@@ -180,6 +185,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"mtls-sslmode",
 						"origin-scheme",
 						"dry-run",
+						"show-secrets",
 					],
 				} satisfies ArgClassification<Args>,
 			},
@@ -187,94 +193,105 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			async () => {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf hyperdrive replace",
-						method: "PUT",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/hyperdrive/configs/${argv["hyperdrive-id"] == null ? "<hyperdrive-id>" : encodeURIComponent(String(argv["hyperdrive-id"]))}`,
-						pathParams: {
-							"hyperdrive-id": String(argv["hyperdrive-id"] ?? ""),
+					formatDryRun(
+						{
+							command: "cf hyperdrive replace",
+							method: "PUT",
+							url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/hyperdrive/configs/${argv["hyperdrive-id"] == null ? "<hyperdrive-id>" : encodeURIComponent(String(argv["hyperdrive-id"]))}`,
+							pathParams: {
+								"hyperdrive-id": String(argv["hyperdrive-id"] ?? ""),
+							},
+							bodyKind: "json",
+							body:
+								argv.body !== undefined
+									? parseBody(argv.body)
+									: compactBody({
+											caching: {
+												disabled: argv["caching-disabled"],
+												max_age: argv["caching-max-age"],
+												stale_while_revalidate:
+													argv["caching-stale-while-revalidate"],
+											},
+											mtls: {
+												ca_certificate_id: resolveFileToken(
+													argv["mtls-ca-certificate-id"] as string | undefined,
+													"mtls-ca-certificate-id",
+													"text"
+												),
+												mtls_certificate_id: resolveFileToken(
+													argv["mtls-mtls-certificate-id"] as
+														| string
+														| undefined,
+													"mtls-mtls-certificate-id",
+													"text"
+												),
+												sslmode: resolveFileToken(
+													argv["mtls-sslmode"] as string | undefined,
+													"mtls-sslmode",
+													"text"
+												),
+											},
+											name: resolveFileToken(
+												argv["name"] as string | undefined,
+												"name",
+												"text"
+											),
+											origin: {
+												database: resolveFileToken(
+													argv["origin-database"] as string | undefined,
+													"origin-database",
+													"text"
+												),
+												password: resolveFileToken(
+													argv["origin-password"] as string | undefined,
+													"origin-password",
+													"text"
+												),
+												scheme: resolveFileToken(
+													argv["origin-scheme"] as string | undefined,
+													"origin-scheme",
+													"text"
+												),
+												user: resolveFileToken(
+													argv["origin-user"] as string | undefined,
+													"origin-user",
+													"text"
+												),
+												host: resolveFileToken(
+													argv["origin-host"] as string | undefined,
+													"origin-host",
+													"text"
+												),
+												port: argv["origin-port"],
+												access_client_id: resolveFileToken(
+													argv["origin-access-client-id"] as string | undefined,
+													"origin-access-client-id",
+													"text"
+												),
+												access_client_secret: resolveFileToken(
+													argv["origin-access-client-secret"] as
+														| string
+														| undefined,
+													"origin-access-client-secret",
+													"text"
+												),
+												service_id: resolveFileToken(
+													argv["origin-service-id"] as string | undefined,
+													"origin-service-id",
+													"text"
+												),
+											},
+											origin_connection_limit: argv["origin-connection-limit"],
+										}),
 						},
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										caching: {
-											disabled: argv["caching-disabled"],
-											max_age: argv["caching-max-age"],
-											stale_while_revalidate:
-												argv["caching-stale-while-revalidate"],
-										},
-										mtls: {
-											ca_certificate_id: resolveFileToken(
-												argv["mtls-ca-certificate-id"] as string | undefined,
-												"mtls-ca-certificate-id",
-												"text"
-											),
-											mtls_certificate_id: resolveFileToken(
-												argv["mtls-mtls-certificate-id"] as string | undefined,
-												"mtls-mtls-certificate-id",
-												"text"
-											),
-											sslmode: resolveFileToken(
-												argv["mtls-sslmode"] as string | undefined,
-												"mtls-sslmode",
-												"text"
-											),
-										},
-										name: resolveFileToken(
-											argv["name"] as string | undefined,
-											"name",
-											"text"
-										),
-										origin: {
-											database: resolveFileToken(
-												argv["origin-database"] as string | undefined,
-												"origin-database",
-												"text"
-											),
-											password: resolveFileToken(
-												argv["origin-password"] as string | undefined,
-												"origin-password",
-												"text"
-											),
-											scheme: resolveFileToken(
-												argv["origin-scheme"] as string | undefined,
-												"origin-scheme",
-												"text"
-											),
-											user: resolveFileToken(
-												argv["origin-user"] as string | undefined,
-												"origin-user",
-												"text"
-											),
-											host: resolveFileToken(
-												argv["origin-host"] as string | undefined,
-												"origin-host",
-												"text"
-											),
-											port: argv["origin-port"],
-											access_client_id: resolveFileToken(
-												argv["origin-access-client-id"] as string | undefined,
-												"origin-access-client-id",
-												"text"
-											),
-											access_client_secret: resolveFileToken(
-												argv["origin-access-client-secret"] as
-													| string
-													| undefined,
-												"origin-access-client-secret",
-												"text"
-											),
-											service_id: resolveFileToken(
-												argv["origin-service-id"] as string | undefined,
-												"origin-service-id",
-												"text"
-											),
-										},
-										origin_connection_limit: argv["origin-connection-limit"],
-									}),
-					});
+						{
+							sensitiveBodyPaths: [
+								["origin", "password"],
+								["origin", "access_client_secret"],
+							],
+							showSecrets: argv.showSecrets,
+						}
+					);
 					return;
 				}
 				const client = await createCommandClient(argv);

@@ -220,6 +220,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Validate and show what would happen without executing",
 			default: false,
 		})
+		.option("show-secrets", {
+			type: "boolean",
+			description: "Show sensitive values in dry-run output",
+			default: false,
+		})
 		.option("body", {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
@@ -317,6 +322,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"source-config-production-deployments-enabled",
 						"source-type",
 						"dry-run",
+						"show-secrets",
 					],
 				} satisfies ArgClassification<Args>,
 			},
@@ -324,220 +330,235 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			async () => {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf pages create",
-						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/pages/projects`,
-						pathParams: {},
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										build_config: {
-											build_caching: argv["build-config-build-caching"],
-											build_command: resolveFileToken(
-												argv["build-config-build-command"] as
-													| string
-													| undefined,
-												"build-config-build-command",
-												"text"
-											),
-											destination_dir: resolveFileToken(
-												argv["build-config-destination-dir"] as
-													| string
-													| undefined,
-												"build-config-destination-dir",
-												"text"
-											),
-											root_dir: resolveFileToken(
-												argv["build-config-root-dir"] as string | undefined,
-												"build-config-root-dir",
-												"text"
-											),
-											web_analytics_tag: resolveFileToken(
-												argv["build-config-web-analytics-tag"] as
-													| string
-													| undefined,
-												"build-config-web-analytics-tag",
-												"text"
-											),
-											web_analytics_token: resolveFileToken(
-												argv["build-config-web-analytics-token"] as
-													| string
-													| undefined,
-												"build-config-web-analytics-token",
-												"text"
-											),
-										},
-										deployment_configs: {
-											preview: {
-												always_use_latest_compatibility_date:
-													argv[
-														"deployment-configs-preview-always-use-latest-compatibility-date"
-													],
-												build_image_major_version:
-													argv[
-														"deployment-configs-preview-build-image-major-version"
-													],
-												compatibility_date: resolveFileToken(
-													argv[
-														"deployment-configs-preview-compatibility-date"
-													] as string | undefined,
-													"deployment-configs-preview-compatibility-date",
+					formatDryRun(
+						{
+							command: "cf pages create",
+							method: "POST",
+							url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/pages/projects`,
+							pathParams: {},
+							bodyKind: "json",
+							body:
+								argv.body !== undefined
+									? parseBody(argv.body)
+									: compactBody({
+											build_config: {
+												build_caching: argv["build-config-build-caching"],
+												build_command: resolveFileToken(
+													argv["build-config-build-command"] as
+														| string
+														| undefined,
+													"build-config-build-command",
 													"text"
 												),
-												compatibility_flags:
-													argv[
-														"deployment-configs-preview-compatibility-flags"
-													],
-												fail_open: argv["deployment-configs-preview-fail-open"],
-												limits: {
-													cpu_ms:
-														argv["deployment-configs-preview-limits-cpu-ms"],
-												},
-												placement: {
-													mode: resolveFileToken(
-														argv["deployment-configs-preview-placement-mode"] as
+												destination_dir: resolveFileToken(
+													argv["build-config-destination-dir"] as
+														| string
+														| undefined,
+													"build-config-destination-dir",
+													"text"
+												),
+												root_dir: resolveFileToken(
+													argv["build-config-root-dir"] as string | undefined,
+													"build-config-root-dir",
+													"text"
+												),
+												web_analytics_tag: resolveFileToken(
+													argv["build-config-web-analytics-tag"] as
+														| string
+														| undefined,
+													"build-config-web-analytics-tag",
+													"text"
+												),
+												web_analytics_token: resolveFileToken(
+													argv["build-config-web-analytics-token"] as
+														| string
+														| undefined,
+													"build-config-web-analytics-token",
+													"text"
+												),
+											},
+											deployment_configs: {
+												preview: {
+													always_use_latest_compatibility_date:
+														argv[
+															"deployment-configs-preview-always-use-latest-compatibility-date"
+														],
+													build_image_major_version:
+														argv[
+															"deployment-configs-preview-build-image-major-version"
+														],
+													compatibility_date: resolveFileToken(
+														argv[
+															"deployment-configs-preview-compatibility-date"
+														] as string | undefined,
+														"deployment-configs-preview-compatibility-date",
+														"text"
+													),
+													compatibility_flags:
+														argv[
+															"deployment-configs-preview-compatibility-flags"
+														],
+													fail_open:
+														argv["deployment-configs-preview-fail-open"],
+													limits: {
+														cpu_ms:
+															argv["deployment-configs-preview-limits-cpu-ms"],
+													},
+													placement: {
+														mode: resolveFileToken(
+															argv[
+																"deployment-configs-preview-placement-mode"
+															] as string | undefined,
+															"deployment-configs-preview-placement-mode",
+															"text"
+														),
+													},
+													usage_model: resolveFileToken(
+														argv["deployment-configs-preview-usage-model"] as
 															| string
 															| undefined,
-														"deployment-configs-preview-placement-mode",
+														"deployment-configs-preview-usage-model",
 														"text"
 													),
-												},
-												usage_model: resolveFileToken(
-													argv["deployment-configs-preview-usage-model"] as
-														| string
-														| undefined,
-													"deployment-configs-preview-usage-model",
-													"text"
-												),
-												wrangler_config_hash: resolveFileToken(
-													argv[
-														"deployment-configs-preview-wrangler-config-hash"
-													] as string | undefined,
-													"deployment-configs-preview-wrangler-config-hash",
-													"text"
-												),
-											},
-											production: {
-												always_use_latest_compatibility_date:
-													argv[
-														"deployment-configs-production-always-use-latest-compatibility-date"
-													],
-												build_image_major_version:
-													argv[
-														"deployment-configs-production-build-image-major-version"
-													],
-												compatibility_date: resolveFileToken(
-													argv[
-														"deployment-configs-production-compatibility-date"
-													] as string | undefined,
-													"deployment-configs-production-compatibility-date",
-													"text"
-												),
-												compatibility_flags:
-													argv[
-														"deployment-configs-production-compatibility-flags"
-													],
-												fail_open:
-													argv["deployment-configs-production-fail-open"],
-												limits: {
-													cpu_ms:
-														argv["deployment-configs-production-limits-cpu-ms"],
-												},
-												placement: {
-													mode: resolveFileToken(
+													wrangler_config_hash: resolveFileToken(
 														argv[
-															"deployment-configs-production-placement-mode"
+															"deployment-configs-preview-wrangler-config-hash"
 														] as string | undefined,
-														"deployment-configs-production-placement-mode",
+														"deployment-configs-preview-wrangler-config-hash",
 														"text"
 													),
 												},
-												usage_model: resolveFileToken(
-													argv["deployment-configs-production-usage-model"] as
-														| string
-														| undefined,
-													"deployment-configs-production-usage-model",
-													"text"
-												),
-												wrangler_config_hash: resolveFileToken(
-													argv[
-														"deployment-configs-production-wrangler-config-hash"
-													] as string | undefined,
-													"deployment-configs-production-wrangler-config-hash",
-													"text"
-												),
+												production: {
+													always_use_latest_compatibility_date:
+														argv[
+															"deployment-configs-production-always-use-latest-compatibility-date"
+														],
+													build_image_major_version:
+														argv[
+															"deployment-configs-production-build-image-major-version"
+														],
+													compatibility_date: resolveFileToken(
+														argv[
+															"deployment-configs-production-compatibility-date"
+														] as string | undefined,
+														"deployment-configs-production-compatibility-date",
+														"text"
+													),
+													compatibility_flags:
+														argv[
+															"deployment-configs-production-compatibility-flags"
+														],
+													fail_open:
+														argv["deployment-configs-production-fail-open"],
+													limits: {
+														cpu_ms:
+															argv[
+																"deployment-configs-production-limits-cpu-ms"
+															],
+													},
+													placement: {
+														mode: resolveFileToken(
+															argv[
+																"deployment-configs-production-placement-mode"
+															] as string | undefined,
+															"deployment-configs-production-placement-mode",
+															"text"
+														),
+													},
+													usage_model: resolveFileToken(
+														argv["deployment-configs-production-usage-model"] as
+															| string
+															| undefined,
+														"deployment-configs-production-usage-model",
+														"text"
+													),
+													wrangler_config_hash: resolveFileToken(
+														argv[
+															"deployment-configs-production-wrangler-config-hash"
+														] as string | undefined,
+														"deployment-configs-production-wrangler-config-hash",
+														"text"
+													),
+												},
 											},
-										},
-										name: resolveFileToken(
-											argv["name"] as string | undefined,
-											"name",
-											"text"
-										),
-										production_branch: resolveFileToken(
-											argv["production-branch"] as string | undefined,
-											"production-branch",
-											"text"
-										),
-										source: {
-											config: {
-												deployments_enabled:
-													argv["source-config-deployments-enabled"],
-												owner: resolveFileToken(
-													argv["source-config-owner"] as string | undefined,
-													"source-config-owner",
-													"text"
-												),
-												owner_id: resolveFileToken(
-													argv["source-config-owner-id"] as string | undefined,
-													"source-config-owner-id",
-													"text"
-												),
-												path_excludes: argv["source-config-path-excludes"],
-												path_includes: argv["source-config-path-includes"],
-												pr_comments_enabled:
-													argv["source-config-pr-comments-enabled"],
-												preview_branch_excludes:
-													argv["source-config-preview-branch-excludes"],
-												preview_branch_includes:
-													argv["source-config-preview-branch-includes"],
-												preview_deployment_setting: resolveFileToken(
-													argv["source-config-preview-deployment-setting"] as
-														| string
-														| undefined,
-													"source-config-preview-deployment-setting",
-													"text"
-												),
-												production_branch: resolveFileToken(
-													argv["source-config-production-branch"] as
-														| string
-														| undefined,
-													"source-config-production-branch",
-													"text"
-												),
-												production_deployments_enabled:
-													argv["source-config-production-deployments-enabled"],
-												repo_id: resolveFileToken(
-													argv["source-config-repo-id"] as string | undefined,
-													"source-config-repo-id",
-													"text"
-												),
-												repo_name: resolveFileToken(
-													argv["source-config-repo-name"] as string | undefined,
-													"source-config-repo-name",
-													"text"
-												),
-											},
-											type: resolveFileToken(
-												argv["source-type"] as string | undefined,
-												"source-type",
+											name: resolveFileToken(
+												argv["name"] as string | undefined,
+												"name",
 												"text"
 											),
-										},
-									}),
-					});
+											production_branch: resolveFileToken(
+												argv["production-branch"] as string | undefined,
+												"production-branch",
+												"text"
+											),
+											source: {
+												config: {
+													deployments_enabled:
+														argv["source-config-deployments-enabled"],
+													owner: resolveFileToken(
+														argv["source-config-owner"] as string | undefined,
+														"source-config-owner",
+														"text"
+													),
+													owner_id: resolveFileToken(
+														argv["source-config-owner-id"] as
+															| string
+															| undefined,
+														"source-config-owner-id",
+														"text"
+													),
+													path_excludes: argv["source-config-path-excludes"],
+													path_includes: argv["source-config-path-includes"],
+													pr_comments_enabled:
+														argv["source-config-pr-comments-enabled"],
+													preview_branch_excludes:
+														argv["source-config-preview-branch-excludes"],
+													preview_branch_includes:
+														argv["source-config-preview-branch-includes"],
+													preview_deployment_setting: resolveFileToken(
+														argv["source-config-preview-deployment-setting"] as
+															| string
+															| undefined,
+														"source-config-preview-deployment-setting",
+														"text"
+													),
+													production_branch: resolveFileToken(
+														argv["source-config-production-branch"] as
+															| string
+															| undefined,
+														"source-config-production-branch",
+														"text"
+													),
+													production_deployments_enabled:
+														argv[
+															"source-config-production-deployments-enabled"
+														],
+													repo_id: resolveFileToken(
+														argv["source-config-repo-id"] as string | undefined,
+														"source-config-repo-id",
+														"text"
+													),
+													repo_name: resolveFileToken(
+														argv["source-config-repo-name"] as
+															| string
+															| undefined,
+														"source-config-repo-name",
+														"text"
+													),
+												},
+												type: resolveFileToken(
+													argv["source-type"] as string | undefined,
+													"source-type",
+													"text"
+												),
+											},
+										}),
+						},
+						{
+							sensitiveBodyPaths: [["build_config", "web_analytics_token"]],
+							showSecrets: argv.showSecrets,
+						}
+					);
 					return;
 				}
 				const client = await createCommandClient(argv);

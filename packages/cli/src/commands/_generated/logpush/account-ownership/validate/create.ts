@@ -40,6 +40,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Validate and show what would happen without executing",
 			default: false,
 		})
+		.option("show-secrets", {
+			type: "boolean",
+			description: "Show sensitive values in dry-run output",
+			default: false,
+		})
 		.option("body", {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
@@ -61,7 +66,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "logpush account-ownership validate create",
 				classification: {
-					safeFlags: ["dry-run"],
+					safeFlags: ["dry-run", "show-secrets"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -74,31 +79,40 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					const accountOrZone = argv.zone === undefined ? "accounts" : "zones";
 					const accountOrZoneId =
 						argv.zone ?? __cfDryRunAccountId ?? "<account-id>";
-					formatDryRun({
-						command: "cf logpush account-ownership validate create",
-						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/${accountOrZone}/${accountOrZoneId}/logpush/ownership/validate`,
-						pathParams: {
-							"account-or-zone": String(accountOrZone),
-							"account-or-zone-id": String(accountOrZoneId),
+					formatDryRun(
+						{
+							command: "cf logpush account-ownership validate create",
+							method: "POST",
+							url: `https://api.cloudflare.com/client/v4/${accountOrZone}/${accountOrZoneId}/logpush/ownership/validate`,
+							pathParams: {
+								"account-or-zone": String(accountOrZone),
+								"account-or-zone-id": String(accountOrZoneId),
+							},
+							bodyKind: "json",
+							body:
+								argv.body !== undefined
+									? parseBody(argv.body)
+									: compactBody({
+											destination_conf: resolveFileToken(
+												argv["destination-conf"] as string | undefined,
+												"destination-conf",
+												"text"
+											),
+											ownership_challenge: resolveFileToken(
+												argv["ownership-challenge"] as string | undefined,
+												"ownership-challenge",
+												"text"
+											),
+										}),
 						},
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										destination_conf: resolveFileToken(
-											argv["destination-conf"] as string | undefined,
-											"destination-conf",
-											"text"
-										),
-										ownership_challenge: resolveFileToken(
-											argv["ownership-challenge"] as string | undefined,
-											"ownership-challenge",
-											"text"
-										),
-									}),
-					});
+						{
+							sensitiveBodyPaths: [
+								["destination_conf"],
+								["ownership_challenge"],
+							],
+							showSecrets: argv.showSecrets,
+						}
+					);
 					return;
 				}
 				const client = await createCommandClient(argv);

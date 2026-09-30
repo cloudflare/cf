@@ -55,9 +55,70 @@ export interface DryRunOutput {
 	body?: unknown;
 }
 
+interface DryRunOptions {
+	sensitiveBodyPaths?: readonly (readonly string[])[];
+	showSecrets?: boolean;
+}
+
+export function redactDryRunBody(
+	body: unknown,
+	paths: readonly (readonly string[])[]
+): unknown {
+	const redact = (
+		value: unknown,
+		remainingPaths: readonly (readonly string[])[]
+	): unknown => {
+		if (Array.isArray(value)) {
+			return value.map((item) => redact(item, remainingPaths));
+		}
+		if (value === null || typeof value !== "object") {
+			return value;
+		}
+
+		return Object.fromEntries(
+			Object.entries(value).map(([key, child]) => {
+				const matching = remainingPaths.filter((path) => path[0] === key);
+				if (matching.length === 0 || child === undefined) {
+					return [key, child];
+				}
+				if (matching.some((path) => path.length === 1)) {
+					return [
+						key,
+						typeof child === "string"
+							? `<redacted, ${Array.from(child).length} chars>`
+							: "<redacted>",
+					];
+				}
+				return [
+					key,
+					redact(
+						child,
+						matching.map((path) => path.slice(1))
+					),
+				];
+			})
+		);
+	};
+
+	return redact(
+		body,
+		paths.filter((path) => path.length > 0)
+	);
+}
+
 /**
  * Format and print dry-run output as JSON (with syntax highlighting on TTYs).
  */
-export function formatDryRun(output: DryRunOutput): void {
-	formatOutput(output);
+export function formatDryRun(
+	output: DryRunOutput,
+	options: DryRunOptions = {}
+): void {
+	if (options.showSecrets || !options.sensitiveBodyPaths?.length) {
+		formatOutput(output);
+		return;
+	}
+	formatOutput({
+		...output,
+		body: redactDryRunBody(output.body, options.sensitiveBodyPaths),
+	});
 }

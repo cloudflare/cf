@@ -36,6 +36,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Validate and show what would happen without executing",
 			default: false,
 		})
+		.option("show-secrets", {
+			type: "boolean",
+			description: "Show sensitive values in dry-run output",
+			default: false,
+		})
 		.option("body", {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
@@ -56,40 +61,43 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "dns zone-transfers tsigs update",
 				classification: {
-					safeFlags: ["dry-run"],
+					safeFlags: ["dry-run", "show-secrets"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf dns zone-transfers tsigs update",
-						method: "PUT",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/secondary_dns/tsigs/${argv["tsig-id"] == null ? "<tsig-id>" : encodeURIComponent(String(argv["tsig-id"]))}`,
-						pathParams: { "tsig-id": String(argv["tsig-id"] ?? "") },
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										algo: resolveFileToken(
-											argv["algo"] as string | undefined,
-											"algo",
-											"text"
-										),
-										name: resolveFileToken(
-											argv["name"] as string | undefined,
-											"name",
-											"text"
-										),
-										secret: resolveFileToken(
-											argv["secret"] as string | undefined,
-											"secret",
-											"text"
-										),
-									}),
-					});
+					formatDryRun(
+						{
+							command: "cf dns zone-transfers tsigs update",
+							method: "PUT",
+							url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/secondary_dns/tsigs/${argv["tsig-id"] == null ? "<tsig-id>" : encodeURIComponent(String(argv["tsig-id"]))}`,
+							pathParams: { "tsig-id": String(argv["tsig-id"] ?? "") },
+							bodyKind: "json",
+							body:
+								argv.body !== undefined
+									? parseBody(argv.body)
+									: compactBody({
+											algo: resolveFileToken(
+												argv["algo"] as string | undefined,
+												"algo",
+												"text"
+											),
+											name: resolveFileToken(
+												argv["name"] as string | undefined,
+												"name",
+												"text"
+											),
+											secret: resolveFileToken(
+												argv["secret"] as string | undefined,
+												"secret",
+												"text"
+											),
+										}),
+						},
+						{ sensitiveBodyPaths: [["secret"]], showSecrets: argv.showSecrets }
+					);
 					return;
 				}
 				const client = await createCommandClient(argv);

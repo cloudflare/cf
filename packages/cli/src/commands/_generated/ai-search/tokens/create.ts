@@ -45,6 +45,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Validate and show what would happen without executing",
 			default: false,
 		})
+		.option("show-secrets", {
+			type: "boolean",
+			description: "Show sensitive values in dry-run output",
+			default: false,
+		})
 		.option("body", {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
@@ -65,37 +70,43 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "ai-search tokens create",
 				classification: {
-					safeFlags: ["legacy", "dry-run"],
+					safeFlags: ["legacy", "dry-run", "show-secrets"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf ai-search tokens create",
-						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/tokens`,
-						pathParams: {},
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										cf_api_id: resolveFileToken(
-											argv["cf-api-id"] as string | undefined,
-											"cf-api-id",
-											"text"
-										),
-										cf_api_key: resolveFileToken(
-											argv["cf-api-key"] as string | undefined,
-											"cf-api-key",
-											"text"
-										),
-										legacy: argv["legacy"],
-										name: argv["name"],
-									}),
-					});
+					formatDryRun(
+						{
+							command: "cf ai-search tokens create",
+							method: "POST",
+							url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/tokens`,
+							pathParams: {},
+							bodyKind: "json",
+							body:
+								argv.body !== undefined
+									? parseBody(argv.body)
+									: compactBody({
+											cf_api_id: resolveFileToken(
+												argv["cf-api-id"] as string | undefined,
+												"cf-api-id",
+												"text"
+											),
+											cf_api_key: resolveFileToken(
+												argv["cf-api-key"] as string | undefined,
+												"cf-api-key",
+												"text"
+											),
+											legacy: argv["legacy"],
+											name: argv["name"],
+										}),
+						},
+						{
+							sensitiveBodyPaths: [["cf_api_key"]],
+							showSecrets: argv.showSecrets,
+						}
+					);
 					return;
 				}
 				const client = await createCommandClient(argv);

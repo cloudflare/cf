@@ -74,6 +74,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Validate and show what would happen without executing",
 			default: false,
 		})
+		.option("show-secrets", {
+			type: "boolean",
+			description: "Show sensitive values in dry-run output",
+			default: false,
+		})
 		.option("body", {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
@@ -132,78 +137,89 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "r2 super-slurper connectivity-precheck source",
 				classification: {
-					safeFlags: ["vendor", "jurisdiction", "dry-run"],
+					safeFlags: ["vendor", "jurisdiction", "dry-run", "show-secrets"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf r2 super-slurper connectivity-precheck source",
-						method: "PUT",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/slurper/source/connectivity-precheck`,
-						pathParams: {},
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										bucket: resolveFileToken(
-											argv["bucket"] as string | undefined,
-											"bucket",
-											"text"
-										),
-										endpoint: resolveFileToken(
-											argv["endpoint"] as string | undefined,
-											"endpoint",
-											"text"
-										),
-										keys: argv["keys"],
-										pathPrefix: resolveFileToken(
-											argv["path-prefix"] as string | undefined,
-											"path-prefix",
-											"text"
-										),
-										region: resolveFileToken(
-											argv["region"] as string | undefined,
-											"region",
-											"text"
-										),
-										secret: {
-											accessKeyId: resolveFileToken(
-												argv["secret-access-key-id"] as string | undefined,
-												"secret-access-key-id",
+					formatDryRun(
+						{
+							command: "cf r2 super-slurper connectivity-precheck source",
+							method: "PUT",
+							url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/slurper/source/connectivity-precheck`,
+							pathParams: {},
+							bodyKind: "json",
+							body:
+								argv.body !== undefined
+									? parseBody(argv.body)
+									: compactBody({
+											bucket: resolveFileToken(
+												argv["bucket"] as string | undefined,
+												"bucket",
 												"text"
 											),
-											secretAccessKey: resolveFileToken(
-												argv["secret-secret-access-key"] as string | undefined,
-												"secret-secret-access-key",
+											endpoint: resolveFileToken(
+												argv["endpoint"] as string | undefined,
+												"endpoint",
 												"text"
 											),
-											clientEmail: resolveFileToken(
-												argv["secret-client-email"] as string | undefined,
-												"secret-client-email",
+											keys: argv["keys"],
+											pathPrefix: resolveFileToken(
+												argv["path-prefix"] as string | undefined,
+												"path-prefix",
 												"text"
 											),
-											privateKey: resolveFileToken(
-												argv["secret-private-key"] as string | undefined,
-												"secret-private-key",
+											region: resolveFileToken(
+												argv["region"] as string | undefined,
+												"region",
 												"text"
 											),
-										},
-										vendor: resolveFileToken(
-											argv["vendor"] as string | undefined,
-											"vendor",
-											"text"
-										),
-										jurisdiction: resolveFileToken(
-											argv["jurisdiction"] as string | undefined,
-											"jurisdiction",
-											"text"
-										),
-									}),
-					});
+											secret: {
+												accessKeyId: resolveFileToken(
+													argv["secret-access-key-id"] as string | undefined,
+													"secret-access-key-id",
+													"text"
+												),
+												secretAccessKey: resolveFileToken(
+													argv["secret-secret-access-key"] as
+														| string
+														| undefined,
+													"secret-secret-access-key",
+													"text"
+												),
+												clientEmail: resolveFileToken(
+													argv["secret-client-email"] as string | undefined,
+													"secret-client-email",
+													"text"
+												),
+												privateKey: resolveFileToken(
+													argv["secret-private-key"] as string | undefined,
+													"secret-private-key",
+													"text"
+												),
+											},
+											vendor: resolveFileToken(
+												argv["vendor"] as string | undefined,
+												"vendor",
+												"text"
+											),
+											jurisdiction: resolveFileToken(
+												argv["jurisdiction"] as string | undefined,
+												"jurisdiction",
+												"text"
+											),
+										}),
+						},
+						{
+							sensitiveBodyPaths: [
+								["secret", "secretAccessKey"],
+								["secret", "privateKey"],
+							],
+							showSecrets: argv.showSecrets,
+						}
+					);
 					return;
 				}
 				const client = await createCommandClient(argv);

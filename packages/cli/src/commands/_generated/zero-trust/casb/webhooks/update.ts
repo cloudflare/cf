@@ -74,6 +74,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Validate and show what would happen without executing",
 			default: false,
 		})
+		.option("show-secrets", {
+			type: "boolean",
+			description: "Show sensitive values in dry-run output",
+			default: false,
+		})
 		.option("body", {
 			type: "string",
 			description:
@@ -95,51 +100,62 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "zero-trust casb webhooks update",
 				classification: {
-					safeFlags: ["authentication-type", "status", "dry-run"],
+					safeFlags: [
+						"authentication-type",
+						"status",
+						"dry-run",
+						"show-secrets",
+					],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf zero-trust casb webhooks update",
-						method: "PUT",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/data-security/posture/webhooks/${argv["webhook-id"] == null ? "<webhook-id>" : encodeURIComponent(String(argv["webhook-id"]))}`,
-						pathParams: { "webhook-id": String(argv["webhook-id"] ?? "") },
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										authentication_type: resolveFileToken(
-											argv["authentication-type"] as string | undefined,
-											"authentication-type",
-											"text"
-										),
-										destination_url: resolveFileToken(
-											argv["destination-url"] as string | undefined,
-											"destination-url",
-											"text"
-										),
-										headers: parseObjectArray(argv["headers"], "headers"),
-										label: resolveFileToken(
-											argv["label"] as string | undefined,
-											"label",
-											"text"
-										),
-										signing_secret: resolveFileToken(
-											argv["signing-secret"] as string | undefined,
-											"signing-secret",
-											"text"
-										),
-										status: resolveFileToken(
-											argv["status"] as string | undefined,
-											"status",
-											"text"
-										),
-									}),
-					});
+					formatDryRun(
+						{
+							command: "cf zero-trust casb webhooks update",
+							method: "PUT",
+							url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/data-security/posture/webhooks/${argv["webhook-id"] == null ? "<webhook-id>" : encodeURIComponent(String(argv["webhook-id"]))}`,
+							pathParams: { "webhook-id": String(argv["webhook-id"] ?? "") },
+							bodyKind: "json",
+							body:
+								argv.body !== undefined
+									? parseBody(argv.body)
+									: compactBody({
+											authentication_type: resolveFileToken(
+												argv["authentication-type"] as string | undefined,
+												"authentication-type",
+												"text"
+											),
+											destination_url: resolveFileToken(
+												argv["destination-url"] as string | undefined,
+												"destination-url",
+												"text"
+											),
+											headers: parseObjectArray(argv["headers"], "headers"),
+											label: resolveFileToken(
+												argv["label"] as string | undefined,
+												"label",
+												"text"
+											),
+											signing_secret: resolveFileToken(
+												argv["signing-secret"] as string | undefined,
+												"signing-secret",
+												"text"
+											),
+											status: resolveFileToken(
+												argv["status"] as string | undefined,
+												"status",
+												"text"
+											),
+										}),
+						},
+						{
+							sensitiveBodyPaths: [["signing_secret"]],
+							showSecrets: argv.showSecrets,
+						}
+					);
 					return;
 				}
 				const client = await createCommandClient(argv);

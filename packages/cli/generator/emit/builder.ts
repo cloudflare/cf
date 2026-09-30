@@ -12,6 +12,7 @@
 import { BODY_OPTIONS, toKebabCase } from "@cloudflare/forge";
 import { someArgHasKebab } from "../codegen/name-predicates.js";
 import { argScalarType } from "../intermediate-representation.js";
+import { sensitiveBodyPaths } from "../sensitive-body.js";
 import { escapeForSingleQuote } from "../util.js";
 import type { DerivedArgs } from "../arg-derivation.js";
 import type { OutputKind } from "../codegen/output-kind.js";
@@ -128,6 +129,15 @@ export function generateBuilderLines(
 			default: false,
 		})})`
 	);
+	if (sensitiveBodyPaths(opInfo).length > 0) {
+		builderLines.push(
+			`.option("show-secrets", ${JSON.stringify({
+				type: "boolean",
+				description: "Show sensitive values in dry-run output",
+				default: false,
+			})})`
+		);
+	}
 
 	// --force on destructive ops (HTTP DELETE or `x-forge-require-confirmation`).
 	{

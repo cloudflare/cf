@@ -7432,6 +7432,13 @@
 					"default": false
 				},
 				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
+					"default": false
+				},
+				{
 					"name": "body",
 					"type": "string",
 					"required": false,
@@ -7657,6 +7664,13 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
 					"default": false
 				},
 				{
@@ -8468,6 +8482,13 @@
 					"default": false
 				},
 				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
+					"default": false
+				},
+				{
 					"name": "body",
 					"type": "string",
 					"required": false,
@@ -8595,6 +8616,13 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
 					"default": false
 				},
 				{
@@ -11948,6 +11976,13 @@
 					"default": false
 				},
 				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
+					"default": false
+				},
+				{
 					"name": "body",
 					"type": "string",
 					"required": false,
@@ -12114,6 +12149,13 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
 					"default": false
 				},
 				{
@@ -12840,6 +12882,13 @@
 					"default": false
 				},
 				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
+					"default": false
+				},
+				{
 					"name": "body",
 					"type": "string",
 					"required": false,
@@ -12981,6 +13030,13 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
 					"default": false
 				},
 				{
@@ -16366,6 +16422,13 @@
 					"default": false
 				},
 				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
+					"default": false
+				},
+				{
 					"name": "body",
 					"type": "string",
 					"required": false,
@@ -16482,6 +16545,13 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
 					"default": false
 				},
 				{
@@ -16649,6 +16719,13 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
 					"default": false
 				},
 				{
@@ -22071,6 +22148,13 @@
 					"default": false
 				},
 				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
+					"default": false
+				},
+				{
 					"name": "body",
 					"type": "string",
 					"required": false,
@@ -22273,6 +22357,13 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
 					"default": false
 				},
 				{
@@ -22499,6 +22590,13 @@
 					"default": false
 				},
 				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
+					"default": false
+				},
+				{
 					"name": "body",
 					"type": "string",
 					"required": false,
@@ -22718,6 +22816,13 @@
 					"default": false
 				},
 				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
+					"default": false
+				},
+				{
 					"name": "body",
 					"type": "string",
 					"required": false,
@@ -22920,6 +23025,13 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
 					"default": false
 				},
 				{
@@ -23219,6 +23331,13 @@
 					"default": false
 				},
 				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
+					"default": false
+				},
+				{
 					"name": "body",
 					"type": "string",
 					"required": false,
@@ -23427,6 +23546,13 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
 					"default": false
 				},
 				{
@@ -23713,6 +23839,13 @@
 					"default": false
 				},
 				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
+					"default": false
+				},
+				{
 					"name": "body",
 					"type": "string",
 					"required": false,
@@ -23987,6 +24120,13 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
 					"default": false
 				},
 				{
@@ -40620,6 +40760,13 @@
 					"default": false
 				},
 				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
+					"default": false
+				},
+				{
 					"name": "body",
 					"type": "string",
 					"required": false,
@@ -40734,6 +40881,13 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
 					"default": false
 				},
 				{
@@ -41177,6 +41331,13 @@
 					"default": false
 				},
 				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
+					"default": false
+				},
+				{
 					"name": "body",
 					"type": "string",
 					"required": false,
@@ -41314,6 +41475,13 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
 					"default": false
 				},
 				{
@@ -41488,6 +41656,13 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
 					"default": false
 				},
 				{
@@ -45673,6 +45848,13 @@
 					"default": false
 				},
 				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
+					"default": false
+				},
+				{
 					"name": "body",
 					"type": "string",
 					"required": false,
@@ -45814,6 +45996,13 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
 					"default": false
 				},
 				{
@@ -54963,6 +55152,13 @@
 					"default": false
 				},
 				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
+					"default": false
+				},
+				{
 					"name": "body",
 					"type": "string",
 					"required": false,
@@ -63087,6 +63283,13 @@
 					"default": false
 				},
 				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
+					"default": false
+				},
+				{
 					"name": "body",
 					"type": "string",
 					"required": false,
@@ -63353,6 +63556,13 @@
 					"default": false
 				},
 				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
+					"default": false
+				},
+				{
 					"name": "body",
 					"type": "string",
 					"required": false,
@@ -63386,6 +63596,13 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
 					"default": false
 				},
 				{
@@ -63431,6 +63648,13 @@
 					"default": false
 				},
 				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
+					"default": false
+				},
+				{
 					"name": "body",
 					"type": "string",
 					"required": false,
@@ -63467,6 +63691,13 @@
 					"default": false
 				},
 				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
+					"default": false
+				},
+				{
 					"name": "body",
 					"type": "string",
 					"required": false,
@@ -63500,6 +63731,13 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
 					"default": false
 				},
 				{
@@ -70663,6 +70901,13 @@
 					"default": false
 				},
 				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
+					"default": false
+				},
+				{
 					"name": "body",
 					"type": "string",
 					"required": false,
@@ -71009,6 +71254,13 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
 					"default": false
 				},
 				{
@@ -75029,6 +75281,13 @@
 					"default": false
 				},
 				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
+					"default": false
+				},
+				{
 					"name": "body",
 					"type": "string",
 					"required": false,
@@ -75311,6 +75570,13 @@
 					"default": false
 				},
 				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
+					"default": false
+				},
+				{
 					"name": "body",
 					"type": "string",
 					"required": false,
@@ -75584,6 +75850,13 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
 					"default": false
 				},
 				{
@@ -76199,6 +76472,13 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
 					"default": false
 				},
 				{
@@ -82246,6 +82526,13 @@
 					"default": false
 				},
 				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
+					"default": false
+				},
+				{
 					"name": "body",
 					"type": "string",
 					"required": false,
@@ -82501,6 +82788,13 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
 					"default": false
 				},
 				{
@@ -83198,6 +83492,13 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
 					"default": false
 				},
 				{
@@ -84007,6 +84308,13 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
 					"default": false
 				},
 				{
@@ -86012,6 +86320,13 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
 					"default": false
 				},
 				{
@@ -89495,6 +89810,13 @@
 					"default": false
 				},
 				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
+					"default": false
+				},
+				{
 					"name": "body",
 					"type": "string",
 					"required": false,
@@ -90051,6 +90373,13 @@
 					"default": false
 				},
 				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
+					"default": false
+				},
+				{
 					"name": "body",
 					"type": "string",
 					"required": false,
@@ -90110,6 +90439,13 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
 					"default": false
 				},
 				{
@@ -90303,6 +90639,13 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
 					"default": false
 				},
 				{
@@ -115364,6 +115707,13 @@
 					"default": false
 				},
 				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
+					"default": false
+				},
+				{
 					"name": "body",
 					"type": "string",
 					"required": false,
@@ -119767,6 +120117,13 @@
 					"default": false
 				},
 				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
+					"default": false
+				},
+				{
 					"name": "body",
 					"type": "string",
 					"required": false,
@@ -121243,6 +121600,13 @@
 					"default": false
 				},
 				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
+					"default": false
+				},
+				{
 					"name": "body",
 					"type": "string",
 					"required": false,
@@ -122158,6 +122522,13 @@
 					"default": false
 				},
 				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
+					"default": false
+				},
+				{
 					"name": "body",
 					"type": "string",
 					"required": false,
@@ -122296,6 +122667,13 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
 					"default": false
 				},
 				{
@@ -131519,6 +131897,13 @@
 					"default": false
 				},
 				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
+					"default": false
+				},
+				{
 					"name": "body",
 					"type": "string",
 					"required": false,
@@ -132689,6 +133074,13 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
 					"default": false
 				},
 				{
@@ -140718,6 +141110,13 @@
 					"default": false
 				},
 				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
+					"default": false
+				},
+				{
 					"name": "body",
 					"type": "string",
 					"required": false,
@@ -140808,6 +141207,13 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
 					"default": false
 				},
 				{
@@ -141020,6 +141426,13 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
 					"default": false
 				},
 				{
@@ -142243,6 +142656,13 @@
 					"default": false
 				},
 				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
+					"default": false
+				},
+				{
 					"name": "body",
 					"type": "string",
 					"required": false,
@@ -142454,6 +142874,13 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "show-secrets",
+					"type": "boolean",
+					"required": false,
+					"description": "Show sensitive values in dry-run output",
 					"default": false
 				},
 				{

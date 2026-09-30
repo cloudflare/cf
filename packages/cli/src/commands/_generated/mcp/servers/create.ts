@@ -87,6 +87,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Validate and show what would happen without executing",
 			default: false,
 		})
+		.option("show-secrets", {
+			type: "boolean",
+			description: "Show sensitive values in dry-run output",
+			default: false,
+		})
 		.option("body", {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
@@ -112,6 +117,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"is-shared-oauth-callback-enabled",
 						"secure-web-gateway",
 						"dry-run",
+						"show-secrets",
 					],
 				} satisfies ArgClassification<Args>,
 			},
@@ -119,64 +125,70 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			async () => {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf mcp servers create",
-						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/access/ai-controls/mcp/servers`,
-						pathParams: {},
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										auth_credentials: resolveFileToken(
-											argv["auth-credentials"] as string | undefined,
-											"auth-credentials",
-											"text"
-										),
-										auth_type: resolveFileToken(
-											argv["auth-type"] as string | undefined,
-											"auth-type",
-											"text"
-										),
-										client_secret: resolveFileToken(
-											argv["client-secret"] as string | undefined,
-											"client-secret",
-											"text"
-										),
-										description: resolveFileToken(
-											argv["description"] as string | undefined,
-											"description",
-											"text"
-										),
-										hostname: resolveFileToken(
-											argv["hostname"] as string | undefined,
-											"hostname",
-											"text"
-										),
-										id: resolveFileToken(
-											argv["id"] as string | undefined,
-											"id",
-											"text"
-										),
-										is_shared_oauth_callback_enabled:
-											argv["is-shared-oauth-callback-enabled"],
-										name: resolveFileToken(
-											argv["name"] as string | undefined,
-											"name",
-											"text"
-										),
-										secure_web_gateway: argv["secure-web-gateway"],
-										updated_prompts: parseObjectArray(
-											argv["updated-prompts"],
-											"updated-prompts"
-										),
-										updated_tools: parseObjectArray(
-											argv["updated-tools"],
-											"updated-tools"
-										),
-									}),
-					});
+					formatDryRun(
+						{
+							command: "cf mcp servers create",
+							method: "POST",
+							url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/access/ai-controls/mcp/servers`,
+							pathParams: {},
+							bodyKind: "json",
+							body:
+								argv.body !== undefined
+									? parseBody(argv.body)
+									: compactBody({
+											auth_credentials: resolveFileToken(
+												argv["auth-credentials"] as string | undefined,
+												"auth-credentials",
+												"text"
+											),
+											auth_type: resolveFileToken(
+												argv["auth-type"] as string | undefined,
+												"auth-type",
+												"text"
+											),
+											client_secret: resolveFileToken(
+												argv["client-secret"] as string | undefined,
+												"client-secret",
+												"text"
+											),
+											description: resolveFileToken(
+												argv["description"] as string | undefined,
+												"description",
+												"text"
+											),
+											hostname: resolveFileToken(
+												argv["hostname"] as string | undefined,
+												"hostname",
+												"text"
+											),
+											id: resolveFileToken(
+												argv["id"] as string | undefined,
+												"id",
+												"text"
+											),
+											is_shared_oauth_callback_enabled:
+												argv["is-shared-oauth-callback-enabled"],
+											name: resolveFileToken(
+												argv["name"] as string | undefined,
+												"name",
+												"text"
+											),
+											secure_web_gateway: argv["secure-web-gateway"],
+											updated_prompts: parseObjectArray(
+												argv["updated-prompts"],
+												"updated-prompts"
+											),
+											updated_tools: parseObjectArray(
+												argv["updated-tools"],
+												"updated-tools"
+											),
+										}),
+						},
+						{
+							sensitiveBodyPaths: [["auth_credentials"], ["client_secret"]],
+							showSecrets: argv.showSecrets,
+						}
+					);
 					return;
 				}
 				const client = await createCommandClient(argv);

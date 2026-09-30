@@ -64,6 +64,7 @@
 		"build:test": "tsdown --config tsdown.test.config.ts",
 		"check:type": "tsgo --noEmit",
 		"test": "vitest run",
+		"test:ci": "pnpm build:test && vitest run --config vitest.ci.config.mts",
 		"test:watch": "vitest"
 	},
 	"dependencies": {

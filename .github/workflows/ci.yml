@@ -76,14 +76,15 @@ jobs:
           turbo-token: ${{ secrets.TURBO_TOKEN }}
           turbo-signature: ${{ secrets.TURBO_REMOTE_CACHE_SIGNATURE_KEY }}
 
-      # The cli tests run against source, which imports
-      # src/commands/_generated/ (gitignored). Generate it first; turbo
-      # remote cache (configured above) makes this a no-op on cache hits.
+      # Most cli tests run against source, which imports
+      # src/commands/_generated/ (gitignored). A black-box subset runs against
+      # the compiled test bundle built by test:ci. Generate first; turbo remote
+      # cache (configured above) makes this a no-op on cache hits.
       - name: Generate command surface
         run: pnpm generate
 
       - name: Run cli tests
-        run: pnpm --filter cf test
+        run: pnpm --filter cf test:ci
 
   wrangler-tests:
     if: ${{ github.repository_owner == 'cloudflare' }}

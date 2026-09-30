@@ -22,6 +22,9 @@ fixtures/*/.wrangler/
 # boots a runtime, including when cf is run from inside this repo.
 .wrangler/
 
+# Local cf account cache is generated state, not repository source.
+.cloudflare/cache/
+
 .opencode/plans
 
 fixtures/*/.cloudflare/

@@ -324,7 +324,7 @@ describe("queues subscription", () => {
 	describe("list", () => {
 		it.skip("should show the correct help text", async () => {});
 
-		it("should show empty list when no subscriptions exist", async ({
+		it("should show message when no subscriptions exist", async ({
 			expect,
 		}) => {
 			const listRequest = mockListSubscriptionsRequest([]);
@@ -336,7 +336,7 @@ describe("queues subscription", () => {
 			expect(JSON.parse(std.out)).toEqual([]);
 		});
 
-		it("should list subscriptions", async ({ expect }) => {
+		it("should list subscriptions for a queue", async ({ expect }) => {
 			const listRequest = mockListSubscriptionsRequest([
 				mockSubscription1,
 				mockSubscription2,
@@ -525,6 +525,6 @@ describe("queues subscription", () => {
 		// omitted from the wire body entirely, and the API receives an
 		// empty PATCH. The error no longer fires; the scenario the
 		// wrangler test exercised doesn't exist in cf anymore.
-		it.skip("should error when no fields provided (no longer applicable on cf — group-implies semantic)", async () => {});
+		it.skip("should error when no fields provided", async () => {});
 	});
 });

@@ -57,7 +57,7 @@ describe("wrangler", () => {
 
 			it.skip("should show the correct help text", async () => {});
 
-			it("should list queues", async ({ expect }) => {
+			it("should list queues on page 1 with no --page", async ({ expect }) => {
 				const expectedQueues: QueueResponse[] = [
 					{
 						queue_id: "5e1b9969eb974d8c99c48d19df104c7a",
@@ -235,7 +235,7 @@ describe("wrangler", () => {
 			// where wrangler GET'd to look up settings, merged, and
 			// PATCH'd. cf takes the queue id directly and only sends
 			// the settings explicitly passed.
-			it("should update a queue with new message retention period", async ({
+			it("should update a queue with new message retention period and preserve old delivery delay", async ({
 				expect,
 			}) => {
 				const requests = mockUpdateRequest(expect, expectedQueueId, {
@@ -340,9 +340,7 @@ describe("wrangler", () => {
 
 				it.skip("should show the correct help text", async () => {});
 
-				it("should add a worker consumer using defaults", async ({
-					expect,
-				}) => {
+				it("should add a consumer using defaults", async ({ expect }) => {
 					// cf only sends `--settings-*` keys that are
 					// explicitly supplied; with no settings flags, the
 					// `settings` block is absent from the body
@@ -548,9 +546,7 @@ describe("wrangler", () => {
 
 				it.skip("should show the correct help text", async () => {});
 
-				it("should add an http_pull consumer using defaults", async ({
-					expect,
-				}) => {
+				it("should add a consumer using defaults", async ({ expect }) => {
 					const expectedBody: PostTypedConsumerBody = {
 						type: "http_pull",
 						settings: undefined as unknown as PostTypedConsumerBody["settings"],
@@ -573,9 +569,7 @@ describe("wrangler", () => {
 				// `--settings-visibility-timeout-ms` flag is surfaced on
 				// `queues consumers create`. The body-assembly path emits
 				// it under `settings.visibility_timeout_ms`.
-				it("should add an http_pull consumer using custom values (visibility_timeout_ms)", async ({
-					expect,
-				}) => {
+				it("should add a consumer using custom values", async ({ expect }) => {
 					const expectedBody: PostTypedConsumerBody = {
 						type: "http_pull",
 						dead_letter_queue: "myDLQ",
@@ -659,7 +653,9 @@ describe("wrangler", () => {
 			// curated text shape, which has no cf equivalent.
 			it.skip("should return the documentation for the info command when using the --help param", async () => {});
 
-			it("should return queue info by id", async ({ expect }) => {
+			it("should return queue info with worker producers when the queue has workers configured as producers", async ({
+				expect,
+			}) => {
 				const mockQueue = {
 					queue_id: "1234567",
 					queue_name: expectedQueueName,
@@ -818,7 +814,7 @@ describe("wrangler", () => {
 
 		it.skip("rejects invalid confirmation in interactive mode", async () => {});
 
-		it("allows purge with confirmation in interactive mode", async ({
+		it("allows purge with correct confirmation in interactive mode", async ({
 			expect,
 		}) => {
 			setIsTTY(true);

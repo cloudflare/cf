@@ -137,9 +137,7 @@ describe("vpc service commands", () => {
 		`);
 	});
 
-	it("should handle creating an HTTP service with IPv4 (via --body)", async ({
-		expect,
-	}) => {
+	it("should handle creating an HTTP service with IPv4", async ({ expect }) => {
 		const reqProm = mockWvpcServiceCreate();
 		const body = JSON.stringify({
 			name: "test-http-ipv4",
@@ -167,7 +165,7 @@ describe("vpc service commands", () => {
 		`);
 	});
 
-	it("should handle creating a service with hostname and resolver network (via --body)", async ({
+	it("should handle creating a service with hostname and resolver network", async ({
 		expect,
 	}) => {
 		const reqProm = mockWvpcServiceCreate();
@@ -246,7 +244,7 @@ describe("vpc service commands", () => {
 		expect(std.out).toMatchInlineSnapshot(`""`);
 	});
 
-	it("should handle updating a service (via --body)", async ({ expect }) => {
+	it("should handle updating a service", async ({ expect }) => {
 		const reqProm = mockWvpcServiceUpdate();
 		const body = JSON.stringify({
 			name: "test-updated",
@@ -307,7 +305,7 @@ describe("vpc service commands", () => {
 		expect(JSON.parse(std.out)).toEqual(serviceWithoutResolverIps);
 	});
 
-	it("should handle creating a service and display without resolver_ips (via --body)", async ({
+	it("should handle creating a service and display without resolver_ips", async ({
 		expect,
 	}) => {
 		const serviceResponse = {
@@ -355,9 +353,7 @@ describe("vpc service commands", () => {
 		expect(JSON.parse(std.out)).toEqual(serviceResponse);
 	});
 
-	it("should handle creating a TCP service with IPv4 (via --body)", async ({
-		expect,
-	}) => {
+	it("should handle creating a TCP service with IPv4", async ({ expect }) => {
 		const reqProm = mockWvpcServiceCreate();
 		const body = JSON.stringify({
 			name: "test-tcp-db",
@@ -387,7 +383,7 @@ describe("vpc service commands", () => {
 		`);
 	});
 
-	it("should handle creating a TCP service with hostname (via --body)", async ({
+	it("should handle creating a TCP service with hostname", async ({
 		expect,
 	}) => {
 		const reqProm = mockWvpcServiceCreate();
@@ -431,9 +427,7 @@ describe("vpc service commands", () => {
 		// optional at the flag layer; the API decides.
 	);
 
-	it("should handle updating a TCP service (via --body)", async ({
-		expect,
-	}) => {
+	it("should handle updating a TCP service", async ({ expect }) => {
 		const reqProm = mockWvpcServiceUpdate();
 		const body = JSON.stringify({
 			name: "test-tcp-updated",
@@ -470,14 +464,14 @@ describe("vpc service commands", () => {
 		expect(JSON.parse(std.out)).toEqual(mockTcpService);
 	});
 
-	it("should handle listing TCP services", async ({ expect }) => {
+	it("should handle listing services", async ({ expect }) => {
 		mockWvpcTcpServiceList();
 		await runWrangler("workers-vpc services list");
 
 		expect(JSON.parse(std.out)).toEqual([mockTcpService]);
 	});
 
-	it("should handle creating a TCP service with --app-protocol postgresql (via --body)", async ({
+	it("should handle creating a TCP service with --app-protocol postgresql", async ({
 		expect,
 	}) => {
 		const reqProm = mockWvpcServiceCreate();
@@ -511,7 +505,7 @@ describe("vpc service commands", () => {
 		`);
 	});
 
-	it("should handle creating a TCP service with --app-protocol mysql (via --body)", async ({
+	it("should handle creating a TCP service with --app-protocol mysql", async ({
 		expect,
 	}) => {
 		const reqProm = mockWvpcServiceCreate();
@@ -560,7 +554,7 @@ describe("vpc service commands", () => {
 		);
 	});
 
-	it("should handle updating a TCP service with --app-protocol (via --body)", async ({
+	it("should handle updating a TCP service with --app-protocol", async ({
 		expect,
 	}) => {
 		const reqProm = mockWvpcServiceUpdate();
@@ -594,7 +588,7 @@ describe("vpc service commands", () => {
 		`);
 	});
 
-	it("should handle creating a TCP service with --tls-settings-cert-verification-mode verify_ca (via --body)", async ({
+	it("should handle creating a TCP service with --cert-verification-mode verify_ca", async ({
 		expect,
 	}) => {
 		const reqProm = mockWvpcServiceCreate();
@@ -630,7 +624,7 @@ describe("vpc service commands", () => {
 		`);
 	});
 
-	it("should handle creating an HTTP service with --tls-settings-cert-verification-mode disabled (via --body)", async ({
+	it("should handle creating an HTTP service with --cert-verification-mode disabled", async ({
 		expect,
 	}) => {
 		const reqProm = mockWvpcServiceCreate();
@@ -720,7 +714,7 @@ describe("vpc service commands", () => {
 		expect(JSON.parse(std.out)).toEqual(serviceWithTls);
 	});
 
-	it("should handle updating a service with --tls-settings-cert-verification-mode (via --body)", async ({
+	it("should handle updating a service with --cert-verification-mode", async ({
 		expect,
 	}) => {
 		const reqProm = mockWvpcServiceUpdate();

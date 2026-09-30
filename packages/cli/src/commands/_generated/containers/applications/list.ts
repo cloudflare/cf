@@ -27,6 +27,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Maximum number of applications to return per page. Defaults to all, or 100 when `page_token` is set.",
 		})
+		.check((argv) => {
+			if (argv["per-page"] !== undefined && !Number.isFinite(argv["per-page"]))
+				throw new Error("--per-page must be a number");
+			return true;
+		})
 		.option("page-token", {
 			type: "string",
 			description:

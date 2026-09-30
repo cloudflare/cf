@@ -36,6 +36,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "number",
 			description: "The number of results per page. Maximum value is 1000.",
 		})
+		.check((argv) => {
+			if (argv["per-page"] !== undefined && !Number.isFinite(argv["per-page"]))
+				throw new Error("--per-page must be a number");
+			return true;
+		})
 		.option("status", {
 			type: "string",
 			description: "Filter the job's messages by their processing status.",

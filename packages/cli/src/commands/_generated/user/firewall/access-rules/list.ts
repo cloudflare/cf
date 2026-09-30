@@ -48,6 +48,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "number",
 			description: "Defines the maximum number of results requested.",
 		})
+		.check((argv) => {
+			if (argv["per-page"] !== undefined && !Number.isFinite(argv["per-page"]))
+				throw new Error("--per-page must be a number");
+			return true;
+		})
 		.option("order", {
 			type: "string",
 			description: "Defines the field used to sort returned rules.",

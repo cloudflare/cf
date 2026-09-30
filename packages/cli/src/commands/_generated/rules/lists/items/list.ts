@@ -35,6 +35,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Amount of results to include in each paginated response. A non-negative 32 bit integer.",
 		})
+		.check((argv) => {
+			if (argv["per-page"] !== undefined && !Number.isFinite(argv["per-page"]))
+				throw new Error("--per-page must be a number");
+			return true;
+		})
 		.option("search", {
 			type: "string",
 			description:

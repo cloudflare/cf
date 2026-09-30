@@ -59,6 +59,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "number",
 			description: "Number of results to display.",
 		})
+		.check((argv) => {
+			if (argv["per-page"] !== undefined && !Number.isFinite(argv["per-page"]))
+				throw new Error("--per-page must be a number");
+			return true;
+		})
 		.option("page", {
 			type: "number",
 			description: "Page number of paginated results.",

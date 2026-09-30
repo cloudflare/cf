@@ -24,6 +24,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.option("page", { type: "number", description: "Page" })
 		.option("per-page", { type: "number", description: "Per page" })
+		.check((argv) => {
+			if (argv["per-page"] !== undefined && !Number.isFinite(argv["per-page"]))
+				throw new Error("--per-page must be a number");
+			return true;
+		})
 		.option("search", { type: "string", description: "Search by id, name" })
 		.option("dry-run", {
 			type: "boolean",

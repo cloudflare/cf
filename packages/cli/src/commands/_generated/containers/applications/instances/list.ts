@@ -34,6 +34,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Maximum number of instances to return per page. Defaults to 100.",
 		})
+		.check((argv) => {
+			if (argv["per-page"] !== undefined && !Number.isFinite(argv["per-page"]))
+				throw new Error("--per-page must be a number");
+			return true;
+		})
 		.option("page-token", {
 			type: "string",
 			description:

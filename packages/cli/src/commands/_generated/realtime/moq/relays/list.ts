@@ -37,6 +37,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Maximum number of relays to return per page. Values above the maximum are\nclamped to it rather than rejected.",
 		})
+		.check((argv) => {
+			if (argv["per-page"] !== undefined && !Number.isFinite(argv["per-page"]))
+				throw new Error("--per-page must be a number");
+			return true;
+		})
 		.option("asc", {
 			type: "boolean",
 			description:

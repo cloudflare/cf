@@ -53,6 +53,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"The maximum number of results per page. You can only set the value to `1` or to a multiple of 5 such as `5`, `10`, `15`, or `20`.",
 		})
+		.check((argv) => {
+			if (argv["per-page"] !== undefined && !Number.isFinite(argv["per-page"]))
+				throw new Error("--per-page must be a number");
+			return true;
+		})
 		.option("created-on", {
 			type: "string",
 			description: "The timestamp of when the rule was created.",

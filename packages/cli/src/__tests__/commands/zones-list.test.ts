@@ -177,6 +177,36 @@ describe("cf zones list (network)", () => {
 		expect(url?.searchParams.get("per_page")).toBe("5");
 	});
 
+	it.each(["abc", "Infinity"])(
+		"rejects a non-finite --per-page value (%s) before requesting the API",
+		async (value) => {
+			await expect(
+				runCf(["zones", "list", "--per-page", value], ENV)
+			).rejects.toThrow("--per-page must be a number");
+			expect(stdout()).toBe("");
+		}
+	);
+
+	it.each(["0", "-5", "100"])(
+		"forwards --per-page %s for API validation",
+		async (value) => {
+			let perPage: string | null = null;
+			server.use(
+				http.get(`${TEST_BASE_URL}/zones`, ({ request }) => {
+					perPage = new URL(request.url).searchParams.get("per_page");
+					return HttpResponse.json({ success: true, result: [] });
+				})
+			);
+
+			const { exitCode } = await runCf(
+				["zones", "list", "--per-page", value],
+				ENV
+			);
+			expect(exitCode).toBe(0);
+			expect(perPage).toBe(value);
+		}
+	);
+
 	it("propagates an API error (403) as a thrown failure", async () => {
 		server.use(
 			http.get(`${TEST_BASE_URL}/zones`, () =>

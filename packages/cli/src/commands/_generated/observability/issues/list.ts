@@ -23,6 +23,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage("$0 observability issues list\n\nList detected issues.")
 		.option("page", { type: "number", description: "Page" })
 		.option("per-page", { type: "number", description: "PerPage" })
+		.check((argv) => {
+			if (argv["per-page"] !== undefined && !Number.isFinite(argv["per-page"]))
+				throw new Error("--per-page must be a number");
+			return true;
+		})
 		.option("order", {
 			type: "string",
 			description: "Order",

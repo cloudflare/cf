@@ -36,6 +36,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "number",
 			description: "How many abuse reports per page to list",
 		})
+		.check((argv) => {
+			if (argv["per-page"] !== undefined && !Number.isFinite(argv["per-page"]))
+				throw new Error("--per-page must be a number");
+			return true;
+		})
 		.option("sort", {
 			type: "string",
 			description: "A property to sort by, followed by the order",

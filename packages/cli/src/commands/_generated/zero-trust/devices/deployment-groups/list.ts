@@ -31,6 +31,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"The maximum number of deployment groups to return per page.",
 		})
+		.check((argv) => {
+			if (argv["per-page"] !== undefined && !Number.isFinite(argv["per-page"]))
+				throw new Error("--per-page must be a number");
+			return true;
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

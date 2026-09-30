@@ -118,6 +118,16 @@ export function generateBuilderLines(
 						: undefined,
 			})})`
 		);
+		// Yargs converts invalid numeric input to NaN; the API owns range checks.
+		if (
+			arg.origin.kind === "query" &&
+			optName === "per-page" &&
+			arg.type === "number"
+		) {
+			builderLines.push(
+				`.check((argv) => { if (argv["per-page"] !== undefined && !Number.isFinite(argv["per-page"])) throw new Error("--per-page must be a number"); return true; })`
+			);
+		}
 	}
 
 	// --dry-run: every command, even pure GETs.

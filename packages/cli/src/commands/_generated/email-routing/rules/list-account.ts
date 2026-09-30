@@ -32,6 +32,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "number",
 			description: "Maximum number of results per page.",
 		})
+		.check((argv) => {
+			if (argv["per-page"] !== undefined && !Number.isFinite(argv["per-page"]))
+				throw new Error("--per-page must be a number");
+			return true;
+		})
 		.option("enabled", {
 			type: "string",
 			description: "Filter by enabled routing rules.",

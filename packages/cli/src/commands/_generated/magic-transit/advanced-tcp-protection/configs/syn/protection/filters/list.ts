@@ -36,6 +36,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"The number of items per page. Must be between 10 and 1000. Defaults to 25.",
 		})
+		.check((argv) => {
+			if (argv["per-page"] !== undefined && !Number.isFinite(argv["per-page"]))
+				throw new Error("--per-page must be a number");
+			return true;
+		})
 		.option("order", {
 			type: "string",
 			description: "The field to order by. Defaults to 'prefix'.",

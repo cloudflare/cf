@@ -36,6 +36,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "number",
 			description: "Maximum number of buckets to return in a single call.",
 		})
+		.check((argv) => {
+			if (argv["per-page"] !== undefined && !Number.isFinite(argv["per-page"]))
+				throw new Error("--per-page must be a number");
+			return true;
+		})
 		.option("order", {
 			type: "string",
 			description: "Field to order buckets by.",

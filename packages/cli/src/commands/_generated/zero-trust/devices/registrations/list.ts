@@ -49,6 +49,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"The maximum number of devices to return in a single response.",
 		})
+		.check((argv) => {
+			if (argv["per-page"] !== undefined && !Number.isFinite(argv["per-page"]))
+				throw new Error("--per-page must be a number");
+			return true;
+		})
 		.option("search", {
 			type: "string",
 			description: "Filter by registration details.",

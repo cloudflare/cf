@@ -27,6 +27,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Opaque token for cursor-based pagination. Omit for the first page. Pass the value from a previous response to fetch the next page.",
 		})
 		.option("per-page", { type: "number", description: "Per page" })
+		.check((argv) => {
+			if (argv["per-page"] !== undefined && !Number.isFinite(argv["per-page"]))
+				throw new Error("--per-page must be a number");
+			return true;
+		})
 		.option("type", {
 			type: "string",
 			description: "Filter regions by type. Omit to return all regions.",

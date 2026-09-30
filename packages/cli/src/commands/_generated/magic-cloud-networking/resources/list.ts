@@ -36,6 +36,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("desc", { type: "boolean", description: "Desc" })
 		.option("per-page", { type: "number", description: "Per page" })
+		.check((argv) => {
+			if (argv["per-page"] !== undefined && !Number.isFinite(argv["per-page"]))
+				throw new Error("--per-page must be a number");
+			return true;
+		})
 		.option("page", { type: "number", description: "Page" })
 		.option("cloudflare", { type: "boolean", description: "Cloudflare" })
 		.option("v2", { type: "boolean", description: "V2" })

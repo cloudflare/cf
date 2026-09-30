@@ -586,7 +586,7 @@ hand-written design or remain deliberately unsupported.
 
 These have stabilised this repo's voice; preserve them.
 
-- **Banner:** `renderPromptIntro(version)` supplies the compact branded headline. `openSession` prints it once for an interactive command; bare cf and `--version` use the compact presentation directly.
+- **Banner:** `renderPromptIntro(version)` supplies the compact branded headline. `openSession` prints it once to stderr for an interactive command, including `--version`; bare cf uses the compact presentation directly. `--version` also prints the plain version to stdout.
 - **Terminal styling:** Use the semantic helpers in `lib/ui/theme.ts`
   (`theme.brand`, `theme.info`, `theme.muted`, etc.) rather than importing
   Chalk directly, calling explicit color methods, or hard-coding RGB/ANSI
@@ -615,7 +615,7 @@ Live globals (`packages/cli/src/index.ts:buildCli`):
 | Flag           | Alias | Purpose                                                         |
 | -------------- | ----- | --------------------------------------------------------------- |
 | `--help`       | `-h`  | Show help                                                       |
-| `--version`    | `-v`  | Show version (branded banner)                                   |
+| `--version`    | `-v`  | Show branded banner on stderr and plain version on stdout       |
 | `--quiet`      | `-q`  | Suppress non-essential output                                   |
 | `--zone`       | `-z`  | Zone ID or domain (overrides `CLOUDFLARE_ZONE_ID`)              |
 | `--profile`    | —     | Use a specific auth profile                                     |

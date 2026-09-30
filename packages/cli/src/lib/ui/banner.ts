@@ -4,9 +4,9 @@
  * command-line formatter shared by splash / help screens.
  *
  * Previously this module also shipped a full ASCII cloud logo plus
- * gradient dividers for `cf --version` / `cf` splash. Both surfaces
- * now use the slim headline (see `renderPromptIntro`) so the splash
- * art was removed along with its `gradient-string` dependency.
+ * gradient dividers for the bare `cf` splash. The splash now uses the
+ * slim headline (see `renderPromptIntro`), so the splash art and its
+ * `gradient-string` dependency were removed.
  */
 
 import { stripVTControlCharacters } from "node:util";

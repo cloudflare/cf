@@ -26,6 +26,7 @@
     "migrate-before-autoconfig",
     "pages-deploy-guidance",
     "prebuilt-mode-validation",
+    "preserve-worker-secrets",
     "quiet-delegation-environment",
     "quiet-login-scopes",
     "quiet-workers-local",

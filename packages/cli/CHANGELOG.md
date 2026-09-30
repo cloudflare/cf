@@ -1,5 +1,13 @@
 # cf
 
+## 1.0.0-beta.7
+
+### Patch Changes
+
+- 146c3c1: Preserve existing Worker secrets during `cf deploy`
+
+  Update `@cloudflare/deploy-helpers` to inherit secret bindings from the previous Worker version, including secrets that are not declared in `cloudflare.config.ts`. This prevents a redeploy from removing secrets added through the API or CLI. Align the other workers-sdk packages used by cf with their current releases.
+
 ## 1.0.0-beta.6
 
 ### Patch Changes

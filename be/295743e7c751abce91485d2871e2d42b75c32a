@@ -1,0 +1,35 @@
+.changeset/calm-dogs-expand.md
+  s_f20d9c4ffa7030::t_346362c1beab10 1-7
+packages/cli/package.json
+  s_f8d69673fc7ffa::t_b1cfc46ccd1f79 96
+packages/cli/src/__tests__/commands/deploy/index.test.ts
+  s_f20d9c4ffa7030::t_a1b6c2f768d25e 855-906
+patches/@cloudflare__deploy-helpers@0.18.1.patch
+  s_f20d9c4ffa7030::t_4e7d0dd70dffdd 2,5-13,28-73
+pnpm-lock.yaml
+  s_f8d69673fc7ffa::t_982d79b285bd29 168,294,325-327,2431-2434,2443-2446,4004,5269-5272,5277-5278
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "be295743e7c751abce91485d2871e2d42b75c32a",
+  "prompts": {},
+  "sessions": {
+    "s_f20d9c4ffa7030": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0ea14-b650-7c62-bfe8-935cd9fce506",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Eric Clemmons <eclemmons@cloudflare.com>"
+    },
+    "s_f8d69673fc7ffa": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0eef7-08e9-7700-a926-c58fdf3ee3a5",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Eric Clemmons <eclemmons@cloudflare.com>"
+    }
+  }
+}

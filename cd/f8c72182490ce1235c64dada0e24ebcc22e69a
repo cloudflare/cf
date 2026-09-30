@@ -1,0 +1,21 @@
+.github/workflows/bonk.yml
+  s_bd994b65eba7d0::t_01696fc7bbea78 50
+.github/workflows/roboreview-pr-review.yml
+  s_bd994b65eba7d0::t_2f80a9d79d16ea 46
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "cdf8c72182490ce1235c64dada0e24ebcc22e69a",
+  "prompts": {},
+  "sessions": {
+    "s_bd994b65eba7d0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "s_bd994b65eba7d0",
+        "model": "unknown"
+      },
+      "human_author": "Dan Lapid <dlapid@cloudflare.com>"
+    }
+  }
+}

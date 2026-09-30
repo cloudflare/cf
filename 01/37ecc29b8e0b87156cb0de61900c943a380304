@@ -1,0 +1,27 @@
+.changeset/quiet-workers-local.md
+  s_b8894e81c95bf9::t_2a0350e2078681 1-7
+packages/cli/src/__tests__/commands/triggers-deploy.test.ts
+  s_b8894e81c95bf9::t_62764adb69efb3 43-86,111
+packages/cli/src/__tests__/commands/versions-upload.test.ts
+  s_b8894e81c95bf9::t_c67012558a7329 45-86,103-108
+packages/cli/src/commands/workers/triggers/deploy.ts
+  s_b8894e81c95bf9::t_9f20537bb92d22 25-27,52-57
+packages/cli/src/commands/workers/versions/create/index.ts
+  s_b8894e81c95bf9::t_d98d173d2595b7 7-15,28-33
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "0137ecc29b8e0b87156cb0de61900c943a380304",
+  "prompts": {},
+  "sessions": {
+    "s_b8894e81c95bf9": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0ecce-0455-79a3-816d-45cf6c164d6d",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "James <james@eli.cx>"
+    }
+  }
+}

@@ -77,7 +77,7 @@ jobs:
           turbo-signature: ${{ secrets.TURBO_REMOTE_CACHE_SIGNATURE_KEY }}
 
       # Most cli tests run against source, which imports
-      # src/commands/_generated/ (gitignored). A black-box subset runs against
+      # src/commands/_generated/ (large generated codebase). A black-box subset runs against
       # the compiled test bundle built by test:ci. Generate first; turbo remote
       # cache (configured above) makes this a no-op on cache hits.
       - name: Generate command surface

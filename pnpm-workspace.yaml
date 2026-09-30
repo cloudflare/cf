@@ -4,34 +4,36 @@ packages:
 
 patchedDependencies:
   "@changesets/cli@2.31.0": patches/@changesets__cli@2.31.0.patch
-  "@cloudflare/containers-shared@0.21.1": patches/@cloudflare__containers-shared@0.21.1.patch
-  "@cloudflare/deploy-helpers@0.19.0": patches/@cloudflare__deploy-helpers@0.19.0.patch
+  "@cloudflare/containers-shared@*": patches/@cloudflare__containers-shared@0.21.1.patch
+  "@cloudflare/deploy-helpers@*": patches/@cloudflare__deploy-helpers@0.19.0.patch
 
 # Prevent transitive deps from pulling from git / tarball URLs.
 # Direct deps (vendor/*.tgz) are still allowed.
 blockExoticSubdeps: true
 
-# Allow newly published direct dependencies before pnpm's maturity cutoff.
+# Allow Cloudflare release batches before pnpm's maturity cutoff. Keep these
+# exclusions independent of the current package versions so the updater can
+# install a newly published batch without editing this list each time.
 minimumReleaseAgeExclude:
-  - "@cloudflare/autoconfig@0.7.3"
-  - "@cloudflare/build-output-utils@0.8.4"
-  - "@cloudflare/cli-shared-helpers@0.2.1"
-  - "@cloudflare/codemods@0.3.0"
-  - "@cloudflare/config@0.22.0"
-  - "@cloudflare/containers-shared@0.21.1"
-  - "@cloudflare/deploy-helpers@0.19.0"
-  - "@cloudflare/runtime-types@0.1.6"
-  - "@cloudflare/workerd-darwin-64@1.20260930.2"
-  - "@cloudflare/workerd-darwin-arm64@1.20260930.2"
-  - "@cloudflare/workerd-linux-64@1.20260930.2"
-  - "@cloudflare/workerd-linux-arm64@1.20260930.2"
-  - "@cloudflare/workerd-windows-64@1.20260930.2"
-  - "@cloudflare/workers-auth@0.10.0"
-  - "@cloudflare/workers-types@5.20260930.2"
-  - "@cloudflare/workers-utils@0.45.0"
-  - miniflare@5.20260930.0-alpha
-  - workerd@1.20260930.2
-  - "wrangler@4.145.0"
+  - "@cloudflare/autoconfig"
+  - "@cloudflare/build-output-utils"
+  - "@cloudflare/cli-shared-helpers"
+  - "@cloudflare/codemods"
+  - "@cloudflare/config"
+  - "@cloudflare/containers-shared"
+  - "@cloudflare/deploy-helpers"
+  - "@cloudflare/runtime-types"
+  - "@cloudflare/workerd-darwin-64"
+  - "@cloudflare/workerd-darwin-arm64"
+  - "@cloudflare/workerd-linux-64"
+  - "@cloudflare/workerd-linux-arm64"
+  - "@cloudflare/workerd-windows-64"
+  - "@cloudflare/workers-auth"
+  - "@cloudflare/workers-types"
+  - "@cloudflare/workers-utils"
+  - miniflare
+  - workerd
+  - wrangler
 
 # pnpm blocks install scripts by default; allowlist what needs them.
 allowBuilds:

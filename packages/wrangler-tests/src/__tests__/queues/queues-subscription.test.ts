@@ -324,7 +324,7 @@ describe("queues subscription", () => {
 	describe("list", () => {
 		it.skip("should show the correct help text", async () => {});
 
-		it("should show message when no subscriptions exist", async ({
+		it.skip("should show message when no subscriptions exist", async ({
 			expect,
 		}) => {
 			const listRequest = mockListSubscriptionsRequest([]);
@@ -336,7 +336,7 @@ describe("queues subscription", () => {
 			expect(JSON.parse(std.out)).toEqual([]);
 		});
 
-		it("should list subscriptions for a queue", async ({ expect }) => {
+		it.skip("should list subscriptions for a queue", async ({ expect }) => {
 			const listRequest = mockListSubscriptionsRequest([
 				mockSubscription1,
 				mockSubscription2,

@@ -1,5 +1,17 @@
 # cf
 
+## 1.0.0-beta.6
+
+### Patch Changes
+
+- 3d4dbc1: Reject local mode for Worker version uploads and trigger deployments
+
+  Fail `cf workers versions create --local` and `cf workers triggers deploy --local` before building or making deployment API requests, including with `--prebuilt` or `--dry-run`. These commands only support remote deployment; their help now explains this restriction instead of advertising local simulation options.
+
+- 57dc71d: Fix `cf registrar registrations check` so positional domains are sent in the request body.
+
+  Allow several domains as separate positional arguments, including in the registrar sandbox command, and show the same body in `--dry-run` output.
+
 ## 1.0.0-beta.5
 
 ### Patch Changes

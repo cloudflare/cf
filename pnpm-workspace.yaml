@@ -4,8 +4,8 @@ packages:
 
 patchedDependencies:
   "@changesets/cli@2.31.0": patches/@changesets__cli@2.31.0.patch
-  "@cloudflare/containers-shared@0.20.3": patches/@cloudflare__containers-shared@0.20.3.patch
-  "@cloudflare/deploy-helpers@0.18.1": patches/@cloudflare__deploy-helpers@0.18.1.patch
+  "@cloudflare/containers-shared@0.21.1": patches/@cloudflare__containers-shared@0.21.1.patch
+  "@cloudflare/deploy-helpers@0.19.0": patches/@cloudflare__deploy-helpers@0.19.0.patch
 
 # Prevent transitive deps from pulling from git / tarball URLs.
 # Direct deps (vendor/*.tgz) are still allowed.
@@ -16,6 +16,19 @@ minimumReleaseAgeExclude:
   - "@cloudflare/autoconfig@0.7.1"
   - "@cloudflare/codemods@0.2.1"
   - "wrangler@4.143.0"
+  - "@cloudflare/build-output-utils@0.8.4"
+  - "@cloudflare/cli-shared-helpers@0.2.1"
+  - "@cloudflare/config@0.22.0"
+  - "@cloudflare/containers-shared@0.21.1"
+  - "@cloudflare/deploy-helpers@0.19.0"
+  - "@cloudflare/workerd-darwin-64@1.20260930.2"
+  - "@cloudflare/workerd-darwin-arm64@1.20260930.2"
+  - "@cloudflare/workerd-linux-64@1.20260930.2"
+  - "@cloudflare/workerd-linux-arm64@1.20260930.2"
+  - "@cloudflare/workerd-windows-64@1.20260930.2"
+  - "@cloudflare/workers-utils@0.45.0"
+  - miniflare@5.20260930.0-alpha
+  - workerd@1.20260930.2
 
 # pnpm blocks install scripts by default; allowlist what needs them.
 allowBuilds:

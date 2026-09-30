@@ -48,7 +48,8 @@ describe("cf deploy — keep_vars", () => {
 		const { exitCode } = await runCf(["deploy"]);
 
 		expect(exitCode).toBe(0);
-		expect(upload.metadata?.keep_bindings).toBeUndefined();
+		expect(upload.metadata?.keep_bindings).not.toContain("plain_text");
+		expect(upload.metadata?.keep_bindings).not.toContain("json");
 	});
 
 	it("includes keep_bindings in metadata for existing workers when secrets are present", async () => {

@@ -59,6 +59,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Validate and show what would happen without executing",
 			default: false,
 		})
+		.option("show-secrets", {
+			type: "boolean",
+			description: "Show sensitive values in dry-run output",
+			default: false,
+		})
 		.option("body", {
 			type: "string",
 			description:
@@ -80,41 +85,47 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "zero-trust casb webhooks evaluate",
 				classification: {
-					safeFlags: ["authentication-type", "dry-run"],
+					safeFlags: ["authentication-type", "dry-run", "show-secrets"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf zero-trust casb webhooks evaluate",
-						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/data-security/posture/webhooks/evaluate`,
-						pathParams: {},
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										authentication_type: resolveFileToken(
-											argv["authentication-type"] as string | undefined,
-											"authentication-type",
-											"text"
-										),
-										destination_url: resolveFileToken(
-											argv["destination-url"] as string | undefined,
-											"destination-url",
-											"text"
-										),
-										headers: parseObjectArray(argv["headers"], "headers"),
-										signing_secret: resolveFileToken(
-											argv["signing-secret"] as string | undefined,
-											"signing-secret",
-											"text"
-										),
-									}),
-					});
+					formatDryRun(
+						{
+							command: "cf zero-trust casb webhooks evaluate",
+							method: "POST",
+							url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/data-security/posture/webhooks/evaluate`,
+							pathParams: {},
+							bodyKind: "json",
+							body:
+								argv.body !== undefined
+									? parseBody(argv.body)
+									: compactBody({
+											authentication_type: resolveFileToken(
+												argv["authentication-type"] as string | undefined,
+												"authentication-type",
+												"text"
+											),
+											destination_url: resolveFileToken(
+												argv["destination-url"] as string | undefined,
+												"destination-url",
+												"text"
+											),
+											headers: parseObjectArray(argv["headers"], "headers"),
+											signing_secret: resolveFileToken(
+												argv["signing-secret"] as string | undefined,
+												"signing-secret",
+												"text"
+											),
+										}),
+						},
+						{
+							sensitiveBodyPaths: [["signing_secret"]],
+							showSecrets: argv.showSecrets,
+						}
+					);
 					return;
 				}
 				const client = await createCommandClient(argv);

@@ -10,6 +10,7 @@ import {
 	typedSdkTypeAliases,
 } from "./emit/sdk-path.js";
 import { generateCommandMeta, type GeneratedCommandMeta } from "./metadata";
+import { sensitiveBodyPaths } from "./sensitive-body.js";
 import { getTelemetrySafeFlags } from "./telemetry.js";
 import { escapeForSingleQuote } from "./util.js";
 import type { Schema } from "@cloudflare/forge";
@@ -82,6 +83,7 @@ ${builderLines.join("\n")};`;
 		// that selects UTF-8 output. Limit this exception to that output kind:
 		// schema-defined string fields also named `text` may contain secrets.
 		includeGeneratedText: ctx.outputKind === "binary",
+		includeShowSecrets: sensitiveBodyPaths(opInfo).length > 0,
 	});
 	const telemetrySafeFlagsLiteral = `[${telemetrySafeFlags
 		.map((flag) => `'${escapeForSingleQuote(flag)}'`)

@@ -53,6 +53,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Validate and show what would happen without executing",
 			default: false,
 		})
+		.option("show-secrets", {
+			type: "boolean",
+			description: "Show sensitive values in dry-run output",
+			default: false,
+		})
 		.option("body", {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
@@ -73,39 +78,42 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "secrets-store secrets edit",
 				classification: {
-					safeFlags: ["dry-run"],
+					safeFlags: ["dry-run", "show-secrets"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf secrets-store secrets edit",
-						method: "PATCH",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/secrets_store/stores/${argv["store-id"] == null ? "<store-id>" : encodeURIComponent(String(argv["store-id"]))}/secrets/${argv["secret-id"] == null ? "<secret-id>" : encodeURIComponent(String(argv["secret-id"]))}`,
-						pathParams: {
-							"store-id": String(argv["store-id"] ?? ""),
-							"secret-id": String(argv["secret-id"] ?? ""),
+					formatDryRun(
+						{
+							command: "cf secrets-store secrets edit",
+							method: "PATCH",
+							url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/secrets_store/stores/${argv["store-id"] == null ? "<store-id>" : encodeURIComponent(String(argv["store-id"]))}/secrets/${argv["secret-id"] == null ? "<secret-id>" : encodeURIComponent(String(argv["secret-id"]))}`,
+							pathParams: {
+								"store-id": String(argv["store-id"] ?? ""),
+								"secret-id": String(argv["secret-id"] ?? ""),
+							},
+							bodyKind: "json",
+							body:
+								argv.body !== undefined
+									? parseBody(argv.body)
+									: compactBody({
+											comment: resolveFileToken(
+												argv["comment"] as string | undefined,
+												"comment",
+												"text"
+											),
+											scopes: argv["scopes"],
+											value: resolveFileToken(
+												argv["value"] as string | undefined,
+												"value",
+												"text"
+											),
+										}),
 						},
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										comment: resolveFileToken(
-											argv["comment"] as string | undefined,
-											"comment",
-											"text"
-										),
-										scopes: argv["scopes"],
-										value: resolveFileToken(
-											argv["value"] as string | undefined,
-											"value",
-											"text"
-										),
-									}),
-					});
+						{ sensitiveBodyPaths: [["value"]], showSecrets: argv.showSecrets }
+					);
 					return;
 				}
 				const client = await createCommandClient(argv);

@@ -27,6 +27,7 @@ import {
 	optionArgs,
 	positionalArgs,
 } from "./intermediate-representation.js";
+import { sensitiveBodyPaths } from "./sensitive-body.js";
 import type { ArgIR } from "./intermediate-representation.js";
 import type {
 	ArgumentMeta,
@@ -198,6 +199,15 @@ export function generateCommandMeta(
 			required: false,
 			description: opt.description,
 			...("default" in opt ? { default: opt.default } : {}),
+		});
+	}
+	if (sensitiveBodyPaths(opInfo).length > 0) {
+		optionMetas.push({
+			name: "show-secrets",
+			type: "boolean",
+			required: false,
+			description: "Show sensitive values in dry-run output",
+			default: false,
 		});
 	}
 

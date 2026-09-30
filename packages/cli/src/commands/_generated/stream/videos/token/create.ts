@@ -71,6 +71,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Validate and show what would happen without executing",
 			default: false,
 		})
+		.option("show-secrets", {
+			type: "boolean",
+			description: "Show sensitive values in dry-run output",
+			default: false,
+		})
 		.option("force", {
 			type: "boolean",
 			alias: "f",
@@ -97,7 +102,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "stream videos token create",
 				classification: {
-					safeFlags: ["downloadable", "flags-original", "dry-run", "force"],
+					safeFlags: [
+						"downloadable",
+						"flags-original",
+						"dry-run",
+						"show-secrets",
+						"force",
+					],
 					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
 				} satisfies ArgClassification<Args>,
 			},
@@ -105,38 +116,41 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			async () => {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf stream videos token create",
-						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/stream/${argv["identifier"] == null ? "<identifier>" : encodeURIComponent(String(argv["identifier"]))}/token`,
-						pathParams: { identifier: String(argv["identifier"] ?? "") },
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										accessRules: parseObjectArray(
-											argv["access-rules"],
-											"access-rules"
-										),
-										downloadable: argv["downloadable"],
-										exp: argv["exp"],
-										flags: {
-											original: argv["flags-original"],
-										},
-										id: resolveFileToken(
-											argv["id"] as string | undefined,
-											"id",
-											"text"
-										),
-										nbf: argv["nbf"],
-										pem: resolveFileToken(
-											argv["pem"] as string | undefined,
-											"pem",
-											"text"
-										),
-									}),
-					});
+					formatDryRun(
+						{
+							command: "cf stream videos token create",
+							method: "POST",
+							url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/stream/${argv["identifier"] == null ? "<identifier>" : encodeURIComponent(String(argv["identifier"]))}/token`,
+							pathParams: { identifier: String(argv["identifier"] ?? "") },
+							bodyKind: "json",
+							body:
+								argv.body !== undefined
+									? parseBody(argv.body)
+									: compactBody({
+											accessRules: parseObjectArray(
+												argv["access-rules"],
+												"access-rules"
+											),
+											downloadable: argv["downloadable"],
+											exp: argv["exp"],
+											flags: {
+												original: argv["flags-original"],
+											},
+											id: resolveFileToken(
+												argv["id"] as string | undefined,
+												"id",
+												"text"
+											),
+											nbf: argv["nbf"],
+											pem: resolveFileToken(
+												argv["pem"] as string | undefined,
+												"pem",
+												"text"
+											),
+										}),
+						},
+						{ sensitiveBodyPaths: [["pem"]], showSecrets: argv.showSecrets }
+					);
 					return;
 				}
 				const client = await createCommandClient(argv);

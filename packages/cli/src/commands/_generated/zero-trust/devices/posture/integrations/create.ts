@@ -94,6 +94,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Validate and show what would happen without executing",
 			default: false,
 		})
+		.option("show-secrets", {
+			type: "boolean",
+			description: "Show sensitive values in dry-run output",
+			default: false,
+		})
 		.option("body", {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
@@ -183,84 +188,94 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "zero-trust devices posture integrations create",
 				classification: {
-					safeFlags: ["type", "dry-run"],
+					safeFlags: ["type", "dry-run", "show-secrets"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun({
-						command: "cf zero-trust devices posture integrations create",
-						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/devices/posture/integration`,
-						pathParams: {},
-						bodyKind: "json",
-						body:
-							argv.body !== undefined
-								? parseBody(argv.body)
-								: compactBody({
-										config: {
-											api_url: resolveFileToken(
-												argv["config-api-url"] as string | undefined,
-												"config-api-url",
+					formatDryRun(
+						{
+							command: "cf zero-trust devices posture integrations create",
+							method: "POST",
+							url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/devices/posture/integration`,
+							pathParams: {},
+							bodyKind: "json",
+							body:
+								argv.body !== undefined
+									? parseBody(argv.body)
+									: compactBody({
+											config: {
+												api_url: resolveFileToken(
+													argv["config-api-url"] as string | undefined,
+													"config-api-url",
+													"text"
+												),
+												auth_url: resolveFileToken(
+													argv["config-auth-url"] as string | undefined,
+													"config-auth-url",
+													"text"
+												),
+												client_id: resolveFileToken(
+													argv["config-client-id"] as string | undefined,
+													"config-client-id",
+													"text"
+												),
+												client_secret: resolveFileToken(
+													argv["config-client-secret"] as string | undefined,
+													"config-client-secret",
+													"text"
+												),
+												customer_id: resolveFileToken(
+													argv["config-customer-id"] as string | undefined,
+													"config-customer-id",
+													"text"
+												),
+												client_key: resolveFileToken(
+													argv["config-client-key"] as string | undefined,
+													"config-client-key",
+													"text"
+												),
+												access_client_id: resolveFileToken(
+													argv["config-access-client-id"] as string | undefined,
+													"config-access-client-id",
+													"text"
+												),
+												access_client_secret: resolveFileToken(
+													argv["config-access-client-secret"] as
+														| string
+														| undefined,
+													"config-access-client-secret",
+													"text"
+												),
+											},
+											interval: resolveFileToken(
+												argv["interval"] as string | undefined,
+												"interval",
 												"text"
 											),
-											auth_url: resolveFileToken(
-												argv["config-auth-url"] as string | undefined,
-												"config-auth-url",
+											name: resolveFileToken(
+												argv["name"] as string | undefined,
+												"name",
 												"text"
 											),
-											client_id: resolveFileToken(
-												argv["config-client-id"] as string | undefined,
-												"config-client-id",
+											type: resolveFileToken(
+												argv["type"] as string | undefined,
+												"type",
 												"text"
 											),
-											client_secret: resolveFileToken(
-												argv["config-client-secret"] as string | undefined,
-												"config-client-secret",
-												"text"
-											),
-											customer_id: resolveFileToken(
-												argv["config-customer-id"] as string | undefined,
-												"config-customer-id",
-												"text"
-											),
-											client_key: resolveFileToken(
-												argv["config-client-key"] as string | undefined,
-												"config-client-key",
-												"text"
-											),
-											access_client_id: resolveFileToken(
-												argv["config-access-client-id"] as string | undefined,
-												"config-access-client-id",
-												"text"
-											),
-											access_client_secret: resolveFileToken(
-												argv["config-access-client-secret"] as
-													| string
-													| undefined,
-												"config-access-client-secret",
-												"text"
-											),
-										},
-										interval: resolveFileToken(
-											argv["interval"] as string | undefined,
-											"interval",
-											"text"
-										),
-										name: resolveFileToken(
-											argv["name"] as string | undefined,
-											"name",
-											"text"
-										),
-										type: resolveFileToken(
-											argv["type"] as string | undefined,
-											"type",
-											"text"
-										),
-									}),
-					});
+										}),
+						},
+						{
+							sensitiveBodyPaths: [
+								["config", "client_secret"],
+								["config", "client_key"],
+								["config", "access_client_secret"],
+							],
+							showSecrets: argv.showSecrets,
+						}
+					);
 					return;
 				}
 				const client = await createCommandClient(argv);

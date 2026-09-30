@@ -19,6 +19,7 @@ import {
 	pathParamReadKey,
 	positionalArgs,
 } from "../../intermediate-representation.js";
+import { sensitiveBodyPaths } from "../../sensitive-body.js";
 import {
 	ACCOUNT_PATH_PARAMS,
 	accountOrZonePathParamLocal,
@@ -50,6 +51,7 @@ export function emitDryRun(ctx: EmitContext): string[] {
 		isMutating,
 	} = derived;
 	const positional = positionalArgs(derived.args);
+	const sensitivePaths = sensitiveBodyPaths(opInfo);
 
 	const lines: string[] = [];
 
@@ -216,7 +218,13 @@ export function emitDryRun(ctx: EmitContext): string[] {
 	} else if (bodyEntries.length > 0) {
 		lines.push(`          body: { ${bodyEntries.join(", ")} },`);
 	}
-	lines.push(`        });`);
+	if (sensitivePaths.length > 0) {
+		lines.push(
+			`        }, { sensitiveBodyPaths: ${JSON.stringify(sensitivePaths)}, showSecrets: argv.showSecrets });`
+		);
+	} else {
+		lines.push(`        });`);
+	}
 	lines.push(`        return;`);
 	lines.push(`      }`);
 

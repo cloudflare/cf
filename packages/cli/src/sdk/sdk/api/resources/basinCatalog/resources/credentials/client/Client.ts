@@ -114,4 +114,93 @@ export class CredentialsClient {
             "/accounts/{account_id}/basin-catalog/{bucket_name}/credential",
         );
     }
+
+    /**
+     * Check whether the configured catalog credentials are valid, invalid,
+     * or absent by probing authentication against the catalog.
+     *
+     * @param {CloudflareApi.basinCatalog.StatusCredentialsRequest} request
+     * @param {CredentialsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link CloudflareApi.UnauthorizedError}
+     * @throws {@link CloudflareApi.ForbiddenError}
+     * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link CloudflareApi.InternalServerError}
+     *
+     * @example
+     *     await client.basinCatalog.credentials.status({
+     *         account_id: "account_id",
+     *         bucket_name: "bucket_name"
+     *     })
+     */
+    public status(
+        request: CloudflareApi.basinCatalog.StatusCredentialsRequest,
+        requestOptions?: CredentialsClient.RequestOptions,
+    ): core.HttpResponsePromise<CloudflareApi.basinCatalog.StatusCredentialsResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__status(request, requestOptions));
+    }
+
+    private async __status(
+        request: CloudflareApi.basinCatalog.StatusCredentialsRequest,
+        requestOptions?: CredentialsClient.RequestOptions,
+    ): Promise<core.WithRawResponse<CloudflareApi.basinCatalog.StatusCredentialsResponse>> {
+        const { account_id: accountId, bucket_name: bucketName } = request;
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.CloudflareApiEnvironment.Default,
+                `accounts/${core.url.encodePathParam(accountId)}/basin-catalog/${core.url.encodePathParam(bucketName)}/credential/status`,
+            ),
+            method: "GET",
+            headers: _headers,
+            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return {
+                data: _response.body as CloudflareApi.basinCatalog.StatusCredentialsResponse,
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new CloudflareApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                case 403:
+                    throw new CloudflareApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                case 404:
+                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new CloudflareApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                default:
+                    throw new errors.CloudflareApiError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(
+            _response.error,
+            _response.rawResponse,
+            "GET",
+            "/accounts/{account_id}/basin-catalog/{bucket_name}/credential/status",
+        );
+    }
 }

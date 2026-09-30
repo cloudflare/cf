@@ -1,21 +1,18 @@
-import $create from "./create.js";
-import $status from "./status.js";
+import $signature from "./signature.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
- * credentials command group
- * @generated from apis/overlays/basin-catalog.ts
+ * planetscale command group
+ * @generated from apis/overlays/hyperdrive.ts
  */
 import type { CommandModule } from "yargs";
 
 const command: CommandModule<CommonYargsOptions> = {
-	command: "credentials",
-	describe:
-		"Catalog access credentials for external query engines (Spark, Trino, etc.)",
+	command: "planetscale",
+	describe: "Operations for integration.planetscale",
 
 	builder: (yargs) => {
 		return yargs
-			.command($create)
-			.command($status)
+			.command($signature)
 			.demandCommand(1, "Please specify a subcommand");
 	},
 

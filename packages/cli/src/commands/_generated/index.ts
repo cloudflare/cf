@@ -739,7 +739,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./keys/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -1198,7 +1198,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./resource-tagging/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -1378,7 +1378,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./tags/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -1477,7 +1477,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./values/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(

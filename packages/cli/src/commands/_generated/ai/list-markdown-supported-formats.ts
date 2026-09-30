@@ -12,22 +12,16 @@ import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 import type { SdkRequest } from "#sdk";
 /**
- * create-database-signature command
- * @generated from apis/overlays/hyperdrive.ts
+ * list-markdown-supported-formats command
+ * @generated from apis/overlays/ai.ts
  */
 import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 hyperdrive create-database-signature <integration>\n\nReturns a short-lived signed authorization for creating a database that is billed through Cloudflare. The caller passes these values to the integration partner's own CLI, which verifies the signature before creating the database. Requires the account to be entitled to Cloudflare-billed databases for the integration."
+			"$0 ai list-markdown-supported-formats\n\nLists the file extensions and MIME types accepted by Workers AI's Markdown conversion endpoint. Use this list to check whether a file can be converted before uploading it."
 		)
-		.positional("integration", {
-			type: "string",
-			description:
-				"The database integration to authorize against. This value is case-insensitive.",
-			demandOption: true,
-		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -37,16 +31,16 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"create-hyperdrive-database-signature">;
+type Request = SdkRequest<"workers-ai-get-to-markdown-supported">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "create-database-signature <integration>",
-	describe: "Create Database Signature",
+	command: "list-markdown-supported-formats",
+	describe: "List supported Markdown conversion formats",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
-				command: "hyperdrive create-database-signature",
+				command: "ai list-markdown-supported-formats",
 				classification: {
 					safeFlags: ["dry-run"],
 				} satisfies ArgClassification<Args>,
@@ -56,10 +50,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
-						command: "cf hyperdrive create-database-signature",
-						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/hyperdrive/integrationsOperations/${argv["integration"] == null ? "<integration>" : encodeURIComponent(String(argv["integration"]))}/createDatabaseSignature`,
-						pathParams: { integration: String(argv["integration"] ?? "") },
+						command: "cf ai list-markdown-supported-formats",
+						method: "GET",
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai/tomarkdown/supported`,
+						pathParams: {},
 						bodyKind: "none",
 					});
 					return;
@@ -68,13 +62,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 				argv.accountId = accountId;
 
-				const result = await withProgress(`Creating`, async () =>
-					client.hyperdrive.createDatabaseSignature({
+				const result = await withProgress(`Loading`, async () =>
+					client.ai.listMarkdownSupportedFormats({
 						account_id: accountId,
-						integration: argv["integration"],
 					} satisfies Request)
 				);
-				formatOutput(result, { successLabel: `Created` });
+				formatOutput(result, { successLabel: `Loaded` });
 			}
 		),
 };

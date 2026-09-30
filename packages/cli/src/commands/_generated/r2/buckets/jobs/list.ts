@@ -20,7 +20,7 @@ import type { Argv, CommandModule } from "yargs";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 r2 buckets jobs list\n\nLists a page of prefix-deletion and bucket-emptying jobs for an R2 bucket. Use the returned job identifiers to inspect progress with Get Bucket Job. Storage-class migration jobs are listed by the separate List Storage Class Migration Jobs endpoint."
+			"$0 r2 buckets jobs list\n\nLists background jobs for an R2 bucket, including prefix-delete (and bucket-emptying) jobs and storage-class migration jobs. Jobs of every type are returned unless `jobType` is provided."
 		)
 		.option("bucket-name", {
 			type: "string",
@@ -30,7 +30,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("job-type", {
 			type: "string",
 			description: "Restricts results to jobs of the specified type.",
-			choices: ["prefixDelete"],
+			choices: ["prefixDelete", "storageClassMigration"],
 		})
 		.option("status", {
 			type: "string",

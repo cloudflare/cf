@@ -1,7 +1,7 @@
-import $createdatabasesignature from "./create-database-signature.js";
 import $create from "./create.js";
 import $delete from "./delete.js";
 import $get from "./get.js";
+import $integration from "./integration/index.js";
 import $list from "./list.js";
 import $replace from "./replace.js";
 import $restart from "./restart.js";
@@ -21,13 +21,13 @@ const command: CommandModule<CommonYargsOptions> = {
 	builder: (yargs) => {
 		return yargs
 			.command($create)
-			.command($createdatabasesignature)
 			.command($delete)
 			.command($get)
 			.command($list)
 			.command($replace)
 			.command($restart)
 			.command($update)
+			.command($integration)
 			.demandCommand(1, "Please specify a subcommand");
 	},
 

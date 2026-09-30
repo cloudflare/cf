@@ -3,15 +3,18 @@
 import * as CloudflareApi from "../index.js";
 
 /**
- * Descriptor of a bucket-wide storage-class migration job.
+ * Descriptor of a prefix-delete job. An empty prefix indicates a job that empties the
+ * whole bucket.
  */
-export interface R2R2StorageClassMigrationJob {
+export interface R2R2PrefixDeleteJob {
     /** When the job finished. Absent while the job is still `ENQUEUED` or `RUNNING`. */
     endTime?: string | undefined;
     /** Unique identifier used to poll the job. */
     id: string;
+    /** The job kind. */
+    jobType: "prefixDelete";
+    prefixDelete: CloudflareApi.R2R2PrefixDeleteJobPrefixDelete;
     /** When the job was created. */
     startTime: string;
     status: CloudflareApi.R2R2BucketJobStatus;
-    storageClassMigration: CloudflareApi.R2R2StorageClassMigrationJobStorageClassMigration;
 }

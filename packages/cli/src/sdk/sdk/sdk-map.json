@@ -6504,6 +6504,21 @@
       "bucket_name"
     ]
   },
+  "basin-get-credential-status": {
+    "accessor": [
+      "basinCatalog",
+      "credentials"
+    ],
+    "method": "status",
+    "httpMethod": "GET",
+    "path": "/accounts/{account_id}/basin-catalog/{bucket_name}/credential/status",
+    "requestType": "StatusCredentialsRequest",
+    "responseType": "StatusCredentialsResponse",
+    "requiredRequestProperties": [
+      "account_id",
+      "bucket_name"
+    ]
+  },
   "basin-get-maintenance-config": {
     "accessor": [
       "basinCatalog",
@@ -9800,12 +9815,11 @@
     ],
     "method": "createDatabaseSignature",
     "httpMethod": "POST",
-    "path": "/accounts/{account_id}/hyperdrive/integrationsOperations/{integration}/createDatabaseSignature",
+    "path": "/accounts/{account_id}/hyperdrive/integrationsOperations/planetScale/createDatabaseSignature",
     "requestType": "CreateDatabaseSignatureHyperdriveRequest",
     "responseType": "HyperdriveHyperdriveDatabaseSignatureResponse",
     "requiredRequestProperties": [
-      "account_id",
-      "integration"
+      "account_id"
     ]
   },
   "create-ip-profile": {
@@ -19854,6 +19868,21 @@
       "credential_set_id"
     ]
   },
+  "get-credential-status": {
+    "accessor": [
+      "r2DataCatalog",
+      "credentials"
+    ],
+    "method": "status",
+    "httpMethod": "GET",
+    "path": "/accounts/{account_id}/r2-catalog/{bucket_name}/credential/status",
+    "requestType": "StatusCredentialsRequest",
+    "responseType": "StatusCredentialsResponse",
+    "requiredRequestProperties": [
+      "account_id",
+      "bucket_name"
+    ]
+  },
   "get-deployment-group": {
     "accessor": [
       "zeroTrust",
@@ -25198,7 +25227,7 @@
     "path": "/user/load_balancers/pools",
     "responseType": "PoolsPoolsResponse",
     "requiredRequestProperties": [
-      "__@iterator@7505",
+      "__@iterator@7516",
       "anchor",
       "at",
       "big",
@@ -33058,22 +33087,6 @@
       "bucket_name"
     ]
   },
-  "r2-create-storage-class-migration-job": {
-    "accessor": [
-      "r2",
-      "buckets",
-      "storageClassMigrationJobs"
-    ],
-    "method": "create",
-    "httpMethod": "POST",
-    "path": "/accounts/{account_id}/r2/buckets/{bucket_name}/storage-class-migration-jobs",
-    "requestType": "CreateStorageClassMigrationJobsRequest",
-    "responseType": "R2R2StorageClassMigrationJob",
-    "requiredRequestProperties": [
-      "account_id",
-      "bucket_name"
-    ]
-  },
   "r2-create-temp-access-credentials": {
     "accessor": [
       "r2",
@@ -33455,23 +33468,6 @@
       "object_key"
     ]
   },
-  "r2-get-storage-class-migration-job": {
-    "accessor": [
-      "r2",
-      "buckets",
-      "storageClassMigrationJobs"
-    ],
-    "method": "get",
-    "httpMethod": "GET",
-    "path": "/accounts/{account_id}/r2/buckets/{bucket_name}/storage-class-migration-jobs/{job_id}",
-    "requestType": "GetStorageClassMigrationJobsRequest",
-    "responseType": "R2R2StorageClassMigrationJob",
-    "requiredRequestProperties": [
-      "account_id",
-      "bucket_name",
-      "job_id"
-    ]
-  },
   "r2-list-bucket-jobs": {
     "accessor": [
       "r2",
@@ -33529,22 +33525,6 @@
     "path": "/accounts/{account_id}/r2/buckets/{bucket_name}/objects",
     "requestType": "ListObjectsRequest",
     "responseType": "ListObjectsResponse",
-    "requiredRequestProperties": [
-      "account_id",
-      "bucket_name"
-    ]
-  },
-  "r2-list-storage-class-migration-jobs": {
-    "accessor": [
-      "r2",
-      "buckets",
-      "storageClassMigrationJobs"
-    ],
-    "method": "list",
-    "httpMethod": "GET",
-    "path": "/accounts/{account_id}/r2/buckets/{bucket_name}/storage-class-migration-jobs",
-    "requestType": "ListStorageClassMigrationJobsRequest",
-    "responseType": "R2R2StorageClassMigrationJobsResult",
     "requiredRequestProperties": [
       "account_id",
       "bucket_name"

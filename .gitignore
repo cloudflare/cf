@@ -7,6 +7,9 @@ packages/cli/src/sdk/openapi*.json
 .env
 .env.local
 
+# Legacy Turbo cache
+.turbo/
+
 # Package tarballs
 packages/cli/*.tgz
 

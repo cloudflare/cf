@@ -64,7 +64,7 @@
 		"generate": "tsx generate.ts",
 		"dev": "tsx src/dev.ts",
 		"build": "vp pack",
-		"build:test": "vp pack --config vite.test.config.ts",
+		"build:test": "node build-test.mjs",
 		"check:type": "tsgo --noEmit",
 		"test": "vp test run",
 		"test:watch": "vp test watch",

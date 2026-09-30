@@ -255,8 +255,9 @@ console.log(
 );
 const forge = initFromOpenApi(cliSource);
 const files = await forge.transform(transformer);
-const generatedDir = new URL("./src/commands/_generated", import.meta.url)
-	.pathname;
+const generatedDir = fileURLToPath(
+	new URL("./src/commands/_generated", import.meta.url)
+);
 const written = await forge.finalize(generatedDir, files, { clean: true });
 console.log(`CLI: wrote ${written.length} files`);
 

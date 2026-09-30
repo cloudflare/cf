@@ -13,7 +13,7 @@
  *   - `schemas.json`        — per-operation JSON schemas (used by
  *                             `cf schema`)
  *
- * `tsdown` copies all metadata files into `dist/_meta/` at build time
+ * Vite+ Pack copies all metadata files into `dist/_meta/` at build time
  * (`vite.config.ts` → `pack.onSuccess`), so a bundled cf binary finds
  * them next to its own entry chunk; a dev-mode run via `tsx` finds
  * them in the source tree under `_generated/_meta/`. `loadMeta`

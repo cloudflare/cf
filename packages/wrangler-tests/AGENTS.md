@@ -33,7 +33,7 @@ revision, inventory shape, and regeneration command are documented in
 
 Run `pnpm generate` from the repository root after OpenAPI or Forge changes,
 then run `pnpm test` from this package. Its `pretest` script builds the CLI with
-the test-specific tsdown configuration, and tests import the resulting
+the test-specific Vite+ Pack configuration, and tests import the resulting
 `../cli/dist/index.mjs`. The test build keeps mock-sensitive dependencies
 external while the normal production build bundles them. `pnpm test:watch`
 also builds the test bundle once before starting Vitest.

@@ -67,7 +67,7 @@ cf/
 │   ├── dist/                   # gitignored, written by Vite+ Pack (chunked ESM)
 │   ├── generate.ts             # OpenAPI/SDK sync → initFromOpenApi → transform/finalize
 │   ├── vite.config.ts          # test and production ESM bundle config
-│   └── vite.test.config.ts     # compiled bundle for Wrangler compatibility tests
+│   └── build-test.mjs          # compiled bundle for Wrangler compatibility tests
 ├── packages/wrangler-tests/    # imported wrangler test corpus, using
 │                               # ../cli/dist/index.mjs (MSW-mocked)
 ├── fixtures/                   # cf dev discovery fixtures (vite-plugin +

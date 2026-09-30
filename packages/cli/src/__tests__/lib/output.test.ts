@@ -1,5 +1,12 @@
 import chalk from "chalk";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vite-plus/test";
+import {
+	afterEach,
+	beforeEach,
+	describe,
+	expect,
+	it,
+	vi,
+} from "vite-plus/test";
 import { formatOutput } from "../../lib/output.js";
 import { Page } from "../../sdk/sdk/core/pagination/Page.js";
 

@@ -2,6 +2,8 @@ import { cpSync, existsSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
 import { defineConfig } from "vite-plus";
 
+const testBundle = process.env.CF_TEST_BUNDLE === "1";
+
 export default defineConfig({
 	test: {
 		// Preserve Vitest 4 mock call history until the suite is reviewed.
@@ -27,7 +29,11 @@ export default defineConfig({
 		deps: {
 			resolveDepSubpath: true,
 			// These packages require their own files beside the module at runtime.
-			neverBundle: ["blake3-wasm", "miniflare"],
+			neverBundle: [
+				"blake3-wasm",
+				"miniflare",
+				...(testBundle ? ["@clack/prompts", "ci-info", "execa", "undici"] : []),
+			],
 		},
 		// Keep the delegate entry independent of the full command tree.
 		entry: {

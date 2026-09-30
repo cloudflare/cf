@@ -11,12 +11,6 @@ export default defineConfig({
 			groups: ["builtin", "external", "parent", "sibling", "index", "type"],
 			newlinesBetween: false,
 		},
-		overrides: [
-			{
-				files: ["packages/cli/src/commands/_generated/**"],
-				options: { sortImports: false },
-			},
-		],
 		sortPackageJson: {},
 		ignorePatterns: [
 			// Changesets owns this prerelease state file and writes its own JSON style.

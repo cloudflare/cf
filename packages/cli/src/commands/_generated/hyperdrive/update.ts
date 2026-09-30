@@ -48,7 +48,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "Define CA certificate ID obtained after uploading CA cert.",
 		})
-		.option("mtls-mtls-certificate-id", {
+		.option("mtls-certificate-id", {
 			type: "string",
 			description:
 				"Define mTLS certificate ID obtained after uploading client cert.",
@@ -133,8 +133,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"text"
 											),
 											mtls_certificate_id: resolveFileToken(
-												argv["mtls-mtls-certificate-id"] as string | undefined,
-												"mtls-mtls-certificate-id",
+												argv["mtls-certificate-id"] as string | undefined,
+												"mtls-certificate-id",
 												"text"
 											),
 											sslmode: resolveFileToken(
@@ -184,8 +184,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"text"
 						),
 						mtls_certificate_id: resolveFileToken(
-							argv["mtls-mtls-certificate-id"] as string | undefined,
-							"mtls-mtls-certificate-id",
+							argv["mtls-certificate-id"] as string | undefined,
+							"mtls-certificate-id",
 							"text"
 						),
 						sslmode: resolveFileToken(

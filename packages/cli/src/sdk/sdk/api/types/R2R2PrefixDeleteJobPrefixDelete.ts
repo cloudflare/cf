@@ -3,7 +3,7 @@
 /**
  * Details specific to the prefix-delete job.
  */
-export interface R2R2BucketJobPrefixDelete {
+export interface R2R2PrefixDeleteJobPrefixDelete {
     /** Number of objects deleted by the job so far. */
     deletedObjects: number;
     /**

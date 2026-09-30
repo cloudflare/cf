@@ -21,10 +21,4 @@ describe("proxy startup output", () => {
 		const parsed = JSON.parse(std.out);
 		expect(Array.isArray(parsed)).toBe(true);
 	});
-
-	it.skip("wrangler-only: HTTPS_PROXY detection warning on startup", () => {
-		// cf does not currently emit a proxy-detection warning —
-		// proxy support flows through the SDK / undici defaults without a
-		// startup banner.
-	});
 });

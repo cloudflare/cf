@@ -1,12 +1,15 @@
 import { describe, it } from "vitest";
 
-describe("containers images", () => {
+describe("containers images list", () => {
 	it.skip("should help");
 	// The generated surface currently exposes image preparation, but not the
 	// managed-registry list and delete endpoints exercised by Wrangler.
 	it.todo("should list images");
 	it.todo("should list images with a filter");
 	it.todo("should list repos as valid json with json flag set");
+});
+
+describe("containers images delete", () => {
 	it.skip("should help");
 	it.todo("should delete images");
 	it.todo("should error when provided a repo without a tag");

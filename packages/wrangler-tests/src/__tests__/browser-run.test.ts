@@ -8,7 +8,7 @@ import { createFetchResult, msw } from "./helpers/msw";
 import { runInTempDir } from "./helpers/run-in-tmp";
 import { runWrangler } from "./helpers/run-wrangler";
 
-describe("browser-rendering devtools", () => {
+describe("wrangler browser", () => {
 	mockAccountId();
 	mockApiToken();
 	runInTempDir();
@@ -23,7 +23,7 @@ describe("browser-rendering devtools", () => {
 		clearDialogs();
 	});
 
-	describe("session list", () => {
+	describe("list", () => {
 		it.todo("should list active browser sessions", async ({ expect }) => {
 			const sessions = [
 				{
@@ -92,7 +92,7 @@ describe("browser-rendering devtools", () => {
 		});
 	});
 
-	describe("json get", () => {
+	describe("view", () => {
 		it.todo("should output JSON when --json flag is used with single target", async ({
 			expect,
 		}) => {
@@ -120,9 +120,11 @@ describe("browser-rendering devtools", () => {
 			await runWrangler("browser-rendering devtools json get session-456");
 			expect(JSON.parse(std.out)).toEqual(targets);
 		});
+
+		it.skip("should prefer page targets over other types", async () => {});
 	});
 
-	describe("browser create", () => {
+	describe("create", () => {
 		it.todo("should pass --lab flag to API", async ({ expect }) => {
 			let labParam: string | null = null;
 			msw.use(
@@ -225,9 +227,11 @@ describe("browser-rendering devtools", () => {
 			await runWrangler("browser-rendering devtools browser create");
 			expect(JSON.parse(std.out)).toEqual(response);
 		});
+
+		it.skip("should prefer page targets over other types", async () => {});
 	});
 
-	describe("browser delete", () => {
+	describe("close", () => {
 		it.todo("should close a session", async ({ expect }) => {
 			msw.use(
 				http.delete(
@@ -315,7 +319,6 @@ describe("browser-rendering devtools", () => {
 	describe.skip("wrangler-only UX", () => {
 		it.skip("should open DevTools for a session with single target (interactive)", async () => {});
 		it.skip("should print URL only by default in non-interactive mode", async () => {});
-		it.skip("should prefer page targets over other types", async () => {});
 		it.skip("should print URL only when --no-open is used", async () => {});
 		it.skip("should prompt for selection when multiple page targets exist", async () => {});
 		it.skip("should error when multiple targets exist and no --target specified (non-interactive)", async () => {});
@@ -335,7 +338,6 @@ describe("browser-rendering devtools", () => {
 		it.skip("should not open browser when --no-open is used", async () => {});
 		it.skip("should validate --keepAlive is within range (60-600)", async () => {});
 		it.skip("should throw error when no targets in response", async () => {});
-		it.skip("should prefer page targets over other types", async () => {});
 		it.skip("should show message when no sessions found", async () => {});
 	});
 });

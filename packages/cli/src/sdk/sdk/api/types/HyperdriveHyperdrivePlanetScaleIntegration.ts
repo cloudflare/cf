@@ -12,8 +12,8 @@ export interface HyperdriveHyperdrivePlanetScaleIntegration {
     database_branch_name: string;
     /** The name of the PlanetScale database. */
     database_name: string;
-    integration: CloudflareApi.HyperdriveHyperdriveIntegration;
     /** The name of the PlanetScale organization. */
     organization_name: string;
+    provider: CloudflareApi.HyperdriveHyperdriveIntegrationProvider;
     scheme: CloudflareApi.HyperdriveHyperdriveScheme;
 }

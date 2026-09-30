@@ -99,7 +99,10 @@ describe("hyperdrive commands", () => {
 
 	// The current create schema exposes caller-supplied origins through raw
 	// `--body`; only the managed-integration variant has individual flags.
-	it("should create a hyperdrive config given individual params instead of a connection string without a scheme set", async ({
+	// Wrangler verifies that omitting --scheme from its individual origin flags
+	// defaults the submitted scheme to PostgreSQL. cf exposes caller-supplied
+	// origins only through raw --body, which has no equivalent defaulting path.
+	it.skip("should create a hyperdrive config given individual params instead of a connection string without a scheme set", async ({
 		expect,
 	}) => {
 		const reqProm = mockHyperdriveCreate();
@@ -159,7 +162,7 @@ describe("hyperdrive commands", () => {
 		`);
 	});
 
-	it("should create a hyperdrive config given individual params instead of a connection string with mysql scheme", async ({
+	it("should create a hyperdrive config given individual params instead of a connection string without a scheme set", async ({
 		expect,
 	}) => {
 		const reqProm = mockHyperdriveCreate();
@@ -358,13 +361,13 @@ describe("hyperdrive commands", () => {
 		`);
 	});
 
-	it.skip("should reject a create hyperdrive config with --origin-service-id and --origin-host", async () => {});
+	it.skip("should reject a create hyperdrive config with --service-id and --origin-host", async () => {});
 
 	// cf has no --connection-string flag, so there's no analogous mutex with
 	// --origin-service-id.
 	it.skip("should reject a create hyperdrive config with --service-id and --connection-string", async () => {});
 
-	it.skip("should reject a create hyperdrive config with --origin-service-id and --origin-access-client-id", async () => {});
+	it.skip("should reject a create hyperdrive config with --service-id and --access-client-id", async () => {});
 
 	it.skip("should reject a create hyperdrive over access command if access client ID is set but not access client secret", async () => {});
 
@@ -844,7 +847,7 @@ describe("hyperdrive commands", () => {
 	}) => {
 		const reqProm = mockHyperdriveUpdate();
 		await runWrangler(
-			"hyperdrive update xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx --mtls-ca-certificate-id=2345 --mtls-mtls-certificate-id=234 --mtls-sslmode=verify-full"
+			"hyperdrive update xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx --mtls-ca-certificate-id=2345 --mtls-certificate-id=234 --mtls-sslmode=verify-full"
 		);
 		await expect(reqProm).resolves.toMatchInlineSnapshot(`
 			{

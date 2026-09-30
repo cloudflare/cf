@@ -111,7 +111,7 @@ export class AccountTagsClient {
     }
 
     /**
-     * Creates or updates tags for a specific account or zone-level resource.
+     * Creates or updates tags for a specific account or zone-level resource. Replaces all existing tags for the resource.
      *
      * @param {CloudflareApi.UpdateAccountTagsRequest} request
      * @param {AccountTagsClient.RequestOptions} requestOptions - Request-specific configuration.

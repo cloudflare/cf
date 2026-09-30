@@ -85,7 +85,7 @@
 		"@cloudflare/deploy-helpers": "0.19.0",
 		"@cloudflare/forge": "file:../../vendor/cloudflare-forge-0.1.0.tgz",
 		"@cloudflare/forge-transformer-sdk-ts": "file:../../vendor/cloudflare-forge-transformer-sdk-ts-0.1.0.tgz",
-		"@cloudflare/workers-auth": "0.10.0",
+		"@cloudflare/workers-auth": "0.11.0",
 		"@cloudflare/workers-utils": "0.45.0",
 		"@types/node": "25.3.5",
 		"@types/semver": "7.7.1",

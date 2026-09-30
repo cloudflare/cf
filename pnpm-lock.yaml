@@ -299,8 +299,8 @@ importers:
         specifier: file:../../vendor/cloudflare-forge-transformer-sdk-ts-0.1.0.tgz
         version: file:vendor/cloudflare-forge-transformer-sdk-ts-0.1.0.tgz
       '@cloudflare/workers-auth':
-        specifier: 0.10.0
-        version: 0.10.0(msw@2.14.6(@types/node@25.3.5)(typescript@6.0.3))(vitest@4.1.0(@types/node@25.3.5)(msw@2.14.6(@types/node@25.3.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.3.5)(esbuild@0.28.1)(tsx@4.21.0)(yaml@2.9.0)))
+        specifier: 0.11.0
+        version: 0.11.0(msw@2.14.6(@types/node@25.3.5)(typescript@6.0.3))(vitest@4.1.0(@types/node@25.3.5)(msw@2.14.6(@types/node@25.3.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.3.5)(esbuild@0.28.1)(tsx@4.21.0)(yaml@2.9.0)))
       '@cloudflare/workers-utils':
         specifier: 0.45.0
         version: 0.45.0(vitest@4.1.0(@types/node@25.3.5)(msw@2.14.6(@types/node@25.3.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.3.5)(esbuild@0.28.1)(tsx@4.21.0)(yaml@2.9.0)))
@@ -706,8 +706,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@cloudflare/workers-auth@0.10.0':
-    resolution: {integrity: sha512-+HG3urY72gPD2tBXulQ8bWo8MP+0ijnzYKlsmFGAe4NvrZTRjHSkyHLOzIxV8r2ifEYO7gBxgxZfVhusMR3Reg==}
+  '@cloudflare/workers-auth@0.11.0':
+    resolution: {integrity: sha512-6BmmVLTYtupL6SDSC7cn3eH3ST7vmurAJ5CF9QRYPT3KI8UPSITDd/YQnJJEWiwEy/JuXyow759+xmJXEOLVeA==}
     peerDependencies:
       msw: 2.14.6
       vitest: ^4.1.0
@@ -4066,7 +4066,7 @@ snapshots:
   '@cloudflare/workerd-windows-64@1.20260930.2':
     optional: true
 
-  '@cloudflare/workers-auth@0.10.0(msw@2.14.6(@types/node@25.3.5)(typescript@6.0.3))(vitest@4.1.0(@types/node@25.3.5)(msw@2.14.6(@types/node@25.3.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.3.5)(esbuild@0.28.1)(tsx@4.21.0)(yaml@2.9.0)))':
+  '@cloudflare/workers-auth@0.11.0(msw@2.14.6(@types/node@25.3.5)(typescript@6.0.3))(vitest@4.1.0(@types/node@25.3.5)(msw@2.14.6(@types/node@25.3.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.3.5)(esbuild@0.28.1)(tsx@4.21.0)(yaml@2.9.0)))':
     dependencies:
       '@cloudflare/workers-utils': 0.45.0(vitest@4.1.0(@types/node@25.3.5)(msw@2.14.6(@types/node@25.3.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.3.5)(esbuild@0.28.1)(tsx@4.21.0)(yaml@2.9.0)))
       undici: 7.29.1

@@ -26,7 +26,7 @@ minimumReleaseAgeExclude:
   - "@cloudflare/workerd-linux-64@1.20260930.2"
   - "@cloudflare/workerd-linux-arm64@1.20260930.2"
   - "@cloudflare/workerd-windows-64@1.20260930.2"
-  - "@cloudflare/workers-auth@0.10.0"
+  - "@cloudflare/workers-auth@0.11.0"
   - "@cloudflare/workers-types@5.20260930.2"
   - "@cloudflare/workers-utils@0.45.0"
   - miniflare@5.20260930.0-alpha

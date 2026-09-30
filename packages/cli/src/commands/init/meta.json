@@ -29,6 +29,13 @@
 				"required": false,
 				"description": "Package manager for a new project (prompts when interactive)",
 				"enum": ["npm", "pnpm", "yarn", "bun"]
+			},
+			{
+				"name": "dry-run",
+				"type": "boolean",
+				"required": false,
+				"description": "Parse arguments and show the command without executing it",
+				"default": false
 			}
 		]
 	},
@@ -62,6 +69,13 @@
 				"required": false,
 				"description": "Package manager for a new project (prompts when interactive)",
 				"enum": ["npm", "pnpm", "yarn", "bun"]
+			},
+			{
+				"name": "dry-run",
+				"type": "boolean",
+				"required": false,
+				"description": "Parse arguments and show the command without executing it",
+				"default": false
 			}
 		]
 	}

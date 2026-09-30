@@ -56,15 +56,23 @@ interface IndexShape {
 	 * A hand-written sub-group carries `dir` instead, and imports from
 	 * `#commands/<dir>/index.js` since it lives outside `_generated/`.
 	 */
-	subGroups: readonly { name: string; dir?: string }[];
+	subGroups: readonly {
+		name: string;
+		dir?: string;
+		dryRun?: "preview" | "native";
+	}[];
 }
 
 function generateIndexFile(shape: IndexShape): string {
 	const imports: string[] = [];
 	const commandRegistrations: string[] = [];
+	let wrapsHandWrittenCommand = false;
 
 	for (const cmd of shape.commands) {
 		const varName = getSafeVarName(cmd);
+		const handWrittenLeaf = handWrittenLeafCommands(
+			shape.pathPrefix.replace(/\/$/, "")
+		).find((entry) => entry.name === cmd);
 		// Hand-written overrides and added leaf commands live in
 		// `src/commands/`, not next to the generated siblings, so they import
 		// via `#commands/*`.
@@ -73,7 +81,14 @@ function generateIndexFile(shape: IndexShape): string {
 			handWrittenLeafOverrideModule(`${shape.pathPrefix}${cmd}`) ??
 			`./${cmd}.js`;
 		imports.push(`import ${varName} from '${module}';`);
-		commandRegistrations.push(`    .command(${varName})`);
+		if (handWrittenLeaf !== undefined) {
+			wrapsHandWrittenCommand = true;
+			commandRegistrations.push(
+				`    .command(withHandWrittenDryRun(${varName}, '${handWrittenLeaf.dryRun}'))`
+			);
+		} else {
+			commandRegistrations.push(`    .command(${varName})`);
+		}
 	}
 
 	for (const sg of shape.subGroups) {
@@ -85,7 +100,19 @@ function generateIndexFile(shape: IndexShape): string {
 				? `./${sg.name}/index.js`
 				: `#commands/${sg.dir}/index.js`;
 		imports.push(`import ${varName} from '${module}';`);
-		commandRegistrations.push(`    .command(${varName})`);
+		if (sg.dir !== undefined) {
+			if (sg.dryRun === undefined) {
+				throw new Error(
+					`Hand-written subgroup ${sg.dir} has no dry-run strategy.`
+				);
+			}
+			wrapsHandWrittenCommand = true;
+			commandRegistrations.push(
+				`    .command(withHandWrittenDryRun(${varName}, '${sg.dryRun}'))`
+			);
+		} else {
+			commandRegistrations.push(`    .command(${varName})`);
+		}
 	}
 
 	// Position-independent import root (package.json `#lib/*` → `src/lib/*`),
@@ -98,6 +125,7 @@ function generateIndexFile(shape: IndexShape): string {
  */
 import type { CommandModule } from 'yargs';
 import type { CommonYargsOptions } from '${libPath}/cli-types.js';
+${wrapsHandWrittenCommand ? `import { withHandWrittenDryRun } from '${libPath}/hand-written-dry-run.js';` : ""}
 ${imports.join("\n")}
 
 const command: CommandModule<CommonYargsOptions> = {

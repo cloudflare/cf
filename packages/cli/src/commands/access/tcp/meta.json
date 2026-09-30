@@ -60,6 +60,13 @@
 				"panic",
 				"disabled"
 			]
+		},
+		{
+			"name": "dry-run",
+			"type": "boolean",
+			"required": false,
+			"description": "Parse arguments and show the command without executing it",
+			"default": false
 		}
 	]
 }

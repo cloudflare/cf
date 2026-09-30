@@ -34,6 +34,13 @@
 				"type": "string",
 				"required": false,
 				"description": "The set of OAuth scopes to request"
+			},
+			{
+				"name": "dry-run",
+				"type": "boolean",
+				"required": false,
+				"description": "Parse arguments and show the command without executing it",
+				"default": false
 			}
 		]
 	},
@@ -45,7 +52,15 @@
 		"description": "Log out and remove stored credentials",
 		"usage": "cf auth logout",
 		"arguments": [],
-		"options": []
+		"options": [
+			{
+				"name": "dry-run",
+				"type": "boolean",
+				"required": false,
+				"description": "Parse arguments and show the command without executing it",
+				"default": false
+			}
+		]
 	},
 	{
 		"command": "cf auth whoami",
@@ -55,7 +70,15 @@
 		"description": "Show current user and authentication status",
 		"usage": "cf auth whoami",
 		"arguments": [],
-		"options": []
+		"options": [
+			{
+				"name": "dry-run",
+				"type": "boolean",
+				"required": false,
+				"description": "Parse arguments and show the command without executing it",
+				"default": false
+			}
+		]
 	},
 	{
 		"command": "cf auth create",
@@ -93,6 +116,13 @@
 				"type": "string",
 				"required": false,
 				"description": "The set of OAuth scopes to request"
+			},
+			{
+				"name": "dry-run",
+				"type": "boolean",
+				"required": false,
+				"description": "Parse arguments and show the command without executing it",
+				"default": false
 			}
 		]
 	},
@@ -112,7 +142,15 @@
 				"description": "Name of the auth profile to delete"
 			}
 		],
-		"options": []
+		"options": [
+			{
+				"name": "dry-run",
+				"type": "boolean",
+				"required": false,
+				"description": "Parse arguments and show the command without executing it",
+				"default": false
+			}
+		]
 	},
 	{
 		"command": "cf auth activate",
@@ -137,7 +175,15 @@
 				"description": "Directory to bind the profile to (defaults to current directory)"
 			}
 		],
-		"options": []
+		"options": [
+			{
+				"name": "dry-run",
+				"type": "boolean",
+				"required": false,
+				"description": "Parse arguments and show the command without executing it",
+				"default": false
+			}
+		]
 	},
 	{
 		"command": "cf auth deactivate",
@@ -155,7 +201,15 @@
 				"description": "Directory to unbind (defaults to current directory). Must be the exact directory the profile was bound to."
 			}
 		],
-		"options": []
+		"options": [
+			{
+				"name": "dry-run",
+				"type": "boolean",
+				"required": false,
+				"description": "Parse arguments and show the command without executing it",
+				"default": false
+			}
+		]
 	},
 	{
 		"command": "cf auth list",
@@ -165,6 +219,14 @@
 		"description": "List all auth profiles",
 		"usage": "cf auth list",
 		"arguments": [],
-		"options": []
+		"options": [
+			{
+				"name": "dry-run",
+				"type": "boolean",
+				"required": false,
+				"description": "Parse arguments and show the command without executing it",
+				"default": false
+			}
+		]
 	}
 ]

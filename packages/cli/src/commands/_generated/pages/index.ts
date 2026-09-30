@@ -1,4 +1,5 @@
 import $deploy from "#commands/pages/deploy/index.js";
+import { withHandWrittenDryRun } from "#lib/hand-written-dry-run.js";
 import $buildcache from "./build-cache/index.js";
 import $create from "./create.js";
 import $delete from "./delete.js";
@@ -24,7 +25,7 @@ const command: CommandModule<CommonYargsOptions> = {
 		return yargs
 			.command($create)
 			.command($delete)
-			.command($deploy)
+			.command(withHandWrittenDryRun($deploy, "preview"))
 			.command($edit)
 			.command($get)
 			.command($list)

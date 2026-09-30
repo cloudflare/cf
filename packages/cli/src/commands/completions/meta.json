@@ -16,6 +16,14 @@
 				"enum": ["bash", "zsh", "fish", "powershell"]
 			}
 		],
-		"options": []
+		"options": [
+			{
+				"name": "dry-run",
+				"type": "boolean",
+				"required": false,
+				"description": "Parse arguments and show the command without executing it",
+				"default": false
+			}
+		]
 	}
 ]

@@ -1,4 +1,5 @@
 import $migrations from "#commands/d1/migrations/index.js";
+import { withHandWrittenDryRun } from "#lib/hand-written-dry-run.js";
 import $create from "./create.js";
 import $delete from "./delete.js";
 import $edit from "./edit.js";
@@ -30,7 +31,7 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($query)
 			.command($raw)
 			.command($update)
-			.command($migrations)
+			.command(withHandWrittenDryRun($migrations, "preview"))
 			.command($timetravel)
 			.demandCommand(1, "Please specify a subcommand");
 	},

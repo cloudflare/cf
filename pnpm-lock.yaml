@@ -166,6 +166,7 @@ patchedDependencies:
   '@changesets/cli@2.31.0': 059d085279022eeb7f92871a182f71310e4891b62871cfedccb21b34f4bfcd27
   '@cloudflare/containers-shared@0.21.1': ecd632c350c22e92f11dd426d4aec675be6515b0aa7e21f2ff1367e315e3ac59
   '@cloudflare/deploy-helpers@0.19.0': fa619ec1fadf39e16e3f210eaeb455000dfd1ebfe550ce3e204834574273e0a5
+  '@cloudflare/workers-utils@0.45.0': c53a3874bbf85d744cdc58bca3899f6a8c14dda7be4fcd67f8eb65bde618b7c2
 
 importers:
 
@@ -303,7 +304,7 @@ importers:
         version: 0.10.0(msw@2.14.6(@types/node@25.3.5)(typescript@6.0.3))(vitest@4.1.0(@types/node@25.3.5)(msw@2.14.6(@types/node@25.3.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.3.5)(esbuild@0.28.1)(tsx@4.21.0)(yaml@2.9.0)))
       '@cloudflare/workers-utils':
         specifier: 0.45.0
-        version: 0.45.0(vitest@4.1.0(@types/node@25.3.5)(msw@2.14.6(@types/node@25.3.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.3.5)(esbuild@0.28.1)(tsx@4.21.0)(yaml@2.9.0)))
+        version: 0.45.0(patch_hash=c53a3874bbf85d744cdc58bca3899f6a8c14dda7be4fcd67f8eb65bde618b7c2)(vitest@4.1.0(@types/node@25.3.5)(msw@2.14.6(@types/node@25.3.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.3.5)(esbuild@0.28.1)(tsx@4.21.0)(yaml@2.9.0)))
       '@types/node':
         specifier: 25.3.5
         version: 25.3.5
@@ -363,7 +364,7 @@ importers:
     devDependencies:
       '@cloudflare/workers-utils':
         specifier: 0.45.0
-        version: 0.45.0(vitest@4.1.11(@types/node@25.3.5)(msw@2.12.4(@types/node@25.3.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.3.5)(esbuild@0.28.1)(tsx@4.21.0)(yaml@2.9.0)))
+        version: 0.45.0(patch_hash=c53a3874bbf85d744cdc58bca3899f6a8c14dda7be4fcd67f8eb65bde618b7c2)(vitest@4.1.11(@types/node@25.3.5)(msw@2.12.4(@types/node@25.3.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.3.5)(esbuild@0.28.1)(tsx@4.21.0)(yaml@2.9.0)))
       '@types/node':
         specifier: 25.3.5
         version: 25.3.5
@@ -3914,7 +3915,7 @@ snapshots:
     dependencies:
       '@cloudflare/cli-shared-helpers': 0.2.1(vitest@4.1.0(@types/node@25.3.5)(msw@2.14.6(@types/node@25.3.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.3.5)(esbuild@0.28.1)(tsx@4.21.0)(yaml@2.9.0)))
       '@cloudflare/config': 0.22.0
-      '@cloudflare/workers-utils': 0.45.0(vitest@4.1.0(@types/node@25.3.5)(msw@2.14.6(@types/node@25.3.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.3.5)(esbuild@0.28.1)(tsx@4.21.0)(yaml@2.9.0)))
+      '@cloudflare/workers-utils': 0.45.0(patch_hash=c53a3874bbf85d744cdc58bca3899f6a8c14dda7be4fcd67f8eb65bde618b7c2)(vitest@4.1.0(@types/node@25.3.5)(msw@2.14.6(@types/node@25.3.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.3.5)(esbuild@0.28.1)(tsx@4.21.0)(yaml@2.9.0)))
     transitivePeerDependencies:
       - vitest
 
@@ -3929,7 +3930,7 @@ snapshots:
   '@cloudflare/cli-shared-helpers@0.2.1(vitest@4.1.0(@types/node@25.3.5)(msw@2.14.6(@types/node@25.3.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.3.5)(esbuild@0.28.1)(tsx@4.21.0)(yaml@2.9.0)))':
     dependencies:
       '@clack/core': 1.2.0
-      '@cloudflare/workers-utils': 0.45.0(vitest@4.1.0(@types/node@25.3.5)(msw@2.14.6(@types/node@25.3.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.3.5)(esbuild@0.28.1)(tsx@4.21.0)(yaml@2.9.0)))
+      '@cloudflare/workers-utils': 0.45.0(patch_hash=c53a3874bbf85d744cdc58bca3899f6a8c14dda7be4fcd67f8eb65bde618b7c2)(vitest@4.1.0(@types/node@25.3.5)(msw@2.14.6(@types/node@25.3.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.3.5)(esbuild@0.28.1)(tsx@4.21.0)(yaml@2.9.0)))
       chalk: 5.3.0
       ci-info: 4.4.0
       cross-spawn: 7.0.6
@@ -3952,7 +3953,7 @@ snapshots:
       '@cloudflare/build-output-utils': 0.8.4
       '@cloudflare/cli-shared-helpers': 0.2.1(vitest@4.1.0(@types/node@25.3.5)(msw@2.14.6(@types/node@25.3.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.3.5)(esbuild@0.28.1)(tsx@4.21.0)(yaml@2.9.0)))
       '@cloudflare/config': 0.22.0
-      '@cloudflare/workers-utils': 0.45.0(vitest@4.1.0(@types/node@25.3.5)(msw@2.14.6(@types/node@25.3.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.3.5)(esbuild@0.28.1)(tsx@4.21.0)(yaml@2.9.0)))
+      '@cloudflare/workers-utils': 0.45.0(patch_hash=c53a3874bbf85d744cdc58bca3899f6a8c14dda7be4fcd67f8eb65bde618b7c2)(vitest@4.1.0(@types/node@25.3.5)(msw@2.14.6(@types/node@25.3.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.3.5)(esbuild@0.28.1)(tsx@4.21.0)(yaml@2.9.0)))
     transitivePeerDependencies:
       - vitest
 
@@ -3961,7 +3962,7 @@ snapshots:
       '@cloudflare/cli-shared-helpers': 0.2.1(vitest@4.1.0(@types/node@25.3.5)(msw@2.14.6(@types/node@25.3.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.3.5)(esbuild@0.28.1)(tsx@4.21.0)(yaml@2.9.0)))
       '@cloudflare/config': 0.22.0
       '@cloudflare/containers-shared': 0.21.1(patch_hash=ecd632c350c22e92f11dd426d4aec675be6515b0aa7e21f2ff1367e315e3ac59)(vitest@4.1.0(@types/node@25.3.5)(msw@2.14.6(@types/node@25.3.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.3.5)(esbuild@0.28.1)(tsx@4.21.0)(yaml@2.9.0)))
-      '@cloudflare/workers-utils': 0.45.0(vitest@4.1.0(@types/node@25.3.5)(msw@2.14.6(@types/node@25.3.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.3.5)(esbuild@0.28.1)(tsx@4.21.0)(yaml@2.9.0)))
+      '@cloudflare/workers-utils': 0.45.0(patch_hash=c53a3874bbf85d744cdc58bca3899f6a8c14dda7be4fcd67f8eb65bde618b7c2)(vitest@4.1.0(@types/node@25.3.5)(msw@2.14.6(@types/node@25.3.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.3.5)(esbuild@0.28.1)(tsx@4.21.0)(yaml@2.9.0)))
       blake3-wasm: 2.1.5
       chalk: 5.3.0
       command-exists: 1.2.9
@@ -4068,7 +4069,7 @@ snapshots:
 
   '@cloudflare/workers-auth@0.10.0(msw@2.14.6(@types/node@25.3.5)(typescript@6.0.3))(vitest@4.1.0(@types/node@25.3.5)(msw@2.14.6(@types/node@25.3.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.3.5)(esbuild@0.28.1)(tsx@4.21.0)(yaml@2.9.0)))':
     dependencies:
-      '@cloudflare/workers-utils': 0.45.0(vitest@4.1.0(@types/node@25.3.5)(msw@2.14.6(@types/node@25.3.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.3.5)(esbuild@0.28.1)(tsx@4.21.0)(yaml@2.9.0)))
+      '@cloudflare/workers-utils': 0.45.0(patch_hash=c53a3874bbf85d744cdc58bca3899f6a8c14dda7be4fcd67f8eb65bde618b7c2)(vitest@4.1.0(@types/node@25.3.5)(msw@2.14.6(@types/node@25.3.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.3.5)(esbuild@0.28.1)(tsx@4.21.0)(yaml@2.9.0)))
       undici: 7.29.1
     optionalDependencies:
       msw: 2.14.6(@types/node@25.3.5)(typescript@6.0.3)
@@ -4076,7 +4077,7 @@ snapshots:
 
   '@cloudflare/workers-types@5.20260930.2': {}
 
-  '@cloudflare/workers-utils@0.45.0(vitest@4.1.0(@types/node@25.3.5)(msw@2.14.6(@types/node@25.3.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.3.5)(esbuild@0.28.1)(tsx@4.21.0)(yaml@2.9.0)))':
+  '@cloudflare/workers-utils@0.45.0(patch_hash=c53a3874bbf85d744cdc58bca3899f6a8c14dda7be4fcd67f8eb65bde618b7c2)(vitest@4.1.0(@types/node@25.3.5)(msw@2.14.6(@types/node@25.3.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.3.5)(esbuild@0.28.1)(tsx@4.21.0)(yaml@2.9.0)))':
     dependencies:
       chalk: 5.3.0
       dotenv: 16.3.1
@@ -4084,7 +4085,7 @@ snapshots:
     optionalDependencies:
       vitest: 4.1.0(@types/node@25.3.5)(msw@2.14.6(@types/node@25.3.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.3.5)(esbuild@0.28.1)(tsx@4.21.0)(yaml@2.9.0))
 
-  '@cloudflare/workers-utils@0.45.0(vitest@4.1.11(@types/node@25.3.5)(msw@2.12.4(@types/node@25.3.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.3.5)(esbuild@0.28.1)(tsx@4.21.0)(yaml@2.9.0)))':
+  '@cloudflare/workers-utils@0.45.0(patch_hash=c53a3874bbf85d744cdc58bca3899f6a8c14dda7be4fcd67f8eb65bde618b7c2)(vitest@4.1.11(@types/node@25.3.5)(msw@2.12.4(@types/node@25.3.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.3.5)(esbuild@0.28.1)(tsx@4.21.0)(yaml@2.9.0)))':
     dependencies:
       chalk: 5.3.0
       dotenv: 16.3.1

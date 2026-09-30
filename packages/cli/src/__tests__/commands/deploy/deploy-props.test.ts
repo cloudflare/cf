@@ -34,7 +34,7 @@ describe("cf deploy — keep_vars", () => {
 		await seedBuildDelegate();
 	});
 
-	it("sets keep_vars to false by default", async () => {
+	it("preserves secrets without keeping regular variables by default", async () => {
 		const upload = mockWorkerUpload();
 
 		await seed({
@@ -48,8 +48,10 @@ describe("cf deploy — keep_vars", () => {
 		const { exitCode } = await runCf(["deploy"]);
 
 		expect(exitCode).toBe(0);
-		expect(upload.metadata?.keep_bindings).not.toContain("plain_text");
-		expect(upload.metadata?.keep_bindings).not.toContain("json");
+		expect(upload.metadata?.keep_bindings).toEqual([
+			"secret_text",
+			"secret_key",
+		]);
 	});
 
 	it("includes keep_bindings in metadata for existing workers when secrets are present", async () => {

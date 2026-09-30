@@ -196,4 +196,4 @@ operations from `@cloudflare/containers-shared`; cf supplies authentication,
 confirmation, and JSON output. Added leaves can target existing nested generated
 groups through slash-separated parent paths. Keep their sidecars and collision
 guards in sync. The image commands use the released
-`@cloudflare/containers-shared@0.20.3` package.
+`@cloudflare/containers-shared@0.21.1` package.

@@ -688,8 +688,8 @@ local image cleanup to cf's successful workflow boundary — see "Patched deps".
 Three dependency patches are registered in `pnpm-workspace.yaml#patchedDependencies`:
 
 - `patches/@changesets__cli@2.31.0.patch`
-- `patches/@cloudflare__containers-shared@0.20.3.patch`
-- `patches/@cloudflare__deploy-helpers@0.18.1.patch`
+- `patches/@cloudflare__containers-shared@0.21.1.patch`
+- `patches/@cloudflare__deploy-helpers@0.19.0.patch`
 
 The Changesets patch permits publishing prerelease state under `latest` and
 suppresses the non-latest-tag warning for that tag. The containers-shared and
@@ -1070,4 +1070,4 @@ operations from `@cloudflare/containers-shared`; cf supplies authentication,
 confirmation, and JSON output. Added leaves can target existing nested generated
 groups through slash-separated parent paths. Keep their sidecars and collision
 guards in sync. The image commands use the released
-`@cloudflare/containers-shared@0.20.3` package.
+`@cloudflare/containers-shared@0.21.1` package.

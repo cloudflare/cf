@@ -70,9 +70,9 @@
 		"@cloudflare/build-output-utils": "0.8.2",
 		"@cloudflare/codemods": "0.2.1",
 		"@cloudflare/config": "0.20.0",
-		"@cloudflare/runtime-types": "0.1.4",
+		"@cloudflare/runtime-types": "0.1.6",
 		"blake3-wasm": "2.1.5",
-		"miniflare": "5.20260926.0-alpha",
+		"miniflare": "5.20260930.0-alpha",
 		"minisearch": "7.2.0"
 	},
 	"devDependencies": {

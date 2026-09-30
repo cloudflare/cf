@@ -20,7 +20,7 @@
 		"ci-info": "^4.4.0",
 		"execa": "^6.1.0",
 		"get-port": "^7.0.0",
-		"miniflare": "5.20260926.0-alpha",
+		"miniflare": "5.20260930.0-alpha",
 		"msw": "2.12.4",
 		"prompts": "^2.4.2",
 		"shell-quote": "^1.8.1",

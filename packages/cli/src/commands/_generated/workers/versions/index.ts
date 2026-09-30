@@ -8,6 +8,7 @@ import type { CommonYargsOptions } from "#lib/cli-types.js";
  */
 import type { CommandModule } from "yargs";
 import $create from "#commands/workers/versions/create/index.js";
+import { withHandWrittenDryRun } from "#lib/hand-written-dry-run.js";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "versions",
@@ -15,7 +16,7 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
-			.command($create)
+			.command(withHandWrittenDryRun($create, "native"))
 			.command($delete)
 			.command($get)
 			.command($list)

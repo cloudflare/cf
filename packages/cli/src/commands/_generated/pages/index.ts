@@ -14,6 +14,7 @@ import type { CommonYargsOptions } from "#lib/cli-types.js";
  */
 import type { CommandModule } from "yargs";
 import $deploy from "#commands/pages/deploy/index.js";
+import { withHandWrittenDryRun } from "#lib/hand-written-dry-run.js";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "pages",
@@ -24,7 +25,7 @@ const command: CommandModule<CommonYargsOptions> = {
 		return yargs
 			.command($create)
 			.command($delete)
-			.command($deploy)
+			.command(withHandWrittenDryRun($deploy, "preview"))
 			.command($edit)
 			.command($get)
 			.command($list)

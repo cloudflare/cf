@@ -368,6 +368,22 @@ export type HandWrittenCommandMeta = CommandMeta & {
 	};
 };
 
+/** Every executable hand-written path needs a documented dry-run flag. */
+export function validateHandWrittenDryRunMetadata(
+	commands: readonly HandWrittenCommandMeta[]
+): string[] {
+	return commands.flatMap((command) => {
+		const options = command.options.filter(
+			(option) => option.name === "dry-run"
+		);
+		return options.length === 1 && options[0]?.type === "boolean"
+			? []
+			: [
+					`${command.command} (${command.handWritten.dir}/meta.json) must declare exactly one boolean --dry-run option.`,
+				];
+	});
+}
+
 /**
  * Generate the complete metadata file as a JSON string
  *

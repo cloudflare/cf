@@ -876,6 +876,13 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Continue the request when no Access token is available"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Parse arguments and show the command without executing it",
+					"default": false
 				}
 			]
 		},
@@ -895,7 +902,15 @@
 					"description": "URL of the Access application"
 				}
 			],
-			"options": []
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Parse arguments and show the command without executing it",
+					"default": false
+				}
+			]
 		},
 		{
 			"command": "cf access ssh-config",
@@ -917,6 +932,13 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Include short-lived certificate configuration"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Parse arguments and show the command without executing it",
+					"default": false
 				}
 			]
 		},
@@ -934,6 +956,13 @@
 					"type": "string",
 					"required": true,
 					"description": "Hostname of the Access application"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Parse arguments and show the command without executing it",
+					"default": false
 				}
 			]
 		},
@@ -999,6 +1028,13 @@
 						"panic",
 						"disabled"
 					]
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Parse arguments and show the command without executing it",
+					"default": false
 				}
 			]
 		},
@@ -1018,7 +1054,15 @@
 					"description": "URL of the Access application"
 				}
 			],
-			"options": []
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Parse arguments and show the command without executing it",
+					"default": false
+				}
+			]
 		},
 		{
 			"command": "cf account-tags delete",
@@ -18762,7 +18806,15 @@
 					"description": "Directory to bind the profile to (defaults to current directory)"
 				}
 			],
-			"options": []
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Parse arguments and show the command without executing it",
+					"default": false
+				}
+			]
 		},
 		{
 			"command": "cf auth create",
@@ -18800,6 +18852,13 @@
 					"type": "string",
 					"required": false,
 					"description": "The set of OAuth scopes to request"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Parse arguments and show the command without executing it",
+					"default": false
 				}
 			]
 		},
@@ -18819,7 +18878,15 @@
 					"description": "Directory to unbind (defaults to current directory). Must be the exact directory the profile was bound to."
 				}
 			],
-			"options": []
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Parse arguments and show the command without executing it",
+					"default": false
+				}
+			]
 		},
 		{
 			"command": "cf auth delete",
@@ -18837,7 +18904,15 @@
 					"description": "Name of the auth profile to delete"
 				}
 			],
-			"options": []
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Parse arguments and show the command without executing it",
+					"default": false
+				}
+			]
 		},
 		{
 			"command": "cf auth list",
@@ -18847,7 +18922,15 @@
 			"description": "List all auth profiles",
 			"usage": "cf auth list",
 			"arguments": [],
-			"options": []
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Parse arguments and show the command without executing it",
+					"default": false
+				}
+			]
 		},
 		{
 			"command": "cf auth login",
@@ -18884,6 +18967,13 @@
 					"type": "string",
 					"required": false,
 					"description": "The set of OAuth scopes to request"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Parse arguments and show the command without executing it",
+					"default": false
 				}
 			]
 		},
@@ -18895,7 +18985,15 @@
 			"description": "Log out and remove stored credentials",
 			"usage": "cf auth logout",
 			"arguments": [],
-			"options": []
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Parse arguments and show the command without executing it",
+					"default": false
+				}
+			]
 		},
 		{
 			"command": "cf auth whoami",
@@ -18905,7 +19003,15 @@
 			"description": "Show current user and authentication status",
 			"usage": "cf auth whoami",
 			"arguments": [],
-			"options": []
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Parse arguments and show the command without executing it",
+					"default": false
+				}
+			]
 		},
 		{
 			"command": "cf basin-catalog credentials create",
@@ -24405,7 +24511,15 @@
 			"description": "Build a project for Cloudflare",
 			"usage": "cf build [options]",
 			"arguments": [],
-			"options": []
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Parse arguments and show the command without executing it",
+					"default": false
+				}
+			]
 		},
 		{
 			"command": "cf builds cancel",
@@ -26831,7 +26945,15 @@
 					"description": "Search terms or a description of what you want to do"
 				}
 			],
-			"options": []
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Parse arguments and show the command without executing it",
+					"default": false
+				}
+			]
 		},
 		{
 			"command": "cf cli telemetry disable",
@@ -26841,7 +26963,15 @@
 			"description": "Disable cf telemetry collection",
 			"usage": "cf cli telemetry disable",
 			"arguments": [],
-			"options": []
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Parse arguments and show the command without executing it",
+					"default": false
+				}
+			]
 		},
 		{
 			"command": "cf cli telemetry enable",
@@ -26851,7 +26981,15 @@
 			"description": "Enable cf telemetry collection",
 			"usage": "cf cli telemetry enable",
 			"arguments": [],
-			"options": []
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Parse arguments and show the command without executing it",
+					"default": false
+				}
+			]
 		},
 		{
 			"command": "cf cli telemetry status",
@@ -26861,7 +26999,15 @@
 			"description": "Check whether cf telemetry collection is enabled",
 			"usage": "cf cli telemetry status",
 			"arguments": [],
-			"options": []
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Parse arguments and show the command without executing it",
+					"default": false
+				}
+			]
 		},
 		{
 			"command": "cf client-certificates create",
@@ -38931,7 +39077,15 @@
 					"enum": ["bash", "zsh", "fish", "powershell"]
 				}
 			],
-			"options": []
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Parse arguments and show the command without executing it",
+					"default": false
+				}
+			]
 		},
 		{
 			"command": "cf connector-interrupts create",
@@ -40154,6 +40308,13 @@
 					"type": "string",
 					"required": false,
 					"description": "Path to the Docker binary if it is not on PATH"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Parse arguments and show the command without executing it",
+					"default": false
 				}
 			]
 		},
@@ -40181,6 +40342,13 @@
 					"required": false,
 					"default": false,
 					"description": "Skip the deletion confirmation prompt"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Parse arguments and show the command without executing it",
+					"default": false
 				}
 			]
 		},
@@ -40198,6 +40366,13 @@
 					"type": "string",
 					"required": false,
 					"description": "Regex to filter repository names"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Parse arguments and show the command without executing it",
+					"default": false
 				}
 			]
 		},
@@ -40257,6 +40432,13 @@
 					"type": "string",
 					"required": false,
 					"description": "Path to the Docker binary if it is not on PATH"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Parse arguments and show the command without executing it",
+					"default": false
 				}
 			]
 		},
@@ -40455,6 +40637,13 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Proxy SSH traffic over stdin/stdout"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Parse arguments and show the command without executing it",
+					"default": false
 				}
 			]
 		},
@@ -42827,6 +43016,13 @@
 					"type": "string",
 					"required": false,
 					"description": "Table recording applied migrations; must use Wrangler's bookkeeping schema (default: d1_migrations)"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Parse arguments and show the command without executing it",
+					"default": false
 				}
 			]
 		},
@@ -42858,6 +43054,13 @@
 					"type": "string",
 					"required": false,
 					"description": "Glob the new file must match, so `apply` will pick it up"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Parse arguments and show the command without executing it",
+					"default": false
 				}
 			]
 		},
@@ -42895,6 +43098,13 @@
 					"type": "string",
 					"required": false,
 					"description": "Table recording applied migrations; must use Wrangler's bookkeeping schema (default: d1_migrations)"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Parse arguments and show the command without executing it",
+					"default": false
 				}
 			]
 		},
@@ -43246,7 +43456,15 @@
 					"description": "Arguments forwarded to the dev-server implementation"
 				}
 			],
-			"options": []
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Parse arguments and show the command without executing it",
+					"default": false
+				}
+			]
 		},
 		{
 			"command": "cf diagnostics endpoint-healthchecks create",
@@ -57633,6 +57851,13 @@
 					"required": false,
 					"description": "Package manager for a new project (prompts when interactive)",
 					"enum": ["npm", "pnpm", "yarn", "bun"]
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Parse arguments and show the command without executing it",
+					"default": false
 				}
 			]
 		},
@@ -57666,6 +57891,13 @@
 					"required": false,
 					"description": "Package manager for a new project (prompts when interactive)",
 					"enum": ["npm", "pnpm", "yarn", "bun"]
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Parse arguments and show the command without executing it",
+					"default": false
 				}
 			]
 		},
@@ -83850,7 +84082,15 @@
 					"description": "Pages build output directory (not deployed by cf)"
 				}
 			],
-			"options": []
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Parse arguments and show the command without executing it",
+					"default": false
+				}
+			]
 		},
 		{
 			"command": "cf pages deployments create",
@@ -87141,6 +87381,13 @@
 					"type": "string",
 					"required": false,
 					"description": "Name of the Worker in the Build Output to use (defaults to the default Worker)"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Parse arguments and show the command without executing it",
+					"default": false
 				}
 			]
 		},
@@ -114936,6 +115183,13 @@
 					"required": false,
 					"description": "List all available schemas",
 					"default": false
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Parse arguments and show the command without executing it",
+					"default": false
 				}
 			]
 		},
@@ -122264,7 +122518,15 @@
 			"description": "Output MCP tool definitions",
 			"usage": "cf tools",
 			"arguments": [],
-			"options": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Parse arguments and show the command without executing it",
+					"default": false
+				}
+			],
 			"hideCommand": true
 		},
 		{
@@ -122683,6 +122945,13 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Exclude system information"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Parse arguments and show the command without executing it",
+					"default": false
 				}
 			]
 		},
@@ -122873,7 +123142,15 @@
 			"description": "Authorize cloudflared and download an origin certificate for locally managed tunnels.",
 			"usage": "cf tunnels login",
 			"arguments": [],
-			"options": []
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Parse arguments and show the command without executing it",
+					"default": false
+				}
+			]
 		},
 		{
 			"command": "cf tunnels management-token create",
@@ -122958,6 +123235,13 @@
 						"panic",
 						"disabled"
 					]
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Parse arguments and show the command without executing it",
+					"default": false
 				}
 			]
 		},
@@ -122975,6 +123259,13 @@
 					"type": "string",
 					"required": true,
 					"description": "Metrics server address for the cloudflared instance"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Parse arguments and show the command without executing it",
+					"default": false
 				}
 			]
 		},
@@ -123017,6 +123308,13 @@
 						"panic",
 						"disabled"
 					]
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Parse arguments and show the command without executing it",
+					"default": false
 				}
 			]
 		},
@@ -123063,6 +123361,13 @@
 					"type": "number",
 					"required": false,
 					"description": "Sample log events by fraction greater than 0.0 and no greater than 1.0"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Parse arguments and show the command without executing it",
+					"default": false
 				}
 			]
 		},
@@ -131363,6 +131668,13 @@
 					"type": "string",
 					"required": false,
 					"description": "Name of the Worker in the Build Output to use (defaults to the default Worker)"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Parse arguments and show the command without executing it",
+					"default": false
 				}
 			]
 		},
@@ -132008,6 +132320,13 @@
 					"required": false,
 					"description": "Include Cloudflare Workers runtime types",
 					"default": true
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Parse arguments and show the command without executing it",
+					"default": false
 				}
 			]
 		},

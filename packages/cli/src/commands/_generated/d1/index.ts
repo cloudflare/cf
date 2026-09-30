@@ -14,6 +14,7 @@ import type { CommonYargsOptions } from "#lib/cli-types.js";
  */
 import type { CommandModule } from "yargs";
 import $migrations from "#commands/d1/migrations/index.js";
+import { withHandWrittenDryRun } from "#lib/hand-written-dry-run.js";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "d1",
@@ -30,7 +31,7 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($query)
 			.command($raw)
 			.command($update)
-			.command($migrations)
+			.command(withHandWrittenDryRun($migrations, "preview"))
 			.command($timetravel)
 			.demandCommand(1, "Please specify a subcommand");
 	},

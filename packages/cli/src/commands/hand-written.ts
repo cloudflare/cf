@@ -4,6 +4,8 @@ type CommandImporter = () => Promise<{ default: unknown }>;
 
 export interface RootHandWrittenCommand {
 	kind: "root";
+	/** Every executable command must choose how --dry-run is handled. */
+	dryRun: "preview" | "native";
 	command: string;
 	describe: string | false;
 	dir: string;
@@ -13,12 +15,14 @@ export interface RootHandWrittenCommand {
 
 export interface LeafOverrideHandWrittenCommand {
 	kind: "leafOverride";
+	dryRun: "native";
 	emitKey: string;
 	dir: string;
 }
 
 export interface LeafHandWrittenCommand {
 	kind: "leaf";
+	dryRun: "preview" | "native";
 	/** Slash-separated parent path within the generated command tree. */
 	parent: string;
 	name: string;
@@ -34,6 +38,7 @@ export interface ParentOverrideHandWrittenCommand {
 
 export interface SubGroupHandWrittenCommand {
 	kind: "subgroup";
+	dryRun: "preview" | "native";
 	parent: string;
 	name: string;
 	dir: string;
@@ -50,6 +55,7 @@ export type HandWrittenCommand =
 export const handWrittenCommands: readonly HandWrittenCommand[] = [
 	{
 		kind: "root",
+		dryRun: "preview",
 		command: "auth",
 		describe: "Manage authentication and profiles",
 		dir: "auth",
@@ -58,6 +64,7 @@ export const handWrittenCommands: readonly HandWrittenCommand[] = [
 	},
 	{
 		kind: "root",
+		dryRun: "preview",
 		command: "login",
 		describe: false,
 		dir: "login",
@@ -66,6 +73,7 @@ export const handWrittenCommands: readonly HandWrittenCommand[] = [
 	},
 	{
 		kind: "root",
+		dryRun: "preview",
 		command: "build",
 		describe: "Build a project for Cloudflare",
 		dir: "build",
@@ -74,6 +82,7 @@ export const handWrittenCommands: readonly HandWrittenCommand[] = [
 	},
 	{
 		kind: "root",
+		dryRun: "preview",
 		command: "complete [shell]",
 		describe: "Generate and handle shell completions",
 		dir: "completions",
@@ -82,6 +91,7 @@ export const handWrittenCommands: readonly HandWrittenCommand[] = [
 	},
 	{
 		kind: "root",
+		dryRun: "native",
 		command: "deploy",
 		describe: "Deploy a project to Cloudflare",
 		dir: "deploy",
@@ -95,6 +105,7 @@ export const handWrittenCommands: readonly HandWrittenCommand[] = [
 	},
 	{
 		kind: "root",
+		dryRun: "preview",
 		command: "dev [implArgs..]",
 		describe: "Run the project's Cloudflare dev server",
 		dir: "dev",
@@ -106,6 +117,7 @@ export const handWrittenCommands: readonly HandWrittenCommand[] = [
 	},
 	{
 		kind: "root",
+		dryRun: "preview",
 		command: "init [directory]",
 		describe: "Create a new Cloudflare project or set up an existing one",
 		dir: "init",
@@ -117,6 +129,7 @@ export const handWrittenCommands: readonly HandWrittenCommand[] = [
 	},
 	{
 		kind: "root",
+		dryRun: "native",
 		command: "migrate [path]",
 		describe: "Migrate a Wrangler project to cf",
 		dir: "migrate",
@@ -128,6 +141,7 @@ export const handWrittenCommands: readonly HandWrittenCommand[] = [
 	},
 	{
 		kind: "root",
+		dryRun: "preview",
 		command: "cli",
 		describe: "Discover commands and configure the cf CLI",
 		dir: "cli",
@@ -136,6 +150,7 @@ export const handWrittenCommands: readonly HandWrittenCommand[] = [
 	},
 	{
 		kind: "root",
+		dryRun: "preview",
 		command: "previews",
 		describe: "Manage Worker Previews",
 		dir: "previews",
@@ -144,6 +159,7 @@ export const handWrittenCommands: readonly HandWrittenCommand[] = [
 	},
 	{
 		kind: "root",
+		dryRun: "preview",
 		command: "schema [command..]",
 		describe: "Show API schema details for a command",
 		dir: "schema",
@@ -155,6 +171,7 @@ export const handWrittenCommands: readonly HandWrittenCommand[] = [
 	},
 	{
 		kind: "root",
+		dryRun: "preview",
 		command: "tools",
 		describe: false,
 		dir: "tools",
@@ -166,64 +183,75 @@ export const handWrittenCommands: readonly HandWrittenCommand[] = [
 	},
 	{
 		kind: "leafOverride",
+		dryRun: "native",
 		emitKey: "ai/run",
 		dir: "ai/run",
 	},
 	{
 		kind: "leafOverride",
+		dryRun: "native",
 		emitKey: "registrar/registrations/create",
 		dir: "registrar/registrations/create",
 	},
 	{
 		kind: "leaf",
+		dryRun: "native",
 		parent: "workers/versions",
 		name: "create",
 		dir: "workers/versions/create",
 	},
 	{
 		kind: "leaf",
+		dryRun: "preview",
 		parent: "containers",
 		name: "build",
 		dir: "containers/build",
 	},
 	{
 		kind: "leaf",
+		dryRun: "preview",
 		parent: "containers",
 		name: "push",
 		dir: "containers/push",
 	},
 	{
 		kind: "leaf",
+		dryRun: "preview",
 		parent: "containers/images",
 		name: "list",
 		dir: "containers/images/list",
 	},
 	{
 		kind: "leaf",
+		dryRun: "preview",
 		parent: "containers/images",
 		name: "delete",
 		dir: "containers/images/delete",
 	},
 	{
 		kind: "leaf",
+		dryRun: "preview",
 		parent: "containers",
 		name: "ssh",
 		dir: "containers/ssh",
 	},
 	{
 		kind: "leaf",
+		dryRun: "preview",
 		parent: "pages",
 		name: "deploy",
 		dir: "pages/deploy",
 	},
 	{
 		kind: "leaf",
+		dryRun: "preview",
 		parent: "workers",
 		name: "check",
 		dir: "workers/check",
 	},
 	{
 		kind: "leaf",
+		dryRun: "preview",
 		parent: "workers",
 		name: "types",
 		dir: "workers/types",
@@ -236,78 +264,91 @@ export const handWrittenCommands: readonly HandWrittenCommand[] = [
 	},
 	{
 		kind: "leaf",
+		dryRun: "preview",
 		parent: "access",
 		name: "login",
 		dir: "access/login",
 	},
 	{
 		kind: "leaf",
+		dryRun: "preview",
 		parent: "access",
 		name: "token",
 		dir: "access/token",
 	},
 	{
 		kind: "leaf",
+		dryRun: "preview",
 		parent: "access",
 		name: "ssh-config",
 		dir: "access/ssh-config",
 	},
 	{
 		kind: "leaf",
+		dryRun: "preview",
 		parent: "access",
 		name: "ssh-gen",
 		dir: "access/ssh-gen",
 	},
 	{
 		kind: "leaf",
+		dryRun: "preview",
 		parent: "access",
 		name: "tcp",
 		dir: "access/tcp",
 	},
 	{
 		kind: "leaf",
+		dryRun: "preview",
 		parent: "access",
 		name: "curl",
 		dir: "access/curl",
 	},
 	{
 		kind: "leaf",
+		dryRun: "preview",
 		parent: "tunnels",
 		name: "diag",
 		dir: "tunnels/diag",
 	},
 	{
 		kind: "leaf",
+		dryRun: "preview",
 		parent: "tunnels",
 		name: "login",
 		dir: "tunnels/login",
 	},
 	{
 		kind: "leaf",
+		dryRun: "preview",
 		parent: "tunnels",
 		name: "quick-start",
 		dir: "tunnels/quick-start",
 	},
 	{
 		kind: "leaf",
+		dryRun: "preview",
 		parent: "tunnels",
 		name: "ready",
 		dir: "tunnels/ready",
 	},
 	{
 		kind: "leaf",
+		dryRun: "preview",
 		parent: "tunnels",
 		name: "run",
 		dir: "tunnels/run",
 	},
 	{
 		kind: "leaf",
+		dryRun: "preview",
 		parent: "tunnels",
 		name: "tail",
 		dir: "tunnels/tail",
 	},
 	{
 		kind: "subgroup",
+		dryRun: "preview",
 		parent: "d1",
 		name: "migrations",
 		dir: "d1/migrations",
@@ -315,6 +356,7 @@ export const handWrittenCommands: readonly HandWrittenCommand[] = [
 	},
 	{
 		kind: "subgroup",
+		dryRun: "native",
 		parent: "workers",
 		name: "triggers",
 		dir: "workers/triggers",

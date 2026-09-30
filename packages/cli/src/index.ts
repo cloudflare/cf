@@ -18,6 +18,7 @@ import {
 	shouldApplyCloudflareDotEnv,
 } from "./lib/dotenv.js";
 import { handleError } from "./lib/errors.js";
+import { withHandWrittenDryRun } from "./lib/hand-written-dry-run.js";
 import { lazyCommand, type LazyCommandImporter } from "./lib/lazy-command.js";
 import { disposeLocalRuntime } from "./lib/local.js";
 import { setProjectConfigMode } from "./lib/project-settings.js";
@@ -122,11 +123,14 @@ function globalFlagTakesValue(arg: string, nextArg?: string): boolean {
  * output works without dynamically importing the underlying module.
  */
 const handWrittenRoots = rootHandWrittenCommands().map((command) =>
-	lazyCommand(
-		command.command,
-		command.describe,
-		command.load as LazyCommandImporter,
-		command.telemetry
+	withHandWrittenDryRun(
+		lazyCommand(
+			command.command,
+			command.describe,
+			command.load as LazyCommandImporter,
+			command.telemetry
+		),
+		command.dryRun
 	)
 );
 

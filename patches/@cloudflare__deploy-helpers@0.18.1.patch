@@ -1,7 +1,16 @@
 diff --git a/dist/index.mjs b/dist/index.mjs
+index 41920834b35118ce0fd6b67c9fbc09b15277cc21..9826fc8f576d8b53d25e6f73fea49bb44fc535c9 100644
 --- a/dist/index.mjs
 +++ b/dist/index.mjs
-@@ -7034,13 +7034,8 @@ async function pushOrResolveImage(config2, container, imageName, imageConfig, bu
+@@ -27,6 +27,7 @@ import { brandColor, white, gray, bold, yellow, dim, red, blue } from '@cloudfla
+ import { setTimeout as setTimeout$1 } from 'node:timers/promises';
+ import readline from 'node:readline';
+ import { parse as parse$1 } from 'dotenv';
++import { expand as expandDotenv } from 'dotenv-expand';
+ import { getFreshSourceMapSupport, getNodeCompat } from 'miniflare';
+ import { execSync } from 'node:child_process';
+ import { createHash } from 'node:crypto';
+@@ -7038,13 +7039,8 @@ async function pushOrResolveImage(config2, container, imageName, imageConfig, bu
        targetTag: builtImage.localTag,
        accountId,
        complianceConfig: config2,
@@ -16,3 +25,55 @@ diff --git a/dist/index.mjs b/dist/index.mjs
      return "remoteDigest" in imageRef ? imageRef.remoteDigest : imageRef.newTag;
    } catch (error51) {
      if (error51 instanceof Error) {
+@@ -7708,7 +7704,7 @@ async function parseBulkInputToObject(input, includeNull = false) {
+       content = parseJSON(fileContent);
+       secretFormat = "json";
+     } catch {
+-      content = parse$1(fileContent);
++      content = parseDotEnv(fileContent);
+       secretFormat = "dotenv";
+       if (Object.keys(content).length === 0) {
+         throw new UserError(`The contents of "${input}" is not valid.`, {
+@@ -7729,7 +7725,7 @@ async function parseBulkInputToObject(input, includeNull = false) {
+         content = parseJSON(pipedInput);
+         secretFormat = "json";
+       } catch (e) {
+-        content = parse$1(pipedInput);
++        content = parseDotEnv(pipedInput);
+         secretFormat = "dotenv";
+         if (Object.keys(content).length === 0) {
+           throw e;
+@@ -7750,3 +7746,21 @@ async function parseBulkInputToObject(input, includeNull = false) {
+   return { content, secretSource, secretFormat };
+ }
+ __name(parseBulkInputToObject, "parseBulkInputToObject");
++function parseDotEnv(content) {
++  const parsed = parse$1(content);
++  const processEnv = copyProcessEnv();
++  expandDotenv({ parsed, processEnv: { ...processEnv } });
++  for (const key of Object.keys(parsed)) {
++    if (Object.hasOwn(processEnv, key)) {
++      parsed[key] = processEnv[key];
++    }
++  }
++  return parsed;
++}
++__name(parseDotEnv, "parseDotEnv");
++function copyProcessEnv() {
++  return Object.fromEntries(
++    Object.entries(process.env).filter((entry) => entry[1] !== void 0)
++  );
++}
++__name(copyProcessEnv, "copyProcessEnv");
+diff --git a/package.json b/package.json
+index f9dde4f84a747b4d3f4c8ce30a7def7bb3badb3e..27c312f4ceb6292fd3798dc4d6440085ac9b39cf 100644
+--- a/package.json
++++ b/package.json
+@@ -41,6 +41,7 @@
+     "command-exists": "1.2.9",
+     "devtools-protocol": "0.0.1182435",
+     "dotenv": "16.3.1",
++    "dotenv-expand": "12.0.2",
+     "p-queue": "9.0.0",
+     "pretty-bytes": "6.1.1",
+     "undici": "7.29.0",

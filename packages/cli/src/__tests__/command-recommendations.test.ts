@@ -47,6 +47,65 @@ describe("command recommendations", () => {
 		);
 
 		expect(stderr()).not.toContain("Did you mean");
+		expect(stderr()).not.toContain("cf <command> [options]");
+		expect(stderr()).toMatch(
+			/Unknown command: unrecognizable[\s\S]*For more information, run cf --help/
+		);
+	});
+
+	it.each(["--help", "-h"])(
+		"rejects an unknown top-level command with %s",
+		async (help) => {
+			await expect(runCf(["unrecognizable", help])).rejects.toThrow(
+				"Unknown command: unrecognizable"
+			);
+
+			expect(output.stdout()).toBe("");
+			expect(stderr()).toContain("Unknown command: unrecognizable");
+			expect(stderr()).toContain("For more information, run cf --help");
+		}
+	);
+
+	it("rejects an unknown command after a global option value", async () => {
+		await expect(
+			runCf(["--profile", "example", "unrecognizable", "--help"])
+		).rejects.toThrow("Unknown command: unrecognizable");
+	});
+
+	it.each([
+		["r2", "unrecognizable"],
+		["r2", "buckets", "unrecognizable"],
+	])("rejects an unknown nested command in %s", async (...path) => {
+		await expect(runCf([...path, "--help"])).rejects.toThrow(
+			"Unknown command: unrecognizable"
+		);
+
+		expect(output.stdout()).toBe("");
+		expect(stderr()).toContain(
+			`For more information, run cf ${path.slice(0, -1).join(" ")} --help`
+		);
+	});
+
+	it("shows the parent help hint for an unknown nested command", async () => {
+		await expect(runCf(["workers", "malformed"])).rejects.toThrow(
+			"Unknown command: malformed"
+		);
+
+		expect(stderr()).not.toContain("cf workers\n");
+		expect(stderr()).toMatch(
+			/Unknown command: malformed[\s\S]*For more information, run cf workers --help/
+		);
+	});
+
+	it("shows the leaf help hint for an invalid flag", async () => {
+		await expect(runCf(["workers", "list", "--nosuchflag"])).rejects.toThrow(
+			"Unknown argument: nosuchflag"
+		);
+
+		expect(stderr()).not.toContain("List all Workers for an account.");
+		expect(stderr()).toMatch(
+			/Unknown argument: nosuchflag[\s\S]*For more information, run cf workers list --help/
+		);
 	});
 
 	it("does not suggest hidden commands", async () => {
@@ -62,6 +121,18 @@ describe("command recommendations", () => {
 		expect(stderr()).not.toContain("Did you mean");
 	});
 
+	it.each([
+		[["r2", "buckets"], "cf r2 buckets"],
+		[["r2", "buckets", "get", "example"], "cf r2 buckets get"],
+		[["init", "./example"], "cf init"],
+	])("keeps valid help successful for %j", async (path, heading) => {
+		await expect(runCf([...path, "--help"])).resolves.toEqual({
+			exitCode: 0,
+		});
+
+		expect(output.stdout()).toContain(heading);
+	});
+
 	it("keeps group help behavior when a subcommand is missing", async () => {
 		await expect(runCf(["r2", "buckets"])).resolves.toEqual({ exitCode: 0 });
 
@@ -75,5 +146,8 @@ describe("command recommendations", () => {
 		);
 
 		expect(stderr()).not.toContain("Did you mean");
+		expect(stderr()).toContain(
+			"For more information, run cf r2 buckets get --help"
+		);
 	});
 });

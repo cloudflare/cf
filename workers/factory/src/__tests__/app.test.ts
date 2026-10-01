@@ -16,22 +16,32 @@ vi.mock("../agents/issue-triage.agent", () => ({
 	},
 }));
 
-const WEBHOOK_SECRET = env.GITHUB_WEBHOOK_SECRET;
 const client = testClient(app);
 const webhookClient = testClient(
 	new Hono().post("/channels/github/webhook", (c) => app.fetch(c.req.raw))
 ).channels.github.webhook;
 const payload = {
 	action: "opened",
-	installation: { id: 123 },
-	issue: { body: "The CLI crashes.", number: 42, title: "CLI crash" },
-	repository: { name: "cf", owner: { login: "cloudflare" } },
+	installation: {
+		id: 123,
+	},
+	issue: {
+		body: "The CLI crashes.",
+		number: 42,
+		title: "CLI crash",
+	},
+	repository: {
+		name: "cf",
+		owner: {
+			login: "cloudflare",
+		},
+	},
 };
 
 async function sendWebhook(body: string, event = "issues") {
 	const key = await crypto.subtle.importKey(
 		"raw",
-		new TextEncoder().encode(WEBHOOK_SECRET),
+		new TextEncoder().encode(env.GITHUB_WEBHOOK_SECRET),
 		{ hash: "SHA-256", name: "HMAC" },
 		false,
 		["sign"]
@@ -126,7 +136,13 @@ describe("factory routes", () => {
 
 	it("normalizes an empty issue body", async () => {
 		await sendWebhook(
-			JSON.stringify({ ...payload, issue: { ...payload.issue, body: null } })
+			JSON.stringify({
+				...payload,
+				issue: {
+					...payload.issue,
+					body: null,
+				},
+			})
 		);
 		expect(dispatch).toHaveBeenCalledWith(
 			expect.any(Function),
@@ -158,7 +174,10 @@ describe("factory routes", () => {
 
 	it("requires a GitHub App installation", async () => {
 		const response = await sendWebhook(
-			JSON.stringify({ ...payload, installation: undefined })
+			JSON.stringify({
+				...payload,
+				installation: undefined,
+			})
 		);
 		expect(response.status).toBe(400);
 		expect(dispatch).not.toHaveBeenCalled();
@@ -171,7 +190,12 @@ describe("factory routes", () => {
 
 	it("rejects a signed opened event without issue data", async () => {
 		const response = await sendWebhook(
-			JSON.stringify({ action: "opened", installation: { id: 123 } })
+			JSON.stringify({
+				action: "opened",
+				installation: {
+					id: 123,
+				},
+			})
 		);
 		expect(response.status).toBe(400);
 		expect(dispatch).not.toHaveBeenCalled();

@@ -31,10 +31,22 @@ describe("issue type classification tool", () => {
 		async (type) => {
 			github.get.mockResolvedValue({ data: { type: null } });
 			github.update.mockResolvedValue({ data: { type: { name: type } } });
+
 			const run = vi.spyOn(env.AI, "run").mockResolvedValue({
-				answers: { issueType: { choice: type, type: "choice" } },
+				answers: {
+					issueType: {
+						choice: type,
+						type: "choice",
+					},
+				},
 			});
-			const tool = createClassifyIssueTypeTool(issue, false, onTriaged);
+
+			const tool = createClassifyIssueTypeTool({
+				issue,
+				onTriaged,
+				triaged: false,
+			});
+
 			expect(await tool.run(context)).toEqual({
 				output: { skipped: false, type },
 				terminate: true,
@@ -58,12 +70,22 @@ describe("issue type classification tool", () => {
 
 	it("preserves an existing type on redelivery", async () => {
 		github.get.mockResolvedValue({ data: { type: { name: "Feature" } } });
+
 		const run = vi
 			.spyOn(env.AI, "run")
 			.mockRejectedValue(new Error("Unexpected Workers AI request."));
-		const tool = createClassifyIssueTypeTool(issue, false, onTriaged);
+
+		const tool = createClassifyIssueTypeTool({
+			issue,
+			onTriaged,
+			triaged: false,
+		});
+
 		expect(await tool.run(context)).toEqual({
-			output: { skipped: true, type: "Feature" },
+			output: {
+				skipped: true,
+				type: "Feature",
+			},
 			terminate: true,
 		});
 		expect(run).not.toHaveBeenCalled();
@@ -75,7 +97,13 @@ describe("issue type classification tool", () => {
 		const run = vi
 			.spyOn(env.AI, "run")
 			.mockRejectedValue(new Error("Unexpected Workers AI request."));
-		const tool = createClassifyIssueTypeTool(issue, true, onTriaged);
+
+		const tool = createClassifyIssueTypeTool({
+			issue,
+			onTriaged,
+			triaged: true,
+		});
+
 		expect(await tool.run(context)).toEqual({
 			output: { skipped: true },
 			terminate: true,
@@ -88,10 +116,22 @@ describe("issue type classification tool", () => {
 
 	it("rejects model output outside the three allowed issue types", async () => {
 		github.get.mockResolvedValue({ data: { type: null } });
+
 		vi.spyOn(env.AI, "run").mockResolvedValue({
-			answers: { issueType: { choice: "Epic", type: "choice" } },
+			answers: {
+				issueType: {
+					choice: "Epic",
+					type: "choice",
+				},
+			},
 		});
-		const tool = createClassifyIssueTypeTool(issue, false, onTriaged);
+
+		const tool = createClassifyIssueTypeTool({
+			issue,
+			onTriaged,
+			triaged: false,
+		});
+
 		await expect(tool.run(context)).rejects.toThrow();
 		expect(github.update).not.toHaveBeenCalled();
 		expect(onTriaged).not.toHaveBeenCalled();
@@ -100,10 +140,22 @@ describe("issue type classification tool", () => {
 	it("surfaces GitHub silently dropping the type update", async () => {
 		github.get.mockResolvedValue({ data: { type: null } });
 		github.update.mockResolvedValue({ data: { type: null } });
+
 		vi.spyOn(env.AI, "run").mockResolvedValue({
-			answers: { issueType: { choice: "Bug", type: "choice" } },
+			answers: {
+				issueType: {
+					choice: "Bug",
+					type: "choice",
+				},
+			},
 		});
-		const tool = createClassifyIssueTypeTool(issue, false, onTriaged);
+
+		const tool = createClassifyIssueTypeTool({
+			issue,
+			onTriaged,
+			triaged: false,
+		});
+
 		await expect(tool.run(context)).rejects.toThrow(
 			"GitHub did not assign issue type Bug"
 		);
@@ -112,8 +164,15 @@ describe("issue type classification tool", () => {
 
 	it("leaves triage incomplete when inference fails", async () => {
 		github.get.mockResolvedValue({ data: { type: null } });
+
 		vi.spyOn(env.AI, "run").mockRejectedValue(new Error("Inference failed."));
-		const tool = createClassifyIssueTypeTool(issue, false, onTriaged);
+
+		const tool = createClassifyIssueTypeTool({
+			issue,
+			onTriaged,
+			triaged: false,
+		});
+
 		await expect(tool.run(context)).rejects.toThrow("Inference failed.");
 		expect(github.update).not.toHaveBeenCalled();
 		expect(onTriaged).not.toHaveBeenCalled();

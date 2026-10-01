@@ -37,6 +37,7 @@
     "tunnel-login",
     "tunnel-ready",
     "tunnel-tail",
+    "update-forge-10cdded1d9e9",
     "update-forge",
     "update-setup-migration-deps",
     "update-workers-auth",

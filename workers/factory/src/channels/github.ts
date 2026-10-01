@@ -3,7 +3,7 @@ import { dispatch } from "@flue/runtime";
 import { env } from "cloudflare:workers";
 import * as v from "valibot";
 import { IssueTriage } from "../agents/issue-triage.agent";
-import { IssueSchema } from "../triage";
+import { IssueSchema } from "../schemas";
 
 export const channel = createGitHubChannel<{ Bindings: Env }>({
 	webhook: async ({ c, delivery }) => {

@@ -9,10 +9,10 @@ import {
 	useTool,
 	type Agent,
 } from "@flue/runtime";
+import { IssueSchema } from "../schemas";
 import classifyIssueType from "../skills/classify-issue-type/SKILL.md";
-import { createClassifyIssueTypeTool } from "../tools/classify-issue-type";
-import { IssueSchema } from "../triage";
-import type { Issue } from "../triage";
+import { createClassifyIssueTypeTool } from "../tools/classify-issue-type.tool";
+import type { Issue } from "../schemas";
 
 export const IssueTriage: Agent = () => {
 	useModel("cloudflare/@cf/zai-org/glm-5.3");

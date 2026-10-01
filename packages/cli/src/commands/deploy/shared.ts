@@ -22,6 +22,7 @@ import {
 	validateBuildOutputAccount,
 	validateBuildOutputMode,
 } from "../../lib/build-output.js";
+import { CliExit } from "../../lib/cli-exit.js";
 import { applyDependenciesInstrumentationEnv } from "../../lib/dependencies-instrumentation.js";
 import { createDeployContext } from "../../lib/deploy-context.js";
 import {
@@ -80,6 +81,7 @@ export type SharedUploadArgs = InferArgs<typeof sharedUploadBuilder>;
 type UploadCommand = { command: "Deploy" } | { command: "Version upload" };
 type UploadArgs = SharedUploadArgs & {
 	provision?: boolean;
+	force?: boolean;
 	"preview-alias"?: string;
 	"containers-rollout"?: "immediate" | "gradual" | "none";
 };
@@ -226,6 +228,9 @@ async function uploadBuildOutput(argv: UploadArgs, ctx: UploadCommand) {
 			versionsSecretPutCommand: "wrangler versions secret put",
 			analyseBundle: undefined,
 		}));
+	}
+	if (versionId === null && !argv["dry-run"]) {
+		throw new CliExit(1);
 	}
 
 	if (

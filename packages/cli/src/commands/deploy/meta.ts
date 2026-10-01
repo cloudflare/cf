@@ -74,6 +74,15 @@ export default [
 				default: true,
 			},
 			{
+				name: "force",
+				alias: "f",
+				type: "boolean",
+				required: false,
+				description:
+					"Allow upload in CI despite conflicting remote Worker changes",
+				default: false,
+			},
+			{
 				name: "dispatch-namespace",
 				type: "string",
 				required: false,

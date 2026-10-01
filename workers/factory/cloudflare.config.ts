@@ -4,7 +4,6 @@ export default defineConfig({
 	worker: {
 		name: "cf-factory",
 		compatibilityDate: "2026-10-01",
-		compatibilityFlags: ["nodejs_compat"],
 		env: {
 			AI: bindings.ai(),
 			FLUE_ISSUE_TRIAGE_AGENT: bindings.durableObject({

@@ -11,5 +11,5 @@ export namespace BulkDeleteObjectsResponse {
     export type Result =
         /**
          * Per-key delete results returned in "delete by list" mode. */
-        CloudflareApi.R2R2DeleteObjectResult[] | CloudflareApi.R2R2BucketJob;
+        CloudflareApi.R2R2DeleteObjectResult[] | CloudflareApi.R2R2PrefixDeleteJob;
 }

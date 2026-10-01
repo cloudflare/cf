@@ -21,7 +21,7 @@ import type { Argv, CommandModule } from "yargs";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 artifacts namespaces tokens revoke <id>\n\nRevokes an Artifacts repository token."
+			"$0 artifacts namespaces tokens revoke <id>\n\nRevokes an Artifacts repository token. Token IDs are resolved through an eventually consistent index, so revoking a token within about a second of creating it can return 404; retry after a short delay."
 		)
 		.positional("id", {
 			type: "string",

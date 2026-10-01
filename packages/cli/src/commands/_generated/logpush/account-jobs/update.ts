@@ -96,7 +96,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("output-options-merge-subrequests", {
 			type: "boolean",
 			description:
-				"If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset.",
+				"If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset. Not supported for account-scoped jobs.",
 		})
 		.option("output-options-output-type", {
 			type: "string",

@@ -35,4 +35,10 @@ export interface LexUpdateDatasetRequest {
      * for syntax and examples.
      */
     filter?: string | null;
+    /**
+     * Whether to filter attack traffic from the Logpush job. If omitted,
+     * the existing setting is left unchanged. Supported datasets are
+     * `http_requests`, `firewall_events`, and `network_analytics_logs`.
+     */
+    filter_attack_traffic?: boolean;
 }

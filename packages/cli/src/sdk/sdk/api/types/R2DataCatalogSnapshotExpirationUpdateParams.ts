@@ -10,6 +10,5 @@ export interface R2DataCatalogSnapshotExpirationUpdateParams {
     max_snapshot_age?: string | undefined;
     /** Updates the minimum number of snapshots to retain optionally. */
     min_snapshots_to_keep?: number | undefined;
-    /** Updates the state optionally. */
     state?: CloudflareApi.R2DataCatalogCatalogMaintenanceState | undefined;
 }

@@ -103,6 +103,7 @@ const skippedFiles = new Set([
 	"complete.test.ts",
 	"core/command-registration.test.ts",
 	"custom-build.test.ts",
+	"deployment-bundle/build-container-images.test.ts",
 	"deployment-bundle/source-maps.test.ts",
 	"dev.test.ts",
 	"errors.test.ts",
@@ -114,6 +115,7 @@ const skippedFiles = new Set([
 	"get-entry.test.ts",
 	"guess-worker-format.test.ts",
 	"init.test.ts",
+	"is-local.test.ts",
 	"logger.test.ts",
 	"match-tag.test.ts",
 	"metrics.test.ts",
@@ -124,6 +126,7 @@ const skippedFiles = new Set([
 	"output.test.ts",
 	"pages/build-functions-errors.test.ts",
 	"pages/delegate-to-workers.test.ts",
+	"pages/delegation-commands.test.ts",
 	"pages/pages-build-env.test.ts",
 	"pages/pages-download-config.test.ts",
 	"pages/pages.test.ts",
@@ -131,7 +134,7 @@ const skippedFiles = new Set([
 	"pages/run-workers-deploy.test.ts",
 	"pages/utf8-truncation.test.ts",
 	"paths.test.ts",
-	"preview.settings.test.ts",
+	"preview-config.test.ts",
 	"preview/containers.test.ts",
 	"print-bindings.test.ts",
 	"process-env-populated.test.ts",
@@ -636,7 +639,7 @@ const groups = [...missingByFile]
 	});
 
 const source =
-	"// Generated from cloudflare/workers-sdk@93d72a577. Do not rename cases.\n" +
+	"// Generated from cloudflare/workers-sdk@c2bb4c815. Do not rename cases.\n" +
 	'import { describe, it } from "vitest";\n\n' +
 	`const groups = ${JSON.stringify(groups, null, "\t")} as const;\n\n` +
 	"function register(group: (typeof groups)[number], depth = 0): void {\n" +
@@ -686,7 +689,7 @@ if (manifestFile) {
 	});
 	const manifest = `# Wrangler compatibility manifest
 
-Generated from \`cloudflare/workers-sdk@93d72a5772cce74d9f5657d6989efe89cc10dfbb\`.
+Generated from \`cloudflare/workers-sdk@c2bb4c815f8a6af2ebea17ab6dd4f612c7b1e8eb\`.
 Test names and ancestry are canonical Wrangler identities. Statuses describe
 their representation in cf: \`passing\`, \`todo\`, or \`skip\`.
 

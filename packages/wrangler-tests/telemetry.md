@@ -1,6 +1,6 @@
 # Wrangler CLI Telemetry
 
-> **Scope and provenance:** this is Wrangler's user-facing telemetry policy, retained beside the compatibility corpus. It does not describe telemetry emitted by `@cloudflare/wrangler-tests` or cf; cf currently has no Wrangler-style command telemetry dispatcher. The policy text was checked against Wrangler `40dd545c359acad5c987b3a16ab6d65dfd86a81b` (4.131.2) on 2026-09-16. The test manifest remains pinned to `93d72a…`.
+> **Scope and provenance:** this is Wrangler's user-facing telemetry policy, retained beside the compatibility corpus. It does not describe telemetry emitted by `@cloudflare/wrangler-tests` or cf; cf currently has no Wrangler-style command telemetry dispatcher. The policy text and test manifest were checked against Wrangler `c2bb4c815f8a6af2ebea17ab6dd4f612c7b1e8eb` (4.143.0) on 2026-09-29.
 
 Cloudflare gathers non-user identifying telemetry data about usage of [Wrangler](https://www.npmjs.com/package/wrangler), the command-line interface for building and deploying Workers and Pages applications.
 

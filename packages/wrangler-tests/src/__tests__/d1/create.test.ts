@@ -110,7 +110,9 @@ describe("create", () => {
 		`);
 	});
 
-	it("should error when database limit is reached", async ({ expect }) => {
+	it("should show a user-friendly error when database limit is reached", async ({
+		expect,
+	}) => {
 		setIsTTY(false);
 		msw.use(
 			http.post("*/accounts/:accountId/d1/database", async () => {

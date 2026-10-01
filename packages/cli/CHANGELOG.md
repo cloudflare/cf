@@ -1,5 +1,35 @@
 # cf
 
+## 1.0.0-beta.10
+
+### Minor Changes
+
+- 5725210: Update the generated command surface and vendored Forge packages for
+  Forge OpenAPI release `10cdded1d9e93c9b055e27cac83b397b2bd7f0c6`.
+
+## 1.0.0-beta.9
+
+### Minor Changes
+
+- b26d943: Update the generated command surface and vendored Forge packages for
+  Forge OpenAPI release `4322e43f4f29a33c7cc9be83ead916d6bc17fa73`.
+
+## 1.0.0-beta.8
+
+### Patch Changes
+
+- 8782301: Update Workers authentication to the latest release
+
+  Use `@cloudflare/workers-auth` 0.11.0 for cf's bundled authentication flows.
+
+## 1.0.0-beta.7
+
+### Patch Changes
+
+- 146c3c1: Preserve existing Worker secrets during `cf deploy`
+
+  Update `@cloudflare/deploy-helpers` to inherit secret bindings from the previous Worker version, including secrets that are not declared in `cloudflare.config.ts`. This prevents a redeploy from removing secrets added through the API or CLI. Align the other workers-sdk packages used by cf with their current releases.
+
 ## 1.0.0-beta.6
 
 ### Patch Changes

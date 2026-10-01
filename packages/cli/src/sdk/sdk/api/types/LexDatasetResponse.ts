@@ -30,6 +30,11 @@ export interface LexDatasetResponse {
      * when no filter is set.
      */
     filter?: string | undefined;
+    /**
+     * Whether the Logpush job filters attack traffic. Omitted for
+     * datasets that do not support this option.
+     */
+    filter_attack_traffic?: boolean | undefined;
 }
 
 export namespace LexDatasetResponse {

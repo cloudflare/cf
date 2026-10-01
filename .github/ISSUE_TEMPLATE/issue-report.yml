@@ -21,9 +21,25 @@ body:
     validations:
       required: true
   - type: textarea
+    id: system-info
+    attributes:
+      label: System information and package versions
+      description: >-
+        Paste the output of
+        `npx envinfo --system --npmPackages "{cf,wrangler,create-cloudflare,miniflare,@cloudflare/*}" --binaries`.
+    validations:
+      required: true
+  - type: textarea
     id: reproduction
     attributes:
       label: Reproduction (optional)
       description: Steps or a minimal example, if available.
+    validations:
+      required: false
+  - type: textarea
+    id: error-logs
+    attributes:
+      label: Relevant error logs (optional)
+      description: Remove any sensitive information before posting.
     validations:
       required: false

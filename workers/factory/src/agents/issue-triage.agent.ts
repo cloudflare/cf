@@ -21,7 +21,13 @@ export const IssueTriage: Agent = () => {
 	const issue = useInitialData<Issue>();
 	const [triaged, setTriaged] = usePersistentState("triaged", false);
 
-	useTool(createClassifyIssueTypeTool(issue, triaged, () => setTriaged(true)));
+	useTool(
+		createClassifyIssueTypeTool({
+			issue,
+			onTriaged: () => setTriaged(true),
+			triaged,
+		})
+	);
 
 	useAgentFinish(({ response, append }) => {
 		if (

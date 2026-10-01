@@ -13,6 +13,12 @@ const ISSUE_TYPE_CRITERIA = {
 	Task: `Maintenance, refactoring, documentation, tests, dependency updates, or other work without new user-facing functionality or a reported defect. Use for unclear issues.`,
 } as const satisfies Record<IssueType, string>;
 
+interface CreateClassifyIssueTypeToolOptions {
+	issue: Issue;
+	onTriaged: () => void;
+	triaged: boolean;
+}
+
 /**
  * Create a bound tool that preserves an existing GitHub issue type or uses
  * Clef Flash to assign Bug, Feature, or Task. It changes only the issue type.
@@ -29,14 +35,13 @@ const ISSUE_TYPE_CRITERIA = {
  * failures reject the run method rather than recording completion.
  */
 export function createClassifyIssueTypeTool(
-	issue: Issue,
-	triaged: boolean,
-	onTriaged: () => void
+	options: CreateClassifyIssueTypeToolOptions
 ) {
+	const { issue, onTriaged, triaged } = options;
 	return defineTool({
 		name: "classify_issue_type",
 		description: `Use Clef Flash to classify the bound issue and set only its GitHub issue type. No input is needed.`,
-		async run() {
+		run: async () => {
 			if (triaged) {
 				return {
 					output: {
@@ -72,7 +77,10 @@ export function createClassifyIssueTypeTool(
 			if (current.data.type) {
 				onTriaged();
 				return {
-					output: { skipped: true, type: current.data.type.name },
+					output: {
+						skipped: true,
+						type: current.data.type.name,
+					},
 					terminate: true,
 				};
 			}
@@ -91,8 +99,11 @@ export function createClassifyIssueTypeTool(
 					title: issue.title,
 				},
 			});
-			const type = v.parse(ClefResponseSchema, response).answers.issueType
-				.choice;
+			const {
+				answers: {
+					issueType: { choice: type },
+				},
+			} = v.parse(ClefResponseSchema, response);
 			const updated = await client.rest.issues.update({ ...ref, type });
 			if (updated.data.type?.name !== type) {
 				throw new Error(
@@ -102,7 +113,10 @@ export function createClassifyIssueTypeTool(
 
 			onTriaged();
 			return {
-				output: { skipped: false, type },
+				output: {
+					skipped: false,
+					type,
+				},
 				terminate: true,
 			};
 		},

@@ -2,7 +2,6 @@ import { bindings, defineConfig, exports } from "cf/config";
 
 export default defineConfig({
 	worker: {
-		name: "cf-factory",
 		compatibilityDate: "2026-10-01",
 		env: {
 			AI: bindings.ai(),
@@ -19,5 +18,7 @@ export default defineConfig({
 				storage: "sqlite",
 			}),
 		},
+		name: "cf-factory",
+		workersDev: true,
 	},
 });

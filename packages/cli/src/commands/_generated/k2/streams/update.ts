@@ -21,7 +21,7 @@ import type { Argv, CommandModule } from "yargs";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 k2 streams update <stream-id>\n\nUpdate a K2 stream. Each provided input replaces that input's full configuration, so include every `http` setting to keep, such as `authentication` and `cors`. At least one input must remain enabled."
+			"$0 k2 streams update <stream-id>\n\nUpdate a K2 stream. Omitted `http` settings, such as `authentication` and `cors`, keep their current values while HTTP stays enabled. Disabling HTTP clears its settings. At least one input must remain enabled."
 		)
 		.positional("stream-id", {
 			type: "string",

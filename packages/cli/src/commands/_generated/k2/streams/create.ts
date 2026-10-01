@@ -31,7 +31,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "boolean",
 			description:
 				"Indicates whether the HTTP endpoint requires an API token with K2 produce permission. When false or omitted, the endpoint accepts unauthenticated records.",
-			default: false,
 		})
 		.option("name", {
 			type: "string",

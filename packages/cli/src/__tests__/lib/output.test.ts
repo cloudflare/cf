@@ -3,6 +3,9 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { formatOutput } from "../../lib/output.js";
 import { Page } from "../../sdk/sdk/core/pagination/Page.js";
 
+const ciInfo = vi.hoisted(() => ({ isCI: false }));
+vi.mock("ci-info", () => ({ default: ciInfo }));
+
 /**
  * Unit tests for `lib/output.ts` — `formatOutput`, the single sink every
  * command uses to emit its result.
@@ -22,6 +25,7 @@ describe("formatOutput", () => {
 	let logSpy: ReturnType<typeof vi.spyOn>;
 	let stderrWrite: string[];
 	let originalStderrWrite: typeof process.stderr.write;
+	let originalStdinIsTTY: boolean | undefined;
 	let originalStderrIsTTY: boolean | undefined;
 	let originalStdoutIsTTY: boolean | undefined;
 
@@ -35,6 +39,8 @@ describe("formatOutput", () => {
 			stderrWrite.push(String(chunk));
 			return true;
 		};
+		ciInfo.isCI = false;
+		originalStdinIsTTY = process.stdin.isTTY;
 		originalStderrIsTTY = process.stderr.isTTY;
 		originalStdoutIsTTY = process.stdout.isTTY;
 	});
@@ -42,6 +48,10 @@ describe("formatOutput", () => {
 	afterEach(() => {
 		logSpy.mockRestore();
 		(process.stderr.write as unknown) = originalStderrWrite;
+		Object.defineProperty(process.stdin, "isTTY", {
+			value: originalStdinIsTTY,
+			configurable: true,
+		});
 		Object.defineProperty(process.stderr, "isTTY", {
 			value: originalStderrIsTTY,
 			configurable: true,
@@ -52,6 +62,13 @@ describe("formatOutput", () => {
 		});
 		vi.unstubAllEnvs();
 	});
+
+	function setStdinTTY(value: boolean) {
+		Object.defineProperty(process.stdin, "isTTY", {
+			value,
+			configurable: true,
+		});
+	}
 
 	function setStderrTTY(value: boolean) {
 		Object.defineProperty(process.stderr, "isTTY", {
@@ -65,6 +82,18 @@ describe("formatOutput", () => {
 			value,
 			configurable: true,
 		});
+	}
+
+	function withForcedColor(action: () => void): void {
+		const previousLevel = chalk.level;
+		vi.stubEnv("NO_COLOR", undefined);
+		vi.stubEnv("FORCE_COLOR", "1");
+		try {
+			chalk.level = 3;
+			action();
+		} finally {
+			chalk.level = previousLevel;
+		}
 	}
 
 	/** Parse the JSON printed by the first `console.log` call. */
@@ -86,31 +115,40 @@ describe("formatOutput", () => {
 	});
 
 	it("keeps piped JSON plain when FORCE_COLOR is set", () => {
-		const previousLevel = chalk.level;
-		vi.stubEnv("NO_COLOR", undefined);
-		vi.stubEnv("FORCE_COLOR", "1");
+		setStdinTTY(true);
 		setStdoutTTY(false);
-		try {
-			chalk.level = 3;
+		withForcedColor(() => {
 			formatOutput({ name: "db" });
 			expect(logSpy).toHaveBeenCalledWith('{\n  "name": "db"\n}');
-		} finally {
-			chalk.level = previousLevel;
-		}
+		});
 	});
 
-	it("highlights JSON on a TTY when FORCE_COLOR is set", () => {
-		const previousLevel = chalk.level;
-		vi.stubEnv("NO_COLOR", undefined);
-		vi.stubEnv("FORCE_COLOR", "1");
+	it("keeps JSON plain when stdin is piped into a TTY", () => {
+		setStdinTTY(false);
 		setStdoutTTY(true);
-		try {
-			chalk.level = 3;
+		withForcedColor(() => {
+			formatOutput({ name: "db" });
+			expect(logSpy).toHaveBeenCalledWith('{\n  "name": "db"\n}');
+		});
+	});
+
+	it("keeps JSON plain in CI even with a TTY", () => {
+		ciInfo.isCI = true;
+		setStdinTTY(true);
+		setStdoutTTY(true);
+		withForcedColor(() => {
+			formatOutput({ name: "db" });
+			expect(logSpy).toHaveBeenCalledWith('{\n  "name": "db"\n}');
+		});
+	});
+
+	it("highlights JSON on an interactive TTY when FORCE_COLOR is set", () => {
+		setStdinTTY(true);
+		setStdoutTTY(true);
+		withForcedColor(() => {
 			formatOutput({ name: "db" });
 			expect(String(logSpy.mock.calls[0]?.[0])).toContain("\u001b[");
-		} finally {
-			chalk.level = previousLevel;
-		}
+		});
 	});
 
 	it("prints arrays and scalars as JSON too", () => {

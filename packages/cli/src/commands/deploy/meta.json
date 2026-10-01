@@ -16,6 +16,14 @@
 				"default": false
 			},
 			{
+				"name": "force",
+				"type": "boolean",
+				"required": false,
+				"description": "Allow upload in CI despite conflicting remote Worker changes",
+				"default": false,
+				"alias": "f"
+			},
+			{
 				"name": "tag",
 				"type": "string",
 				"required": false,

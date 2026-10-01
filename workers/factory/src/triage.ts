@@ -1,13 +1,13 @@
 import { createPrivateKey } from "node:crypto";
 import { createAppAuth } from "@octokit/auth-app";
 import { Octokit } from "@octokit/rest";
+import { env } from "cloudflare:workers";
 import * as v from "valibot";
 import {
 	classifyIssueType,
 	ISSUE_TYPE_CRITERIA,
 	IssueTypeSchema,
 } from "./skills/classify-issue-type";
-import type { Env } from "./env";
 
 export const IssueSchema = v.object({
 	body: v.string(),
@@ -29,7 +29,7 @@ const ClefResponseSchema = v.object({
 
 export type Issue = v.InferOutput<typeof IssueSchema>;
 
-export async function triageIssue(env: Env, issue: Issue) {
+export async function triageIssue(issue: Issue) {
 	const client = new Octokit({
 		authStrategy: createAppAuth,
 		auth: {
@@ -42,6 +42,7 @@ export async function triageIssue(env: Env, issue: Issue) {
 				.toString(),
 		},
 	});
+
 	const ref = {
 		issue_number: issue.issueNumber,
 		owner: issue.owner,
@@ -49,7 +50,10 @@ export async function triageIssue(env: Env, issue: Issue) {
 	};
 	const current = await client.rest.issues.get(ref);
 	if (current.data.type) {
-		return { skipped: true, type: current.data.type.name };
+		return {
+			skipped: true,
+			type: current.data.type.name,
+		};
 	}
 
 	const response = await env.AI.run("@cf/cloudflare/clef-flash", {
@@ -61,7 +65,10 @@ export async function triageIssue(env: Env, issue: Issue) {
 				type: "choice",
 			},
 		},
-		state: { body: issue.body, title: issue.title },
+		state: {
+			body: issue.body,
+			title: issue.title,
+		},
 	});
 	const type = v.parse(ClefResponseSchema, response).answers.issueType.choice;
 	const updated = await client.rest.issues.update({ ...ref, type });
@@ -70,5 +77,9 @@ export async function triageIssue(env: Env, issue: Issue) {
 			`GitHub did not assign issue type ${type}. Check the GitHub App permissions and organization issue types.`
 		);
 	}
-	return { skipped: false, type };
+
+	return {
+		skipped: false,
+		type,
+	};
 }

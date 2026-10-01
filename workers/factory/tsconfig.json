@@ -1,20 +1,20 @@
 {
 	"compilerOptions": {
-		"target": "es2024",
-		"lib": ["es2024"],
-		"module": "preserve",
-		"moduleResolution": "bundler",
-		"types": ["@cloudflare/workers-types", "node"],
-		"strict": true,
-		"noEmit": true,
 		"allowImportingTsExtensions": true,
 		"isolatedModules": true,
-		"verbatimModuleSyntax": true,
-		"skipLibCheck": true
+		"lib": ["ESNext"],
+		"module": "preserve",
+		"moduleResolution": "bundler",
+		"noEmit": true,
+		"skipLibCheck": true,
+		"strict": true,
+		"target": "esnext",
+		"verbatimModuleSyntax": true
 	},
 	"include": [
-		"src",
+		".cloudflare/types/index.d.ts",
 		"cloudflare.config.ts",
+		"src",
 		"vite.config.ts",
 		"vitest.config.ts"
 	]

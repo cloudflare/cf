@@ -1,12 +1,13 @@
 name: CI
 
-# Three jobs on every PR, merge-queue candidate, and push to main:
+# Four jobs on every PR, merge-queue candidate, and push to main:
 #
 #   check — `pnpm check` (oxlint --type-aware + tsgo + oxfmt --check) over
 #           the whole repo.
 #   cli   — the cf CLI's in-package vitest suite (packages/cli).
 #   wrangler-tests — the canonical Wrangler compatibility corpus retargeted
 #                    at cf (packages/wrangler-tests).
+#   factory: build the Flue Worker with cf and run its workerd tests.
 
 on:
   pull_request:
@@ -109,3 +110,34 @@ jobs:
 
       - name: Run Wrangler compatibility tests
         run: pnpm --filter @cloudflare/wrangler-tests test
+
+  factory:
+    if: ${{ github.repository_owner == 'cloudflare' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Install dependencies
+        uses: ./.github/actions/install-dependencies
+        with:
+          turbo-api: ${{ secrets.TURBO_API }}
+          turbo-team: ${{ secrets.TURBO_TEAM }}
+          turbo-token: ${{ secrets.TURBO_TOKEN }}
+          turbo-signature: ${{ secrets.TURBO_REMOTE_CACHE_SIGNATURE_KEY }}
+
+      - name: Generate command surface
+        run: pnpm generate
+
+      - name: Build workspace CLI
+        run: pnpm --filter cf build
+
+      - name: Build Factory Worker
+        run: pnpm --filter @cloudflare/factory build
+
+      - name: Run Factory tests
+        run: pnpm --filter @cloudflare/factory test

@@ -6,6 +6,21 @@ const fluePlugins = flue({ providers: ["cloudflare"] });
 const configureFlue = flueWorkerConfig();
 
 export default defineConfig({
+	build: {
+		rolldownOptions: {
+			onLog(level, log, defaultHandler) {
+				// Flue injects agent registration before bundling.
+				if (
+					level === "warn" &&
+					log.code === "MODULE_LEVEL_DIRECTIVE" &&
+					log.message.includes('"use agent"')
+				) {
+					return;
+				}
+				defaultHandler(level, log);
+			},
+		},
+	},
 	plugins: [
 		fluePlugins,
 		cloudflare({

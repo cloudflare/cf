@@ -67,8 +67,12 @@ export function formatOutput(data: unknown, options: OutputOptions = {}): void {
 function formatJson(data: unknown): string {
 	const json = JSON.stringify(data, null, 2);
 
-	// Skip syntax highlighting if colors disabled or JSON is too large
-	if (!supportsColor() || json.length > MAX_HIGHLIGHTED_JSON_SIZE) {
+	// Piped output must remain parseable even when FORCE_COLOR is set.
+	if (
+		process.stdout.isTTY !== true ||
+		!supportsColor() ||
+		json.length > MAX_HIGHLIGHTED_JSON_SIZE
+	) {
 		return json;
 	}
 

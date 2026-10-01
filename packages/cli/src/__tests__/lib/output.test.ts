@@ -1,3 +1,4 @@
+import chalk from "chalk";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { formatOutput } from "../../lib/output.js";
 import { Page } from "../../sdk/sdk/core/pagination/Page.js";
@@ -14,14 +15,15 @@ import { Page } from "../../sdk/sdk/core/pagination/Page.js";
  *    written to **stderr** instead, so stdout stays pristine.
  *  - Real data is pretty-printed as JSON to stdout.
  *
- * Colors are auto-disabled in the test runner (stdout is not a TTY →
- * chalk level 0), so JSON assertions compare against plain text.
+ * Most tests run without a TTY or FORCE_COLOR, so JSON assertions compare
+ * against plain text.
  */
 describe("formatOutput", () => {
 	let logSpy: ReturnType<typeof vi.spyOn>;
 	let stderrWrite: string[];
 	let originalStderrWrite: typeof process.stderr.write;
 	let originalStderrIsTTY: boolean | undefined;
+	let originalStdoutIsTTY: boolean | undefined;
 
 	beforeEach(() => {
 		logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
@@ -34,6 +36,7 @@ describe("formatOutput", () => {
 			return true;
 		};
 		originalStderrIsTTY = process.stderr.isTTY;
+		originalStdoutIsTTY = process.stdout.isTTY;
 	});
 
 	afterEach(() => {
@@ -43,10 +46,22 @@ describe("formatOutput", () => {
 			value: originalStderrIsTTY,
 			configurable: true,
 		});
+		Object.defineProperty(process.stdout, "isTTY", {
+			value: originalStdoutIsTTY,
+			configurable: true,
+		});
+		vi.unstubAllEnvs();
 	});
 
 	function setStderrTTY(value: boolean) {
 		Object.defineProperty(process.stderr, "isTTY", {
+			value,
+			configurable: true,
+		});
+	}
+
+	function setStdoutTTY(value: boolean) {
+		Object.defineProperty(process.stdout, "isTTY", {
 			value,
 			configurable: true,
 		});
@@ -68,6 +83,34 @@ describe("formatOutput", () => {
 		formatOutput({ name: "db", port: 5432 });
 		expect(logSpy).toHaveBeenCalledOnce();
 		expect(loggedJson()).toEqual({ name: "db", port: 5432 });
+	});
+
+	it("keeps piped JSON plain when FORCE_COLOR is set", () => {
+		const previousLevel = chalk.level;
+		vi.stubEnv("NO_COLOR", undefined);
+		vi.stubEnv("FORCE_COLOR", "1");
+		setStdoutTTY(false);
+		try {
+			chalk.level = 3;
+			formatOutput({ name: "db" });
+			expect(logSpy).toHaveBeenCalledWith('{\n  "name": "db"\n}');
+		} finally {
+			chalk.level = previousLevel;
+		}
+	});
+
+	it("highlights JSON on a TTY when FORCE_COLOR is set", () => {
+		const previousLevel = chalk.level;
+		vi.stubEnv("NO_COLOR", undefined);
+		vi.stubEnv("FORCE_COLOR", "1");
+		setStdoutTTY(true);
+		try {
+			chalk.level = 3;
+			formatOutput({ name: "db" });
+			expect(String(logSpy.mock.calls[0]?.[0])).toContain("\u001b[");
+		} finally {
+			chalk.level = previousLevel;
+		}
 	});
 
 	it("prints arrays and scalars as JSON too", () => {

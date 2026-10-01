@@ -29,13 +29,14 @@ This package uses the workspace's `cf` CLI for all Worker scripts:
 ```sh
 pnpm --filter @cloudflare/factory dev
 pnpm --filter @cloudflare/factory build
-pnpm --filter @cloudflare/factory deploy --account <account-id>
+pnpm --filter @cloudflare/factory run deploy --account <account-id>
 ```
 
 Builds emit `.cloudflare/output/v0/`. `cloudflare.config.ts` declares the AI
 binding and SQLite-backed `FlueIssueTriageAgent` export. The Vite config adapts
 Flue's Wrangler-shaped entrypoint customizer to Cloudflare Vite v2's cf config;
 keep the Flue plugin before the Cloudflare plugin. No Wrangler CLI is required.
+Use `pnpm run deploy`: `pnpm deploy` is pnpm's workspace packaging command.
 
 For local GitHub integration, copy `.dev.vars.example` to `.dev.vars` and fill
 in `GITHUB_APP_ID`, `GITHUB_APP_PRIVATE_KEY`, and `GITHUB_WEBHOOK_SECRET`.

@@ -1,5 +1,7 @@
 import { bindings, defineConfig, exports } from "cf/config";
 
+const WORKER_NAME = "cf-factory";
+
 export default defineConfig({
 	worker: {
 		compatibilityDate: "2026-10-01",
@@ -7,7 +9,7 @@ export default defineConfig({
 			AI: bindings.ai(),
 			FLUE_ISSUE_TRIAGE_AGENT: bindings.durableObject({
 				exportName: "FlueIssueTriageAgent",
-				worker: "cf-factory",
+				worker: WORKER_NAME,
 			}),
 			GITHUB_APP_ID: bindings.secret(),
 			GITHUB_APP_PRIVATE_KEY: bindings.secret(),
@@ -18,7 +20,19 @@ export default defineConfig({
 				storage: "sqlite",
 			}),
 		},
-		name: "cf-factory",
+		name: WORKER_NAME,
+		observability: {
+			enabled: true,
+			issues: {
+				enabled: true,
+			},
+			logs: {
+				enabled: true,
+			},
+			traces: {
+				enabled: true,
+			},
+		},
 		workersDev: true,
 	},
 });

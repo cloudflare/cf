@@ -15,7 +15,9 @@ export default class ImportReporter implements Reporter {
 				`(${sdkImports.length} SDK), ${Math.round(diagnostic.collectDuration)}ms collection, ` +
 				`${Math.round(diagnostic.duration)}ms tests`
 		);
-		for (const [id, duration] of imports.slice(0, 5)) {
+		for (const [id, duration] of imports
+			.sort(([, a], [, b]) => b.totalTime - a.totalTime)
+			.slice(0, 5)) {
 			console.log(
 				`  ${Math.round(duration.totalTime)}ms total / ${Math.round(duration.selfTime)}ms self: ${relative(process.cwd(), id)}`
 			);

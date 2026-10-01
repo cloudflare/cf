@@ -7,7 +7,7 @@
 		"build": "cf build",
 		"deploy": "cf deploy",
 		"check:type": "tsgo --noEmit",
-		"test": "cf build && vitest run"
+		"test": "vitest run"
 	},
 	"dependencies": {
 		"@flue/github": "2.2.2",

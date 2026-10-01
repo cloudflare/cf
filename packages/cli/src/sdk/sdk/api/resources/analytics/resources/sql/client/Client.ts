@@ -8,7 +8,8 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
+import * as CloudflareApiErrors from "../../../../../errors/index.js";
 import { IntrospectionClient } from "../resources/introspection/client/Client.js";
 
 export declare namespace SqlClient {
@@ -100,30 +101,30 @@ export class SqlClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new CloudflareApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new CloudflareApi.UnprocessableEntityError(
+                    throw new CloudflareApiErrors.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 429:
-                    throw new CloudflareApi.TooManyRequestsError(
+                    throw new CloudflareApiErrors.TooManyRequestsError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 500:
-                    throw new CloudflareApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.InternalServerError(_response.error.body as unknown, _response.rawResponse);
                 case 501:
-                    throw new CloudflareApi.NotImplementedError(_response.error.body as string, _response.rawResponse);
+                    throw new CloudflareApiErrors.NotImplementedError(_response.error.body as string, _response.rawResponse);
                 case 503:
-                    throw new CloudflareApi.ServiceUnavailableError(
+                    throw new CloudflareApiErrors.ServiceUnavailableError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 507:
-                    throw new CloudflareApi.InsufficientStorageError(
+                    throw new CloudflareApiErrors.InsufficientStorageError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -212,30 +213,30 @@ export class SqlClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new CloudflareApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 422:
-                    throw new CloudflareApi.UnprocessableEntityError(
+                    throw new CloudflareApiErrors.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 429:
-                    throw new CloudflareApi.TooManyRequestsError(
+                    throw new CloudflareApiErrors.TooManyRequestsError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 500:
-                    throw new CloudflareApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.InternalServerError(_response.error.body as unknown, _response.rawResponse);
                 case 501:
-                    throw new CloudflareApi.NotImplementedError(_response.error.body as string, _response.rawResponse);
+                    throw new CloudflareApiErrors.NotImplementedError(_response.error.body as string, _response.rawResponse);
                 case 503:
-                    throw new CloudflareApi.ServiceUnavailableError(
+                    throw new CloudflareApiErrors.ServiceUnavailableError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 507:
-                    throw new CloudflareApi.InsufficientStorageError(
+                    throw new CloudflareApiErrors.InsufficientStorageError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );

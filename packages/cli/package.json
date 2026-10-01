@@ -48,7 +48,9 @@
 		"#commands/*": "./src/commands/*",
 		"#lib/*": "./src/lib/*",
 		"#sdk": "./src/sdk/sdk/index.ts",
-		"#sdk/errors": "./src/sdk/sdk/errors/index.ts"
+		"#sdk/errors": "./src/sdk/sdk/errors/index.ts",
+		"#sdk/client": "./src/sdk/sdk/Client.ts",
+		"#sdk/environments": "./src/sdk/sdk/environments.ts"
 	},
 	"exports": {
 		".": "./dist/index.mjs",
@@ -95,6 +97,7 @@
 		"@types/yargs": "17.0.35",
 		"chalk": "5.6.2",
 		"ci-info": "^4.4.0",
+		"esbuild": "0.28.1",
 		"execa": "^6.1.0",
 		"figures": "6.1.0",
 		"minimatch": "10.2.5",

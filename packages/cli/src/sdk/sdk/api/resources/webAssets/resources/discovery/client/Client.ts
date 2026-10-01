@@ -7,7 +7,7 @@ import { mergeHeaders } from "../../../../../../core/headers.js";
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 import { OperationsClient } from "../resources/operations/client/Client.js";
 
 export declare namespace DiscoveryClient {

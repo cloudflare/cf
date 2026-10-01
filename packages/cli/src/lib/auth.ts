@@ -1,4 +1,5 @@
-import { CloudflareApiClient, CloudflareApiEnvironment } from "#sdk";
+import { CloudflareApiClient } from "#sdk/client";
+import { CloudflareApiEnvironment } from "#sdk/environments";
 import { CloudflareApiError } from "#sdk/errors";
 import { getCloudflareApiBaseUrl } from "@cloudflare/workers-utils/compliance";
 import { API_TIMEOUT_MS } from "./api-constants.js";

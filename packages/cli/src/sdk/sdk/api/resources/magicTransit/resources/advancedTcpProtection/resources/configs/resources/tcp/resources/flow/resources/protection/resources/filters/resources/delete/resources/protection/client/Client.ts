@@ -13,7 +13,7 @@ import { mergeHeaders } from "../../../../../../../../../../../../../../../../..
 import * as environments from "../../../../../../../../../../../../../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../../../../../../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../../../../../../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../../../../../../../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../../../../../../../../../../../../../index.js";
 
 export declare namespace ProtectionClient {
     export type Options = BaseClientOptions;

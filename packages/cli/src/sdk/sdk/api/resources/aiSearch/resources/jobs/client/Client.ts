@@ -8,7 +8,8 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
+import * as CloudflareApiErrors from "../../../../../errors/index.js";
 
 export declare namespace JobsClient {
     export type Options = BaseClientOptions;
@@ -92,11 +93,11 @@ export class JobsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 503:
-                    throw new CloudflareApi.ServiceUnavailableError(
+                    throw new CloudflareApiErrors.ServiceUnavailableError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -182,16 +183,16 @@ export class JobsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 429:
-                    throw new CloudflareApi.TooManyRequestsError(
+                    throw new CloudflareApiErrors.TooManyRequestsError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
                 case 503:
-                    throw new CloudflareApi.ServiceUnavailableError(
+                    throw new CloudflareApiErrors.ServiceUnavailableError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -273,9 +274,9 @@ export class JobsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 404:
-                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 503:
-                    throw new CloudflareApi.ServiceUnavailableError(
+                    throw new CloudflareApiErrors.ServiceUnavailableError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -364,11 +365,11 @@ export class JobsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 503:
-                    throw new CloudflareApi.ServiceUnavailableError(
+                    throw new CloudflareApiErrors.ServiceUnavailableError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -459,11 +460,11 @@ export class JobsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 503:
-                    throw new CloudflareApi.ServiceUnavailableError(
+                    throw new CloudflareApiErrors.ServiceUnavailableError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );

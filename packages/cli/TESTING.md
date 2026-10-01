@@ -42,3 +42,16 @@ boundary during collection. Loading a large cold graph inside the first command
 counts against that test's timeout, and a timed-out async command can continue
 into the following test. Keep this explicit import local to those integration
 files.
+
+The follow-up SDK refactor normalizes generated clients with
+`generator/sdk-error-imports.ts` on every `pnpm generate`. It separates the
+type-only API namespace from runtime error constructors and keeps the public
+SDK barrel unchanged. The CLI uses `#sdk/client` and `#sdk/environments` to avoid
+that public barrel. Unknown runtime namespace uses are preserved conservatively.
+
+On the same dependencies, `pnpm test:imports src/__tests__/lib/auth.test.ts`
+collected 17,779 modules (17,742 SDK) before and 1,444 (1,407 SDK) after.
+Collection time fell from 14.97s to 3.44s in separate fresh runs, about 77%.
+Client modules still load statically; this change removes the type and resource
+barrels reached through error constructors. The generated diff is mechanical
+and reproducible, with coverage for constructor identity and response details.

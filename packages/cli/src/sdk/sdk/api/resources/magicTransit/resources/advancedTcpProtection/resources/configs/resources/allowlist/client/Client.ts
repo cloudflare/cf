@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../../../cor
 import * as environments from "../../../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../../../index.js";
 import { DeleteClient } from "../resources/delete/client/Client.js";
 
 export declare namespace AllowlistClient {

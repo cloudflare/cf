@@ -50,3 +50,9 @@ imports, deferring client imports until API work is needed, and lazy-loading
 nested command groups. Those changes need separate measurements and behavioral
 coverage. A narrow workers-utils APIError export would also reduce the external
 package work that this reporter cannot count individually.
+
+Command integration files that need the real SDK should import their client
+boundary during collection. Loading a large cold graph inside the first command
+counts against that test's timeout, and a timed-out async command can continue
+into the following test. Keep this explicit import local to those integration
+files.

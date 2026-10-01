@@ -60,6 +60,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Updates the minimum number of snapshots to retain optionally.",
 		})
+		.option("snapshot-expiration-state", {
+			type: "string",
+			description: "Specifies the state of maintenance operations.",
+			choices: ["enabled", "disabled"],
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -89,6 +94,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					safeFlags: [
 						"compaction-state",
 						"compaction-target-size-mb",
+						"snapshot-expiration-state",
 						"dry-run",
 					],
 				} satisfies ArgClassification<Args>,
@@ -134,6 +140,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											),
 											min_snapshots_to_keep:
 												argv["snapshot-expiration-min-snapshots-to-keep"],
+											state: resolveFileToken(
+												argv["snapshot-expiration-state"] as string | undefined,
+												"snapshot-expiration-state",
+												"text"
+											),
 										},
 									}),
 					});
@@ -182,6 +193,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						),
 						min_snapshots_to_keep:
 							argv["snapshot-expiration-min-snapshots-to-keep"],
+						state: resolveFileToken(
+							argv["snapshot-expiration-state"] as string | undefined,
+							"snapshot-expiration-state",
+							"text"
+						),
 					},
 				});
 				const result = await withProgress(`Creating`, async () =>

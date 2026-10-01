@@ -4684,7 +4684,7 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"ai listMarkdownSupportedFormats": {
+		"ai list-markdown-supported-formats": {
 			"operationId": "workers-ai-get-to-markdown-supported",
 			"httpMethod": "GET",
 			"path": "/accounts/{account_id}/ai/tomarkdown/supported",
@@ -5587,10 +5587,184 @@
 					"description": "The collect_logs field"
 				},
 				{
+					"name": "guardrails-prompt-p1",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.prompt.P1 field"
+				},
+				{
+					"name": "guardrails-prompt-s1",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.prompt.S1 field"
+				},
+				{
+					"name": "guardrails-prompt-s10",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.prompt.S10 field"
+				},
+				{
+					"name": "guardrails-prompt-s11",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.prompt.S11 field"
+				},
+				{
+					"name": "guardrails-prompt-s12",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.prompt.S12 field"
+				},
+				{
+					"name": "guardrails-prompt-s13",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.prompt.S13 field"
+				},
+				{
+					"name": "guardrails-prompt-s2",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.prompt.S2 field"
+				},
+				{
+					"name": "guardrails-prompt-s3",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.prompt.S3 field"
+				},
+				{
+					"name": "guardrails-prompt-s4",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.prompt.S4 field"
+				},
+				{
+					"name": "guardrails-prompt-s5",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.prompt.S5 field"
+				},
+				{
+					"name": "guardrails-prompt-s6",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.prompt.S6 field"
+				},
+				{
+					"name": "guardrails-prompt-s7",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.prompt.S7 field"
+				},
+				{
+					"name": "guardrails-prompt-s8",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.prompt.S8 field"
+				},
+				{
+					"name": "guardrails-prompt-s9",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.prompt.S9 field"
+				},
+				{
+					"name": "guardrails-response-p1",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.response.P1 field"
+				},
+				{
+					"name": "guardrails-response-s1",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.response.S1 field"
+				},
+				{
+					"name": "guardrails-response-s10",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.response.S10 field"
+				},
+				{
+					"name": "guardrails-response-s11",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.response.S11 field"
+				},
+				{
+					"name": "guardrails-response-s12",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.response.S12 field"
+				},
+				{
+					"name": "guardrails-response-s13",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.response.S13 field"
+				},
+				{
+					"name": "guardrails-response-s2",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.response.S2 field"
+				},
+				{
+					"name": "guardrails-response-s3",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.response.S3 field"
+				},
+				{
+					"name": "guardrails-response-s4",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.response.S4 field"
+				},
+				{
+					"name": "guardrails-response-s5",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.response.S5 field"
+				},
+				{
+					"name": "guardrails-response-s6",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.response.S6 field"
+				},
+				{
+					"name": "guardrails-response-s7",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.response.S7 field"
+				},
+				{
+					"name": "guardrails-response-s8",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.response.S8 field"
+				},
+				{
+					"name": "guardrails-response-s9",
+					"type": "string",
+					"required": false,
+					"description": "The guardrails.response.S9 field"
+				},
+				{
 					"name": "id",
 					"type": "string",
 					"required": true,
 					"description": "Unique identifier of the AI Gateway within the account."
+				},
+				{
+					"name": "log-classification",
+					"type": "boolean",
+					"required": false,
+					"description": "The log_classification field"
 				},
 				{
 					"name": "log-management",
@@ -5615,6 +5789,12 @@
 					"type": "string",
 					"required": false,
 					"description": "The logpush_public_key field"
+				},
+				{
+					"name": "otel",
+					"type": "string",
+					"required": false,
+					"description": "The otel field. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "rate-limiting-interval",
@@ -5653,10 +5833,22 @@
 					"description": "Maximum number of retry attempts for failed requests (1-5)"
 				},
 				{
+					"name": "spend-limits-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "The spend_limits.enabled field"
+				},
+				{
 					"name": "store-id",
 					"type": "string",
 					"required": false,
 					"description": "The store_id field"
+				},
+				{
+					"name": "stripe-authorization",
+					"type": "string",
+					"required": false,
+					"description": "The stripe.authorization field"
 				},
 				{
 					"name": "workers-ai-billing-mode",
@@ -5834,6 +6026,31 @@
 		"ai-gateway gateways providers delete": {
 			"operationId": "aig-config-delete-providers",
 			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/provider_configs/{id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "gateway_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"ai-gateway gateways providers get": {
+			"operationId": "aig-config-fetch-providers",
+			"httpMethod": "GET",
 			"path": "/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/provider_configs/{id}",
 			"pathParams": [
 				{
@@ -10560,7 +10777,7 @@
 					"name": "query",
 					"type": "string",
 					"required": true,
-					"description": "SQL query to execute."
+					"description": "SQL query to execute. A trailing FORMAT selects JSON, JSONEachRow, TabSeparated, or TSV output on any dataset.\n"
 				},
 				{
 					"name": "scope-account-tag",
@@ -12984,6 +13201,26 @@
 				}
 			]
 		},
+		"basin-catalog credentials status": {
+			"operationId": "basin-get-credential-status",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/basin-catalog/{bucket_name}/credential/status",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "bucket_name",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
 		"basin-catalog delete": {
 			"operationId": "basin-delete-catalog",
 			"httpMethod": "POST",
@@ -13125,6 +13362,18 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
+					"name": "compaction-state",
+					"type": "string",
+					"required": false,
+					"description": "Specifies the state of maintenance operations."
+				},
+				{
+					"name": "compaction-target-size-mb",
+					"type": "string",
+					"required": false,
+					"description": "Sets the target file size for compaction in megabytes. Defaults to \"128\"."
+				},
+				{
 					"name": "snapshot-expiration-max-snapshot-age",
 					"type": "string",
 					"required": false,
@@ -13135,6 +13384,12 @@
 					"type": "number",
 					"required": false,
 					"description": "Updates the minimum number of snapshots to retain optionally."
+				},
+				{
+					"name": "snapshot-expiration-state",
+					"type": "string",
+					"required": false,
+					"description": "Specifies the state of maintenance operations."
 				}
 			]
 		},
@@ -13384,6 +13639,12 @@
 					"type": "number",
 					"required": false,
 					"description": "Updates the minimum number of snapshots to retain optionally."
+				},
+				{
+					"name": "snapshot-expiration-state",
+					"type": "string",
+					"required": false,
+					"description": "Specifies the state of maintenance operations."
 				}
 			]
 		},
@@ -38289,7 +38550,7 @@
 					"description": "Define CA certificate ID obtained after uploading CA cert."
 				},
 				{
-					"name": "mtls-mtls-certificate-id",
+					"name": "mtls-certificate-id",
 					"type": "string",
 					"required": false,
 					"description": "Define mTLS certificate ID obtained after uploading client cert."
@@ -38331,16 +38592,16 @@
 					"description": "The name of the PlanetScale database."
 				},
 				{
-					"name": "integration-integration",
-					"type": "string",
-					"required": false,
-					"description": "The database integration used by this operation."
-				},
-				{
 					"name": "integration-organization-name",
 					"type": "string",
 					"required": false,
 					"description": "The name of the PlanetScale organization."
+				},
+				{
+					"name": "integration-provider",
+					"type": "string",
+					"required": false,
+					"description": "The database integration provider used by this operation."
 				},
 				{
 					"name": "integration-scheme",
@@ -38349,26 +38610,6 @@
 					"description": "Specifies the URL scheme used to connect to your origin database."
 				}
 			]
-		},
-		"hyperdrive create-database-signature": {
-			"operationId": "create-hyperdrive-database-signature",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/hyperdrive/integrationsOperations/{integration}/createDatabaseSignature",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "integration",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
 		},
 		"hyperdrive delete": {
 			"operationId": "delete-hyperdrive",
@@ -38402,6 +38643,21 @@
 				},
 				{
 					"name": "hyperdrive_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"hyperdrive integration planetscale signature": {
+			"operationId": "create-hyperdrive-database-signature",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/hyperdrive/integrationsOperations/planetScale/createDatabaseSignature",
+			"pathParams": [
+				{
+					"name": "account_id",
 					"type": "string",
 					"required": true
 				}
@@ -38480,7 +38736,7 @@
 					"description": "Define CA certificate ID obtained after uploading CA cert."
 				},
 				{
-					"name": "mtls-mtls-certificate-id",
+					"name": "mtls-certificate-id",
 					"type": "string",
 					"required": false,
 					"description": "Define mTLS certificate ID obtained after uploading client cert."
@@ -38623,7 +38879,7 @@
 					"description": "Define CA certificate ID obtained after uploading CA cert."
 				},
 				{
-					"name": "mtls-mtls-certificate-id",
+					"name": "mtls-certificate-id",
 					"type": "string",
 					"required": false,
 					"description": "Define mTLS certificate ID obtained after uploading client cert."
@@ -41303,6 +41559,188 @@
 			],
 			"hasRequestBody": false,
 			"requestBodyFields": []
+		},
+		"k2 streams create": {
+			"operationId": "postV4AccountsByAccount_idK2Streams",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/k2/streams",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "http-enabled",
+					"type": "boolean",
+					"required": true,
+					"description": "Indicates whether the HTTP endpoint accepts records."
+				},
+				{
+					"name": "http-authentication",
+					"type": "boolean",
+					"required": false,
+					"description": "Indicates whether the HTTP endpoint requires an API token with K2 produce permission. When false or omitted, the endpoint accepts unauthenticated records."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Specifies the name of the K2 stream."
+				},
+				{
+					"name": "retention-seconds",
+					"type": "number",
+					"required": false,
+					"description": "Sets the record retention period from 1 hour (3600 seconds) to 30 days (2592000 seconds), inclusive."
+				},
+				{
+					"name": "worker-binding-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Indicates whether Workers bindings can produce records to the stream."
+				}
+			]
+		},
+		"k2 streams delete": {
+			"operationId": "deleteV4AccountsByAccount_idK2StreamsByStream_id",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/k2/streams/{stream_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "stream_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"k2 streams get": {
+			"operationId": "getV4AccountsByAccount_idK2StreamsByStream_id",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/k2/streams/{stream_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "stream_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"k2 streams list": {
+			"operationId": "getV4AccountsByAccount_idK2Streams",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/k2/streams",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "name",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"type": "number",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"k2 streams subscriptions list": {
+			"operationId": "getV4AccountsByAccount_idK2StreamsByStream_idSubscriptions",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/k2/streams/{stream_id}/subscriptions",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "stream_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"k2 streams update": {
+			"operationId": "patchV4AccountsByAccount_idK2StreamsByStream_id",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/k2/streams/{stream_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "stream_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "http-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Indicates whether the HTTP endpoint accepts records."
+				},
+				{
+					"name": "http-authentication",
+					"type": "boolean",
+					"required": false,
+					"description": "Indicates whether the HTTP endpoint requires an API token with K2 produce permission. When false or omitted, the endpoint accepts unauthenticated records."
+				},
+				{
+					"name": "retention-seconds",
+					"type": "number",
+					"required": false,
+					"description": "Sets the record retention period from 1 hour (3600 seconds) to 30 days (2592000 seconds), inclusive."
+				},
+				{
+					"name": "worker-binding-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Indicates whether Workers bindings can produce records to the stream."
+				}
+			]
 		},
 		"keyless-certificates create": {
 			"operationId": "keyless-ssl-for-a-zone-create-keyless-ssl-configuration",
@@ -45004,7 +45442,13 @@
 					"name": "filter",
 					"type": "string",
 					"required": false,
-					"description": "Optional Logpush filter predicate to restrict which events are ingested.\nIf provided, replaces the dataset's default filter entirely.\nSee [Logpush filters](https://developers.cloudflare.com/logs/reference/filters/)\nfor syntax and examples.\n"
+					"description": "Optional Logpush filter predicate to restrict which events are ingested.\nSee [Logpush filters](https://developers.cloudflare.com/logs/reference/filters/)\nfor syntax and examples.\n"
+				},
+				{
+					"name": "filter-attack-traffic",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether to filter attack traffic from the Logpush job. Defaults to\n`true` for supported datasets when omitted. Supported datasets are\n`http_requests`, `firewall_events`, and `network_analytics_logs`.\n"
 				}
 			]
 		},
@@ -45131,6 +45575,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Optional Logpush filter predicate to restrict which events are\ningested. If omitted, the existing filter is left unchanged. Set\nto an empty string (`\"\"`) to clear the filter. Otherwise,\nreplaces the dataset's filter entirely.\nSee [Logpush filters](https://developers.cloudflare.com/logs/reference/filters/)\nfor syntax and examples.\n"
+				},
+				{
+					"name": "filter-attack-traffic",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether to filter attack traffic from the Logpush job. If omitted,\nthe existing setting is left unchanged. Supported datasets are\n`http_requests`, `firewall_events`, and `network_analytics_logs`.\n"
 				}
 			]
 		},
@@ -62488,106 +62938,6 @@
 					"description": "Shared Access Signature token for the Azure Storage account. Mutually exclusive with accountKey."
 				}
 			]
-		},
-		"r2 buckets storage-class-migration-jobs create": {
-			"operationId": "r2-create-storage-class-migration-job",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/r2/buckets/{bucket_name}/storage-class-migration-jobs",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "bucket_name",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "destination-storage-class",
-					"type": "string",
-					"required": false,
-					"description": "Storage class to migrate objects to. Provide together with sourceStorageClass; the two classes must differ."
-				},
-				{
-					"name": "job-type",
-					"type": "string",
-					"required": true,
-					"description": "The jobType field"
-				},
-				{
-					"name": "source-storage-class",
-					"type": "string",
-					"required": false,
-					"description": "Storage class to migrate objects from. Provide together with destinationStorageClass; the two classes must differ."
-				}
-			]
-		},
-		"r2 buckets storage-class-migration-jobs get": {
-			"operationId": "r2-get-storage-class-migration-job",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/r2/buckets/{bucket_name}/storage-class-migration-jobs/{job_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "bucket_name",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "job_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"r2 buckets storage-class-migration-jobs list": {
-			"operationId": "r2-list-storage-class-migration-jobs",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/r2/buckets/{bucket_name}/storage-class-migration-jobs",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "bucket_name",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "status",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "maxKeys",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "continuationToken",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
 		},
 		"r2 objects bulk-delete": {
 			"operationId": "r2-delete-objects",

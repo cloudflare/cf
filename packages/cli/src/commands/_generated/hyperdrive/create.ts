@@ -29,7 +29,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "Define CA certificate ID obtained after uploading CA cert.",
 		})
-		.option("mtls-mtls-certificate-id", {
+		.option("mtls-certificate-id", {
 			type: "string",
 			description:
 				"Define mTLS certificate ID obtained after uploading client cert.",
@@ -70,14 +70,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "The name of the PlanetScale database.",
 		})
-		.option("integration-integration", {
-			type: "string",
-			description: "The database integration used by this operation.",
-			choices: ["planetscale"],
-		})
 		.option("integration-organization-name", {
 			type: "string",
 			description: "The name of the PlanetScale organization.",
+		})
+		.option("integration-provider", {
+			type: "string",
+			description: "The database integration provider used by this operation.",
+			choices: ["planetscale"],
 		})
 		.option("integration-scheme", {
 			type: "string",
@@ -113,7 +113,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				classification: {
 					safeFlags: [
 						"mtls-sslmode",
-						"integration-integration",
+						"integration-provider",
 						"integration-scheme",
 						"dry-run",
 					],
@@ -140,8 +140,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"text"
 											),
 											mtls_certificate_id: resolveFileToken(
-												argv["mtls-mtls-certificate-id"] as string | undefined,
-												"mtls-mtls-certificate-id",
+												argv["mtls-certificate-id"] as string | undefined,
+												"mtls-certificate-id",
 												"text"
 											),
 											sslmode: resolveFileToken(
@@ -176,16 +176,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"integration-database-name",
 												"text"
 											),
-											integration: resolveFileToken(
-												argv["integration-integration"] as string | undefined,
-												"integration-integration",
-												"text"
-											),
 											organization_name: resolveFileToken(
 												argv["integration-organization-name"] as
 													| string
 													| undefined,
 												"integration-organization-name",
+												"text"
+											),
+											provider: resolveFileToken(
+												argv["integration-provider"] as string | undefined,
+												"integration-provider",
 												"text"
 											),
 											scheme: resolveFileToken(
@@ -229,8 +229,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"text"
 						),
 						mtls_certificate_id: resolveFileToken(
-							argv["mtls-mtls-certificate-id"] as string | undefined,
-							"mtls-mtls-certificate-id",
+							argv["mtls-certificate-id"] as string | undefined,
+							"mtls-certificate-id",
 							"text"
 						),
 						sslmode: resolveFileToken(
@@ -261,14 +261,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"integration-database-name",
 							"text"
 						),
-						integration: resolveFileToken(
-							argv["integration-integration"] as string | undefined,
-							"integration-integration",
-							"text"
-						),
 						organization_name: resolveFileToken(
 							argv["integration-organization-name"] as string | undefined,
 							"integration-organization-name",
+							"text"
+						),
+						provider: resolveFileToken(
+							argv["integration-provider"] as string | undefined,
+							"integration-provider",
 							"text"
 						),
 						scheme: resolveFileToken(

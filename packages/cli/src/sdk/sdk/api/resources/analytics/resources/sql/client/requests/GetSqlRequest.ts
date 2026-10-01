@@ -7,6 +7,6 @@
  *     }
  */
 export interface GetSqlRequest {
-    /** SQL query to execute. */
+    /** SQL query to execute. A trailing FORMAT selects JSON, JSONEachRow, TabSeparated, or TSV output on any dataset. */
     query: string;
 }

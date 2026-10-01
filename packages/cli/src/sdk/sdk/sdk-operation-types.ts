@@ -239,6 +239,7 @@ export interface SdkOperationRequestMap {
   "aig-config-fetch-custom-domain": CloudflareApi.aiGateway.GetCustomDomainsRequest;
   "aig-config-fetch-dataset": CloudflareApi.aiGateway.GetDatasetsRequest;
   "aig-config-fetch-evaluations": CloudflareApi.aiGateway.GetEvaluationsRequest;
+  "aig-config-fetch-providers": CloudflareApi.aiGateway.gateways.GetProvidersRequest;
   "aig-config-get-gateway-dynamic-route": CloudflareApi.aiGateway.GetDynamicRoutingRequest;
   "aig-config-get-gateway-dynamic-route-version": CloudflareApi.aiGateway.dynamicRouting.GetVersionsRequest;
   "aig-config-get-gateway-log-detail": CloudflareApi.aiGateway.GetLogsRequest;
@@ -339,6 +340,7 @@ export interface SdkOperationRequestMap {
   "basin-disable-catalog": CloudflareApi.DisableBasinCatalogRequest;
   "basin-enable-catalog": CloudflareApi.EnableBasinCatalogRequest;
   "basin-get-catalog-details": CloudflareApi.GetBasinCatalogRequest;
+  "basin-get-credential-status": CloudflareApi.basinCatalog.StatusCredentialsRequest;
   "basin-get-maintenance-config": CloudflareApi.basinCatalog.GetMaintenanceConfigsRequest;
   "basin-get-table": CloudflareApi.basinCatalog.namespaces.GetTablesRequest;
   "basin-get-table-maintenance-config": CloudflareApi.basinCatalog.namespaces.tables.GetMaintenanceConfigsRequest;
@@ -713,6 +715,7 @@ export interface SdkOperationRequestMap {
   "deleteTcpFlowProtectionRulesForAccount": CloudflareApi.magicTransit.advancedTcpProtection.configs.tcp.flow.protection.rules.delete_.AccountForRequest;
   "deleteTrigger": CloudflareApi.builds.DeleteTriggersRequest;
   "deleteUrlNormalization": CloudflareApi.DeleteUrlNormalizationRequest;
+  "deleteV4AccountsByAccount_idK2StreamsByStream_id": CloudflareApi.k2.DeleteStreamsRequest;
   "deleteV4AccountsByAccount_idPipelinesByPipeline_name_deprecated": CloudflareApi.LegacyDeletePipelinesRequest;
   "deleteV4AccountsByAccount_idPipelinesV1PipelinesByPipeline_id": CloudflareApi.DeletePipelinesRequest;
   "deleteV4AccountsByAccount_idPipelinesV1SinksBySink_id": CloudflareApi.pipelines.DeleteSinksRequest;
@@ -1274,6 +1277,7 @@ export interface SdkOperationRequestMap {
   "get-commands-quota": CloudflareApi.zeroTrust.dex.commands.GetQuotaRequest;
   "get-credential": CloudflareApi.apiSecurity.vulnerabilityScanner.credentialSets.GetCredentialsRequest;
   "get-credential-set": CloudflareApi.apiSecurity.vulnerabilityScanner.GetCredentialSetsRequest;
+  "get-credential-status": CloudflareApi.r2DataCatalog.StatusCredentialsRequest;
   "get-deployment-group": CloudflareApi.zeroTrust.devices.GetDeploymentGroupsRequest;
   "get-device": CloudflareApi.zeroTrust.GetDevicesRequest;
   "get-dex-rule": CloudflareApi.zeroTrust.dex.GetRulesRequest;
@@ -1368,6 +1372,9 @@ export interface SdkOperationRequestMap {
   "getTcpFlowProtectionFilter": CloudflareApi.magicTransit.advancedTcpProtection.configs.tcp.flow.protection.GetFiltersRequest;
   "getTcpFlowProtectionRule": CloudflareApi.magicTransit.advancedTcpProtection.configs.tcp.flow.protection.GetRulesRequest;
   "getUrlNormalization": CloudflareApi.GetUrlNormalizationRequest;
+  "getV4AccountsByAccount_idK2Streams": CloudflareApi.k2.ListStreamsRequest;
+  "getV4AccountsByAccount_idK2StreamsByStream_id": CloudflareApi.k2.GetStreamsRequest;
+  "getV4AccountsByAccount_idK2StreamsByStream_idSubscriptions": CloudflareApi.k2.streams.ListSubscriptionsRequest;
   "getV4AccountsByAccount_idPipelines_deprecated": CloudflareApi.LegacyListPipelinesRequest;
   "getV4AccountsByAccount_idPipelinesByPipeline_name_deprecated": CloudflareApi.LegacyGetPipelinesRequest;
   "getV4AccountsByAccount_idPipelinesV1Pipelines": CloudflareApi.ListPipelinesRequest;
@@ -1887,6 +1894,7 @@ export interface SdkOperationRequestMap {
   "patch-hyperdrive": CloudflareApi.HyperdriveHyperdriveConfigPatch;
   "patch-presets-preset_id": CloudflareApi.realtime.kit.RealtimekitUpdatePreset;
   "patchLatestWorkerVersion": CloudflareApi.workers.versions.EditLatestRequest;
+  "patchV4AccountsByAccount_idK2StreamsByStream_id": CloudflareApi.k2.CloudflareK2UpdateK2StreamRequest;
   "patchV4AccountsByAccount_idPipelinesV1StreamsByStream_id": CloudflareApi.pipelines.UpdateStreamsRequest;
   "pause_integration_v2": CloudflareApi.zeroTrust.casb.PauseIntegrationsRequest;
   "pause_resume_stop_recording": CloudflareApi.realtime.kit.ControlRecordingsRequest;
@@ -1997,6 +2005,7 @@ export interface SdkOperationRequestMap {
   "postAccountsAccountIdBrandProtectionQueries": CloudflareApi.BrandProtectionApiQuery;
   "postAccountsAccountIdBrandProtectionQueriesBulk": CloudflareApi.queries.BrandProtectionApiQueryBulk;
   "postAccountsAccountIdBrandProtectionSubmit": CloudflareApi.CreateSubmitRequest;
+  "postV4AccountsByAccount_idK2Streams": CloudflareApi.k2.CloudflareK2CreateK2StreamRequest;
   "postV4AccountsByAccount_idPipelines_deprecated": CloudflareApi.LegacyCreatePipelinesRequest;
   "postV4AccountsByAccount_idPipelinesV1Pipelines": CloudflareApi.CreatePipelinesRequest;
   "postV4AccountsByAccount_idPipelinesV1Sinks": CloudflareApi.pipelines.CreateSinksRequest;
@@ -2064,7 +2073,6 @@ export interface SdkOperationRequestMap {
   "r2-add-custom-domain": CloudflareApi.r2.buckets.domains.R2AddCustomDomainRequest;
   "r2-create-bucket": CloudflareApi.r2.CreateBucketsRequest;
   "r2-create-bucket-by-name": CloudflareApi.r2.CreateByNameBucketsRequest;
-  "r2-create-storage-class-migration-job": CloudflareApi.r2.buckets.CreateStorageClassMigrationJobsRequest;
   "r2-create-temp-access-credentials": CloudflareApi.r2.R2TempAccessCredsRequest;
   "r2-delete-bucket": CloudflareApi.r2.DeleteBucketsRequest;
   "r2-delete-bucket-cors-policy": CloudflareApi.r2.buckets.DeleteCorsRequest;
@@ -2088,12 +2096,10 @@ export interface SdkOperationRequestMap {
   "r2-get-event-notification-config": CloudflareApi.r2.buckets.GetEventNotificationsRequest;
   "r2-get-event-notification-configs": CloudflareApi.r2.buckets.ListEventNotificationsRequest;
   "r2-get-object": CloudflareApi.r2.GetObjectsRequest;
-  "r2-get-storage-class-migration-job": CloudflareApi.r2.buckets.GetStorageClassMigrationJobsRequest;
   "r2-list-bucket-jobs": CloudflareApi.r2.buckets.ListJobsRequest;
   "r2-list-buckets": CloudflareApi.r2.ListBucketsRequest;
   "r2-list-custom-domains": CloudflareApi.r2.buckets.domains.ListCustomRequest;
   "r2-list-objects": CloudflareApi.r2.ListObjectsRequest;
-  "r2-list-storage-class-migration-jobs": CloudflareApi.r2.buckets.ListStorageClassMigrationJobsRequest;
   "r2-patch-bucket": CloudflareApi.r2.EditBucketsRequest;
   "r2-put-bucket-cors-policy": CloudflareApi.r2.buckets.UpdateCorsRequest;
   "r2-put-bucket-lifecycle-configuration": CloudflareApi.r2.buckets.UpdateLifecycleRequest;
@@ -3469,6 +3475,7 @@ export interface SdkOperationQueryMap {
   "GetSessionParticipants": Pick<CloudflareApi.realtime.kit.sessions.ListParticipantsRequest, Extract<"search" | "page_no" | "per_page" | "sort_order" | "sort_by" | "include_peer_events" | "view", keyof CloudflareApi.realtime.kit.sessions.ListParticipantsRequest>>;
   "GetSessions": Pick<CloudflareApi.realtime.kit.ListSessionsRequest, Extract<"page_no" | "per_page" | "sort_by" | "sort_order" | "start_time" | "end_time" | "participants" | "status" | "search" | "associated_id", keyof CloudflareApi.realtime.kit.ListSessionsRequest>>;
   "GetSessionTranscript": Pick<CloudflareApi.realtime.kit.sessions.ExportTranscriptsRequest, Extract<"format", keyof CloudflareApi.realtime.kit.sessions.ExportTranscriptsRequest>>;
+  "getV4AccountsByAccount_idK2Streams": Pick<CloudflareApi.k2.ListStreamsRequest, Extract<"name" | "page" | "per_page", keyof CloudflareApi.k2.ListStreamsRequest>>;
   "getV4AccountsByAccount_idPipelines_deprecated": Pick<CloudflareApi.LegacyListPipelinesRequest, Extract<"search" | "page" | "per_page", keyof CloudflareApi.LegacyListPipelinesRequest>>;
   "getV4AccountsByAccount_idPipelinesV1Pipelines": Pick<CloudflareApi.ListPipelinesRequest, Extract<"page" | "per_page" | "name", keyof CloudflareApi.ListPipelinesRequest>>;
   "getV4AccountsByAccount_idPipelinesV1Sinks": Pick<CloudflareApi.pipelines.ListSinksRequest, Extract<"pipeline_id" | "name" | "page" | "per_page", keyof CloudflareApi.pipelines.ListSinksRequest>>;
@@ -3604,7 +3611,6 @@ export interface SdkOperationQueryMap {
   "r2-list-bucket-jobs": Pick<CloudflareApi.r2.buckets.ListJobsRequest, Extract<"jobType" | "status" | "maxKeys" | "continuationToken", keyof CloudflareApi.r2.buckets.ListJobsRequest>>;
   "r2-list-buckets": Pick<CloudflareApi.r2.ListBucketsRequest, Extract<"name_contains" | "start_after" | "per_page" | "order" | "direction" | "cursor", keyof CloudflareApi.r2.ListBucketsRequest>>;
   "r2-list-objects": Pick<CloudflareApi.r2.ListObjectsRequest, Extract<"per_page" | "prefix" | "delimiter" | "cursor" | "start_after", keyof CloudflareApi.r2.ListObjectsRequest>>;
-  "r2-list-storage-class-migration-jobs": Pick<CloudflareApi.r2.buckets.ListStorageClassMigrationJobsRequest, Extract<"status" | "maxKeys" | "continuationToken", keyof CloudflareApi.r2.buckets.ListStorageClassMigrationJobsRequest>>;
   "radar-get-agent-readiness-summary": Pick<CloudflareApi.radar.SummaryAgentReadinessRequest, Extract<"date" | "domainCategory" | "name" | "format", keyof CloudflareApi.radar.SummaryAgentReadinessRequest>>;
   "radar-get-ai-bots-summary": Pick<CloudflareApi.radar.ai.SummaryTimeseriesGroupsRequest, Extract<"name" | "dateRange" | "dateStart" | "dateEnd" | "asn" | "location" | "continent" | "crawlPurpose" | "userAgent" | "vertical" | "industry" | "contentType" | "responseStatus" | "responseStatusCategory" | "limitPerGroup" | "format", keyof CloudflareApi.radar.ai.SummaryTimeseriesGroupsRequest>>;
   "radar-get-ai-bots-summary-by-user-agent": Pick<CloudflareApi.radar.ai.bots.UserAgentSummaryRequest, Extract<"name" | "dateRange" | "dateStart" | "dateEnd" | "asn" | "location" | "continent" | "limitPerGroup" | "format", keyof CloudflareApi.radar.ai.bots.UserAgentSummaryRequest>>;

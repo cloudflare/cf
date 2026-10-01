@@ -15,11 +15,12 @@ import type { Argv, CommandModule } from "yargs";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 analytics sql get\n\nExecutes a SQL query against the analytics datasets available to the caller. SQL placeholders can be bound with query parameters named `param_<name>`, such as `param_status=404` for `$status`."
+			"$0 analytics sql get\n\nExecutes a SQL query against the analytics datasets available to the caller. SQL placeholders can be bound with query parameters named `param_<name>`, such as `param_status=404` for `$status`. A trailing `FORMAT JSON`, `FORMAT JSONEachRow`, `FORMAT TabSeparated`, or `FORMAT TSV` is supported for all datasets. Without FORMAT, each backend retains its existing default JSON response."
 		)
 		.option("query", {
 			type: "string",
-			description: "SQL query to execute.",
+			description:
+				"SQL query to execute. A trailing FORMAT selects JSON, JSONEachRow, TabSeparated, or TSV output on any dataset.",
 			demandOption: true,
 		})
 		.option("dry-run", {

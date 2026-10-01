@@ -1,3 +1,4 @@
+import { writeFileSync } from "node:fs";
 import { http, HttpResponse } from "msw";
 import { afterEach, beforeEach, describe, it, vi } from "vitest";
 import { mockAccountId, mockApiToken } from "./helpers/mock-account-id";
@@ -65,6 +66,25 @@ const mockAddress = {
 	tag: "addr-tag-1",
 	verified: "2024-01-01T12:00:00Z",
 };
+
+const mockSubdomain = {
+	enabled: true,
+	name: "sub.example.com",
+	tag: "aabbccdd11223344aabbccdd11223344",
+	created: "2024-01-01T00:00:00Z",
+	dkim_selector: "cf-bounce",
+	modified: "2024-01-02T00:00:00Z",
+	return_path_domain: "cf-bounce.sub.example.com",
+};
+
+const mockSendingDnsRecords = [
+	{
+		content: "v=spf1 include:_spf.mx.cloudflare.net ~all",
+		name: "sub.example.com",
+		ttl: 1,
+		type: "TXT",
+	},
+];
 
 const mockSendResult = {
 	delivered: ["recipient@example.com"],
@@ -261,30 +281,34 @@ describe("email routing commands", () => {
 	});
 
 	// --- dns unlock ---
-	//
-	// wrangler had `email routing dns unlock` (POST
-	// `/zones/:zoneId/email/routing/unlock`) — cf has no `unlock`
-	// command in `email-routing dns`. The unlock endpoint isn't
-	// surfaced via forge today; closing this gap belongs in the
-	// email-routing forge overlay, not here.
-	describe.skip("dns unlock", () => {
-		it("should unlock dns records", async () => {});
-		it("should skip confirmation with --force", async () => {});
-		it("should abort when user declines confirmation", async () => {});
+	describe("dns unlock", () => {
+		it("should unlock dns records", async ({ expect }) => {
+			mockUnlockDns(mockSettings);
+
+			await runWrangler(
+				"email-routing dns unlock --zone 0123456789abcdef0123456789abcdef --name example.com"
+			);
+
+			expect(JSON.parse(std.out)).toEqual(mockSettings);
+		});
+
+		// Wrangler's command adds a confirmation prompt around the API
+		// operation. cf exposes the underlying PATCH directly.
+		it.skip("should skip confirmation with --force", async () => {});
+		it.skip("should abort when user declines confirmation", async () => {});
 	});
 
 	// --- rules list ---
 	//
-	// The current Forge schema only retains an SDK-hidden account/zone
-	// alias without an operation ID, so cf no longer has a generated
-	// `email-routing rules list` command. The list behaviour remains
-	// wrangler-only until the operation is surfaced again.
-	describe.skip("rules list", () => {
+	// The REST operation accepts either an account or zone scope. Forge
+	// names that hybrid operation `list-account`; supplying `--zone`
+	// selects the same zone-scoped endpoint exercised by Wrangler.
+	describe("rules list", () => {
 		it("should list routing rules", async ({ expect }) => {
 			mockListRules([mockRule]);
 
 			await runWrangler(
-				"email-routing rules list --zone 0123456789abcdef0123456789abcdef"
+				"email-routing rules list-account --zone 0123456789abcdef0123456789abcdef"
 			);
 
 			expect(JSON.parse(std.out)).toEqual([mockRule]);
@@ -294,7 +318,7 @@ describe("email routing commands", () => {
 			mockListRules([]);
 
 			await runWrangler(
-				"email-routing rules list --zone 0123456789abcdef0123456789abcdef"
+				"email-routing rules list-account --zone 0123456789abcdef0123456789abcdef"
 			);
 
 			expect(JSON.parse(std.out)).toEqual([]);
@@ -595,6 +619,7 @@ describe("email sending commands", () => {
 	mockApiToken();
 	runInTempDir();
 	const { setIsTTY } = useMockIsTTY();
+	const std = mockConsoleMethods();
 
 	beforeEach(() => {
 		// @ts-expect-error we're using a very simple setTimeout mock here
@@ -615,11 +640,29 @@ describe("email sending commands", () => {
 	// list of zones with email-sending. cf has no equivalent — closest
 	// is `email-sending subdomains list` which is per-zone, not
 	// per-account, and exposes a different shape.
-	describe.skip("list", () => {
-		it("should list all subdomains in the account", async () => {});
-		it("should handle no subdomains in the account", async () => {});
-		it("should list subdomains for a domain", async () => {});
-		it("should handle no subdomains for a domain", async () => {});
+	describe("list", () => {
+		it.skip("should list all subdomains in the account", async () => {});
+		it.skip("should handle no subdomains in the account", async () => {});
+
+		it("should list subdomains for a domain", async ({ expect }) => {
+			mockListSendingSubdomains([mockSubdomain]);
+
+			await runWrangler(
+				"email-sending subdomains list --zone 0123456789abcdef0123456789abcdef"
+			);
+
+			expect(JSON.parse(std.out)).toEqual([mockSubdomain]);
+		});
+
+		it("should handle no subdomains for a domain", async ({ expect }) => {
+			mockListSendingSubdomains([]);
+
+			await runWrangler(
+				"email-sending subdomains list --zone 0123456789abcdef0123456789abcdef"
+			);
+
+			expect(JSON.parse(std.out)).toEqual([]);
+		});
 	});
 
 	// --- settings ---
@@ -642,20 +685,108 @@ describe("email sending commands", () => {
 	// zone-vs-subdomain detection (including multi-label TLDs like
 	// `.co.uk`) was wrangler-side. cf has no `email-sending enable` —
 	// subdomains are managed via `email-sending subdomains create` and
-	// the zone-level enable is not surfaced. Same for disable.
-	describe.skip("enable", () => {
-		it("should enable sending for a zone", async () => {});
-		it("should enable sending for a subdomain", async () => {});
-		it("should send the zone name for a zone-level domain with --zone-id", async () => {});
-		it("should send name for subdomain with --zone-id", async () => {});
-		it("should send the zone name for multi-label TLD with --zone-id", async () => {});
-		it("should send subdomain of multi-label TLD with --zone-id", async () => {});
+	// the zone-level enable is not surfaced. Disabling maps directly to
+	// the generated subdomain delete operation when the identifier is known.
+	describe("enable", () => {
+		it("should enable sending for a zone", async ({ expect }) => {
+			const request = mockCreateSendingSubdomain();
+
+			await runWrangler(
+				"email-sending subdomains create --zone 0123456789abcdef0123456789abcdef --name example.com"
+			);
+
+			await expect(request).resolves.toMatchObject({ name: "example.com" });
+		});
+
+		it("should enable sending for a subdomain", async ({ expect }) => {
+			const request = mockCreateSendingSubdomain();
+
+			await runWrangler(
+				"email-sending subdomains create --zone 0123456789abcdef0123456789abcdef --name sub.example.com"
+			);
+
+			await expect(request).resolves.toMatchObject({ name: "sub.example.com" });
+		});
+
+		it("should send the zone name for a zone-level domain with --zone-id", async ({
+			expect,
+		}) => {
+			const request = mockCreateSendingSubdomain();
+
+			await runWrangler(
+				"email-sending subdomains create --zone 0123456789abcdef0123456789abcdef --name example.com"
+			);
+
+			await expect(request).resolves.toMatchObject({ name: "example.com" });
+		});
+
+		it("should send name for subdomain with --zone-id", async ({ expect }) => {
+			const request = mockCreateSendingSubdomain();
+
+			await runWrangler(
+				"email-sending subdomains create --zone 0123456789abcdef0123456789abcdef --name sub.example.com"
+			);
+
+			await expect(request).resolves.toMatchObject({ name: "sub.example.com" });
+		});
+
+		it("should send the zone name for multi-label TLD with --zone-id", async ({
+			expect,
+		}) => {
+			const request = mockCreateSendingSubdomain();
+
+			await runWrangler(
+				"email-sending subdomains create --zone 0123456789abcdef0123456789abcdef --name example.co.uk"
+			);
+
+			await expect(request).resolves.toMatchObject({ name: "example.co.uk" });
+		});
+
+		it("should send subdomain of multi-label TLD with --zone-id", async ({
+			expect,
+		}) => {
+			const request = mockCreateSendingSubdomain();
+
+			await runWrangler(
+				"email-sending subdomains create --zone 0123456789abcdef0123456789abcdef --name notifications.example.co.uk"
+			);
+
+			await expect(request).resolves.toMatchObject({
+				name: "notifications.example.co.uk",
+			});
+		});
 	});
 
-	describe.skip("disable", () => {
-		it("should disable sending for a domain", async () => {});
-		it("should delete the matching subdomain with --zone-id", async () => {});
-		it("should error when the domain has no sending subdomain", async () => {});
+	describe("disable", () => {
+		it("should disable sending for a domain", async ({ expect }) => {
+			mockConfirm({
+				text: "This operation disables sending and removes the subdomain's Email Sending DNS records. Continue?",
+				result: true,
+			});
+			const request = mockDeleteSendingSubdomain();
+
+			await runWrangler(
+				"email-sending subdomains delete aabbccdd11223344aabbccdd11223344 --zone 0123456789abcdef0123456789abcdef"
+			);
+
+			await expect(request).resolves.toBe("aabbccdd11223344aabbccdd11223344");
+		});
+
+		it("should delete the matching subdomain with --zone-id", async ({
+			expect,
+		}) => {
+			const request = mockDeleteSendingSubdomain();
+
+			await runWrangler(
+				"email-sending subdomains delete aabbccdd11223344aabbccdd11223344 --zone 0123456789abcdef0123456789abcdef --force"
+			);
+
+			await expect(request).resolves.toBe("aabbccdd11223344aabbccdd11223344");
+		});
+
+		// Wrangler resolves domain names through the sending-subdomain list;
+		// cf's REST-shaped command requires the identifier explicitly.
+		it.skip("should error when the domain has no sending subdomain", async () => {});
 	});
 
 	// --- dns get ---
@@ -667,36 +798,139 @@ describe("email sending commands", () => {
 	// (subdomain). cf has only `email-sending subdomains dns get
 	// <subdomainIdentifier>` — the zone-level DNS endpoint isn't
 	// surfaced, and there's no automatic zone-vs-subdomain dispatch.
-	describe.skip("dns get", () => {
-		it("should show sending dns records", async () => {});
-		it("should handle no dns records", async () => {});
-		it("should get dns records for a zone-apex domain with --zone-id", async () => {});
-		it("should get dns records for a subdomain with --zone-id", async () => {});
+	describe("dns get", () => {
+		it("should show sending dns records", async ({ expect }) => {
+			mockGetSendingDns(mockSendingDnsRecords);
+
+			await runWrangler(
+				"email-sending subdomains dns get aabbccdd11223344aabbccdd11223344 --zone 0123456789abcdef0123456789abcdef"
+			);
+
+			expect(JSON.parse(std.out)).toEqual(mockSendingDnsRecords);
+		});
+
+		it("should handle no dns records", async ({ expect }) => {
+			mockGetSendingDns([]);
+
+			await runWrangler(
+				"email-sending subdomains dns get aabbccdd11223344aabbccdd11223344 --zone 0123456789abcdef0123456789abcdef"
+			);
+
+			expect(JSON.parse(std.out)).toEqual([]);
+		});
+
+		// Wrangler resolves domain names to sending-subdomain identifiers;
+		// cf intentionally requires the identifier exposed by the REST API.
+		it.skip("should get dns records for a zone-apex domain with --zone-id", async () => {});
+		it.skip("should get dns records for a subdomain with --zone-id", async () => {});
 	});
 
 	// --- send ---
 	//
-	// cf's `email-sending send` exposes a different flag set than
-	// wrangler: `--from-address`, `--from-name`, `--reply-to-address`,
-	// `--reply-to-name`, `--subject`, `--text`, `--html`. wrangler's
-	// `--from`, `--to`, `--cc`, `--bcc`, `--header`, `--attachment`,
-	// and `--from-name` (combined with bare `--from`) flags are
-	// absent. Recipients (`to`/`cc`/`bcc`), custom headers, and
-	// attachments must be passed via `--body`. The bespoke wrangler
+	// cf exposes the API's structured email builder through `--body`, so
+	// the portable send cases target that REST operation directly. The bespoke wrangler
 	// validation messages ("Header name cannot be empty",
 	// "At least one of --text or --html must be provided", etc.) and
 	// the "Delivered to:" / "Queued for:" / "Permanently bounced:"
 	// formatting are wrangler-side.
-	describe.skip("send", () => {
-		it("should send an email with text body", async () => {});
-		it("should send an email with html body", async () => {});
-		it("should send with from-name", async () => {});
-		it("should send with cc and bcc", async () => {});
-		it("should send with custom headers", async () => {});
-		it("should error on malformed header with empty name", async () => {});
-		it("should error on header without colon separator", async () => {});
-		it("should error when neither --text nor --html is provided", async () => {});
-		it("should display queued and bounced recipients", async () => {});
+	describe("send", () => {
+		it("should send an email with text body", async ({ expect }) => {
+			const body = {
+				from: "sender@example.com",
+				to: "recipient@example.com",
+				subject: "Test Email",
+				text: "Hello World",
+			};
+			const request = mockSendEmail();
+
+			await runWrangler(`email-sending send --body '${JSON.stringify(body)}'`);
+
+			await expect(request).resolves.toMatchObject(body);
+			expect(JSON.parse(std.out)).toEqual(mockSendResult);
+		});
+
+		it("should send an email with html body", async ({ expect }) => {
+			const body = {
+				from: "sender@example.com",
+				to: "recipient@example.com",
+				subject: "Test",
+				html: "<h1>Hello</h1>",
+			};
+			const request = mockSendEmail();
+
+			await runWrangler(`email-sending send --body '${JSON.stringify(body)}'`);
+
+			await expect(request).resolves.toMatchObject(body);
+		});
+
+		it("should send with from-name", async ({ expect }) => {
+			const body = {
+				from: { address: "sender@example.com", name: "John Doe" },
+				to: "recipient@example.com",
+				subject: "Test",
+				text: "Hi",
+			};
+			const request = mockSendEmail();
+
+			await runWrangler(`email-sending send --body '${JSON.stringify(body)}'`);
+
+			await expect(request).resolves.toMatchObject(body);
+		});
+
+		it("should send with cc and bcc", async ({ expect }) => {
+			const body = {
+				from: "sender@example.com",
+				to: "recipient@example.com",
+				cc: ["cc@example.com"],
+				bcc: ["bcc@example.com"],
+				subject: "Test",
+				text: "Hi",
+			};
+			const request = mockSendEmail();
+
+			await runWrangler(`email-sending send --body '${JSON.stringify(body)}'`);
+
+			await expect(request).resolves.toMatchObject(body);
+		});
+
+		it("should send with custom headers", async ({ expect }) => {
+			const body = {
+				from: "sender@example.com",
+				to: "recipient@example.com",
+				subject: "Test",
+				text: "Hi",
+				headers: { "X-Custom": "value" },
+			};
+			const request = mockSendEmail();
+
+			await runWrangler(`email-sending send --body '${JSON.stringify(body)}'`);
+
+			await expect(request).resolves.toMatchObject(body);
+		});
+
+		it.skip("should error on malformed header with empty name", async () => {});
+		it.skip("should error on header without colon separator", async () => {});
+		it.skip("should error when neither --text nor --html is provided", async () => {});
+
+		it("should display queued and bounced recipients", async ({ expect }) => {
+			const result = {
+				delivered: [],
+				queued: ["queued@example.com"],
+				permanent_bounces: ["bounced@example.com"],
+			};
+			mockSendEmailWithResult(result);
+
+			await runWrangler(
+				`email-sending send --body '${JSON.stringify({
+					from: "sender@example.com",
+					to: "recipient@example.com",
+					subject: "Test",
+					text: "Hi",
+				})}'`
+			);
+
+			expect(JSON.parse(std.out)).toEqual(result);
+		});
 	});
 
 	// --- send-raw ---
@@ -707,7 +941,7 @@ describe("email sending commands", () => {
 	// in cf — `@<path>` file ingestion happens automatically via
 	// `--mime-message @<path>` instead.
 	describe("send-raw", () => {
-		it.todo("should send a raw MIME email", async ({ expect }) => {
+		it("should send a raw MIME email", async ({ expect }) => {
 			const reqProm = mockSendRawEmail();
 			const mimeMessage =
 				"From: sender@example.com\nTo: recipient@example.com\nSubject: Hello\n\nHello, World!";
@@ -723,17 +957,43 @@ describe("email sending commands", () => {
 			});
 		});
 
-		// `--mime-file <path>` is wrangler-only. cf's universal `@<path>`
-		// file-ingestion (`--mime-message @test.eml`) is the equivalent;
-		// not retesting the same shape twice.
-		it.skip("should send a raw MIME email from file", async () => {});
-		it.skip("should error when --mime-file does not exist", async () => {});
+		it("should send a raw MIME email from file", async ({ expect }) => {
+			const mimeMessage =
+				"From: sender@example.com\nTo: recipient@example.com\nSubject: Hello\n\nHello, World!";
+			writeFileSync("test.eml", mimeMessage);
+			const request = mockSendRawEmail();
+
+			await runWrangler(
+				"email-sending send-raw --from sender@example.com --recipients recipient@example.com --mime-message @test.eml"
+			);
+
+			await expect(request).resolves.toMatchObject({
+				mime_message: mimeMessage,
+			});
+		});
+
+		it("should error when --mime-file does not exist", async ({ expect }) => {
+			await expect(
+				runWrangler(
+					"email-sending send-raw --from sender@example.com --recipients recipient@example.com --mime-message @missing.eml"
+				)
+			).rejects.toThrow(/--mime-message: cannot read file/);
+		});
 
 		// cf requires `--mime-message` (and prompts interactively if
 		// missing on a TTY). The exact error string differs from
 		// wrangler's "You must provide either --mime (inline MIME
 		// message) or --mime-file (path to MIME file)".
-		it.skip("should error when neither --mime nor --mime-file is provided", async () => {});
+		it("should error when neither --mime nor --mime-file is provided", async ({
+			expect,
+		}) => {
+			setIsTTY(false);
+			await expect(
+				runWrangler(
+					"email-sending send-raw --from sender@example.com --recipients recipient@example.com"
+				)
+			).rejects.toThrow(/--mime-message is required/);
+		});
 	});
 
 	// --- send with attachment ---
@@ -791,6 +1051,18 @@ function mockGetDns(records: typeof mockDnsRecords) {
 			"*/zones/:zoneId/email/routing/dns",
 			() => {
 				return HttpResponse.json(createFetchResult(records, true));
+			},
+			{ once: true }
+		)
+	);
+}
+
+function mockUnlockDns(settings: typeof mockSettings) {
+	msw.use(
+		http.patch(
+			"*/zones/:zoneId/email/routing/dns",
+			() => {
+				return HttpResponse.json(createFetchResult(settings, true));
 			},
 			{ once: true }
 		)
@@ -961,6 +1233,92 @@ function mockDeleteAddress() {
 }
 
 // --- Mock API handlers: Email Sending ---
+
+function mockListSendingSubdomains(subdomains: (typeof mockSubdomain)[]) {
+	msw.use(
+		http.get(
+			"*/zones/:zoneId/email/sending/subdomains",
+			() => {
+				return HttpResponse.json(createFetchResult(subdomains, true));
+			},
+			{ once: true }
+		)
+	);
+}
+
+function mockCreateSendingSubdomain(): Promise<unknown> {
+	return new Promise((resolve) => {
+		msw.use(
+			http.post(
+				"*/zones/:zoneId/email/sending/subdomains",
+				async ({ request }) => {
+					const body = await request.json();
+					resolve(body);
+					return HttpResponse.json(
+						createFetchResult({ ...mockSubdomain, ...(body as object) }, true)
+					);
+				},
+				{ once: true }
+			)
+		);
+	});
+}
+
+function mockGetSendingDns(records: typeof mockSendingDnsRecords) {
+	msw.use(
+		http.get(
+			"*/zones/:zoneId/email/sending/subdomains/:subdomainId/dns",
+			() => {
+				return HttpResponse.json(createFetchResult(records, true));
+			},
+			{ once: true }
+		)
+	);
+}
+
+function mockDeleteSendingSubdomain(): Promise<string> {
+	return new Promise((resolve) => {
+		msw.use(
+			http.delete(
+				"*/zones/:zoneId/email/sending/subdomains/:subdomainId",
+				({ params }) => {
+					resolve(String(params.subdomainId));
+					return HttpResponse.json(createFetchResult(mockSubdomain, true));
+				},
+				{ once: true }
+			)
+		);
+	});
+}
+
+function mockSendEmail(): Promise<unknown> {
+	return new Promise((resolve) => {
+		msw.use(
+			http.post(
+				"*/accounts/:accountId/email/sending/send",
+				async ({ request }) => {
+					resolve(await request.json());
+					return HttpResponse.json(createFetchResult(mockSendResult, true));
+				},
+				{ once: true }
+			)
+		);
+	});
+}
+
+function mockSendEmailWithResult(result: {
+	delivered: string[];
+	permanent_bounces: string[];
+	queued: string[];
+}) {
+	msw.use(
+		http.post(
+			"*/accounts/:accountId/email/sending/send",
+			() => HttpResponse.json(createFetchResult(result, true)),
+			{ once: true }
+		)
+	);
+}
 
 function mockSendRawEmail(): Promise<unknown> {
 	return new Promise((resolve) => {

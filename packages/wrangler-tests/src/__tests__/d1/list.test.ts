@@ -42,7 +42,9 @@ describe("list", () => {
 			})
 		);
 	});
-	it("should print valid json, without wrangler banner", async ({ expect }) => {
+	it("should print valid json if `--json` flag is specified, without wrangler banner", async ({
+		expect,
+	}) => {
 		await runWrangler("d1 list");
 		expect(JSON.parse(std.out)).toMatchInlineSnapshot(`
 			[

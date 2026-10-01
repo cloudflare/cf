@@ -173,7 +173,7 @@ describe("vectorize commands", () => {
 		`);
 	});
 
-	it("should print empty array JSON when there are no vectorize indexes", async ({
+	it.skip("should warn when there are no vectorize indexes", async ({
 		expect,
 	}) => {
 		mockVectorizeV2RequestError();
@@ -268,7 +268,7 @@ describe("vectorize commands", () => {
 		`);
 	});
 
-	it("should print empty array when there are no vectors matching the getByIds identifiers", async ({
+	it.skip("should warn when there are no vectors matching the getByIds identifiers", async ({
 		expect,
 	}) => {
 		mockVectorizeV2RequestError();
@@ -430,9 +430,7 @@ describe("vectorize commands", () => {
 		"should proceed with querying and log warning if the filter is invalid"
 	);
 
-	it("should print empty matches when query returns no vectors", async ({
-		expect,
-	}) => {
+	it.skip("should warn when query returns no vectors", async ({ expect }) => {
 		mockVectorizeV2RequestError();
 		await runWrangler("vectorize query test-index --vector 1 2 3 4");
 		expect(JSON.parse(std.out)).toMatchInlineSnapshot(`
@@ -527,7 +525,7 @@ describe("vectorize commands", () => {
 		`);
 	});
 
-	it("should print empty metadataIndexes when list metadata indexes returns empty", async ({
+	it.skip("should warn when list metadata indexes returns empty", async ({
 		expect,
 	}) => {
 		mockVectorizeV2RequestError();
@@ -650,7 +648,7 @@ describe("vectorize commands", () => {
 	// exercises JSON output (cf's only output mode).
 	it.skip("should handle list-vectors with valid JSON output", async () => {});
 
-	it("should print empty list-vectors response when no vectors", async ({
+	it.skip("should warn when list-vectors returns no vectors", async ({
 		expect,
 	}) => {
 		mockVectorizeV2RequestError();

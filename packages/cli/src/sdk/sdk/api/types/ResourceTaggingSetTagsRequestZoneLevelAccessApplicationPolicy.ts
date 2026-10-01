@@ -6,7 +6,7 @@ import * as CloudflareApi from "../index.js";
  * Request body schema for setting tags on access_application_policy resources.
  */
 export interface ResourceTaggingSetTagsRequestZoneLevelAccessApplicationPolicy {
-    resource_id: CloudflareApi.ResourceTaggingResourceId;
     access_application_id: CloudflareApi.ResourceTaggingAccessApplicationId;
+    resource_id: CloudflareApi.ResourceTaggingResourceId;
     tags?: CloudflareApi.ResourceTaggingTags | undefined;
 }

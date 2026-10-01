@@ -4,6 +4,20 @@
  * Attributes associated to the permission group.
  */
 export interface IamPermissionGroupMeta {
-    key?: string | undefined;
-    value?: string | undefined;
+    /** A category used to group permission groups. */
+    category?: string | undefined;
+    /** Indicates whether the permission group is deprecated. */
+    deprecated?: string | undefined;
+    /** Additional information about the permission group. */
+    description?: string | undefined;
+    /** Indicates whether the permission group can be edited. */
+    editable?: string | undefined;
+    /** The planned end-of-life date and time, when provided. */
+    eol_at?: string | undefined;
+    /** A label identifying the permission group. */
+    label?: string | undefined;
+    /** The scope associated with the permission group. */
+    scopes?: string | undefined;
+    /** Indicates the permission group's availability or visibility. */
+    visibility?: string | undefined;
 }

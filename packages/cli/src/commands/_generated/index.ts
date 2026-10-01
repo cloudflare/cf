@@ -181,7 +181,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./artifacts/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -725,6 +725,15 @@ export const generatedCommands: GeneratedCommand[] = [
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
+			"k2",
+			"Durable, ordered event streams that you produce records to and consume from with subscriptions",
+			() => import("./k2/index.js"),
+			null
+		),
+		hideCommand: false,
+	},
+	{
+		command: lazyCommand<CommonYargsOptions>(
 			"keyless-certificates",
 			"keyless-certificates",
 			() => import("./keyless-certificates/index.js"),
@@ -739,7 +748,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./keys/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -1198,7 +1207,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./resource-tagging/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -1378,7 +1387,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./tags/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -1477,7 +1486,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./values/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(

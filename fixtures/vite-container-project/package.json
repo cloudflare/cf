@@ -7,11 +7,11 @@
 		"check:type": "tsgo --noEmit"
 	},
 	"devDependencies": {
-		"@cloudflare/vite-plugin": "2.0.0-beta.sha-805ec1ff3",
-		"@cloudflare/workers-types": "5.20260927.1",
+		"@cloudflare/vite-plugin": "2.0.0-beta.sha-ad79608dd",
+		"@cloudflare/workers-types": "5.20260930.2",
 		"@typescript/native-preview": "latest",
 		"cf": "workspace:*",
 		"vite": "8.3.0",
-		"wrangler": "4.143.0"
+		"wrangler": "4.145.0"
 	}
 }

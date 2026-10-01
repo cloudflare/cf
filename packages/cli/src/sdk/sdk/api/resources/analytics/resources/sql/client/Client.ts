@@ -30,7 +30,7 @@ export class SqlClient {
     }
 
     /**
-     * Executes a SQL query against the analytics datasets available to the caller. SQL placeholders can be bound with query parameters named `param_<name>`, such as `param_status=404` for `$status`.
+     * Executes a SQL query against the analytics datasets available to the caller. SQL placeholders can be bound with query parameters named `param_<name>`, such as `param_status=404` for `$status`. A trailing `FORMAT JSON`, `FORMAT JSONEachRow`, `FORMAT TabSeparated`, or `FORMAT TSV` is supported for all datasets. Without FORMAT, each backend retains its existing default JSON response.
      *
      * @param {CloudflareApi.analytics.GetSqlRequest} request
      * @param {SqlClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -52,14 +52,14 @@ export class SqlClient {
     public get(
         request: CloudflareApi.analytics.GetSqlRequest,
         requestOptions?: SqlClient.RequestOptions,
-    ): core.HttpResponsePromise<CloudflareApi.AnalyticsSqlSqlQueryResponse> {
+    ): core.HttpResponsePromise<CloudflareApi.analytics.GetSqlResponse> {
         return core.HttpResponsePromise.fromPromise(this.__get(request, requestOptions));
     }
 
     private async __get(
         request: CloudflareApi.analytics.GetSqlRequest,
         requestOptions?: SqlClient.RequestOptions,
-    ): Promise<core.WithRawResponse<CloudflareApi.AnalyticsSqlSqlQueryResponse>> {
+    ): Promise<core.WithRawResponse<CloudflareApi.analytics.GetSqlResponse>> {
         const { query } = request;
         const _queryParams: Record<string, unknown> = {
             query,
@@ -92,7 +92,7 @@ export class SqlClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as CloudflareApi.AnalyticsSqlSqlQueryResponse,
+                data: _response.body as CloudflareApi.analytics.GetSqlResponse,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -140,7 +140,7 @@ export class SqlClient {
     }
 
     /**
-     * Executes a SQL query against the analytics datasets available to the caller. Send either raw SQL or a JSON object containing the query and optional positional or named parameters, time range, and account or zone scope. Raw SQL placeholders can also be bound with query parameters named `param_<name>`.
+     * Executes a SQL query against the analytics datasets available to the caller. Send either raw SQL or a JSON object containing the query and optional positional or named parameters, time range, and account or zone scope. Raw SQL placeholders can also be bound with query parameters named `param_<name>`. A trailing `FORMAT JSON`, `FORMAT JSONEachRow`, `FORMAT TabSeparated`, or `FORMAT TSV` is supported for all datasets. Without FORMAT, each backend retains its existing default JSON response.
      *
      * @param {CloudflareApi.analytics.AnalyticsSqlSqlQueryRequest} request
      * @param {SqlClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -169,14 +169,14 @@ export class SqlClient {
     public post(
         request: CloudflareApi.analytics.AnalyticsSqlSqlQueryRequest,
         requestOptions?: SqlClient.RequestOptions,
-    ): core.HttpResponsePromise<CloudflareApi.AnalyticsSqlSqlQueryResponse> {
+    ): core.HttpResponsePromise<CloudflareApi.analytics.PostSqlResponse> {
         return core.HttpResponsePromise.fromPromise(this.__post(request, requestOptions));
     }
 
     private async __post(
         request: CloudflareApi.analytics.AnalyticsSqlSqlQueryRequest,
         requestOptions?: SqlClient.RequestOptions,
-    ): Promise<core.WithRawResponse<CloudflareApi.AnalyticsSqlSqlQueryResponse>> {
+    ): Promise<core.WithRawResponse<CloudflareApi.analytics.PostSqlResponse>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -204,7 +204,7 @@ export class SqlClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as CloudflareApi.AnalyticsSqlSqlQueryResponse,
+                data: _response.body as CloudflareApi.analytics.PostSqlResponse,
                 rawResponse: _response.rawResponse,
             };
         }

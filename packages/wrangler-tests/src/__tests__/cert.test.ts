@@ -173,17 +173,17 @@ describe("wrangler", () => {
 		// programmatic surface. cf goes through the SDK; there is no
 		// equivalent importable helper module in the wrangler-tests package.
 		describe.skip("api", () => {
-			it.skip("should call mtls_certificates upload endpoint (wrangler-only helper)", async () => {});
-			it.skip("should fail to read cert and key files when missing (wrangler-only helper)", async () => {});
-			it.skip("should read cert and key from disk and call mtls_certificates upload endpoint (wrangler-only helper)", async () => {});
-			it.skip("should fail to read ca cert when file is missing (wrangler-only helper)", async () => {});
-			it.skip("should read ca cert from disk and call mtls_certificates upload endpoint (wrangler-only helper)", async () => {});
-			it.skip("should call mtls_certificates list endpoint (wrangler-only helper)", async () => {});
-			it.skip("calls get mtls_certificates endpoint (wrangler-only helper)", async () => {});
-			it.skip("calls list mtls_certificates endpoint with name (wrangler-only helper)", async () => {});
-			it.skip("errors when a certificate cannot be found (wrangler-only helper)", async () => {});
-			it.skip("errors when multiple certificates are found (wrangler-only helper)", async () => {});
-			it.skip("calls delete mts_certificates endpoint (wrangler-only helper)", async () => {});
+			it.skip("should call mtls_certificates upload endpoint", async () => {});
+			it.skip("should fail to read cert and key files when missing", async () => {});
+			it.skip("should read cert and key from disk and call mtls_certificates upload endpoint", async () => {});
+			it.skip("should fail to read ca cert when file is missing", async () => {});
+			it.skip("should read ca cert from disk and call mtls_certificates upload endpoint", async () => {});
+			it.skip("should call mtls_certificates list endpoint", async () => {});
+			it.skip("calls get mtls_certificates endpoint", async () => {});
+			it.skip("calls list mtls_certificates endpoint with name", async () => {});
+			it.skip("errors when a certificate cannot be found", async () => {});
+			it.skip("errors when multiple certificates are found", async () => {});
+			it.skip("calls delete mts_certificates endpoint", async () => {});
 		});
 
 		describe("commands", () => {
@@ -192,7 +192,7 @@ describe("wrangler", () => {
 			// formatting are wrangler-specific. cf surfaces this product as
 			// `mtls-certificates` and emits its own help layout.
 			describe.skip("help", () => {
-				it("wrangler-only: `cert --help` text", () => {});
+				it("should show the correct help text", () => {});
 			});
 
 			describe("upload", () => {
@@ -327,8 +327,8 @@ describe("wrangler", () => {
 				// There is no `--id` / `--name` flag pair, so the
 				// "must provide --id or --name" / "can't provide both" error
 				// paths don't exist.
-				it.skip("should require --id or --name (wrangler-only flag pair)", async () => {});
-				it.skip("should require not providing --id and --name (wrangler-only flag pair)", async () => {});
+				it.skip("should require --id or --name", async () => {});
+				it.skip("should require not providing --id and --name", async () => {});
 
 				it("should delete certificate by id", async ({ expect }) => {
 					// cf doesn't pre-fetch the cert before delete (wrangler did
@@ -355,9 +355,9 @@ describe("wrangler", () => {
 				// `mtls-certificates delete` takes a positional id; the user
 				// must look up the id (e.g. via `mtls-certificates list`)
 				// themselves.
-				it.skip("should delete certificate by name (wrangler-only --name flow)", async () => {});
-				it.skip("should not delete when certificate cannot be found by name (wrangler-only --name flow)", async () => {});
-				it.skip("should not delete when many certificates are found by name (wrangler-only --name flow)", async () => {});
+				it.skip("should delete certificate by name", async () => {});
+				it.skip("should not delete when certificate cannot be found by name", async () => {});
+				it.skip("should not delete when many certificates are found by name", async () => {});
 
 				it("should not delete when confirmation fails", async ({ expect }) => {
 					const mock = mockDeleteMTlsCertificate();

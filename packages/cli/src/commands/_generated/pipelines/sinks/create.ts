@@ -130,7 +130,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("type", {
 			type: "string",
 			description: "Specifies the type of sink.",
-			choices: ["r2", "r2_data_catalog"],
+			choices: ["r2", "r2_data_catalog", "basin_catalog"],
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -507,7 +507,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					argv["type"] = await promptForRequiredEnumField(
 						"type",
 						"Specifies the type of sink.",
-						["r2", "r2_data_catalog"] as const
+						["r2", "r2_data_catalog", "basin_catalog"] as const
 					);
 				}
 

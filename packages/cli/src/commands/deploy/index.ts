@@ -4,6 +4,13 @@ import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return sharedUploadBuilder(yargs)
+		.option("force", {
+			type: "boolean",
+			alias: "f",
+			description:
+				"Allow upload in CI despite conflicting remote Worker changes",
+			default: false,
+		})
 		.option("dispatch-namespace", {
 			type: "string",
 			description:

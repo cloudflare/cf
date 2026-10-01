@@ -10,6 +10,10 @@ import { confirm, prompt, select } from "./dialog.js";
 import type { DeployHelpersContext } from "@cloudflare/deploy-helpers";
 import type { Logger } from "@cloudflare/workers-utils";
 
+// deploy-helpers names Wrangler's --strict flag in this error; cf uses --force.
+const STRICT_CONFLICT_ABORT =
+	"Aborting the upload operation because of conflicts. To override and upload anyway, remove the `--strict` flag";
+
 /**
  * Build the deploy-helpers context that `initDeployHelpersContext` needs.
  *
@@ -21,7 +25,10 @@ import type { Logger } from "@cloudflare/workers-utils";
  * credentials) args; the context-bound versions close over them so
  * deploy-helpers callers don't need to thread auth through every call.
  */
-export function createDeployContext(authToken: string): DeployHelpersContext {
+export function createDeployContext(
+	authToken: string,
+	strictConflictOverrideCommand?: string
+): DeployHelpersContext {
 	const credentials = { apiToken: authToken };
 	const userAgent = USER_AGENT;
 
@@ -59,8 +66,15 @@ export function createDeployContext(authToken: string): DeployHelpersContext {
 			clack.log.message(args.join(" "), { spacing: 0 }),
 		warn: (...args: unknown[]) =>
 			clack.log.warn(String(args.join(" ")), { spacing: 0 }),
-		error: (...args: unknown[]) =>
-			clack.log.error(String(args.join(" ")), { spacing: 0 }),
+		error: (...args: unknown[]) => {
+			const message = String(args.join(" "));
+			clack.log.error(
+				strictConflictOverrideCommand && message === STRICT_CONFLICT_ABORT
+					? `Aborting the upload operation because of conflicts. Rerun with \`${strictConflictOverrideCommand}\` to override and upload anyway.`
+					: message,
+				{ spacing: 0 }
+			);
+		},
 	};
 
 	// The fetch closures capture auth credentials and user-agent,

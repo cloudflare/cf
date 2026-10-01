@@ -295,6 +295,7 @@ describe("transforms Build Output Specification into deploy input", () => {
 			"dry-run": false,
 			"secrets-file": undefined,
 			prebuilt: false,
+			force: false,
 			quiet: false,
 			local: false,
 			"persist-to": undefined,

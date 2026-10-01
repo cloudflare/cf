@@ -22,6 +22,7 @@ import {
 	selectBuildOutputWorker,
 	validateBuildOutputMode,
 } from "../../lib/build-output.js";
+import { CliExit } from "../../lib/cli-exit.js";
 import { createDeployContext } from "../../lib/deploy-context.js";
 import {
 	assembleBuildResult,
@@ -78,6 +79,7 @@ export type SharedUploadArgs = InferArgs<typeof sharedUploadBuilder>;
 
 type UploadCommand = { command: "Deploy" } | { command: "Version upload" };
 type UploadArgs = SharedUploadArgs & {
+	force?: boolean;
 	"preview-alias"?: string;
 	"containers-rollout"?: "immediate" | "gradual" | "none";
 };
@@ -137,7 +139,10 @@ async function uploadBuildOutput(argv: UploadArgs, ctx: UploadCommand) {
 			})));
 
 	// Initialize the deploy-helpers context.
-	const deployContext = createDeployContext(authToken);
+	const deployContext = createDeployContext(
+		authToken,
+		ctx.command === "Deploy" ? "cf deploy --force" : undefined
+	);
 	initDeployHelpersContext(deployContext);
 	initContainersSharedContext({
 		logger: deployContext.logger,
@@ -195,6 +200,9 @@ async function uploadBuildOutput(argv: UploadArgs, ctx: UploadCommand) {
 		({ versionId } = await versionsUpload(props, wranglerConfig, buildResult, {
 			analyseBundle: undefined,
 		}));
+	}
+	if (versionId === null && !argv["dry-run"]) {
+		throw new CliExit(1);
 	}
 
 	if (

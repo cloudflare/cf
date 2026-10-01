@@ -2,7 +2,7 @@
 
 A Flue app on Cloudflare Workers. Verified GitHub App `issues.opened` deliveries go to one durable `IssueTriage` agent per repository issue.
 
-The `classify-issue-type` skill defines the only initial capability: assign **Bug**, **Feature**, or **Task**. Clef Flash (`@cf/cloudflare/clef-flash`) makes that decision through its typed `choice` API. Flue uses Workers AI's `@cf/meta/llama-3.3-70b-instruct-fp8-fast` only to activate the skill and invoke the bound tool. No external model API key is needed.
+The imported `src/skills/classify-issue-type/SKILL.md` defines the only initial capability: assign **Bug**, **Feature**, or **Task**. Clef Flash (`@cf/cloudflare/clef-flash`) makes that decision through its typed `choice` API. Flue uses Workers AI's `@cf/zai-org/glm-5.3` to activate the skill and invoke the bound `defineTool` tool in `src/tools/`. GLM-5.3 requires a paid Workers plan or prepaid AI Gateway credits. No external model API key is needed.
 
 The tool changes only the GitHub issue type. It leaves existing types unchanged, including on webhook redelivery, and never adds comments, labels, assignees, or priorities. Add future capabilities as separate skills and tools in the agent.
 
@@ -27,7 +27,7 @@ pnpm --filter @cloudflare/factory run deploy --account <account-id>
 
 Builds emit `.cloudflare/output/v0/`. `cloudflare.config.ts` declares the AI binding and SQLite-backed `FlueIssueTriageAgent` export. The Vite config adapts Flue's Wrangler-shaped entrypoint customizer to Cloudflare Vite v2's cf config; keep the Flue plugin before the Cloudflare plugin. No Wrangler CLI is required. Use `pnpm run deploy`: `pnpm deploy` is pnpm's workspace packaging command.
 
-For local GitHub integration, copy `.dev.vars.example` to `.dev.vars` and fill in `GITHUB_APP_ID`, `GITHUB_APP_PRIVATE_KEY`, and `GITHUB_WEBHOOK_SECRET`. The private key may use escaped `\n` newlines. Downloaded GitHub PKCS#1 keys are converted to PKCS#8 for Workers' Web Crypto authentication. Keep these files out of Git. Workers AI requires an authenticated Cloudflare account even during local dev.
+For local GitHub integration, copy `.env.example` to `.env` and fill in `GITHUB_APP_ID`, `GITHUB_APP_PRIVATE_KEY`, and `GITHUB_WEBHOOK_SECRET`. The private key may use escaped `\n` newlines. Downloaded GitHub PKCS#1 keys are converted to PKCS#8 for Workers' Web Crypto authentication. Keep `.env` out of Git. Workers AI requires an authenticated Cloudflare account even during local dev.
 
 ## GitHub App
 
@@ -55,8 +55,8 @@ For a PEM file, pass `--text @/absolute/path/to/private-key.pem` to the private-
 
 ## Routes and tests
 
-- `GET /health`: `{ "status": "ok" }`, including before secrets are configured.
+- `GET /health`: `{ "status": "ok" }`.
 - `POST /channels/github/webhook`: Flue's signed GitHub webhook ingress.
 - The triage agent has no public HTTP mount; only verified webhooks dispatch it.
 
-Vitest exercises the real Hono and Flue GitHub routes with signed requests and mocks agent dispatch. It also checks Clef output validation, the three issue types, preservation of an existing type, and type-only GitHub updates. These tests do not call Workers AI or GitHub. A live end-to-end smoke test requires the installed GitHub App, configured secrets, and an opened issue.
+`pnpm test` builds with `cf build`, then runs Vitest in workerd using `@cloudflare/vitest-plugin`. Tests use `cloudflare.config.ts` with test secrets and remote bindings disabled. They exercise the generated Flue Worker entrypoint and real Hono/GitHub routes with signed requests using Hono's `testClient`, mocking agent dispatch for source route tests. They also check Clef output validation, the three issue types, preservation of an existing type, and type-only GitHub updates. These tests do not call Workers AI or GitHub. A live end-to-end smoke test requires the installed GitHub App, configured secrets, and an opened issue.

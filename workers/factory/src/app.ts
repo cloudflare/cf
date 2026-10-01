@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { channel as github } from "./channels/github";
 
-const app = new Hono<{ Bindings: Env }>()
+export const app = new Hono<{ Bindings: Env }>()
 	.get("/health", (c) =>
 		c.json({
 			status: "ok",

@@ -1,21 +1,26 @@
 import { dispatch } from "@flue/runtime";
+import { env } from "cloudflare:workers";
+import { Hono } from "hono";
 import { testClient } from "hono/testing";
 import { describe, expect, it, vi } from "vitest";
-import { createApp } from "../app";
+import { app } from "../app";
 import type * as Runtime from "@flue/runtime";
 
 vi.mock("@flue/runtime", async (importOriginal) => ({
 	...(await importOriginal<typeof Runtime>()),
 	dispatch: vi.fn(),
 }));
-vi.mock("../agents/issue-triage", () => ({
+vi.mock("../agents/issue-triage.agent", () => ({
 	IssueTriage: function IssueTriage() {
 		return "";
 	},
 }));
 
-const WEBHOOK_SECRET = "test-webhook-secret";
-const app = createApp({ GITHUB_WEBHOOK_SECRET: WEBHOOK_SECRET });
+const WEBHOOK_SECRET = env.GITHUB_WEBHOOK_SECRET;
+const client = testClient(app);
+const webhookClient = testClient(
+	new Hono().post("/channels/github/webhook", (c) => app.fetch(c.req.raw))
+).channels.github.webhook;
 const payload = {
 	action: "opened",
 	installation: { id: 123 },
@@ -39,33 +44,25 @@ async function sendWebhook(body: string, event = "issues") {
 	const hex = Array.from(new Uint8Array(signature), (byte) =>
 		byte.toString(16).padStart(2, "0")
 	).join("");
-	return app.request("/channels/github/webhook", {
-		body,
-		headers: {
-			"content-type": "application/json",
-			"x-github-delivery": "delivery-1",
-			"x-github-event": event,
-			"x-hub-signature-256": `sha256=${hex}`,
-		},
-		method: "POST",
-	});
+	return webhookClient.$post(
+		{},
+		{
+			init: { body },
+			headers: {
+				"content-type": "application/json",
+				"x-github-delivery": "delivery-1",
+				"x-github-event": event,
+				"x-hub-signature-256": `sha256=${hex}`,
+			},
+		}
+	);
 }
 
 describe("factory routes", () => {
 	it("serves health", async () => {
-		const response = await testClient(app).health.$get();
+		const response = await client.health.$get();
 		expect(response.status).toBe(200);
 		expect(await response.json()).toEqual({ status: "ok" });
-	});
-
-	it("serves health and rejects webhook ingress before secrets are configured", async () => {
-		const unconfigured = createApp({ GITHUB_WEBHOOK_SECRET: "" });
-		expect((await testClient(unconfigured).health.$get()).status).toBe(200);
-		const response = await unconfigured.request("/channels/github/webhook", {
-			method: "POST",
-		});
-		expect(response.status).toBe(503);
-		expect(dispatch).not.toHaveBeenCalled();
 	});
 
 	it("returns 404 for unknown routes and unmounted agent routes", async () => {
@@ -74,24 +71,28 @@ describe("factory routes", () => {
 	});
 
 	it("rejects unsigned webhooks", async () => {
-		const response = await app.request("/channels/github/webhook", {
-			body: JSON.stringify(payload),
-			headers: { "content-type": "application/json" },
-			method: "POST",
-		});
+		const response = await webhookClient.$post(
+			{},
+			{
+				init: { body: JSON.stringify(payload) },
+				headers: { "content-type": "application/json" },
+			}
+		);
 		expect(response.status).toBe(401);
 		expect(dispatch).not.toHaveBeenCalled();
 	});
 
 	it("rejects an invalid signature", async () => {
-		const response = await app.request("/channels/github/webhook", {
-			body: JSON.stringify(payload),
-			headers: {
-				"content-type": "application/json",
-				"x-hub-signature-256": `sha256=${"0".repeat(64)}`,
-			},
-			method: "POST",
-		});
+		const response = await webhookClient.$post(
+			{},
+			{
+				init: { body: JSON.stringify(payload) },
+				headers: {
+					"content-type": "application/json",
+					"x-hub-signature-256": `sha256=${"0".repeat(64)}`,
+				},
+			}
+		);
 		expect(response.status).toBe(401);
 		expect(dispatch).not.toHaveBeenCalled();
 	});

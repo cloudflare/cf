@@ -2,13 +2,12 @@ import { cloudflare } from "@cloudflare/vite-plugin";
 import { flue, flueWorkerConfig } from "@flue/vite";
 import { defineConfig } from "vite";
 
+const fluePlugins = flue({ providers: ["cloudflare"] });
 const configureFlue = flueWorkerConfig();
 
 export default defineConfig({
 	plugins: [
-		flue({
-			providers: ["cloudflare"],
-		}),
+		fluePlugins,
 		cloudflare({
 			config: (config) => {
 				// Flue's customizer uses Wrangler fields; cf's Vite v2 uses camelCase.

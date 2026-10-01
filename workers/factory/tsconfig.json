@@ -9,6 +9,7 @@
 		"skipLibCheck": true,
 		"strict": true,
 		"target": "esnext",
+		"types": ["@cloudflare/vitest-plugin/types"],
 		"verbatimModuleSyntax": true
 	},
 	"include": [

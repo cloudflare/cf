@@ -16,20 +16,6 @@ Later files can reuse Vite's transformed modules, so compare the same file in
 fresh runs when timing matters. Isolation remains enabled because tests mutate
 the working directory, environment, and module state.
 
-The October 2026 refactor measured the following on the same checkout and
-dependencies. These are tracked collection imports per file:
-
-| Test              | Before | After |
-| ----------------- | -----: | ----: |
-| Raw fetch         | 17,780 |    43 |
-| Error rendering   | 17,765 |    27 |
-| Auth device login | 17,786 |    48 |
-
-The combined serial profile took 22.07s before and 0.64s after. File order and
-transform-cache reuse differed; these are illustrative local timings, not a
-controlled whole-suite benchmark. All three files loaded only four SDK error
-modules after the change.
-
 Prefer the smallest existing import boundary that owns the behavior:
 
 - Use `#sdk/errors` for SDK error classes, and type-only imports for SDK types.

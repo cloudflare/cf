@@ -1,4 +1,4 @@
-import { CloudflareApiError } from "#sdk";
+import { CloudflareApiError } from "#sdk/errors";
 import { APIError as WorkersUtilsAPIError } from "@cloudflare/workers-utils";
 import { VERSION } from "../version.js";
 import { openSession } from "./session.js";

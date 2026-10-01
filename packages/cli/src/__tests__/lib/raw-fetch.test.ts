@@ -1,6 +1,10 @@
 import assert from "node:assert";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { fetchRawBytes } from "../../lib/raw-fetch.js";
+
+vi.mock("#sdk", () => {
+	throw new Error("Raw fetch must not load the SDK client.");
+});
 
 describe("fetchRawBytes", () => {
 	let originalFetch: typeof globalThis.fetch;

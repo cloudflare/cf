@@ -1,10 +1,9 @@
+import { getAuthToken } from "../../lib/auth-token.js";
 import {
-	createCloudflareClientWithToken,
 	fetchAuthorizedAccounts,
-	getAuthToken,
 	getConfigPath,
 	readAuthCredentials,
-} from "../../lib/auth.js";
+} from "../../lib/oauth/index.js";
 import { formatOutput } from "../../lib/output.js";
 import type { ArgumentsCamelCase, Argv, CommandModule } from "yargs";
 
@@ -41,6 +40,8 @@ const whoamiCommand: CommandModule<object, WhoamiArgs> = {
 			return;
 		}
 
+		const { createCloudflareClientWithToken } =
+			await import("../../lib/auth.js");
 		const client = createCloudflareClientWithToken({ apiToken: token });
 		let userEmail: string | undefined;
 		let accounts: Array<{ id: string; name: string }> = [];

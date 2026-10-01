@@ -1,4 +1,5 @@
-import { getAccountId, getAuthToken, getComplianceRegion } from "#lib/auth.js";
+import { getAuthToken } from "#lib/auth-token.js";
+import { getAccountId, getComplianceRegion } from "#lib/context.js";
 import { createDeployContext } from "#lib/deploy-context.js";
 import { withTelemetry } from "#lib/telemetry/index.js";
 /**

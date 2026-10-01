@@ -1,4 +1,4 @@
-import { CloudflareApiError } from "#sdk";
+import { CloudflareApiError } from "#sdk/errors";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import {
 	createCloudflareClientWithToken,

@@ -1,4 +1,4 @@
-import { CloudflareApiError } from "#sdk";
+import { CloudflareApiError } from "#sdk/errors";
 import { APIError as WorkersUtilsAPIError } from "@cloudflare/workers-utils";
 import type { SanitizedError } from "./types.js";
 

@@ -1,0 +1,29 @@
+name: Issue report
+description: Report a problem with cf.
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary of the issue
+    validations:
+      required: true
+  - type: textarea
+    id: expected-behaviour
+    attributes:
+      label: Expected behaviour
+    validations:
+      required: true
+  - type: input
+    id: cf-version
+    attributes:
+      label: Version of `cf` used
+      description: Run `cf --version` to find this.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction (optional)
+      description: Steps or a minimal example, if available.
+    validations:
+      required: false

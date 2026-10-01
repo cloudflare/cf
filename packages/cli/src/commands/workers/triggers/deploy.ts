@@ -33,7 +33,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("dry-run", {
 			type: "boolean",
-			description: "Run checks without applying triggers",
+			description:
+				"Preview setup if needed; otherwise build and check without applying triggers",
 			default: false,
 		})
 		.option("worker", buildOutputWorkerOption);
@@ -56,7 +57,14 @@ const triggersDeployCommand: CommandModule<
 		}
 
 		if (!argv.prebuilt) {
-			await runBuild(argv.mode, { worker: argv.worker });
+			const build = await runBuild(argv.mode, {
+				worker: argv.worker,
+				dryRun: argv["dry-run"],
+			});
+			if (build === "setup-previewed") {
+				clack.log.success("Dry run complete");
+				return;
+			}
 			clack.log.message("", { spacing: 0 });
 		}
 

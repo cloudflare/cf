@@ -67,7 +67,7 @@ export function sharedUploadBuilder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("dry-run", {
 			describe:
-				"Build a project and run checks without actually uploading the Worker",
+				"Preview setup if needed; otherwise build and check without uploading the Worker",
 			type: "boolean",
 			default: false,
 		})
@@ -93,7 +93,14 @@ type UploadArgs = SharedUploadArgs & {
 export async function runUpload(argv: UploadArgs, ctx: UploadCommand) {
 	// Delegate the build before applying cf's dotenv values.
 	if (!argv.prebuilt) {
-		await runBuild(argv.mode, { worker: argv.worker });
+		const build = await runBuild(argv.mode, {
+			worker: argv.worker,
+			dryRun: argv["dry-run"],
+		});
+		if (build === "setup-previewed") {
+			clack.log.success("Dry run complete");
+			return;
+		}
 		clack.log.message("", { spacing: 0 });
 	}
 

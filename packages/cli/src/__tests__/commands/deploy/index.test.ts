@@ -1,3 +1,4 @@
+import { existsSync, readFileSync } from "node:fs";
 import {
 	mockConsoleMethods,
 	runInTempDir,
@@ -1137,6 +1138,42 @@ describe("cf deploy", () => {
 	});
 
 	describe("--dry-run", () => {
+		it("previews setup without changing an existing Astro project or building", async () => {
+			const packageJson = JSON.stringify({
+				name: "astro-project",
+				scripts: { deploy: "astro build && wrangler deploy" },
+				dependencies: {
+					astro: "7.3.5",
+					"@astrojs/cloudflare": "14.3.3",
+				},
+				devDependencies: { cf: "1.0.0-beta.6", wrangler: "^4.142.0" },
+			});
+			const tsconfig = '{"include":["src/**/*"]}\n';
+			const lockfile = "existing lockfile\n";
+			const requests = recordRequests();
+			await seed({
+				"package.json": packageJson,
+				"package-lock.json": lockfile,
+				"tsconfig.json": tsconfig,
+				"wrangler.jsonc": '{"name":"astro-project"}',
+				"node_modules/astro/package.json": JSON.stringify({
+					name: "astro",
+					version: "7.3.5",
+				}),
+			});
+
+			const { exitCode } = await runCf(["deploy", "--dry-run"]);
+
+			expect(exitCode).toBe(0);
+			expect(readFileSync("package.json", "utf8")).toBe(packageJson);
+			expect(readFileSync("package-lock.json", "utf8")).toBe(lockfile);
+			expect(readFileSync("tsconfig.json", "utf8")).toBe(tsconfig);
+			expect(existsSync("public/.assetsignore")).toBe(false);
+			expect(buildDelegateWasCalled()).toBe(false);
+			expect(requests).toEqual([]);
+			expect(std.out).toContain("Autoconfig process run in dry-run mode");
+		});
+
 		it("does not upload the worker", async () => {
 			const upload = mockWorkerUpload();
 			await seed({

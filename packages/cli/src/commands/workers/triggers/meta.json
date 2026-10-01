@@ -19,7 +19,7 @@
 				"name": "dry-run",
 				"type": "boolean",
 				"required": false,
-				"description": "Run checks without applying triggers",
+				"description": "Preview setup if needed; otherwise build and check without applying triggers",
 				"default": false
 			},
 			{

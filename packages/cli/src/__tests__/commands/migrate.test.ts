@@ -191,6 +191,25 @@ describe("cf migrate", () => {
 		);
 	});
 
+	it("previews an accepted project workflow migration during a dry run", async () => {
+		await seed({ "wrangler.jsonc": "{}" });
+		const confirmMigration = vi.fn().mockResolvedValue(true);
+
+		await expect(
+			maybeMigrateWranglerProject(
+				process.cwd(),
+				confirmMigration,
+				"stdout",
+				true
+			)
+		).resolves.toBe(true);
+
+		expect(migrateWranglerToCf).toHaveBeenCalledWith(
+			path.join(process.cwd(), "wrangler.jsonc"),
+			expect.objectContaining({ dryRun: true })
+		);
+	});
+
 	it("uses Vite for automatic migration when the plugin is declared", async () => {
 		await seed({
 			"config/package.json": JSON.stringify({

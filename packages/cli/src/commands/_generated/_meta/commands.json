@@ -42881,7 +42881,7 @@
 					"name": "dry-run",
 					"type": "boolean",
 					"required": false,
-					"description": "Build a project and run checks without actually uploading the Worker",
+					"description": "Preview setup if needed; otherwise build and check without uploading the Worker",
 					"default": false
 				},
 				{
@@ -131552,7 +131552,7 @@
 					"name": "dry-run",
 					"type": "boolean",
 					"required": false,
-					"description": "Run checks without applying triggers",
+					"description": "Preview setup if needed; otherwise build and check without applying triggers",
 					"default": false
 				},
 				{
@@ -131619,7 +131619,7 @@
 					"name": "dry-run",
 					"type": "boolean",
 					"required": false,
-					"description": "Build a project and run checks without actually uploading the Worker",
+					"description": "Preview setup if needed; otherwise build and check without uploading the Worker",
 					"default": false
 				},
 				{

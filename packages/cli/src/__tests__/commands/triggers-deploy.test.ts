@@ -83,6 +83,27 @@ describe("cf workers triggers deploy", () => {
 		expect(requests).toEqual([]);
 	});
 
+	it("stops after previewing project setup during a dry run", async () => {
+		const requests = recordRequests();
+		await seed({
+			"package.json": JSON.stringify({
+				name: "astro-project",
+				dependencies: { astro: "7.3.5" },
+			}),
+			"node_modules/astro/package.json": JSON.stringify({
+				name: "astro",
+				version: "7.3.5",
+			}),
+		});
+
+		const { exitCode } = await runCf([...TRIGGERS_DEPLOY_COMMAND, "--dry-run"]);
+
+		expect(exitCode).toBe(0);
+		expect(buildDelegateWasCalled()).toBe(false);
+		expect(requests).toEqual([]);
+		expect(std.out).toContain("Autoconfig process run in dry-run mode");
+	});
+
 	it("builds and deploys scheduled triggers with --local=false", async () => {
 		let schedulesBody: unknown;
 		msw.use(

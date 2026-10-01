@@ -24,6 +24,10 @@ export interface CommandOutputOptions {
 	output?: CommandOutput;
 }
 
+interface ProjectPreparationOptions extends CommandOutputOptions {
+	dryRun?: boolean;
+}
+
 export interface RunProjectCommandOptions extends CommandOutputOptions {
 	env?: Readonly<Record<string, string>>;
 	args?: readonly string[];
@@ -79,21 +83,23 @@ export async function analyzeProject(
 
 export async function configureProject(
 	details: AutoConfigDetails,
-	options: CommandOutputOptions = {}
+	options: ProjectPreparationOptions = {}
 ): Promise<AutoConfigSummary> {
 	return runAutoConfig(details, {
 		target: "cf",
 		context: createAutoConfigContext(options),
+		dryRun: options.dryRun,
 		runBuild: false,
 	});
 }
 
 export async function prepareProject(
 	cwd: string,
-	options: CommandOutputOptions = {}
+	options: ProjectPreparationOptions = {}
 ): Promise<{
 	details: AutoConfigDetails | undefined;
 	configuration?: AutoConfigSummary;
+	setupPreviewed?: true;
 }> {
 	let details = await analyzeProject(cwd, options);
 	if (details?.configured) {
@@ -105,9 +111,13 @@ export async function prepareProject(
 		await maybeMigrateWranglerProject(
 			cwd,
 			(text, confirmOptions) => context.dialogs.confirm(text, confirmOptions),
-			options.output
+			options.output,
+			options.dryRun
 		)
 	) {
+		if (options.dryRun) {
+			return { details, setupPreviewed: true };
+		}
 		details = await analyzeProject(cwd, options);
 		return { details };
 	}
@@ -115,7 +125,10 @@ export async function prepareProject(
 	return {
 		details,
 		...(details
-			? { configuration: await configureProject(details, options) }
+			? {
+					configuration: await configureProject(details, options),
+					...(options.dryRun ? { setupPreviewed: true as const } : {}),
+				}
 			: {}),
 	};
 }

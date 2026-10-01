@@ -37,7 +37,7 @@
 				"name": "dry-run",
 				"type": "boolean",
 				"required": false,
-				"description": "Build a project and run checks without actually uploading the Worker",
+				"description": "Preview setup if needed; otherwise build and check without uploading the Worker",
 				"default": false
 			},
 			{

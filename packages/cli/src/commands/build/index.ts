@@ -24,16 +24,29 @@ interface RunBuildOptions extends CommandOutputOptions {
 	// Validate the Worker the caller will consume, so an invalid default
 	// Worker cannot block a workflow that selected another one.
 	worker?: string;
+	dryRun?: boolean;
 }
 
 export async function runBuild(
 	mode?: string,
-	{ worker: selectedWorker, ...options }: RunBuildOptions = {},
+	{ worker: selectedWorker, dryRun = false, ...options }: RunBuildOptions = {},
 	ctx: { isPreview?: boolean } = {}
-): Promise<void> {
+): Promise<"built" | "setup-previewed"> {
 	const output = options.output ?? "stdout";
 	const cwd = process.cwd();
-	const { details, configuration } = await prepareProject(cwd, options);
+	const { details, configuration, setupPreviewed } = await prepareProject(cwd, {
+		...options,
+		dryRun,
+	});
+	if (setupPreviewed) {
+		if (output !== "silent") {
+			clack.log.message("Build skipped because project setup was previewed.", {
+				spacing: 0,
+				output: output === "stderr" ? process.stderr : undefined,
+			});
+		}
+		return "setup-previewed";
+	}
 	const buildCommand = configuration?.buildCommand ?? details?.buildCommand;
 	const env: Record<string, string> = {
 		...details?.env,
@@ -91,6 +104,7 @@ export async function runBuild(
 			output: output === "stderr" ? process.stderr : undefined,
 		});
 	}
+	return "built";
 }
 
 function formatImplName(discovered: DiscoveredImpl): string {

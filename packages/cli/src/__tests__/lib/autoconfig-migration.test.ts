@@ -42,6 +42,19 @@ describe("project preparation", () => {
 		expect(mocks.maybeMigrateWranglerProject).not.toHaveBeenCalled();
 	});
 
+	it("does not preview setup for a configured project during a dry run", async () => {
+		const configuredDetails = { ...unconfiguredDetails, configured: true };
+		mocks.getDetailsForAutoConfig.mockResolvedValue(configuredDetails);
+
+		await expect(prepareProject("/project", { dryRun: true })).resolves.toEqual(
+			{
+				details: configuredDetails,
+			}
+		);
+		expect(mocks.maybeMigrateWranglerProject).not.toHaveBeenCalled();
+		expect(mocks.runAutoConfig).not.toHaveBeenCalled();
+	});
+
 	it("offers migration even when autoconfig cannot analyze the legacy project", async () => {
 		const configuredDetails = {
 			...unconfiguredDetails,
@@ -82,5 +95,42 @@ describe("project preparation", () => {
 			configuration,
 		});
 		expect(mocks.runAutoConfig).toHaveBeenCalledOnce();
+	});
+
+	it("previews autoconfig without applying setup during a dry run", async () => {
+		mocks.getDetailsForAutoConfig.mockResolvedValue(unconfiguredDetails);
+		mocks.maybeMigrateWranglerProject.mockResolvedValue(false);
+		mocks.runAutoConfig.mockResolvedValue({ buildCommand: "npm run build" });
+
+		await expect(
+			prepareProject("/project", { dryRun: true })
+		).resolves.toMatchObject({
+			details: unconfiguredDetails,
+			setupPreviewed: true,
+		});
+		expect(mocks.runAutoConfig).toHaveBeenCalledWith(
+			unconfiguredDetails,
+			expect.objectContaining({ dryRun: true, runBuild: false })
+		);
+		expect(mocks.maybeMigrateWranglerProject).toHaveBeenCalledWith(
+			"/project",
+			expect.any(Function),
+			undefined,
+			true
+		);
+	});
+
+	it("stops after previewing a Wrangler migration", async () => {
+		mocks.getDetailsForAutoConfig.mockResolvedValue(unconfiguredDetails);
+		mocks.maybeMigrateWranglerProject.mockResolvedValue(true);
+
+		await expect(prepareProject("/project", { dryRun: true })).resolves.toEqual(
+			{
+				details: unconfiguredDetails,
+				setupPreviewed: true,
+			}
+		);
+		expect(mocks.getDetailsForAutoConfig).toHaveBeenCalledOnce();
+		expect(mocks.runAutoConfig).not.toHaveBeenCalled();
 	});
 });

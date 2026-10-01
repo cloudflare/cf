@@ -11,6 +11,12 @@ patchedDependencies:
 # Direct deps (vendor/*.tgz) are still allowed.
 blockExoticSubdeps: true
 
+# pkg.pr.new rewrites workspace dependencies to preview URLs. This change only
+# needs the autoconfig preview, so keep its unchanged dependencies on releases.
+overrides:
+  "@cloudflare/autoconfig>@cloudflare/config": "0.22.0"
+  "@cloudflare/autoconfig>@cloudflare/workers-utils": "0.45.0"
+
 # Allow newly published direct dependencies before pnpm's maturity cutoff.
 minimumReleaseAgeExclude:
   - "@cloudflare/autoconfig@0.7.3"

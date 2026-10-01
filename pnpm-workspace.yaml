@@ -1,6 +1,7 @@
 packages:
   - packages/*
   - fixtures/*
+  - workers/*
 
 patchedDependencies:
   "@changesets/cli@2.31.0": patches/@changesets__cli@2.31.0.patch
@@ -35,9 +36,12 @@ minimumReleaseAgeExclude:
 
 # pnpm blocks install scripts by default; allowlist what needs them.
 allowBuilds:
+  "@google/genai": false
   "@scarf/scarf": false
+  core-js-pure: false
   esbuild: true
   msw: false
+  protobufjs: false
   # workerd's postinstall places the platform binary miniflare (`--local`)
   # execs. Nothing else in miniflare's tree has an install script.
   workerd: true

@@ -1,0 +1,28 @@
+{
+	"name": "@cloudflare/factory",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"dev": "cf dev",
+		"build": "cf build",
+		"deploy": "cf deploy",
+		"check:type": "tsgo --noEmit",
+		"test": "vitest run"
+	},
+	"dependencies": {
+		"@flue/github": "2.2.2",
+		"@flue/runtime": "2.2.2",
+		"@octokit/auth-app": "8.3.1",
+		"@octokit/rest": "22.0.1",
+		"hono": "4.13.12",
+		"valibot": "1.5.0"
+	},
+	"devDependencies": {
+		"@cloudflare/vite-plugin": "2.0.0-beta.sha-ad79608dd",
+		"@cloudflare/workers-types": "5.20260930.2",
+		"@flue/vite": "2.2.2",
+		"cf": "workspace:*",
+		"vite": "8.3.0",
+		"vitest": "4.1.11"
+	}
+}

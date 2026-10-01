@@ -20,19 +20,10 @@ interface CreateClassifyIssueTypeToolOptions {
 }
 
 /**
- * Create a bound tool that preserves an existing GitHub issue type or uses
- * Clef Flash to assign Bug, Feature, or Task. It changes only the issue type.
+ * Create a Clef Flash tool that assigns GitHub issue types when missing.
  *
- * @param issue Verified webhook data, including the title, body, installation,
- * repository, and issue number. The model cannot override these references.
- * @param triaged Whether the agent has already completed triage for this issue.
- * @param onTriaged Records completion after preserving or successfully assigning
- * a type. Failures leave the agent's triage state unchanged.
- *
- * @returns A Flue tool with no model-supplied input. Its run method returns the
- * assigned or preserved type, or skips an already triaged agent, and requests
- * termination of the turn. Authentication, inference, validation, and GitHub
- * failures reject the run method rather than recording completion.
+ * @param options Verified issue, triage state, and completion callback.
+ * @returns A bound Flue classification tool.
  */
 export function createClassifyIssueTypeTool(
 	options: CreateClassifyIssueTypeToolOptions

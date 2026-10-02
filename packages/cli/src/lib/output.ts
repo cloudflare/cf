@@ -9,6 +9,68 @@ export interface OutputOptions {
 	quiet?: boolean;
 	/** Short human-readable description of the completed action (e.g. "Updated value"). When the API returns null (successful mutation with no payload), printed to stderr as `✓ <successLabel>` on TTYs, silent otherwise. */
 	successLabel?: string;
+	/** Query sent by a page/per_page list command. Used only when no filters were sent. */
+	paginationQuery?: object;
+}
+
+function positiveInteger(value: unknown): number | undefined {
+	return Number.isSafeInteger(value) && typeof value === "number" && value > 0
+		? value
+		: undefined;
+}
+
+function paginationNotice(
+	data: unknown,
+	query: object | undefined
+): string | undefined {
+	// Many APIs define total_count before search filters. Treat every other
+	// supplied query value as a possible filter, even if it only sorts.
+	if (
+		query === undefined ||
+		Object.entries(query).some(
+			([key, value]) => key !== "page" && key !== "per_page" && value != null
+		) ||
+		data === null ||
+		typeof data !== "object" ||
+		!("result" in data) ||
+		!Array.isArray(data.result) ||
+		!("result_info" in data) ||
+		data.result_info === null ||
+		typeof data.result_info !== "object"
+	) {
+		return undefined;
+	}
+
+	const info = data.result_info as Record<string, unknown>;
+	const page = positiveInteger(info.page);
+	const count =
+		info.count === undefined ? undefined : positiveInteger(info.count);
+	if (
+		page === undefined ||
+		data.result.length === 0 ||
+		(count !== undefined && count !== data.result.length) ||
+		(info.count !== undefined && count === undefined)
+	) {
+		return undefined;
+	}
+
+	const totalCount = positiveInteger(info.total_count);
+	const perPage = positiveInteger(info.per_page);
+	const reportedTotalPages = positiveInteger(info.total_pages);
+	const totalPages =
+		reportedTotalPages ??
+		(totalCount !== undefined && perPage !== undefined
+			? Math.ceil(totalCount / perPage)
+			: undefined);
+	if (totalPages === undefined || page >= totalPages) {
+		return undefined;
+	}
+
+	const shown =
+		totalCount === undefined
+			? `Showing page ${page} of ${totalPages}`
+			: `Showing ${data.result.length} of ${totalCount} results (page ${page} of ${totalPages})`;
+	return `${shown}; use --page ${page + 1} for more.\n`;
 }
 
 function outputPayload(data: unknown): unknown {
@@ -44,6 +106,7 @@ export function formatOutput(data: unknown, options: OutputOptions = {}): void {
 	if (options.quiet) {
 		return;
 	}
+	const notice = paginationNotice(data, options.paginationQuery);
 	data = outputPayload(data);
 
 	// Null/undefined result: a successful mutation with no interesting body.
@@ -58,6 +121,9 @@ export function formatOutput(data: unknown, options: OutputOptions = {}): void {
 	}
 
 	console.log(formatJson(data));
+	if (notice !== undefined) {
+		process.stderr.write(notice);
+	}
 }
 
 /**

@@ -733,7 +733,10 @@ export function buildCli(rawArgs: string[], options: BuildCliOptions = {}) {
 	cli.showHelp = (level?: string | ((help: string) => void)) => {
 		// Yargs skips strict-command validation for --help. Reject an
 		// unresolved command before it prints the last recognized group's help.
-		const unknownCommand = unresolvedHelpCommand(cli);
+		// Automatic help uses a callback; valid commands may show help with "log"
+		// from their handlers after yargs has already resolved the command.
+		const unknownCommand =
+			typeof level === "function" ? unresolvedHelpCommand(cli) : undefined;
 		if (unknownCommand !== undefined) {
 			throw new CliUsageError(
 				`Unknown command: ${unknownCommand}`,

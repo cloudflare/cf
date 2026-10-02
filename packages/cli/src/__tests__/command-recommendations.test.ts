@@ -125,6 +125,11 @@ describe("command recommendations", () => {
 		[["r2", "buckets"], "cf r2 buckets"],
 		[["r2", "buckets", "get", "example"], "cf r2 buckets get"],
 		[["init", "./example"], "cf init"],
+		[["ai", "run"], "cf ai run"],
+		[
+			["registrar", "registrations", "create"],
+			"cf registrar registrations create",
+		],
 	])("keeps valid help successful for %j", async (path, heading) => {
 		await expect(runCf([...path, "--help"])).resolves.toEqual({
 			exitCode: 0,

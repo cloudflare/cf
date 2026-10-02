@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 import { ActiveSessionsClient } from "../resources/activeSessions/client/Client.js";
 import { FailedLoginsClient } from "../resources/failedLogins/client/Client.js";
 import { LastSeenIdentityClient } from "../resources/lastSeenIdentity/client/Client.js";

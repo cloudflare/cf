@@ -10,7 +10,8 @@ import { mergeHeaders } from "../../../../../../../../core/headers.js";
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
+import * as CloudflareApiErrors from "../../../../../../../errors/index.js";
 import { ByClient } from "../resources/by/client/Client.js";
 
 export declare namespace GetClient {
@@ -113,11 +114,11 @@ export class GetClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 403:
-                    throw new CloudflareApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 502:
-                    throw new CloudflareApi.BadGatewayError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadGatewayError(_response.error.body as unknown, _response.rawResponse);
                 case 503:
-                    throw new CloudflareApi.ServiceUnavailableError(
+                    throw new CloudflareApiErrors.ServiceUnavailableError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );

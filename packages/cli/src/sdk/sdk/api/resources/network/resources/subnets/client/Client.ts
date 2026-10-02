@@ -7,7 +7,7 @@ import { mergeHeaders } from "../../../../../../core/headers.js";
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 import { CloudflareSourceClient } from "../resources/cloudflareSource/client/Client.js";
 import { InitialResolvedIpClient } from "../resources/initialResolvedIp/client/Client.js";
 import { WarpClient } from "../resources/warp/client/Client.js";

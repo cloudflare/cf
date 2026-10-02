@@ -1,10 +1,10 @@
-import { CloudflareApiError } from "#sdk";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import {
 	createCloudflareClientWithToken,
 	createCommandClient,
 	requestApi,
 } from "../../lib/auth.js";
+import { CloudflareApiError } from "#sdk/errors";
 
 describe("createCommandClient", () => {
 	let originalApiToken: string | undefined;

@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
-import * as CloudflareApi from "../../../index.js";
+import type * as CloudflareApi from "../../../index.js";
 import { BuildCacheClient } from "../resources/buildCache/client/Client.js";
 import { DeploymentsClient } from "../resources/deployments/client/Client.js";
 import { DomainsClient } from "../resources/domains/client/Client.js";

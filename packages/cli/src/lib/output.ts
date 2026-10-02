@@ -1,4 +1,5 @@
 import { Page } from "../sdk/sdk/core/pagination/Page.js";
+import { isNonInteractiveOrCI } from "./interactive.js";
 import { supportsColor, theme } from "./ui/theme.js";
 
 /** Maximum JSON size (in characters) for syntax highlighting - prevents performance issues */
@@ -34,7 +35,7 @@ function outputPayload(data: unknown): unknown {
  * - If data is null/undefined and options.successLabel is set, prints a ✓
  *   confirmation to stderr on TTYs (and stays silent on stdout so scripts
  *   piping to jq don't see `null`)
- * - Otherwise outputs pretty-printed JSON (with syntax highlighting on TTYs)
+ * - Otherwise outputs pretty-printed JSON (highlighted in interactive terminals)
  *
  * Callers who need newline-delimited JSON pipe through `jq -c '.[]'` or
  * similar — cf does not surface an ndjson toggle.
@@ -67,8 +68,12 @@ export function formatOutput(data: unknown, options: OutputOptions = {}): void {
 function formatJson(data: unknown): string {
 	const json = JSON.stringify(data, null, 2);
 
-	// Skip syntax highlighting if colors disabled or JSON is too large
-	if (!supportsColor() || json.length > MAX_HIGHLIGHTED_JSON_SIZE) {
+	// Non-interactive output must remain parseable even when FORCE_COLOR is set.
+	if (
+		isNonInteractiveOrCI() ||
+		!supportsColor() ||
+		json.length > MAX_HIGHLIGHTED_JSON_SIZE
+	) {
 		return json;
 	}
 

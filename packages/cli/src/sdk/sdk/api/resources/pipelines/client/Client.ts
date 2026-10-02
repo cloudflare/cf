@@ -8,7 +8,8 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
-import * as CloudflareApi from "../../../index.js";
+import type * as CloudflareApi from "../../../index.js";
+import * as CloudflareApiErrors from "../../../errors/index.js";
 import { SinksClient } from "../resources/sinks/client/Client.js";
 import { StreamsClient } from "../resources/streams/client/Client.js";
 
@@ -543,7 +544,7 @@ export class PipelinesClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 422:
-                    throw new CloudflareApi.UnprocessableEntityError(
+                    throw new CloudflareApiErrors.UnprocessableEntityError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -622,7 +623,7 @@ export class PipelinesClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 404:
-                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,

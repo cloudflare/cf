@@ -9,7 +9,7 @@
 		"test:watch": "vp run task:test:watch"
 	},
 	"devDependencies": {
-		"@cloudflare/workers-utils": "0.45.0",
+		"@cloudflare/workers-utils": "0.46.0",
 		"@types/node": "25.3.5",
 		"@types/prompts": "^2.0.14",
 		"@types/shell-quote": "^1.7.5",

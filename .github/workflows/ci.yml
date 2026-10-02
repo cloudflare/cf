@@ -1,11 +1,11 @@
 name: CI
 
-# Four jobs on every PR, merge-queue candidate, and push to main:
+# Three jobs on every PR, merge-queue candidate, and push to main:
 #
 #   check — `pnpm check` (oxlint --type-aware + tsgo + oxfmt --check) over
 #           the whole repo.
-#   cli   — the cf CLI's in-package vitest suite (packages/cli).
-#   cli-delegates — Node delegate subprocess tests on Windows and macOS.
+#   cli   — the cf CLI's in-package vitest suite (packages/cli) on
+#           Linux, macOS, and Windows.
 #   wrangler-tests — the canonical Wrangler compatibility corpus retargeted
 #                    at cf (packages/wrangler-tests).
 
@@ -60,7 +60,11 @@ jobs:
 
   cli:
     if: ${{ github.repository_owner == 'cloudflare' }}
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 15
     steps:
       - name: Checkout
@@ -85,33 +89,6 @@ jobs:
 
       - name: Run cli tests
         run: pnpm --filter cf test
-
-  cli-delegates:
-    if: ${{ github.repository_owner == 'cloudflare' }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [windows-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 15
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-        with:
-          fetch-depth: 1
-          persist-credentials: false
-
-      - name: Install dependencies
-        uses: ./.github/actions/install-dependencies
-        with:
-          turbo-api: ${{ secrets.TURBO_API }}
-          turbo-team: ${{ secrets.TURBO_TEAM }}
-          turbo-token: ${{ secrets.TURBO_TOKEN }}
-          turbo-signature: ${{ secrets.TURBO_REMOTE_CACHE_SIGNATURE_KEY }}
-
-      - name: Run delegate subprocess tests
-        working-directory: packages/cli
-        run: pnpm test src/__tests__/commands/dev/spawn.test.ts
 
   wrangler-tests:
     if: ${{ github.repository_owner == 'cloudflare' }}

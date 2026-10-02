@@ -1,7 +1,8 @@
-import { chmodSync, existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { http, HttpResponse } from "msw";
 import { onTestFinished } from "vitest";
+import { makeExecutable, nodeScript } from "../../helpers/executable.js";
 import { createFetchResult, msw } from "../../helpers/msw.js";
 import { toString } from "../../helpers/serialize-form-data-entry.js";
 
@@ -48,58 +49,61 @@ export async function seedBuildDelegate(): Promise<void> {
 			name: "wrangler",
 			version: "4.136.0",
 		}),
-		"node_modules/wrangler/bin/cf-wrangler.js":
-			'#!/usr/bin/env bash\nprintf "%s\\n" "$@" > cf-build-argv.out\nprintf "%s" "$CLOUDFLARE_ACCOUNT_ID" > cf-build-env.out\nexit 0\n',
+		"node_modules/wrangler/bin/cf-wrangler.js": nodeScript(
+			[
+				'const fs = require("node:fs");',
+				'fs.writeFileSync("cf-build-argv.out", process.argv.slice(2).join("\\n") + "\\n");',
+				'fs.writeFileSync("cf-build-env.out", process.env.CLOUDFLARE_ACCOUNT_ID ?? "");',
+			].join("\n")
+		),
 	});
-	chmodSync(
-		resolve(process.cwd(), "node_modules/wrangler/bin/cf-wrangler.js"),
-		0o755
-	);
+	makeExecutable("node_modules/wrangler/bin/cf-wrangler.js");
 }
 
 export async function seedDockerMock(
 	options: { failPush?: boolean; remoteImageExists?: boolean } = {}
 ): Promise<string> {
 	const { seed } = await import("@cloudflare/workers-utils/test-helpers");
-	const dockerPath = resolve(process.cwd(), "mock-docker");
+	// containers-shared uses native spawn without a shell. Use Node itself as
+	// the executable and seed scripts named after the Docker subcommands.
+	// This also works when Windows cannot spawn a .cmd file directly.
+	const mock = nodeScript(
+		[
+			'const fs = require("node:fs");',
+			'const path = require("node:path");',
+			"const args = [path.basename(process.argv[1]), ...process.argv.slice(2)];",
+			'fs.appendFileSync("docker-commands.out", args.join(" ") + "\\n");',
+			`if (args[0] === "push" && ${options.failPush === true}) {`,
+			'  process.stderr.write("push failed\\n");',
+			"  process.exit(1);",
+			"}",
+			'if (args[0] === "login") {',
+			"  process.stdin.resume();",
+			'} else if (args[0] === "image" && args[1] === "inspect") {',
+			'  if (args[4] === "{{ json .RepoDigests }}") {',
+			'    if (args[2].startsWith("registry") && args[2].includes(".cloudflare.com/")) {',
+			'      process.stdout.write(JSON.stringify([`${args[2].slice(0, args[2].lastIndexOf(":"))}@sha256:${"d".repeat(64)}`]) + "\\n");',
+			"    } else {",
+			`      process.stdout.write(${options.remoteImageExists ? `JSON.stringify(["registry.cloudflare.com/${ACCOUNT_ID}/api-container@sha256:${"d".repeat(64)}"])` : '"[]"'} + "\\n");`,
+			"    }",
+			"  } else {",
+			'    process.stdout.write("123456 4\\n");',
+			"  }",
+			'} else if (args[0] === "manifest") {',
+			`  process.stdout.write(${options.remoteImageExists ? `JSON.stringify({ Descriptor: { digest: "sha256:${"d".repeat(64)}" } })` : '"not-json"'} + "\\n");`,
+			"}",
+		].join("\n")
+	);
 	await seed({
-		"mock-docker": [
-			"#!/usr/bin/env bash",
-			'printf "%s\\n" "$*" >> docker-commands.out',
-			...(options.failPush
-				? [
-						'if [[ "$1" == "push" ]]; then',
-						'  printf "push failed\\n" >&2',
-						"  exit 1",
-						"fi",
-					]
-				: []),
-			'if [[ "$1" == "login" ]]; then',
-			"  cat >/dev/null",
-			'elif [[ "$1" == "image" && "$2" == "inspect" ]]; then',
-			'  if [[ "$5" == "{{ json .RepoDigests }}" ]]; then',
-			'    if [[ "$3" == registry*.cloudflare.com/* ]]; then',
-			'      repository="${3%:*}"',
-			`      printf '["%s@sha256:${"d".repeat(64)}"]\\n' "$repository"`,
-			...(options.remoteImageExists
-				? [
-						"    else",
-						`      printf '["registry.cloudflare.com/${ACCOUNT_ID}/api-container@sha256:${"d".repeat(64)}"]\\n'`,
-					]
-				: ["    else", "      printf '[]\\n'"]),
-			"    fi",
-			"  else",
-			"    printf '123456 4\\n'",
-			"  fi",
-			'elif [[ "$1" == "manifest" ]]; then',
-			options.remoteImageExists
-				? `  printf '{"Descriptor":{"digest":"sha256:${"d".repeat(64)}"}}\\n'`
-				: "  printf 'not-json\\n'",
-			"fi",
-		].join("\n"),
+		login: mock,
+		info: mock,
+		image: mock,
+		manifest: mock,
+		tag: mock,
+		push: mock,
+		build: mock,
 	});
-	chmodSync(dockerPath, 0o755);
-	return dockerPath;
+	return process.execPath;
 }
 
 export function readDockerCommands(): string[] {

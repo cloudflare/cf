@@ -39,12 +39,6 @@ export async function runBuild(
 		dryRun,
 	});
 	if (setupNeeded) {
-		if (output !== "silent") {
-			clack.log.message("Build skipped because project setup was previewed.", {
-				spacing: 0,
-				output: output === "stderr" ? process.stderr : undefined,
-			});
-		}
 		return "setup-needed";
 	}
 	const buildCommand = configuration?.buildCommand ?? details?.buildCommand;

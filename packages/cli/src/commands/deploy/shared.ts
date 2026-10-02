@@ -98,7 +98,7 @@ export async function runUpload(argv: UploadArgs, ctx: UploadCommand) {
 			dryRun: argv["dry-run"],
 		});
 		if (build === "setup-needed") {
-			clack.log.success("Dry run complete");
+			clack.log.success("--dry-run: exiting now.");
 			return;
 		}
 		clack.log.message("", { spacing: 0 });
@@ -220,7 +220,7 @@ async function uploadBuildOutput(argv: UploadArgs, ctx: UploadCommand) {
 		);
 	}
 
-	clack.log.success(
-		argv["dry-run"] ? "Dry run complete" : `${ctx.command} complete`
-	);
+	if (!argv["dry-run"]) {
+		clack.log.success(`${ctx.command} complete`);
+	}
 }

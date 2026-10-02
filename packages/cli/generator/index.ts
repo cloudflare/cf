@@ -12,7 +12,7 @@ import {
 	generateGroupIndexFile,
 	generateResourceIndexFile,
 	isMethodGroup,
-} from "./generator";
+} from "./generator.js";
 import {
 	handWrittenLeafCommands,
 	handWrittenLeafOverrideDir,
@@ -29,7 +29,7 @@ import {
 	generateSchemaInfo,
 	type HandWrittenCommandMeta,
 	type SchemaInfo,
-} from "./metadata";
+} from "./metadata.js";
 import { errorMessage, escapeForSingleQuote } from "./util.js";
 /**
  * CLI Transformer
@@ -518,7 +518,7 @@ ${entries}
 		}
 	}
 	for (const command of rootHandWrittenCommands()) {
-		const name = command.command.split(/\s+/)[0];
+		const name = rootCommandName(command);
 		descriptions[name] = command.describe === false ? "" : command.describe;
 	}
 

@@ -23,6 +23,22 @@ const accessSchema = {
 } as Parameters<typeof generateResourceIndexFile>[0];
 
 describe("hand-written leaf commands", () => {
+	it("uses an explicit hand-written override for a schema-provided leaf", () => {
+		const generated = generateResourceIndexFile(
+			{
+				name: "ai",
+				description: "AI",
+			} as Parameters<typeof generateResourceIndexFile>[0],
+			["run"],
+			[]
+		);
+		expect(generated).toContain(
+			"import $run from '#commands/ai/run/index.js';"
+		);
+		expect(generated).not.toContain("import $run from './run.js';");
+		expect(generated).toContain(".command($run)");
+	});
+
 	it("registers a leaf command against its generated product", () => {
 		expect(handWrittenLeafCommands("workers")).toEqual([
 			{

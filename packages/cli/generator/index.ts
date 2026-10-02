@@ -1,10 +1,12 @@
 import {
 	leafOverrideHandWrittenCommands,
 	leafHandWrittenCommands,
+	parentOverrideHandWrittenCommands,
 	rootCommandName,
 	rootHandWrittenCommands,
 	subGroupHandWrittenCommands,
 } from "../src/commands/hand-written.js";
+import { withHandWrittenCommandRoots } from "./command-roots.js";
 import {
 	generateCommandFile,
 	generateGroupIndexFile,
@@ -283,7 +285,10 @@ export const transformer: TransformerFn = async (forge: Forge) => {
 		hideCommand: false,
 	};
 	const commandSchemas: Array<[string, Schema.command]> = [
-		...forge.commands,
+		...withHandWrittenCommandRoots(
+			forge.commands,
+			parentOverrideHandWrittenCommands()
+		),
 		["access", accessSchema],
 	];
 

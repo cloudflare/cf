@@ -30,6 +30,8 @@ export interface ParentOverrideHandWrittenCommand {
 	parent: string;
 	describe: string;
 	expose: boolean;
+	/** Create the root for local leaves when OpenAPI does not provide it yet. */
+	createIfMissing?: boolean;
 }
 
 export interface SubGroupHandWrittenCommand {
@@ -135,12 +137,17 @@ export const handWrittenCommands: readonly HandWrittenCommand[] = [
 		telemetry: { command: "cli", recordArgs: false },
 	},
 	{
-		kind: "root",
-		command: "previews",
+		kind: "leaf",
+		parent: "previews",
+		name: "deploy",
+		dir: "previews/deploy",
+	},
+	{
+		kind: "parentOverride",
+		parent: "previews",
 		describe: "Manage Worker Previews",
-		dir: "previews",
-		load: () => import("./previews/index.js"),
-		telemetry: { command: "previews", recordArgs: false },
+		expose: true,
+		createIfMissing: true,
 	},
 	{
 		kind: "root",

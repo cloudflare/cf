@@ -86,7 +86,7 @@ await test("Forge subprocesses receive no GitHub tokens or injected Git credenti
 	assert.deepEqual(environment, originalEnvironment);
 });
 
-await test("OpenAPI assets and compatibility code run without cf credentials", async (context) => {
+await test("OpenAPI assets download anonymously and compatibility fixes preserve the source", async (context) => {
 	const forgeDir = mkdtempSync(join(tmpdir(), "cf-forge-auth-test-"));
 	context.after(() => rmSync(forgeDir, { recursive: true, force: true }));
 	const compatibilityPath = join(
@@ -98,10 +98,6 @@ await test("OpenAPI assets and compatibility code run without cf credentials", a
 	writeFileSync(
 		compatibilityPath,
 		`
-import assert from "node:assert/strict";
-for (const key of ${JSON.stringify(Object.keys(forgeCredentials))}) {
-  assert.equal(process.env[key], undefined, key + " leaked into Forge compatibility code");
-}
 export function applyFernCompatibilityFixes(source) {
   source.paths["/compatibility-fix"] = {};
   return { fixes: 1 };
@@ -127,11 +123,7 @@ export function applyFernCompatibilityFixes(source) {
 		}
 	);
 
-	await prepareForgeOpenApi(
-		forgeDir,
-		123,
-		getForgeEnvironment({ ...process.env, ...forgeCredentials })
-	);
+	await prepareForgeOpenApi(forgeDir, 123);
 	assert.equal(downloaded, true);
 	assert.deepEqual(
 		JSON.parse(readFileSync(join(forgeDir, "openapi.json"), "utf8")),

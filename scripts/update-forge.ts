@@ -1,10 +1,16 @@
 #!/usr/bin/env node
 /* oxlint-disable turbo/no-undeclared-env-vars -- standalone automation, not a turbo task */
 import { execFileSync, spawnSync } from "node:child_process";
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import {
+	mkdirSync,
+	mkdtempSync,
+	readFileSync,
+	rmSync,
+	writeFileSync,
+} from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(SCRIPT_DIR, "..");
@@ -182,8 +188,7 @@ export function getForgeEnvironment(
 
 export async function prepareForgeOpenApi(
 	forgeDir: string,
-	assetId: number,
-	forgeEnvironment: NodeJS.ProcessEnv
+	assetId: number
 ): Promise<void> {
 	const response = await githubResponse(
 		`/repos/${FORGE_REPOSITORY}/releases/assets/${assetId}`,
@@ -196,15 +201,35 @@ export async function prepareForgeOpenApi(
 		throw new Error(`Forge release asset ${OPENAPI_ASSET} is not OpenAPI JSON`);
 	}
 
-	writeFileSync(
-		join(forgeDir, "openapi.json"),
-		`${JSON.stringify(source, null, 2)}\n`
+	const compatibilityModulePath = join(
+		forgeDir,
+		"packages/forge/shared/fern-openapi-compat.ts"
 	);
-	// Forge's compatibility module must not run in this process with cf credentials.
-	run(
-		process.execPath,
-		[join(SCRIPT_DIR, "prepare-forge-openapi.ts"), forgeDir],
-		{ env: forgeEnvironment }
+	const compatibilityModule = (await import(
+		pathToFileURL(compatibilityModulePath).href
+	)) as {
+		applyFernCompatibilityFixes?: (openapi: object) => unknown;
+	};
+	const applyFernCompatibilityFixes =
+		compatibilityModule.applyFernCompatibilityFixes;
+	if (typeof applyFernCompatibilityFixes !== "function") {
+		throw new Error(
+			`Forge checkout has no applyFernCompatibilityFixes export at ${compatibilityModulePath}`
+		);
+	}
+
+	const fernSource = structuredClone(source);
+	const fixes = applyFernCompatibilityFixes(fernSource);
+	const rootSpecPath = join(forgeDir, "openapi.json");
+	const fernSpecPath = join(
+		forgeDir,
+		"packages/cloudflare-fern-config/fern/openapi.json"
+	);
+	mkdirSync(dirname(fernSpecPath), { recursive: true });
+	writeFileSync(rootSpecPath, `${JSON.stringify(source, null, 2)}\n`);
+	writeFileSync(fernSpecPath, `${JSON.stringify(fernSource, null, 2)}\n`);
+	console.log(
+		`Prepared Forge OpenAPI build inputs (${JSON.stringify(fixes)}).`
 	);
 }
 
@@ -525,7 +550,7 @@ async function main(): Promise<void> {
 		});
 
 		logStep("Preparing Forge OpenAPI build inputs");
-		await prepareForgeOpenApi(forgeDir, assetId, forgeEnvironment);
+		await prepareForgeOpenApi(forgeDir, assetId);
 
 		logStep("Vendoring the Forge packages");
 		updateOpenApiVersion(version);

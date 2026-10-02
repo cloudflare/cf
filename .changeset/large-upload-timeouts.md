@@ -2,8 +2,8 @@
 "cf": patch
 ---
 
-Allow more time for large binary uploads
+Remove the fixed timeout from binary uploads
 
-Scale the API request timeout with the size of binary and multipart bodies so
-large R2 objects can finish uploading. Report an actionable timeout error when
-the SDK aborts a request.
+Allow binary and multipart uploads to finish without a CLI-imposed request
+deadline, so large R2 objects are not aborted after 30 seconds. Keep the
+standard timeout for other API calls and report SDK timeouts clearly.

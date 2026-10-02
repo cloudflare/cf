@@ -1,6 +1,6 @@
 import { getCloudflareApiBaseUrl } from "@cloudflare/workers-utils/compliance";
 import { API_TIMEOUT_MS } from "./api-constants.js";
-import { getApiTimeoutMs } from "./api-timeout.js";
+import { isUploadBody } from "./api-upload.js";
 import { getAuthToken } from "./auth-token.js";
 import { getComplianceRegion, resolveAccountIdSilent } from "./context.js";
 import { getDefaultHeaders } from "./request-headers.js";
@@ -69,6 +69,7 @@ function isRawBody(body: unknown): body is BodyInit {
 	);
 }
 
+
 function hasContentType(headers: Record<string, string>): boolean {
 	return Object.keys(headers).some(
 		(key) => key.toLowerCase() === "content-type"
@@ -133,7 +134,7 @@ function passthroughUrl(
 }
 
 const clientBaseUrls = new WeakMap<CloudflareApiClient, string>();
-const clientTimeouts = new WeakMap<CloudflareApiClient, number>();
+const uploadClients = new WeakMap<CloudflareApiClient, CloudflareApiClient>();
 
 export async function requestApi<T>(
 	client: CloudflareApiClient,
@@ -157,16 +158,19 @@ export async function requestApi<T>(
 		}
 	}
 
+	const uploadClient =
+		options.timeout === undefined && isUploadBody(body)
+			? uploadClients.get(client)
+			: undefined;
+	const timeout = options.timeout ?? API_TIMEOUT_MS;
 	let response: Response;
-	const timeout =
-		options.timeout ??
-		getApiTimeoutMs(body, clientTimeouts.get(client) ?? API_TIMEOUT_MS);
 	try {
-		response = await client.fetch(
+		response = await (uploadClient ?? client).fetch(
 			url,
 			{ method, headers, body, signal: options.signal },
 			{
-				timeoutInSeconds: timeout / 1000,
+				timeoutInSeconds:
+					options.timeout === undefined ? undefined : options.timeout / 1000,
 				abortSignal: options.signal,
 			}
 		);
@@ -178,7 +182,11 @@ export async function requestApi<T>(
 			error === "timeout" ||
 			(error instanceof Error && error.name === "AbortError")
 		) {
-			throw new Error(`Request timed out after ${timeout}ms`);
+			throw new Error(
+				uploadClient
+					? "Request timed out"
+					: `Request timed out after ${timeout}ms`
+			);
 		}
 		if (error instanceof Error) {
 			// Network failures have no HTTP status, so keep them as plain errors.
@@ -250,7 +258,17 @@ export function createCloudflareClientWithToken(
 
 	const client = new CloudflareApiClient(clientOptions);
 	clientBaseUrls.set(client, baseURL);
-	clientTimeouts.set(client, options.timeout ?? API_TIMEOUT_MS);
+	if (options.timeout === undefined) {
+		// SDK passthrough requests inherit the client's timeout. Use a separate
+		// client for uploads so typed API calls retain their 30-second deadline.
+		uploadClients.set(
+			client,
+			new CloudflareApiClient({
+				...clientOptions,
+				timeoutInSeconds: undefined,
+			})
+		);
+	}
 	return client;
 }
 

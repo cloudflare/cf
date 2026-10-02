@@ -303,6 +303,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										),
 										replay_protection: argv["replay-protection"],
 									}),
+						sensitiveBodyPaths: [["psk"]],
 					});
 					return;
 				}

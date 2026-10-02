@@ -83,6 +83,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 									}),
+						sensitiveBodyPaths: [["private_key"]],
 					});
 					return;
 				}

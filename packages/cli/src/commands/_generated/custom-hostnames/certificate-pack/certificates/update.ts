@@ -101,6 +101,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 									}),
+						sensitiveBodyPaths: [["custom_key"]],
 					});
 					return;
 				}

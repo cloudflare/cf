@@ -50,6 +50,9 @@ export function emitDryRun(ctx: EmitContext): string[] {
 		isMutating,
 	} = derived;
 	const positional = positionalArgs(derived.args);
+	const sensitivePaths = (opInfo.bodyParams ?? [])
+		.filter((param) => param.sensitive === true)
+		.map((param) => param.apiFieldPath);
 
 	const lines: string[] = [];
 
@@ -215,6 +218,11 @@ export function emitDryRun(ctx: EmitContext): string[] {
 		}
 	} else if (bodyEntries.length > 0) {
 		lines.push(`          body: { ${bodyEntries.join(", ")} },`);
+	}
+	if (sensitivePaths.length > 0) {
+		lines.push(
+			`          sensitiveBodyPaths: ${JSON.stringify(sensitivePaths)},`
+		);
 	}
 	lines.push(`        });`);
 	lines.push(`        return;`);

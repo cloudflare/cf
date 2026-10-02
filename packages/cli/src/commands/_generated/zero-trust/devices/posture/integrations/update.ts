@@ -263,6 +263,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 									}),
+						sensitiveBodyPaths: [
+							["config", "client_secret"],
+							["config", "client_key"],
+							["config", "access_client_secret"],
+						],
 					});
 					return;
 				}

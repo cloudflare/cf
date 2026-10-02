@@ -99,6 +99,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 									}),
+						sensitiveBodyPaths: [["tunnel_secret"]],
 					});
 					return;
 				}

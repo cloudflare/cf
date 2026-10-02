@@ -145,6 +145,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"updated-tools"
 										),
 									}),
+						sensitiveBodyPaths: [["auth_credentials"], ["client_secret"]],
 					});
 					return;
 				}

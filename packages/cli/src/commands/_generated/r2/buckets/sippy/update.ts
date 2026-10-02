@@ -298,6 +298,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											),
 										},
 									}),
+						sensitiveBodyPaths: [
+							["destination", "secretAccessKey"],
+							["source", "secretAccessKey"],
+							["source", "privateKey"],
+							["source", "accountKey"],
+							["source", "sasToken"],
+						],
 					});
 					return;
 				}

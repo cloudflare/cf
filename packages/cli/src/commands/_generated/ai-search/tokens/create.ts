@@ -95,6 +95,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										legacy: argv["legacy"],
 										name: argv["name"],
 									}),
+						sensitiveBodyPaths: [["cf_api_key"]],
 					});
 					return;
 				}

@@ -104,6 +104,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 									}),
+						sensitiveBodyPaths: [["streamKey"], ["url"]],
 					});
 					return;
 				}

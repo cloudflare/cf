@@ -89,6 +89,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 									}),
+						sensitiveBodyPaths: [["destination_conf"]],
 					});
 					return;
 				}

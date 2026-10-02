@@ -63,41 +63,32 @@ export function redactDryRunBody(
 	body: unknown,
 	paths: readonly (readonly string[])[]
 ): unknown {
-	const redact = (
-		value: unknown,
-		remainingPaths: readonly (readonly string[])[]
-	): unknown => {
+	const redact = (value: unknown, path: readonly string[]): unknown => {
+		const key = path[0];
+		if (key === undefined) {
+			return value;
+		}
 		if (Array.isArray(value)) {
-			return value.map((item) => redact(item, remainingPaths));
+			return value.map((item) => redact(item, path));
 		}
 		if (value === null || typeof value !== "object") {
 			return value;
 		}
 
-		return Object.fromEntries(
-			Object.entries(value).map(([key, child]) => {
-				const matching = remainingPaths.filter((path) => path[0] === key);
-				if (matching.length === 0 || child === undefined) {
-					return [key, child];
-				}
-				if (matching.some((path) => path.length === 1)) {
-					return [key, "<redacted>"];
-				}
-				return [
-					key,
-					redact(
-						child,
-						matching.map((path) => path.slice(1))
-					),
-				];
-			})
-		);
+		if (!Object.hasOwn(value, key)) {
+			return value;
+		}
+		const child = (value as Record<string, unknown>)[key];
+		if (child === undefined) {
+			return value;
+		}
+		return {
+			...value,
+			[key]: path.length === 1 ? "<redacted>" : redact(child, path.slice(1)),
+		};
 	};
 
-	return redact(
-		body,
-		paths.filter((path) => path.length > 0)
-	);
+	return paths.reduce<unknown>((value, path) => redact(value, path), body);
 }
 
 /**

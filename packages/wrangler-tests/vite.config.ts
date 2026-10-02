@@ -21,6 +21,9 @@ const compatibilityTests = {
 		unstubEnvs: true,
 		server: {
 			deps: {
+				// workers-utils/test-helpers imports Vitest hooks. Inline it so the
+				// vitest → vite-plus/test alias applies; native loading bypasses it
+				// and fails with "Vitest failed to find the runner".
 				inline: ["@cloudflare/workers-utils"],
 			},
 		},

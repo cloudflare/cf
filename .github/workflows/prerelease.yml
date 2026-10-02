@@ -41,7 +41,6 @@ jobs:
         run: pnpm build
         env:
           NODE_ENV: production
-          GITHUB_TOKEN: ${{ secrets.FORGE_GH_ACCESS_TOKEN }}
           # Baked into the binary at build time via Pack's `define` —
           # see packages/cli/vite.config.ts.
           PACKAGE_PRERELEASE_LABEL: ${{ github.head_ref || github.ref_name }}

@@ -32,6 +32,7 @@ describe("d1/migrations hand-written sub-group", () => {
 			{
 				name: "migrations",
 				dir: "d1/migrations",
+				dryRun: "preview",
 				describe: expect.any(String),
 			},
 		]);
@@ -92,11 +93,16 @@ describe("d1/migrations hand-written sub-group", () => {
 				.map((o) => o.name)
 				.sort();
 
-		expect(optionNames("apply")).toEqual(["dir", "pattern", "table"]);
-		expect(optionNames("list")).toEqual(["dir", "pattern", "table"]);
+		expect(optionNames("apply")).toEqual([
+			"dir",
+			"dry-run",
+			"pattern",
+			"table",
+		]);
+		expect(optionNames("list")).toEqual(["dir", "dry-run", "pattern", "table"]);
 		// `create` is offline, so it has no --table: it never reads the
 		// bookkeeping table.
-		expect(optionNames("create")).toEqual(["dir", "pattern"]);
+		expect(optionNames("create")).toEqual(["dir", "dry-run", "pattern"]);
 	});
 
 	it("does not advertise incompatible ORM bookkeeping tables", () => {

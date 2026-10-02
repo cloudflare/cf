@@ -4,6 +4,7 @@ import $sshconfig from "#commands/access/ssh-config/index.js";
 import $sshgen from "#commands/access/ssh-gen/index.js";
 import $tcp from "#commands/access/tcp/index.js";
 import $token from "#commands/access/token/index.js";
+import { withHandWrittenDryRun } from "#lib/hand-written-dry-run.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * access command
@@ -17,12 +18,12 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
-			.command($curl)
-			.command($login)
-			.command($sshconfig)
-			.command($sshgen)
-			.command($tcp)
-			.command($token)
+			.command(withHandWrittenDryRun($curl, "preview"))
+			.command(withHandWrittenDryRun($login, "preview"))
+			.command(withHandWrittenDryRun($sshconfig, "preview"))
+			.command(withHandWrittenDryRun($sshgen, "preview"))
+			.command(withHandWrittenDryRun($tcp, "preview"))
+			.command(withHandWrittenDryRun($token, "preview"))
 			.demandCommand(1, "Please specify a subcommand");
 	},
 

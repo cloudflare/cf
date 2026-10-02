@@ -27,7 +27,6 @@ import {
 	optionArgs,
 	positionalArgs,
 } from "./intermediate-representation.js";
-import { sensitiveBodyPaths } from "./sensitive-body.js";
 import type { ArgIR } from "./intermediate-representation.js";
 import type {
 	ArgumentMeta,
@@ -201,16 +200,6 @@ export function generateCommandMeta(
 			...("default" in opt ? { default: opt.default } : {}),
 		});
 	}
-	if (sensitiveBodyPaths(opInfo).length > 0) {
-		optionMetas.push({
-			name: "show-secrets",
-			type: "boolean",
-			required: false,
-			description: "Show sensitive values in dry-run output",
-			default: false,
-		});
-	}
-
 	// Add body options for ops that actually emit --body. Use the
 	// shared `derived` view (real HTTP verb) rather than name-based
 	// detection so read-shaped POSTs (query/search/raw) don't drift.

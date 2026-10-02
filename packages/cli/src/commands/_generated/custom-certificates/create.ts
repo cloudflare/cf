@@ -70,11 +70,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Validate and show what would happen without executing",
 			default: false,
 		})
-		.option("show-secrets", {
-			type: "boolean",
-			description: "Show sensitive values in dry-run output",
-			default: false,
-		})
 		.option("body", {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
@@ -101,7 +96,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"geo-restrictions-label",
 						"type",
 						"dry-run",
-						"show-secrets",
 					],
 				} satisfies ArgClassification<Args>,
 			},
@@ -165,10 +159,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											),
 										}),
 						},
-						{
-							sensitiveBodyPaths: [["private_key"]],
-							showSecrets: argv.showSecrets,
-						}
+						{ sensitiveBodyPaths: [["private_key"]] }
 					);
 					return;
 				}

@@ -37,7 +37,7 @@ describe("dry-run redaction", () => {
 		).toEqual([{ text: "<redacted, 3 chars>" }, { text: "<redacted>" }]);
 	});
 
-	it("hides secrets by default and reveals them only when requested", () => {
+	it("hides secrets in formatted dry-run output", () => {
 		const log = vi.spyOn(console, "log").mockImplementation(() => {});
 		const output = {
 			command: "cf workers secrets update",
@@ -51,8 +51,5 @@ describe("dry-run redaction", () => {
 		formatDryRun(output, options);
 		expect(log.mock.lastCall?.[0]).toContain("<redacted, 14 chars>");
 		expect(log.mock.lastCall?.[0]).not.toContain("hunter2-secret");
-
-		formatDryRun(output, { ...options, showSecrets: true });
-		expect(log.mock.lastCall?.[0]).toContain("hunter2-secret");
 	});
 });

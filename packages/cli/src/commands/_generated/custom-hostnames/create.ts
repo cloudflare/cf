@@ -110,11 +110,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Validate and show what would happen without executing",
 			default: false,
 		})
-		.option("show-secrets", {
-			type: "boolean",
-			description: "Show sensitive values in dry-run output",
-			default: false,
-		})
 		.option("body", {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
@@ -147,7 +142,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"ssl-type",
 						"ssl-wildcard",
 						"dry-run",
-						"show-secrets",
 					],
 				} satisfies ArgClassification<Args>,
 			},
@@ -252,10 +246,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											},
 										}),
 						},
-						{
-							sensitiveBodyPaths: [["ssl", "custom_key"]],
-							showSecrets: argv.showSecrets,
-						}
+						{ sensitiveBodyPaths: [["ssl", "custom_key"]] }
 					);
 					return;
 				}

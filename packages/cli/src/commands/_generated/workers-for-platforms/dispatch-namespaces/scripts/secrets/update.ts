@@ -70,11 +70,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Validate and show what would happen without executing",
 			default: false,
 		})
-		.option("show-secrets", {
-			type: "boolean",
-			description: "Show sensitive values in dry-run output",
-			default: false,
-		})
 		.option("body", {
 			type: "string",
 			description: "A secret value accessible through a binding.",
@@ -102,7 +97,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				command:
 					"workers-for-platforms dispatch-namespaces scripts secrets update",
 				classification: {
-					safeFlags: ["type", "format", "dry-run", "show-secrets"],
+					safeFlags: ["type", "format", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -152,10 +147,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											usages: argv["usages"],
 										}),
 						},
-						{
-							sensitiveBodyPaths: [["text"], ["key_base64"]],
-							showSecrets: argv.showSecrets,
-						}
+						{ sensitiveBodyPaths: [["text"], ["key_base64"]] }
 					);
 					return;
 				}

@@ -72,11 +72,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Validate and show what would happen without executing",
 			default: false,
 		})
-		.option("show-secrets", {
-			type: "boolean",
-			description: "Show sensitive values in dry-run output",
-			default: false,
-		})
 		.option("body", {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
@@ -101,7 +96,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"is-shared-oauth-callback-enabled",
 						"secure-web-gateway",
 						"dry-run",
-						"show-secrets",
 					],
 				} satisfies ArgClassification<Args>,
 			},
@@ -153,10 +147,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											),
 										}),
 						},
-						{
-							sensitiveBodyPaths: [["auth_credentials"], ["client_secret"]],
-							showSecrets: argv.showSecrets,
-						}
+						{ sensitiveBodyPaths: [["auth_credentials"], ["client_secret"]] }
 					);
 					return;
 				}

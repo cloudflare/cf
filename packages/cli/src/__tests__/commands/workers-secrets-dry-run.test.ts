@@ -69,27 +69,4 @@ describe("workers secrets dry-run", () => {
 		expect(output()).toContain('"text": "<redacted, 14 chars>"');
 		expect(output()).not.toContain("hunter2-secret");
 	});
-
-	it("reveals sensitive values with --show-secrets", async () => {
-		const { exitCode } = await runCf(
-			[
-				"workers",
-				"secrets",
-				"update",
-				"API_KEY",
-				"--worker",
-				"example",
-				"--type",
-				"secret_text",
-				"--text",
-				"hunter2-secret",
-				"--dry-run",
-				"--show-secrets",
-			],
-			ENV
-		);
-
-		expect(exitCode).toBe(0);
-		expect(output()).toContain('"text": "hunter2-secret"');
-	});
 });

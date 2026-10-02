@@ -138,11 +138,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Validate and show what would happen without executing",
 			default: false,
 		})
-		.option("show-secrets", {
-			type: "boolean",
-			description: "Show sensitive values in dry-run output",
-			default: false,
-		})
 		.option("body", {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
@@ -188,7 +183,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"health-check-direction",
 						"replay-protection",
 						"dry-run",
-						"show-secrets",
 					],
 				} satisfies ArgClassification<Args>,
 			},
@@ -307,7 +301,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											replay_protection: argv["replay-protection"],
 										}),
 						},
-						{ sensitiveBodyPaths: [["psk"]], showSecrets: argv.showSecrets }
+						{ sensitiveBodyPaths: [["psk"]] }
 					);
 					return;
 				}

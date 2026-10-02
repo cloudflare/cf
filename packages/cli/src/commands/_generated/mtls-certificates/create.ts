@@ -49,11 +49,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Validate and show what would happen without executing",
 			default: false,
 		})
-		.option("show-secrets", {
-			type: "boolean",
-			description: "Show sensitive values in dry-run output",
-			default: false,
-		})
 		.option("body", {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
@@ -75,7 +70,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "mtls-certificates create",
 				classification: {
-					safeFlags: ["ca", "dry-run", "show-secrets"],
+					safeFlags: ["ca", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -111,10 +106,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											),
 										}),
 						},
-						{
-							sensitiveBodyPaths: [["private_key"]],
-							showSecrets: argv.showSecrets,
-						}
+						{ sensitiveBodyPaths: [["private_key"]] }
 					);
 					return;
 				}

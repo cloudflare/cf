@@ -1,3 +1,4 @@
+import * as clack from "@clack/prompts";
 import {
 	mockConsoleMethods,
 	runInTempDir,
@@ -97,6 +98,23 @@ describe("cf deploy", () => {
 			expect(upload.modules).toContain("index.js");
 			expect(std.out).toContain("Deployed");
 			expect(std.out).toContain("test-worker");
+		});
+
+		it("accepts a successful upload without a version ID", async () => {
+			const upload = mockWorkerUpload({}, { deploymentId: null });
+			await seed({
+				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v0/workers/default/worker.config.json":
+					workerConfig(),
+				".cloudflare/output/v0/workers/default/bundle/index.js":
+					"export default { fetch() { return new Response('ok'); } }",
+			});
+
+			const { exitCode } = await runCf(["deploy", "--prebuilt"]);
+
+			expect(exitCode).toBe(0);
+			expect(upload.metadata?.main_module).toBe("index.js");
+			expect(std.out).toContain("Deployed");
 		});
 
 		it("deploys a standard Container from Build Output", async () => {
@@ -1081,6 +1099,33 @@ describe("cf deploy", () => {
 	});
 
 	describe("re-deploy existing worker", () => {
+		it("uploads an API-managed Worker in CI with --force", async () => {
+			const warn = vi.spyOn(clack.log, "warn").mockImplementation(() => {});
+			try {
+				const upload = mockWorkerUpload();
+				mockExistingWorker({ lastDeployedFrom: "api" });
+				await seed({
+					".cloudflare/output/v0/config.json": buildOutputRootConfig(),
+					".cloudflare/output/v0/workers/default/worker.config.json":
+						workerConfig(),
+					".cloudflare/output/v0/workers/default/bundle/index.js":
+						"export default { fetch() { return new Response('ok'); } }",
+				});
+
+				const { exitCode } = await runCf(["deploy", "--prebuilt", "--force"], {
+					CI: "true",
+				});
+
+				expect(exitCode).toBe(0);
+				expect(upload.metadata?.main_module).toBe("index.js");
+				expect(warn).toHaveBeenCalledWith(
+					"Using --force may overwrite conflicting remote Worker changes."
+				);
+			} finally {
+				warn.mockRestore();
+			}
+		});
+
 		it("aborts in strict mode when last deployed from api", async () => {
 			const upload = mockWorkerUpload();
 			vi.stubEnv("WRANGLER_DOCKER_BIN", await seedDockerMock());
@@ -1127,32 +1172,40 @@ describe("cf deploy", () => {
 					}),
 			});
 
-			await runCf(["deploy"]);
+			const { exitCode } = await runCf(["deploy"]);
 
 			// strict mode + non-interactive rejects the overwrite; no upload happens
+			expect(exitCode).toBe(1);
 			expect(upload.metadata).toBeUndefined();
 			expect(std.err).toContain("Aborting");
+			expect(std.out + std.err).not.toContain("Deploy complete");
 			expect(readDockerCommands()).toEqual([]);
 		});
 	});
 
 	describe("--dry-run", () => {
 		it("does not upload the worker", async () => {
-			const upload = mockWorkerUpload();
-			await seed({
-				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-				".cloudflare/output/v0/workers/default/worker.config.json":
-					workerConfig(),
-				".cloudflare/output/v0/workers/default/bundle/index.js":
-					"export default { fetch() { return new Response('ok'); } }",
-			});
+			const warn = vi.spyOn(clack.log, "warn").mockImplementation(() => {});
+			try {
+				const upload = mockWorkerUpload();
+				await seed({
+					".cloudflare/output/v0/config.json": buildOutputRootConfig(),
+					".cloudflare/output/v0/workers/default/worker.config.json":
+						workerConfig(),
+					".cloudflare/output/v0/workers/default/bundle/index.js":
+						"export default { fetch() { return new Response('ok'); } }",
+				});
 
-			const { exitCode } = await runCf(["deploy", "--dry-run"]);
+				const { exitCode } = await runCf(["deploy", "--dry-run", "--force"]);
 
-			expect(exitCode).toBe(0);
-			expect(upload.metadata).toBeUndefined();
-			expect(std.out).toContain("--dry-run: exiting now.");
-			expect(std.out).not.toContain("Deployed");
+				expect(exitCode).toBe(0);
+				expect(upload.metadata).toBeUndefined();
+				expect(std.out).toContain("--dry-run: exiting now.");
+				expect(std.out).not.toContain("Deployed");
+				expect(warn).not.toHaveBeenCalled();
+			} finally {
+				warn.mockRestore();
+			}
 		});
 
 		it("makes no API requests and needs no credentials", async () => {

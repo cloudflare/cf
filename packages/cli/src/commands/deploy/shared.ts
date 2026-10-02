@@ -22,6 +22,7 @@ import {
 	selectBuildOutputWorker,
 	validateBuildOutputMode,
 } from "../../lib/build-output.js";
+import { CliExit } from "../../lib/cli-exit.js";
 import { getAccountId } from "../../lib/context.js";
 import { createDeployContext } from "../../lib/deploy-context.js";
 import {
@@ -79,6 +80,7 @@ export type SharedUploadArgs = InferArgs<typeof sharedUploadBuilder>;
 
 type UploadCommand = { command: "Deploy" } | { command: "Version upload" };
 type UploadArgs = SharedUploadArgs & {
+	force?: boolean;
 	"preview-alias"?: string;
 	"containers-rollout"?: "immediate" | "gradual" | "none";
 };
@@ -196,6 +198,10 @@ async function uploadBuildOutput(argv: UploadArgs, ctx: UploadCommand) {
 		({ versionId } = await versionsUpload(props, wranglerConfig, buildResult, {
 			analyseBundle: undefined,
 		}));
+	}
+	// A successful upload can also return no version ID; strict-mode aborts set exitCode.
+	if (versionId === null && process.exitCode === 1 && !argv["dry-run"]) {
+		throw new CliExit(1);
 	}
 
 	if (

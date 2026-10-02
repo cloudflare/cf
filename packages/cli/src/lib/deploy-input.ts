@@ -25,6 +25,7 @@ import type {
 } from "@cloudflare/workers-utils";
 
 type DeployUploadArgs = SharedUploadArgs & {
+	force?: boolean;
 	"dispatch-namespace"?: string;
 	"containers-rollout"?: "immediate" | "gradual" | "none";
 };
@@ -114,7 +115,7 @@ export function createDeployProps(
 		routes: resolveRoutes(config),
 		logpush: config.logpush,
 		dispatchNamespace: argv["dispatch-namespace"],
-		strict: true,
+		strict: !argv.force,
 		legacyAssetPaths: undefined,
 		oldAssetTtl: undefined,
 	};

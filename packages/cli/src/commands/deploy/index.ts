@@ -1,9 +1,17 @@
+import * as clack from "@clack/prompts";
 import { runUpload, sharedUploadBuilder } from "./shared.js";
 import type { CommonYargsOptions, InferArgs } from "../../lib/cli-types.js";
 import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return sharedUploadBuilder(yargs)
+		.option("force", {
+			type: "boolean",
+			alias: "f",
+			description:
+				"Allow upload in CI despite conflicting remote Worker changes",
+			default: false,
+		})
 		.option("dispatch-namespace", {
 			type: "string",
 			description:
@@ -24,6 +32,11 @@ const deployCommand: CommandModule<CommonYargsOptions, DeployArgs> = {
 	describe: "Deploy a worker to Cloudflare",
 	builder,
 	handler: async (argv) => {
+		if (argv.force && !argv["dry-run"]) {
+			clack.log.warn(
+				"Using --force may overwrite conflicting remote Worker changes."
+			);
+		}
 		await runUpload(argv, { command: "Deploy" });
 	},
 };

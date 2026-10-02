@@ -63,12 +63,12 @@ describe("command recommendations", () => {
 	it.each(["--help", "-h"])(
 		"rejects an unknown top-level command with %s",
 		async (help) => {
-			await expect(runCf(["unrecognizable", help])).rejects.toThrow(
-				"Unknown command: unrecognizable"
+			await expect(runCf(["malformed", help])).rejects.toThrow(
+				"Unknown command: malformed"
 			);
 
 			expect(output.stdout()).toBe("");
-			expect(stderr()).toContain("Unknown command: unrecognizable");
+			expect(stderr()).toContain("Unknown command: malformed");
 			expect(stderr()).toContain("For more information, run cf --help");
 		}
 	);
@@ -80,19 +80,18 @@ describe("command recommendations", () => {
 	});
 
 	it.each([
-		[["r2", "unrecognizable"], "cf r2"],
-		[["r2", "buckets", "unrecognizable"], "cf r2 buckets"],
-	])(
-		"shows parent help for an unknown nested command in %j",
-		async (path, heading) => {
-			await expect(runCf([...path, "--help"])).resolves.toEqual({
-				exitCode: 0,
-			});
+		["workers", "malformed"],
+		["r2", "buckets", "unrecognizable"],
+	])("rejects an unknown nested command in %j with --help", async (...path) => {
+		const unknown = path.at(-1);
+		const parent = path.slice(0, -1).join(" ");
+		await expect(runCf([...path, "--help"])).rejects.toThrow(
+			`Unknown command: ${unknown}`
+		);
 
-			expect(output.stdout()).toContain(heading);
-			expect(stderr()).not.toContain("Unknown command");
-		}
-	);
+		expect(output.stdout()).toBe("");
+		expect(stderr()).toContain(`For more information, run cf ${parent} --help`);
+	});
 
 	it("shows the parent help hint for an unknown nested command", async () => {
 		await expect(runCf(["workers", "malformed"])).rejects.toThrow(
@@ -105,15 +104,25 @@ describe("command recommendations", () => {
 		);
 	});
 
-	it("shows the leaf help hint for an invalid flag", async () => {
-		await expect(runCf(["workers", "list", "--nosuchflag"])).rejects.toThrow(
-			"Unknown argument: nosuchflag"
+	it("shows leaf help after an invalid flag", async () => {
+		await expect(runCf(["workers", "list", "--malformed"])).rejects.toThrow(
+			"Unknown argument: malformed"
 		);
 
-		expect(stderr()).not.toContain("List all Workers for an account.");
 		expect(stderr()).toMatch(
-			/Unknown argument: nosuchflag[\s\S]*For more information, run cf workers list --help/
+			/Unknown argument: malformed[\s\S]*cf workers list/
 		);
+		expect(stderr()).toContain("List all Workers for an account.");
+		expect(stderr()).toContain("Global flags");
+	});
+
+	it("shows the root help hint for an invalid global flag", async () => {
+		await expect(runCf(["--malformed"])).rejects.toThrow(
+			"Unknown argument: malformed"
+		);
+
+		expect(stderr()).toContain("For more information, run cf --help");
+		expect(stderr()).toContain("cf --help to list global flags");
 	});
 
 	it("does not suggest hidden commands", async () => {

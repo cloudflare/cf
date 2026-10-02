@@ -79,10 +79,14 @@ function formatJson(data: unknown): string {
 
 	return json
 		.replace(
+			// Match a quoted key followed by a colon, consuming escapes as pairs
+			// so escaped quotes inside a value cannot be mistaken for key delimiters.
 			/"((?:[^"\\]|\\.)*)":/g,
 			(_match, key) => `${theme.jsonKey(`"${key}"`)}:`
 		)
 		.replace(
+			// Match a quoted value after a colon, consuming escapes as pairs
+			// so only an unescaped quote can end the string.
 			/: "((?:[^"\\]|\\.)*)"/g,
 			(_match, value) => `: ${theme.jsonString(`"${value}"`)}`
 		)

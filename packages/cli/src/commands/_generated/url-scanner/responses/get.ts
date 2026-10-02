@@ -1,3 +1,10 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+/**
+ * get command
+ * @generated from apis/overlays/url-scanner.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -9,13 +16,6 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { fetchRawBytes, writeRawOutput } from "#lib/raw-fetch.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-/**
- * get command
- * @generated from apis/overlays/url-scanner.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs

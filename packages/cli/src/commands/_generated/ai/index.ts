@@ -1,4 +1,3 @@
-import $run from "#commands/ai/run/index.js";
 import $authors from "./authors/index.js";
 import $finetunes from "./finetunes/index.js";
 import $getmodelschema from "./get-model-schema.js";
@@ -12,6 +11,7 @@ import type { CommonYargsOptions } from "#lib/cli-types.js";
  * @generated from apis/overlays/ai.ts
  */
 import type { CommandModule } from "yargs";
+import $run from "#commands/ai/run/index.js";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "ai",

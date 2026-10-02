@@ -6,6 +6,9 @@ import { getModelInputSchema } from "../../commands/ai/run/schema.js";
 import { captureOutput } from "../helpers/capture-output.js";
 import { server, setupMsw, TEST_BASE_URL } from "../helpers/msw.js";
 import { runCf } from "../helpers/run-cf.js";
+// These integration tests need the real client. Collect its cold import graph
+// before per-test timers start; lightweight tests must not inherit this import.
+import "../../lib/auth.js";
 import type { Cloudflare } from "../../lib/auth.js";
 import type * as PromptModule from "../../lib/prompt.js";
 

@@ -20,7 +20,7 @@
 		"@types/node": "25.3.5",
 		"@typescript/native-preview": "latest",
 		"eslint-plugin-turbo": "^2.8.17",
-		"oxfmt": "^0.41.0",
+		"oxfmt": "0.70.0",
 		"oxlint": "^1.56.0",
 		"oxlint-tsgolint": "^0.21.0",
 		"tsx": "4.21.0",

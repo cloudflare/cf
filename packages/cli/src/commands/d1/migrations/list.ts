@@ -1,4 +1,3 @@
-import { formatOutput } from "#lib/output.js";
 import {
 	migrationsTableOption,
 	openMigrationsContext,
@@ -6,6 +5,7 @@ import {
 } from "./shared.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { Argv, CommandModule } from "yargs";
+import { formatOutput } from "#lib/output.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return migrationsTableOption(

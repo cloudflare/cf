@@ -10,3 +10,4 @@ export * from "./query/client/requests/index.js";
 export * from "./query/types/index.js";
 export * as sql from "./sql/index.js";
 export * from "./sql/client/requests/index.js";
+export * from "./sql/types/index.js";

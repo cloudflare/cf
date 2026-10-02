@@ -1,10 +1,10 @@
+import type { CommonYargsOptions } from "#lib/cli-types.js";
+import type { CommandModule } from "yargs";
 /**
  * Generated CLI commands
  * @generated
  */
 import { lazyCommand } from "#lib/lazy-command.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
-import type { CommandModule } from "yargs";
 
 export interface GeneratedCommand {
 	command: CommandModule<CommonYargsOptions>;
@@ -181,7 +181,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./artifacts/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -722,6 +722,15 @@ export const generatedCommands: GeneratedCommand[] = [
 			null
 		),
 		hideCommand: true,
+	},
+	{
+		command: lazyCommand<CommonYargsOptions>(
+			"k2",
+			"Durable, ordered event streams that you produce records to and consume from with subscriptions",
+			() => import("./k2/index.js"),
+			null
+		),
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(

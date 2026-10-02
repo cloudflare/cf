@@ -1,6 +1,3 @@
-import $check from "#commands/workers/check/index.js";
-import $triggers from "#commands/workers/triggers/index.js";
-import $types from "#commands/workers/types/index.js";
 import $delete from "./delete.js";
 import $deployments from "./deployments/index.js";
 import $get from "./get.js";
@@ -14,6 +11,9 @@ import type { CommonYargsOptions } from "#lib/cli-types.js";
  * @generated from apis/overlays/workers.ts
  */
 import type { CommandModule } from "yargs";
+import $check from "#commands/workers/check/index.js";
+import $triggers from "#commands/workers/triggers/index.js";
+import $types from "#commands/workers/types/index.js";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "workers",

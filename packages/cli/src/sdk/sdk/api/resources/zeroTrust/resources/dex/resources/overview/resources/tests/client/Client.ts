@@ -10,7 +10,7 @@ import { mergeHeaders } from "../../../../../../../../../../core/headers.js";
 import * as environments from "../../../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../../../index.js";
 import { UniqueDevicesClient } from "../resources/uniqueDevices/client/Client.js";
 
 export declare namespace TestsClient {

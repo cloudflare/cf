@@ -1,4 +1,3 @@
-import $deploy from "#commands/pages/deploy/index.js";
 import $buildcache from "./build-cache/index.js";
 import $create from "./create.js";
 import $delete from "./delete.js";
@@ -14,6 +13,7 @@ import type { CommonYargsOptions } from "#lib/cli-types.js";
  * @generated from apis/overlays/pages.ts
  */
 import type { CommandModule } from "yargs";
+import $deploy from "#commands/pages/deploy/index.js";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "pages",

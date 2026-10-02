@@ -6,9 +6,9 @@
 export interface BillableUsageApiCostAndUsageData {
     /** A charge serving as the basis for invoicing, inclusive of all reduced rates and discounts while excluding the amortization of upfront charges (one-time or recurring). */
     BilledCost?: (number | null) | undefined;
-    /** Public identifier of the Cloudflare account (account tag). Omitted when account is not part of the requested grouping. */
+    /** Public identifier of the Cloudflare account (account tag). Omitted when account is not part of the requested grouping, and always omitted for usage measured at contract level, even when grouping by account: that usage is returned as its own record with no account. */
     BillingAccountId?: string | undefined;
-    /** Display name of the Cloudflare account. Omitted when account is not part of the requested grouping. */
+    /** Display name of the Cloudflare account. Omitted when account is not part of the requested grouping, and for usage measured at contract level. */
     BillingAccountName?: string | undefined;
     /** Currency that a charge was billed in (ISO 4217). */
     BillingCurrency?: (string | null) | undefined;
@@ -72,9 +72,9 @@ export interface BillableUsageApiCostAndUsageData {
     x_ProductFamilyId?: string | undefined;
     /** The product family the charge belongs to (e.g., "R2", "Workers"). Cloudflare extension; replaces FOCUS ServiceName. */
     x_ProductFamilyName?: string | undefined;
-    /** The identifier for the Cloudflare zone (zone tag). Cloudflare extension. */
+    /** The identifier for the Cloudflare zone (zone tag). Omitted when zone is not part of the requested grouping, and always omitted for usage measured at contract level, even when grouping by zone. Cloudflare extension. */
     x_ZoneId?: (string | null) | undefined;
-    /** The display name of the Cloudflare zone. Cloudflare extension. */
+    /** The display name of the Cloudflare zone. Omitted when zone is not part of the requested grouping, and for usage measured at contract level. Cloudflare extension. */
     x_ZoneName?: (string | null) | undefined;
 }
 

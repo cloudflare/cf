@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * update command
+ * @generated from apis/overlays/magic-transit.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -10,14 +18,6 @@ import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * update command
- * @generated from apis/overlays/magic-transit.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -195,9 +195,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											},
 											dhcp_server: {
 												dhcp_pool_end: resolveFileToken(
-													argv["static-addressing-dhcp-server-dhcp-pool-end"] as
-														| string
-														| undefined,
+													argv[
+														"static-addressing-dhcp-server-dhcp-pool-end"
+													] as string | undefined,
 													"static-addressing-dhcp-server-dhcp-pool-end",
 													"text"
 												),

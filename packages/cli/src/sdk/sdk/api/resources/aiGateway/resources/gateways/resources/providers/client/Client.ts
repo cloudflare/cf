@@ -11,7 +11,8 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
+import * as CloudflareApiErrors from "../../../../../../../errors/index.js";
 
 export declare namespace ProvidersClient {
     export type Options = BaseClientOptions;
@@ -92,7 +93,7 @@ export class ProvidersClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -174,7 +175,7 @@ export class ProvidersClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -189,6 +190,83 @@ export class ProvidersClient {
             _response.rawResponse,
             "POST",
             "/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/provider_configs",
+        );
+    }
+
+    /**
+     * Retrieves a provider key configuration for an AI Gateway. The response shows a masked preview of the key, never the key itself.
+     *
+     * @param {CloudflareApi.aiGateway.gateways.GetProvidersRequest} request
+     * @param {ProvidersClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link CloudflareApi.NotFoundError}
+     *
+     * @example
+     *     await client.aiGateway.gateways.providers.get({
+     *         account_id: "3ebbcb006d4d46d7bb6a8c7f14676cb0",
+     *         gateway_id: "my-gateway",
+     *         id: "id"
+     *     })
+     */
+    public get(
+        request: CloudflareApi.aiGateway.gateways.GetProvidersRequest,
+        requestOptions?: ProvidersClient.RequestOptions,
+    ): core.HttpResponsePromise<CloudflareApi.aiGateway.gateways.GetProvidersResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__get(request, requestOptions));
+    }
+
+    private async __get(
+        request: CloudflareApi.aiGateway.gateways.GetProvidersRequest,
+        requestOptions?: ProvidersClient.RequestOptions,
+    ): Promise<core.WithRawResponse<CloudflareApi.aiGateway.gateways.GetProvidersResponse>> {
+        const { account_id: accountId, gateway_id: gatewayId, id } = request;
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.CloudflareApiEnvironment.Default,
+                `accounts/${core.url.encodePathParam(accountId)}/ai-gateway/gateways/${core.url.encodePathParam(gatewayId)}/provider_configs/${core.url.encodePathParam(id)}`,
+            ),
+            method: "GET",
+            headers: _headers,
+            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return {
+                data: _response.body as CloudflareApi.aiGateway.gateways.GetProvidersResponse,
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 404:
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                default:
+                    throw new errors.CloudflareApiError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(
+            _response.error,
+            _response.rawResponse,
+            "GET",
+            "/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/provider_configs/{id}",
         );
     }
 
@@ -256,9 +334,9 @@ export class ProvidersClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -335,7 +413,7 @@ export class ProvidersClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 404:
-                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,

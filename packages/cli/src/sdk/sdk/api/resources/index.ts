@@ -134,6 +134,7 @@ export * as intel from "./intel/index.js";
 export * as ips from "./ips/index.js";
 export * from "./ips/client/requests/index.js";
 export * from "./ips/types/index.js";
+export * as k2 from "./k2/index.js";
 export * as keylessCertificates from "./keylessCertificates/index.js";
 export * from "./keylessCertificates/client/requests/index.js";
 export * from "./keylessCertificates/types/index.js";

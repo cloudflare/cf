@@ -878,7 +878,7 @@ describe("wrangler pipelines", () => {
 			await expect(
 				runWrangler("pipelines sinks create --name my_sink")
 			).rejects.toThrowErrorMatchingInlineSnapshot(
-				`[Error: --type is required (one of: r2, r2_data_catalog). Pass --type <value> or run interactively.]`
+				`[Error: --type is required (one of: r2, r2_data_catalog, basin_catalog). Pass --type <value> or run interactively.]`
 			);
 		});
 

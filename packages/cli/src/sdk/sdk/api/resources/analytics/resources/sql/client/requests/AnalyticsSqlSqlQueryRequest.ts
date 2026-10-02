@@ -17,7 +17,7 @@ import * as CloudflareApi from "../../../../../../index.js";
  */
 export interface AnalyticsSqlSqlQueryRequest {
     params?: CloudflareApi.AnalyticsSqlSqlQueryRequestParams;
-    /** SQL query to execute. */
+    /** SQL query to execute. A trailing FORMAT selects JSON, JSONEachRow, TabSeparated, or TSV output on any dataset. */
     query: string;
     scope?: CloudflareApi.AnalyticsSqlSqlQueryScope;
     time_range?: CloudflareApi.AnalyticsSqlSqlQueryTimeRange;

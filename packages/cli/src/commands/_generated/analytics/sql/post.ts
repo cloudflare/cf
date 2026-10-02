@@ -1,3 +1,10 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+/**
+ * post command
+ * @generated from apis/overlays/analytics.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import { createCommandClient, requestApi } from "#lib/auth.js";
 import { compactBody, parseBody, setNestedValue } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -6,20 +13,17 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-/**
- * post command
- * @generated from apis/overlays/analytics.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 analytics sql post\n\nExecutes a SQL query against the analytics datasets available to the caller. Send either raw SQL or a JSON object containing the query and optional positional or named parameters, time range, and account or zone scope. Raw SQL placeholders can also be bound with query parameters named `param_<name>`."
+			"$0 analytics sql post\n\nExecutes a SQL query against the analytics datasets available to the caller. Send either raw SQL or a JSON object containing the query and optional positional or named parameters, time range, and account or zone scope. Raw SQL placeholders can also be bound with query parameters named `param_<name>`. A trailing `FORMAT JSON`, `FORMAT JSONEachRow`, `FORMAT TabSeparated`, or `FORMAT TSV` is supported for all datasets. Without FORMAT, each backend retains its existing default JSON response."
 		)
-		.option("query", { type: "string", description: "SQL query to execute." })
+		.option("query", {
+			type: "string",
+			description:
+				"SQL query to execute. A trailing FORMAT selects JSON, JSONEachRow, TabSeparated, or TSV output on any dataset.\n",
+		})
 		.option("scope-account-tag", {
 			type: "string",
 			description:
@@ -160,7 +164,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv["query"] === undefined) {
 					argv["query"] = await promptForRequiredField(
 						"query",
-						"SQL query to execute."
+						"SQL query to execute. A trailing FORMAT selects JSON, JSONEachRow, TabSeparated, or TSV output on any dataset. "
 					);
 				}
 

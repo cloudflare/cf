@@ -11,6 +11,7 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { type ForgeOpenApiDocument, initFromOpenApi } from "@cloudflare/forge";
 import { filterForCliAudience } from "./generator/cli-audience.js";
+import { narrowSdkErrorImports } from "./generator/sdk-error-imports.js";
 import { dropSdkMethodGroupCollisions } from "./generator/sdk-method-group-collisions.js";
 import { hasAccountOrZoneScope } from "./generator/util.js";
 import { preserveWorkersSecretUpdatePositional } from "./generator/workers-secret-cli-compat.js";
@@ -20,7 +21,7 @@ const sdkDir = fileURLToPath(new URL("./src/sdk", import.meta.url));
 const sdkEntrypointPath = join(sdkDir, "sdk/index.ts");
 const sdkVersionPath = join(sdkDir, "openapi-version");
 // The SDK is committed. Bump this SHA to regenerate it from a new release.
-const FORGE_OPENAPI_VERSION = "b7b98182e1e2a02a7e350ec6010a61a7af68cbef";
+const FORGE_OPENAPI_VERSION = "10cdded1d9e93c9b055e27cac83b397b2bd7f0c6";
 const FORGE_OPENAPI_RELEASE = `openapi@${FORGE_OPENAPI_VERSION}`;
 const FORGE_OPENAPI_ASSET = "openapi.forge.json";
 const FORGE_OPENAPI_ASSET_URL = `https://github.com/cloudflare/forge/releases/download/${FORGE_OPENAPI_RELEASE}/${FORGE_OPENAPI_ASSET}`;
@@ -229,6 +230,13 @@ try {
 	}
 } finally {
 	rmSync(tempDir, { recursive: true, force: true });
+}
+
+const narrowedSdkClients = narrowSdkErrorImports(join(sdkDir, "sdk"));
+if (narrowedSdkClients > 0) {
+	console.log(
+		`[cf-generator] Narrowed runtime error imports in ${narrowedSdkClients} SDK clients`
+	);
 }
 
 const sdkCollisionResult = dropSdkMethodGroupCollisions(join(sdkDir, "sdk"));

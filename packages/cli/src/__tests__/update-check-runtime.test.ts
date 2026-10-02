@@ -100,13 +100,32 @@ describe("update check runtime", () => {
 		expect(updateCheck.maybeStartBackgroundUpdateCheck).not.toHaveBeenCalled();
 	});
 
-	it("skips update state for completion after a global option value", async () => {
+	it.each([
+		["string value", ["--profile", "work"]],
+		["boolean true", ["--local", "true"]],
+		["boolean false", ["--local", "false"]],
+		["aliased boolean true", ["-q", "true"]],
+		["aliased boolean false", ["-q", "false"]],
+		["bare boolean", ["--local"]],
+	])("skips update state for completion after %s", async (_name, flags) => {
 		setTTY(true, true);
 		const output = captureOutput();
 
-		await runCf(["--profile", "work", "complete", "--help"]);
+		await runCf([...flags, "complete", "bash", "--help"]);
 
+		expect(output.stdout()).toContain("cf complete [shell]");
 		expect(output.stderr()).not.toContain("update available");
+		expect(updateCheck.getUpdateNotice).not.toHaveBeenCalled();
+		expect(updateCheck.maybeStartBackgroundUpdateCheck).not.toHaveBeenCalled();
+	});
+
+	it("runs completion with a positional after an explicit boolean value", async () => {
+		setTTY(true, true);
+		const output = captureOutput();
+
+		await runCf(["--local", "false", "complete", "bash"]);
+
+		expect(output.stdout()).toContain("bash");
 		expect(updateCheck.getUpdateNotice).not.toHaveBeenCalled();
 		expect(updateCheck.maybeStartBackgroundUpdateCheck).not.toHaveBeenCalled();
 	});

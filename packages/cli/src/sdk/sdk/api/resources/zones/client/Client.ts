@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
-import * as CloudflareApi from "../../../index.js";
+import type * as CloudflareApi from "../../../index.js";
 import { AegisClient } from "../resources/aegis/client/Client.js";
 import { AutomaticPlatformOptimizationClient } from "../resources/automaticPlatformOptimization/client/Client.js";
 import { BinaryAstClient } from "../resources/binaryAst/client/Client.js";

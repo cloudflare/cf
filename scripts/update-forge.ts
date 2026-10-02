@@ -15,7 +15,6 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(SCRIPT_DIR, "..");
 const GENERATOR_PATH = join(REPO_ROOT, "packages/cli/generate.ts");
-const CHANGESET_PATH = join(REPO_ROOT, ".changeset/update-forge.md");
 const FORGE_REPOSITORY = "cloudflare/forge";
 const OPENAPI_ASSET = "openapi.forge.json";
 const OPENAPI_VERSION_PATTERN =
@@ -324,8 +323,12 @@ function assertCleanWorktree(): void {
 }
 
 function writeChangeset(version: string): void {
+	const changesetPath = join(
+		REPO_ROOT,
+		`.changeset/update-forge-${version.slice(0, 12)}.md`
+	);
 	writeFileSync(
-		CHANGESET_PATH,
+		changesetPath,
 		`---
 "cf": minor
 ---

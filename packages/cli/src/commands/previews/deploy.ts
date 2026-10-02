@@ -14,7 +14,7 @@ import {
 	getCloudflareApiBaseUrl,
 	getCloudflareComplianceRegion,
 } from "@cloudflare/workers-utils";
-import { getAccountId, getAuthToken } from "../../lib/auth.js";
+import { getAuthToken } from "../../lib/auth-token.js";
 import { BuildOutputConfigError } from "../../lib/build-output-error.js";
 import {
 	buildOutputWorkerOption,
@@ -22,6 +22,7 @@ import {
 	selectBuildOutputWorker,
 	validateBuildOutputMode,
 } from "../../lib/build-output.js";
+import { getAccountId } from "../../lib/context.js";
 import { createDeployContext } from "../../lib/deploy-context.js";
 import { assembleBuildResult } from "../../lib/deploy-input.js";
 import { withCloudflareDotEnv } from "../../lib/dotenv.js";

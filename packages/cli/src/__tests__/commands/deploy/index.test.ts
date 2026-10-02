@@ -1138,7 +1138,7 @@ describe("cf deploy", () => {
 	});
 
 	describe("--dry-run", () => {
-		it("previews setup without changing an existing Astro project or building", async () => {
+		it("keeps existing project files unchanged and skips the build when setup is needed", async () => {
 			const packageJson = JSON.stringify({
 				name: "astro-project",
 				scripts: { deploy: "astro build && wrangler deploy" },

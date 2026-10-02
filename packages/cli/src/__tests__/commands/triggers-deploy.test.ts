@@ -83,7 +83,7 @@ describe("cf workers triggers deploy", () => {
 		expect(requests).toEqual([]);
 	});
 
-	it("stops after previewing project setup during a dry run", async () => {
+	it("skips the build and trigger deployment when setup is needed during a dry run", async () => {
 		const requests = recordRequests();
 		await seed({
 			"package.json": JSON.stringify({

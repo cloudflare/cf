@@ -39,6 +39,8 @@ export async function runBuild(
 		dryRun,
 	});
 	if (setupNeeded) {
+		// A Wrangler config conversion or framework setup was dry-run, so the
+		// configuration the build needs has not been written yet.
 		return "setup-needed";
 	}
 	const buildCommand = configuration?.buildCommand ?? details?.buildCommand;

@@ -165,7 +165,7 @@ describe("cf migrate", () => {
 		expect(migrateWranglerToCf).not.toHaveBeenCalled();
 	});
 
-	it("offers to run the same migration for project workflows", async () => {
+	it("offers to convert a Wrangler config before project setup", async () => {
 		await seed({ "wrangler.jsonc": "{}" });
 		const confirmMigration = vi.fn().mockResolvedValue(true);
 
@@ -191,7 +191,7 @@ describe("cf migrate", () => {
 		);
 	});
 
-	it("previews an accepted project workflow migration during a dry run", async () => {
+	it("dry-runs an accepted Wrangler config conversion before project setup", async () => {
 		await seed({ "wrangler.jsonc": "{}" });
 		const confirmMigration = vi.fn().mockResolvedValue(true);
 
@@ -206,8 +206,14 @@ describe("cf migrate", () => {
 
 		expect(migrateWranglerToCf).toHaveBeenCalledWith(
 			path.join(process.cwd(), "wrangler.jsonc"),
-			expect.objectContaining({ dryRun: true })
+			{
+				bundler: "wrangler",
+				dryRun: true,
+				force: false,
+				installDependencies: true,
+			}
 		);
+		expect(migrateWranglerToCf).toHaveBeenCalledOnce();
 	});
 
 	it("uses Vite for automatic migration when the plugin is declared", async () => {

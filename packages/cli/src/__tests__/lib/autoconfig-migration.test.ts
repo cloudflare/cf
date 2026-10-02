@@ -42,7 +42,7 @@ describe("project preparation", () => {
 		expect(mocks.maybeMigrateWranglerProject).not.toHaveBeenCalled();
 	});
 
-	it("does not preview setup for a configured project during a dry run", async () => {
+	it("does not run setup for a configured project during a dry run", async () => {
 		const configuredDetails = { ...unconfiguredDetails, configured: true };
 		mocks.getDetailsForAutoConfig.mockResolvedValue(configuredDetails);
 
@@ -80,7 +80,7 @@ describe("project preparation", () => {
 		expect(mocks.runAutoConfig).not.toHaveBeenCalled();
 	});
 
-	it("runs autoconfig when migration is unavailable or declined", async () => {
+	it("runs framework setup when Wrangler config conversion did not run", async () => {
 		const configuration = {
 			scripts: {},
 			outputDir: "dist",
@@ -97,7 +97,7 @@ describe("project preparation", () => {
 		expect(mocks.runAutoConfig).toHaveBeenCalledOnce();
 	});
 
-	it("previews autoconfig without applying setup during a dry run", async () => {
+	it("dry-runs framework setup when Wrangler config conversion did not run", async () => {
 		mocks.getDetailsForAutoConfig.mockResolvedValue(unconfiguredDetails);
 		mocks.maybeMigrateWranglerProject.mockResolvedValue(false);
 		mocks.runAutoConfig.mockResolvedValue({ buildCommand: "npm run build" });
@@ -120,7 +120,7 @@ describe("project preparation", () => {
 		);
 	});
 
-	it("stops after previewing a Wrangler migration", async () => {
+	it("stops after an accepted Wrangler config conversion dry run", async () => {
 		mocks.getDetailsForAutoConfig.mockResolvedValue(unconfiguredDetails);
 		mocks.maybeMigrateWranglerProject.mockResolvedValue(true);
 
@@ -129,6 +129,12 @@ describe("project preparation", () => {
 				details: unconfiguredDetails,
 				setupNeeded: true,
 			}
+		);
+		expect(mocks.maybeMigrateWranglerProject).toHaveBeenCalledWith(
+			"/project",
+			expect.any(Function),
+			undefined,
+			true
 		);
 		expect(mocks.getDetailsForAutoConfig).toHaveBeenCalledOnce();
 		expect(mocks.runAutoConfig).not.toHaveBeenCalled();

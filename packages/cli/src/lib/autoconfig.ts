@@ -81,6 +81,10 @@ export async function analyzeProject(
 	}
 }
 
+/**
+ * Run framework autoconfig after detection, applying or dry-running setup
+ * without building.
+ */
 export async function configureProject(
 	details: AutoConfigDetails,
 	options: ProjectPreparationOptions = {}
@@ -93,6 +97,11 @@ export async function configureProject(
 	});
 }
 
+/**
+ * Choose project setup before a build: an accepted Wrangler config conversion
+ * takes precedence over framework setup. In a dry run, `setupNeeded` means
+ * a setup route was selected but not applied, so callers must skip the build.
+ */
 export async function prepareProject(
 	cwd: string,
 	options: ProjectPreparationOptions = {}
@@ -107,14 +116,13 @@ export async function prepareProject(
 	}
 
 	const context = createAutoConfigContext(options);
-	if (
-		await maybeMigrateWranglerProject(
-			cwd,
-			(text, confirmOptions) => context.dialogs.confirm(text, confirmOptions),
-			options.output,
-			options.dryRun
-		)
-	) {
+	const migrationRan = await maybeMigrateWranglerProject(
+		cwd,
+		(text, confirmOptions) => context.dialogs.confirm(text, confirmOptions),
+		options.output,
+		options.dryRun
+	);
+	if (migrationRan) {
 		if (options.dryRun) {
 			return { details, setupNeeded: true };
 		}

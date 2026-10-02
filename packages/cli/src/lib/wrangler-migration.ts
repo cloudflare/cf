@@ -192,6 +192,11 @@ export async function runWranglerMigration(
 	}
 }
 
+/**
+ * Offer to convert a Wrangler config before framework setup. Returns true
+ * only after the user accepts and the conversion command completes, including
+ * when it runs in dry-run mode.
+ */
 export async function maybeMigrateWranglerProject(
 	projectPath: string,
 	confirmMigration: ConfirmMigration,

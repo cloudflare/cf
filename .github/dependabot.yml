@@ -3,8 +3,7 @@ updates:
   - package-ecosystem: npm
     directory: /
     schedule:
-      interval: cron
-      cronjob: "37 * * * *"
+      interval: daily
     versioning-strategy: increase
     # Limit this updater to the packages published from workers-sdk. The Vite
     # plugin fixture uses a separate SHA beta, and workers-types comes from

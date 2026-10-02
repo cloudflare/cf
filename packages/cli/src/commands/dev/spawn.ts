@@ -14,8 +14,8 @@
  * delegate binary supports. Future subcommands like `build` / `deploy`
  * will follow the same shape: `<impl-binary> <verb> [argv]`.
  */
-import { spawn } from "node:child_process";
 import { constants } from "node:os";
+import { execa } from "execa";
 import { getCloudflareRegistryEnvironment } from "../../lib/registry.js";
 import type { CommandOutputOptions } from "../../lib/autoconfig.js";
 import type { DiscoveredImpl } from "./discover.js";
@@ -89,10 +89,12 @@ export async function spawnImpl(
 
 	// PyPI impls under uv use a `uv:<pkg>` sentinel from the discoverer
 	// to signal "invoke via `uv run` rather than the bare binary." Split
-	// it out into the right argv shape for child_process.spawn.
+	// it out into the right argv shape for Execa.
 	const { command, prefixArgs } = parseBinaryToken(binary);
 
-	const child = spawn(command, [...prefixArgs, verb, ...argv], {
+	// Execa resolves delegate shebangs on Windows, including extensionless
+	// entrypoints that native spawn cannot execute directly.
+	const child = execa(command, [...prefixArgs, verb, ...argv], {
 		// Dev inherits stdout so the implementation owns the terminal. A
 		// composed one-shot command may instead route build output to stderr
 		// (preserving JSON stdout) or suppress non-error output under --quiet.
@@ -120,6 +122,7 @@ export async function spawnImpl(
 		// warnings the user might actually want to see are sacrificed
 		// here in exchange for clean dev-server output.
 		env: implEnvironment(verb, options.env),
+		reject: false,
 	});
 
 	// SIGINT / SIGTERM forwarding. Node delivers signals to cf; we
@@ -135,9 +138,8 @@ export async function spawnImpl(
 		if (!shouldRelaySignal(sig)) {
 			return;
 		}
-		// `child.kill` is best-effort: if the child has already exited
-		// the call is a no-op (Node returns false; we ignore).
-		child.kill(sig);
+		// Termination is best-effort if the child has already exited.
+		child.kill(sig, { forceKillAfterTimeout: false });
 	};
 	const onSigInt = () => forward("SIGINT");
 	const onSigTerm = () => forward("SIGTERM");
@@ -145,19 +147,15 @@ export async function spawnImpl(
 	process.on("SIGTERM", onSigTerm);
 
 	try {
-		// Wait for the child. We resolve on `exit` (process tree gone)
-		// rather than `close` (stdio closed) because stdio is inherited
-		// — there are no pipes for us to drain.
-		const result = await new Promise<SpawnResult>((resolve, reject) => {
-			child.once("exit", (code, signal) => {
-				resolve(normalizeSpawnExit(code, signal, forwardedSignal));
-			});
-			child.once("error", (err) => {
-				// Spawn-time failure (binary not executable, ENOENT race).
-				reject(err);
-			});
-		});
-		return result;
+		const result = await child;
+		if (result instanceof Error && result.exitCode == null && !result.signal) {
+			throw result;
+		}
+		const signal =
+			result.signal && result.signal in constants.signals
+				? (result.signal as NodeJS.Signals)
+				: null;
+		return normalizeSpawnExit(result.exitCode ?? null, signal, forwardedSignal);
 	} finally {
 		process.off("SIGINT", onSigInt);
 		process.off("SIGTERM", onSigTerm);
@@ -190,7 +188,7 @@ function implEnvironment(
  *
  * Most impls return a plain absolute path (e.g.
  * `/path/to/node_modules/@cloudflare/vite-plugin/bin/cf-vite`) and we
- * spawn it directly. PyPI impls under uv-managed projects return
+ * pass it to Execa directly. PyPI impls under uv-managed projects return
  * `uv:<pkg>` (the discoverer's sentinel), which we expand to
  * `uv run --no-sync <pkg>` so the impl runs in the project's uv
  * environment without paying for a lock-resolution roundtrip.

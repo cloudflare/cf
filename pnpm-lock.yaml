@@ -162,6 +162,10 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  '@cloudflare/autoconfig>@cloudflare/config': 0.22.0
+  '@cloudflare/autoconfig>@cloudflare/workers-utils': 0.45.0
+
 patchedDependencies:
   '@changesets/cli@2.31.0': 059d085279022eeb7f92871a182f71310e4891b62871cfedccb21b34f4bfcd27
   '@cloudflare/containers-shared@0.21.1': ecd632c350c22e92f11dd426d4aec675be6515b0aa7e21f2ff1367e315e3ac59
@@ -281,8 +285,8 @@ importers:
         specifier: ^1.2.0
         version: 1.5.1
       '@cloudflare/autoconfig':
-        specifier: 0.7.3
-        version: 0.7.3(vitest@4.1.11(@types/node@25.3.5)(msw@2.14.6(@types/node@25.3.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.3.5)(esbuild@0.28.1)(tsx@4.21.0)(yaml@2.9.0)))
+        specifier: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/autoconfig@0436d6a
+        version: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/autoconfig@0436d6a(vitest@4.1.11(@types/node@25.3.5)(msw@2.14.6(@types/node@25.3.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.3.5)(esbuild@0.28.1)(tsx@4.21.0)(yaml@2.9.0)))
       '@cloudflare/cli-shared-helpers':
         specifier: 0.2.1
         version: 0.2.1(vitest@4.1.11(@types/node@25.3.5)(msw@2.14.6(@types/node@25.3.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.3.5)(esbuild@0.28.1)(tsx@4.21.0)(yaml@2.9.0)))
@@ -584,8 +588,9 @@ packages:
     resolution: {integrity: sha512-zccHj2z2oCCO4yrDiRSlFOxWerGqRiysP7a5jPK6uoI9URKAquwY42Dd/iUP8JWHxEzdRe4TlbvZCo8z1/mhrw==}
     engines: {node: '>= 20.12.0'}
 
-  '@cloudflare/autoconfig@0.7.3':
-    resolution: {integrity: sha512-Uk2nbWbe6n26WHl/L8dLwPULzws0p+NZ4LPHCiuewh4pJMdvkgZ4sGfoJiiZo47VADWNWdNx/evevbMOYM/YQQ==}
+  '@cloudflare/autoconfig@https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/autoconfig@0436d6a':
+    resolution: {integrity: sha512-5zZ4DRnD8rddVHst2iQSF+nih5YAGA76snb8hplNxARSYlrJLWvtptenJ2o8DuC29X6zOlGVQ4AV8ULYRNg6QQ==, tarball: https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/autoconfig@0436d6a}
+    version: 0.7.3
 
   '@cloudflare/build-output-utils@0.8.2':
     resolution: {integrity: sha512-DHKF7p5p1ZapZbh2GyF3mfBW7D45IKtcnwMdKnVZ72A/a2rfwd1kczBYFH+O4cHnNI7e9HRwTm+Z76IDZfxVLw==}
@@ -3849,7 +3854,7 @@ snapshots:
       fast-wrap-ansi: 0.2.2
       sisteransi: 1.0.5
 
-  '@cloudflare/autoconfig@0.7.3(vitest@4.1.11(@types/node@25.3.5)(msw@2.14.6(@types/node@25.3.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.3.5)(esbuild@0.28.1)(tsx@4.21.0)(yaml@2.9.0)))':
+  '@cloudflare/autoconfig@https://pkg.pr.new/cloudflare/workers-sdk/@cloudflare/autoconfig@0436d6a(vitest@4.1.11(@types/node@25.3.5)(msw@2.14.6(@types/node@25.3.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.3.5)(esbuild@0.28.1)(tsx@4.21.0)(yaml@2.9.0)))':
     dependencies:
       '@cloudflare/cli-shared-helpers': 0.2.1(vitest@4.1.11(@types/node@25.3.5)(msw@2.14.6(@types/node@25.3.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.3.5)(esbuild@0.28.1)(tsx@4.21.0)(yaml@2.9.0)))
       '@cloudflare/config': 0.22.0

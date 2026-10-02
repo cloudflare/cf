@@ -199,7 +199,8 @@ async function uploadBuildOutput(argv: UploadArgs, ctx: UploadCommand) {
 			analyseBundle: undefined,
 		}));
 	}
-	if (versionId === null && !argv["dry-run"]) {
+	// A successful upload can also return no version ID; strict-mode aborts set exitCode.
+	if (versionId === null && process.exitCode === 1 && !argv["dry-run"]) {
 		throw new CliExit(1);
 	}
 

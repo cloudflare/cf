@@ -1,4 +1,4 @@
-import { chmodSync, readFileSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import {
 	mockConsoleMethods,
@@ -8,6 +8,7 @@ import {
 import { describe, expect, it } from "vite-plus/test";
 import { runBuild } from "../../../commands/build/index.js";
 import { BuildOutputError } from "../../../lib/build-output.js";
+import { makeExecutable, nodeScript } from "../../helpers/executable.js";
 import { runCf } from "../../helpers/run-cf.js";
 import { buildOutputRootConfig, workerConfig } from "../deploy/helpers.js";
 
@@ -60,8 +61,9 @@ describe("cf build", () => {
 				name: "wrangler",
 				version: "4.136.0",
 			}),
-			"node_modules/wrangler/bin/cf-wrangler.js":
-				'#!/usr/bin/env bash\nprintf "%s\\n" "$@" > wrangler-argv.out\nexit 99\n',
+			"node_modules/wrangler/bin/cf-wrangler.js": nodeScript(
+				'require("node:fs").writeFileSync("wrangler-argv.out", process.argv.slice(2).join("\\n") + "\\n"); process.exit(99);'
+			),
 		});
 		chmod("node_modules/@cloudflare/vite-plugin/bin/cf-vite");
 		chmod("node_modules/wrangler/bin/cf-wrangler.js");
@@ -147,7 +149,7 @@ describe("cf build", () => {
 			}),
 			"node_modules/.bin/astro": buildScript("astro-worker"),
 		});
-		chmod("node_modules/.bin/astro");
+		chmod("node_modules/.bin/astro", true);
 
 		const result = await runCf(["build", "--mode", "staging"]);
 
@@ -173,11 +175,12 @@ describe("cf build", () => {
 				name: "vinext",
 				version: "0.0.1",
 			}),
-			"node_modules/.bin/vite": `${buildScript(
-				"vinext-worker"
-			)}\nprintf "%s" "$CLOUDFLARE_VITE_FORCE_BUILD_OUTPUT" > env.out\n`,
+			"node_modules/.bin/vite": buildScript(
+				"vinext-worker",
+				'fs.writeFileSync("env.out", process.env.CLOUDFLARE_VITE_FORCE_BUILD_OUTPUT ?? "");'
+			),
 		});
-		chmod("node_modules/.bin/vite");
+		chmod("node_modules/.bin/vite", true);
 
 		const result = await runCf(["build", "--mode", "staging"]);
 
@@ -222,9 +225,12 @@ describe("cf build", () => {
 				name: "vite",
 				version: "7.0.0",
 			}),
-			"node_modules/.bin/vite": `${buildScript("vite-worker")}\nprintf "%s" "$CLOUDFLARE_VITE_FORCE_BUILD_OUTPUT" > env.out\n`,
+			"node_modules/.bin/vite": buildScript(
+				"vite-worker",
+				'fs.writeFileSync("env.out", process.env.CLOUDFLARE_VITE_FORCE_BUILD_OUTPUT ?? "");'
+			),
 		});
-		chmod("node_modules/.bin/vite");
+		chmod("node_modules/.bin/vite", true);
 
 		const result = await runCf(["build"]);
 
@@ -246,11 +252,12 @@ describe("cf build", () => {
 				name: "vite",
 				version: "7.0.0",
 			}),
-			"node_modules/.bin/vite": `${buildScript(
-				"vite-preview-worker"
-			)}\nprintf "%s\\n%s" "$CLOUDFLARE_VITE_FORCE_BUILD_OUTPUT" "$CLOUDFLARE_PREVIEW_BUILD" > env.out\n`,
+			"node_modules/.bin/vite": buildScript(
+				"vite-preview-worker",
+				'fs.writeFileSync("env.out", [process.env.CLOUDFLARE_VITE_FORCE_BUILD_OUTPUT, process.env.CLOUDFLARE_PREVIEW_BUILD].join("\\n"));'
+			),
 		});
-		chmod("node_modules/.bin/vite");
+		chmod("node_modules/.bin/vite", true);
 
 		await runBuild("staging", {}, { isPreview: true });
 
@@ -269,8 +276,9 @@ describe("cf build", () => {
 				name: "wrangler",
 				version: "4.136.0",
 			}),
-			"node_modules/wrangler/bin/cf-wrangler.js":
-				'#!/usr/bin/env bash\nprintf "%s\\n" "$@" > argv.out\nexit 17\n',
+			"node_modules/wrangler/bin/cf-wrangler.js": nodeScript(
+				'require("node:fs").writeFileSync("argv.out", process.argv.slice(2).join("\\n") + "\\n"); process.exit(17);'
+			),
 		});
 		chmod("node_modules/wrangler/bin/cf-wrangler.js");
 
@@ -289,8 +297,9 @@ describe("cf build", () => {
 				name: "wrangler",
 				version: "4.136.0",
 			}),
-			"node_modules/wrangler/bin/cf-wrangler.js":
-				'#!/usr/bin/env bash\nprintf "%s\\n" "$@" > argv.out\nexit 0\n',
+			"node_modules/wrangler/bin/cf-wrangler.js": nodeScript(
+				'require("node:fs").writeFileSync("argv.out", process.argv.slice(2).join("\\n") + "\\n");'
+			),
 		});
 		chmod("node_modules/wrangler/bin/cf-wrangler.js");
 
@@ -298,20 +307,23 @@ describe("cf build", () => {
 	});
 });
 
-function buildScript(workerName: string): string {
+function buildScript(workerName: string, extra = ""): string {
 	const workerDir = ".cloudflare/output/v0/workers/default";
-	return [
-		"#!/usr/bin/env bash",
-		'printf "%s\\n" "$@" > argv.out',
-		`mkdir -p ${workerDir}/bundle`,
-		`printf '%s' ${JSON.stringify(buildOutputRootConfig())} > .cloudflare/output/v0/config.json`,
-		`printf '%s' ${JSON.stringify(workerConfig({ name: workerName }))} > ${workerDir}/worker.config.json`,
-		`printf 'export default {}' > ${workerDir}/bundle/index.js`,
-	].join("\n");
+	return nodeScript(
+		[
+			'const fs = require("node:fs");',
+			'fs.writeFileSync("argv.out", process.argv.slice(2).join("\\n") + "\\n");',
+			`fs.mkdirSync(${JSON.stringify(`${workerDir}/bundle`)}, { recursive: true });`,
+			`fs.writeFileSync(".cloudflare/output/v0/config.json", ${JSON.stringify(buildOutputRootConfig())});`,
+			`fs.writeFileSync(${JSON.stringify(`${workerDir}/worker.config.json`)}, ${JSON.stringify(workerConfig({ name: workerName }))});`,
+			`fs.writeFileSync(${JSON.stringify(`${workerDir}/bundle/index.js`)}, "export default {}");`,
+			extra,
+		].join("\n")
+	);
 }
 
-function chmod(path: string): void {
-	chmodSync(resolve(process.cwd(), path), 0o755);
+function chmod(path: string, npmBin = false): void {
+	makeExecutable(path, { npmBin });
 }
 
 function readArgv(path: string): string[] {

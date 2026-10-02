@@ -78,7 +78,10 @@ function formatJson(data: unknown): string {
 	}
 
 	return json
-		.replace(/"([^"]+)":/g, (_match, key) => `${theme.jsonKey(`"${key}"`)}:`)
+		.replace(
+			/"((?:[^"\\]|\\.)*)":/g,
+			(_match, key) => `${theme.jsonKey(`"${key}"`)}:`
+		)
 		.replace(
 			/: "((?:[^"\\]|\\.)*)"/g,
 			(_match, value) => `: ${theme.jsonString(`"${value}"`)}`

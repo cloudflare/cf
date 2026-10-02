@@ -164,6 +164,10 @@ describe("formatOutput", () => {
 			{ name: "empty strings", value: "" },
 			{ name: "escaped quotation marks", value: '"cat.com"' },
 			{ name: "embedded quotation marks", value: 'say "hello"' },
+			{
+				name: "escaped quotation marks followed by a colon",
+				value: '"key": text',
+			},
 			{ name: "backslashes before quotation marks", value: '\\"cat.com\\"' },
 			{
 				name: "Windows paths with trailing backslashes",

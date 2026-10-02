@@ -1,12 +1,10 @@
-import { getAuthToken } from "#lib/auth-token.js";
-import { getAccountId, getComplianceRegion } from "#lib/context.js";
-import { getDefaultHeaders } from "#lib/request-headers.js";
 import {
 	configureOpenAPIForContainerPull,
 	OpenAPI,
 } from "@cloudflare/containers-shared";
 import { getCloudflareApiBaseUrl } from "@cloudflare/workers-utils";
-import { getAccountId, getAuthToken, getComplianceRegion } from "#lib/auth.js";
+import { getAuthToken } from "#lib/auth-token.js";
+import { getAccountId, getComplianceRegion } from "#lib/context.js";
 import { getDefaultHeaders } from "#lib/request-headers.js";
 
 export async function configureRegistryAccess() {

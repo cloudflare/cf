@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
 import { REDACTED, sanitizeArgs } from "../../../lib/telemetry/sanitization.js";
-import { CloudflareApiError } from "#sdk";
 
 describe("sanitizeArgs", () => {
 	it("records finite values and redacts free-form values", () => {

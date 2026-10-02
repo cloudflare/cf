@@ -1,10 +1,10 @@
-import { CloudflareApiClient } from "#sdk/client";
-import { CloudflareApiError } from "#sdk/errors";
 import { describe, expect, it, vi } from "vitest";
 import {
 	BadRequestError,
 	UnauthorizedError,
 } from "../../sdk/sdk/api/errors/index.js";
+import { CloudflareApiClient } from "#sdk/client";
+import { CloudflareApiError } from "#sdk/errors";
 
 vi.mock("../../sdk/sdk/api/index.js", () => {
 	throw new Error(

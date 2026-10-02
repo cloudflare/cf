@@ -1,8 +1,3 @@
-import { getAuthToken } from "#lib/auth-token.js";
-import { getAccountId, getComplianceRegion } from "#lib/context.js";
-import { createDeployContext } from "#lib/deploy-context.js";
-import { getDefaultHeaders } from "#lib/request-headers.js";
-import { withTelemetry } from "#lib/telemetry/index.js";
 import {
 	configureOpenAPIForContainerPull,
 	containersSshOptions,
@@ -14,7 +9,8 @@ import {
 import { getCloudflareApiBaseUrl } from "@cloudflare/workers-utils";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { Argv, CommandModule } from "yargs";
-import { getAccountId, getAuthToken, getComplianceRegion } from "#lib/auth.js";
+import { getAuthToken } from "#lib/auth-token.js";
+import { getAccountId, getComplianceRegion } from "#lib/context.js";
 import { createDeployContext } from "#lib/deploy-context.js";
 import { getDefaultHeaders } from "#lib/request-headers.js";
 import { withTelemetry } from "#lib/telemetry/index.js";

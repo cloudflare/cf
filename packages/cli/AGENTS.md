@@ -57,13 +57,17 @@ second consumer.
 
 ```bash
 pnpm generate          # pinned public OpenAPI → matching SDK + commands
-pnpm build             # root: generate, then Vite+ Pack build
+pnpm build             # generate, then Vite+ Pack build
 pnpm --filter cf dev   # tsx src/dev.ts (no generate, no bundle)
 pnpm --filter cf check:type
 pnpm --filter cf test
 ```
 
-Those commands are shown from the repository root. From this package directory, `pnpm build` runs Vite+ Pack only, while `pnpm dev`, `pnpm check:type`, and `pnpm test` run their package scripts directly.
+Those commands are shown from the repository root. Package scripts invoke
+Vite+ tasks declared in `vite.config.ts`. Build, type-check, and test tasks
+depend on generation, including when invoked from this package directory.
+Build and type-check tasks also build workspace dependencies first. `pnpm dev`
+starts the source entry without generation or bundling. Task caching is disabled.
 
 `pnpm generate` downloads the pinned Forge `openapi.forge.json` release asset,
 uses the committed matching SDK when its entrypoint exists and recorded

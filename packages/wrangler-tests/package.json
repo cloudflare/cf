@@ -5,9 +5,8 @@
 	"description": "Canonical Wrangler test situations re-targeted at cf. See packages/wrangler-tests/README.md.",
 	"type": "module",
 	"scripts": {
-		"pretest": "pnpm --filter cf build:test",
-		"test": "vp test run",
-		"test:watch": "pnpm --filter cf build:test && vp test watch"
+		"test": "vp run task:test",
+		"test:watch": "vp run task:test:watch"
 	},
 	"devDependencies": {
 		"@cloudflare/workers-utils": "0.45.0",

@@ -61,14 +61,14 @@
 		"./package.json": "./package.json"
 	},
 	"scripts": {
-		"generate": "tsx generate.ts",
-		"dev": "tsx src/dev.ts",
-		"build": "vp pack",
-		"build:test": "node build-test.mjs",
-		"check:type": "tsgo --noEmit",
-		"test": "vp test run",
-		"test:watch": "vp test watch",
-		"test:imports": "vp test run --maxWorkers=1 --no-file-parallelism --experimental.importDurations.limit=100000 --reporter=default --reporter=./src/__tests__/helpers/import-reporter.ts"
+		"generate": "vp run task:generate",
+		"dev": "vp run task:dev",
+		"build": "vp run task:build",
+		"build:test": "vp run task:build:test",
+		"check:type": "vp run task:check:type",
+		"test": "vp run task:test",
+		"test:watch": "vp run task:test:watch",
+		"test:imports": "vp run task:test:imports"
 	},
 	"dependencies": {
 		"@cloudflare/build-output-utils": "0.8.4",

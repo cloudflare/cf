@@ -63,6 +63,20 @@ const compatibilityTests = {
 };
 
 export default defineConfig({
+	run: {
+		tasks: {
+			"task:test": {
+				command: "vp test run",
+				dependsOn: ["cf#task:build:test"],
+				cache: false,
+			},
+			"task:test:watch": {
+				command: "vp test watch",
+				dependsOn: ["cf#task:build:test"],
+				cache: false,
+			},
+		},
+	},
 	test: {
 		projects: [
 			compatibilityTests,

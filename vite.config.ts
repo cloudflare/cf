@@ -1,6 +1,30 @@
 import { defineConfig } from "vite-plus";
 
 export default defineConfig({
+	run: {
+		// Restore task ordering first; enable caching once inputs and outputs are audited.
+		cache: false,
+		tasks: {
+			"repo:types": {
+				command: "vp run -r task:check:type",
+				cache: false,
+			},
+			"repo:check": {
+				command: "vp check",
+				dependsOn: ["repo:types"],
+				cache: false,
+			},
+			"repo:lint": {
+				command: "vp lint --deny-warnings --type-aware",
+				dependsOn: ["cf#task:generate"],
+				cache: false,
+			},
+			"repo:format": {
+				command: "vp fmt --check",
+				cache: false,
+			},
+		},
+	},
 	fmt: {
 		printWidth: 80,
 		singleQuote: false,

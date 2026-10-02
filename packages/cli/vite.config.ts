@@ -5,6 +5,58 @@ import { defineConfig } from "vite-plus";
 const testBundle = process.env.CF_TEST_BUNDLE === "1";
 
 export default defineConfig({
+	run: {
+		tasks: {
+			"task:generate": {
+				command: "tsx generate.ts",
+				cache: false,
+			},
+			"task:dev": {
+				command: "tsx src/dev.ts",
+				cache: false,
+			},
+			"task:build": {
+				command: "vp pack",
+				dependsOn: [
+					"task:generate",
+					{ task: "task:build", from: ["dependencies", "devDependencies"] },
+				],
+				cache: false,
+			},
+			"task:build:test": {
+				command: "node build-test.mjs",
+				dependsOn: [
+					"task:generate",
+					{ task: "task:build", from: ["dependencies", "devDependencies"] },
+				],
+				cache: false,
+			},
+			"task:check:type": {
+				command: "tsgo --noEmit",
+				dependsOn: [
+					"task:generate",
+					{ task: "task:build", from: ["dependencies", "devDependencies"] },
+				],
+				cache: false,
+			},
+			"task:test": {
+				command: "vp test run",
+				dependsOn: ["task:generate"],
+				cache: false,
+			},
+			"task:test:watch": {
+				command: "vp test watch",
+				dependsOn: ["task:generate"],
+				cache: false,
+			},
+			"task:test:imports": {
+				command:
+					"vp test run --maxWorkers=1 --no-file-parallelism --experimental.importDurations.limit=100000 --reporter=default --reporter=./src/__tests__/helpers/import-reporter.ts",
+				dependsOn: ["task:generate"],
+				cache: false,
+			},
+		},
+	},
 	test: {
 		// Preserve Vitest 4 mock call history until the suite is reviewed.
 		clearMocks: false,

@@ -80,14 +80,17 @@ cf/
 ├── .github/workflows/          # CI, changesets publish, prerelease, benchmark, review
 ├── pnpm-workspace.yaml         # dependency patches, catalogs, and build scripts
 ├── package.json                # scripts/deps + pnpm version
-└── vite.config.ts              # shared Vite+ lint and format settings
+└── vite.config.ts              # Vite+ tasks, lint, and format settings
 ```
 
 ## Tooling
 
 Aligned with `workers-sdk`:
 
-- **Vite+** — formatting, type-aware linting, Vitest, and Pack bundling.
+- **Vite+** — task orchestration, formatting, type-aware linting, Vitest,
+  and Pack bundling. Package `run.tasks` declare prerequisites; pnpm scripts
+  invoke them through `vp run`. Task caching is disabled while inputs and
+  outputs are audited; uncached tasks inherit the calling environment.
 - **tsgo** (`@typescript/native-preview`) — type checking, no `tsc`.
 - **pnpm 12** with `blockExoticSubdeps` +
   `allowBuilds: { esbuild: true, workerd: true }`.
@@ -108,14 +111,17 @@ Test infrastructure is split across two packages:
   (do not insert `--`, which causes Vitest to run the full suite).
 - **`packages/wrangler-tests/`** — the imported wrangler test corpus,
   re-targeted at cf by aliasing `cf` → `../cli/dist/index.mjs` and
-  `@clack/prompts` → a dialog mock. Its `pretest` script builds a bundle
-  that keeps mock-sensitive dependencies external. Uses MSW for HTTP mocking.
+  `@clack/prompts` → a dialog mock. Its test tasks depend on CLI generation
+  and a bundle that keeps mock-sensitive dependencies external. Uses MSW
+  for HTTP mocking.
 
 `.github/workflows/ci.yml` runs generation, repository checks, the CLI suite, and the Wrangler compatibility suite on every PR and push to `main` (for the Cloudflare-owned repository). Additional confidence:
 
 - The forge-side type system + the OpenAPI spec (every emitted command
   is type-checked end-to-end against the SDK).
-- `pnpm check:type` (tsgo) on the full generated tree.
+- `pnpm check:type` (tsgo) across workspace packages, including the full
+  generated CLI tree and the container fixture. Dependency builds run first
+  so the fixture can resolve `cf/config` declarations.
 - `packages/cli/e2e/` — JSON fixtures driving a generated bash runner
   (`packages/cli/e2e/_generated/run-e2e.sh`) that hits a real
   Cloudflare account. Out-of-band; not run on every commit.
@@ -126,14 +132,15 @@ Test infrastructure is split across two packages:
 
 ```
 pnpm build
-  └─ pnpm generate
-       └─ tsx packages/cli/generate.ts
-            ├─ fetch pinned Forge OpenAPI release (or preview bundle)
-            ├─ regenerate src/sdk/ when missing, on revision change, or for preview
-            ├─ initFromOpenApi(source)
-            ├─ forge.transform(transformer)    # per-command emitter
-            ├─ forge.finalize(_generated, files, { clean: true })
-            └─ vp fmt _generated/               # post-format emitted TS
+  └─ vp run -r task:build
+       └─ cf#task:build (vp pack), after cf#task:generate
+            └─ tsx packages/cli/generate.ts
+                 ├─ fetch pinned Forge OpenAPI release (or preview bundle)
+                 ├─ regenerate src/sdk/ when missing, on revision change, or for preview
+                 ├─ initFromOpenApi(source)
+                 ├─ forge.transform(transformer)    # per-command emitter
+                 ├─ forge.finalize(_generated, files, { clean: true })
+                 └─ vp fmt _generated/               # post-format emitted TS
 ```
 
 Single transformer (`packages/cli/generator/index.ts`) walks
@@ -783,13 +790,22 @@ CI). See `.changeset/README.md` for the full format and rules.
 pnpm install           # uses vendor/ tarballs
 pnpm build             # pinned public OpenAPI → matching SDK, CLI, and dist/
 pnpm dev               # tsx packages/cli/src/dev.ts
-pnpm check             # Vite+ lint/format + tsgo
+pnpm check             # generation + dependency builds + workspace tsgo + lint/format
 pnpm check:lint        # Vite+ lint --type-aware
-pnpm check:type        # tsgo --noEmit
+pnpm check:type        # workspace tsgo, after generation and dependency builds
 pnpm check:format      # Vite+ format check
 pnpm fix               # Vite+ lint fix + format
 pnpm sync:forge        # re-vendor from FORGE_REPO (default ../forge)
 ```
+
+Build, type-check, and test commands declare their prerequisites in each
+package's `vite.config.ts`, so package-scoped commands also prepare what they
+need. Use the shared `task:build` and `task:check:type` names for new workspace
+tasks so recursive root commands discover them, with pnpm scripts wrapping
+those tasks. Reference configured tasks directly in `dependsOn` (for example
+`cf#task:generate`) to share one task within the graph. Use dependency selectors
+for `task:build`, as in the container fixture's type-check. Pass focused test
+paths directly to `pnpm test`.
 
 End-to-end smoke tests against a real Cloudflare account:
 

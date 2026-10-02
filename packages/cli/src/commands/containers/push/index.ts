@@ -1,7 +1,3 @@
-import { getAuthToken } from "#lib/auth-token.js";
-import { getAccountId, getComplianceRegion } from "#lib/context.js";
-import { createDeployContext } from "#lib/deploy-context.js";
-import { withTelemetry } from "#lib/telemetry/index.js";
 /**
  * `cf containers push` uploads an existing local Docker image to Cloudflare's
  * managed registry. This has no OpenAPI operation: the shared Containers
@@ -16,6 +12,10 @@ import {
 import { getCloudflareApiBaseUrl } from "@cloudflare/workers-utils";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { Argv, CommandModule } from "yargs";
+import { getAuthToken } from "#lib/auth-token.js";
+import { getAccountId, getComplianceRegion } from "#lib/context.js";
+import { createDeployContext } from "#lib/deploy-context.js";
+import { withTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs

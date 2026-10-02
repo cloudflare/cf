@@ -1,8 +1,3 @@
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { confirmDelete } from "#lib/prompt.js";
-import { withTelemetry } from "#lib/telemetry/index.js";
-import { warning } from "#lib/ui/format.js";
 import {
 	deleteContainerImage,
 	parseContainerImageTag,
@@ -10,6 +5,11 @@ import {
 import { configureRegistryAccess } from "../context.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { Argv, CommandModule } from "yargs";
+import { formatOutput } from "#lib/output.js";
+import { withProgress } from "#lib/progress.js";
+import { confirmDelete } from "#lib/prompt.js";
+import { withTelemetry } from "#lib/telemetry/index.js";
+import { warning } from "#lib/ui/format.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs

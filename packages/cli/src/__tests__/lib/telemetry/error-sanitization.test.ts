@@ -1,7 +1,7 @@
-import { CloudflareApiError } from "#sdk/errors";
 import { APIError as WorkersUtilsAPIError } from "@cloudflare/workers-utils";
 import { describe, expect, it } from "vitest";
 import { sanitizeError } from "../../../lib/telemetry/error-sanitization.js";
+import { CloudflareApiError } from "#sdk/errors";
 
 describe("sanitizeError", () => {
 	it("captures API status and numeric codes without messages", () => {

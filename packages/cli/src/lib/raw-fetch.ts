@@ -1,3 +1,9 @@
+import { getCloudflareApiBaseUrl } from "@cloudflare/workers-utils/compliance";
+import { API_TIMEOUT_MS } from "./api-constants.js";
+import { getAuthToken } from "./auth-token.js";
+import { getComplianceRegion } from "./context.js";
+import { createLocalFetch } from "./local.js";
+import { getDefaultHeaders } from "./request-headers.js";
 /**
  * Raw-output fetch helper.
  *
@@ -24,12 +30,6 @@
  * `handleError` rendering still applies.
  */
 import { CloudflareApiError } from "#sdk/errors";
-import { getCloudflareApiBaseUrl } from "@cloudflare/workers-utils/compliance";
-import { API_TIMEOUT_MS } from "./api-constants.js";
-import { getAuthToken } from "./auth-token.js";
-import { getComplianceRegion } from "./context.js";
-import { createLocalFetch } from "./local.js";
-import { getDefaultHeaders } from "./request-headers.js";
 
 /**
  * Request body for a raw-output call. Mirrors the shapes the generated

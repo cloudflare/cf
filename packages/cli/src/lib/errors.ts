@@ -1,10 +1,10 @@
-import { CloudflareApiError } from "#sdk/errors";
 import { APIError as WorkersUtilsAPIError } from "@cloudflare/workers-utils";
 import { VERSION } from "../version.js";
 import { openSession } from "./session.js";
 import { errorBlock } from "./ui/blocks.js";
 import { hint } from "./ui/format.js";
 import { theme } from "./ui/theme.js";
+import { CloudflareApiError } from "#sdk/errors";
 
 /**
  * Drop the protocol+host (and the `/client/v4` API-version prefix)

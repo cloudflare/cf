@@ -1,4 +1,3 @@
-import $create from "#commands/registrar/registrations/create/index.js";
 import $check from "./check.js";
 import $getregistrationstatus from "./get-registration-status.js";
 import $gettransferstatus from "./get-transfer-status.js";
@@ -15,6 +14,7 @@ import type { CommonYargsOptions } from "#lib/cli-types.js";
  * @generated from apis/overlays/registrar.ts
  */
 import type { CommandModule } from "yargs";
+import $create from "#commands/registrar/registrations/create/index.js";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "registrations",

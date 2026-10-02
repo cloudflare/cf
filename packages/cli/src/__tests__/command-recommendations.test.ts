@@ -73,18 +73,19 @@ describe("command recommendations", () => {
 	});
 
 	it.each([
-		["r2", "unrecognizable"],
-		["r2", "buckets", "unrecognizable"],
-	])("rejects an unknown nested command in %s", async (...path) => {
-		await expect(runCf([...path, "--help"])).rejects.toThrow(
-			"Unknown command: unrecognizable"
-		);
+		[["r2", "unrecognizable"], "cf r2"],
+		[["r2", "buckets", "unrecognizable"], "cf r2 buckets"],
+	])(
+		"shows parent help for an unknown nested command in %j",
+		async (path, heading) => {
+			await expect(runCf([...path, "--help"])).resolves.toEqual({
+				exitCode: 0,
+			});
 
-		expect(output.stdout()).toBe("");
-		expect(stderr()).toContain(
-			`For more information, run cf ${path.slice(0, -1).join(" ")} --help`
-		);
-	});
+			expect(output.stdout()).toContain(heading);
+			expect(stderr()).not.toContain("Unknown command");
+		}
+	);
 
 	it("shows the parent help hint for an unknown nested command", async () => {
 		await expect(runCf(["workers", "malformed"])).rejects.toThrow(

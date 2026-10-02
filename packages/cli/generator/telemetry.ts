@@ -6,7 +6,6 @@ export function getTelemetrySafeFlags(
 	options: {
 		includeGeneratedForce?: boolean;
 		includeGeneratedText?: boolean;
-		includeShowSecrets?: boolean;
 	} = {}
 ): string[] {
 	return [
@@ -20,7 +19,6 @@ export function getTelemetrySafeFlags(
 				)
 				.map((arg) => toKebabCase(arg.name)),
 			"dry-run",
-			...(options.includeShowSecrets ? ["show-secrets"] : []),
 			...(options.includeGeneratedForce ? ["force"] : []),
 			...(options.includeGeneratedText ? ["text"] : []),
 		]),

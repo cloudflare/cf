@@ -166,11 +166,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Validate and show what would happen without executing",
 			default: false,
 		})
-		.option("show-secrets", {
-			type: "boolean",
-			description: "Show sensitive values in dry-run output",
-			default: false,
-		})
 		.option("body", {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
@@ -274,7 +269,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"wait-for-selector-hidden",
 						"wait-for-selector-visible",
 						"dry-run",
-						"show-secrets",
 					],
 				} satisfies ArgClassification<Args>,
 			},
@@ -397,10 +391,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											waitForTimeout: argv["wait-for-timeout"],
 										}),
 						},
-						{
-							sensitiveBodyPaths: [["authenticate", "password"]],
-							showSecrets: argv.showSecrets,
-						}
+						{ sensitiveBodyPaths: [["authenticate", "password"]] }
 					);
 					return;
 				}

@@ -59,11 +59,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Validate and show what would happen without executing",
 			default: false,
 		})
-		.option("show-secrets", {
-			type: "boolean",
-			description: "Show sensitive values in dry-run output",
-			default: false,
-		})
 		.option("body", {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
@@ -84,7 +79,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "ai-gateway custom-providers update",
 				classification: {
-					safeFlags: ["beta", "enable", "dry-run", "show-secrets"],
+					safeFlags: ["beta", "enable", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -152,7 +147,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											),
 										}),
 						},
-						{ sensitiveBodyPaths: [["headers"]], showSecrets: argv.showSecrets }
+						{ sensitiveBodyPaths: [["headers"]] }
 					);
 					return;
 				}

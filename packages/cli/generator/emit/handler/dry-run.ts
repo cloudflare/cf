@@ -220,7 +220,7 @@ export function emitDryRun(ctx: EmitContext): string[] {
 	}
 	if (sensitivePaths.length > 0) {
 		lines.push(
-			`        }, { sensitiveBodyPaths: ${JSON.stringify(sensitivePaths)}, showSecrets: argv.showSecrets });`
+			`        }, { sensitiveBodyPaths: ${JSON.stringify(sensitivePaths)} });`
 		);
 	} else {
 		lines.push(`        });`);

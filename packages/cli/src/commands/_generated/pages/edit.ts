@@ -225,11 +225,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Validate and show what would happen without executing",
 			default: false,
 		})
-		.option("show-secrets", {
-			type: "boolean",
-			description: "Show sensitive values in dry-run output",
-			default: false,
-		})
 		.option("body", {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
@@ -327,7 +322,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"source-config-production-deployments-enabled",
 						"source-type",
 						"dry-run",
-						"show-secrets",
 					],
 				} satisfies ArgClassification<Args>,
 			},
@@ -561,10 +555,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											},
 										}),
 						},
-						{
-							sensitiveBodyPaths: [["build_config", "web_analytics_token"]],
-							showSecrets: argv.showSecrets,
-						}
+						{ sensitiveBodyPaths: [["build_config", "web_analytics_token"]] }
 					);
 					return;
 				}

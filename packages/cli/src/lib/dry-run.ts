@@ -57,7 +57,6 @@ export interface DryRunOutput {
 
 interface DryRunOptions {
 	sensitiveBodyPaths?: readonly (readonly string[])[];
-	showSecrets?: boolean;
 }
 
 export function redactDryRunBody(
@@ -113,7 +112,7 @@ export function formatDryRun(
 	output: DryRunOutput,
 	options: DryRunOptions = {}
 ): void {
-	if (options.showSecrets || !options.sensitiveBodyPaths?.length) {
+	if (!options.sensitiveBodyPaths?.length) {
 		formatOutput(output);
 		return;
 	}

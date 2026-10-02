@@ -137,11 +137,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Validate and show what would happen without executing",
 			default: false,
 		})
-		.option("show-secrets", {
-			type: "boolean",
-			description: "Show sensitive values in dry-run output",
-			default: false,
-		})
 		.option("body", {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
@@ -321,7 +316,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"schema-inferred",
 						"type",
 						"dry-run",
-						"show-secrets",
 					],
 				} satisfies ArgClassification<Args>,
 			},
@@ -477,7 +471,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								["config", "credentials", "secret_access_key"],
 								["config", "token"],
 							],
-							showSecrets: argv.showSecrets,
 						}
 					);
 					return;

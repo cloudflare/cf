@@ -71,11 +71,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Validate and show what would happen without executing",
 			default: false,
 		})
-		.option("show-secrets", {
-			type: "boolean",
-			description: "Show sensitive values in dry-run output",
-			default: false,
-		})
 		.option("force", {
 			type: "boolean",
 			alias: "f",
@@ -102,13 +97,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "stream videos token create",
 				classification: {
-					safeFlags: [
-						"downloadable",
-						"flags-original",
-						"dry-run",
-						"show-secrets",
-						"force",
-					],
+					safeFlags: ["downloadable", "flags-original", "dry-run", "force"],
 					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
 				} satisfies ArgClassification<Args>,
 			},
@@ -149,7 +138,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											),
 										}),
 						},
-						{ sensitiveBodyPaths: [["pem"]], showSecrets: argv.showSecrets }
+						{ sensitiveBodyPaths: [["pem"]] }
 					);
 					return;
 				}

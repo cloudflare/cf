@@ -105,41 +105,39 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			async () => {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun(
-						{
-							command: "cf stream videos token create",
-							method: "POST",
-							url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/stream/${argv["identifier"] == null ? "<identifier>" : encodeURIComponent(String(argv["identifier"]))}/token`,
-							pathParams: { identifier: String(argv["identifier"] ?? "") },
-							bodyKind: "json",
-							body:
-								argv.body !== undefined
-									? parseBody(argv.body)
-									: compactBody({
-											accessRules: parseObjectArray(
-												argv["access-rules"],
-												"access-rules"
-											),
-											downloadable: argv["downloadable"],
-											exp: argv["exp"],
-											flags: {
-												original: argv["flags-original"],
-											},
-											id: resolveFileToken(
-												argv["id"] as string | undefined,
-												"id",
-												"text"
-											),
-											nbf: argv["nbf"],
-											pem: resolveFileToken(
-												argv["pem"] as string | undefined,
-												"pem",
-												"text"
-											),
-										}),
-						},
-						{ sensitiveBodyPaths: [["pem"]] }
-					);
+					formatDryRun({
+						command: "cf stream videos token create",
+						method: "POST",
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/stream/${argv["identifier"] == null ? "<identifier>" : encodeURIComponent(String(argv["identifier"]))}/token`,
+						pathParams: { identifier: String(argv["identifier"] ?? "") },
+						bodyKind: "json",
+						body:
+							argv.body !== undefined
+								? parseBody(argv.body)
+								: compactBody({
+										accessRules: parseObjectArray(
+											argv["access-rules"],
+											"access-rules"
+										),
+										downloadable: argv["downloadable"],
+										exp: argv["exp"],
+										flags: {
+											original: argv["flags-original"],
+										},
+										id: resolveFileToken(
+											argv["id"] as string | undefined,
+											"id",
+											"text"
+										),
+										nbf: argv["nbf"],
+										pem: resolveFileToken(
+											argv["pem"] as string | undefined,
+											"pem",
+											"text"
+										),
+									}),
+						sensitiveBodyPaths: [["pem"]],
+					});
 					return;
 				}
 				const client = await createCommandClient(argv);

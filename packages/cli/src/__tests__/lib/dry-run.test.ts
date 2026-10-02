@@ -18,10 +18,10 @@ describe("dry-run redaction", () => {
 			redactDryRunBody(body, [["text"], ["credentials", "token"]])
 		).toEqual({
 			type: "secret_text",
-			text: "<redacted, 14 chars>",
+			text: "<redacted>",
 			credentials: [
-				{ name: "first", token: "<redacted, 3 chars>" },
-				{ name: "second", token: "<redacted, 3 chars>" },
+				{ name: "first", token: "<redacted>" },
+				{ name: "second", token: "<redacted>" },
 			],
 		});
 		expect(body.text).toBe("hunter2-secret");
@@ -34,7 +34,7 @@ describe("dry-run redaction", () => {
 				[{ text: "one" }, { text: { private: "value" } }],
 				[["text"]]
 			)
-		).toEqual([{ text: "<redacted, 3 chars>" }, { text: "<redacted>" }]);
+		).toEqual([{ text: "<redacted>" }, { text: "<redacted>" }]);
 	});
 
 	it("hides secrets in formatted dry-run output", () => {
@@ -46,10 +46,9 @@ describe("dry-run redaction", () => {
 			pathParams: {},
 			body: { text: "hunter2-secret", type: "secret_text" },
 		};
-		const options = { sensitiveBodyPaths: [["text"]] };
-
-		formatDryRun(output, options);
-		expect(log.mock.lastCall?.[0]).toContain("<redacted, 14 chars>");
+		formatDryRun({ ...output, sensitiveBodyPaths: [["text"]] });
+		expect(log.mock.lastCall?.[0]).toContain("<redacted>");
 		expect(log.mock.lastCall?.[0]).not.toContain("hunter2-secret");
+		expect(log.mock.lastCall?.[0]).not.toContain("sensitiveBodyPaths");
 	});
 });

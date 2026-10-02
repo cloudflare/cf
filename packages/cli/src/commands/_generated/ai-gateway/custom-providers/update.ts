@@ -86,69 +86,67 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			async () => {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun(
-						{
-							command: "cf ai-gateway custom-providers update",
-							method: "PATCH",
-							url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-gateway/custom-providers/${argv["id"] == null ? "<id>" : encodeURIComponent(String(argv["id"]))}`,
-							pathParams: { id: String(argv["id"] ?? "") },
-							bodyKind: "json",
-							body:
-								argv.body !== undefined
-									? parseBody(argv.body)
-									: compactBody({
-											base_url: resolveFileToken(
-												argv["base-url"] as string | undefined,
-												"base-url",
-												"text"
-											),
-											beta: argv["beta"],
-											curl_example: resolveFileToken(
-												argv["curl-example"] as string | undefined,
-												"curl-example",
-												"text"
-											),
-											description: resolveFileToken(
-												argv["description"] as string | undefined,
-												"description",
-												"text"
-											),
-											enable: argv["enable"],
-											headers: resolveFileToken(
-												argv["headers"] as string | undefined,
-												"headers",
-												"text"
-											),
-											js_example: resolveFileToken(
-												argv["js-example"] as string | undefined,
-												"js-example",
-												"text"
-											),
-											link: resolveFileToken(
-												argv["link"] as string | undefined,
-												"link",
-												"text"
-											),
-											logo: resolveFileToken(
-												argv["logo"] as string | undefined,
-												"logo",
-												"text"
-											),
-											name: resolveFileToken(
-												argv["name"] as string | undefined,
-												"name",
-												"text"
-											),
-											position: argv["position"],
-											slug: resolveFileToken(
-												argv["slug"] as string | undefined,
-												"slug",
-												"text"
-											),
-										}),
-						},
-						{ sensitiveBodyPaths: [["headers"]] }
-					);
+					formatDryRun({
+						command: "cf ai-gateway custom-providers update",
+						method: "PATCH",
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-gateway/custom-providers/${argv["id"] == null ? "<id>" : encodeURIComponent(String(argv["id"]))}`,
+						pathParams: { id: String(argv["id"] ?? "") },
+						bodyKind: "json",
+						body:
+							argv.body !== undefined
+								? parseBody(argv.body)
+								: compactBody({
+										base_url: resolveFileToken(
+											argv["base-url"] as string | undefined,
+											"base-url",
+											"text"
+										),
+										beta: argv["beta"],
+										curl_example: resolveFileToken(
+											argv["curl-example"] as string | undefined,
+											"curl-example",
+											"text"
+										),
+										description: resolveFileToken(
+											argv["description"] as string | undefined,
+											"description",
+											"text"
+										),
+										enable: argv["enable"],
+										headers: resolveFileToken(
+											argv["headers"] as string | undefined,
+											"headers",
+											"text"
+										),
+										js_example: resolveFileToken(
+											argv["js-example"] as string | undefined,
+											"js-example",
+											"text"
+										),
+										link: resolveFileToken(
+											argv["link"] as string | undefined,
+											"link",
+											"text"
+										),
+										logo: resolveFileToken(
+											argv["logo"] as string | undefined,
+											"logo",
+											"text"
+										),
+										name: resolveFileToken(
+											argv["name"] as string | undefined,
+											"name",
+											"text"
+										),
+										position: argv["position"],
+										slug: resolveFileToken(
+											argv["slug"] as string | undefined,
+											"slug",
+											"text"
+										),
+									}),
+						sensitiveBodyPaths: [["headers"]],
+					});
 					return;
 				}
 				const client = await createCommandClient(argv);

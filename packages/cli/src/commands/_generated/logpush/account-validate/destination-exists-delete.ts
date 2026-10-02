@@ -70,29 +70,27 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					const accountOrZone = argv.zone === undefined ? "accounts" : "zones";
 					const accountOrZoneId =
 						argv.zone ?? __cfDryRunAccountId ?? "<account-id>";
-					formatDryRun(
-						{
-							command: "cf logpush account-validate destination-exists-delete",
-							method: "POST",
-							url: `https://api.cloudflare.com/client/v4/${accountOrZone}/${accountOrZoneId}/logpush/validate/destination/exists`,
-							pathParams: {
-								"account-or-zone": String(accountOrZone),
-								"account-or-zone-id": String(accountOrZoneId),
-							},
-							bodyKind: "json",
-							body:
-								argv.body !== undefined
-									? parseBody(argv.body)
-									: compactBody({
-											destination_conf: resolveFileToken(
-												argv["destination-conf"] as string | undefined,
-												"destination-conf",
-												"text"
-											),
-										}),
+					formatDryRun({
+						command: "cf logpush account-validate destination-exists-delete",
+						method: "POST",
+						url: `https://api.cloudflare.com/client/v4/${accountOrZone}/${accountOrZoneId}/logpush/validate/destination/exists`,
+						pathParams: {
+							"account-or-zone": String(accountOrZone),
+							"account-or-zone-id": String(accountOrZoneId),
 						},
-						{ sensitiveBodyPaths: [["destination_conf"]] }
-					);
+						bodyKind: "json",
+						body:
+							argv.body !== undefined
+								? parseBody(argv.body)
+								: compactBody({
+										destination_conf: resolveFileToken(
+											argv["destination-conf"] as string | undefined,
+											"destination-conf",
+											"text"
+										),
+									}),
+						sensitiveBodyPaths: [["destination_conf"]],
+					});
 					return;
 				}
 				const client = await createCommandClient(argv);

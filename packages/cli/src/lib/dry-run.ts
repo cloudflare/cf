@@ -55,9 +55,9 @@ export interface DryRunOutput {
 	body?: unknown;
 }
 
-interface DryRunOptions {
+type DryRunInput = DryRunOutput & {
 	sensitiveBodyPaths?: readonly (readonly string[])[];
-}
+};
 
 export function redactDryRunBody(
 	body: unknown,
@@ -81,12 +81,7 @@ export function redactDryRunBody(
 					return [key, child];
 				}
 				if (matching.some((path) => path.length === 1)) {
-					return [
-						key,
-						typeof child === "string"
-							? `<redacted, ${Array.from(child).length} chars>`
-							: "<redacted>",
-					];
+					return [key, "<redacted>"];
 				}
 				return [
 					key,
@@ -108,16 +103,16 @@ export function redactDryRunBody(
 /**
  * Format and print dry-run output as JSON (with syntax highlighting on TTYs).
  */
-export function formatDryRun(
-	output: DryRunOutput,
-	options: DryRunOptions = {}
-): void {
-	if (!options.sensitiveBodyPaths?.length) {
+export function formatDryRun({
+	sensitiveBodyPaths,
+	...output
+}: DryRunInput): void {
+	if (!sensitiveBodyPaths?.length) {
 		formatOutput(output);
 		return;
 	}
 	formatOutput({
 		...output,
-		body: redactDryRunBody(output.body, options.sensitiveBodyPaths),
+		body: redactDryRunBody(output.body, sensitiveBodyPaths),
 	});
 }

@@ -71,36 +71,34 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			async () => {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun(
-						{
-							command: "cf alerting destinations webhooks create",
-							method: "POST",
-							url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/alerting/v3/destinations/webhooks`,
-							pathParams: {},
-							bodyKind: "json",
-							body:
-								argv.body !== undefined
-									? parseBody(argv.body)
-									: compactBody({
-											name: resolveFileToken(
-												argv["name"] as string | undefined,
-												"name",
-												"text"
-											),
-											secret: resolveFileToken(
-												argv["secret"] as string | undefined,
-												"secret",
-												"text"
-											),
-											url: resolveFileToken(
-												argv["url"] as string | undefined,
-												"url",
-												"text"
-											),
-										}),
-						},
-						{ sensitiveBodyPaths: [["secret"]] }
-					);
+					formatDryRun({
+						command: "cf alerting destinations webhooks create",
+						method: "POST",
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/alerting/v3/destinations/webhooks`,
+						pathParams: {},
+						bodyKind: "json",
+						body:
+							argv.body !== undefined
+								? parseBody(argv.body)
+								: compactBody({
+										name: resolveFileToken(
+											argv["name"] as string | undefined,
+											"name",
+											"text"
+										),
+										secret: resolveFileToken(
+											argv["secret"] as string | undefined,
+											"secret",
+											"text"
+										),
+										url: resolveFileToken(
+											argv["url"] as string | undefined,
+											"url",
+											"text"
+										),
+									}),
+						sensitiveBodyPaths: [["secret"]],
+					});
 					return;
 				}
 				const client = await createCommandClient(argv);

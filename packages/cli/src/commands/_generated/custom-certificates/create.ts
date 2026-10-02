@@ -102,65 +102,63 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			argv as Record<string, unknown>,
 			async () => {
 				if (argv.dryRun) {
-					formatDryRun(
-						{
-							command: "cf custom-certificates create",
-							method: "POST",
-							url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/custom_certificates`,
-							pathParams: {
-								"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
-							},
-							bodyKind: "json",
-							body:
-								argv.body !== undefined
-									? parseBody(argv.body)
-									: compactBody({
-											bundle_method: resolveFileToken(
-												argv["bundle-method"] as string | undefined,
-												"bundle-method",
-												"text"
-											),
-											certificate: resolveFileToken(
-												argv["certificate"] as string | undefined,
-												"certificate",
-												"text"
-											),
-											custom_csr_id: resolveFileToken(
-												argv["custom-csr-id"] as string | undefined,
-												"custom-csr-id",
-												"text"
-											),
-											deploy: resolveFileToken(
-												argv["deploy"] as string | undefined,
-												"deploy",
-												"text"
-											),
-											geo_restrictions: {
-												label: resolveFileToken(
-													argv["geo-restrictions-label"] as string | undefined,
-													"geo-restrictions-label",
-													"text"
-												),
-											},
-											policy: resolveFileToken(
-												argv["policy"] as string | undefined,
-												"policy",
-												"text"
-											),
-											private_key: resolveFileToken(
-												argv["private-key"] as string | undefined,
-												"private-key",
-												"text"
-											),
-											type: resolveFileToken(
-												argv["type"] as string | undefined,
-												"type",
-												"text"
-											),
-										}),
+					formatDryRun({
+						command: "cf custom-certificates create",
+						method: "POST",
+						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/custom_certificates`,
+						pathParams: {
+							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
 						},
-						{ sensitiveBodyPaths: [["private_key"]] }
-					);
+						bodyKind: "json",
+						body:
+							argv.body !== undefined
+								? parseBody(argv.body)
+								: compactBody({
+										bundle_method: resolveFileToken(
+											argv["bundle-method"] as string | undefined,
+											"bundle-method",
+											"text"
+										),
+										certificate: resolveFileToken(
+											argv["certificate"] as string | undefined,
+											"certificate",
+											"text"
+										),
+										custom_csr_id: resolveFileToken(
+											argv["custom-csr-id"] as string | undefined,
+											"custom-csr-id",
+											"text"
+										),
+										deploy: resolveFileToken(
+											argv["deploy"] as string | undefined,
+											"deploy",
+											"text"
+										),
+										geo_restrictions: {
+											label: resolveFileToken(
+												argv["geo-restrictions-label"] as string | undefined,
+												"geo-restrictions-label",
+												"text"
+											),
+										},
+										policy: resolveFileToken(
+											argv["policy"] as string | undefined,
+											"policy",
+											"text"
+										),
+										private_key: resolveFileToken(
+											argv["private-key"] as string | undefined,
+											"private-key",
+											"text"
+										),
+										type: resolveFileToken(
+											argv["type"] as string | undefined,
+											"type",
+											"text"
+										),
+									}),
+						sensitiveBodyPaths: [["private_key"]],
+					});
 					return;
 				}
 				const client = await createCommandClient(argv);

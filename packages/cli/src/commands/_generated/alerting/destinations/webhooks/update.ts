@@ -76,36 +76,34 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			async () => {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun(
-						{
-							command: "cf alerting destinations webhooks update",
-							method: "PUT",
-							url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/alerting/v3/destinations/webhooks/${argv["webhook-id"] == null ? "<webhook-id>" : encodeURIComponent(String(argv["webhook-id"]))}`,
-							pathParams: { "webhook-id": String(argv["webhook-id"] ?? "") },
-							bodyKind: "json",
-							body:
-								argv.body !== undefined
-									? parseBody(argv.body)
-									: compactBody({
-											name: resolveFileToken(
-												argv["name"] as string | undefined,
-												"name",
-												"text"
-											),
-											secret: resolveFileToken(
-												argv["secret"] as string | undefined,
-												"secret",
-												"text"
-											),
-											url: resolveFileToken(
-												argv["url"] as string | undefined,
-												"url",
-												"text"
-											),
-										}),
-						},
-						{ sensitiveBodyPaths: [["secret"]] }
-					);
+					formatDryRun({
+						command: "cf alerting destinations webhooks update",
+						method: "PUT",
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/alerting/v3/destinations/webhooks/${argv["webhook-id"] == null ? "<webhook-id>" : encodeURIComponent(String(argv["webhook-id"]))}`,
+						pathParams: { "webhook-id": String(argv["webhook-id"] ?? "") },
+						bodyKind: "json",
+						body:
+							argv.body !== undefined
+								? parseBody(argv.body)
+								: compactBody({
+										name: resolveFileToken(
+											argv["name"] as string | undefined,
+											"name",
+											"text"
+										),
+										secret: resolveFileToken(
+											argv["secret"] as string | undefined,
+											"secret",
+											"text"
+										),
+										url: resolveFileToken(
+											argv["url"] as string | undefined,
+											"url",
+											"text"
+										),
+									}),
+						sensitiveBodyPaths: [["secret"]],
+					});
 					return;
 				}
 				const client = await createCommandClient(argv);

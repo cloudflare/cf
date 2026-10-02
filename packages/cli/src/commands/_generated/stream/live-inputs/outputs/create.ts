@@ -78,36 +78,34 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			async () => {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun(
-						{
-							command: "cf stream live-inputs outputs create",
-							method: "POST",
-							url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/stream/live_inputs/${argv["live-input-identifier"] == null ? "<live-input-identifier>" : encodeURIComponent(String(argv["live-input-identifier"]))}/outputs`,
-							pathParams: {
-								"live-input-identifier": String(
-									argv["live-input-identifier"] ?? ""
-								),
-							},
-							bodyKind: "json",
-							body:
-								argv.body !== undefined
-									? parseBody(argv.body)
-									: compactBody({
-											enabled: argv["enabled"],
-											streamKey: resolveFileToken(
-												argv["stream-key"] as string | undefined,
-												"stream-key",
-												"text"
-											),
-											url: resolveFileToken(
-												argv["url"] as string | undefined,
-												"url",
-												"text"
-											),
-										}),
+					formatDryRun({
+						command: "cf stream live-inputs outputs create",
+						method: "POST",
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/stream/live_inputs/${argv["live-input-identifier"] == null ? "<live-input-identifier>" : encodeURIComponent(String(argv["live-input-identifier"]))}/outputs`,
+						pathParams: {
+							"live-input-identifier": String(
+								argv["live-input-identifier"] ?? ""
+							),
 						},
-						{ sensitiveBodyPaths: [["streamKey"], ["url"]] }
-					);
+						bodyKind: "json",
+						body:
+							argv.body !== undefined
+								? parseBody(argv.body)
+								: compactBody({
+										enabled: argv["enabled"],
+										streamKey: resolveFileToken(
+											argv["stream-key"] as string | undefined,
+											"stream-key",
+											"text"
+										),
+										url: resolveFileToken(
+											argv["url"] as string | undefined,
+											"url",
+											"text"
+										),
+									}),
+						sensitiveBodyPaths: [["streamKey"], ["url"]],
+					});
 					return;
 				}
 				const client = await createCommandClient(argv);

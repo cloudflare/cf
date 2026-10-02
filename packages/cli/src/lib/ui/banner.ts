@@ -1,12 +1,6 @@
 /**
- * Banner module — the slim `🍊☁️  cf · v…` headline cf renders at the
- * top of every interactive invocation, plus the `cf <subcommand>`
- * command-line formatter shared by splash / help screens.
- *
- * Previously this module also shipped a full ASCII cloud logo plus
- * gradient dividers for the bare `cf` splash. The splash now uses the
- * slim headline (see `renderPromptIntro`), so the splash art and its
- * `gradient-string` dependency were removed.
+ * Formats the slim `🍊☁️  cf · v…` headline used by interactive commands
+ * and the bare `cf` splash, plus `cf <subcommand>` labels for command lists.
  */
 
 import { stripVTControlCharacters } from "node:util";
@@ -16,34 +10,25 @@ import { theme } from "./theme.js";
 import type { UpdateNotice } from "../update-check.js";
 
 /**
- * Slim wrangler-style intro banner with a plain horizontal underline:
+ * Slim cf banner with a horizontal underline:
  *
  *     🍊☁️  cf · v0.0.5
  *     ──────────────────
  *
- * When this process was reached by a *global* cf delegating to a
- * project-pinned copy (Wrangler-2 style), a dim `· delegated` tag is
- * appended to the headline so it's clear why the running version may
- * differ from the global cf the user invoked:
+ * A project-pinned cf reached through global cf delegation adds a dim
+ * `· delegated` tag so the running version is clear:
  *
  *     🍊☁️  cf · v1.2.3 · delegated
  *     ─────────────────────────────
  *
- * Underline length tracks the visible width of the headline (ANSI
- * stripped). Mirrors wrangler's `── ` rule below `⛅️ wrangler vX.Y.Z`
- * without trying to connect down into a prompt gutter — earlier
- * iterations bent a `┌` corner into the gutter via `clack.intro()`,
- * but the bare corner above an emoji headline read as a stray glyph,
- * not a frame.
- *
- * Color gracefully degrades to plain ASCII when NO_COLOR/non-TTY.
+ * Underline length tracks the visible width of the headline after ANSI
+ * styling is stripped. Color styling follows the terminal settings.
  */
 export function renderPromptIntro(
 	version: string,
 	update?: UpdateNotice
 ): string {
-	// 🍊☁️  — "orange cloud" is an old internal nickname for Cloudflare.
-	// U+FE0F after ☁ forces emoji presentation rather than monochrome glyph.
+	// U+FE0F after ☁ keeps the mark in emoji presentation.
 	const mark = "🍊☁️ ";
 
 	// A delegated child is spawned with DELEGATION_SENTINEL set (see

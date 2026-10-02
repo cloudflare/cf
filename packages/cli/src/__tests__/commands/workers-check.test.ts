@@ -9,7 +9,7 @@ import {
 	runInTempDir,
 	seed,
 } from "@cloudflare/workers-utils/test-helpers";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import { runCf } from "../helpers/run-cf.js";
 import {
 	buildDelegateWasCalled,
@@ -214,8 +214,7 @@ describe("cf workers check", () => {
 					STARTUP_KV: { type: "kv", id: "startup-kv" },
 				},
 			}),
-			".cloudflare/output/v0/workers/default/bundle/index.js":
-				/* javascript */ `
+			".cloudflare/output/v0/workers/default/bundle/index.js": /* javascript */ `
 					import { env } from "cloudflare:workers";
 					if (env.STARTUP_TEXT !== "available") {
 						throw new Error("Expected STARTUP_TEXT during module evaluation");

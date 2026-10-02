@@ -1,5 +1,5 @@
 import path from "node:path";
-import { defineConfig } from "vitest/config";
+import { defineConfig } from "vite-plus";
 
 const root = import.meta.dirname;
 
@@ -7,6 +7,8 @@ const compatibilityTests = {
 	root,
 	test: {
 		name: "compatibility",
+		clearMocks: false,
+		env: { TZ: "UTC" },
 		testTimeout: 15_000,
 		pool: "forks" as const,
 		isolate: false,
@@ -17,9 +19,18 @@ const compatibilityTests = {
 		globalSetup: path.resolve(root, "src/__tests__/vitest.global.ts"),
 		globals: true,
 		unstubEnvs: true,
+		server: {
+			deps: {
+				// workers-utils/test-helpers imports Vitest hooks. Inline it so the
+				// vitest → vite-plus/test alias applies; native loading bypasses it
+				// and fails with "Vitest failed to find the runner".
+				inline: ["@cloudflare/workers-utils"],
+			},
+		},
 	},
 	resolve: {
 		alias: {
+			vitest: "vite-plus/test",
 			// The Workflow peer fixture must use the exact Miniflare build cf
 			// embeds for local routing. Resolve it from the cli package so tests
 			// and cf cannot accidentally join the registry with different builds.
@@ -31,8 +42,9 @@ const compatibilityTests = {
 				root,
 				"../cli/src/commands/d1/migrations/bookkeeping.ts"
 			),
+			"cf/oauth": path.resolve(root, "../cli/src/lib/oauth/index.ts"),
 			// Exercise the compiled CLI. Test-sensitive runtime boundaries are
-			// kept external by tsdown, so aliases and vi.mock can still replace
+			// kept external by Vite+ Pack, so aliases and vi.mock can still replace
 			// prompts, CI detection, and process spawning deterministically.
 			cf: path.resolve(root, "../cli/dist/index.mjs"),
 			// Route every `@clack/prompts` import (including transitive ones
@@ -54,6 +66,20 @@ const compatibilityTests = {
 };
 
 export default defineConfig({
+	run: {
+		tasks: {
+			"task:test": {
+				command: "vp test run",
+				dependsOn: ["cf#task:build:test"],
+				cache: false,
+			},
+			"task:test:watch": {
+				command: "vp test watch",
+				dependsOn: ["cf#task:build:test"],
+				cache: false,
+			},
+		},
+	},
 	test: {
 		projects: [
 			compatibilityTests,

@@ -1,4 +1,4 @@
-import { describe, it } from "vitest";
+import { describe, it } from "vite-plus/test";
 
 // This file is the wrangler-CLI bootstrap test suite: it asserts the exact
 // shape of `wrangler --help`, the wrangler error formatting (`[ERROR]` chrome,

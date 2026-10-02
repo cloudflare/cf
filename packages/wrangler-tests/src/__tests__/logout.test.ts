@@ -2,7 +2,7 @@ import { existsSync, mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { getGlobalConfigPath } from "@cloudflare/workers-utils";
 import { http, HttpResponse } from "msw";
-import { describe, it } from "vitest";
+import { describe, it } from "vite-plus/test";
 import { mockConsoleMethods } from "./helpers/mock-console";
 import { msw } from "./helpers/msw";
 import { runInTempDir } from "./helpers/run-in-tmp";

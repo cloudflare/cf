@@ -4,7 +4,7 @@ import {
 	runInTempDir,
 } from "@cloudflare/workers-utils/test-helpers";
 import { http, HttpResponse } from "msw";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import { USER_AGENT } from "../../version.js";
 import { server, setupMsw, TEST_BASE_URL } from "../helpers/msw.js";
 import { runCf } from "../helpers/run-cf.js";

@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "vite-plus/test";
 import { createContainerDeployConfig } from "../../../commands/deploy/containers.js";
 import { BuildOutputConfigError } from "../../../lib/build-output-error.js";
 import type { BuildOutputContainers } from "@cloudflare/build-output-utils";
@@ -232,6 +232,49 @@ describe("Build Output Containers", () => {
 		expect(result.standard.normalized[0]?.observability).toEqual({
 			logs_enabled: false,
 		});
+	});
+
+	it("maps SSH settings for standard and Durable Object-managed Containers", () => {
+		const ssh = { enabled: true, port: 2222 };
+		const authorizedKeys = [{ name: "laptop", publicKey: "ssh-ed25519 AAAA" }];
+		const result = createContainerDeployConfig(
+			outputContainers(
+				{
+					name: "api",
+					image: { reference: "registry.example/api:latest" },
+					maxInstances: 1,
+					ssh,
+					authorizedKeys,
+				},
+				{
+					name: "session",
+					schedulingPolicy: "durable-object",
+					ssh,
+					authorizedKeys,
+				}
+			),
+			{
+				...config,
+				exports: durableObjectExports({
+					ContainerDO: "api",
+					SessionDO: "session",
+				}),
+			} as Config,
+			{ accountId: "account-id" }
+		);
+		const expected = {
+			ssh,
+			authorized_keys: [{ name: "laptop", public_key: "ssh-ed25519 AAAA" }],
+		};
+
+		expect(result.source).toEqual([
+			expect.objectContaining({ name: "api", ...expected }),
+			expect.objectContaining({
+				name: "session",
+				scheduling_policy: "durable_object",
+				...expected,
+			}),
+		]);
 	});
 
 	it("maps Durable Object-managed registry and local images", () => {

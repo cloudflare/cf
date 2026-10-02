@@ -2,7 +2,7 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { http, HttpResponse } from "msw";
-import { beforeEach, describe, it, vi } from "vitest";
+import { beforeEach, describe, it, vi } from "vite-plus/test";
 import { getProfileStore } from "../../../cli/src/lib/oauth/index";
 import { mockConsoleMethods } from "./helpers/mock-console";
 import { msw } from "./helpers/msw";

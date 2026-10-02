@@ -25,6 +25,7 @@ import type {
 } from "@cloudflare/workers-utils";
 
 type DeployUploadArgs = SharedUploadArgs & {
+	provision?: boolean;
 	"dispatch-namespace"?: string;
 	"containers-rollout"?: "immediate" | "gradual" | "none";
 };
@@ -109,6 +110,7 @@ export function createDeployProps(
 	return {
 		...createSharedProps(worker, config, accountId, argv, containers),
 		command: "deploy",
+		resourcesProvision: argv.provision ?? true,
 		containersRollout: argv["containers-rollout"],
 		triggers: config.triggers?.crons,
 		routes: resolveRoutes(config),

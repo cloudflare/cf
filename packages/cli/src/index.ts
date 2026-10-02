@@ -93,9 +93,13 @@ const GLOBAL_OPTIONS = {
 	},
 } satisfies Record<string, Options>;
 
-function globalFlagTakesValue(arg: string): boolean {
+function globalFlagTakesValue(arg: string, nextArg?: string): boolean {
 	return Object.entries<Options>(GLOBAL_OPTIONS).some(([name, option]) => {
-		if (option.type === "boolean") {
+		if (
+			option.type === "boolean" &&
+			nextArg !== "true" &&
+			nextArg !== "false"
+		) {
 			return false;
 		}
 		const alias = option.alias;
@@ -201,7 +205,7 @@ function commandPath(args = process.argv.slice(2), depth = 2): string[] {
 		if (arg === undefined || arg === "--") {
 			break;
 		}
-		if (globalFlagTakesValue(arg)) {
+		if (globalFlagTakesValue(arg, args[index + 1])) {
 			index++;
 			continue;
 		}
@@ -339,14 +343,7 @@ async function reportHelpShown(command: string | undefined): Promise<void> {
 	}
 }
 
-/**
- * Check if --version flag is present and show branded version.
- *
- * Yargs has its own `--version` handling but renders monochrome
- * `0.0.5` with no branding. The slim headline (orange + emoji) is
- * the same banner cf uses everywhere else, so intercepting `-v` /
- * `--version` here keeps that consistent.
- */
+/** Print the branded banner to stderr and the parseable version to stdout. */
 function maybeHandleVersionEarly(update?: UpdateNotice): boolean {
 	const rawArgs = process.argv.slice(2);
 	const separator = rawArgs.indexOf("--");
@@ -354,7 +351,8 @@ function maybeHandleVersionEarly(update?: UpdateNotice): boolean {
 	if (!args.includes("--version") && !args.includes("-v")) {
 		return false;
 	}
-	console.log(renderPromptIntro(version, update));
+	openSession(version, { quiet: hasQuietFlag(args), update });
+	console.log(version);
 	return true;
 }
 
@@ -401,9 +399,8 @@ function maybeShowSplash(update?: UpdateNotice): boolean {
  *     must be parseable, no decoration). Covers both the init-script
  *     form (`cf complete bash`) and the runtime callback form
  *     (`cf complete -- <words…>`).
- *   - the command is bare `cf` or `cf --version` (those render the
- *     slim `🍊☁️  cf · v…` headline themselves via `renderPromptIntro`
- *     and we'd double up)
+ *   - the command is bare `cf` (the splash renders its own headline)
+ *     or `cf --version` (handled before normal command dispatch)
  */
 function maybeOpenSession(quiet = false, update?: UpdateNotice): void {
 	const rawArgs = process.argv.slice(2);
@@ -444,8 +441,7 @@ async function prepareUpdateCheck(): Promise<PreparedUpdateCheck | undefined> {
 	if (commandName(args) === "complete") {
 		return undefined;
 	}
-	const bannerWritesToStdout =
-		args.length === 0 || args.includes("--version") || args.includes("-v");
+	const bannerWritesToStdout = args.length === 0;
 	if (
 		bannerWritesToStdout
 			? process.stdout.isTTY !== true
@@ -489,7 +485,7 @@ async function prepareUpdateCheck(): Promise<PreparedUpdateCheck | undefined> {
  * ## Global flags (live)
  *
  *   --help, -h            Show help
- *   --version, -v         Show version (branded banner)
+ *   --version, -v         Show plain version on stdout (banner on stderr)
  *   --quiet, -q           Suppress non-essential output
  *   --zone, -z            Zone ID or domain
  *   --profile             Use a specific auth profile

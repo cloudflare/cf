@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-/* oxlint-disable turbo/no-undeclared-env-vars -- standalone automation, not a turbo task */
 import { execFileSync, spawnSync } from "node:child_process";
 import {
 	mkdirSync,
@@ -15,7 +14,6 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(SCRIPT_DIR, "..");
 const GENERATOR_PATH = join(REPO_ROOT, "packages/cli/generate.ts");
-const CHANGESET_PATH = join(REPO_ROOT, ".changeset/update-forge.md");
 const FORGE_REPOSITORY = "cloudflare/forge";
 const OPENAPI_ASSET = "openapi.forge.json";
 const OPENAPI_VERSION_PATTERN =
@@ -29,8 +27,6 @@ const BASE_BRANCH = process.env.BASE_BRANCH ?? "main";
 const GITHUB_API_URL = process.env.GITHUB_API_URL ?? "https://api.github.com";
 const GITHUB_SERVER_URL = process.env.GITHUB_SERVER_URL ?? "https://github.com";
 const CF_GITHUB_TOKEN = process.env.GH_TOKEN ?? process.env.GITHUB_TOKEN;
-const FORGE_GITHUB_TOKEN =
-	process.env.FORGE_GITHUB_TOKEN ?? process.env.GITHUB_TOKEN;
 
 type JsonObject = Record<string, unknown>;
 type UpdatePullRequest = { number: number; headSha: string };
@@ -56,20 +52,23 @@ function run(
 	});
 }
 
-function output(command: string, args: string[], cwd = REPO_ROOT): string {
+function output(
+	command: string,
+	args: string[],
+	cwd = REPO_ROOT,
+	environment: NodeJS.ProcessEnv = process.env
+): string {
 	return execFileSync(command, args, {
 		cwd,
+		env: environment,
 		encoding: "utf8",
 		stdio: ["ignore", "pipe", "inherit"],
 	}).trim();
 }
 
-function githubGitEnvironment(
-	token: string,
-	environment: NodeJS.ProcessEnv = process.env
-): NodeJS.ProcessEnv {
+function githubGitEnvironment(token: string): NodeJS.ProcessEnv {
 	return {
-		...environment,
+		...process.env,
 		GIT_CONFIG_COUNT: "1",
 		GIT_CONFIG_KEY_0: "http.https://github.com/.extraheader",
 		GIT_CONFIG_VALUE_0: `AUTHORIZATION: basic ${Buffer.from(
@@ -93,17 +92,16 @@ function inferRepository(): string {
 
 async function githubJson(
 	path: string,
-	init: RequestInit = {},
-	token = CF_GITHUB_TOKEN
+	init: RequestInit = {}
 ): Promise<unknown> {
-	const response = await githubResponse(path, init, token);
+	const response = await githubResponse(path, init, CF_GITHUB_TOKEN);
 	return response.status === 204 ? undefined : response.json();
 }
 
-async function githubResponse(
+export async function githubResponse(
 	path: string,
 	init: RequestInit = {},
-	token = CF_GITHUB_TOKEN,
+	token?: string,
 	accept = "application/vnd.github+json"
 ): Promise<Response> {
 	const headers = new Headers(init.headers);
@@ -138,16 +136,15 @@ function extractOpenApiVersion(source: string, label: string): string {
 	return match[1];
 }
 
-async function getLatestForgeRelease(): Promise<{
+export async function getLatestForgeRelease(): Promise<{
 	tag: string;
 	version: string;
 	assetId: number;
 }> {
-	const release = await githubJson(
-		`/repos/${FORGE_REPOSITORY}/releases/latest`,
-		{},
-		FORGE_GITHUB_TOKEN
+	const response = await githubResponse(
+		`/repos/${FORGE_REPOSITORY}/releases/latest`
 	);
+	const release: unknown = await response.json();
 	if (!isObject(release) || typeof release.tag_name !== "string") {
 		throw new Error("Latest Forge release has no tag_name");
 	}
@@ -172,14 +169,35 @@ async function getLatestForgeRelease(): Promise<{
 	return { tag: release.tag_name, version: match[1], assetId: asset.id };
 }
 
-async function prepareForgeOpenApi(
+/**
+ * Forge is public, so its commands do not need the cf credentials used for
+ * branch updates and PR creation. Remove inherited GitHub tokens and injected
+ * Git authentication from their environment to avoid unnecessary credentials.
+ */
+export function getForgeEnvironment(
+	environment: NodeJS.ProcessEnv = process.env
+): NodeJS.ProcessEnv {
+	// Windows environment variable names are case-insensitive.
+	return Object.fromEntries(
+		Object.entries(environment).filter(([key]) => {
+			const name = key.toUpperCase();
+			return (
+				!["GH_TOKEN", "GITHUB_TOKEN", "FORGE_GITHUB_TOKEN"].includes(name) &&
+				name !== "GIT_CONFIG_PARAMETERS" &&
+				!/^GIT_CONFIG_(?:COUNT|KEY_\d+|VALUE_\d+)$/.test(name)
+			);
+		})
+	);
+}
+
+export async function prepareForgeOpenApi(
 	forgeDir: string,
 	assetId: number
 ): Promise<void> {
 	const response = await githubResponse(
 		`/repos/${FORGE_REPOSITORY}/releases/assets/${assetId}`,
 		{},
-		FORGE_GITHUB_TOKEN,
+		undefined,
 		"application/octet-stream"
 	);
 	const source = (await response.json()) as unknown;
@@ -324,8 +342,12 @@ function assertCleanWorktree(): void {
 }
 
 function writeChangeset(version: string): void {
+	const changesetPath = join(
+		REPO_ROOT,
+		`.changeset/update-forge-${version.slice(0, 12)}.md`
+	);
 	writeFileSync(
-		CHANGESET_PATH,
+		changesetPath,
 		`---
 "cf": minor
 ---
@@ -494,9 +516,6 @@ async function main(): Promise<void> {
 	if (!CF_GITHUB_TOKEN) {
 		throw new Error("GH_TOKEN or GITHUB_TOKEN is required to update cf");
 	}
-	if (!FORGE_GITHUB_TOKEN) {
-		throw new Error("FORGE_GITHUB_TOKEN is required to update Forge");
-	}
 	assertCleanWorktree();
 
 	const tempRoot = mkdtempSync(
@@ -504,15 +523,7 @@ async function main(): Promise<void> {
 	);
 	const forgeDir = join(tempRoot, "forge");
 	let forgeSourceSha: string;
-	const forgeEnvironment = {
-		...process.env,
-		GH_TOKEN: FORGE_GITHUB_TOKEN,
-		GITHUB_TOKEN: FORGE_GITHUB_TOKEN,
-	};
-	const forgeCloneEnv = githubGitEnvironment(
-		FORGE_GITHUB_TOKEN,
-		forgeEnvironment
-	);
+	const forgeEnvironment = getForgeEnvironment();
 	const failedChecks: string[] = [];
 	try {
 		logStep(`Cloning Forge release ${tag}`);
@@ -528,9 +539,14 @@ async function main(): Promise<void> {
 				`https://github.com/${FORGE_REPOSITORY}.git`,
 				forgeDir,
 			],
-			{ env: forgeCloneEnv }
+			{ env: forgeEnvironment }
 		);
-		forgeSourceSha = output("git", ["rev-parse", "HEAD"], forgeDir);
+		forgeSourceSha = output(
+			"git",
+			["rev-parse", "HEAD"],
+			forgeDir,
+			forgeEnvironment
+		);
 
 		logStep("Installing the Forge workspace");
 		run("pnpm", ["--dir", forgeDir, "install", "--frozen-lockfile"], {
@@ -559,7 +575,7 @@ async function main(): Promise<void> {
 
 		logStep("Validating the generated update");
 		try {
-			run("git", ["diff", "--check"]);
+			run("git", ["diff", "--check"], { env: forgeEnvironment });
 		} catch {
 			failedChecks.push("git diff --check");
 			console.warn("Diff validation failed; continuing to open the update PR.");
@@ -620,7 +636,12 @@ This PR is maintained automatically by [the Update Forge workflow](${GITHUB_SERV
 	}
 }
 
-main().catch((error: unknown) => {
-	console.error(error instanceof Error ? error.message : error);
-	process.exitCode = 1;
-});
+if (
+	process.argv[1] &&
+	resolve(process.argv[1]) === fileURLToPath(import.meta.url)
+) {
+	main().catch((error: unknown) => {
+		console.error(error instanceof Error ? error.message : error);
+		process.exitCode = 1;
+	});
+}

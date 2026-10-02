@@ -8,7 +8,8 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
-import * as CloudflareApi from "../../../index.js";
+import type * as CloudflareApi from "../../../index.js";
+import * as CloudflareApiErrors from "../../../errors/index.js";
 import { AddressesClient } from "../resources/addresses/client/Client.js";
 import { DnsClient } from "../resources/dns/client/Client.js";
 import { RulesClient } from "../resources/rules/client/Client.js";
@@ -108,7 +109,7 @@ export class EmailRoutingClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 403:
-                    throw new CloudflareApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -187,7 +188,7 @@ export class EmailRoutingClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 403:
-                    throw new CloudflareApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,

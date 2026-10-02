@@ -7,7 +7,7 @@ import { mergeHeaders } from "../../../../core/headers.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
-import * as CloudflareApi from "../../../index.js";
+import type * as CloudflareApi from "../../../index.js";
 import { AccountClient } from "../resources/account/client/Client.js";
 import { AccountTypeClient } from "../resources/accountType/client/Client.js";
 import { EntitlementClient } from "../resources/entitlement/client/Client.js";

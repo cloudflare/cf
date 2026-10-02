@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vite-plus/test";
 import { appendApiSchemaHelp } from "../commands/api-schema-help.js";
 import { buildCli } from "../index.js";
 import { theme } from "../lib/ui/theme.js";

@@ -1,4 +1,4 @@
-import { describe, it } from "vitest";
+import { describe, it } from "vite-plus/test";
 
 // `r2 sql query` is wrangler-only. The R2 SQL feature targets a
 // separate API host (`api.sql.cloudflarestorage.com`) and is not

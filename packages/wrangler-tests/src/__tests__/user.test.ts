@@ -1,4 +1,4 @@
-import { beforeEach, describe, it, vi } from "vitest";
+import { beforeEach, describe, it, vi } from "vite-plus/test";
 import {
 	msw,
 	mswSuccessOauthHandlers,

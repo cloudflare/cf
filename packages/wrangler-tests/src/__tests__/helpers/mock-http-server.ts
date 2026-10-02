@@ -1,5 +1,5 @@
 import http from "node:http";
-import { beforeEach, vi } from "vitest";
+import { beforeEach, vi } from "vite-plus/test";
 import type { Request } from "undici";
 
 /**

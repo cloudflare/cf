@@ -89,7 +89,7 @@ export const handWrittenCommands: readonly HandWrittenCommand[] = [
 		telemetry: {
 			command: "deploy",
 			classification: {
-				safeFlags: ["dry-run", "prebuilt", "containers-rollout"],
+				safeFlags: ["dry-run", "prebuilt", "containers-rollout", "provision"],
 			},
 		},
 	},

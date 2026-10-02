@@ -7,7 +7,7 @@ import {
 	mockConsoleMethods,
 	runInTempDir,
 } from "@cloudflare/workers-utils/test-helpers";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import { generateResourceIndexFile } from "../../../generator/emit/index-files.js";
 import {
 	handWrittenLeafCommands,

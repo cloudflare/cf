@@ -3,4 +3,4 @@
 ---
 
 Update the generated command surface and vendored Forge packages for
-Forge OpenAPI release `4322e43f4f29a33c7cc9be83ead916d6bc17fa73`.
+Forge OpenAPI release `b7b98182e1e2a02a7e350ec6010a61a7af68cbef`.

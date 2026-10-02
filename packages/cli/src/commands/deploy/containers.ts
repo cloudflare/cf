@@ -28,6 +28,11 @@ import type {
 
 type OutputImage = { reference: string } | { localReference: string };
 
+type StandardOutputContainerConfig = Exclude<
+	ParsedOutputContainerConfig,
+	{ schedulingPolicy: "durable-object" }
+>;
+
 interface ContainerWithClass {
 	className: string;
 	config: ParsedOutputContainerConfig;
@@ -90,7 +95,7 @@ export function createContainerDeployConfig(
 			continue;
 		}
 
-		const sourceContainer = toContainerApp(containerWithClass);
+		const sourceContainer = toContainerApp(container, className);
 		source.push(sourceContainer);
 		const normalizedContainer = normalizeStandardContainer(
 			{ container, className },
@@ -116,25 +121,10 @@ export function createContainerDeployConfig(
 	};
 }
 
-function toContainerApp({
-	className,
-	config,
-}: ContainerWithClass): ContainerApp {
-	if (config.schedulingPolicy === "durable-object") {
-		return {
-			...toCommonContainerApp(config, className),
-			scheduling_policy: "durable_object",
-			images: Object.fromEntries(
-				Object.entries(config.images ?? {}).map(([name, image]) => [
-					name,
-					"reference" in image
-						? { image: image.reference }
-						: { dockerfile: image.localReference },
-				])
-			),
-		};
-	}
-
+function toContainerApp(
+	config: StandardOutputContainerConfig,
+	className: string
+): ContainerApp {
 	return {
 		...toCommonContainerApp(config, className),
 		image: imageReference(config.image),
@@ -144,13 +134,6 @@ function toContainerApp({
 		}),
 		...(config.schedulingPolicy !== undefined && {
 			scheduling_policy: config.schedulingPolicy,
-		}),
-		...(config.ssh !== undefined && { ssh: config.ssh }),
-		...(config.authorizedKeys !== undefined && {
-			authorized_keys: config.authorizedKeys.map(({ name, publicKey }) => ({
-				name,
-				public_key: publicKey,
-			})),
 		}),
 		...(config.constraints !== undefined && {
 			constraints: config.constraints,
@@ -215,15 +198,19 @@ function toCommonContainerApp(
 			observability: toContainerObservability(config.observability),
 		}),
 		...(config.unsafe !== undefined && { unsafe: config.unsafe }),
+		...(config.ssh !== undefined && { ssh: config.ssh }),
+		...(config.authorizedKeys !== undefined && {
+			authorized_keys: config.authorizedKeys.map(({ name, publicKey }) => ({
+				name,
+				public_key: publicKey,
+			})),
+		}),
 	};
 }
 
 function normalizeStandardContainer(
 	containerWithClass: {
-		container: Exclude<
-			ParsedOutputContainerConfig,
-			{ schedulingPolicy: "durable-object" }
-		>;
+		container: StandardOutputContainerConfig;
 		className: string;
 	},
 	config: Config,
@@ -291,10 +278,7 @@ function normalizeStandardContainer(
 }
 
 function normalizeInstanceType(
-	instanceType: Exclude<
-		ParsedOutputContainerConfig,
-		{ schedulingPolicy: "durable-object" }
-	>["instanceType"]
+	instanceType: StandardOutputContainerConfig["instanceType"]
 ): InstanceTypeOrLimits {
 	if (instanceType === undefined || typeof instanceType === "string") {
 		return {

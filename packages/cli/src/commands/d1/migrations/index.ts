@@ -1,4 +1,3 @@
-import { withTelemetry } from "#lib/telemetry/index.js";
 /**
  * `cf d1 migrations` — D1 migration file lifecycle.
  *
@@ -25,6 +24,7 @@ import $create from "./create.js";
 import $list from "./list.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 import type { CommandModule } from "yargs";
+import { withTelemetry } from "#lib/telemetry/index.js";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "migrations",

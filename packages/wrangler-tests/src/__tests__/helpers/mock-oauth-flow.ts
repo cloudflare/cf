@@ -3,7 +3,7 @@ import { Request } from "undici";
 import openInBrowser from "../../open-in-browser";
 import { mockHttpServer } from "./mock-http-server";
 import { createFetchResult, msw } from "./msw";
-import type { Mock } from "vitest";
+import type { Mock } from "vite-plus/test";
 
 export function mockGetMemberships(
 	accounts: { id: string; account: { id: string; name: string } }[]

@@ -1,5 +1,5 @@
 import { http, HttpResponse } from "msw";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "vite-plus/test";
 import { createCloudflareClientWithToken } from "../../lib/auth.js";
 import { resolveZoneId } from "../../lib/resolve.js";
 import { server, setupMsw, TEST_BASE_URL } from "../helpers/msw.js";

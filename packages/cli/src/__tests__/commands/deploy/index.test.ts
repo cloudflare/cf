@@ -4,7 +4,7 @@ import {
 	seed,
 } from "@cloudflare/workers-utils/test-helpers";
 import { http, HttpResponse } from "msw";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import { createMockDeployContext } from "../../helpers/mock-deploy-context.js";
 import { createFetchResult, msw, setupMsw } from "../../helpers/msw.js";
 import { runCf } from "../../helpers/run-cf.js";
@@ -43,6 +43,66 @@ describe("cf deploy", () => {
 	});
 
 	describe("simple worker", () => {
+		it.each([
+			["D1", { type: "d1", name: "my-database" }, "database_id"],
+			["R2", { type: "r2" }, "bucket_name"],
+		])(
+			"rejects an unconfigured %s binding with --no-provision",
+			async (_resource, binding, missingField) => {
+				const requests = recordRequests();
+				const upload = mockWorkerUpload();
+				await seed({
+					".cloudflare/output/v0/config.json": buildOutputRootConfig(),
+					".cloudflare/output/v0/workers/default/worker.config.json":
+						workerConfig({ env: { MY_BINDING: binding } }),
+					".cloudflare/output/v0/workers/default/bundle/index.js":
+						"export default {}",
+				});
+
+				await expect(
+					runCf(["deploy", "--prebuilt", "--no-provision"])
+				).rejects.toThrow(missingField);
+				expect(upload.metadata).toBeUndefined();
+				expect(
+					requests.some((request) =>
+						/\/d1\/database|\/r2\/buckets/.test(request)
+					)
+				).toBe(false);
+			}
+		);
+
+		it("deploys a configured binding with --no-provision", async () => {
+			const requests = recordRequests();
+			const upload = mockWorkerUpload();
+			await seed({
+				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v0/workers/default/worker.config.json":
+					workerConfig({
+						env: {
+							MY_DB: { type: "d1", name: "my-db", id: "d1-db-id-123" },
+						},
+					}),
+				".cloudflare/output/v0/workers/default/bundle/index.js":
+					"export default {}",
+			});
+
+			const { exitCode } = await runCf([
+				"deploy",
+				"--prebuilt",
+				"--no-provision",
+			]);
+
+			expect(exitCode).toBe(0);
+			expect(upload.metadata?.bindings).toContainEqual({
+				name: "MY_DB",
+				type: "d1",
+				id: "d1-db-id-123",
+			});
+			expect(requests.some((request) => request.includes("/d1/database"))).toBe(
+				false
+			);
+		});
+
 		it("loads dotenv values after the delegated build", async () => {
 			vi.stubEnv("CLOUDFLARE_API_TOKEN", undefined);
 			vi.stubEnv("CLOUDFLARE_ACCOUNT_ID", undefined);

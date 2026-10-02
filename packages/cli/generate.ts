@@ -1,4 +1,4 @@
-import { execFileSync, execSync } from "node:child_process";
+import { execFileSync } from "node:child_process";
 import {
 	existsSync,
 	mkdtempSync,
@@ -7,10 +7,11 @@ import {
 	writeFileSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { type ForgeOpenApiDocument, initFromOpenApi } from "@cloudflare/forge";
 import { filterForCliAudience } from "./generator/cli-audience.js";
+import { narrowSdkErrorImports } from "./generator/sdk-error-imports.js";
 import { dropSdkMethodGroupCollisions } from "./generator/sdk-method-group-collisions.js";
 import { hasAccountOrZoneScope } from "./generator/util.js";
 import { preserveWorkersSecretUpdatePositional } from "./generator/workers-secret-cli-compat.js";
@@ -20,7 +21,7 @@ const sdkDir = fileURLToPath(new URL("./src/sdk", import.meta.url));
 const sdkEntrypointPath = join(sdkDir, "sdk/index.ts");
 const sdkVersionPath = join(sdkDir, "openapi-version");
 // The SDK is committed. Bump this SHA to regenerate it from a new release.
-const FORGE_OPENAPI_VERSION = "4322e43f4f29a33c7cc9be83ead916d6bc17fa73";
+const FORGE_OPENAPI_VERSION = "10cdded1d9e93c9b055e27cac83b397b2bd7f0c6";
 const FORGE_OPENAPI_RELEASE = `openapi@${FORGE_OPENAPI_VERSION}`;
 const FORGE_OPENAPI_ASSET = "openapi.forge.json";
 const FORGE_OPENAPI_ASSET_URL = `https://github.com/cloudflare/forge/releases/download/${FORGE_OPENAPI_RELEASE}/${FORGE_OPENAPI_ASSET}`;
@@ -231,6 +232,13 @@ try {
 	rmSync(tempDir, { recursive: true, force: true });
 }
 
+const narrowedSdkClients = narrowSdkErrorImports(join(sdkDir, "sdk"));
+if (narrowedSdkClients > 0) {
+	console.log(
+		`[cf-generator] Narrowed runtime error imports in ${narrowedSdkClients} SDK clients`
+	);
+}
+
 const sdkCollisionResult = dropSdkMethodGroupCollisions(join(sdkDir, "sdk"));
 if (sdkCollisionResult.collisions > 0) {
 	console.warn(
@@ -247,8 +255,9 @@ console.log(
 );
 const forge = initFromOpenApi(cliSource);
 const files = await forge.transform(transformer);
-const generatedDir = new URL("./src/commands/_generated", import.meta.url)
-	.pathname;
+const generatedDir = fileURLToPath(
+	new URL("./src/commands/_generated", import.meta.url)
+);
 const written = await forge.finalize(generatedDir, files, { clean: true });
 console.log(`CLI: wrote ${written.length} files`);
 
@@ -256,10 +265,17 @@ console.log(`CLI: wrote ${written.length} files`);
 // `formatTypeScript()` lived inside forge; we pulled it out so forge stays
 // formatter-agnostic.
 try {
-	execSync(`pnpm exec oxfmt "${generatedDir}"`, {
-		stdio: "inherit",
-	});
+	const vitePlusDir = dirname(
+		fileURLToPath(import.meta.resolve("vite-plus/package.json"))
+	);
+	execFileSync(
+		process.execPath,
+		[join(vitePlusDir, "bin", "vp"), "fmt", generatedDir],
+		{
+			stdio: "inherit",
+		}
+	);
 	console.log("CLI: formatted generated files");
 } catch (err) {
-	console.warn("CLI: oxfmt post-format failed (continuing)", err);
+	console.warn("CLI: Vite+ post-format failed (continuing)", err);
 }

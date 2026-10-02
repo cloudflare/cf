@@ -1,4 +1,4 @@
-import { describe, it } from "vitest";
+import { describe, it } from "vite-plus/test";
 
 // `validateHttpsOptions` is wrangler's dev-server HTTPS cert/key loader. cf
 // does not run a dev server itself — `cf dev` delegates to a per-language

@@ -1,5 +1,5 @@
 import { RootCommand } from "@bomb.sh/tab";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vite-plus/test";
 import { registerCompletions } from "../../commands/completions/index.js";
 import type { CommandMeta } from "../../lib/metadata.js";
 

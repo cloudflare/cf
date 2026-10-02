@@ -15,13 +15,14 @@ import {
 	getCloudflareComplianceRegion,
 	getDockerPath,
 } from "@cloudflare/workers-utils";
-import { getAccountId, getAuthToken } from "../../lib/auth.js";
+import { getAuthToken } from "../../lib/auth-token.js";
 import {
 	buildOutputWorkerOption,
 	parseWorkerConfig,
 	selectBuildOutputWorker,
 	validateBuildOutputMode,
 } from "../../lib/build-output.js";
+import { getAccountId } from "../../lib/context.js";
 import { createDeployContext } from "../../lib/deploy-context.js";
 import {
 	assembleBuildResult,
@@ -78,6 +79,7 @@ export type SharedUploadArgs = InferArgs<typeof sharedUploadBuilder>;
 
 type UploadCommand = { command: "Deploy" } | { command: "Version upload" };
 type UploadArgs = SharedUploadArgs & {
+	provision?: boolean;
 	"preview-alias"?: string;
 	"containers-rollout"?: "immediate" | "gradual" | "none";
 };

@@ -57,22 +57,24 @@ second consumer.
 
 ```bash
 pnpm generate          # pinned public OpenAPI → matching SDK + commands
-pnpm build             # root: Turbo runs generate, then package tsdown build
+pnpm build             # generate, then Vite+ Pack build
 pnpm --filter cf dev   # tsx src/dev.ts (no generate, no bundle)
 pnpm --filter cf check:type
 pnpm --filter cf test
 ```
 
-Those commands are shown from the repository root. From this package directory,
-`pnpm build` runs `tsdown` only, while `pnpm dev`, `pnpm check:type`, and
-`pnpm test` run their package scripts directly.
+Those commands are shown from the repository root. Package scripts invoke
+Vite+ tasks declared in `vite.config.ts`. Build, type-check, and test tasks
+depend on generation, including when invoked from this package directory.
+Build and type-check tasks also build workspace dependencies first. `pnpm dev`
+starts the source entry without generation or bundling. Task caching is disabled.
 
 `pnpm generate` downloads the pinned Forge `openapi.forge.json` release asset,
 uses the committed matching SDK when its entrypoint exists and recorded
 revision is current, and regenerates the SDK when the entrypoint is missing,
 the pin changes, or a local bundle override is supplied. Generation initializes
 Forge from the finalized OpenAPI, then runs
-`transform(transformer) → finalize(...) → oxfmt`. Finalize clears
+`transform(transformer) → finalize(...) → vp fmt`. Finalize clears
 `src/commands/_generated/`; the post-step formats the emitted TypeScript.
 
 ## Hand-Written Commands
@@ -147,7 +149,7 @@ Both outputs are tracked in git, owned by `pnpm generate`, and must not be hand-
 
 ## Formatting
 
-Generated TS is formatted by oxfmt as the last step of `pnpm generate`
+Generated TS is formatted by Vite+ as the last step of `pnpm generate`
 (see `generate.ts`). Historical `formatTypeScript()` calls inside forge's
 transformer are removed — forge stays formatter-agnostic.
 
@@ -167,8 +169,8 @@ transformer are removed — forge stays formatter-agnostic.
 - Never use `new Date()` in generated metadata — use `"build-time"` for
   deterministic output
 - Never reintroduce `tsc`. Type checking uses `tsgo`.
-- Never reintroduce `tsup` — `tsdown` is the bundler (chunked ESM,
-  cooperates with `lazy-command` dynamic imports).
+- Never reintroduce `tsup` — Vite+ Pack emits chunked ESM that cooperates
+  with `lazy-command` dynamic imports.
 
 ## Publishing
 
@@ -186,7 +188,7 @@ opens or updates a Version Packages PR while changesets are pending, then
 publishes to npm after that PR is merged. npm authentication uses
 trusted-publishing OIDC rather than a long-lived token.
 
-`tsdown` builds in production mode by default (sourcemaps off, minified) under the release workflows. The version in `package.json` is the source of truth for the public `cf` package.
+Vite+ Pack emits a minified bundle without source maps by default. The version in `package.json` is the source of truth for the public `cf` package.
 
 `containers/ssh` is a hand-written leaf that shares SSH options, authorization requests, and transport with Wrangler through `@cloudflare/containers-shared`. Keep product wiring in the command directory and implementation changes upstream.
 

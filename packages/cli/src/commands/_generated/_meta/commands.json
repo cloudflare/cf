@@ -43209,6 +43209,13 @@
 					"description": "Name of the Worker in the Build Output to use (defaults to the default Worker)"
 				},
 				{
+					"name": "provision",
+					"type": "boolean",
+					"required": false,
+					"description": "Automatically provision resources for bindings that need them",
+					"default": true
+				},
+				{
 					"name": "dispatch-namespace",
 					"type": "string",
 					"required": false,
@@ -59316,8 +59323,7 @@
 					"name": "http-authentication",
 					"type": "boolean",
 					"required": false,
-					"description": "Indicates whether the HTTP endpoint requires an API token with K2 produce permission. When false or omitted, the endpoint accepts unauthenticated records.",
-					"default": false
+					"description": "Indicates whether the HTTP endpoint requires an API token with K2 produce permission. When false or omitted, the endpoint accepts unauthenticated records."
 				},
 				{
 					"name": "name",
@@ -59499,7 +59505,7 @@
 			"command": "cf k2 streams update",
 			"name": "update",
 			"fullPath": ["k2", "streams", "update"],
-			"description": "Update a K2 stream. Each provided input replaces that input's full configuration, so include every `http` setting to keep, such as `authentication` and `cors`. At least one input must remain enabled.",
+			"description": "Update a K2 stream. Omitted `http` settings, such as `authentication` and `cors`, keep their current values while HTTP stays enabled. Disabling HTTP clears its settings. At least one input must remain enabled.",
 			"summary": "Update K2 stream",
 			"usage": "cf k2 streams update <stream-id> [options]",
 			"arguments": [
@@ -63597,7 +63603,7 @@
 					"name": "output-options-merge-subrequests",
 					"type": "boolean",
 					"required": false,
-					"description": "If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset."
+					"description": "If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset. Not supported for account-scoped jobs."
 				},
 				{
 					"name": "output-options-output-type",
@@ -63863,7 +63869,7 @@
 					"name": "output-options-merge-subrequests",
 					"type": "boolean",
 					"required": false,
-					"description": "If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset."
+					"description": "If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset. Not supported for account-scoped jobs."
 				},
 				{
 					"name": "output-options-output-type",

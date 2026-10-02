@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 import { SubscriptionsClient } from "../resources/subscriptions/client/Client.js";
 
 export declare namespace StreamsClient {
@@ -308,7 +308,7 @@ export class StreamsClient {
     }
 
     /**
-     * Update a K2 stream. Each provided input replaces that input's full configuration, so include every `http` setting to keep, such as `authentication` and `cors`. At least one input must remain enabled.
+     * Update a K2 stream. Omitted `http` settings, such as `authentication` and `cors`, keep their current values while HTTP stays enabled. Disabling HTTP clears its settings. At least one input must remain enabled.
      *
      * @param {CloudflareApi.k2.CloudflareK2UpdateK2StreamRequest} request
      * @param {StreamsClient.RequestOptions} requestOptions - Request-specific configuration.

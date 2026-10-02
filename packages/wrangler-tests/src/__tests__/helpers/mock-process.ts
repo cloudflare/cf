@@ -1,5 +1,5 @@
-import { afterEach, beforeEach, vi } from "vitest";
-import type { MockInstance } from "vitest";
+import { afterEach, beforeEach, vi } from "vite-plus/test";
+import type { MockInstance } from "vite-plus/test";
 
 /**
  * We use this module to mock process methods (write only for now),

@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import {
 	createPreviewDeployOutput,
 	runPreviewDeploy,
@@ -33,9 +33,11 @@ vi.mock("@cloudflare/deploy-helpers", () => ({
 	previewBuildOutput: mocks.previewBuildOutput,
 }));
 
-vi.mock("../../lib/auth.js", () => ({
-	getAccountId: mocks.getAccountId,
+vi.mock("../../lib/auth-token.js", () => ({
 	getAuthToken: mocks.getAuthToken,
+}));
+vi.mock("../../lib/context.js", () => ({
+	getAccountId: mocks.getAccountId,
 }));
 
 vi.mock("../../lib/deploy-context.js", () => ({

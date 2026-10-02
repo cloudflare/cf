@@ -88,7 +88,11 @@ export function redactDryRunBody(
 		};
 	};
 
-	return paths.reduce<unknown>((value, path) => redact(value, path), body);
+	let redacted = body;
+	for (const path of paths) {
+		redacted = redact(redacted, path);
+	}
+	return redacted;
 }
 
 /**

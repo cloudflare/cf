@@ -31,21 +31,21 @@ export async function runBuild(
 	mode?: string,
 	{ worker: selectedWorker, dryRun = false, ...options }: RunBuildOptions = {},
 	ctx: { isPreview?: boolean } = {}
-): Promise<"built" | "setup-previewed"> {
+): Promise<"built" | "setup-needed"> {
 	const output = options.output ?? "stdout";
 	const cwd = process.cwd();
-	const { details, configuration, setupPreviewed } = await prepareProject(cwd, {
+	const { details, configuration, setupNeeded } = await prepareProject(cwd, {
 		...options,
 		dryRun,
 	});
-	if (setupPreviewed) {
+	if (setupNeeded) {
 		if (output !== "silent") {
 			clack.log.message("Build skipped because project setup was previewed.", {
 				spacing: 0,
 				output: output === "stderr" ? process.stderr : undefined,
 			});
 		}
-		return "setup-previewed";
+		return "setup-needed";
 	}
 	const buildCommand = configuration?.buildCommand ?? details?.buildCommand;
 	const env: Record<string, string> = {

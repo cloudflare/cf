@@ -99,7 +99,7 @@ export async function prepareProject(
 ): Promise<{
 	details: AutoConfigDetails | undefined;
 	configuration?: AutoConfigSummary;
-	setupPreviewed?: true;
+	setupNeeded?: true;
 }> {
 	let details = await analyzeProject(cwd, options);
 	if (details?.configured) {
@@ -116,7 +116,7 @@ export async function prepareProject(
 		)
 	) {
 		if (options.dryRun) {
-			return { details, setupPreviewed: true };
+			return { details, setupNeeded: true };
 		}
 		details = await analyzeProject(cwd, options);
 		return { details };
@@ -127,7 +127,7 @@ export async function prepareProject(
 		...(details
 			? {
 					configuration: await configureProject(details, options),
-					...(options.dryRun ? { setupPreviewed: true as const } : {}),
+					...(options.dryRun ? { setupNeeded: true as const } : {}),
 				}
 			: {}),
 	};

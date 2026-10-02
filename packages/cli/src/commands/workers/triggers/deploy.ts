@@ -61,7 +61,7 @@ const triggersDeployCommand: CommandModule<
 				worker: argv.worker,
 				dryRun: argv["dry-run"],
 			});
-			if (build === "setup-previewed") {
+			if (build === "setup-needed") {
 				clack.log.success("Dry run complete");
 				return;
 			}

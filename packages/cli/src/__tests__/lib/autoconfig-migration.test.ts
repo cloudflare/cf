@@ -106,7 +106,7 @@ describe("project preparation", () => {
 			prepareProject("/project", { dryRun: true })
 		).resolves.toMatchObject({
 			details: unconfiguredDetails,
-			setupPreviewed: true,
+			setupNeeded: true,
 		});
 		expect(mocks.runAutoConfig).toHaveBeenCalledWith(
 			unconfiguredDetails,
@@ -127,7 +127,7 @@ describe("project preparation", () => {
 		await expect(prepareProject("/project", { dryRun: true })).resolves.toEqual(
 			{
 				details: unconfiguredDetails,
-				setupPreviewed: true,
+				setupNeeded: true,
 			}
 		);
 		expect(mocks.getDetailsForAutoConfig).toHaveBeenCalledOnce();

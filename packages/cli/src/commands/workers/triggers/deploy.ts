@@ -33,8 +33,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("dry-run", {
 			type: "boolean",
-			description:
-				"Preview setup if needed; otherwise build and check without applying triggers",
+			description: "Run checks without applying triggers",
 			default: false,
 		})
 		.option("worker", buildOutputWorkerOption);

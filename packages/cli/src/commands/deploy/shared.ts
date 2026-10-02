@@ -67,7 +67,7 @@ export function sharedUploadBuilder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("dry-run", {
 			describe:
-				"Preview setup if needed; otherwise build and check without uploading the Worker",
+				"Build a project and run checks without actually uploading the Worker",
 			type: "boolean",
 			default: false,
 		})

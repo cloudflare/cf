@@ -17,8 +17,8 @@ import type { Cloudflare } from "../../lib/auth.js";
  * rather than stubbed.
  *
  * Each test uses a unique account id because `resolveZoneId` keeps a
- * module-level 60s cache keyed by account id — distinct ids keep the
- * cases isolated within the shared process.
+ * module-level 60s cache keyed by account id and zone name — distinct ids
+ * keep the cases isolated within the shared process.
  */
 describe("resolveZoneId (network)", () => {
 	setupMsw();
@@ -47,6 +47,37 @@ describe("resolveZoneId (network)", () => {
 		await expect(
 			resolveZoneId(client(), "acct-net-1", "example.com")
 		).resolves.toBe("zone-match");
+	});
+
+	it("finds a zone beyond the first page by filtering on its name", async () => {
+		let requestUrl: URL | undefined;
+		let requests = 0;
+		server.use(
+			http.get(`${TEST_BASE_URL}/zones`, ({ request }) => {
+				requests++;
+				requestUrl = new URL(request.url);
+				const isFiltered =
+					requestUrl.searchParams.get("name") === "later.example.com";
+				return HttpResponse.json({
+					success: true,
+					result: isFiltered
+						? [{ id: "zone-later", name: "later.example.com" }]
+						: [{ id: "zone-first", name: "first.example.com" }],
+					result_info: {
+						page: 1,
+						per_page: 20,
+						total_pages: isFiltered ? 1 : 2,
+					},
+				});
+			})
+		);
+
+		await expect(
+			resolveZoneId(client(), "acct-net-page-2", "LATER.EXAMPLE.COM")
+		).resolves.toBe("zone-later");
+		expect(requests).toBe(1);
+		expect(requestUrl?.searchParams.get("account.id")).toBe("acct-net-page-2");
+		expect(requestUrl?.searchParams.get("name")).toBe("later.example.com");
 	});
 
 	it("returns an ID input verbatim without making a request", async () => {

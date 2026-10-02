@@ -65,18 +65,11 @@ export function redactDryRunBody(
 ): unknown {
 	const redact = (value: unknown, path: readonly string[]): unknown => {
 		const key = path[0];
-		if (key === undefined) {
+		if (key === undefined || value === null || typeof value !== "object") {
 			return value;
 		}
 		if (Array.isArray(value)) {
 			return value.map((item) => redact(item, path));
-		}
-		if (value === null || typeof value !== "object") {
-			return value;
-		}
-
-		if (!Object.hasOwn(value, key)) {
-			return value;
 		}
 		const child = (value as Record<string, unknown>)[key];
 		if (child === undefined) {

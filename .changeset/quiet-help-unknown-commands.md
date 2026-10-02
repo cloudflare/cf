@@ -4,4 +4,4 @@
 
 Keep CLI usage errors concise
 
-Exit with an error for unknown top-level command names followed by `--help` or `-h`, matching Wrangler's validation. For usage errors, show the error and an italic suggestion for the nearest valid `cf ... --help` command instead of printing the full help first.
+Exit with an error for unknown top-level and nested command names followed by `--help` or `-h`. Show a concise error and relevant help hint for unknown commands, and show the leaf command's help after an unknown flag. Unknown global flags point to `cf --help` for the list of global flags.

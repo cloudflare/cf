@@ -1,0 +1,25 @@
+packages/cli/src/__tests__/commands/hand-written-metadata.test.ts
+  s_22c15c79e66d32::t_a2afc47dbfcb67 141-144
+packages/cli/src/__tests__/commands/previews-delete.test.ts
+  s_22c15c79e66d32::t_f6a7a68efbc896 69,89,95,98,106
+packages/cli/src/commands/_generated/_meta/commands.json
+  s_22c15c79e66d32::t_575a465e6c944b 87132
+packages/cli/src/commands/_generated/previews/delete.ts
+  s_22c15c79e66d32::t_16ad16c8002e95 35,67,74
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "9a921eed8789c5e868711586ac410f6642248bed",
+  "prompts": {},
+  "sessions": {
+    "s_22c15c79e66d32": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0f3b7-5e69-7b03-93cc-5bed297ee91e",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Greg Brimble <gbrimble@cloudflare.com>"
+    }
+  }
+}

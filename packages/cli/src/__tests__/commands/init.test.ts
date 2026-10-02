@@ -82,9 +82,7 @@ describe("cf init", () => {
 
 	describe("new projects", () => {
 		it("creates a hello-world Worker in a new directory", async () => {
-			const result = await runCf(["init", "my-app", "--no-install"], {
-				npm_config_user_agent: undefined,
-			});
+			const result = await runCf(["init", "my-app", "--no-install"]);
 
 			expect(result.exitCode).toBe(0);
 			expect(readdirSync("my-app").sort()).toEqual(TEMPLATE_FILES);
@@ -153,10 +151,12 @@ describe("cf init", () => {
 		});
 
 		it("treats cf init workers as the same initializer", async () => {
-			const result = await runCf(
-				["init", "workers", "other-app", "--no-install"],
-				{ npm_config_user_agent: undefined }
-			);
+			const result = await runCf([
+				"init",
+				"workers",
+				"other-app",
+				"--no-install",
+			]);
 
 			expect(result.exitCode).toBe(0);
 			expect(readdirSync("other-app").sort()).toEqual(TEMPLATE_FILES);
@@ -179,9 +179,7 @@ describe("cf init", () => {
 			vi.mocked(isNonInteractiveOrCI).mockReturnValue(false);
 			vi.mocked(prompt).mockResolvedValueOnce(".");
 
-			const result = await runCf(["init", "--no-install"], {
-				npm_config_user_agent: undefined,
-			});
+			const result = await runCf(["init", "--no-install"]);
 
 			expect(result.exitCode).toBe(0);
 			expect(prompt).toHaveBeenCalledExactlyOnceWith(
@@ -201,9 +199,7 @@ describe("cf init", () => {
 			vi.mocked(isNonInteractiveOrCI).mockReturnValue(false);
 			vi.mocked(prompt).mockResolvedValueOnce(" prompted-app ");
 
-			const result = await runCf(["init", "--no-install"], {
-				npm_config_user_agent: undefined,
-			});
+			const result = await runCf(["init", "--no-install"]);
 
 			expect(result.exitCode).toBe(0);
 			expect(readdirSync("prompted-app").sort()).toEqual(TEMPLATE_FILES);
@@ -239,9 +235,7 @@ describe("cf init", () => {
 		it("initializes a directory that only contains .git", async () => {
 			await seed({ "repo/.git/HEAD": "ref: refs/heads/main\n" });
 
-			const result = await runCf(["init", "repo", "--no-install"], {
-				npm_config_user_agent: undefined,
-			});
+			const result = await runCf(["init", "repo", "--no-install"]);
 
 			expect(result.exitCode).toBe(0);
 			expect(readdirSync("repo").sort()).toEqual(
@@ -318,10 +312,13 @@ describe("cf init", () => {
 		});
 
 		it("writes pnpm build approvals when installation is skipped", async () => {
-			const result = await runCf(
-				["init", "my-app", "--package-manager", "pnpm", "--no-install"],
-				{ npm_config_user_agent: undefined }
-			);
+			const result = await runCf([
+				"init",
+				"my-app",
+				"--package-manager",
+				"pnpm",
+				"--no-install",
+			]);
 
 			expect(result.exitCode).toBe(0);
 			expect(readdirSync("my-app").sort()).toEqual(
@@ -391,9 +388,7 @@ describe("cf init", () => {
 		it("keeps the files and reports a failed install", async () => {
 			vi.mocked(runProjectCommand).mockResolvedValueOnce({ exitCode: 7 });
 
-			const result = await runCf(["init", "my-app"], {
-				npm_config_user_agent: undefined,
-			});
+			const result = await runCf(["init", "my-app"]);
 
 			expect(result.exitCode).toBe(7);
 			expect(readdirSync("my-app").sort()).toEqual(TEMPLATE_FILES);

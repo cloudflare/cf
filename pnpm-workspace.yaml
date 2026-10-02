@@ -15,22 +15,7 @@ blockExoticSubdeps: true
 # exclusions independent of the current package versions so Dependabot can
 # install a newly published batch without editing this list each time.
 minimumReleaseAgeExclude:
-  - "@cloudflare/autoconfig"
-  - "@cloudflare/build-output-utils"
-  - "@cloudflare/cli-shared-helpers"
-  - "@cloudflare/codemods"
-  - "@cloudflare/config"
-  - "@cloudflare/containers-shared"
-  - "@cloudflare/deploy-helpers"
-  - "@cloudflare/runtime-types"
-  - "@cloudflare/workerd-darwin-64"
-  - "@cloudflare/workerd-darwin-arm64"
-  - "@cloudflare/workerd-linux-64"
-  - "@cloudflare/workerd-linux-arm64"
-  - "@cloudflare/workerd-windows-64"
-  - "@cloudflare/workers-auth"
-  - "@cloudflare/workers-types"
-  - "@cloudflare/workers-utils"
+  - "@cloudflare/*"
   - miniflare
   - workerd
   - wrangler

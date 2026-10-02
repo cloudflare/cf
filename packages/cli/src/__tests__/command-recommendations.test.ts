@@ -97,16 +97,15 @@ describe("command recommendations", () => {
 		);
 	});
 
-	it("shows leaf help after an invalid flag", async () => {
+	it("shows the leaf help hint after an invalid flag", async () => {
 		await expect(runCf(["workers", "list", "--malformed"])).rejects.toThrow(
 			"Unknown argument: malformed"
 		);
 
+		expect(stderr()).not.toContain("List all Workers for an account.");
 		expect(stderr()).toMatch(
-			/Unknown argument: malformed[\s\S]*cf workers list/
+			/Unknown argument: malformed[\s\S]*For more information, run cf workers list --help/
 		);
-		expect(stderr()).toContain("List all Workers for an account.");
-		expect(stderr()).toContain("Global flags");
 	});
 
 	it("shows the root help hint for an invalid global flag", async () => {
@@ -115,7 +114,10 @@ describe("command recommendations", () => {
 		);
 
 		expect(stderr()).toContain("For more information, run cf --help");
-		expect(stderr()).toContain("cf --help to list global flags");
+		expect(stderr()).toContain("Global flags:");
+		expect(stderr()).toContain("-q, --quiet");
+		expect(stderr()).toContain("--persist-to");
+		expect(stderr()).toContain("-h, --help");
 	});
 
 	it("does not suggest hidden commands", async () => {

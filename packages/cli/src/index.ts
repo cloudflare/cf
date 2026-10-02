@@ -102,6 +102,10 @@ function globalOptionNames(name: string, option: Options): string[] {
 	];
 }
 
+function flagToken(name: string): string {
+	return name.length === 1 ? `-${name}` : `--${name}`;
+}
+
 const ROOT_OPTION_NAMES = new Set([
 	"help",
 	"h",
@@ -112,13 +116,25 @@ const ROOT_OPTION_NAMES = new Set([
 	),
 ]);
 
+const GLOBAL_FLAGS_LIST = [
+	...Object.entries<Options>(GLOBAL_OPTIONS).map(
+		([name, option]) =>
+			`  ${globalOptionNames(name, option)
+				.sort((left, right) => left.length - right.length)
+				.map(flagToken)
+				.join(", ")}`
+	),
+	"  -h, --help",
+	"  -v, --version",
+].join("\n");
+
 function globalFlagTakesValue(arg: string): boolean {
 	return Object.entries<Options>(GLOBAL_OPTIONS).some(([name, option]) => {
 		if (option.type === "boolean") {
 			return false;
 		}
 		return globalOptionNames(name, option).some(
-			(flag) => arg === (flag.length === 1 ? `-${flag}` : `--${flag}`)
+			(flag) => arg === flagToken(flag)
 		);
 	});
 }
@@ -298,8 +314,7 @@ function resolvedCommandName(yargsInstance: unknown): string | undefined {
 class CliUsageError extends Error {
 	constructor(
 		message: string,
-		readonly helpCommand: string,
-		readonly helpOutput?: string
+		readonly helpCommand: string
 	) {
 		super(message);
 	}
@@ -724,17 +739,7 @@ export function buildCli(rawArgs: string[], options: BuildCliOptions = {}) {
 				yargsInstance.showHelp("log");
 				return;
 			}
-			let helpOutput: string | undefined;
-			if (
-				msg.startsWith("Unknown argument:") &&
-				resolvedCommand !== undefined &&
-				isLeafCommand(resolvedCommand)
-			) {
-				yargsInstance.showHelp((help) => {
-					helpOutput = decorateHelp(help, resolvedCommand);
-				});
-			}
-			throw new CliUsageError(msg, helpCommandFor(resolvedCommand), helpOutput);
+			throw new CliUsageError(msg, helpCommandFor(resolvedCommand));
 		});
 
 	// Every depth can replace `.usage()`, so add the notice at the point
@@ -909,21 +914,18 @@ export async function main(): Promise<void> {
 		);
 		const handledError = handleError(err);
 		if (err instanceof CliUsageError) {
-			if (err.helpOutput) {
-				console.error(`\n${err.helpOutput}`);
-			} else {
-				const detail =
-					err.helpCommand === "cf --help" &&
-					err.message.startsWith("Unknown argument:")
-						? " to list global flags"
-						: "";
-				console.error(
-					"\n" +
-						theme.italic(
-							`For more information, run ${theme.code(err.helpCommand)}${detail}`
-						)
-				);
+			if (
+				err.helpCommand === "cf --help" &&
+				err.message.startsWith("Unknown argument:")
+			) {
+				console.error(`\nGlobal flags:\n${GLOBAL_FLAGS_LIST}`);
 			}
+			console.error(
+				"\n" +
+					theme.italic(
+						`For more information, run ${theme.code(err.helpCommand)}`
+					)
+			);
 		}
 		throw handledError;
 	} finally {

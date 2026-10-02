@@ -170,6 +170,7 @@ describe("formatOutput", () => {
 			{ name: "embedded quotation marks", value: 'say "hello"' },
 			{
 				name: "escaped quotation marks followed by a colon",
+				serializedValue: String.raw`"\"key\": text"`,
 				value: '"key": text',
 			},
 			{ name: "backslashes before quotation marks", value: '\\"cat.com\\"' },

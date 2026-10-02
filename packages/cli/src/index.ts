@@ -286,35 +286,6 @@ function resolvedCommandName(yargsInstance: unknown): string | undefined {
 	}
 }
 
-function unresolvedHelpCommand(yargsInstance: unknown): string | undefined {
-	const instance = yargsInstance as {
-		parsed: false | { argv: { _: unknown[]; help?: unknown } };
-		getInternalMethods(): {
-			getContext(): { commands: unknown; fullCommands: unknown };
-		};
-	};
-	const parsed = instance.parsed;
-	if (!parsed || parsed.argv.help !== true) {
-		return undefined;
-	}
-	const { commands, fullCommands } = instance.getInternalMethods().getContext();
-	if (!Array.isArray(commands) || !Array.isArray(fullCommands)) {
-		return undefined;
-	}
-	const next = parsed.argv._[commands.length];
-	if (typeof next !== "string" && typeof next !== "number") {
-		return undefined;
-	}
-	const currentSyntax = fullCommands.at(-1);
-	if (
-		typeof currentSyntax === "string" &&
-		/\s(?:<[^>]+>|\[[^\]]+\])/.test(currentSyntax)
-	) {
-		return undefined;
-	}
-	return String(next);
-}
-
 class CliUsageError extends Error {
 	constructor(
 		message: string,
@@ -727,18 +698,6 @@ export function buildCli(rawArgs: string[], options: BuildCliOptions = {}) {
 	// yargs emits help rather than relying on a root-level usage string.
 	const showHelp = cli.showHelp.bind(cli);
 	cli.showHelp = (level?: string | ((help: string) => void)) => {
-		// Yargs skips strict-command validation for --help. Reject an
-		// unresolved command before it prints the last recognized group's help.
-		// Automatic help uses a callback; valid commands may show help with "log"
-		// from their handlers after yargs has already resolved the command.
-		const unknownCommand =
-			typeof level === "function" ? unresolvedHelpCommand(cli) : undefined;
-		if (unknownCommand !== undefined) {
-			throw new CliUsageError(
-				`Unknown command: ${unknownCommand}`,
-				helpCommandFor(resolvedCommandName(cli))
-			);
-		}
 		return showHelp((help) => {
 			const command = resolvedCommandName(cli);
 			if (command !== undefined) {
@@ -852,6 +811,20 @@ export async function main(): Promise<void> {
 	// flows through unchanged so explicit exit codes (e.g. from
 	// `--help` early-exits) survive.
 	try {
+		// Like Wrangler, check unknown top-level commands before yargs handles
+		// --help, since yargs skips strict command validation for help requests.
+		const rootCommand = commandPath(args, 1)[0];
+		if (
+			(args.includes("--help") || args.includes("-h")) &&
+			rootCommand !== undefined &&
+			!HAND_WRITTEN_ROOTS.has(rootCommand) &&
+			!generatedCommands.some(({ command }) => command.command === rootCommand)
+		) {
+			throw new CliUsageError(
+				`Unknown command: ${rootCommand}`,
+				helpCommandFor(undefined)
+			);
+		}
 		await cli.parse(hideBin(process.argv));
 		await reportHelpShown(helpShown);
 	} catch (err) {

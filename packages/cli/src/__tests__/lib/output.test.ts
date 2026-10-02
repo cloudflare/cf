@@ -1,6 +1,8 @@
+import { stripVTControlCharacters } from "node:util";
 import chalk from "chalk";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { formatOutput } from "../../lib/output.js";
+import { theme } from "../../lib/ui/theme.js";
 import { Page } from "../../sdk/sdk/core/pagination/Page.js";
 
 const ciInfo = vi.hoisted(() => ({ isCI: false }));
@@ -154,6 +156,66 @@ describe("formatOutput", () => {
 	it("prints arrays and scalars as JSON too", () => {
 		formatOutput(["a", "b"]);
 		expect(loggedJson()).toEqual(["a", "b"]);
+	});
+
+	describe("JSON string highlighting", () => {
+		const cases = [
+			{ name: "plain strings", value: "cat.com" },
+			{ name: "empty strings", value: "" },
+			{ name: "escaped quotation marks", value: '"cat.com"' },
+			{ name: "embedded quotation marks", value: 'say "hello"' },
+			{ name: "backslashes before quotation marks", value: '\\"cat.com\\"' },
+			{
+				name: "Windows paths with trailing backslashes",
+				value: "C:\\Users\\cat\\",
+			},
+			{ name: "consecutive backslashes", value: "\\\\server\\share\\" },
+			{ name: "other JSON escapes", value: "line\n\t\r\b\f\u0000/end" },
+		];
+		let originalChalkLevel: typeof chalk.level;
+
+		beforeEach(() => {
+			originalChalkLevel = chalk.level;
+			chalk.level = 3;
+			vi.stubEnv("FORCE_COLOR", "1");
+			vi.stubEnv("NO_COLOR", undefined);
+			setStdinTTY(true);
+			setStdoutTTY(true);
+		});
+
+		afterEach(() => {
+			chalk.level = originalChalkLevel;
+		});
+
+		it.each(cases)("highlights complete $name", ({ value }) => {
+			const data = { value };
+			formatOutput(data);
+
+			const output = String(logSpy.mock.calls[0]?.[0]);
+			expect(output).toBe(
+				`{\n  ${theme.jsonKey('"value"')}: ${theme.jsonString(JSON.stringify(value))}\n}`
+			);
+			expect(JSON.parse(stripVTControlCharacters(output))).toEqual(data);
+		});
+
+		it.each(["non-TTY stdout", "NO_COLOR"])(
+			"preserves plain, parseable JSON with %s",
+			(mode) => {
+				if (mode === "NO_COLOR") {
+					vi.stubEnv("NO_COLOR", "1");
+				} else {
+					setStdoutTTY(false);
+				}
+
+				const data = cases.map(({ value }) => ({ value }));
+				formatOutput(data);
+
+				expect(logSpy).toHaveBeenCalledExactlyOnceWith(
+					JSON.stringify(data, null, 2)
+				);
+				expect(loggedJson()).toEqual(data);
+			}
+		);
 	});
 
 	it("prints the payload from a Fern page response", () => {

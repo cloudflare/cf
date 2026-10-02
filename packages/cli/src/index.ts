@@ -481,7 +481,7 @@ async function prepareUpdateCheck(): Promise<PreparedUpdateCheck | undefined> {
  * ## Global flags (live)
  *
  *   --help, -h            Show help
- *   --version, -v         Show banner on stderr, plain version on stdout
+ *   --version, -v         Show plain version on stdout (banner on stderr)
  *   --quiet, -q           Suppress non-essential output
  *   --zone, -z            Zone ID or domain
  *   --profile             Use a specific auth profile

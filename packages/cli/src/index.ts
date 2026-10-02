@@ -10,6 +10,7 @@ import {
 	rootCommandName,
 	rootHandWrittenCommands,
 } from "./commands/hand-written.js";
+import { isLeafCommand } from "./commands/is-leaf-command.js";
 import { detectAgentContext } from "./lib/agent-context.js";
 import { hasQuietFlag } from "./lib/args.js";
 import { CliExit } from "./lib/cli-exit.js";
@@ -93,6 +94,24 @@ const GLOBAL_OPTIONS = {
 	},
 } satisfies Record<string, Options>;
 
+function globalOptionNames(name: string, option: Options): string[] {
+	const alias = option.alias;
+	return [
+		name,
+		...(Array.isArray(alias) ? alias : alias === undefined ? [] : [alias]),
+	];
+}
+
+const ROOT_OPTION_NAMES = new Set([
+	"help",
+	"h",
+	"version",
+	"v",
+	...Object.entries<Options>(GLOBAL_OPTIONS).flatMap(([name, option]) =>
+		globalOptionNames(name, option)
+	),
+]);
+
 function globalFlagTakesValue(arg: string, nextArg?: string): boolean {
 	return Object.entries<Options>(GLOBAL_OPTIONS).some(([name, option]) => {
 		if (
@@ -102,13 +121,7 @@ function globalFlagTakesValue(arg: string, nextArg?: string): boolean {
 		) {
 			return false;
 		}
-		const alias = option.alias;
-		const aliases = Array.isArray(alias)
-			? alias
-			: alias === undefined
-				? []
-				: [alias];
-		return [name, ...aliases].some(
+		return globalOptionNames(name, option).some(
 			(flag) => arg === (flag.length === 1 ? `-${flag}` : `--${flag}`)
 		);
 	});
@@ -289,7 +302,8 @@ function resolvedCommandName(yargsInstance: unknown): string | undefined {
 class CliUsageError extends Error {
 	constructor(
 		message: string,
-		readonly helpCommand: string
+		readonly helpCommand: string,
+		readonly helpOutput?: string
 	) {
 		super(message);
 	}
@@ -658,6 +672,21 @@ export function buildCli(rawArgs: string[], options: BuildCliOptions = {}) {
 			if (err) {
 				throw err;
 			}
+			// Yargs checks the missing command before strict options. Let its
+			// next validation report an unknown global flag when one is present.
+			if (msg === "You need to specify a command" && cli.parsed) {
+				const hasUnknownOption = Object.keys(cli.parsed.argv).some(
+					(name) =>
+						name !== "_" &&
+						name !== "$0" &&
+						!ROOT_OPTION_NAMES.has(
+							name.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`)
+						)
+				);
+				if (hasUnknownOption) {
+					return;
+				}
+			}
 			// Yargs considers hidden commands when matching recommendations.
 			// Its usage list contains only commands visible at the current depth,
 			// so let parsing continue to the normal unknown-command failure when
@@ -691,13 +720,40 @@ export function buildCli(rawArgs: string[], options: BuildCliOptions = {}) {
 				yargsInstance.showHelp("log");
 				return;
 			}
-			throw new CliUsageError(msg, helpCommandFor(resolvedCommand));
+			let helpOutput: string | undefined;
+			if (
+				msg.startsWith("Unknown argument:") &&
+				resolvedCommand !== undefined &&
+				isLeafCommand(resolvedCommand)
+			) {
+				yargsInstance.showHelp((help) => {
+					helpOutput = decorateHelp(help, resolvedCommand);
+				});
+			}
+			throw new CliUsageError(msg, helpCommandFor(resolvedCommand), helpOutput);
 		});
 
 	// Every depth can replace `.usage()`, so add the notice at the point
 	// yargs emits help rather than relying on a root-level usage string.
 	const showHelp = cli.showHelp.bind(cli);
 	cli.showHelp = (level?: string | ((help: string) => void)) => {
+		// Yargs bypasses strict command validation for automatic --help.
+		// Compare its parsed positionals with the command it resolved. A leaf
+		// may also have positional values, such as a bucket name or model.
+		if (typeof level === "function") {
+			const parsed = cli.parsed as false | { argv: { _: unknown[] } };
+			const resolved = resolvedCommandName(cli);
+			const next = parsed && parsed.argv._[resolved?.split(" ").length ?? 0];
+			if (
+				(typeof next === "string" || typeof next === "number") &&
+				(resolved === undefined || !isLeafCommand(resolved))
+			) {
+				throw new CliUsageError(
+					`Unknown command: ${next}`,
+					helpCommandFor(resolved)
+				);
+			}
+		}
 		return showHelp((help) => {
 			const command = resolvedCommandName(cli);
 			if (command !== undefined) {
@@ -849,12 +905,21 @@ export async function main(): Promise<void> {
 		);
 		const handledError = handleError(err);
 		if (err instanceof CliUsageError) {
-			console.error(
-				"\n" +
-					theme.italic(
-						`For more information, run ${theme.code(err.helpCommand)}`
-					)
-			);
+			if (err.helpOutput) {
+				console.error(`\n${err.helpOutput}`);
+			} else {
+				const detail =
+					err.helpCommand === "cf --help" &&
+					err.message.startsWith("Unknown argument:")
+						? " to list global flags"
+						: "";
+				console.error(
+					"\n" +
+						theme.italic(
+							`For more information, run ${theme.code(err.helpCommand)}${detail}`
+						)
+				);
+			}
 		}
 		throw handledError;
 	} finally {

@@ -286,6 +286,19 @@ function resolvedCommandName(yargsInstance: unknown): string | undefined {
 	}
 }
 
+class CliUsageError extends Error {
+	constructor(
+		message: string,
+		readonly helpCommand: string
+	) {
+		super(message);
+	}
+}
+
+function helpCommandFor(command: string | undefined): string {
+	return `cf${command ? ` ${command}` : ""} --help`;
+}
+
 function excludesTelemetry(command: string): boolean {
 	const [root, subcommand] = command.split(" ");
 	return root === "complete" || (root === "cli" && subcommand === "telemetry");
@@ -686,21 +699,14 @@ export function buildCli(rawArgs: string[], options: BuildCliOptions = {}) {
 				yargsInstance.showHelp("log");
 				return;
 			}
-			// Anything else (notably yargs' default "Not enough non-option
-			// arguments" from a *leaf* command invoked without its
-			// required positional) is a genuine usage error. Print the
-			// command's help first so the user sees valid usage, then
-			// throw so the error block renders below it (closer to the
-			// prompt).
-			yargsInstance.showHelp("error");
-			throw new Error(msg);
+			throw new CliUsageError(msg, helpCommandFor(resolvedCommand));
 		});
 
 	// Every depth can replace `.usage()`, so add the notice at the point
 	// yargs emits help rather than relying on a root-level usage string.
 	const showHelp = cli.showHelp.bind(cli);
-	cli.showHelp = (level?: string | ((help: string) => void)) =>
-		showHelp((help) => {
+	cli.showHelp = (level?: string | ((help: string) => void)) => {
+		return showHelp((help) => {
 			const command = resolvedCommandName(cli);
 			if (command !== undefined) {
 				onCommandResolved?.(command);
@@ -715,6 +721,7 @@ export function buildCli(rawArgs: string[], options: BuildCliOptions = {}) {
 				console.error(message);
 			}
 		});
+	};
 	const getHelp = cli.getHelp.bind(cli);
 	cli.getHelp = async () =>
 		decorateHelp(await getHelp(), resolvedCommandName(cli));
@@ -812,6 +819,20 @@ export async function main(): Promise<void> {
 	// flows through unchanged so explicit exit codes (e.g. from
 	// `--help` early-exits) survive.
 	try {
+		// Like Wrangler, check unknown top-level commands before yargs handles
+		// --help, since yargs skips strict command validation for help requests.
+		const rootCommand = commandPath(args, 1)[0];
+		if (
+			(args.includes("--help") || args.includes("-h")) &&
+			rootCommand !== undefined &&
+			!HAND_WRITTEN_ROOTS.has(rootCommand) &&
+			!generatedCommands.some(({ command }) => command.command === rootCommand)
+		) {
+			throw new CliUsageError(
+				`Unknown command: ${rootCommand}`,
+				helpCommandFor(undefined)
+			);
+		}
 		await cli.parse(hideBin(process.argv));
 		await reportHelpShown(helpShown);
 	} catch (err) {
@@ -834,7 +855,16 @@ export async function main(): Promise<void> {
 			err,
 			resolvedCommand ?? resolvedCommandName(cli)
 		);
-		throw handleError(err);
+		const handledError = handleError(err);
+		if (err instanceof CliUsageError) {
+			console.error(
+				"\n" +
+					theme.italic(
+						`For more information, run ${theme.code(err.helpCommand)}`
+					)
+			);
+		}
+		throw handledError;
 	} finally {
 		dispose();
 		// Miniflare keeps workerd and a loopback server alive. The disposer is

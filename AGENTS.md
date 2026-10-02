@@ -85,7 +85,7 @@ cf/
 
 ## Tooling
 
-Aligned with `workers-sdk`:
+Based on `workers-sdk` but using vite+ rather than turborepo:
 
 - **Vite+** — task orchestration, formatting, type-aware linting, Vitest,
   and Pack bundling. Package `run.tasks` declare prerequisites; pnpm scripts

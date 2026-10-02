@@ -39,11 +39,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "number",
 			description: "Sets the number of results per page of results.",
 		})
-		.check((argv) => {
-			if (argv["per-page"] !== undefined && !Number.isFinite(argv["per-page"]))
-				throw new Error("--per-page must be a number");
-			return true;
-		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

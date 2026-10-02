@@ -28,11 +28,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			demandOption: true,
 		})
 		.option("per-page", { type: "number", description: "Per page" })
-		.check((argv) => {
-			if (argv["per-page"] !== undefined && !Number.isFinite(argv["per-page"]))
-				throw new Error("--per-page must be a number");
-			return true;
-		})
 		.option("page", { type: "number", description: "Page" })
 		.option("dry-run", {
 			type: "boolean",

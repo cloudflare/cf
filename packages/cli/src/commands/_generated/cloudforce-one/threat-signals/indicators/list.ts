@@ -30,11 +30,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"NFC-normalized and trimmed, case-insensitive literal substring search of indicator values. Requires 3–500 Unicode code points; the upper code-point bound is described here because OpenAPI string length cannot precisely express it without imposing UTF-16 semantics.",
 		})
 		.option("per-page", { type: "number", description: "Per page" })
-		.check((argv) => {
-			if (argv["per-page"] !== undefined && !Number.isFinite(argv["per-page"]))
-				throw new Error("--per-page must be a number");
-			return true;
-		})
 		.option("sort", { type: "string", description: "Sort" })
 		.option("include-total", { type: "boolean", description: "Include total" })
 		.option("cursor", { type: "string", description: "Cursor" })

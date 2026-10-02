@@ -29,11 +29,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Opaque cursor from a previous response's `next_cursor`. When provided, pagination, ordering, totals, and article filters come from the cursor. Sending `per_page`, `sort`, `include_total`, or any article filter alongside it returns a 400 `CursorFilterConflictError`.",
 		})
 		.option("per-page", { type: "number", description: "Per page" })
-		.check((argv) => {
-			if (argv["per-page"] !== undefined && !Number.isFinite(argv["per-page"]))
-				throw new Error("--per-page must be a number");
-			return true;
-		})
 		.option("feed-id", { type: "string", description: "Feed ID" })
 		.option("article-id", {
 			type: "string",

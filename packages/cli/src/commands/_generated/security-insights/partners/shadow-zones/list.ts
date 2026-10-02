@@ -36,11 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Number of premium partner asset results per page. Values other than 1 must be a multiple of 5.",
 		})
-		.check((argv) => {
-			if (argv["per-page"] !== undefined && !Number.isFinite(argv["per-page"]))
-				throw new Error("--per-page must be a number");
-			return true;
-		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

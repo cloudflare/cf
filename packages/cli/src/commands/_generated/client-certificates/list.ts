@@ -37,11 +37,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "number",
 			description: "Number of records per page.",
 		})
-		.check((argv) => {
-			if (argv["per-page"] !== undefined && !Number.isFinite(argv["per-page"]))
-				throw new Error("--per-page must be a number");
-			return true;
-		})
 		.option("limit", {
 			type: "number",
 			description: "Limit to the number of records returned.",

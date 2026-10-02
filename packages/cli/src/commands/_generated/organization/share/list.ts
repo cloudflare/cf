@@ -60,11 +60,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Number of objects to return per page. Defaults to `20` when `page`\nis supplied without `per_page`. May be omitted entirely along with\n`page` to receive a non-paginated response.",
 		})
-		.check((argv) => {
-			if (argv["per-page"] !== undefined && !Number.isFinite(argv["per-page"]))
-				throw new Error("--per-page must be a number");
-			return true;
-		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

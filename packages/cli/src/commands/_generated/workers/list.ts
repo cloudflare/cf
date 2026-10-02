@@ -23,11 +23,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage("$0 workers list\n\nList all Workers for an account.")
 		.option("page", { type: "number", description: "Current page." })
 		.option("per-page", { type: "number", description: "Items per-page." })
-		.check((argv) => {
-			if (argv["per-page"] !== undefined && !Number.isFinite(argv["per-page"]))
-				throw new Error("--per-page must be a number");
-			return true;
-		})
 		.option("order-by", {
 			type: "string",
 			description: "Property to sort results by.",

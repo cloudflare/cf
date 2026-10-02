@@ -29,11 +29,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "number",
 			description: "Number of results per page.",
 		})
-		.check((argv) => {
-			if (argv["per-page"] !== undefined && !Number.isFinite(argv["per-page"]))
-				throw new Error("--per-page must be a number");
-			return true;
-		})
 		.option("test-name", {
 			type: "string",
 			description: "Filter by test name.",

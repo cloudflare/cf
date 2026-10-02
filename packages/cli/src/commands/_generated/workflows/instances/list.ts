@@ -33,11 +33,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Deprecated: use `cursor` for pagination instead.",
 		})
 		.option("per-page", { type: "number", description: "Per page" })
-		.check((argv) => {
-			if (argv["per-page"] !== undefined && !Number.isFinite(argv["per-page"]))
-				throw new Error("--per-page must be a number");
-			return true;
-		})
 		.option("cursor", {
 			type: "string",
 			description:

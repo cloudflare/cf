@@ -177,12 +177,16 @@ describe("cf zones list (network)", () => {
 		expect(url?.searchParams.get("per_page")).toBe("5");
 	});
 
-	it.each(["abc", "Infinity"])(
-		"rejects a non-finite --per-page value (%s) before requesting the API",
-		async (value) => {
+	it.each([
+		["per-page", "abc"],
+		["page", "abc"],
+		["per-page", "Infinity"],
+	])(
+		"rejects a non-finite --%s value (%s) before requesting the API",
+		async (flag, value) => {
 			await expect(
-				runCf(["zones", "list", "--per-page", value], ENV)
-			).rejects.toThrow("--per-page must be a number");
+				runCf(["zones", "list", `--${flag}`, value], ENV)
+			).rejects.toThrow(`--${flag} must be a finite number`);
 			expect(stdout()).toBe("");
 		}
 	);

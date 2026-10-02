@@ -32,11 +32,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "number",
 			description: "Number of items to return per page.",
 		})
-		.check((argv) => {
-			if (argv["per-page"] !== undefined && !Number.isFinite(argv["per-page"]))
-				throw new Error("--per-page must be a number");
-			return true;
-		})
 		.option("direction", {
 			type: "string",
 			description: "Sort direction for results. Defaults to ascending order.",

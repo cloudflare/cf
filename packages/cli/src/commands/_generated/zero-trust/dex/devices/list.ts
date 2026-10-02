@@ -45,11 +45,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Number of results per page.",
 			demandOption: true,
 		})
-		.check((argv) => {
-			if (argv["per-page"] !== undefined && !Number.isFinite(argv["per-page"]))
-				throw new Error("--per-page must be a number");
-			return true;
-		})
 		.option("sort-by", {
 			type: "string",
 			description: "Dimension to sort results by.",

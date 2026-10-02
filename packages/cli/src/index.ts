@@ -577,6 +577,18 @@ export function buildCli(rawArgs: string[], options: BuildCliOptions = {}) {
 
 	cli
 		.middleware(async (argv) => {
+			// Yargs converts invalid numeric input to NaN instead of failing.
+			for (const [name, value] of Object.entries(argv)) {
+				const values = Array.isArray(value) ? value : [value];
+				if (
+					values.some(
+						(item) => typeof item === "number" && !Number.isFinite(item)
+					)
+				) {
+					const argument = name === "_" ? "Positional argument" : `--${name}`;
+					throw new Error(`${argument} must be a finite number`);
+				}
+			}
 			// Command middleware can suppress decoration before startup output.
 			maybeOpenSession(argv.quiet, updateCheck?.notice);
 			updateCheck?.start();

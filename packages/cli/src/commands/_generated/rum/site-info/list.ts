@@ -27,11 +27,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "number",
 			description: "Number of items to return per page of results.",
 		})
-		.check((argv) => {
-			if (argv["per-page"] !== undefined && !Number.isFinite(argv["per-page"]))
-				throw new Error("--per-page must be a number");
-			return true;
-		})
 		.option("page", {
 			type: "number",
 			description: "Current page within the paginated list of results.",

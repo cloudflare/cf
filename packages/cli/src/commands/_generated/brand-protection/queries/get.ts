@@ -33,11 +33,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Optional number of queries per page for paginated list requests. Defaults to 100 when only page is supplied. Maximum 100. Omit page and per_page to preserve the legacy full-list response.",
 		})
-		.check((argv) => {
-			if (argv["per-page"] !== undefined && !Number.isFinite(argv["per-page"]))
-				throw new Error("--per-page must be a number");
-			return true;
-		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

@@ -24,11 +24,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"$0 ai models list\n\nSearches Workers AI models by name or description."
 		)
 		.option("per-page", { type: "number", description: "Per page" })
-		.check((argv) => {
-			if (argv["per-page"] !== undefined && !Number.isFinite(argv["per-page"]))
-				throw new Error("--per-page must be a number");
-			return true;
-		})
 		.option("page", { type: "number", description: "Page" })
 		.option("task", { type: "string", description: "Filter by Task Name." })
 		.option("author", { type: "string", description: "Filter by Author." })

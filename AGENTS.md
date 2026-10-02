@@ -615,7 +615,7 @@ Live globals (`packages/cli/src/index.ts:buildCli`):
 | Flag           | Alias | Purpose                                                         |
 | -------------- | ----- | --------------------------------------------------------------- |
 | `--help`       | `-h`  | Show help                                                       |
-| `--version`    | `-v`  | Show plain version on stdout (branded banner on stderr)      |
+| `--version`    | `-v`  | Show plain version on stdout (branded banner on stderr)         |
 | `--quiet`      | `-q`  | Suppress non-essential output                                   |
 | `--zone`       | `-z`  | Zone ID or domain (overrides `CLOUDFLARE_ZONE_ID`)              |
 | `--profile`    | —     | Use a specific auth profile                                     |

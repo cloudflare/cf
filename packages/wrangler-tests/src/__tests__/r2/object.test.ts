@@ -1,4 +1,4 @@
-import { describe, it } from "vitest";
+import { describe, it } from "vite-plus/test";
 
 // cf generates REST-backed object get, upload, and bulk-delete commands under
 // `r2 objects`. Wrangler's `r2 object *` commands use a different

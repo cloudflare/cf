@@ -1,7 +1,14 @@
 import { writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { runInTempDir } from "@cloudflare/workers-utils/test-helpers";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import {
+	afterEach,
+	beforeEach,
+	describe,
+	expect,
+	it,
+	vi,
+} from "vite-plus/test";
 import { loadProjectSettings } from "../lib/project-settings.js";
 import { captureOutput } from "./helpers/capture-output.js";
 import { runCf } from "./helpers/run-cf.js";

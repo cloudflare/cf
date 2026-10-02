@@ -1,5 +1,5 @@
 import { http, HttpResponse } from "msw";
-import { assert } from "vitest";
+import { assert } from "vite-plus/test";
 import { createFetchResult, msw } from "./msw";
 
 /** Create a mock handler for the request to get the account's subdomain. */

@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "vite-plus/test";
 import { computeVariantPromptBlock } from "../../../generator/emit/handler/variant-prompt.js";
 import type { ArgIR } from "../../../generator/intermediate-representation.js";
 import type { OperationInfo } from "@cloudflare/forge";

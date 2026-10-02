@@ -1,6 +1,13 @@
 import { stripVTControlCharacters } from "node:util";
 import chalk from "chalk";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import {
+	afterEach,
+	beforeEach,
+	describe,
+	expect,
+	it,
+	vi,
+} from "vite-plus/test";
 import { formatOutput } from "../../lib/output.js";
 import { theme } from "../../lib/ui/theme.js";
 import { Page } from "../../sdk/sdk/core/pagination/Page.js";

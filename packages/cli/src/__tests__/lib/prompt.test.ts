@@ -1,5 +1,12 @@
 import * as clack from "@clack/prompts";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import {
+	afterEach,
+	beforeEach,
+	describe,
+	expect,
+	it,
+	vi,
+} from "vite-plus/test";
 import {
 	confirm,
 	confirmDelete,

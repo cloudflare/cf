@@ -3,31 +3,27 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"generate": "turbo run generate",
-		"build": "turbo run build",
-		"dev": "turbo run dev",
-		"check": "turbo run check:lint check:type check:format",
-		"check:lint": "oxlint --deny-warnings --type-aware",
-		"check:format": "oxfmt --check",
-		"check:type": "turbo run check:type",
-		"fix": "oxlint --fix --type-aware && oxfmt",
+		"generate": "vp run cf#task:generate",
+		"build": "vp run -r task:build",
+		"dev": "vp run cf#task:dev",
+		"check": "vp run repo:check",
+		"check:lint": "vp run repo:lint",
+		"check:format": "vp run repo:format",
+		"check:type": "vp run -r task:check:type",
+		"fix": "vp lint --fix --type-aware && vp fmt",
 		"sync:forge": "tsx scripts/sync-forge.ts",
 		"changeset": "changeset",
-		"changeset:version": "changeset version && oxfmt packages/cli/CHANGELOG.md"
+		"changeset:version": "changeset version && vp fmt packages/cli/CHANGELOG.md"
 	},
 	"devDependencies": {
 		"@changesets/cli": "2.31.0",
 		"@types/node": "25.3.5",
 		"@typescript/native-preview": "latest",
-		"eslint-plugin-turbo": "^2.8.17",
-		"oxfmt": "0.70.0",
-		"oxlint": "^1.56.0",
-		"oxlint-tsgolint": "^0.21.0",
 		"tsx": "4.21.0",
-		"turbo": "^2.7.2"
+		"vite-plus": "catalog:"
 	},
 	"engines": {
-		"node": ">=22.0.0"
+		"node": "^22.18.0 || ^24.11.0 || >=26.0.0"
 	},
 	"packageManager": "pnpm@12.6.0"
 }

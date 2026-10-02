@@ -1,6 +1,6 @@
 import { readBuildOutput } from "@cloudflare/build-output-utils";
 import { runInTempDir, seed } from "@cloudflare/workers-utils/test-helpers";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "vite-plus/test";
 import {
 	BuildOutputConfigError,
 	parseWorkerConfig,

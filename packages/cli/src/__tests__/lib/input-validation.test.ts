@@ -1,6 +1,6 @@
 import { runInTempDir, seed } from "@cloudflare/workers-utils/test-helpers";
 import { http, HttpResponse } from "msw";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import {
 	readFileForFlag,
 	resolveFileToken,

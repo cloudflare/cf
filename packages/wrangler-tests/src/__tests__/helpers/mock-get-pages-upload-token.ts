@@ -1,6 +1,6 @@
 import { http, HttpResponse } from "msw";
 import { msw } from "./msw";
-import type { ExpectStatic } from "vitest";
+import type { ExpectStatic } from "vite-plus/test";
 
 /**
  * Mocks the `/accounts/:accountId/pages/projects/:projectName/upload-token` GET request

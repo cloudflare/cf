@@ -1,4 +1,4 @@
-import { beforeEach, describe, it, vi } from "vitest";
+import { beforeEach, describe, it, vi } from "vite-plus/test";
 import { mockConsoleMethods } from "./helpers/mock-console";
 import { runWrangler } from "./helpers/run-wrangler";
 

@@ -640,7 +640,7 @@ const groups = [...missingByFile]
 
 const source =
 	"// Generated from cloudflare/workers-sdk@c2bb4c815. Do not rename cases.\n" +
-	'import { describe, it } from "vitest";\n\n' +
+	'import { describe, it } from "vite-plus/test";\n\n' +
 	`const groups = ${JSON.stringify(groups, null, "\t")} as const;\n\n` +
 	"function register(group: (typeof groups)[number], depth = 0): void {\n" +
 	"\tconst ancestor = group.ancestors[depth];\n" +

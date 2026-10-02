@@ -1,4 +1,4 @@
-import { afterAll, beforeEach, describe, expect, it, vi } from "vitest";
+import { afterAll, beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import * as updateCheck from "../lib/update-check.js";
 import { captureOutput } from "./helpers/capture-output.js";
 import { runCf } from "./helpers/run-cf.js";

@@ -1,4 +1,4 @@
-import { describe, it } from "vitest";
+import { describe, it } from "vite-plus/test";
 
 describe.skip("containers deploy", () => {
 	// These are Wrangler deploy orchestration tests: Docker, Worker config,

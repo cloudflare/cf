@@ -1,4 +1,4 @@
-import { describe, it } from "vitest";
+import { describe, it } from "vite-plus/test";
 
 // TODO: re-enable once the underlying bugs are fixed.
 //

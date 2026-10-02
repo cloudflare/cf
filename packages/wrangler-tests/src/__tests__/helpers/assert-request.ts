@@ -1,6 +1,6 @@
-import { assert, beforeEach, vi } from "vitest";
+import { assert, beforeEach, vi } from "vite-plus/test";
 import type { mockConsoleMethods } from "./mock-console";
-import type { ExpectStatic } from "vitest";
+import type { ExpectStatic } from "vite-plus/test";
 
 /**
  * Assert that Wrangler has made a request matching a certain pattern. Unlike MSW (which mocks the return value of the request),

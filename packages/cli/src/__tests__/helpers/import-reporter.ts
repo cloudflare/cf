@@ -1,6 +1,5 @@
 import { relative } from "node:path";
-import type { TestModule } from "vitest/node";
-import type { Reporter } from "vitest/reporters";
+import type { Reporter, TestModule } from "vite-plus/test/node";
 
 /** Collection imports only; external packages' internal imports are omitted. */
 export default class ImportReporter implements Reporter {

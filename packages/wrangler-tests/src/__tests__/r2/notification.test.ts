@@ -1,4 +1,4 @@
-import { describe, it } from "vitest";
+import { describe, it } from "vite-plus/test";
 
 // Every test in this file exercised wrangler-internal helpers, not CLI
 // behaviour:

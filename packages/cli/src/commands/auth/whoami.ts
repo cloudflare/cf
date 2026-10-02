@@ -31,7 +31,6 @@ const whoamiCommand: CommandModule<object, WhoamiArgs> = {
 			authSource = "none";
 		}
 
-		// Try to get a token and verify it.
 		let token: string;
 		try {
 			token = await getAuthToken();
@@ -45,10 +44,17 @@ const whoamiCommand: CommandModule<object, WhoamiArgs> = {
 		const client = createCloudflareClientWithToken({ apiToken: token });
 		let userEmail: string | undefined;
 		let accounts: Array<{ id: string; name: string }> = [];
-		const [userResult, accountsResult] = await Promise.allSettled([
-			client.user.get(),
-			fetchAuthorizedAccounts(),
-		]);
+		const [verificationResult, userResult, accountsResult] =
+			await Promise.allSettled([
+				// The user-token endpoint does not verify account API tokens or OAuth tokens.
+				envToken ? client.user.tokens.verify() : Promise.resolve(undefined),
+				client.user.get(),
+				fetchAuthorizedAccounts(),
+			]);
+
+		if (verificationResult.status === "rejected" && process.env.DEBUG) {
+			console.error("Token verification error:", verificationResult.reason);
+		}
 
 		if (userResult.status === "fulfilled") {
 			const user = userResult.value;
@@ -65,9 +71,17 @@ const whoamiCommand: CommandModule<object, WhoamiArgs> = {
 			console.error("Account lookup error:", accountsResult.reason);
 		}
 
-		const tokenValid =
+		// A rejected user-token probe may belong to an account token; failed detail
+		// lookups alone cannot establish that the credential is invalid.
+		let tokenValid: boolean | null = null;
+		if (verificationResult.status === "fulfilled" && verificationResult.value) {
+			tokenValid = verificationResult.value.status === "active";
+		} else if (
 			userResult.status === "fulfilled" ||
-			accountsResult.status === "fulfilled";
+			accountsResult.status === "fulfilled"
+		) {
+			tokenValid = true;
+		}
 
 		const output: Record<string, unknown> = {
 			authenticated: true,

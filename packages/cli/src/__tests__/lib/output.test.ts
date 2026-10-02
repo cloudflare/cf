@@ -162,7 +162,11 @@ describe("formatOutput", () => {
 		const cases = [
 			{ name: "plain strings", value: "cat.com" },
 			{ name: "empty strings", value: "" },
-			{ name: "escaped quotation marks", value: '"cat.com"' },
+			{
+				name: "escaped quotation marks",
+				serializedValue: String.raw`"\"cat.com\""`,
+				value: '"cat.com"',
+			},
 			{ name: "embedded quotation marks", value: 'say "hello"' },
 			{
 				name: "escaped quotation marks followed by a colon",
@@ -191,16 +195,19 @@ describe("formatOutput", () => {
 			chalk.level = originalChalkLevel;
 		});
 
-		it.each(cases)("highlights complete $name", ({ value }) => {
-			const data = { value };
-			formatOutput(data);
+		it.each(cases)(
+			"highlights complete $name",
+			({ serializedValue, value }) => {
+				const data = { value };
+				formatOutput(data);
 
-			const output = String(logSpy.mock.calls[0]?.[0]);
-			expect(output).toBe(
-				`{\n  ${theme.jsonKey('"value"')}: ${theme.jsonString(JSON.stringify(value))}\n}`
-			);
-			expect(JSON.parse(stripVTControlCharacters(output))).toEqual(data);
-		});
+				const output = String(logSpy.mock.calls[0]?.[0]);
+				expect(output).toBe(
+					`{\n  ${theme.jsonKey('"value"')}: ${theme.jsonString(serializedValue ?? JSON.stringify(value))}\n}`
+				);
+				expect(JSON.parse(stripVTControlCharacters(output))).toEqual(data);
+			}
+		);
 
 		it.each(["non-TTY stdout", "NO_COLOR"])(
 			"preserves plain, parseable JSON with %s",

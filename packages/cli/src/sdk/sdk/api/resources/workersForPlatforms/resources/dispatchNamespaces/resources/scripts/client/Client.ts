@@ -11,7 +11,7 @@ import { toJson } from "../../../../../../../../core/json.js";
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 import { AssetsClient } from "../resources/assets/client/Client.js";
 import { BindingsClient } from "../resources/bindings/client/Client.js";
 import { ContentClient } from "../resources/content/client/Client.js";

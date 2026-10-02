@@ -10,7 +10,8 @@ import { mergeHeaders } from "../../../../../../../../../../../../core/headers.j
 import * as environments from "../../../../../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../../../../../index.js";
+import * as CloudflareApiErrors from "../../../../../../../../../../../errors/index.js";
 
 export declare namespace TokensClient {
     export type Options = BaseClientOptions;
@@ -85,7 +86,7 @@ export class TokensClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 500:
-                    throw new CloudflareApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.InternalServerError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,

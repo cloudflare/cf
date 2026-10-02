@@ -1,3 +1,10 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+/**
+ * delete command
+ * @generated from apis/overlays/account-tags.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -17,13 +24,6 @@ import {
 	promptForRequiredField,
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-/**
- * delete command
- * @generated from apis/overlays/account-tags.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs

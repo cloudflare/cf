@@ -1,11 +1,11 @@
 import * as fsp from "node:fs/promises";
 import * as path from "node:path";
-import { CLOUDFLARE_CONFIG_FILENAME } from "#lib/project-settings.js";
 import { generateTypes, loadAndParseConfig } from "@cloudflare/config";
 import {
 	generateRuntimeTypes,
 	RUNTIME_TYPES_MARKER,
 } from "@cloudflare/runtime-types";
+import { CLOUDFLARE_CONFIG_FILENAME } from "#lib/project-settings.js";
 
 export const TYPES_OUTPUT_PATH = path.join(
 	".cloudflare",

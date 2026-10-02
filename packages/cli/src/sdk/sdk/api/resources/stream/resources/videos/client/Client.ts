@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 import { AudioTracksClient } from "../resources/audioTracks/client/Client.js";
 import { CaptionsClient } from "../resources/captions/client/Client.js";
 import { DirectUploadClient } from "../resources/directUpload/client/Client.js";

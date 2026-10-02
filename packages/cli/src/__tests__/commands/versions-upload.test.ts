@@ -9,6 +9,9 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { createMockDeployContext } from "../helpers/mock-deploy-context.js";
 import { createFetchResult, msw, setupMsw } from "../helpers/msw.js";
 import { runCf } from "../helpers/run-cf.js";
+// These integration tests need the real client. Collect its cold import graph
+// before per-test timers start; lightweight tests must not inherit this import.
+import "../../lib/auth.js";
 import {
 	ACCOUNT_ID,
 	buildDelegateWasCalled,

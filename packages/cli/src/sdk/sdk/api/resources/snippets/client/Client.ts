@@ -8,7 +8,7 @@ import { toJson } from "../../../../core/json.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
-import * as CloudflareApi from "../../../index.js";
+import type * as CloudflareApi from "../../../index.js";
 import { ContentClient } from "../resources/content/client/Client.js";
 import { RulesClient } from "../resources/rules/client/Client.js";
 

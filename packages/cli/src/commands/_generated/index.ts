@@ -1,10 +1,10 @@
+import type { CommonYargsOptions } from "#lib/cli-types.js";
+import type { CommandModule } from "yargs";
 /**
  * Generated CLI commands
  * @generated
  */
 import { lazyCommand } from "#lib/lazy-command.js";
-import type { CommonYargsOptions } from "#lib/cli-types.js";
-import type { CommandModule } from "yargs";
 
 export interface GeneratedCommand {
 	command: CommandModule<CommonYargsOptions>;

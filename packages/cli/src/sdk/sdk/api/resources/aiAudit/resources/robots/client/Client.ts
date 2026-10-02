@@ -8,7 +8,8 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
+import * as CloudflareApiErrors from "../../../../../errors/index.js";
 
 export declare namespace RobotsClient {
     export type Options = BaseClientOptions;
@@ -89,17 +90,17 @@ export class RobotsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new CloudflareApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new CloudflareApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 500:
-                    throw new CloudflareApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.InternalServerError(_response.error.body as unknown, _response.rawResponse);
                 case 503:
-                    throw new CloudflareApi.ServiceUnavailableError(
+                    throw new CloudflareApiErrors.ServiceUnavailableError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -184,22 +185,22 @@ export class RobotsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new CloudflareApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new CloudflareApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 408:
-                    throw new CloudflareApi.RequestTimeoutError(
+                    throw new CloudflareApiErrors.RequestTimeoutError(
                         _response.error.body as CloudflareApi.AiAuditApiResponseCommonFailure,
                         _response.rawResponse,
                     );
                 case 500:
-                    throw new CloudflareApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.InternalServerError(_response.error.body as unknown, _response.rawResponse);
                 case 503:
-                    throw new CloudflareApi.ServiceUnavailableError(
+                    throw new CloudflareApiErrors.ServiceUnavailableError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );

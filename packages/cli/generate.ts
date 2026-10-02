@@ -11,6 +11,7 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { type ForgeOpenApiDocument, initFromOpenApi } from "@cloudflare/forge";
 import { filterForCliAudience } from "./generator/cli-audience.js";
+import { narrowSdkErrorImports } from "./generator/sdk-error-imports.js";
 import { dropSdkMethodGroupCollisions } from "./generator/sdk-method-group-collisions.js";
 import { hasAccountOrZoneScope } from "./generator/util.js";
 import { preserveWorkersSecretUpdatePositional } from "./generator/workers-secret-cli-compat.js";
@@ -229,6 +230,13 @@ try {
 	}
 } finally {
 	rmSync(tempDir, { recursive: true, force: true });
+}
+
+const narrowedSdkClients = narrowSdkErrorImports(join(sdkDir, "sdk"));
+if (narrowedSdkClients > 0) {
+	console.log(
+		`[cf-generator] Narrowed runtime error imports in ${narrowedSdkClients} SDK clients`
+	);
 }
 
 const sdkCollisionResult = dropSdkMethodGroupCollisions(join(sdkDir, "sdk"));

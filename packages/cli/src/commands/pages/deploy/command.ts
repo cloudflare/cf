@@ -1,9 +1,9 @@
 import { existsSync } from "node:fs";
 import { join } from "node:path";
-import { CliExit } from "#lib/cli-exit.js";
 import { createConfigCache } from "@cloudflare/workers-utils";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 import type { CommandModule } from "yargs";
+import { CliExit } from "#lib/cli-exit.js";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "deploy [directory]",

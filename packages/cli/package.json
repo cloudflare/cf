@@ -1,6 +1,6 @@
 {
 	"name": "cf",
-	"version": "1.0.0-beta.10",
+	"version": "1.0.0-beta.11",
 	"description": "The Cloudflare CLI",
 	"keywords": [
 		"ai",
@@ -47,7 +47,10 @@
 	"imports": {
 		"#commands/*": "./src/commands/*",
 		"#lib/*": "./src/lib/*",
-		"#sdk": "./src/sdk/sdk/index.ts"
+		"#sdk": "./src/sdk/sdk/index.ts",
+		"#sdk/errors": "./src/sdk/sdk/errors/index.ts",
+		"#sdk/client": "./src/sdk/sdk/Client.ts",
+		"#sdk/environments": "./src/sdk/sdk/environments.ts"
 	},
 	"exports": {
 		".": "./dist/index.mjs",
@@ -64,7 +67,8 @@
 		"build:test": "tsdown --config tsdown.test.config.ts",
 		"check:type": "tsgo --noEmit",
 		"test": "vitest run",
-		"test:watch": "vitest"
+		"test:watch": "vitest",
+		"test:imports": "vitest run --maxWorkers=1 --no-file-parallelism --experimental.importDurations.limit=100000 --reporter=default --reporter=./src/__tests__/helpers/import-reporter.ts"
 	},
 	"dependencies": {
 		"@cloudflare/build-output-utils": "0.8.4",
@@ -93,6 +97,7 @@
 		"@types/yargs": "17.0.35",
 		"chalk": "5.6.2",
 		"ci-info": "^4.4.0",
+		"esbuild": "0.28.1",
 		"execa": "^6.1.0",
 		"figures": "6.1.0",
 		"minimatch": "10.2.5",

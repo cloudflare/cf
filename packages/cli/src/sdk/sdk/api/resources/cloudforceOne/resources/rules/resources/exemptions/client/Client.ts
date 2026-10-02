@@ -11,7 +11,8 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
+import * as CloudflareApiErrors from "../../../../../../../errors/index.js";
 
 export declare namespace ExemptionsClient {
     export type Options = BaseClientOptions;
@@ -85,11 +86,11 @@ export class ExemptionsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new CloudflareApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new CloudflareApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -170,11 +171,11 @@ export class ExemptionsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new CloudflareApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new CloudflareApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -256,15 +257,15 @@ export class ExemptionsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new CloudflareApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new CloudflareApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 409:
-                    throw new CloudflareApi.ConflictError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.ConflictError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -345,11 +346,11 @@ export class ExemptionsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new CloudflareApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new CloudflareApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,

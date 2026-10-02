@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * create command
+ * @generated from apis/overlays/ai-search.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -10,14 +18,6 @@ import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * create command
- * @generated from apis/overlays/ai-search.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -460,9 +460,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												requests:
 													argv["public-endpoint-params-rate-limit-requests"],
 												technique: resolveFileToken(
-													argv["public-endpoint-params-rate-limit-technique"] as
-														| string
-														| undefined,
+													argv[
+														"public-endpoint-params-rate-limit-technique"
+													] as string | undefined,
 													"public-endpoint-params-rate-limit-technique",
 													"text"
 												),

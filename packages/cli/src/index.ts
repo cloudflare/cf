@@ -93,9 +93,13 @@ const GLOBAL_OPTIONS = {
 	},
 } satisfies Record<string, Options>;
 
-function globalFlagTakesValue(arg: string): boolean {
+function globalFlagTakesValue(arg: string, nextArg?: string): boolean {
 	return Object.entries<Options>(GLOBAL_OPTIONS).some(([name, option]) => {
-		if (option.type === "boolean") {
+		if (
+			option.type === "boolean" &&
+			nextArg !== "true" &&
+			nextArg !== "false"
+		) {
 			return false;
 		}
 		const alias = option.alias;
@@ -201,7 +205,7 @@ function commandPath(args = process.argv.slice(2), depth = 2): string[] {
 		if (arg === undefined || arg === "--") {
 			break;
 		}
-		if (globalFlagTakesValue(arg)) {
+		if (globalFlagTakesValue(arg, args[index + 1])) {
 			index++;
 			continue;
 		}

@@ -1,5 +1,17 @@
 # cf
 
+## 1.0.0-beta.11
+
+### Patch Changes
+
+- 398a2e6: Reduce SDK client imports when running API commands.
+
+  Generate narrow runtime imports for SDK error constructors and load the client entry directly, avoiding the API type and resource barrels while preserving error classes and request behavior.
+
+- be8fdad: Reduce startup imports for authentication and raw API requests.
+
+  Load token and OAuth helpers independently of the SDK client, and use the SDK error entrypoint for error handling and telemetry.
+
 ## 1.0.0-beta.10
 
 ### Minor Changes

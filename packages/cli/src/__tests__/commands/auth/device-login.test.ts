@@ -38,6 +38,13 @@ vi.mock("../../../lib/telemetry/dispatcher.js", () => ({
 	}),
 }));
 
+vi.mock("#sdk", () => {
+	throw new Error("Auth login must not load the SDK client.");
+});
+vi.mock("#sdk/client", () => {
+	throw new Error("Auth login must not load the SDK client.");
+});
+
 describe("cf auth device login", () => {
 	runInTempDir();
 	const std = mockConsoleMethods();

@@ -10,7 +10,8 @@ import { mergeHeaders, mergeOnlyDefinedHeaders } from "../../../../../../../../c
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
+import * as CloudflareApiErrors from "../../../../../../../errors/index.js";
 
 export declare namespace SnapshotsClient {
     export type Options = BaseClientOptions;
@@ -102,7 +103,7 @@ export class SnapshotsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 413:
-                    throw new CloudflareApi.ContentTooLargeError(
+                    throw new CloudflareApiErrors.ContentTooLargeError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );

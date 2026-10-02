@@ -1,4 +1,3 @@
-import $migrations from "#commands/d1/migrations/index.js";
 import $create from "./create.js";
 import $delete from "./delete.js";
 import $edit from "./edit.js";
@@ -14,6 +13,7 @@ import type { CommonYargsOptions } from "#lib/cli-types.js";
  * @generated from apis/overlays/d1.ts
  */
 import type { CommandModule } from "yargs";
+import $migrations from "#commands/d1/migrations/index.js";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "d1",

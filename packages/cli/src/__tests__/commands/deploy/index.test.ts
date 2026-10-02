@@ -1,3 +1,4 @@
+import * as clack from "@clack/prompts";
 import {
 	mockConsoleMethods,
 	runInTempDir,
@@ -1082,22 +1083,31 @@ describe("cf deploy", () => {
 
 	describe("re-deploy existing worker", () => {
 		it("uploads an API-managed Worker in CI with --force", async () => {
-			const upload = mockWorkerUpload();
-			mockExistingWorker({ lastDeployedFrom: "api" });
-			await seed({
-				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
-				".cloudflare/output/v0/workers/default/worker.config.json":
-					workerConfig(),
-				".cloudflare/output/v0/workers/default/bundle/index.js":
-					"export default { fetch() { return new Response('ok'); } }",
-			});
+			const warn = vi.spyOn(clack.log, "warn").mockImplementation(() => {});
+			try {
+				const upload = mockWorkerUpload();
+				mockExistingWorker({ lastDeployedFrom: "api" });
+				await seed({
+					".cloudflare/output/v0/config.json": buildOutputRootConfig(),
+					".cloudflare/output/v0/workers/default/worker.config.json":
+						workerConfig(),
+					".cloudflare/output/v0/workers/default/bundle/index.js":
+						"export default { fetch() { return new Response('ok'); } }",
+				});
 
-			const { exitCode } = await runCf(["deploy", "--prebuilt", "--force"], {
-				CI: "true",
-			});
+				const { exitCode } = await runCf(
+					["deploy", "--prebuilt", "--force"],
+					{ CI: "true" }
+				);
 
-			expect(exitCode).toBe(0);
-			expect(upload.metadata?.main_module).toBe("index.js");
+				expect(exitCode).toBe(0);
+				expect(upload.metadata?.main_module).toBe("index.js");
+				expect(warn).toHaveBeenCalledWith(
+					"Using --force may overwrite conflicting remote Worker changes."
+				);
+			} finally {
+				warn.mockRestore();
+			}
 		});
 
 		it("aborts in strict mode when last deployed from api", async () => {

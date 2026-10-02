@@ -1,9 +1,3 @@
-import $diag from "#commands/tunnels/diag/index.js";
-import $login from "#commands/tunnels/login/index.js";
-import $quickstart from "#commands/tunnels/quick-start/index.js";
-import $ready from "#commands/tunnels/ready/index.js";
-import $run from "#commands/tunnels/run/index.js";
-import $tail from "#commands/tunnels/tail/index.js";
 import $config from "./config/index.js";
 import $connections from "./connections/index.js";
 import $connectors from "./connectors/index.js";
@@ -20,6 +14,12 @@ import type { CommonYargsOptions } from "#lib/cli-types.js";
  * @generated from apis/overlays/tunnels.ts
  */
 import type { CommandModule } from "yargs";
+import $diag from "#commands/tunnels/diag/index.js";
+import $login from "#commands/tunnels/login/index.js";
+import $quickstart from "#commands/tunnels/quick-start/index.js";
+import $ready from "#commands/tunnels/ready/index.js";
+import $run from "#commands/tunnels/run/index.js";
+import $tail from "#commands/tunnels/tail/index.js";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "tunnels",

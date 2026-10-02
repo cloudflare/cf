@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 import { AdvertisementStatusClient } from "../resources/advertisementStatus/client/Client.js";
 import { BgpPrefixesClient } from "../resources/bgpPrefixes/client/Client.js";
 import { DelegationsClient } from "../resources/delegations/client/Client.js";

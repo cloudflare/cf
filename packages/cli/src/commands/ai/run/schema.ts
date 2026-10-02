@@ -1,3 +1,5 @@
+import type { Cloudflare } from "#lib/auth.js";
+import type { SchemaLookup } from "#lib/schema-cache.js";
 /**
  * `cf ai run`'s model input-schema lookup.
  *
@@ -13,8 +15,6 @@ import {
 	readCachedSchema,
 	writeCachedSchema,
 } from "#lib/schema-cache.js";
-import type { Cloudflare } from "#lib/auth.js";
-import type { SchemaLookup } from "#lib/schema-cache.js";
 
 const CACHE_NAMESPACE = "ai-model-schema";
 

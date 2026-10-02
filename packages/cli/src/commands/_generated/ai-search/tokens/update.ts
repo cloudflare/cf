@@ -69,37 +69,35 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			async () => {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun(
-						{
-							command: "cf ai-search tokens update",
-							method: "PUT",
-							url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/tokens/${argv["id"] == null ? "<id>" : encodeURIComponent(String(argv["id"]))}`,
-							pathParams: { id: String(argv["id"] ?? "") },
-							bodyKind: "json",
-							body:
-								argv.body !== undefined
-									? parseBody(argv.body)
-									: compactBody({
-											cf_api_id: resolveFileToken(
-												argv["cf-api-id"] as string | undefined,
-												"cf-api-id",
-												"text"
-											),
-											cf_api_key: resolveFileToken(
-												argv["cf-api-key"] as string | undefined,
-												"cf-api-key",
-												"text"
-											),
-											legacy: argv["legacy"],
-											name: resolveFileToken(
-												argv["name"] as string | undefined,
-												"name",
-												"text"
-											),
-										}),
-						},
-						{ sensitiveBodyPaths: [["cf_api_key"]] }
-					);
+					formatDryRun({
+						command: "cf ai-search tokens update",
+						method: "PUT",
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/tokens/${argv["id"] == null ? "<id>" : encodeURIComponent(String(argv["id"]))}`,
+						pathParams: { id: String(argv["id"] ?? "") },
+						bodyKind: "json",
+						body:
+							argv.body !== undefined
+								? parseBody(argv.body)
+								: compactBody({
+										cf_api_id: resolveFileToken(
+											argv["cf-api-id"] as string | undefined,
+											"cf-api-id",
+											"text"
+										),
+										cf_api_key: resolveFileToken(
+											argv["cf-api-key"] as string | undefined,
+											"cf-api-key",
+											"text"
+										),
+										legacy: argv["legacy"],
+										name: resolveFileToken(
+											argv["name"] as string | undefined,
+											"name",
+											"text"
+										),
+									}),
+						sensitiveBodyPaths: [["cf_api_key"]],
+					});
 					return;
 				}
 				const client = await createCommandClient(argv);

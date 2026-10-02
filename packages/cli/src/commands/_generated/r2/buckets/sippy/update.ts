@@ -206,114 +206,106 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					headers["cf-r2-jurisdiction"] = String(argv["cf-r2-jurisdiction"]);
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun(
-						{
-							command: "cf r2 buckets sippy update",
-							method: "PUT",
-							url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/r2/buckets/${argv["bucket-name"] == null ? "<bucket-name>" : encodeURIComponent(String(argv["bucket-name"]))}/sippy`,
-							pathParams: { "bucket-name": String(argv["bucket-name"] ?? "") },
-							bodyKind: "json",
-							body:
-								argv.body !== undefined
-									? parseBody(argv.body)
-									: compactBody({
-											destination: {
-												accessKeyId: resolveFileToken(
-													argv["destination-access-key-id"] as
-														| string
-														| undefined,
-													"destination-access-key-id",
-													"text"
-												),
-												provider: resolveFileToken(
-													argv["destination-provider"] as string | undefined,
-													"destination-provider",
-													"text"
-												),
-												secretAccessKey: resolveFileToken(
-													argv["destination-secret-access-key"] as
-														| string
-														| undefined,
-													"destination-secret-access-key",
-													"text"
-												),
-											},
-											source: {
-												accessKeyId: resolveFileToken(
-													argv["source-access-key-id"] as string | undefined,
-													"source-access-key-id",
-													"text"
-												),
-												bucket: resolveFileToken(
-													argv["source-bucket"] as string | undefined,
-													"source-bucket",
-													"text"
-												),
-												provider: resolveFileToken(
-													argv["source-provider"] as string | undefined,
-													"source-provider",
-													"text"
-												),
-												region: resolveFileToken(
-													argv["source-region"] as string | undefined,
-													"source-region",
-													"text"
-												),
-												secretAccessKey: resolveFileToken(
-													argv["source-secret-access-key"] as
-														| string
-														| undefined,
-													"source-secret-access-key",
-													"text"
-												),
-												clientEmail: resolveFileToken(
-													argv["source-client-email"] as string | undefined,
-													"source-client-email",
-													"text"
-												),
-												privateKey: resolveFileToken(
-													argv["source-private-key"] as string | undefined,
-													"source-private-key",
-													"text"
-												),
-												bucketUrl: resolveFileToken(
-													argv["source-bucket-url"] as string | undefined,
-													"source-bucket-url",
-													"text"
-												),
-												accountKey: resolveFileToken(
-													argv["source-account-key"] as string | undefined,
-													"source-account-key",
-													"text"
-												),
-												accountName: resolveFileToken(
-													argv["source-account-name"] as string | undefined,
-													"source-account-name",
-													"text"
-												),
-												container: resolveFileToken(
-													argv["source-container"] as string | undefined,
-													"source-container",
-													"text"
-												),
-												sasToken: resolveFileToken(
-													argv["source-sas-token"] as string | undefined,
-													"source-sas-token",
-													"text"
-												),
-											},
-										}),
-						},
-						{
-							sensitiveBodyPaths: [
-								["destination", "secretAccessKey"],
-								["source", "secretAccessKey"],
-								["source", "privateKey"],
-								["source", "accountKey"],
-								["source", "sasToken"],
-							],
-						}
-					);
+					formatDryRun({
+						command: "cf r2 buckets sippy update",
+						method: "PUT",
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/r2/buckets/${argv["bucket-name"] == null ? "<bucket-name>" : encodeURIComponent(String(argv["bucket-name"]))}/sippy`,
+						pathParams: { "bucket-name": String(argv["bucket-name"] ?? "") },
+						bodyKind: "json",
+						body:
+							argv.body !== undefined
+								? parseBody(argv.body)
+								: compactBody({
+										destination: {
+											accessKeyId: resolveFileToken(
+												argv["destination-access-key-id"] as string | undefined,
+												"destination-access-key-id",
+												"text"
+											),
+											provider: resolveFileToken(
+												argv["destination-provider"] as string | undefined,
+												"destination-provider",
+												"text"
+											),
+											secretAccessKey: resolveFileToken(
+												argv["destination-secret-access-key"] as
+													| string
+													| undefined,
+												"destination-secret-access-key",
+												"text"
+											),
+										},
+										source: {
+											accessKeyId: resolveFileToken(
+												argv["source-access-key-id"] as string | undefined,
+												"source-access-key-id",
+												"text"
+											),
+											bucket: resolveFileToken(
+												argv["source-bucket"] as string | undefined,
+												"source-bucket",
+												"text"
+											),
+											provider: resolveFileToken(
+												argv["source-provider"] as string | undefined,
+												"source-provider",
+												"text"
+											),
+											region: resolveFileToken(
+												argv["source-region"] as string | undefined,
+												"source-region",
+												"text"
+											),
+											secretAccessKey: resolveFileToken(
+												argv["source-secret-access-key"] as string | undefined,
+												"source-secret-access-key",
+												"text"
+											),
+											clientEmail: resolveFileToken(
+												argv["source-client-email"] as string | undefined,
+												"source-client-email",
+												"text"
+											),
+											privateKey: resolveFileToken(
+												argv["source-private-key"] as string | undefined,
+												"source-private-key",
+												"text"
+											),
+											bucketUrl: resolveFileToken(
+												argv["source-bucket-url"] as string | undefined,
+												"source-bucket-url",
+												"text"
+											),
+											accountKey: resolveFileToken(
+												argv["source-account-key"] as string | undefined,
+												"source-account-key",
+												"text"
+											),
+											accountName: resolveFileToken(
+												argv["source-account-name"] as string | undefined,
+												"source-account-name",
+												"text"
+											),
+											container: resolveFileToken(
+												argv["source-container"] as string | undefined,
+												"source-container",
+												"text"
+											),
+											sasToken: resolveFileToken(
+												argv["source-sas-token"] as string | undefined,
+												"source-sas-token",
+												"text"
+											),
+										},
+									}),
+						sensitiveBodyPaths: [
+							["destination", "secretAccessKey"],
+							["source", "secretAccessKey"],
+							["source", "privateKey"],
+							["source", "accountKey"],
+							["source", "sasToken"],
+						],
+					});
 					return;
 				}
 				const client = await createCommandClient(argv);

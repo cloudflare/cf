@@ -103,52 +103,50 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			async () => {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun(
-						{
-							command: "cf mcp servers update",
-							method: "PUT",
-							url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/access/ai-controls/mcp/servers/${argv["id"] == null ? "<id>" : encodeURIComponent(String(argv["id"]))}`,
-							pathParams: { id: String(argv["id"] ?? "") },
-							bodyKind: "json",
-							body:
-								argv.body !== undefined
-									? parseBody(argv.body)
-									: compactBody({
-											auth_credentials: resolveFileToken(
-												argv["auth-credentials"] as string | undefined,
-												"auth-credentials",
-												"text"
-											),
-											client_secret: resolveFileToken(
-												argv["client-secret"] as string | undefined,
-												"client-secret",
-												"text"
-											),
-											description: resolveFileToken(
-												argv["description"] as string | undefined,
-												"description",
-												"text"
-											),
-											is_shared_oauth_callback_enabled:
-												argv["is-shared-oauth-callback-enabled"],
-											name: resolveFileToken(
-												argv["name"] as string | undefined,
-												"name",
-												"text"
-											),
-											secure_web_gateway: argv["secure-web-gateway"],
-											updated_prompts: parseObjectArray(
-												argv["updated-prompts"],
-												"updated-prompts"
-											),
-											updated_tools: parseObjectArray(
-												argv["updated-tools"],
-												"updated-tools"
-											),
-										}),
-						},
-						{ sensitiveBodyPaths: [["auth_credentials"], ["client_secret"]] }
-					);
+					formatDryRun({
+						command: "cf mcp servers update",
+						method: "PUT",
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/access/ai-controls/mcp/servers/${argv["id"] == null ? "<id>" : encodeURIComponent(String(argv["id"]))}`,
+						pathParams: { id: String(argv["id"] ?? "") },
+						bodyKind: "json",
+						body:
+							argv.body !== undefined
+								? parseBody(argv.body)
+								: compactBody({
+										auth_credentials: resolveFileToken(
+											argv["auth-credentials"] as string | undefined,
+											"auth-credentials",
+											"text"
+										),
+										client_secret: resolveFileToken(
+											argv["client-secret"] as string | undefined,
+											"client-secret",
+											"text"
+										),
+										description: resolveFileToken(
+											argv["description"] as string | undefined,
+											"description",
+											"text"
+										),
+										is_shared_oauth_callback_enabled:
+											argv["is-shared-oauth-callback-enabled"],
+										name: resolveFileToken(
+											argv["name"] as string | undefined,
+											"name",
+											"text"
+										),
+										secure_web_gateway: argv["secure-web-gateway"],
+										updated_prompts: parseObjectArray(
+											argv["updated-prompts"],
+											"updated-prompts"
+										),
+										updated_tools: parseObjectArray(
+											argv["updated-tools"],
+											"updated-tools"
+										),
+									}),
+						sensitiveBodyPaths: [["auth_credentials"], ["client_secret"]],
+					});
 					return;
 				}
 				const client = await createCommandClient(argv);

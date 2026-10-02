@@ -200,6 +200,7 @@ export function generateCommandMeta(
 			...("default" in opt ? { default: opt.default } : {}),
 		});
 	}
+
 	// Add body options for ops that actually emit --body. Use the
 	// shared `derived` view (real HTTP verb) rather than name-based
 	// detection so read-shaped POSTs (query/search/raw) don't drift.

@@ -58,36 +58,34 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			async () => {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun(
-						{
-							command: "cf dns zone-transfers tsigs create",
-							method: "POST",
-							url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/secondary_dns/tsigs`,
-							pathParams: {},
-							bodyKind: "json",
-							body:
-								argv.body !== undefined
-									? parseBody(argv.body)
-									: compactBody({
-											algo: resolveFileToken(
-												argv["algo"] as string | undefined,
-												"algo",
-												"text"
-											),
-											name: resolveFileToken(
-												argv["name"] as string | undefined,
-												"name",
-												"text"
-											),
-											secret: resolveFileToken(
-												argv["secret"] as string | undefined,
-												"secret",
-												"text"
-											),
-										}),
-						},
-						{ sensitiveBodyPaths: [["secret"]] }
-					);
+					formatDryRun({
+						command: "cf dns zone-transfers tsigs create",
+						method: "POST",
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/secondary_dns/tsigs`,
+						pathParams: {},
+						bodyKind: "json",
+						body:
+							argv.body !== undefined
+								? parseBody(argv.body)
+								: compactBody({
+										algo: resolveFileToken(
+											argv["algo"] as string | undefined,
+											"algo",
+											"text"
+										),
+										name: resolveFileToken(
+											argv["name"] as string | undefined,
+											"name",
+											"text"
+										),
+										secret: resolveFileToken(
+											argv["secret"] as string | undefined,
+											"secret",
+											"text"
+										),
+									}),
+						sensitiveBodyPaths: [["secret"]],
+					});
 					return;
 				}
 				const client = await createCommandClient(argv);

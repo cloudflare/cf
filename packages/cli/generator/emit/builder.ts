@@ -128,6 +128,7 @@ export function generateBuilderLines(
 			default: false,
 		})})`
 	);
+
 	// --force on destructive ops (HTTP DELETE or `x-forge-require-confirmation`).
 	{
 		const isDelete = opInfo.method === "delete" || method.requireConfirmation;

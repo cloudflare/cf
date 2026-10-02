@@ -74,39 +74,32 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					const accountOrZone = argv.zone === undefined ? "accounts" : "zones";
 					const accountOrZoneId =
 						argv.zone ?? __cfDryRunAccountId ?? "<account-id>";
-					formatDryRun(
-						{
-							command: "cf logpush account-ownership validate create",
-							method: "POST",
-							url: `https://api.cloudflare.com/client/v4/${accountOrZone}/${accountOrZoneId}/logpush/ownership/validate`,
-							pathParams: {
-								"account-or-zone": String(accountOrZone),
-								"account-or-zone-id": String(accountOrZoneId),
-							},
-							bodyKind: "json",
-							body:
-								argv.body !== undefined
-									? parseBody(argv.body)
-									: compactBody({
-											destination_conf: resolveFileToken(
-												argv["destination-conf"] as string | undefined,
-												"destination-conf",
-												"text"
-											),
-											ownership_challenge: resolveFileToken(
-												argv["ownership-challenge"] as string | undefined,
-												"ownership-challenge",
-												"text"
-											),
-										}),
+					formatDryRun({
+						command: "cf logpush account-ownership validate create",
+						method: "POST",
+						url: `https://api.cloudflare.com/client/v4/${accountOrZone}/${accountOrZoneId}/logpush/ownership/validate`,
+						pathParams: {
+							"account-or-zone": String(accountOrZone),
+							"account-or-zone-id": String(accountOrZoneId),
 						},
-						{
-							sensitiveBodyPaths: [
-								["destination_conf"],
-								["ownership_challenge"],
-							],
-						}
-					);
+						bodyKind: "json",
+						body:
+							argv.body !== undefined
+								? parseBody(argv.body)
+								: compactBody({
+										destination_conf: resolveFileToken(
+											argv["destination-conf"] as string | undefined,
+											"destination-conf",
+											"text"
+										),
+										ownership_challenge: resolveFileToken(
+											argv["ownership-challenge"] as string | undefined,
+											"ownership-challenge",
+											"text"
+										),
+									}),
+						sensitiveBodyPaths: [["destination_conf"], ["ownership_challenge"]],
+					});
 					return;
 				}
 				const client = await createCommandClient(argv);

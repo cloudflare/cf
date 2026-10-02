@@ -37,7 +37,7 @@ describe("workers secrets dry-run", () => {
 		);
 
 		expect(exitCode).toBe(0);
-		expect(output()).toContain('"text": "<redacted, 14 chars>"');
+		expect(output()).toContain('"text": "<redacted>"');
 		expect(output()).not.toContain("hunter2-secret");
 	});
 
@@ -66,7 +66,7 @@ describe("workers secrets dry-run", () => {
 		);
 
 		expect(exitCode).toBe(0);
-		expect(output()).toContain('"text": "<redacted, 14 chars>"');
+		expect(output()).toContain('"text": "<redacted>"');
 		expect(output()).not.toContain("hunter2-secret");
 	});
 });

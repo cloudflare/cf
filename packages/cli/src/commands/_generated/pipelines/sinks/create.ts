@@ -323,156 +323,152 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			async () => {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun(
-						{
-							command: "cf pipelines sinks create",
-							method: "POST",
-							url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/pipelines/v1/sinks`,
-							pathParams: {},
-							bodyKind: "json",
-							body:
-								argv.body !== undefined
-									? parseBody(argv.body)
-									: compactBody({
-											config: {
-												account_id: resolveFileToken(
-													argv["config-account-id"] as string | undefined,
-													"config-account-id",
-													"text"
-												),
-												bucket: resolveFileToken(
-													argv["config-bucket"] as string | undefined,
-													"config-bucket",
-													"text"
-												),
-												credentials: {
-													access_key_id: resolveFileToken(
-														argv["config-credentials-access-key-id"] as
-															| string
-															| undefined,
-														"config-credentials-access-key-id",
-														"text"
-													),
-													secret_access_key: resolveFileToken(
-														argv["config-credentials-secret-access-key"] as
-															| string
-															| undefined,
-														"config-credentials-secret-access-key",
-														"text"
-													),
-												},
-												file_naming: {
-													prefix: resolveFileToken(
-														argv["config-file-naming-prefix"] as
-															| string
-															| undefined,
-														"config-file-naming-prefix",
-														"text"
-													),
-													strategy: resolveFileToken(
-														argv["config-file-naming-strategy"] as
-															| string
-															| undefined,
-														"config-file-naming-strategy",
-														"text"
-													),
-													suffix: resolveFileToken(
-														argv["config-file-naming-suffix"] as
-															| string
-															| undefined,
-														"config-file-naming-suffix",
-														"text"
-													),
-												},
-												jurisdiction: resolveFileToken(
-													argv["config-jurisdiction"] as string | undefined,
-													"config-jurisdiction",
-													"text"
-												),
-												partitioning: {
-													time_pattern: resolveFileToken(
-														argv["config-partitioning-time-pattern"] as
-															| string
-															| undefined,
-														"config-partitioning-time-pattern",
-														"text"
-													),
-												},
-												path: resolveFileToken(
-													argv["config-path"] as string | undefined,
-													"config-path",
-													"text"
-												),
-												rolling_policy: {
-													file_size_bytes:
-														argv["config-rolling-policy-file-size-bytes"],
-													inactivity_seconds:
-														argv["config-rolling-policy-inactivity-seconds"],
-													interval_seconds:
-														argv["config-rolling-policy-interval-seconds"],
-												},
-												namespace: resolveFileToken(
-													argv["config-namespace"] as string | undefined,
-													"config-namespace",
-													"text"
-												),
-												table_name: resolveFileToken(
-													argv["config-table-name"] as string | undefined,
-													"config-table-name",
-													"text"
-												),
-												token: resolveFileToken(
-													argv["config-token"] as string | undefined,
-													"config-token",
-													"text"
-												),
-											},
-											format: {
-												decimal_encoding: resolveFileToken(
-													argv["format-decimal-encoding"] as string | undefined,
-													"format-decimal-encoding",
-													"text"
-												),
-												timestamp_format: resolveFileToken(
-													argv["format-timestamp-format"] as string | undefined,
-													"format-timestamp-format",
-													"text"
-												),
-												unstructured: argv["format-unstructured"],
-												compression: resolveFileToken(
-													argv["format-compression"] as string | undefined,
-													"format-compression",
-													"text"
-												),
-												type: resolveFileToken(
-													argv["format-type"] as string | undefined,
-													"format-type",
-													"text"
-												),
-												row_group_bytes: argv["format-row-group-bytes"],
-											},
-											name: resolveFileToken(
-												argv["name"] as string | undefined,
-												"name",
+					formatDryRun({
+						command: "cf pipelines sinks create",
+						method: "POST",
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/pipelines/v1/sinks`,
+						pathParams: {},
+						bodyKind: "json",
+						body:
+							argv.body !== undefined
+								? parseBody(argv.body)
+								: compactBody({
+										config: {
+											account_id: resolveFileToken(
+												argv["config-account-id"] as string | undefined,
+												"config-account-id",
 												"text"
 											),
-											schema: {
-												inferred: argv["schema-inferred"],
+											bucket: resolveFileToken(
+												argv["config-bucket"] as string | undefined,
+												"config-bucket",
+												"text"
+											),
+											credentials: {
+												access_key_id: resolveFileToken(
+													argv["config-credentials-access-key-id"] as
+														| string
+														| undefined,
+													"config-credentials-access-key-id",
+													"text"
+												),
+												secret_access_key: resolveFileToken(
+													argv["config-credentials-secret-access-key"] as
+														| string
+														| undefined,
+													"config-credentials-secret-access-key",
+													"text"
+												),
 											},
+											file_naming: {
+												prefix: resolveFileToken(
+													argv["config-file-naming-prefix"] as
+														| string
+														| undefined,
+													"config-file-naming-prefix",
+													"text"
+												),
+												strategy: resolveFileToken(
+													argv["config-file-naming-strategy"] as
+														| string
+														| undefined,
+													"config-file-naming-strategy",
+													"text"
+												),
+												suffix: resolveFileToken(
+													argv["config-file-naming-suffix"] as
+														| string
+														| undefined,
+													"config-file-naming-suffix",
+													"text"
+												),
+											},
+											jurisdiction: resolveFileToken(
+												argv["config-jurisdiction"] as string | undefined,
+												"config-jurisdiction",
+												"text"
+											),
+											partitioning: {
+												time_pattern: resolveFileToken(
+													argv["config-partitioning-time-pattern"] as
+														| string
+														| undefined,
+													"config-partitioning-time-pattern",
+													"text"
+												),
+											},
+											path: resolveFileToken(
+												argv["config-path"] as string | undefined,
+												"config-path",
+												"text"
+											),
+											rolling_policy: {
+												file_size_bytes:
+													argv["config-rolling-policy-file-size-bytes"],
+												inactivity_seconds:
+													argv["config-rolling-policy-inactivity-seconds"],
+												interval_seconds:
+													argv["config-rolling-policy-interval-seconds"],
+											},
+											namespace: resolveFileToken(
+												argv["config-namespace"] as string | undefined,
+												"config-namespace",
+												"text"
+											),
+											table_name: resolveFileToken(
+												argv["config-table-name"] as string | undefined,
+												"config-table-name",
+												"text"
+											),
+											token: resolveFileToken(
+												argv["config-token"] as string | undefined,
+												"config-token",
+												"text"
+											),
+										},
+										format: {
+											decimal_encoding: resolveFileToken(
+												argv["format-decimal-encoding"] as string | undefined,
+												"format-decimal-encoding",
+												"text"
+											),
+											timestamp_format: resolveFileToken(
+												argv["format-timestamp-format"] as string | undefined,
+												"format-timestamp-format",
+												"text"
+											),
+											unstructured: argv["format-unstructured"],
+											compression: resolveFileToken(
+												argv["format-compression"] as string | undefined,
+												"format-compression",
+												"text"
+											),
 											type: resolveFileToken(
-												argv["type"] as string | undefined,
-												"type",
+												argv["format-type"] as string | undefined,
+												"format-type",
 												"text"
 											),
-										}),
-						},
-						{
-							sensitiveBodyPaths: [
-								["config", "credentials", "secret_access_key"],
-								["config", "token"],
-							],
-						}
-					);
+											row_group_bytes: argv["format-row-group-bytes"],
+										},
+										name: resolveFileToken(
+											argv["name"] as string | undefined,
+											"name",
+											"text"
+										),
+										schema: {
+											inferred: argv["schema-inferred"],
+										},
+										type: resolveFileToken(
+											argv["type"] as string | undefined,
+											"type",
+											"text"
+										),
+									}),
+						sensitiveBodyPaths: [
+							["config", "credentials", "secret_access_key"],
+							["config", "token"],
+						],
+					});
 					return;
 				}
 				const client = await createCommandClient(argv);

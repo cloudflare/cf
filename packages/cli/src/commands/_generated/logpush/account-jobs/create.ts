@@ -233,141 +233,134 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					const accountOrZone = argv.zone === undefined ? "accounts" : "zones";
 					const accountOrZoneId =
 						argv.zone ?? __cfDryRunAccountId ?? "<account-id>";
-					formatDryRun(
-						{
-							command: "cf logpush account-jobs create",
-							method: "POST",
-							url: `https://api.cloudflare.com/client/v4/${accountOrZone}/${accountOrZoneId}/logpush/jobs`,
-							pathParams: {
-								"account-or-zone": String(accountOrZone),
-								"account-or-zone-id": String(accountOrZoneId),
-							},
-							bodyKind: "json",
-							body:
-								argv.body !== undefined
-									? parseBody(argv.body)
-									: compactBody({
-											dataset: resolveFileToken(
-												argv["dataset"] as string | undefined,
-												"dataset",
-												"text"
-											),
-											destination_conf: resolveFileToken(
-												argv["destination-conf"] as string | undefined,
-												"destination-conf",
-												"text"
-											),
-											enabled: argv["enabled"],
-											filter: resolveFileToken(
-												argv["filter"] as string | undefined,
-												"filter",
-												"text"
-											),
-											filter_attack_traffic: argv["filter-attack-traffic"],
-											frequency: resolveFileToken(
-												argv["frequency"] as string | undefined,
-												"frequency",
-												"text"
-											),
-											kind: resolveFileToken(
-												argv["kind"] as string | undefined,
-												"kind",
-												"text"
-											),
-											logpull_options: resolveFileToken(
-												argv["logpull-options"] as string | undefined,
-												"logpull-options",
-												"text"
-											),
-											name: resolveFileToken(
-												argv["name"] as string | undefined,
-												"name",
-												"text"
-											),
-											output_options: {
-												"CVE-2021-44228": argv["output-options-cve-2021-44228"],
-												batch_prefix: resolveFileToken(
-													argv["output-options-batch-prefix"] as
-														| string
-														| undefined,
-													"output-options-batch-prefix",
-													"text"
-												),
-												batch_suffix: resolveFileToken(
-													argv["output-options-batch-suffix"] as
-														| string
-														| undefined,
-													"output-options-batch-suffix",
-													"text"
-												),
-												field_delimiter: resolveFileToken(
-													argv["output-options-field-delimiter"] as
-														| string
-														| undefined,
-													"output-options-field-delimiter",
-													"text"
-												),
-												field_names: argv["output-options-field-names"],
-												merge_subrequests:
-													argv["output-options-merge-subrequests"],
-												output_type: resolveFileToken(
-													argv["output-options-output-type"] as
-														| string
-														| undefined,
-													"output-options-output-type",
-													"text"
-												),
-												record_delimiter: resolveFileToken(
-													argv["output-options-record-delimiter"] as
-														| string
-														| undefined,
-													"output-options-record-delimiter",
-													"text"
-												),
-												record_prefix: resolveFileToken(
-													argv["output-options-record-prefix"] as
-														| string
-														| undefined,
-													"output-options-record-prefix",
-													"text"
-												),
-												record_suffix: resolveFileToken(
-													argv["output-options-record-suffix"] as
-														| string
-														| undefined,
-													"output-options-record-suffix",
-													"text"
-												),
-												record_template: resolveFileToken(
-													argv["output-options-record-template"] as
-														| string
-														| undefined,
-													"output-options-record-template",
-													"text"
-												),
-												sample_rate: argv["output-options-sample-rate"],
-												timestamp_format: resolveFileToken(
-													argv["output-options-timestamp-format"] as
-														| string
-														| undefined,
-													"output-options-timestamp-format",
-													"text"
-												),
-											},
-											ownership_challenge: resolveFileToken(
-												argv["ownership-challenge"] as string | undefined,
-												"ownership-challenge",
-												"text"
-											),
-										}),
+					formatDryRun({
+						command: "cf logpush account-jobs create",
+						method: "POST",
+						url: `https://api.cloudflare.com/client/v4/${accountOrZone}/${accountOrZoneId}/logpush/jobs`,
+						pathParams: {
+							"account-or-zone": String(accountOrZone),
+							"account-or-zone-id": String(accountOrZoneId),
 						},
-						{
-							sensitiveBodyPaths: [
-								["destination_conf"],
-								["ownership_challenge"],
-							],
-						}
-					);
+						bodyKind: "json",
+						body:
+							argv.body !== undefined
+								? parseBody(argv.body)
+								: compactBody({
+										dataset: resolveFileToken(
+											argv["dataset"] as string | undefined,
+											"dataset",
+											"text"
+										),
+										destination_conf: resolveFileToken(
+											argv["destination-conf"] as string | undefined,
+											"destination-conf",
+											"text"
+										),
+										enabled: argv["enabled"],
+										filter: resolveFileToken(
+											argv["filter"] as string | undefined,
+											"filter",
+											"text"
+										),
+										filter_attack_traffic: argv["filter-attack-traffic"],
+										frequency: resolveFileToken(
+											argv["frequency"] as string | undefined,
+											"frequency",
+											"text"
+										),
+										kind: resolveFileToken(
+											argv["kind"] as string | undefined,
+											"kind",
+											"text"
+										),
+										logpull_options: resolveFileToken(
+											argv["logpull-options"] as string | undefined,
+											"logpull-options",
+											"text"
+										),
+										name: resolveFileToken(
+											argv["name"] as string | undefined,
+											"name",
+											"text"
+										),
+										output_options: {
+											"CVE-2021-44228": argv["output-options-cve-2021-44228"],
+											batch_prefix: resolveFileToken(
+												argv["output-options-batch-prefix"] as
+													| string
+													| undefined,
+												"output-options-batch-prefix",
+												"text"
+											),
+											batch_suffix: resolveFileToken(
+												argv["output-options-batch-suffix"] as
+													| string
+													| undefined,
+												"output-options-batch-suffix",
+												"text"
+											),
+											field_delimiter: resolveFileToken(
+												argv["output-options-field-delimiter"] as
+													| string
+													| undefined,
+												"output-options-field-delimiter",
+												"text"
+											),
+											field_names: argv["output-options-field-names"],
+											merge_subrequests:
+												argv["output-options-merge-subrequests"],
+											output_type: resolveFileToken(
+												argv["output-options-output-type"] as
+													| string
+													| undefined,
+												"output-options-output-type",
+												"text"
+											),
+											record_delimiter: resolveFileToken(
+												argv["output-options-record-delimiter"] as
+													| string
+													| undefined,
+												"output-options-record-delimiter",
+												"text"
+											),
+											record_prefix: resolveFileToken(
+												argv["output-options-record-prefix"] as
+													| string
+													| undefined,
+												"output-options-record-prefix",
+												"text"
+											),
+											record_suffix: resolveFileToken(
+												argv["output-options-record-suffix"] as
+													| string
+													| undefined,
+												"output-options-record-suffix",
+												"text"
+											),
+											record_template: resolveFileToken(
+												argv["output-options-record-template"] as
+													| string
+													| undefined,
+												"output-options-record-template",
+												"text"
+											),
+											sample_rate: argv["output-options-sample-rate"],
+											timestamp_format: resolveFileToken(
+												argv["output-options-timestamp-format"] as
+													| string
+													| undefined,
+												"output-options-timestamp-format",
+												"text"
+											),
+										},
+										ownership_challenge: resolveFileToken(
+											argv["ownership-challenge"] as string | undefined,
+											"ownership-challenge",
+											"text"
+										),
+									}),
+						sensitiveBodyPaths: [["destination_conf"], ["ownership_challenge"]],
+					});
 					return;
 				}
 				const client = await createCommandClient(argv);

@@ -60,33 +60,31 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			argv as Record<string, unknown>,
 			async () => {
 				if (argv.dryRun) {
-					formatDryRun(
-						{
-							command: "cf origin-tls-client-auth zone-certificates create",
-							method: "POST",
-							url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/origin_tls_client_auth`,
-							pathParams: {
-								"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
-							},
-							bodyKind: "json",
-							body:
-								argv.body !== undefined
-									? parseBody(argv.body)
-									: compactBody({
-											certificate: resolveFileToken(
-												argv["certificate"] as string | undefined,
-												"certificate",
-												"text"
-											),
-											private_key: resolveFileToken(
-												argv["private-key"] as string | undefined,
-												"private-key",
-												"text"
-											),
-										}),
+					formatDryRun({
+						command: "cf origin-tls-client-auth zone-certificates create",
+						method: "POST",
+						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/origin_tls_client_auth`,
+						pathParams: {
+							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
 						},
-						{ sensitiveBodyPaths: [["private_key"]] }
-					);
+						bodyKind: "json",
+						body:
+							argv.body !== undefined
+								? parseBody(argv.body)
+								: compactBody({
+										certificate: resolveFileToken(
+											argv["certificate"] as string | undefined,
+											"certificate",
+											"text"
+										),
+										private_key: resolveFileToken(
+											argv["private-key"] as string | undefined,
+											"private-key",
+											"text"
+										),
+									}),
+						sensitiveBodyPaths: [["private_key"]],
+					});
 					return;
 				}
 				const client = await createCommandClient(argv);

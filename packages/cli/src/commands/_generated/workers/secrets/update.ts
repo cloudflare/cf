@@ -100,43 +100,41 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			async () => {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun(
-						{
-							command: "cf workers secrets update",
-							method: "PUT",
-							url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/workers/scripts/${argv["worker"] ?? "<worker>"}/secrets`,
-							pathParams: { "script-name": String(argv["script-name"] ?? "") },
-							bodyKind: "json",
-							body:
-								argv.body !== undefined
-									? parseBody(argv.body)
-									: compactBody({
-											text: resolveFileToken(
-												argv["text"] as string | undefined,
-												"text",
-												"text"
-											),
-											type: resolveFileToken(
-												argv["type"] as string | undefined,
-												"type",
-												"text"
-											),
-											format: resolveFileToken(
-												argv["format"] as string | undefined,
-												"format",
-												"text"
-											),
-											key_base64: resolveFileToken(
-												argv["key-base64"] as string | undefined,
-												"key-base64",
-												"text"
-											),
-											usages: argv["usages"],
-											name: argv["name"],
-										}),
-						},
-						{ sensitiveBodyPaths: [["text"], ["key_base64"]] }
-					);
+					formatDryRun({
+						command: "cf workers secrets update",
+						method: "PUT",
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/workers/scripts/${argv["worker"] ?? "<worker>"}/secrets`,
+						pathParams: { "script-name": String(argv["script-name"] ?? "") },
+						bodyKind: "json",
+						body:
+							argv.body !== undefined
+								? parseBody(argv.body)
+								: compactBody({
+										text: resolveFileToken(
+											argv["text"] as string | undefined,
+											"text",
+											"text"
+										),
+										type: resolveFileToken(
+											argv["type"] as string | undefined,
+											"type",
+											"text"
+										),
+										format: resolveFileToken(
+											argv["format"] as string | undefined,
+											"format",
+											"text"
+										),
+										key_base64: resolveFileToken(
+											argv["key-base64"] as string | undefined,
+											"key-base64",
+											"text"
+										),
+										usages: argv["usages"],
+										name: argv["name"],
+									}),
+						sensitiveBodyPaths: [["text"], ["key_base64"]],
+					});
 					return;
 				}
 				const client = await createCommandClient(argv);

@@ -98,47 +98,45 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			async () => {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun(
-						{
-							command: "cf zero-trust casb webhooks create",
-							method: "POST",
-							url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/data-security/posture/webhooks`,
-							pathParams: {},
-							bodyKind: "json",
-							body:
-								argv.body !== undefined
-									? parseBody(argv.body)
-									: compactBody({
-											authentication_type: resolveFileToken(
-												argv["authentication-type"] as string | undefined,
-												"authentication-type",
-												"text"
-											),
-											destination_url: resolveFileToken(
-												argv["destination-url"] as string | undefined,
-												"destination-url",
-												"text"
-											),
-											headers: parseObjectArray(argv["headers"], "headers"),
-											label: resolveFileToken(
-												argv["label"] as string | undefined,
-												"label",
-												"text"
-											),
-											signing_secret: resolveFileToken(
-												argv["signing-secret"] as string | undefined,
-												"signing-secret",
-												"text"
-											),
-											status: resolveFileToken(
-												argv["status"] as string | undefined,
-												"status",
-												"text"
-											),
-										}),
-						},
-						{ sensitiveBodyPaths: [["signing_secret"]] }
-					);
+					formatDryRun({
+						command: "cf zero-trust casb webhooks create",
+						method: "POST",
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/data-security/posture/webhooks`,
+						pathParams: {},
+						bodyKind: "json",
+						body:
+							argv.body !== undefined
+								? parseBody(argv.body)
+								: compactBody({
+										authentication_type: resolveFileToken(
+											argv["authentication-type"] as string | undefined,
+											"authentication-type",
+											"text"
+										),
+										destination_url: resolveFileToken(
+											argv["destination-url"] as string | undefined,
+											"destination-url",
+											"text"
+										),
+										headers: parseObjectArray(argv["headers"], "headers"),
+										label: resolveFileToken(
+											argv["label"] as string | undefined,
+											"label",
+											"text"
+										),
+										signing_secret: resolveFileToken(
+											argv["signing-secret"] as string | undefined,
+											"signing-secret",
+											"text"
+										),
+										status: resolveFileToken(
+											argv["status"] as string | undefined,
+											"status",
+											"text"
+										),
+									}),
+						sensitiveBodyPaths: [["signing_secret"]],
+					});
 					return;
 				}
 				const client = await createCommandClient(argv);

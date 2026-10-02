@@ -72,29 +72,27 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			async () => {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun(
-						{
-							command: "cf ai-gateway gateways providers update",
-							method: "PUT",
-							url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-gateway/gateways/${argv["gateway-id"] == null ? "<gateway-id>" : encodeURIComponent(String(argv["gateway-id"]))}/provider_configs/${argv["id"] == null ? "<id>" : encodeURIComponent(String(argv["id"]))}`,
-							pathParams: {
-								"gateway-id": String(argv["gateway-id"] ?? ""),
-								id: String(argv["id"] ?? ""),
-							},
-							bodyKind: "json",
-							body:
-								argv.body !== undefined
-									? parseBody(argv.body)
-									: compactBody({
-											secret: resolveFileToken(
-												argv["secret"] as string | undefined,
-												"secret",
-												"text"
-											),
-										}),
+					formatDryRun({
+						command: "cf ai-gateway gateways providers update",
+						method: "PUT",
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-gateway/gateways/${argv["gateway-id"] == null ? "<gateway-id>" : encodeURIComponent(String(argv["gateway-id"]))}/provider_configs/${argv["id"] == null ? "<id>" : encodeURIComponent(String(argv["id"]))}`,
+						pathParams: {
+							"gateway-id": String(argv["gateway-id"] ?? ""),
+							id: String(argv["id"] ?? ""),
 						},
-						{ sensitiveBodyPaths: [["secret"]] }
-					);
+						bodyKind: "json",
+						body:
+							argv.body !== undefined
+								? parseBody(argv.body)
+								: compactBody({
+										secret: resolveFileToken(
+											argv["secret"] as string | undefined,
+											"secret",
+											"text"
+										),
+									}),
+						sensitiveBodyPaths: [["secret"]],
+					});
 					return;
 				}
 				const client = await createCommandClient(argv);

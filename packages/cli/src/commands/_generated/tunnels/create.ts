@@ -73,36 +73,34 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			async () => {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun(
-						{
-							command: "cf tunnels create",
-							method: "POST",
-							url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/cfd_tunnel`,
-							pathParams: {},
-							bodyKind: "json",
-							body:
-								argv.body !== undefined
-									? parseBody(argv.body)
-									: compactBody({
-											config_src: resolveFileToken(
-												argv["config-src"] as string | undefined,
-												"config-src",
-												"text"
-											),
-											name: resolveFileToken(
-												argv["name"] as string | undefined,
-												"name",
-												"text"
-											),
-											tunnel_secret: resolveFileToken(
-												argv["tunnel-secret"] as string | undefined,
-												"tunnel-secret",
-												"text"
-											),
-										}),
-						},
-						{ sensitiveBodyPaths: [["tunnel_secret"]] }
-					);
+					formatDryRun({
+						command: "cf tunnels create",
+						method: "POST",
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/cfd_tunnel`,
+						pathParams: {},
+						bodyKind: "json",
+						body:
+							argv.body !== undefined
+								? parseBody(argv.body)
+								: compactBody({
+										config_src: resolveFileToken(
+											argv["config-src"] as string | undefined,
+											"config-src",
+											"text"
+										),
+										name: resolveFileToken(
+											argv["name"] as string | undefined,
+											"name",
+											"text"
+										),
+										tunnel_secret: resolveFileToken(
+											argv["tunnel-secret"] as string | undefined,
+											"tunnel-secret",
+											"text"
+										),
+									}),
+						sensitiveBodyPaths: [["tunnel_secret"]],
+					});
 					return;
 				}
 				const client = await createCommandClient(argv);

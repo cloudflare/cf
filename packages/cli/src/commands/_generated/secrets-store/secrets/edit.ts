@@ -80,35 +80,33 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			async () => {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun(
-						{
-							command: "cf secrets-store secrets edit",
-							method: "PATCH",
-							url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/secrets_store/stores/${argv["store-id"] == null ? "<store-id>" : encodeURIComponent(String(argv["store-id"]))}/secrets/${argv["secret-id"] == null ? "<secret-id>" : encodeURIComponent(String(argv["secret-id"]))}`,
-							pathParams: {
-								"store-id": String(argv["store-id"] ?? ""),
-								"secret-id": String(argv["secret-id"] ?? ""),
-							},
-							bodyKind: "json",
-							body:
-								argv.body !== undefined
-									? parseBody(argv.body)
-									: compactBody({
-											comment: resolveFileToken(
-												argv["comment"] as string | undefined,
-												"comment",
-												"text"
-											),
-											scopes: argv["scopes"],
-											value: resolveFileToken(
-												argv["value"] as string | undefined,
-												"value",
-												"text"
-											),
-										}),
+					formatDryRun({
+						command: "cf secrets-store secrets edit",
+						method: "PATCH",
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/secrets_store/stores/${argv["store-id"] == null ? "<store-id>" : encodeURIComponent(String(argv["store-id"]))}/secrets/${argv["secret-id"] == null ? "<secret-id>" : encodeURIComponent(String(argv["secret-id"]))}`,
+						pathParams: {
+							"store-id": String(argv["store-id"] ?? ""),
+							"secret-id": String(argv["secret-id"] ?? ""),
 						},
-						{ sensitiveBodyPaths: [["value"]] }
-					);
+						bodyKind: "json",
+						body:
+							argv.body !== undefined
+								? parseBody(argv.body)
+								: compactBody({
+										comment: resolveFileToken(
+											argv["comment"] as string | undefined,
+											"comment",
+											"text"
+										),
+										scopes: argv["scopes"],
+										value: resolveFileToken(
+											argv["value"] as string | undefined,
+											"value",
+											"text"
+										),
+									}),
+						sensitiveBodyPaths: [["value"]],
+					});
 					return;
 				}
 				const client = await createCommandClient(argv);

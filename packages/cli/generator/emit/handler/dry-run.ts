@@ -19,7 +19,6 @@ import {
 	pathParamReadKey,
 	positionalArgs,
 } from "../../intermediate-representation.js";
-import { sensitiveBodyPaths } from "../../sensitive-body.js";
 import {
 	ACCOUNT_PATH_PARAMS,
 	accountOrZonePathParamLocal,
@@ -51,7 +50,9 @@ export function emitDryRun(ctx: EmitContext): string[] {
 		isMutating,
 	} = derived;
 	const positional = positionalArgs(derived.args);
-	const sensitivePaths = sensitiveBodyPaths(opInfo);
+	const sensitivePaths = (opInfo.bodyParams ?? [])
+		.filter((param) => param.sensitive === true)
+		.map((param) => param.apiFieldPath);
 
 	const lines: string[] = [];
 
@@ -220,11 +221,10 @@ export function emitDryRun(ctx: EmitContext): string[] {
 	}
 	if (sensitivePaths.length > 0) {
 		lines.push(
-			`        }, { sensitiveBodyPaths: ${JSON.stringify(sensitivePaths)} });`
+			`          sensitiveBodyPaths: ${JSON.stringify(sensitivePaths)},`
 		);
-	} else {
-		lines.push(`        });`);
 	}
+	lines.push(`        });`);
 	lines.push(`        return;`);
 	lines.push(`      }`);
 

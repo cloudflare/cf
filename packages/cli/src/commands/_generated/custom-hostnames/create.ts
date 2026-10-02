@@ -148,106 +148,102 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			argv as Record<string, unknown>,
 			async () => {
 				if (argv.dryRun) {
-					formatDryRun(
-						{
-							command: "cf custom-hostnames create",
-							method: "POST",
-							url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/custom_hostnames`,
-							pathParams: {
-								"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
-							},
-							bodyKind: "json",
-							body:
-								argv.body !== undefined
-									? parseBody(argv.body)
-									: compactBody({
-											custom_origin_server: resolveFileToken(
-												argv["custom-origin-server"] as string | undefined,
-												"custom-origin-server",
+					formatDryRun({
+						command: "cf custom-hostnames create",
+						method: "POST",
+						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/custom_hostnames`,
+						pathParams: {
+							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
+						},
+						bodyKind: "json",
+						body:
+							argv.body !== undefined
+								? parseBody(argv.body)
+								: compactBody({
+										custom_origin_server: resolveFileToken(
+											argv["custom-origin-server"] as string | undefined,
+											"custom-origin-server",
+											"text"
+										),
+										custom_origin_sni: resolveFileToken(
+											argv["custom-origin-sni"] as string | undefined,
+											"custom-origin-sni",
+											"text"
+										),
+										hostname: resolveFileToken(
+											argv["hostname"] as string | undefined,
+											"hostname",
+											"text"
+										),
+										ssl: {
+											bundle_method: resolveFileToken(
+												argv["ssl-bundle-method"] as string | undefined,
+												"ssl-bundle-method",
 												"text"
 											),
-											custom_origin_sni: resolveFileToken(
-												argv["custom-origin-sni"] as string | undefined,
-												"custom-origin-sni",
+											certificate_authority: resolveFileToken(
+												argv["ssl-certificate-authority"] as string | undefined,
+												"ssl-certificate-authority",
 												"text"
 											),
-											hostname: resolveFileToken(
-												argv["hostname"] as string | undefined,
-												"hostname",
+											cloudflare_branding: argv["ssl-cloudflare-branding"],
+											custom_certificate: resolveFileToken(
+												argv["ssl-custom-certificate"] as string | undefined,
+												"ssl-custom-certificate",
 												"text"
 											),
-											ssl: {
-												bundle_method: resolveFileToken(
-													argv["ssl-bundle-method"] as string | undefined,
-													"ssl-bundle-method",
-													"text"
-												),
-												certificate_authority: resolveFileToken(
-													argv["ssl-certificate-authority"] as
+											custom_csr_id: resolveFileToken(
+												argv["ssl-custom-csr-id"] as string | undefined,
+												"ssl-custom-csr-id",
+												"text"
+											),
+											custom_key: resolveFileToken(
+												argv["ssl-custom-key"] as string | undefined,
+												"ssl-custom-key",
+												"text"
+											),
+											method: resolveFileToken(
+												argv["ssl-method"] as string | undefined,
+												"ssl-method",
+												"text"
+											),
+											settings: {
+												ciphers: argv["ssl-settings-ciphers"],
+												early_hints: resolveFileToken(
+													argv["ssl-settings-early-hints"] as
 														| string
 														| undefined,
-													"ssl-certificate-authority",
+													"ssl-settings-early-hints",
 													"text"
 												),
-												cloudflare_branding: argv["ssl-cloudflare-branding"],
-												custom_certificate: resolveFileToken(
-													argv["ssl-custom-certificate"] as string | undefined,
-													"ssl-custom-certificate",
+												http2: resolveFileToken(
+													argv["ssl-settings-http2"] as string | undefined,
+													"ssl-settings-http2",
 													"text"
 												),
-												custom_csr_id: resolveFileToken(
-													argv["ssl-custom-csr-id"] as string | undefined,
-													"ssl-custom-csr-id",
+												min_tls_version: resolveFileToken(
+													argv["ssl-settings-min-tls-version"] as
+														| string
+														| undefined,
+													"ssl-settings-min-tls-version",
 													"text"
 												),
-												custom_key: resolveFileToken(
-													argv["ssl-custom-key"] as string | undefined,
-													"ssl-custom-key",
+												tls_1_3: resolveFileToken(
+													argv["ssl-settings-tls-1-3"] as string | undefined,
+													"ssl-settings-tls-1-3",
 													"text"
 												),
-												method: resolveFileToken(
-													argv["ssl-method"] as string | undefined,
-													"ssl-method",
-													"text"
-												),
-												settings: {
-													ciphers: argv["ssl-settings-ciphers"],
-													early_hints: resolveFileToken(
-														argv["ssl-settings-early-hints"] as
-															| string
-															| undefined,
-														"ssl-settings-early-hints",
-														"text"
-													),
-													http2: resolveFileToken(
-														argv["ssl-settings-http2"] as string | undefined,
-														"ssl-settings-http2",
-														"text"
-													),
-													min_tls_version: resolveFileToken(
-														argv["ssl-settings-min-tls-version"] as
-															| string
-															| undefined,
-														"ssl-settings-min-tls-version",
-														"text"
-													),
-													tls_1_3: resolveFileToken(
-														argv["ssl-settings-tls-1-3"] as string | undefined,
-														"ssl-settings-tls-1-3",
-														"text"
-													),
-												},
-												type: resolveFileToken(
-													argv["ssl-type"] as string | undefined,
-													"ssl-type",
-													"text"
-												),
-												wildcard: argv["ssl-wildcard"],
 											},
-										}),
-						},
-						{ sensitiveBodyPaths: [["ssl", "custom_key"]] }
-					);
+											type: resolveFileToken(
+												argv["ssl-type"] as string | undefined,
+												"ssl-type",
+												"text"
+											),
+											wildcard: argv["ssl-wildcard"],
+										},
+									}),
+						sensitiveBodyPaths: [["ssl", "custom_key"]],
+					});
 					return;
 				}
 				const client = await createCommandClient(argv);

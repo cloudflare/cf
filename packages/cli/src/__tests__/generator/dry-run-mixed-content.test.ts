@@ -36,7 +36,7 @@ describe("mixed-content dry-run emission", () => {
 		} as unknown as EmitContext;
 
 		expect(emitDryRun(ctx).join("\n")).toContain(
-			'sensitiveBodyPaths: [["credentials","token"]]'
+			'sensitiveBodyPaths: [["credentials","token"]],'
 		);
 	});
 

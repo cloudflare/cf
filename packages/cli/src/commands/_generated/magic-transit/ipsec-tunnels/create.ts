@@ -195,114 +195,111 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun(
-						{
-							command: "cf magic-transit ipsec-tunnels create",
-							method: "POST",
-							url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/magic/ipsec_tunnels`,
-							pathParams: {},
-							bodyKind: "json",
-							body:
-								argv.body !== undefined
-									? parseBody(argv.body)
-									: compactBody({
-											automatic_return_routing:
-												argv["automatic-return-routing"],
-											bgp: {
-												customer_asn: argv["bgp-customer-asn"],
-												export_filter_id: resolveFileToken(
-													argv["bgp-export-filter-id"] as string | undefined,
-													"bgp-export-filter-id",
-													"text"
-												),
-												extra_prefixes: argv["bgp-extra-prefixes"],
-												import_filter_id: resolveFileToken(
-													argv["bgp-import-filter-id"] as string | undefined,
-													"bgp-import-filter-id",
-													"text"
-												),
-												md5_key: resolveFileToken(
-													argv["bgp-md5-key"] as string | undefined,
-													"bgp-md5-key",
-													"text"
-												),
-											},
-											cloudflare_endpoint: resolveFileToken(
-												argv["cloudflare-endpoint"] as string | undefined,
-												"cloudflare-endpoint",
+					formatDryRun({
+						command: "cf magic-transit ipsec-tunnels create",
+						method: "POST",
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/magic/ipsec_tunnels`,
+						pathParams: {},
+						bodyKind: "json",
+						body:
+							argv.body !== undefined
+								? parseBody(argv.body)
+								: compactBody({
+										automatic_return_routing: argv["automatic-return-routing"],
+										bgp: {
+											customer_asn: argv["bgp-customer-asn"],
+											export_filter_id: resolveFileToken(
+												argv["bgp-export-filter-id"] as string | undefined,
+												"bgp-export-filter-id",
 												"text"
 											),
-											custom_remote_identities: {
-												fqdn_id: resolveFileToken(
-													argv["custom-remote-identities-fqdn-id"] as
+											extra_prefixes: argv["bgp-extra-prefixes"],
+											import_filter_id: resolveFileToken(
+												argv["bgp-import-filter-id"] as string | undefined,
+												"bgp-import-filter-id",
+												"text"
+											),
+											md5_key: resolveFileToken(
+												argv["bgp-md5-key"] as string | undefined,
+												"bgp-md5-key",
+												"text"
+											),
+										},
+										cloudflare_endpoint: resolveFileToken(
+											argv["cloudflare-endpoint"] as string | undefined,
+											"cloudflare-endpoint",
+											"text"
+										),
+										custom_remote_identities: {
+											fqdn_id: resolveFileToken(
+												argv["custom-remote-identities-fqdn-id"] as
+													| string
+													| undefined,
+												"custom-remote-identities-fqdn-id",
+												"text"
+											),
+										},
+										customer_endpoint: resolveFileToken(
+											argv["customer-endpoint"] as string | undefined,
+											"customer-endpoint",
+											"text"
+										),
+										description: resolveFileToken(
+											argv["description"] as string | undefined,
+											"description",
+											"text"
+										),
+										health_check: {
+											enabled: argv["health-check-enabled"],
+											rate: resolveFileToken(
+												argv["health-check-rate"] as string | undefined,
+												"health-check-rate",
+												"text"
+											),
+											target: {
+												saved: resolveFileToken(
+													argv["health-check-target-saved"] as
 														| string
 														| undefined,
-													"custom-remote-identities-fqdn-id",
+													"health-check-target-saved",
 													"text"
 												),
 											},
-											customer_endpoint: resolveFileToken(
-												argv["customer-endpoint"] as string | undefined,
-												"customer-endpoint",
+											type: resolveFileToken(
+												argv["health-check-type"] as string | undefined,
+												"health-check-type",
 												"text"
 											),
-											description: resolveFileToken(
-												argv["description"] as string | undefined,
-												"description",
+											direction: resolveFileToken(
+												argv["health-check-direction"] as string | undefined,
+												"health-check-direction",
 												"text"
 											),
-											health_check: {
-												enabled: argv["health-check-enabled"],
-												rate: resolveFileToken(
-													argv["health-check-rate"] as string | undefined,
-													"health-check-rate",
-													"text"
-												),
-												target: {
-													saved: resolveFileToken(
-														argv["health-check-target-saved"] as
-															| string
-															| undefined,
-														"health-check-target-saved",
-														"text"
-													),
-												},
-												type: resolveFileToken(
-													argv["health-check-type"] as string | undefined,
-													"health-check-type",
-													"text"
-												),
-												direction: resolveFileToken(
-													argv["health-check-direction"] as string | undefined,
-													"health-check-direction",
-													"text"
-												),
-											},
-											interface_address: resolveFileToken(
-												argv["interface-address"] as string | undefined,
-												"interface-address",
-												"text"
-											),
-											interface_address6: resolveFileToken(
-												argv["interface-address6"] as string | undefined,
-												"interface-address6",
-												"text"
-											),
-											name: resolveFileToken(
-												argv["name"] as string | undefined,
-												"name",
-												"text"
-											),
-											psk: resolveFileToken(
-												argv["psk"] as string | undefined,
-												"psk",
-												"text"
-											),
-											replay_protection: argv["replay-protection"],
-										}),
-						},
-						{ sensitiveBodyPaths: [["psk"]] }
-					);
+										},
+										interface_address: resolveFileToken(
+											argv["interface-address"] as string | undefined,
+											"interface-address",
+											"text"
+										),
+										interface_address6: resolveFileToken(
+											argv["interface-address6"] as string | undefined,
+											"interface-address6",
+											"text"
+										),
+										name: resolveFileToken(
+											argv["name"] as string | undefined,
+											"name",
+											"text"
+										),
+										psk: resolveFileToken(
+											argv["psk"] as string | undefined,
+											"psk",
+											"text"
+										),
+										replay_protection: argv["replay-protection"],
+									}),
+						sensitiveBodyPaths: [["psk"]],
+					});
 					return;
 				}
 				const client = await createCommandClient(argv);

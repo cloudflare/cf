@@ -70,31 +70,29 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			async () => {
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
-					formatDryRun(
-						{
-							command: "cf mesh nodes edit",
-							method: "PATCH",
-							url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/warp_connector/${argv["tunnel-id"] == null ? "<tunnel-id>" : encodeURIComponent(String(argv["tunnel-id"]))}`,
-							pathParams: { "tunnel-id": String(argv["tunnel-id"] ?? "") },
-							bodyKind: "json",
-							body:
-								argv.body !== undefined
-									? parseBody(argv.body)
-									: compactBody({
-											name: resolveFileToken(
-												argv["name"] as string | undefined,
-												"name",
-												"text"
-											),
-											tunnel_secret: resolveFileToken(
-												argv["tunnel-secret"] as string | undefined,
-												"tunnel-secret",
-												"text"
-											),
-										}),
-						},
-						{ sensitiveBodyPaths: [["tunnel_secret"]] }
-					);
+					formatDryRun({
+						command: "cf mesh nodes edit",
+						method: "PATCH",
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/warp_connector/${argv["tunnel-id"] == null ? "<tunnel-id>" : encodeURIComponent(String(argv["tunnel-id"]))}`,
+						pathParams: { "tunnel-id": String(argv["tunnel-id"] ?? "") },
+						bodyKind: "json",
+						body:
+							argv.body !== undefined
+								? parseBody(argv.body)
+								: compactBody({
+										name: resolveFileToken(
+											argv["name"] as string | undefined,
+											"name",
+											"text"
+										),
+										tunnel_secret: resolveFileToken(
+											argv["tunnel-secret"] as string | undefined,
+											"tunnel-secret",
+											"text"
+										),
+									}),
+						sensitiveBodyPaths: [["tunnel_secret"]],
+					});
 					return;
 				}
 				const client = await createCommandClient(argv);

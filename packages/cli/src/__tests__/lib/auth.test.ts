@@ -147,24 +147,47 @@ describe("createCommandClient", () => {
 			).rejects.toThrow("Request timed out after 10ms");
 		});
 
-		it("extends the timeout for large binary bodies", async () => {
+		it("lets binary uploads continue past the standard API deadline", async () => {
+			vi.useFakeTimers();
+			let startRequest!: () => void;
+			const started = new Promise<void>((resolve) => {
+				startRequest = resolve;
+			});
 			const client = createCloudflareClientWithToken({
 				apiToken: "test-token",
+				baseURL: "https://api.test/client/v4",
+				fetch: async (_url, init) => {
+					startRequest();
+					return new Promise<Response>((resolve, reject) => {
+						const timer = setTimeout(
+							() => resolve(new Response(null, { status: 204 })),
+							31_000
+						);
+						init?.signal?.addEventListener(
+							"abort",
+							() => {
+								clearTimeout(timer);
+								reject(init.signal?.reason);
+							},
+							{ once: true }
+						);
+					});
+				},
 			});
-			const fetch = vi
-				.spyOn(client, "fetch")
-				.mockResolvedValue(new Response(null, { status: 204 }));
 
-			await requestApi(
-				client,
-				"PUT",
-				"/accounts/test/r2/buckets/test/objects/test",
-				{
-					body: Buffer.alloc(31 * 1024 * 1024),
-				}
-			);
-
-			expect(fetch.mock.calls[0]?.[2]?.timeoutInSeconds).toBe(61);
+			try {
+				const request = requestApi(
+					client,
+					"PUT",
+					"/accounts/test/r2/buckets/test/objects/test",
+					{ body: Buffer.from("data") }
+				);
+				await started;
+				await vi.advanceTimersByTimeAsync(31_000);
+				await expect(request).resolves.toBeNull();
+			} finally {
+				vi.useRealTimers();
+			}
 		});
 
 		it("returns null for 204 responses and empty response bodies", async () => {

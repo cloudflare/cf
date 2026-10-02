@@ -25,8 +25,7 @@
  */
 import { CloudflareApiError } from "#sdk";
 import { getCloudflareApiBaseUrl } from "@cloudflare/workers-utils";
-import { getApiTimeoutMs } from "./api-timeout.js";
-import { getAuthToken } from "./auth.js";
+import { API_TIMEOUT_MS, getAuthToken, isUploadBody } from "./auth.js";
 import { getComplianceRegion } from "./context.js";
 import { createLocalFetch } from "./local.js";
 import { getDefaultHeaders } from "./request-headers.js";
@@ -163,7 +162,9 @@ export async function fetchRawBytes(
 		method,
 		headers,
 		...(body !== undefined ? { body } : {}),
-		signal: AbortSignal.timeout(getApiTimeoutMs(body)),
+		...(isUploadBody(body)
+			? {}
+			: { signal: AbortSignal.timeout(API_TIMEOUT_MS) }),
 	});
 	if (!response.ok) {
 		// Try to extract an API-shaped error envelope for consistent

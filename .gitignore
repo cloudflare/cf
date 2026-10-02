@@ -21,10 +21,6 @@ fixtures/*/.wrangler/
 # Miniflare drops a `cf.json` cache beside the cwd whenever `--local`
 # boots a runtime, including when cf is run from inside this repo.
 .wrangler/
-
-# Local cf account cache is generated state, not repository source.
-.cloudflare/cache/
+.cloudflare/
 
 .opencode/plans
-
-fixtures/*/.cloudflare/

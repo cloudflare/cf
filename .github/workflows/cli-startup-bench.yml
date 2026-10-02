@@ -89,8 +89,6 @@ jobs:
         if: github.event_name == 'pull_request' && steps.changes.outputs.buildable == 'true'
         working-directory: base
         run: pnpm build
-        env:
-          GITHUB_TOKEN: ${{ secrets.FORGE_GH_ACCESS_TOKEN }}
 
       - name: Install hyperfine
         if: steps.changes.outputs.buildable == 'true'

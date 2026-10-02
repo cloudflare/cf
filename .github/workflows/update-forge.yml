@@ -56,5 +56,6 @@ jobs:
       - name: Update Forge and OpenAPI
         run: node scripts/update-forge.ts
         env:
-          FORGE_GITHUB_TOKEN: ${{ secrets.FORGE_GH_ACCESS_TOKEN || github.token }}
+          # Forge is public; use the workflow token for authenticated API reads.
+          FORGE_GITHUB_TOKEN: ${{ github.token }}
           GITHUB_TOKEN: ${{ secrets.GH_ACCESS_TOKEN || github.token }}

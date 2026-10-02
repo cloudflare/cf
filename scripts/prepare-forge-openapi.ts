@@ -1,4 +1,9 @@
 #!/usr/bin/env node
+// Called by prepareForgeOpenApi() in scripts/update-forge.ts as a subprocess.
+// Applies Forge's compatibility fixes to openapi.json in the supplied checkout
+// and writes the Fern OpenAPI build input.
+// The caller strips GitHub credentials from this process's environment so the
+// imported Forge module does not receive the cf updater's write token.
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { pathToFileURL } from "node:url";

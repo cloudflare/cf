@@ -1,4 +1,4 @@
-import { execFileSync, execSync } from "node:child_process";
+import { execFileSync } from "node:child_process";
 import {
 	existsSync,
 	mkdtempSync,
@@ -7,7 +7,7 @@ import {
 	writeFileSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { type ForgeOpenApiDocument, initFromOpenApi } from "@cloudflare/forge";
 import { filterForCliAudience } from "./generator/cli-audience.js";
@@ -255,8 +255,9 @@ console.log(
 );
 const forge = initFromOpenApi(cliSource);
 const files = await forge.transform(transformer);
-const generatedDir = new URL("./src/commands/_generated", import.meta.url)
-	.pathname;
+const generatedDir = fileURLToPath(
+	new URL("./src/commands/_generated", import.meta.url)
+);
 const written = await forge.finalize(generatedDir, files, { clean: true });
 console.log(`CLI: wrote ${written.length} files`);
 
@@ -264,10 +265,17 @@ console.log(`CLI: wrote ${written.length} files`);
 // `formatTypeScript()` lived inside forge; we pulled it out so forge stays
 // formatter-agnostic.
 try {
-	execSync(`pnpm exec oxfmt "${generatedDir}"`, {
-		stdio: "inherit",
-	});
+	const vitePlusDir = dirname(
+		fileURLToPath(import.meta.resolve("vite-plus/package.json"))
+	);
+	execFileSync(
+		process.execPath,
+		[join(vitePlusDir, "bin", "vp"), "fmt", generatedDir],
+		{
+			stdio: "inherit",
+		}
+	);
 	console.log("CLI: formatted generated files");
 } catch (err) {
-	console.warn("CLI: oxfmt post-format failed (continuing)", err);
+	console.warn("CLI: Vite+ post-format failed (continuing)", err);
 }

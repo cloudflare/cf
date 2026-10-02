@@ -1,0 +1,54 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: daily
+    versioning-strategy: increase
+    # Limit this updater to the packages published from workers-sdk. The Vite
+    # plugin fixture uses a separate SHA beta, and workers-types comes from
+    # workerd rather than the workers-sdk release batch.
+    allow:
+      - dependency-name: "@cloudflare/autoconfig"
+      - dependency-name: "@cloudflare/build-output-utils"
+      - dependency-name: "@cloudflare/cli-shared-helpers"
+      - dependency-name: "@cloudflare/codemods"
+      - dependency-name: "@cloudflare/config"
+      - dependency-name: "@cloudflare/containers-shared"
+      - dependency-name: "@cloudflare/deploy-helpers"
+      - dependency-name: "@cloudflare/runtime-types"
+      - dependency-name: "@cloudflare/workers-auth"
+      - dependency-name: "@cloudflare/workers-utils"
+      - dependency-name: miniflare
+      - dependency-name: wrangler
+    groups:
+      workers-sdk:
+        patterns:
+          - "@cloudflare/autoconfig"
+          - "@cloudflare/build-output-utils"
+          - "@cloudflare/cli-shared-helpers"
+          - "@cloudflare/codemods"
+          - "@cloudflare/config"
+          - "@cloudflare/containers-shared"
+          - "@cloudflare/deploy-helpers"
+          - "@cloudflare/runtime-types"
+          - "@cloudflare/workers-auth"
+          - "@cloudflare/workers-utils"
+          - miniflare
+          - wrangler
+    # Dependabot also has a default three-day cooldown for version updates.
+    # Let this release batch be considered on the next scheduled check.
+    cooldown:
+      exclude:
+        - "@cloudflare/autoconfig"
+        - "@cloudflare/build-output-utils"
+        - "@cloudflare/cli-shared-helpers"
+        - "@cloudflare/codemods"
+        - "@cloudflare/config"
+        - "@cloudflare/containers-shared"
+        - "@cloudflare/deploy-helpers"
+        - "@cloudflare/runtime-types"
+        - "@cloudflare/workers-auth"
+        - "@cloudflare/workers-utils"
+        - miniflare
+        - wrangler

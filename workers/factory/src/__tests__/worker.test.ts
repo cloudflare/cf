@@ -1,5 +1,5 @@
 import { exports } from "cloudflare:workers";
-import { assert, describe, expect, it } from "vitest";
+import { assert, describe, expect, it } from "vite-plus/test";
 
 assert(
 	exports.default,

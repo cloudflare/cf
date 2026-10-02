@@ -1,9 +1,9 @@
 import { http, HttpResponse } from "msw";
-import { describe, it } from "vitest";
+import { describe, it } from "vite-plus/test";
 import { mockAccountId, mockApiToken } from "../helpers/mock-account-id";
 import { createFetchResult, msw } from "../helpers/msw";
 import { runWrangler } from "../helpers/run-wrangler";
-import type { ExpectStatic } from "vitest";
+import type { ExpectStatic } from "vite-plus/test";
 
 const applicationId = "6925adea-c4ad-4aa6-bffd-d26783e9afbb";
 

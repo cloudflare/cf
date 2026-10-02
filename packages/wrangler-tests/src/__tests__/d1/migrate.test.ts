@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import { http, HttpResponse } from "msw";
-import { describe, it, vi } from "vitest";
+import { describe, it, vi } from "vite-plus/test";
 import { mockConsoleMethods } from "../helpers/mock-console";
 import { useMockIsTTY } from "../helpers/mock-istty";
 import { createFetchResult, msw } from "../helpers/msw";

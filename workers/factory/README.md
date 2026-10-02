@@ -17,7 +17,7 @@ pnpm --filter @cloudflare/factory check:type
 pnpm --filter @cloudflare/factory build
 ```
 
-This package uses the workspace's `cf` CLI for all Worker scripts:
+Vite+ tasks build the workspace `cf` CLI before running Worker builds, development, and tests. Worker builds and deployments use `cf`:
 
 ```sh
 pnpm --filter @cloudflare/factory dev
@@ -59,4 +59,6 @@ For a PEM file, pass `--text @/absolute/path/to/private-key.pem` to the private-
 - `POST /channels/github/webhook`: Flue's signed GitHub webhook ingress.
 - The triage agent has no public HTTP mount; only verified webhooks dispatch it.
 
-`pnpm test` builds with `cf build`, then runs Vitest in workerd using `@cloudflare/vitest-plugin`. Tests use `cloudflare.config.ts` with test secrets and remote bindings disabled. They exercise the generated Flue Worker entrypoint and real Hono/GitHub routes with signed requests using Hono's `testClient`, mocking agent dispatch for source route tests. Tool tests mock `env.AI.run` and Octokit, checking Clef output validation, the three issue types, preservation of an existing type, type-only GitHub updates, and completion state on success or failure. These tests do not call Workers AI or GitHub. Live inference requires remote Workers AI access; a live end-to-end smoke test also requires the installed GitHub App, configured secrets, and an opened issue.
+The [Cloudflare test plugin patch](../../patches/@cloudflare__vitest-plugin@1.3.5.patch) preserves quoted diagnostic strings when replacing `import.meta.url` for Vitest 5. The plugin still declares Vitest 4.1 support and emits a compatibility warning; Factory's workerd tests run with Vite+ Test's Vitest 5.
+
+`pnpm test` builds with `cf build`, then runs Vite+ Test in workerd using `@cloudflare/vitest-plugin`. Tests use `cloudflare.config.ts` with test secrets and remote bindings disabled. They exercise the generated Flue Worker entrypoint and real Hono/GitHub routes with signed requests using Hono's `testClient`, mocking agent dispatch for source route tests. Tool tests mock `env.AI.run` and Octokit, checking Clef output validation, the three issue types, preservation of an existing type, type-only GitHub updates, and completion state on success or failure. These tests do not call Workers AI or GitHub. Live inference requires remote Workers AI access; a live end-to-end smoke test also requires the installed GitHub App, configured secrets, and an opened issue.

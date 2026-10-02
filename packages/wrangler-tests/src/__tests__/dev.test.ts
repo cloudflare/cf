@@ -1,4 +1,4 @@
-import { describe, it } from "vitest";
+import { describe, it } from "vite-plus/test";
 
 // cf dev delegates to a project implementation. These tests exercise
 // Wrangler's internal startDevWorker / ConfigController / type-generation

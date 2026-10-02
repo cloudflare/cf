@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import { getAuthToken } from "../../lib/auth-token.js";
 import { CliExit } from "../../lib/cli-exit.js";
 

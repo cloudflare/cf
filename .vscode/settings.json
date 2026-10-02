@@ -5,11 +5,11 @@
 
 	"editor.codeActionsOnSave": {
 		"source.fixAll": "explicit",
-		"source.fixAll.oxc": "explicit",
+		"source.fixAll.oxc": "explicit"
 	},
 	"editor.defaultFormatter": "oxc.oxc-vscode",
 	"editor.formatOnSave": true,
 
 	"js/ts.updateImportsOnFileMove.enabled": "always",
-	"js/ts.preferences.importModuleSpecifier": "non-relative",
+	"js/ts.preferences.importModuleSpecifier": "non-relative"
 }

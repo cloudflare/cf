@@ -1,5 +1,5 @@
 import { env } from "cloudflare:workers";
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vite-plus/test";
 import { createClassifyIssueTypeTool } from "../tools/classify-issue-type.tool";
 import type { Issue } from "../schemas";
 

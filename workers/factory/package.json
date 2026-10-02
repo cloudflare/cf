@@ -3,11 +3,11 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"dev": "cf dev",
-		"build": "cf build",
+		"dev": "vp run task:dev",
+		"build": "vp run task:build",
 		"deploy": "cf deploy",
-		"check:type": "tsgo --noEmit",
-		"test": "vitest run"
+		"check:type": "vp run task:check:type",
+		"test": "vp run task:test"
 	},
 	"dependencies": {
 		"@flue/github": "2.2.2",
@@ -23,7 +23,7 @@
 		"@cloudflare/workers-types": "5.20260930.2",
 		"@flue/vite": "2.2.2",
 		"cf": "workspace:*",
-		"vite": "8.3.0",
-		"vitest": "4.1.11"
+		"vite": "catalog:",
+		"vite-plus": "catalog:"
 	}
 }

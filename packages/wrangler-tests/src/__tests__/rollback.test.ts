@@ -1,5 +1,5 @@
 import { http, HttpResponse } from "msw";
-import { describe, test } from "vitest";
+import { describe, test } from "vite-plus/test";
 import { collectCLIOutput } from "./helpers/collect-cli-output";
 import { mockAccountId, mockApiToken } from "./helpers/mock-account-id";
 import { mockConsoleMethods } from "./helpers/mock-console";
@@ -7,7 +7,7 @@ import { mockConfirm, mockPrompt } from "./helpers/mock-dialogs";
 import { useMockIsTTY } from "./helpers/mock-istty";
 import { createFetchResult, msw } from "./helpers/msw";
 import { runWrangler } from "./helpers/run-wrangler";
-import type { ExpectStatic } from "vitest";
+import type { ExpectStatic } from "vite-plus/test";
 
 // Inlined from wrangler's ../versions/rollback (unresolved in cf port).
 // Preserved so the (skipped) test bodies still type-check.

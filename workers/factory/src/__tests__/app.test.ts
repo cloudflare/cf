@@ -2,7 +2,7 @@ import { dispatch } from "@flue/runtime";
 import { env } from "cloudflare:workers";
 import { Hono } from "hono";
 import { testClient } from "hono/testing";
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vite-plus/test";
 import { app } from "../app";
 import type * as Runtime from "@flue/runtime";
 

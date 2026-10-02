@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "vite-plus/test";
 import { createContainerDeployConfig } from "../../../commands/deploy/containers.js";
 import { BuildOutputConfigError } from "../../../lib/build-output-error.js";
 import type { BuildOutputContainers } from "@cloudflare/build-output-utils";

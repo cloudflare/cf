@@ -1,0 +1,19 @@
+diff --git a/dist/pool/index.mjs b/dist/pool/index.mjs
+index 82638d63..2a26d640 100644
+--- a/dist/pool/index.mjs
++++ b/dist/pool/index.mjs
+@@ -22,3 +22,3 @@ import { setTimeout as setTimeout$1 } from "node:timers/promises";
+ import { DeferredPromise, Log, LogLevel, Miniflare, MiniflareCoreError, Mutex, Response, V4WorkerOptionsSchema, compileModuleRules, convertV4MiniflareOptions, getNodeCompat, kCurrentWorker, kUnsafeEphemeralUniqueKey, maybeApply, mergeWorkerOptions, parseModuleFallbackRequest, structuredSerializableReducers, structuredSerializableRevivers, testRegExps } from "miniflare";
+-import { build } from "esbuild";
++import { build, transformSync } from "esbuild";
+ import posixPath from "node:path/posix";
+@@ -50124,3 +50124,8 @@ function withSourceUrl(contents, url$2) {
+ function withImportMetaUrl(contents, url$2) {
+-	return contents.replaceAll("import.meta.url", JSON.stringify(url$2.toString()));
++	// Replace JavaScript syntax without changing quoted Vitest diagnostics.
++	return transformSync(contents, {
++		define: { "import.meta.url": JSON.stringify(url$2.toString()) },
++		sourcefile: url$2.toString(),
++		target: "esnext"
++	}).code;
+ }

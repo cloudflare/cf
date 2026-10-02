@@ -1,6 +1,6 @@
 import { generateKeyPairSync } from "node:crypto";
 import { cloudflareTest } from "@cloudflare/vitest-plugin";
-import { defineConfig } from "vitest/config";
+import { defineConfig } from "vite-plus";
 
 const GITHUB_APP_PRIVATE_KEY = generateKeyPairSync("rsa", {
 	modulusLength: 2048,

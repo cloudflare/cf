@@ -1,4 +1,4 @@
-import { describe, test } from "vitest";
+import { describe, test } from "vite-plus/test";
 
 describe("deployments view", () => {
 	// These are Wrangler's deprecated-command redirect messages. cf exposes

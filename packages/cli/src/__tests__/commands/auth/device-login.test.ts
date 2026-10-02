@@ -3,7 +3,7 @@ import {
 	mockConsoleMethods,
 	runInTempDir,
 } from "@cloudflare/workers-utils/test-helpers";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import { runCf } from "../../helpers/run-cf.js";
 
 const sharedAuth = vi.hoisted(() => ({

@@ -1,7 +1,7 @@
 import { http, HttpResponse } from "msw";
 import { createFetchResult, msw } from "./msw";
 import type { KVNamespaceInfo, NamespaceKeyInfo } from "../../kv/helpers";
-import type { ExpectStatic } from "vitest";
+import type { ExpectStatic } from "vite-plus/test";
 
 export function mockKeyListRequest(
 	expect: ExpectStatic,

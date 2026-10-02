@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, vi } from "vitest";
+import { afterEach, beforeEach, vi } from "vite-plus/test";
 
 // cf has no in-process auth-token cache to invalidate (reads env on each
 // invocation), so the wrangler `reinitialiseAuthTokens()` calls below

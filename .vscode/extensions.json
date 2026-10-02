@@ -1,4 +1,4 @@
 {
 	"recommendations": ["oxc.oxc-vscode"],
-	"unwantedRecommendations": [],
+	"unwantedRecommendations": []
 }

@@ -38,6 +38,11 @@ const deployCommand: CommandModule<CommonYargsOptions, DeployArgs> = {
 		"Deploy a Worker, static site, or full-stack application to Cloudflare",
 	builder,
 	handler: async (argv) => {
+		if (argv.force && !argv["dry-run"]) {
+			clack.log.warn(
+				"Using --force may overwrite conflicting remote Worker changes."
+			);
+		}
 		await runUpload(argv, { command: "Deploy" });
 	},
 };

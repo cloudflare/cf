@@ -54,6 +54,9 @@ jobs:
       - name: Generate command surface
         run: pnpm generate
 
+      - name: Test automation scripts
+        run: node --test scripts/update-forge.test.ts
+
       - name: Lint, type-check, and format-check
         run: pnpm check
 

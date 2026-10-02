@@ -170,6 +170,11 @@ export async function getLatestForgeRelease(): Promise<{
 	return { tag: release.tag_name, version: match[1], assetId: asset.id };
 }
 
+/**
+ * Forge is public, so its commands do not need the cf credentials used for
+ * branch updates and PR creation. Remove inherited GitHub tokens and injected
+ * Git authentication from their environment to avoid unnecessary credentials.
+ */
 export function getForgeEnvironment(
 	environment: NodeJS.ProcessEnv = process.env
 ): NodeJS.ProcessEnv {

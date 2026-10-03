@@ -258,9 +258,10 @@ describe("hand-written-only command metadata", () => {
 			dir: "auth",
 		});
 		expect(commands.get("cf previews deploy")?.handWritten).toEqual({
-			kind: "root",
+			kind: "leaf",
 			overrides: false,
-			dir: "previews",
+			dir: "previews/deploy",
+			parent: "previews",
 		});
 		expect(commands.get("cf d1 migrations create")?.handWritten).toEqual({
 			kind: "subgroup",

@@ -157448,6 +157448,7 @@
 		"pipelines sinks": "Destinations where pipeline data is written — R2 buckets, HTTP endpoints, or other storage",
 		"pipelines streams": "Inbound data streams that feed events into a pipeline for processing",
 		"precursor": "Precursor settings for a zone",
+		"previews": "Manage Worker Previews",
 		"queries": "queries",
 		"queries bulk": "Operations for bulk",
 		"queues": "Reliable message queuing between Workers — produce, consume, and batch-process messages at scale",
@@ -158056,7 +158057,6 @@
 		"init": "Create a new Cloudflare project or set up an existing one",
 		"migrate": "Migrate a Wrangler project to cf",
 		"cli": "Discover commands and configure the cf CLI",
-		"previews": "Manage Worker Previews",
 		"schema": "Show API schema details for a command",
 		"tools": ""
 	}

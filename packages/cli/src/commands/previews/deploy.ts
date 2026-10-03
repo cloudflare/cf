@@ -202,6 +202,9 @@ const command: CommandModule<CommonYargsOptions, PreviewDeployArgs> = {
 	describe: "Deploy a Worker Preview",
 	builder,
 	handler: async (argv) => {
+		if (argv.local) {
+			throw new Error("--local is not supported by cf previews deploy.");
+		}
 		const result = await runPreviewDeploy(argv);
 		formatOutput(createPreviewDeployOutput(result), { quiet: argv.quiet });
 	},

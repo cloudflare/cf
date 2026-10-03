@@ -23,6 +23,22 @@ const accessSchema = {
 } as Parameters<typeof generateResourceIndexFile>[0];
 
 describe("hand-written leaf commands", () => {
+	it("uses an explicit hand-written override for a schema-provided leaf", () => {
+		const generated = generateResourceIndexFile(
+			{
+				name: "ai",
+				description: "AI",
+			} as Parameters<typeof generateResourceIndexFile>[0],
+			["run"],
+			[]
+		);
+		expect(generated).toContain(
+			"import $run from '#commands/ai/run/index.js';"
+		);
+		expect(generated).not.toContain("import $run from './run.js';");
+		expect(generated).toContain(".command($run)");
+	});
+
 	it("registers a leaf command against its generated product", () => {
 		expect(handWrittenLeafCommands("workers")).toEqual([
 			{
@@ -195,6 +211,48 @@ describe("hand-written leaf commands", () => {
 			"import $curl from '#commands/access/curl/index.js';"
 		);
 	});
+
+	it.each([{ leaves: [] }, { leaves: ["delete"] }])(
+		"keeps Preview deployment with API leaves $leaves",
+		({ leaves }) => {
+			const [registered] = handWrittenLeafCommands("previews");
+			expect(registered).toEqual({
+				kind: "leaf",
+				parent: "previews",
+				name: "deploy",
+				dir: "previews/deploy",
+			});
+			if (registered === undefined) {
+				throw new Error("previews deploy is not registered");
+			}
+			expect(
+				readHandWrittenLeafCommandMeta("previews", registered)
+			).toMatchObject({
+				command: "cf previews deploy",
+				fullPath: ["previews", "deploy"],
+			});
+			const generated = generateResourceIndexFile(
+				{
+					name: "previews",
+					description: "Manage Worker Previews",
+					methods: [],
+					globalCliArgs: [],
+					hideCommand: false,
+				},
+				leaves,
+				[]
+			);
+			expect(generated).toContain(
+				"import $deploy from '#commands/previews/deploy/index.js';"
+			);
+			if (leaves.length > 0) {
+				expect(generated).toContain(".command($delete)");
+			} else {
+				expect(generated).not.toContain(".command($delete)");
+			}
+			expect(generated).toContain(".command($deploy)");
+		}
+	);
 
 	it("binds sidecar identity to the registered command", () => {
 		const [registered] = handWrittenLeafCommands("workers");

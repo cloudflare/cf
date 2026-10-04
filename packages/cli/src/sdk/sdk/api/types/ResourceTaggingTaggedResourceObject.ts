@@ -20,6 +20,7 @@ export type ResourceTaggingTaggedResourceObject =
     | CloudflareApi.ResourceTaggingTaggedResourceObject.CwsPolicySet
     | CloudflareApi.ResourceTaggingTaggedResourceObject.CwsWorkload
     | CloudflareApi.ResourceTaggingTaggedResourceObject.D1Database
+    | CloudflareApi.ResourceTaggingTaggedResourceObject.Device
     | CloudflareApi.ResourceTaggingTaggedResourceObject.DnsRecord
     | CloudflareApi.ResourceTaggingTaggedResourceObject.DurableObjectNamespace
     | CloudflareApi.ResourceTaggingTaggedResourceObject.GatewayList
@@ -113,6 +114,10 @@ export namespace ResourceTaggingTaggedResourceObject {
 
     export interface D1Database extends CloudflareApi.ResourceTaggingTaggedResourceObjectD1Database {
         type: "d1_database";
+    }
+
+    export interface Device extends CloudflareApi.ResourceTaggingTaggedResourceObjectDevice {
+        type: "device";
     }
 
     export interface DnsRecord extends CloudflareApi.ResourceTaggingTaggedResourceObjectDnsRecord {
@@ -232,6 +237,7 @@ export namespace ResourceTaggingTaggedResourceObject {
         | CloudflareApi.ResourceTaggingTaggedResourceObject.CwsPolicySet
         | CloudflareApi.ResourceTaggingTaggedResourceObject.CwsWorkload
         | CloudflareApi.ResourceTaggingTaggedResourceObject.D1Database
+        | CloudflareApi.ResourceTaggingTaggedResourceObject.Device
         | CloudflareApi.ResourceTaggingTaggedResourceObject.DnsRecord
         | CloudflareApi.ResourceTaggingTaggedResourceObject.DurableObjectNamespace
         | CloudflareApi.ResourceTaggingTaggedResourceObject.GatewayList

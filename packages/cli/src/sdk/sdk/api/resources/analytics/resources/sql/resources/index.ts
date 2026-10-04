@@ -1,2 +1,3 @@
-export * as introspection from "./introspection/index.js";
-export * from "./introspection/client/requests/index.js";
+export * as accounts from "./accounts/index.js";
+export * from "./accounts/client/requests/index.js";
+export * from "./accounts/types/index.js";

@@ -4,13 +4,12 @@ import type { BaseClientOptions, BaseRequestOptions } from "../../../../../../Ba
 import { normalizeClientOptionsWithAuth, type NormalizedClientOptionsWithAuth } from "../../../../../../BaseClient.js";
 import * as core from "../../../../../../core/index.js";
 import { mergeHeaders } from "../../../../../../core/headers.js";
-import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBody.js";
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
 import type * as CloudflareApi from "../../../../../index.js";
 import * as CloudflareApiErrors from "../../../../../errors/index.js";
-import { IntrospectionClient } from "../resources/introspection/client/Client.js";
+import { AccountsClient } from "../resources/accounts/client/Client.js";
 
 export declare namespace SqlClient {
     export type Options = BaseClientOptions;
@@ -20,14 +19,14 @@ export declare namespace SqlClient {
 
 export class SqlClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<SqlClient.Options>;
-    protected _introspection: IntrospectionClient | undefined;
+    protected _accounts: AccountsClient | undefined;
 
     constructor(options: SqlClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 
-    public get introspection(): IntrospectionClient {
-        return (this._introspection ??= new IntrospectionClient(this._options));
+    public get accounts(): AccountsClient {
+        return (this._accounts ??= new AccountsClient(this._options));
     }
 
     /**
@@ -138,117 +137,5 @@ export class SqlClient {
         }
 
         return handleNonStatusCodeError(_response.error, _response.rawResponse, "GET", "/analytics/sql");
-    }
-
-    /**
-     * Executes a SQL query against the analytics datasets available to the caller. Send either raw SQL or a JSON object containing the query and optional positional or named parameters, time range, and account or zone scope. Raw SQL placeholders can also be bound with query parameters named `param_<name>`. A trailing `FORMAT JSON`, `FORMAT JSONEachRow`, `FORMAT TabSeparated`, or `FORMAT TSV` is supported for all datasets. Without FORMAT, each backend retains its existing default JSON response.
-     *
-     * @param {CloudflareApi.analytics.AnalyticsSqlSqlQueryRequest} request
-     * @param {SqlClient.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @throws {@link CloudflareApi.BadRequestError}
-     * @throws {@link CloudflareApi.ForbiddenError}
-     * @throws {@link CloudflareApi.UnprocessableEntityError}
-     * @throws {@link CloudflareApi.TooManyRequestsError}
-     * @throws {@link CloudflareApi.InternalServerError}
-     * @throws {@link CloudflareApi.NotImplementedError}
-     * @throws {@link CloudflareApi.ServiceUnavailableError}
-     * @throws {@link CloudflareApi.InsufficientStorageError}
-     *
-     * @example
-     *     await client.analytics.sql.post({
-     *         query: "SELECT edgeResponseStatus FROM events.httpRequests WHERE edgeResponseStatus = $status LIMIT 10",
-     *         scope: {
-     *             accountTag: "0123456789abcdef0123456789abcdef"
-     *         },
-     *         time_range: {
-     *             end: "2026-01-02T00:00:00Z",
-     *             start: "2026-01-01T00:00:00Z"
-     *         }
-     *     })
-     */
-    public post(
-        request: CloudflareApi.analytics.AnalyticsSqlSqlQueryRequest,
-        requestOptions?: SqlClient.RequestOptions,
-    ): core.HttpResponsePromise<CloudflareApi.analytics.PostSqlResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__post(request, requestOptions));
-    }
-
-    private async __post(
-        request: CloudflareApi.analytics.AnalyticsSqlSqlQueryRequest,
-        requestOptions?: SqlClient.RequestOptions,
-    ): Promise<core.WithRawResponse<CloudflareApi.analytics.PostSqlResponse>> {
-        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
-        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
-            _authRequest.headers,
-            this._options?.headers,
-            requestOptions?.headers,
-        );
-        const _response = await (this._options.fetcher ?? core.fetcher)({
-            url: core.url.join(
-                (await core.Supplier.get(this._options.baseUrl)) ??
-                    (await core.Supplier.get(this._options.environment)) ??
-                    environments.CloudflareApiEnvironment.Default,
-                "analytics/sql",
-            ),
-            method: "POST",
-            headers: _headers,
-            contentType: "application/json",
-            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
-            requestType: "json",
-            body: mergeAdditionalBodyParameters(request, requestOptions?.additionalBodyParameters),
-            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
-            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
-            abortSignal: requestOptions?.abortSignal,
-            fetchFn: this._options?.fetch,
-            logging: this._options.logging,
-        });
-        if (_response.ok) {
-            return {
-                data: _response.body as CloudflareApi.analytics.PostSqlResponse,
-                rawResponse: _response.rawResponse,
-            };
-        }
-
-        if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 400:
-                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
-                case 403:
-                    throw new CloudflareApiErrors.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
-                case 422:
-                    throw new CloudflareApiErrors.UnprocessableEntityError(
-                        _response.error.body as unknown,
-                        _response.rawResponse,
-                    );
-                case 429:
-                    throw new CloudflareApiErrors.TooManyRequestsError(
-                        _response.error.body as unknown,
-                        _response.rawResponse,
-                    );
-                case 500:
-                    throw new CloudflareApiErrors.InternalServerError(_response.error.body as unknown, _response.rawResponse);
-                case 501:
-                    throw new CloudflareApiErrors.NotImplementedError(_response.error.body as string, _response.rawResponse);
-                case 503:
-                    throw new CloudflareApiErrors.ServiceUnavailableError(
-                        _response.error.body as unknown,
-                        _response.rawResponse,
-                    );
-                case 507:
-                    throw new CloudflareApiErrors.InsufficientStorageError(
-                        _response.error.body as unknown,
-                        _response.rawResponse,
-                    );
-                default:
-                    throw new errors.CloudflareApiError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
-                        rawResponse: _response.rawResponse,
-                    });
-            }
-        }
-
-        return handleNonStatusCodeError(_response.error, _response.rawResponse, "POST", "/analytics/sql");
     }
 }

@@ -1,6 +1,5 @@
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * edit command
  * @generated from apis/overlays/mesh.ts
@@ -9,9 +8,10 @@ import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
+	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, setNestedValue } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -21,10 +21,8 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
-		.usage(
-			"$0 mesh nodes edit <tunnel-id>\n\nUpdates an existing Warp Connector Tunnel."
-		)
-		.positional("tunnel-id", {
+		.usage("$0 mesh nodes edit <node-id>\n\nUpdates an existing Mesh node.")
+		.positional("node-id", {
 			type: "string",
 			description: "UUID of the tunnel.",
 			demandOption: true,
@@ -51,12 +49,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"cloudflare-tunnel-update-a-warp-connector-tunnel">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "edit <tunnel-id>",
-	describe: "Update a Warp Connector Tunnel",
+	command: "edit <node-id>",
+	describe: "Update a Mesh node",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
@@ -73,8 +68,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf mesh nodes edit",
 						method: "PATCH",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/warp_connector/${argv["tunnel-id"] == null ? "<tunnel-id>" : encodeURIComponent(String(argv["tunnel-id"]))}`,
-						pathParams: { "tunnel-id": String(argv["tunnel-id"] ?? "") },
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/warp_connector/${argv["node-id"] == null ? "<node-id>" : encodeURIComponent(String(argv["node-id"]))}`,
+						pathParams: { "node-id": String(argv["node-id"] ?? "") },
 						bodyKind: "json",
 						body:
 							argv.body !== undefined
@@ -99,37 +94,44 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.mesh.nodes.edit({
-							...bodyData,
-							account_id: accountId,
-							tunnel_id: argv["tunnel-id"],
-						} satisfies Request)
+						requestApi<unknown>(
+							client,
+							"PATCH",
+							`/accounts/${accountId}/warp_connector/${encodeURIComponent(String(argv["node-id"]))}`,
+							{ body: bodyData }
+						)
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
-					name: resolveFileToken(
-						argv["name"] as string | undefined,
-						"name",
-						"text"
-					),
-					tunnel_secret: resolveFileToken(
-						argv["tunnel-secret"] as string | undefined,
-						"tunnel-secret",
-						"text"
-					),
-				});
+				const bodyData: Record<string, unknown> = {};
+				if (argv["name"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["name"],
+						resolveFileToken(argv["name"] as string | undefined, "name", "text")
+					);
+				if (argv["tunnel-secret"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["tunnel_secret"],
+						resolveFileToken(
+							argv["tunnel-secret"] as string | undefined,
+							"tunnel-secret",
+							"text"
+						)
+					);
 				const result = await withProgress(`Updating`, async () =>
-					client.mesh.nodes.edit({
-						...bodyData,
-						account_id: accountId,
-						tunnel_id: argv["tunnel-id"],
-					} satisfies Request)
+					requestApi<unknown>(
+						client,
+						"PATCH",
+						`/accounts/${accountId}/warp_connector/${encodeURIComponent(String(argv["node-id"]))}`,
+						{ body: Object.keys(bodyData).length > 0 ? bodyData : undefined }
+					)
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

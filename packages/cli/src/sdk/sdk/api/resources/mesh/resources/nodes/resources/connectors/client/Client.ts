@@ -26,7 +26,7 @@ export class ConnectorsClient {
     }
 
     /**
-     * Fetches connector and connection details for a WARP Connector Tunnel.
+     * Fetches connector and connection details for a Mesh node.
      *
      * @param {CloudflareApi.mesh.nodes.GetConnectorsRequest} request
      * @param {ConnectorsClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -34,7 +34,7 @@ export class ConnectorsClient {
      * @example
      *     await client.mesh.nodes.connectors.get({
      *         account_id: "account_id",
-     *         tunnel_id: "tunnel_id",
+     *         "node-id": "tunnel_id",
      *         connector_id: "connector_id"
      *     })
      */
@@ -49,7 +49,7 @@ export class ConnectorsClient {
         request: CloudflareApi.mesh.nodes.GetConnectorsRequest,
         requestOptions?: ConnectorsClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.TunnelTunnelWarpConnectorClient>> {
-        const { account_id: accountId, tunnel_id: tunnelId, connector_id: connectorId } = request;
+        const { account_id: accountId, "node-id": nodeId, connector_id: connectorId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -61,7 +61,7 @@ export class ConnectorsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/warp_connector/${core.url.encodePathParam(tunnelId)}/connectors/${core.url.encodePathParam(connectorId)}`,
+                `accounts/${core.url.encodePathParam(accountId)}/warp_connector/${core.url.encodePathParam(nodeId)}/connectors/${core.url.encodePathParam(connectorId)}`,
             ),
             method: "GET",
             headers: _headers,
@@ -91,7 +91,7 @@ export class ConnectorsClient {
             _response.error,
             _response.rawResponse,
             "GET",
-            "/accounts/{account_id}/warp_connector/{tunnel_id}/connectors/{connector_id}",
+            "/accounts/{account_id}/warp_connector/{node-id}/connectors/{connector_id}",
         );
     }
 }

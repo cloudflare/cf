@@ -19,6 +19,7 @@ export type ResourceTaggingSetTagsRequestAccountLevel =
     | CloudflareApi.ResourceTaggingSetTagsRequestAccountLevel.CwsPolicySet
     | CloudflareApi.ResourceTaggingSetTagsRequestAccountLevel.CwsWorkload
     | CloudflareApi.ResourceTaggingSetTagsRequestAccountLevel.D1Database
+    | CloudflareApi.ResourceTaggingSetTagsRequestAccountLevel.Device
     | CloudflareApi.ResourceTaggingSetTagsRequestAccountLevel.DurableObjectNamespace
     | CloudflareApi.ResourceTaggingSetTagsRequestAccountLevel.GatewayList
     | CloudflareApi.ResourceTaggingSetTagsRequestAccountLevel.GatewayRule
@@ -88,6 +89,10 @@ export namespace ResourceTaggingSetTagsRequestAccountLevel {
 
     export interface D1Database extends CloudflareApi.ResourceTaggingSetTagsRequestAccountLevelBase {
         resource_type: "d1_database";
+    }
+
+    export interface Device extends CloudflareApi.ResourceTaggingSetTagsRequestAccountLevelBase {
+        resource_type: "device";
     }
 
     export interface DurableObjectNamespace extends CloudflareApi.ResourceTaggingSetTagsRequestAccountLevelBase {

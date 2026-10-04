@@ -26,6 +26,8 @@ export interface SearchThreatEventsRequest {
     pageSize?: number;
     /** Structured search as a JSON array of {field, op, value} objects. Use the 'in' operator with an array value to bulk-check up to 100 values. Multiple conditions are AND'd together. Max 10 conditions per request. */
     search?: SearchThreatEventsRequest.Search.Item[];
+    /** OR branches of structured search filters. Filters within a branch are AND'd, branches are OR'd, and the result is AND'd with `search`: `AND(search) AND OR(AND(branch 1), ...)`. Max 8 branches of 1-10 conditions each. Not supported for analytics datasets, and `indicator` filters are not yet supported inside branches. Cursor pages carry the original branches, so do not resend them with `cursor`. */
+    searchBranches?: SearchThreatEventsRequest.SearchBranches.Item[][];
 }
 
 export namespace SearchThreatEventsRequest {
@@ -37,6 +39,83 @@ export namespace SearchThreatEventsRequest {
     export type Search = Search.Item[];
 
     export namespace Search {
+        export type Item =
+            | {
+                  field:
+                      | "attacker"
+                      | "attackerCountry"
+                      | "category"
+                      | "createdAt"
+                      | "date"
+                      | "event"
+                      | "indicator"
+                      | "indicatorType"
+                      | "mitreAttack"
+                      | "mitreCapec"
+                      | "tags"
+                      | "targetCountry"
+                      | "targetIndustry"
+                      | "tlp"
+                      | "uuid";
+                  op:
+                      | "equals"
+                      | "not"
+                      | "gt"
+                      | "gte"
+                      | "lt"
+                      | "lte"
+                      | "like"
+                      | "contains"
+                      | "startsWith"
+                      | "endsWith"
+                      | "find";
+                  value: string;
+              }
+            | {
+                  field:
+                      | "attacker"
+                      | "attackerCountry"
+                      | "category"
+                      | "createdAt"
+                      | "date"
+                      | "event"
+                      | "indicator"
+                      | "indicatorType"
+                      | "mitreAttack"
+                      | "mitreCapec"
+                      | "tags"
+                      | "targetCountry"
+                      | "targetIndustry"
+                      | "tlp"
+                      | "uuid";
+                  op: "in";
+                  value: string[];
+              }
+            | {
+                  field: "killChain";
+                  op: "equals" | "not" | "gt" | "gte" | "lt" | "lte";
+                  value: number | string;
+              }
+            | {
+                  field: "killChain";
+                  op: "in";
+                  value: (number | string)[];
+              }
+            | {
+                  field: "hasChildren";
+                  op: "equals" | "not" | "gt" | "gte" | "lt" | "lte";
+                  value: boolean | "true" | "false" | number | "1" | "0";
+              }
+            | {
+                  field: "hasChildren";
+                  op: "in";
+                  value: (boolean | "true" | "false" | number | "1" | "0")[];
+              };
+    }
+
+    export type SearchBranches = SearchBranches.Item[];
+
+    export namespace SearchBranches {
         export type Item =
             | {
                   field:

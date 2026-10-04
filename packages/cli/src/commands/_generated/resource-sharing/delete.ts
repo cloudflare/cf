@@ -47,7 +47,7 @@ type Request = SdkRequest<"share-delete">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <share-id>",
-	describe: "Delete a share",
+	describe: "Trigger a share deletion",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(

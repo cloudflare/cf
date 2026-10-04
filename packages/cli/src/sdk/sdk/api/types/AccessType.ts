@@ -3,6 +3,7 @@
 /** The application type. */
 export const AccessType = {
     SelfHosted: "self_hosted",
+    EndUser: "end_user",
     Saas: "saas",
     Ssh: "ssh",
     Vnc: "vnc",

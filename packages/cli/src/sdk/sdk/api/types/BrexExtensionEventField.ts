@@ -7,6 +7,7 @@ export const BrexExtensionEventField = {
     Action: "action",
     UserEmail: "userEmail",
     RegistrationId: "registrationId",
+    EventId: "eventId",
     PolicyId: "policyId",
     Url: "url",
     MatchedDlpProfiles: "matchedDlpProfiles",

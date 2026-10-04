@@ -46,7 +46,7 @@ type Body = Request["body"];
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "create <share-id>",
-	describe: "Create a new share excluded recipient",
+	describe: "Trigger an account exclusion from a share",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(

@@ -51,12 +51,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Value-axis bucketing for chartType 'distribution'. Omitted or 'log': geometric buckets, best for heavy-tailed latency. 'linear': fixed-width buckets, clearer for narrow or additive ranges. Ignored for other chartTypes. The response echoes the scheme used in distribution.bucketMode.",
 			choices: ["log", "linear"],
 		})
-		.option("dry", {
-			type: "boolean",
-			description:
-				"When true, executes the query without persisting the results. Useful for validation or previewing.",
-			default: false,
-		})
 		.option("granularity", {
 			type: "number",
 			description:
@@ -209,7 +203,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"chart-type",
 						"compare",
 						"distribution-scale",
-						"dry",
 						"ignore-series",
 						"parameters-filter-combination",
 						"parameters-needle-is-regex",
@@ -246,7 +239,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"distribution-scale",
 											"text"
 										),
-										dry: argv["dry"],
 										granularity: argv["granularity"],
 										ignoreSeries: argv["ignore-series"],
 										limit: argv["limit"],
@@ -356,7 +348,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"distribution-scale",
 						"text"
 					),
-					dry: argv["dry"],
 					granularity: argv["granularity"],
 					ignoreSeries: argv["ignore-series"],
 					limit: argv["limit"],

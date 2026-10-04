@@ -1,8 +1,6 @@
 export * as appTypes from "./appTypes/index.js";
 export * from "./appTypes/client/requests/index.js";
 export * from "./appTypes/types/index.js";
-export * as auditSshSettings from "./auditSshSettings/index.js";
-export * from "./auditSshSettings/client/requests/index.js";
 export * as categories from "./categories/index.js";
 export * from "./categories/client/requests/index.js";
 export * from "./categories/types/index.js";

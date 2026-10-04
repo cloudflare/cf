@@ -1,6 +1,5 @@
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/mesh.ts
@@ -9,6 +8,7 @@ import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
+	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -20,9 +20,9 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 mesh nodes token get <tunnel-id>\n\nGets the token used to associate warp device with a specific Warp Connector tunnel."
+			"$0 mesh nodes token get <node-id>\n\nGets the token used to associate a WARP device with a specific Mesh node."
 		)
-		.positional("tunnel-id", {
+		.positional("node-id", {
 			type: "string",
 			description: "UUID of the tunnel.",
 			demandOption: true,
@@ -36,12 +36,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"cloudflare-tunnel-get-a-warp-connector-tunnel-token">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "get <tunnel-id>",
-	describe: "Get a Warp Connector Tunnel token",
+	command: "get <node-id>",
+	describe: "Get a Mesh node token",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
@@ -58,8 +55,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf mesh nodes token get",
 						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/warp_connector/${argv["tunnel-id"] == null ? "<tunnel-id>" : encodeURIComponent(String(argv["tunnel-id"]))}/token`,
-						pathParams: { "tunnel-id": String(argv["tunnel-id"] ?? "") },
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/warp_connector/${argv["node-id"] == null ? "<node-id>" : encodeURIComponent(String(argv["node-id"]))}/token`,
+						pathParams: { "node-id": String(argv["node-id"] ?? "") },
 						bodyKind: "none",
 					});
 					return;
@@ -69,10 +66,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.mesh.nodes.token.get({
-						account_id: accountId,
-						tunnel_id: argv["tunnel-id"],
-					} satisfies Request)
+					requestApi<unknown>(
+						client,
+						"GET",
+						`/accounts/${accountId}/warp_connector/${encodeURIComponent(String(argv["node-id"]))}/token`
+					)
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

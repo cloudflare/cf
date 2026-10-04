@@ -879,7 +879,7 @@ export const generatedCommands: GeneratedCommand[] = [
 	{
 		command: lazyCommand<CommonYargsOptions>(
 			"mcp",
-			"mcp",
+			"Manage MCP portals and upstream MCP servers for Cloudflare Access AI controls",
 			() => import("./mcp/index.js"),
 			null
 		),
@@ -1340,6 +1340,15 @@ export const generatedCommands: GeneratedCommand[] = [
 			"speed",
 			"Observatory speed tests — run Lighthouse audits, track performance trends, and schedule recurring tests",
 			() => import("./speed/index.js"),
+			null
+		),
+		hideCommand: false,
+	},
+	{
+		command: lazyCommand<CommonYargsOptions>(
+			"sql",
+			"sql",
+			() => import("./sql/index.js"),
 			null
 		),
 		hideCommand: false,

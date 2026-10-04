@@ -1,3 +1,4 @@
+import $auditsshsettings from "./audit-ssh-settings/index.js";
 import $sshca from "./ssh-ca/index.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
@@ -12,6 +13,7 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
+			.command($auditsshsettings)
 			.command($sshca)
 			.demandCommand(1, "Please specify a subcommand");
 	},

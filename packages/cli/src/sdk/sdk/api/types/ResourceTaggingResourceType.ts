@@ -19,6 +19,7 @@ export const ResourceTaggingResourceType = {
     CwsPolicySet: "cws_policy_set",
     CwsWorkload: "cws_workload",
     D1Database: "d1_database",
+    Device: "device",
     DnsRecord: "dns_record",
     DurableObjectNamespace: "durable_object_namespace",
     GatewayList: "gateway_list",

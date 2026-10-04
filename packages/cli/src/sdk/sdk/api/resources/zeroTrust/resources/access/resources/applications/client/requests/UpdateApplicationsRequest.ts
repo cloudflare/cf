@@ -9,8 +9,9 @@ import * as CloudflareApi from "../../../../../../../../index.js";
  *         account_or_zone_id: "account_or_zone_id",
  *         app_id: "app_id",
  *         body: {
- *             domain: "test.example.com/admin",
- *             type: "self_hosted"
+ *             oauth_configuration: {},
+ *             type: "end_user",
+ *             user_populations: ["f174e90a-fafe-4643-bbbc-4a0ed4fc8415"]
  *         }
  *     }
  */

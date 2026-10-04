@@ -6,7 +6,7 @@ import * as CloudflareApi from "../../../../../../index.js";
  * @example
  *     {
  *         account_id: "account_id",
- *         tunnel_id: "tunnel_id",
+ *         "node-id": "tunnel_id",
  *         client_id: "1bedc50d-42b3-473c-b108-ff3d10c0d925"
  *     }
  */
@@ -14,6 +14,6 @@ export interface FailoverNodesRequest {
     /** Cloudflare account ID */
     account_id: string;
     /** UUID of the tunnel. */
-    tunnel_id: string;
+    "node-id": string;
     client_id: CloudflareApi.TunnelClientIdInput;
 }

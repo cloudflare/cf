@@ -26,7 +26,8 @@ export namespace ListIdentityProvidersResponse {
             | CloudflareApi.AccessSaml
             | CloudflareApi.AccessYandex
             | CloudflareApi.AccessOnetimepin
-            | CloudflareApi.AccessCloudflare;
+            | CloudflareApi.AccessCloudflare
+            | CloudflareApi.AccessPasskeys;
     }
 
     export interface ResultInfo {

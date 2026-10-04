@@ -33,6 +33,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "number",
 			description: "Cache TTL default is 5s. Set to 0 to disable.",
 		})
+		.option("browser", {
+			type: "string",
+			description:
+				"Rendering backend. Set to `kitesurf` to use Kitesurf (beta).",
+			choices: ["kitesurf"],
+		})
 		.option("action-timeout", {
 			type: "number",
 			description:
@@ -309,6 +315,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				command: "browser-run quick-action pdf",
 				classification: {
 					safeFlags: [
+						"browser",
 						"best-attempt",
 						"pdf-options-display-header-footer",
 						"pdf-options-format",
@@ -333,6 +340,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			async () => {
 				const queryParams: Record<string, unknown> = {
 					cacheTTL: argv["cache-ttl"],
+					browser: argv["browser"],
 				};
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();

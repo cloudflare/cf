@@ -2128,6 +2128,88 @@
       "tag_name"
     ]
   },
+  "access-user-populations-create-user-population": {
+    "accessor": [
+      "zeroTrust",
+      "access",
+      "userPopulations"
+    ],
+    "method": "create",
+    "httpMethod": "POST",
+    "path": "/accounts/{account_id}/access/user_populations",
+    "requestType": "CreateUserPopulationsRequest",
+    "responseType": "AccessUserPopulation",
+    "requestBodyProperty": "body",
+    "requiredRequestProperties": [
+      "account_id",
+      "body"
+    ]
+  },
+  "access-user-populations-delete-user-population": {
+    "accessor": [
+      "zeroTrust",
+      "access",
+      "userPopulations"
+    ],
+    "method": "delete",
+    "httpMethod": "DELETE",
+    "path": "/accounts/{account_id}/access/user_populations/{user_population_id}",
+    "requestType": "DeleteUserPopulationsRequest",
+    "responseType": "DeleteUserPopulationsResponse",
+    "requiredRequestProperties": [
+      "account_id",
+      "user_population_id"
+    ]
+  },
+  "access-user-populations-get-user-population": {
+    "accessor": [
+      "zeroTrust",
+      "access",
+      "userPopulations"
+    ],
+    "method": "get",
+    "httpMethod": "GET",
+    "path": "/accounts/{account_id}/access/user_populations/{user_population_id}",
+    "requestType": "GetUserPopulationsRequest",
+    "responseType": "AccessUserPopulation",
+    "requiredRequestProperties": [
+      "account_id",
+      "user_population_id"
+    ]
+  },
+  "access-user-populations-list-user-populations": {
+    "accessor": [
+      "zeroTrust",
+      "access",
+      "userPopulations"
+    ],
+    "method": "list",
+    "httpMethod": "GET",
+    "path": "/accounts/{account_id}/access/user_populations",
+    "requestType": "ListUserPopulationsRequest",
+    "responseType": "ListUserPopulationsResponse",
+    "requiredRequestProperties": [
+      "account_id"
+    ]
+  },
+  "access-user-populations-update-user-population": {
+    "accessor": [
+      "zeroTrust",
+      "access",
+      "userPopulations"
+    ],
+    "method": "update",
+    "httpMethod": "PUT",
+    "path": "/accounts/{account_id}/access/user_populations/{user_population_id}",
+    "requestType": "UpdateUserPopulationsRequest",
+    "responseType": "AccessUserPopulation",
+    "requestBodyProperty": "body",
+    "requiredRequestProperties": [
+      "account_id",
+      "body",
+      "user_population_id"
+    ]
+  },
   "account-api-tokens-create-token": {
     "accessor": [
       "accounts",
@@ -7016,35 +7098,6 @@
       "job_id"
     ]
   },
-  "brapi-get_DevtoolsBrowser": {
-    "accessor": [
-      "browserRun",
-      "devtools",
-      "browser"
-    ],
-    "method": "connect",
-    "httpMethod": "GET",
-    "path": "/accounts/{account_id}/browser-rendering/devtools/browser/{session_id}",
-    "requestType": "ConnectBrowserRequest",
-    "requiredRequestProperties": [
-      "account_id",
-      "session_id"
-    ]
-  },
-  "brapi-get_DevtoolsBrowserAcquire": {
-    "accessor": [
-      "browserRun",
-      "devtools",
-      "browser"
-    ],
-    "method": "launch",
-    "httpMethod": "GET",
-    "path": "/accounts/{account_id}/browser-rendering/devtools/browser",
-    "requestType": "LaunchBrowserRequest",
-    "requiredRequestProperties": [
-      "account_id"
-    ]
-  },
   "brapi-get_DevtoolsJson": {
     "accessor": [
       "browserRun",
@@ -7160,23 +7213,6 @@
     "requiredRequestProperties": [
       "account_id",
       "session_id"
-    ]
-  },
-  "brapi-get_DevtoolsPage": {
-    "accessor": [
-      "browserRun",
-      "devtools",
-      "browser",
-      "page"
-    ],
-    "method": "get",
-    "httpMethod": "GET",
-    "path": "/accounts/{account_id}/browser-rendering/devtools/browser/{session_id}/page/{target_id}",
-    "requestType": "GetPageRequest",
-    "requiredRequestProperties": [
-      "account_id",
-      "session_id",
-      "target_id"
     ]
   },
   "brapi-get_DevtoolsSessionDetails": {
@@ -8558,21 +8594,6 @@
       "tunnel_id"
     ]
   },
-  "cloudflare-tunnel-delete-a-warp-connector-tunnel": {
-    "accessor": [
-      "mesh",
-      "nodes"
-    ],
-    "method": "delete",
-    "httpMethod": "DELETE",
-    "path": "/accounts/{account_id}/warp_connector/{tunnel_id}",
-    "requestType": "DeleteNodesRequest",
-    "responseType": "TunnelWarpConnectorTunnel",
-    "requiredRequestProperties": [
-      "account_id",
-      "tunnel_id"
-    ]
-  },
   "cloudflare-tunnel-get-a-cloudflare-tunnel": {
     "accessor": [
       "tunnels"
@@ -8618,37 +8639,6 @@
       "tunnel_id"
     ]
   },
-  "cloudflare-tunnel-get-a-warp-connector-tunnel": {
-    "accessor": [
-      "mesh",
-      "nodes"
-    ],
-    "method": "get",
-    "httpMethod": "GET",
-    "path": "/accounts/{account_id}/warp_connector/{tunnel_id}",
-    "requestType": "GetNodesRequest",
-    "responseType": "TunnelWarpConnectorTunnel",
-    "requiredRequestProperties": [
-      "account_id",
-      "tunnel_id"
-    ]
-  },
-  "cloudflare-tunnel-get-a-warp-connector-tunnel-token": {
-    "accessor": [
-      "mesh",
-      "nodes",
-      "token"
-    ],
-    "method": "get",
-    "httpMethod": "GET",
-    "path": "/accounts/{account_id}/warp_connector/{tunnel_id}/token",
-    "requestType": "GetTokenRequest",
-    "responseType": "TunnelTunnelToken",
-    "requiredRequestProperties": [
-      "account_id",
-      "tunnel_id"
-    ]
-  },
   "cloudflare-tunnel-get-cloudflare-tunnel-connector": {
     "accessor": [
       "tunnels",
@@ -8659,23 +8649,6 @@
     "path": "/accounts/{account_id}/cfd_tunnel/{tunnel_id}/connectors/{connector_id}",
     "requestType": "GetConnectorsRequest",
     "responseType": "TunnelTunnelClient",
-    "requiredRequestProperties": [
-      "account_id",
-      "connector_id",
-      "tunnel_id"
-    ]
-  },
-  "cloudflare-tunnel-get-warp-connector-tunnel-connector": {
-    "accessor": [
-      "mesh",
-      "nodes",
-      "connectors"
-    ],
-    "method": "get",
-    "httpMethod": "GET",
-    "path": "/accounts/{account_id}/warp_connector/{tunnel_id}/connectors/{connector_id}",
-    "requestType": "GetConnectorsRequest",
-    "responseType": "TunnelTunnelWarpConnectorClient",
     "requiredRequestProperties": [
       "account_id",
       "connector_id",
@@ -8723,22 +8696,6 @@
       "account_id"
     ]
   },
-  "cloudflare-tunnel-list-warp-connector-tunnel-connections": {
-    "accessor": [
-      "mesh",
-      "nodes",
-      "connections"
-    ],
-    "method": "list",
-    "httpMethod": "GET",
-    "path": "/accounts/{account_id}/warp_connector/{tunnel_id}/connections",
-    "requestType": "ListConnectionsRequest",
-    "responseType": "ListConnectionsResponse",
-    "requiredRequestProperties": [
-      "account_id",
-      "tunnel_id"
-    ]
-  },
   "cloudflare-tunnel-list-warp-connector-tunnels": {
     "accessor": [
       "mesh",
@@ -8753,21 +8710,6 @@
       "account_id"
     ]
   },
-  "cloudflare-tunnel-manual-failover-warp-connector-tunnel": {
-    "accessor": [
-      "mesh",
-      "nodes"
-    ],
-    "method": "failover",
-    "httpMethod": "PUT",
-    "path": "/accounts/{account_id}/warp_connector/{tunnel_id}/failover",
-    "requestType": "FailoverNodesRequest",
-    "requiredRequestProperties": [
-      "account_id",
-      "client_id",
-      "tunnel_id"
-    ]
-  },
   "cloudflare-tunnel-update-a-cloudflare-tunnel": {
     "accessor": [
       "tunnels"
@@ -8777,21 +8719,6 @@
     "path": "/accounts/{account_id}/cfd_tunnel/{tunnel_id}",
     "requestType": "EditTunnelsRequest",
     "responseType": "TunnelCfdTunnel",
-    "requiredRequestProperties": [
-      "account_id",
-      "tunnel_id"
-    ]
-  },
-  "cloudflare-tunnel-update-a-warp-connector-tunnel": {
-    "accessor": [
-      "mesh",
-      "nodes"
-    ],
-    "method": "edit",
-    "httpMethod": "PATCH",
-    "path": "/accounts/{account_id}/warp_connector/{tunnel_id}",
-    "requestType": "EditNodesRequest",
-    "responseType": "TunnelWarpConnectorTunnel",
     "requiredRequestProperties": [
       "account_id",
       "tunnel_id"
@@ -13450,7 +13377,7 @@
     "method": "create",
     "httpMethod": "POST",
     "path": "/accounts/{account_id}/dlp/custom_prompt_topics",
-    "requestType": "CreateCustomPromptTopicsRequest",
+    "requestType": "DlpNewCustomPromptTopic",
     "responseType": "DlpCustomPromptTopic",
     "requiredRequestProperties": [
       "account_id",
@@ -13514,7 +13441,7 @@
     "method": "update",
     "httpMethod": "PUT",
     "path": "/accounts/{account_id}/dlp/custom_prompt_topics/{entry_id}",
-    "requestType": "UpdateCustomPromptTopicsRequest",
+    "requestType": "DlpCustomPromptTopicUpdate",
     "responseType": "DlpCustomPromptTopic",
     "requiredRequestProperties": [
       "account_id",
@@ -13807,7 +13734,7 @@
     "method": "create",
     "httpMethod": "POST",
     "path": "/accounts/{account_id}/dlp/datasets",
-    "requestType": "CreateDatasetsRequest",
+    "requestType": "DlpNewDataset",
     "responseType": "DlpDatasetCreation",
     "requiredRequestProperties": [
       "account_id",
@@ -13885,7 +13812,7 @@
     "method": "update",
     "httpMethod": "PUT",
     "path": "/accounts/{account_id}/dlp/datasets/{dataset_id}",
-    "requestType": "UpdateDatasetsRequest",
+    "requestType": "DlpDatasetUpdate",
     "responseType": "DlpDataset",
     "requiredRequestProperties": [
       "account_id",
@@ -13912,7 +13839,7 @@
     "method": "create",
     "httpMethod": "POST",
     "path": "/accounts/{account_id}/dlp/document_fingerprints",
-    "requestType": "CreateDocumentFingerprintsRequest",
+    "requestType": "DlpNewDocumentFingerprint",
     "responseType": "DlpDocumentFingerprint",
     "requiredRequestProperties": [
       "account_id",
@@ -18494,7 +18421,6 @@
   },
   "generated:get:/{account_or_zone}/{account_or_zone_id}/pay-per-use/usage-stats": {
     "accessor": [
-      "payPerCrawl",
       "payPerUse",
       "usageStats"
     ],
@@ -25304,7 +25230,7 @@
     "path": "/user/load_balancers/pools",
     "responseType": "PoolsPoolsResponse",
     "requiredRequestProperties": [
-      "__@iterator@7539",
+      "__@iterator@7030",
       "anchor",
       "at",
       "big",
@@ -28003,6 +27929,7 @@
     "httpMethod": "DELETE",
     "path": "/accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/tags/{tag}",
     "requestType": "DeleteTagsRequest",
+    "responseType": "DeleteTagsResponse",
     "requiredRequestProperties": [
       "account_id",
       "dispatch_namespace",
@@ -28231,6 +28158,26 @@
       "account_id",
       "dispatch_namespace",
       "script_name"
+    ]
+  },
+  "namespace-worker-patch-script-tag": {
+    "accessor": [
+      "workersForPlatforms",
+      "dispatchNamespaces",
+      "scripts",
+      "tags"
+    ],
+    "method": "edit",
+    "httpMethod": "PATCH",
+    "path": "/accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/tags/{tag}",
+    "requestType": "WorkersTagPatch",
+    "responseType": "WorkersTagsKv",
+    "requiredRequestProperties": [
+      "account_id",
+      "dispatch_namespace",
+      "script_name",
+      "tag",
+      "value"
     ]
   },
   "namespace-worker-put-namespace": {
@@ -30445,7 +30392,6 @@
   },
   "pay-per-crawl.deletePPUPublisherPrice": {
     "accessor": [
-      "payPerCrawl",
       "payPerUse",
       "pricing"
     ],
@@ -30475,7 +30421,6 @@
   },
   "pay-per-crawl.getPPUOperatorConfiguration": {
     "accessor": [
-      "payPerCrawl",
       "payPerUse",
       "operator"
     ],
@@ -30490,7 +30435,6 @@
   },
   "pay-per-crawl.getPPUZoneCanBeEnabled": {
     "accessor": [
-      "payPerCrawl",
       "payPerUse",
       "zones"
     ],
@@ -30505,7 +30449,6 @@
   },
   "pay-per-crawl.getPPUZoneConfiguration": {
     "accessor": [
-      "payPerCrawl",
       "payPerUse",
       "zones"
     ],
@@ -30589,7 +30532,6 @@
   },
   "pay-per-crawl.listPPUOperators": {
     "accessor": [
-      "payPerCrawl",
       "payPerUse",
       "pricing"
     ],
@@ -30604,7 +30546,6 @@
   },
   "pay-per-crawl.listPPUProposals": {
     "accessor": [
-      "payPerCrawl",
       "payPerUse",
       "proposals"
     ],
@@ -30635,7 +30576,6 @@
   },
   "pay-per-crawl.patchPPUOperatorConfiguration": {
     "accessor": [
-      "payPerCrawl",
       "payPerUse",
       "operator"
     ],
@@ -30650,7 +30590,6 @@
   },
   "pay-per-crawl.patchPPUZoneConfiguration": {
     "accessor": [
-      "payPerCrawl",
       "payPerUse",
       "zones"
     ],
@@ -30665,7 +30604,6 @@
   },
   "pay-per-crawl.postPPUProposalDecision": {
     "accessor": [
-      "payPerCrawl",
       "payPerUse",
       "proposals"
     ],
@@ -30685,7 +30623,6 @@
   },
   "pay-per-crawl.postPPUPublisherPriceAction": {
     "accessor": [
-      "payPerCrawl",
       "payPerUse",
       "pricing"
     ],
@@ -30748,7 +30685,6 @@
   },
   "pay-per-crawl.putPPUOperatorConfiguration": {
     "accessor": [
-      "payPerCrawl",
       "payPerUse",
       "operator"
     ],
@@ -30795,7 +30731,6 @@
   },
   "pay-per-crawl.setPPUZonesCanBeEnabled": {
     "accessor": [
-      "payPerCrawl",
       "payPerUse",
       "zones"
     ],
@@ -38026,6 +37961,26 @@
       "skill_id"
     ]
   },
+  "rssArticleSkillRun": {
+    "accessor": [
+      "cloudforceOne",
+      "threatSignals",
+      "articles",
+      "skills"
+    ],
+    "method": "run",
+    "httpMethod": "POST",
+    "path": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/articles/{article_id}/skills/{skill_id}/run",
+    "requestType": "RunSkillsRequest",
+    "responseType": "RunSkillsResponse",
+    "requestBodyProperty": "body",
+    "requiredRequestProperties": [
+      "account_id",
+      "article_id",
+      "body",
+      "skill_id"
+    ]
+  },
   "rssArticleTagAdd": {
     "accessor": [
       "cloudforceOne",
@@ -40859,13 +40814,27 @@
   },
   "sql-api-introspection": {
     "accessor": [
+      "sql"
+    ],
+    "method": "datasets",
+    "httpMethod": "GET",
+    "path": "/analytics/sql/introspection",
+    "requestType": "DatasetsSqlRequest",
+    "responseType": "AnalyticsSqlIntrospectionResponse",
+    "requiredRequestProperties": [
+      "account_tag"
+    ]
+  },
+  "sql-api-introspection-account-scoped": {
+    "accessor": [
       "analytics",
       "sql",
+      "accounts",
       "introspection"
     ],
     "method": "get",
     "httpMethod": "GET",
-    "path": "/analytics/sql/introspection",
+    "path": "/accounts/{account_tag}/analytics/sql/introspection",
     "requestType": "GetIntrospectionRequest",
     "responseType": "AnalyticsSqlIntrospectionResponse",
     "requiredRequestProperties": [
@@ -40886,18 +40855,50 @@
       "query"
     ]
   },
-  "sql-api-query-post": {
+  "sql-api-query-get-account-scoped": {
     "accessor": [
       "analytics",
+      "sql",
+      "accounts"
+    ],
+    "method": "get",
+    "httpMethod": "GET",
+    "path": "/accounts/{account_tag}/analytics/sql",
+    "requestType": "GetAccountsRequest",
+    "responseType": "GetAccountsResponse",
+    "requiredRequestProperties": [
+      "account_tag",
+      "query"
+    ]
+  },
+  "sql-api-query-post": {
+    "accessor": [
       "sql"
     ],
-    "method": "post",
+    "method": "query",
     "httpMethod": "POST",
     "path": "/analytics/sql",
     "requestType": "AnalyticsSqlSqlQueryRequest",
-    "responseType": "PostSqlResponse",
+    "responseType": "QuerySqlResponse",
     "requiredRequestProperties": [
       "query"
+    ]
+  },
+  "sql-api-query-post-account-scoped": {
+    "accessor": [
+      "analytics",
+      "sql",
+      "accounts"
+    ],
+    "method": "post",
+    "httpMethod": "POST",
+    "path": "/accounts/{account_tag}/analytics/sql",
+    "requestType": "PostAccountsRequest",
+    "responseType": "PostAccountsResponse",
+    "requestBodyProperty": "body",
+    "requiredRequestProperties": [
+      "account_tag",
+      "body"
     ]
   },
   "ssl-detector-auto-origin-tls-kex-get-enrollment": {
@@ -46311,13 +46312,13 @@
   },
   "workers-ai-ai-gateway-web-search": {
     "accessor": [
-      "aiGateway"
+      "ai"
     ],
-    "method": "webSearch",
+    "method": "websearch",
     "httpMethod": "POST",
     "path": "/accounts/{account_id}/ai/websearch",
-    "requestType": "WebSearchAiGatewayRequest",
-    "responseType": "WebSearchAiGatewayResponse",
+    "requestType": "WebsearchAiRequest",
+    "responseType": "WebsearchAiResponse",
     "requiredRequestProperties": [
       "account_id",
       "options",
@@ -47819,7 +47820,8 @@
   "zero-trust-get-audit-ssh-settings": {
     "accessor": [
       "zeroTrust",
-      "gateway",
+      "access",
+      "infrastructure",
       "auditSshSettings"
     ],
     "method": "get",
@@ -48198,7 +48200,8 @@
   "zero-trust-rotate-ssh-account-seed": {
     "accessor": [
       "zeroTrust",
-      "gateway",
+      "access",
+      "infrastructure",
       "auditSshSettings"
     ],
     "method": "rotateSeed",
@@ -48229,7 +48232,8 @@
   "zero-trust-update-audit-ssh-settings": {
     "accessor": [
       "zeroTrust",
-      "gateway",
+      "access",
+      "infrastructure",
       "auditSshSettings"
     ],
     "method": "update",

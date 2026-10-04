@@ -50,7 +50,7 @@ type Body = Request;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update <share-id>",
-	describe: "Update a share",
+	describe: "Trigger a share rename",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(

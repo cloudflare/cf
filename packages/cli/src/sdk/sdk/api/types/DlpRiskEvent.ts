@@ -3,7 +3,7 @@
 import * as CloudflareApi from "../index.js";
 
 export interface DlpRiskEvent {
-    event_details?: unknown | undefined;
+    event_details?: Record<string, unknown> | undefined;
     id: string;
     name: string;
     risk_level: CloudflareApi.DlpRiskLevel;

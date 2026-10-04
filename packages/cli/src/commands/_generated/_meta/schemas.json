@@ -4830,6 +4830,52 @@
 			"hasRequestBody": true,
 			"requestBodyFields": []
 		},
+		"ai websearch": {
+			"operationId": "workers-ai-ai-gateway-web-search",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/ai/websearch",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "byok-alias",
+					"type": "string",
+					"required": false,
+					"description": "The byokAlias field"
+				},
+				{
+					"name": "limit",
+					"type": "number",
+					"required": false,
+					"description": "The limit field"
+				},
+				{
+					"name": "options-gateway-id",
+					"type": "string",
+					"required": true,
+					"description": "The options.gateway.id field"
+				},
+				{
+					"name": "provider",
+					"type": "string",
+					"required": false,
+					"description": "The provider field"
+				},
+				{
+					"name": "query",
+					"type": "string",
+					"required": true,
+					"description": "The query field"
+				}
+			]
+		},
 		"ai-audit robots bulk-get": {
 			"operationId": "ai-audit-bulk-get-robots",
 			"httpMethod": "POST",
@@ -6769,52 +6815,6 @@
 					"type": "number",
 					"required": false,
 					"description": "The score field"
-				}
-			]
-		},
-		"ai-gateway web-search": {
-			"operationId": "workers-ai-ai-gateway-web-search",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/ai/websearch",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "byok-alias",
-					"type": "string",
-					"required": false,
-					"description": "The byokAlias field"
-				},
-				{
-					"name": "limit",
-					"type": "number",
-					"required": false,
-					"description": "The limit field"
-				},
-				{
-					"name": "options-gateway-id",
-					"type": "string",
-					"required": true,
-					"description": "The options.gateway.id field"
-				},
-				{
-					"name": "provider",
-					"type": "string",
-					"required": false,
-					"description": "The provider field"
-				},
-				{
-					"name": "query",
-					"type": "string",
-					"required": true,
-					"description": "The query field"
 				}
 			]
 		},
@@ -10710,101 +10710,6 @@
 				}
 			]
 		},
-		"analytics sql get": {
-			"operationId": "sql-api-query-get",
-			"httpMethod": "GET",
-			"path": "/analytics/sql",
-			"pathParams": [],
-			"queryParams": [
-				{
-					"name": "query",
-					"type": "string",
-					"required": true
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"analytics sql introspection get": {
-			"operationId": "sql-api-introspection",
-			"httpMethod": "GET",
-			"path": "/analytics/sql/introspection",
-			"pathParams": [],
-			"queryParams": [
-				{
-					"name": "account_tag",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "include_columns",
-					"type": "boolean",
-					"required": false
-				},
-				{
-					"name": "include_custom_attributes",
-					"type": "boolean",
-					"required": false
-				},
-				{
-					"name": "include_wae",
-					"type": "boolean",
-					"required": false
-				},
-				{
-					"name": "include_lex",
-					"type": "boolean",
-					"required": false
-				},
-				{
-					"name": "dataset_name",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"analytics sql post": {
-			"operationId": "sql-api-query-post",
-			"httpMethod": "POST",
-			"path": "/analytics/sql",
-			"pathParams": [],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "query",
-					"type": "string",
-					"required": true,
-					"description": "SQL query to execute. A trailing FORMAT selects JSON, JSONEachRow, TabSeparated, or TSV output on any dataset.\n"
-				},
-				{
-					"name": "scope-account-tag",
-					"type": "string",
-					"required": false,
-					"description": "Account tag used to authorize and scope the query. Must be a 32-character lowercase hex string.\n"
-				},
-				{
-					"name": "scope-zone-tag",
-					"type": "string",
-					"required": false,
-					"description": "Zone tag used to authorize and scope the query. Must be a 32-character lowercase hex string.\n"
-				},
-				{
-					"name": "time-range-end",
-					"type": "string",
-					"required": false,
-					"description": "Inclusive upper bound for the dataset's timestamp column."
-				},
-				{
-					"name": "time-range-start",
-					"type": "string",
-					"required": false,
-					"description": "Inclusive lower bound for the dataset's timestamp column."
-				}
-			]
-		},
 		"analytics_engine sql query": {
 			"operationId": "analytics-engine-sql-query-post",
 			"httpMethod": "POST",
@@ -14197,7 +14102,7 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
-					"name": "filter-by-metric-ids",
+					"name": "filter-by-billable-metric-ids",
 					"type": "string",
 					"required": false,
 					"description": "Restrict results to rows whose `x_BillableMetricId` matches one of these billable metric ids (e.g. `workers_standard_requests`). Values must be unique."
@@ -14213,6 +14118,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Grouping definitions used to split result rows. At most two unique keys may be supplied. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "metric",
+					"type": "string",
+					"required": false,
+					"description": "Type of cost/usage records to retrieve. `usage` returns unrated usage quantities. Unrelated to `FilterBy.BillableMetricIds`. Defaults to `usage` when omitted."
 				},
 				{
 					"name": "time-period-from",
@@ -15048,42 +14959,6 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"browser-run devtools browser connect": {
-			"operationId": "brapi-get_DevtoolsBrowser",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/browser-rendering/devtools/browser/{session_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "session_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "keep_alive",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "lab",
-					"type": "boolean",
-					"required": false
-				},
-				{
-					"name": "recording",
-					"type": "boolean",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
 		"browser-run devtools browser create": {
 			"operationId": "brapi-post_DevtoolsAcquire",
 			"httpMethod": "POST",
@@ -15158,37 +15033,6 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"browser-run devtools browser launch": {
-			"operationId": "brapi-get_DevtoolsBrowserAcquire",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/browser-rendering/devtools/browser",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "keep_alive",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "lab",
-					"type": "boolean",
-					"required": false
-				},
-				{
-					"name": "recording",
-					"type": "boolean",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
 		"browser-run devtools browser live-view create": {
 			"operationId": "brapi-post_DevtoolsLiveView",
 			"httpMethod": "POST",
@@ -15227,31 +15071,6 @@
 					"description": "Target ID (page) to connect to. If omitted, auto-resolves to the first active page."
 				}
 			]
-		},
-		"browser-run devtools browser page get": {
-			"operationId": "brapi-get_DevtoolsPage",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/browser-rendering/devtools/browser/{session_id}/page/{target_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "session_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "target_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
 		},
 		"browser-run devtools browser protocol": {
 			"operationId": "brapi-get_DevtoolsJsonProtocol",
@@ -15513,6 +15332,11 @@
 					"name": "cacheTTL",
 					"type": "number",
 					"required": false
+				},
+				{
+					"name": "browser",
+					"type": "string",
+					"required": false
 				}
 			],
 			"hasRequestBody": true,
@@ -15715,6 +15539,11 @@
 					"name": "cacheTTL",
 					"type": "number",
 					"required": false
+				},
+				{
+					"name": "browser",
+					"type": "string",
+					"required": false
 				}
 			],
 			"hasRequestBody": true,
@@ -15904,6 +15733,11 @@
 				{
 					"name": "cacheTTL",
 					"type": "number",
+					"required": false
+				},
+				{
+					"name": "browser",
+					"type": "string",
 					"required": false
 				}
 			],
@@ -16113,6 +15947,11 @@
 					"name": "cacheTTL",
 					"type": "number",
 					"required": false
+				},
+				{
+					"name": "browser",
+					"type": "string",
+					"required": false
 				}
 			],
 			"hasRequestBody": true,
@@ -16315,6 +16154,11 @@
 					"name": "cacheTTL",
 					"type": "number",
 					"required": false
+				},
+				{
+					"name": "browser",
+					"type": "string",
+					"required": false
 				}
 			],
 			"hasRequestBody": true,
@@ -16504,6 +16348,11 @@
 				{
 					"name": "cacheTTL",
 					"type": "number",
+					"required": false
+				},
+				{
+					"name": "browser",
+					"type": "string",
 					"required": false
 				}
 			],
@@ -16773,6 +16622,11 @@
 					"name": "cacheTTL",
 					"type": "number",
 					"required": false
+				},
+				{
+					"name": "browser",
+					"type": "string",
+					"required": false
 				}
 			],
 			"hasRequestBody": true,
@@ -16968,6 +16822,11 @@
 				{
 					"name": "cacheTTL",
 					"type": "number",
+					"required": false
+				},
+				{
+					"name": "browser",
+					"type": "string",
 					"required": false
 				}
 			],
@@ -17236,6 +17095,11 @@
 				{
 					"name": "cacheTTL",
 					"type": "number",
+					"required": false
+				},
+				{
+					"name": "browser",
+					"type": "string",
 					"required": false
 				}
 			],
@@ -26149,6 +26013,11 @@
 					"required": false
 				},
 				{
+					"name": "searchBranches",
+					"type": "array",
+					"required": false
+				},
+				{
 					"name": "page",
 					"type": "number",
 					"required": false
@@ -26712,6 +26581,31 @@
 			],
 			"queryParams": [],
 			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one threat-signals articles skills run": {
+			"operationId": "rssArticleSkillRun",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/articles/{article_id}/skills/{skill_id}/run",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "article_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "skill_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
 			"requestBodyFields": []
 		},
 		"cloudforce-one threat-signals articles tags add": {
@@ -42180,6 +42074,12 @@
 					"description": "Specify the jurisdiction to restrict the KV namespace to durably store data within. Can only be set at namespace creation time."
 				},
 				{
+					"name": "namespace-mode",
+					"type": "string",
+					"required": false,
+					"description": "The mode of the Workers KV namespace. Specify `instant` when creating a namespace to create a KV Instant namespace. Omit this field when creating a namespace to create a classic namespace. Currently, `instant` is the only supported explicit value."
+				},
+				{
 					"name": "title",
 					"type": "string",
 					"required": true,
@@ -52948,7 +52848,7 @@
 					"name": "auth-credentials",
 					"type": "string",
 					"required": false,
-					"description": "Static credential for the upstream MCP server. For auth_type \"bearer\", either a raw token string (e.g. \"sk-abc123\"), which is wrapped server-side as `Authorization: Bearer <token>`, or a JSON-encoded object of the form `{\"headers\":{\"Header-Name\":\"value\",...}}` for custom or multiple static headers (e.g. Cloudflare Access service tokens: `{\"headers\":{\"cf-access-client-id\":\"...\",\"cf-access-client-secret\":\"...\"}}`)."
+					"description": "Credential configuration for the upstream MCP server. For auth_type \"bearer\", either a raw token string (e.g. \"sk-abc123\"), which is wrapped server-side as `Authorization: Bearer <token>`, or a JSON-encoded object of the form `{\"headers\":{\"Header-Name\":\"value\",...}}` for custom or multiple static headers (e.g. Cloudflare Access service tokens: `{\"headers\":{\"cf-access-client-id\":\"...\",\"cf-access-client-secret\":\"...\"}}`). For auth_type \"oauth\" with a pre-registered client, send a JSON-encoded object containing `auth_mode:\"manual\"`, `config.authorization_endpoint`, `config.token_endpoint`, and `registration_info.client_id`. Also provide `registration_info.redirect_uris` unless `is_shared_oauth_callback_enabled` is true. Optional fields include `config.issuer`, `config.revocation_endpoint`, `registration_info.scope`, and `registration_info.token_endpoint_auth_method`. Send the client secret in the separate `client_secret` field. Omit `auth_credentials` on update to preserve the existing configuration."
 				},
 				{
 					"name": "auth-type",
@@ -52960,7 +52860,7 @@
 					"name": "client-secret",
 					"type": "string",
 					"required": false,
-					"description": "Pre-registered OAuth client_secret. Write-only - accepted on create/update when auth_credentials.auth_mode is 'manual'. Stored AES-GCM-encrypted in server_oauth_secrets; never returned by read endpoints."
+					"description": "Pre-registered OAuth client_secret. Write-only - accepted on create/update when auth_credentials.auth_mode is 'manual'. Required when creating a manual OAuth server or converting an existing server to manual mode. Omit it on update to preserve the existing secret; provide it to rotate the secret. Stored AES-GCM-encrypted in server_oauth_secrets; never returned by read endpoints."
 				},
 				{
 					"name": "description",
@@ -53167,13 +53067,13 @@
 					"name": "auth-credentials",
 					"type": "string",
 					"required": false,
-					"description": "Static credential for the upstream MCP server. For auth_type \"bearer\", either a raw token string (e.g. \"sk-abc123\"), which is wrapped server-side as `Authorization: Bearer <token>`, or a JSON-encoded object of the form `{\"headers\":{\"Header-Name\":\"value\",...}}` for custom or multiple static headers (e.g. Cloudflare Access service tokens: `{\"headers\":{\"cf-access-client-id\":\"...\",\"cf-access-client-secret\":\"...\"}}`)."
+					"description": "Credential configuration for the upstream MCP server. For auth_type \"bearer\", either a raw token string (e.g. \"sk-abc123\"), which is wrapped server-side as `Authorization: Bearer <token>`, or a JSON-encoded object of the form `{\"headers\":{\"Header-Name\":\"value\",...}}` for custom or multiple static headers (e.g. Cloudflare Access service tokens: `{\"headers\":{\"cf-access-client-id\":\"...\",\"cf-access-client-secret\":\"...\"}}`). For auth_type \"oauth\" with a pre-registered client, send a JSON-encoded object containing `auth_mode:\"manual\"`, `config.authorization_endpoint`, `config.token_endpoint`, and `registration_info.client_id`. Also provide `registration_info.redirect_uris` unless `is_shared_oauth_callback_enabled` is true. Optional fields include `config.issuer`, `config.revocation_endpoint`, `registration_info.scope`, and `registration_info.token_endpoint_auth_method`. Send the client secret in the separate `client_secret` field. Omit `auth_credentials` on update to preserve the existing configuration."
 				},
 				{
 					"name": "client-secret",
 					"type": "string",
 					"required": false,
-					"description": "Pre-registered OAuth client_secret. Write-only - accepted on create/update when auth_credentials.auth_mode is 'manual'. Stored AES-GCM-encrypted in server_oauth_secrets; never returned by read endpoints."
+					"description": "Pre-registered OAuth client_secret. Write-only - accepted on create/update when auth_credentials.auth_mode is 'manual'. Required when creating a manual OAuth server or converting an existing server to manual mode. Omit it on update to preserve the existing secret; provide it to rotate the secret. Stored AES-GCM-encrypted in server_oauth_secrets; never returned by read endpoints."
 				},
 				{
 					"name": "description",
@@ -53262,7 +53162,7 @@
 					"name": "ha-mode",
 					"type": "string",
 					"required": true,
-					"description": "High-availability mode for the WARP Connector tunnel. `none` means HA is enabled but no provider is configured yet (newly created tunnels default to this). `disabled` means HA is explicitly turned off. `aws` uses AWS ENI move for failover. `local` uses virtual IPs (VIPs) on the local interface."
+					"description": "High-availability mode for the Mesh node. `none` means HA is enabled but no provider is configured yet (newly created nodes default to this). `disabled` means HA is explicitly turned off. `aws` uses AWS ENI move for failover. `local` uses virtual IPs (VIPs) on the local interface."
 				}
 			]
 		},
@@ -53410,14 +53310,7 @@
 			],
 			"queryParams": [],
 			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "client-id",
-					"type": "string",
-					"required": true,
-					"description": "UUID of the Cloudflare Tunnel connector."
-				}
-			]
+			"requestBodyFields": []
 		},
 		"mesh nodes get": {
 			"operationId": "cloudflare-tunnel-get-a-warp-connector-tunnel",
@@ -54891,7 +54784,7 @@
 					"name": "bgp-mode",
 					"type": "string",
 					"required": false,
-					"description": "The BGP mode for a CNI.\n\nControls the customer-facing data path:\n* `DynamicRouteExchange` — Full BGP: routes flow through to conduit via CRE / bgp-bridge /\nbgp-bridge-receiver.\n* `AdvertiseOnly` — static advertisement via taserver, no routes exchanged with Conduit"
+					"description": "The BGP mode for a CNI.\nOne of the following:\n* `dynamic_route_exchange`\n* `advertise_only`"
 				},
 				{
 					"name": "cust-ip",
@@ -56396,12 +56289,6 @@
 					"description": "Value-axis bucketing for chartType 'distribution'. Omitted or 'log': geometric buckets, best for heavy-tailed latency. 'linear': fixed-width buckets, clearer for narrow or additive ranges. Ignored for other chartTypes. The response echoes the scheme used in distribution.bucketMode."
 				},
 				{
-					"name": "dry",
-					"type": "boolean",
-					"required": false,
-					"description": "When true, executes the query without persisting the results. Useful for validation or previewing."
-				},
-				{
 					"name": "granularity",
 					"type": "number",
 					"required": false,
@@ -56638,12 +56525,6 @@
 					"type": "string",
 					"required": false,
 					"description": "Value-axis bucketing for chartType 'distribution'. Omitted or 'log': geometric buckets, best for heavy-tailed latency. 'linear': fixed-width buckets, clearer for narrow or additive ranges. Ignored for other chartTypes. The response echoes the scheme used in distribution.bucketMode."
-				},
-				{
-					"name": "dry",
-					"type": "boolean",
-					"required": false,
-					"description": "When true, executes the query without persisting the results. Useful for validation or previewing."
 				},
 				{
 					"name": "granularity",
@@ -59613,337 +59494,6 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"pay-per-crawl pay-per-use operator get-configuration": {
-			"operationId": "pay-per-crawl.getPPUOperatorConfiguration",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/pay-per-use/operator/configuration",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"pay-per-crawl pay-per-use operator set-configuration": {
-			"operationId": "pay-per-crawl.putPPUOperatorConfiguration",
-			"httpMethod": "PUT",
-			"path": "/accounts/{account_id}/pay-per-use/operator/configuration",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "default-price-usd-microcents",
-					"type": "number",
-					"required": true,
-					"description": "Default price in microcents. 1 USD = 100,000,000 microcents. Must be a multiple of 100,000 ($0.001) between $0.001 and $9,999.999."
-				},
-				{
-					"name": "enabled",
-					"type": "boolean",
-					"required": true,
-					"description": "The enabled field"
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": true,
-					"description": "The name field"
-				}
-			]
-		},
-		"pay-per-crawl pay-per-use operator update-configuration": {
-			"operationId": "pay-per-crawl.patchPPUOperatorConfiguration",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/pay-per-use/operator/configuration",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "default-price-usd-microcents",
-					"type": "number",
-					"required": false,
-					"description": "Default price in microcents. 1 USD = 100,000,000 microcents. Must be a multiple of 100,000 ($0.001) between $0.001 and $9,999.999."
-				},
-				{
-					"name": "enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "The enabled field"
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": false,
-					"description": "The name field"
-				}
-			]
-		},
-		"pay-per-crawl pay-per-use pricing list-operators": {
-			"operationId": "pay-per-crawl.listPPUOperators",
-			"httpMethod": "GET",
-			"path": "/zones/{zone_id}/pay-per-use/operators",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "page",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "per_page",
-					"type": "number",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"pay-per-crawl pay-per-use pricing opt-out-operator-price": {
-			"operationId": "pay-per-crawl.deletePPUPublisherPrice",
-			"httpMethod": "DELETE",
-			"path": "/zones/{zone_id}/pay-per-use/operators/{operator_id}/price",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "operator_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"pay-per-crawl pay-per-use pricing set-operator-price": {
-			"operationId": "pay-per-crawl.postPPUPublisherPriceAction",
-			"httpMethod": "POST",
-			"path": "/zones/{zone_id}/pay-per-use/operators/{operator_id}/price",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "operator_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "action",
-					"type": "string",
-					"required": true,
-					"description": "The action field"
-				},
-				{
-					"name": "price-usd-microcents",
-					"type": "number",
-					"required": false,
-					"description": "Price in microcents. Must be a multiple of 100,000 ($0.001) between $0.001 and $9,999.999."
-				}
-			]
-		},
-		"pay-per-crawl pay-per-use proposals decide": {
-			"operationId": "pay-per-crawl.postPPUProposalDecision",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/pay-per-use/proposals",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "action",
-					"type": "string",
-					"required": true,
-					"description": "The action field"
-				},
-				{
-					"name": "price-id",
-					"type": "number",
-					"required": true,
-					"description": "Pending pay-per-use price id returned in the operator proposal queue."
-				}
-			]
-		},
-		"pay-per-crawl pay-per-use proposals list": {
-			"operationId": "pay-per-crawl.listPPUProposals",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/pay-per-use/proposals",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "page",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "per_page",
-					"type": "number",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"pay-per-crawl pay-per-use usage-stats get-account": {
-			"operationId": "generated:get:/{account_or_zone}/{account_or_zone_id}/pay-per-use/usage-stats",
-			"httpMethod": "GET",
-			"path": "/{account_or_zone}/{account_or_zone_id}/pay-per-use/usage-stats",
-			"pathParams": [
-				{
-					"name": "account_or_zone",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_or_zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "since",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "until",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "page",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "per_page",
-					"type": "number",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"pay-per-crawl pay-per-use zones get-can-be-enabled": {
-			"operationId": "pay-per-crawl.getPPUZoneCanBeEnabled",
-			"httpMethod": "GET",
-			"path": "/zones/{zone_id}/pay-per-use/can_be_enabled",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"pay-per-crawl pay-per-use zones get-configuration": {
-			"operationId": "pay-per-crawl.getPPUZoneConfiguration",
-			"httpMethod": "GET",
-			"path": "/zones/{zone_id}/pay-per-use/configuration",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"pay-per-crawl pay-per-use zones set-can-be-enabled": {
-			"operationId": "pay-per-crawl.setPPUZonesCanBeEnabled",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/pay-per-use/zones_can_be_enabled",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "zones",
-					"type": "string",
-					"required": true,
-					"description": "The zones field. Provide as a JSON array of objects or @path/to/file.json."
-				}
-			]
-		},
-		"pay-per-crawl pay-per-use zones update-configuration": {
-			"operationId": "pay-per-crawl.patchPPUZoneConfiguration",
-			"httpMethod": "PATCH",
-			"path": "/zones/{zone_id}/pay-per-use/configuration",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "The enabled field"
-				}
-			]
-		},
 		"pay-per-crawl publisher stripe create": {
 			"operationId": "pay-per-crawl.publisherCreateStripeConfig",
 			"httpMethod": "POST",
@@ -60151,6 +59701,222 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"pay-per-use operator get-configuration": {
+			"operationId": "pay-per-crawl.getPPUOperatorConfiguration",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/pay-per-use/operator/configuration",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"pay-per-use operator set-configuration": {
+			"operationId": "pay-per-crawl.putPPUOperatorConfiguration",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/pay-per-use/operator/configuration",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "default-price-usd-microcents",
+					"type": "number",
+					"required": true,
+					"description": "Default price in microcents. 1 USD = 100,000,000 microcents. Must be a multiple of 100,000 ($0.001) between $0.001 and $9,999.999."
+				},
+				{
+					"name": "enabled",
+					"type": "boolean",
+					"required": true,
+					"description": "The enabled field"
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "The name field"
+				}
+			]
+		},
+		"pay-per-use operator update-configuration": {
+			"operationId": "pay-per-crawl.patchPPUOperatorConfiguration",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/pay-per-use/operator/configuration",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "default-price-usd-microcents",
+					"type": "number",
+					"required": false,
+					"description": "Default price in microcents. 1 USD = 100,000,000 microcents. Must be a multiple of 100,000 ($0.001) between $0.001 and $9,999.999."
+				},
+				{
+					"name": "enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "The enabled field"
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": false,
+					"description": "The name field"
+				}
+			]
+		},
+		"pay-per-use pricing list-operators": {
+			"operationId": "pay-per-crawl.listPPUOperators",
+			"httpMethod": "GET",
+			"path": "/zones/{zone_id}/pay-per-use/operators",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"type": "number",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"pay-per-use pricing opt-out-operator-price": {
+			"operationId": "pay-per-crawl.deletePPUPublisherPrice",
+			"httpMethod": "DELETE",
+			"path": "/zones/{zone_id}/pay-per-use/operators/{operator_id}/price",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "operator_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"pay-per-use pricing set-operator-price": {
+			"operationId": "pay-per-crawl.postPPUPublisherPriceAction",
+			"httpMethod": "POST",
+			"path": "/zones/{zone_id}/pay-per-use/operators/{operator_id}/price",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "operator_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "action",
+					"type": "string",
+					"required": true,
+					"description": "The action field"
+				},
+				{
+					"name": "price-usd-microcents",
+					"type": "number",
+					"required": false,
+					"description": "Price in microcents. Must be a multiple of 100,000 ($0.001) between $0.001 and $9,999.999."
+				}
+			]
+		},
+		"pay-per-use proposals decide": {
+			"operationId": "pay-per-crawl.postPPUProposalDecision",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/pay-per-use/proposals",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "action",
+					"type": "string",
+					"required": true,
+					"description": "The action field"
+				},
+				{
+					"name": "price-id",
+					"type": "number",
+					"required": true,
+					"description": "Pending pay-per-use price id returned in the operator proposal queue."
+				}
+			]
+		},
+		"pay-per-use proposals list": {
+			"operationId": "pay-per-crawl.listPPUProposals",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/pay-per-use/proposals",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"type": "number",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
 		"pay-per-use usage-reports submit": {
 			"operationId": "pay-per-use.submitUsageReport",
 			"httpMethod": "POST",
@@ -60165,6 +59931,121 @@
 			"queryParams": [],
 			"hasRequestBody": true,
 			"requestBodyFields": []
+		},
+		"pay-per-use usage-stats get-account": {
+			"operationId": "generated:get:/{account_or_zone}/{account_or_zone_id}/pay-per-use/usage-stats",
+			"httpMethod": "GET",
+			"path": "/{account_or_zone}/{account_or_zone_id}/pay-per-use/usage-stats",
+			"pathParams": [
+				{
+					"name": "account_or_zone",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_or_zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "since",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "until",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"type": "number",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"pay-per-use zones get-can-be-enabled": {
+			"operationId": "pay-per-crawl.getPPUZoneCanBeEnabled",
+			"httpMethod": "GET",
+			"path": "/zones/{zone_id}/pay-per-use/can_be_enabled",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"pay-per-use zones get-configuration": {
+			"operationId": "pay-per-crawl.getPPUZoneConfiguration",
+			"httpMethod": "GET",
+			"path": "/zones/{zone_id}/pay-per-use/configuration",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"pay-per-use zones set-can-be-enabled": {
+			"operationId": "pay-per-crawl.setPPUZonesCanBeEnabled",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/pay-per-use/zones_can_be_enabled",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "zones",
+					"type": "string",
+					"required": true,
+					"description": "The zones field. Provide as a JSON array of objects or @path/to/file.json."
+				}
+			]
+		},
+		"pay-per-use zones update-configuration": {
+			"operationId": "pay-per-crawl.patchPPUZoneConfiguration",
+			"httpMethod": "PATCH",
+			"path": "/zones/{zone_id}/pay-per-use/configuration",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "The enabled field"
+				}
+			]
 		},
 		"pipelines create": {
 			"operationId": "postV4AccountsByAccount_idPipelinesV1Pipelines",
@@ -83655,6 +83536,86 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"sql datasets": {
+			"operationId": "sql-api-introspection",
+			"httpMethod": "GET",
+			"path": "/analytics/sql/introspection",
+			"pathParams": [],
+			"queryParams": [
+				{
+					"name": "account_tag",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "include_columns",
+					"type": "boolean",
+					"required": false
+				},
+				{
+					"name": "include_custom_attributes",
+					"type": "boolean",
+					"required": false
+				},
+				{
+					"name": "include_wae",
+					"type": "boolean",
+					"required": false
+				},
+				{
+					"name": "include_lex",
+					"type": "boolean",
+					"required": false
+				},
+				{
+					"name": "dataset_name",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"sql query": {
+			"operationId": "sql-api-query-post",
+			"httpMethod": "POST",
+			"path": "/analytics/sql",
+			"pathParams": [],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "query",
+					"type": "string",
+					"required": true,
+					"description": "SQL query to execute. A trailing FORMAT selects JSON, JSONEachRow, TabSeparated, or TSV output on any dataset.\n"
+				},
+				{
+					"name": "scope-account",
+					"type": "string",
+					"required": false,
+					"description": "Account tag used to authorize and scope the query. Must be a 32-character lowercase hex string.\n"
+				},
+				{
+					"name": "scope-zone",
+					"type": "string",
+					"required": false,
+					"description": "Zone tag used to authorize and scope the query. Must be a 32-character lowercase hex string.\n"
+				},
+				{
+					"name": "time-until",
+					"type": "string",
+					"required": false,
+					"description": "Inclusive upper bound for the dataset's timestamp column."
+				},
+				{
+					"name": "time-since",
+					"type": "string",
+					"required": false,
+					"description": "Inclusive lower bound for the dataset's timestamp column."
+				}
+			]
+		},
 		"ssl analyze create": {
 			"operationId": "analyze-certificate-analyze-certificate",
 			"httpMethod": "POST",
@@ -85892,12 +85853,6 @@
 			"queryParams": [],
 			"hasRequestBody": true,
 			"requestBodyFields": [
-				{
-					"name": "config-src",
-					"type": "string",
-					"required": false,
-					"description": "Indicates if this is a locally or remotely configured tunnel. If `local`, manage the tunnel using a YAML file on the origin machine. If `cloudflare`, manage the tunnel on the Zero Trust dashboard."
-				},
 				{
 					"name": "name",
 					"type": "string",
@@ -94592,6 +94547,58 @@
 				}
 			]
 		},
+		"zero-trust access infrastructure audit-ssh-settings get": {
+			"operationId": "zero-trust-get-audit-ssh-settings",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/gateway/audit_ssh_settings",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust access infrastructure audit-ssh-settings rotate-seed": {
+			"operationId": "zero-trust-rotate-ssh-account-seed",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/gateway/audit_ssh_settings/rotate_seed",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust access infrastructure audit-ssh-settings update": {
+			"operationId": "zero-trust-update-audit-ssh-settings",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/gateway/audit_ssh_settings",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "public-key",
+					"type": "string",
+					"required": true,
+					"description": "Provide the Base64-encoded HPKE public key that encrypts SSH session logs. See https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/use-cases/ssh/ssh-infrastructure-access/#enable-ssh-command-logging."
+				}
+			]
+		},
 		"zero-trust access infrastructure ssh-ca create": {
 			"operationId": "access-gateway-ca-add-an-SSH-ca",
 			"httpMethod": "POST",
@@ -96303,6 +96310,121 @@
 					"type": "string",
 					"required": false,
 					"description": "(optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used."
+				}
+			]
+		},
+		"zero-trust access user-populations create": {
+			"operationId": "access-user-populations-create-user-population",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/access/user_populations",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "The name of the user population. Leading and trailing whitespace is trimmed before validation. After trimming, the name must contain at least one non-whitespace character and must not exceed 128 UTF-8 bytes.\n"
+				}
+			]
+		},
+		"zero-trust access user-populations delete": {
+			"operationId": "access-user-populations-delete-user-population",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/access/user_populations/{user_population_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "user_population_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust access user-populations get": {
+			"operationId": "access-user-populations-get-user-population",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/access/user_populations/{user_population_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "user_population_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust access user-populations list": {
+			"operationId": "access-user-populations-list-user-populations",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/access/user_populations",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"type": "number",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust access user-populations update": {
+			"operationId": "access-user-populations-update-user-population",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/access/user_populations/{user_population_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "user_population_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "The name of the user population. Leading and trailing whitespace is trimmed before validation. After trimming, the name must contain at least one non-whitespace character and must not exceed 128 UTF-8 bytes.\n"
 				}
 			]
 		},
@@ -104307,58 +104429,6 @@
 			"queryParams": [],
 			"hasRequestBody": false,
 			"requestBodyFields": []
-		},
-		"zero-trust gateway audit-ssh-settings get": {
-			"operationId": "zero-trust-get-audit-ssh-settings",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/gateway/audit_ssh_settings",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"zero-trust gateway audit-ssh-settings rotate-seed": {
-			"operationId": "zero-trust-rotate-ssh-account-seed",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/gateway/audit_ssh_settings/rotate_seed",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"zero-trust gateway audit-ssh-settings update": {
-			"operationId": "zero-trust-update-audit-ssh-settings",
-			"httpMethod": "PUT",
-			"path": "/accounts/{account_id}/gateway/audit_ssh_settings",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "public-key",
-					"type": "string",
-					"required": true,
-					"description": "Provide the Base64-encoded HPKE public key that encrypts SSH session logs. See https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/use-cases/ssh/ssh-infrastructure-access/#enable-ssh-command-logging."
-				}
-			]
 		},
 		"zero-trust gateway categories list": {
 			"operationId": "zero-trust-gateway-categories-list-categories",

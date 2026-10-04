@@ -1061,6 +1061,7 @@
 						"cws_policy_set",
 						"cws_workload",
 						"d1_database",
+						"device",
 						"durable_object_namespace",
 						"gateway_list",
 						"gateway_rule",
@@ -1140,6 +1141,7 @@
 						"cws_policy_set",
 						"cws_workload",
 						"d1_database",
+						"device",
 						"durable_object_namespace",
 						"gateway_list",
 						"gateway_rule",
@@ -1221,6 +1223,7 @@
 						"cws_policy_set",
 						"cws_workload",
 						"d1_database",
+						"device",
 						"durable_object_namespace",
 						"gateway_list",
 						"gateway_rule",
@@ -7102,6 +7105,66 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf ai websearch",
+			"name": "websearch",
+			"fullPath": ["ai", "websearch"],
+			"description": "Run a web search through a configured AI Gateway.",
+			"summary": "Search the web through AI Gateway",
+			"usage": "cf ai websearch [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "byok-alias",
+					"type": "string",
+					"required": false,
+					"description": "The byokAlias field"
+				},
+				{
+					"name": "limit",
+					"type": "number",
+					"required": false,
+					"description": "The limit field"
+				},
+				{
+					"name": "options-gateway-id",
+					"type": "string",
+					"required": true,
+					"description": "The options.gateway.id field"
+				},
+				{
+					"name": "provider",
+					"type": "string",
+					"required": false,
+					"description": "The provider field"
+				},
+				{
+					"name": "query",
+					"type": "string",
+					"required": true,
+					"description": "The query field"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "action",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/ai/websearch",
+			"operationId": "workers-ai-ai-gateway-web-search",
+			"hideCommand": false
+		},
+		{
 			"command": "cf ai-audit robots bulk-get",
 			"name": "bulk-get",
 			"fullPath": ["ai-audit", "robots", "bulk-get"],
@@ -9687,66 +9750,6 @@
 			"httpMethod": "PATCH",
 			"apiPath": "/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/logs/{id}",
 			"operationId": "aig-config-patch-gateway-log",
-			"hideCommand": false
-		},
-		{
-			"command": "cf ai-gateway web-search",
-			"name": "web-search",
-			"fullPath": ["ai-gateway", "web-search"],
-			"description": "Run a web search through a configured AI Gateway.",
-			"summary": "Search the web through AI Gateway",
-			"usage": "cf ai-gateway web-search [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "byok-alias",
-					"type": "string",
-					"required": false,
-					"description": "The byokAlias field"
-				},
-				{
-					"name": "limit",
-					"type": "number",
-					"required": false,
-					"description": "The limit field"
-				},
-				{
-					"name": "options-gateway-id",
-					"type": "string",
-					"required": true,
-					"description": "The options.gateway.id field"
-				},
-				{
-					"name": "provider",
-					"type": "string",
-					"required": false,
-					"description": "The provider field"
-				},
-				{
-					"name": "query",
-					"type": "string",
-					"required": true,
-					"description": "The query field"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "action",
-			"hasRequestBody": true,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/ai/websearch",
-			"operationId": "workers-ai-ai-gateway-web-search",
 			"hideCommand": false
 		},
 		{
@@ -14931,162 +14934,6 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/analytics/query/{dataset}/top-n",
 			"operationId": "art-analytics-query-top-n",
-			"hideCommand": false
-		},
-		{
-			"command": "cf analytics sql get",
-			"name": "get",
-			"fullPath": ["analytics", "sql", "get"],
-			"description": "Executes a SQL query against the analytics datasets available to the caller. SQL placeholders can be bound with query parameters named `param_<name>`, such as `param_status=404` for `$status`. A trailing `FORMAT JSON`, `FORMAT JSONEachRow`, `FORMAT TabSeparated`, or `FORMAT TSV` is supported for all datasets. Without FORMAT, each backend retains its existing default JSON response.",
-			"summary": "Query analytics datasets",
-			"usage": "cf analytics sql get [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "query",
-					"type": "string",
-					"required": true,
-					"description": "SQL query to execute. A trailing FORMAT selects JSON, JSONEachRow, TabSeparated, or TSV output on any dataset."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/analytics/sql",
-			"operationId": "sql-api-query-get",
-			"hideCommand": false
-		},
-		{
-			"command": "cf analytics sql introspection get",
-			"name": "get",
-			"fullPath": ["analytics", "sql", "introspection", "get"],
-			"description": "Returns the analytics dataset catalogue. By default, the response contains dataset names, titles, descriptions, and kinds. Set `include_columns` to include each dataset's column names, descriptions, and data types. The caller must have Account Analytics Read permission on the account identified by `account_tag`. Dataset names, descriptions, and columns are the same for every authorized account. When `include_custom_attributes` is set, the response also includes custom attribute names and types discovered from that account's own data, which legitimately differs per caller. The catalogue lists the datasets this deployment is able to describe, which is not a fixed list. Some datasets are described by the service that owns them and are listed only where that service is available, so the same account may see a different catalogue in different environments, and datasets may appear or disappear without a change to this API. Clients should query the catalogue rather than hard-coding it, and should not treat a dataset's absence as proof that it does not exist. Workers Analytics Engine datasets are named by the account that writes them, so they are discovered from that account's own data rather than from a fixed list. They appear as `events.analyticsEngine.<dataset_name>` and differ per account. A dataset is listed for as long as any of its data is retained, so it does not disappear from the catalogue merely because writes have stopped. An account with a very large number of datasets may receive a truncated list. Set `include_wae=false` to omit them. Log Explorer datasets are listed only where the account has them, so they differ per account and are not part of the static catalogue. Set `include_lex=false` to omit them.",
-			"summary": "List available analytics datasets",
-			"usage": "cf analytics sql introspection get [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "account-tag",
-					"type": "string",
-					"required": true,
-					"description": "Account whose available analytics datasets are returned."
-				},
-				{
-					"name": "include-columns",
-					"type": "boolean",
-					"required": false,
-					"description": "Include column metadata for each returned dataset."
-				},
-				{
-					"name": "include-custom-attributes",
-					"type": "boolean",
-					"required": false,
-					"description": "Include a capped set of custom attribute names and types observed during the preceding seven days. Requires a nonempty dataset_name."
-				},
-				{
-					"name": "include-wae",
-					"type": "boolean",
-					"required": false,
-					"description": "Include Workers Analytics Engine datasets, which are discovered from the account's own data. Set to `false` to return only datasets described from the static catalogue, which avoids that lookup."
-				},
-				{
-					"name": "include-lex",
-					"type": "boolean",
-					"required": false,
-					"description": "Include Log Explorer datasets, which are listed only where the account has them. Set to `false` to return only datasets described from the static catalogue, which avoids that lookup."
-				},
-				{
-					"name": "dataset-name",
-					"type": "string",
-					"required": false,
-					"description": "Return only the dataset with this exact name. An empty value is treated as if the parameter had been omitted, and does not filter the catalogue. A name that matches no dataset in this deployment's catalogue is rejected with `422`; a dataset that exists but is not describable here is rejected identically, so the two cases cannot be told apart.\n\nA Workers Analytics Engine dataset is named in full, as `events.analyticsEngine.<dataset_name>`; the namespace on its own returns every such dataset the account has. A `dataset_name` the account does not have is rejected with `422` like any other unknown name."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/analytics/sql/introspection",
-			"operationId": "sql-api-introspection",
-			"hideCommand": false
-		},
-		{
-			"command": "cf analytics sql post",
-			"name": "post",
-			"fullPath": ["analytics", "sql", "post"],
-			"description": "Executes a SQL query against the analytics datasets available to the caller. Send either raw SQL or a JSON object containing the query and optional positional or named parameters, time range, and account or zone scope. Raw SQL placeholders can also be bound with query parameters named `param_<name>`. A trailing `FORMAT JSON`, `FORMAT JSONEachRow`, `FORMAT TabSeparated`, or `FORMAT TSV` is supported for all datasets. Without FORMAT, each backend retains its existing default JSON response.",
-			"summary": "Query analytics datasets",
-			"usage": "cf analytics sql post [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "query",
-					"type": "string",
-					"required": true,
-					"description": "SQL query to execute. A trailing FORMAT selects JSON, JSONEachRow, TabSeparated, or TSV output on any dataset.\n"
-				},
-				{
-					"name": "scope-account-tag",
-					"type": "string",
-					"required": false,
-					"description": "Account tag used to authorize and scope the query. Must be a 32-character lowercase hex string.\n"
-				},
-				{
-					"name": "scope-zone-tag",
-					"type": "string",
-					"required": false,
-					"description": "Zone tag used to authorize and scope the query. Must be a 32-character lowercase hex string.\n"
-				},
-				{
-					"name": "time-range-end",
-					"type": "string",
-					"required": false,
-					"description": "Inclusive upper bound for the dataset's timestamp column."
-				},
-				{
-					"name": "time-range-start",
-					"type": "string",
-					"required": false,
-					"description": "Inclusive lower bound for the dataset's timestamp column."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				},
-				{
-					"name": "file",
-					"type": "string",
-					"required": false,
-					"description": "Path to a file to upload as the request body"
-				}
-			],
-			"category": "action",
-			"hasRequestBody": true,
-			"httpMethod": "POST",
-			"apiPath": "/analytics/sql",
-			"operationId": "sql-api-query-post",
 			"hideCommand": false
 		},
 		{
@@ -20323,7 +20170,7 @@
 			"arguments": [],
 			"options": [
 				{
-					"name": "filter-by-metric-ids",
+					"name": "filter-by-billable-metric-ids",
 					"type": "string",
 					"required": false,
 					"description": "Restrict results to rows whose `x_BillableMetricId` matches one of these billable metric ids (e.g. `workers_standard_requests`). Values must be unique."
@@ -20339,6 +20186,14 @@
 					"type": "string",
 					"required": false,
 					"description": "Grouping definitions used to split result rows. At most two unique keys may be supplied. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "metric",
+					"type": "string",
+					"required": false,
+					"description": "Type of cost/usage records to retrieve. `usage` returns unrated usage quantities. Unrelated to `FilterBy.BillableMetricIds`. Defaults to `usage` when omitted.",
+					"default": "usage",
+					"enum": ["usage"]
 				},
 				{
 					"name": "time-period-from",
@@ -21512,62 +21367,6 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf browser-run devtools browser connect",
-			"name": "connect",
-			"fullPath": ["browser-run", "devtools", "browser", "connect"],
-			"description": "Establishes a WebSocket connection to an existing browser session.",
-			"summary": "Connect to browser session.",
-			"usage": "cf browser-run devtools browser connect <session-id> [options]",
-			"arguments": [
-				{
-					"name": "session-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Browser session ID to connect to."
-				}
-			],
-			"options": [
-				{
-					"name": "keep-alive",
-					"type": "number",
-					"required": false,
-					"description": "Keep-alive time in ms (only valid when acquiring new session)."
-				},
-				{
-					"name": "lab",
-					"type": "boolean",
-					"required": false,
-					"description": "Use experimental browser."
-				},
-				{
-					"name": "recording",
-					"type": "boolean",
-					"required": false,
-					"description": "Recording"
-				},
-				{
-					"name": "cf-brapi-guardrails",
-					"type": "string",
-					"required": false,
-					"description": "Optional base64url-encoded JSON connection guardrails (mode)"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/browser-rendering/devtools/browser/{session_id}",
-			"operationId": "brapi-get_DevtoolsBrowser",
-			"hideCommand": false
-		},
-		{
 			"command": "cf browser-run devtools browser create",
 			"name": "create",
 			"fullPath": ["browser-run", "devtools", "browser", "create"],
@@ -21672,54 +21471,6 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf browser-run devtools browser launch",
-			"name": "launch",
-			"fullPath": ["browser-run", "devtools", "browser", "launch"],
-			"description": "Acquires and establishes a WebSocket connection to a browser session. Session guardrails may be supplied in the `cf-brapi-guardrails` header as base64url-encoded JSON of the same `guardrails` object the POST body accepts (for example `{\"allowedDomains\":[\"*.example.com\"]}`).",
-			"summary": "Acquire and connect to browser session.",
-			"usage": "cf browser-run devtools browser launch [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "keep-alive",
-					"type": "number",
-					"required": false,
-					"description": "Keep-alive time in ms (only valid when acquiring new session)."
-				},
-				{
-					"name": "lab",
-					"type": "boolean",
-					"required": false,
-					"description": "Use experimental browser."
-				},
-				{
-					"name": "recording",
-					"type": "boolean",
-					"required": false,
-					"description": "Recording"
-				},
-				{
-					"name": "cf-brapi-guardrails",
-					"type": "string",
-					"required": false,
-					"description": "Optional base64url-encoded JSON session guardrails (allowedDomains and allowedDomainSets)"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/browser-rendering/devtools/browser",
-			"operationId": "brapi-get_DevtoolsBrowserAcquire",
-			"hideCommand": false
-		},
-		{
 			"command": "cf browser-run devtools browser live-view create",
 			"name": "create",
 			"fullPath": ["browser-run", "devtools", "browser", "live-view", "create"],
@@ -21775,50 +21526,6 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/browser-rendering/devtools/browser/{session_id}/live_view",
 			"operationId": "brapi-post_DevtoolsLiveView",
-			"hideCommand": false
-		},
-		{
-			"command": "cf browser-run devtools browser page get",
-			"name": "get",
-			"fullPath": ["browser-run", "devtools", "browser", "page", "get"],
-			"description": "Establishes a WebSocket connection to a specific Chrome DevTools target or page.",
-			"summary": "Connect to a specific Chrome DevTools page.",
-			"usage": "cf browser-run devtools browser page get <target-id> [options]",
-			"arguments": [
-				{
-					"name": "target-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Target ID, e.g. page ID."
-				}
-			],
-			"options": [
-				{
-					"name": "session-id",
-					"type": "string",
-					"required": true,
-					"description": "Browser session ID."
-				},
-				{
-					"name": "cf-brapi-guardrails",
-					"type": "string",
-					"required": false,
-					"description": "Optional base64url-encoded JSON connection guardrails (mode)"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/browser-rendering/devtools/browser/{session_id}/page/{target_id}",
-			"operationId": "brapi-get_DevtoolsPage",
 			"hideCommand": false
 		},
 		{
@@ -22201,6 +21908,13 @@
 					"description": "Cache TTL default is 5s. Set to 0 to disable."
 				},
 				{
+					"name": "browser",
+					"type": "string",
+					"required": false,
+					"description": "Rendering backend. Set to `kitesurf` to use Kitesurf (beta).",
+					"enum": ["kitesurf"]
+				},
+				{
 					"name": "action-timeout",
 					"type": "number",
 					"required": false,
@@ -22418,6 +22132,13 @@
 					"description": "Cache TTL default is 5s. Set to 0 to disable."
 				},
 				{
+					"name": "browser",
+					"type": "string",
+					"required": false,
+					"description": "Rendering backend. Set to `kitesurf` to use Kitesurf (beta).",
+					"enum": ["kitesurf"]
+				},
+				{
 					"name": "action-timeout",
 					"type": "number",
 					"required": false,
@@ -22621,6 +22342,13 @@
 					"type": "number",
 					"required": false,
 					"description": "Cache TTL default is 5s. Set to 0 to disable."
+				},
+				{
+					"name": "browser",
+					"type": "string",
+					"required": false,
+					"description": "Rendering backend. Set to `kitesurf` to use Kitesurf (beta).",
+					"enum": ["kitesurf"]
 				},
 				{
 					"name": "action-timeout",
@@ -22846,6 +22574,13 @@
 					"description": "Cache TTL default is 5s. Set to 0 to disable."
 				},
 				{
+					"name": "browser",
+					"type": "string",
+					"required": false,
+					"description": "Rendering backend. Set to `kitesurf` to use Kitesurf (beta).",
+					"enum": ["kitesurf"]
+				},
+				{
 					"name": "action-timeout",
 					"type": "number",
 					"required": false,
@@ -23065,6 +22800,13 @@
 					"description": "Cache TTL default is 5s. Set to 0 to disable."
 				},
 				{
+					"name": "browser",
+					"type": "string",
+					"required": false,
+					"description": "Rendering backend. Set to `kitesurf` to use Kitesurf (beta).",
+					"enum": ["kitesurf"]
+				},
+				{
 					"name": "action-timeout",
 					"type": "number",
 					"required": false,
@@ -23268,6 +23010,13 @@
 					"type": "number",
 					"required": false,
 					"description": "Cache TTL default is 5s. Set to 0 to disable."
+				},
+				{
+					"name": "browser",
+					"type": "string",
+					"required": false,
+					"description": "Rendering backend. Set to `kitesurf` to use Kitesurf (beta).",
+					"enum": ["kitesurf"]
 				},
 				{
 					"name": "action-timeout",
@@ -23566,6 +23315,13 @@
 					"description": "Cache TTL default is 5s. Set to 0 to disable."
 				},
 				{
+					"name": "browser",
+					"type": "string",
+					"required": false,
+					"description": "Rendering backend. Set to `kitesurf` to use Kitesurf (beta).",
+					"enum": ["kitesurf"]
+				},
+				{
 					"name": "action-timeout",
 					"type": "number",
 					"required": false,
@@ -23775,6 +23531,13 @@
 					"type": "number",
 					"required": false,
 					"description": "Cache TTL default is 5s. Set to 0 to disable."
+				},
+				{
+					"name": "browser",
+					"type": "string",
+					"required": false,
+					"description": "Rendering backend. Set to `kitesurf` to use Kitesurf (beta).",
+					"enum": ["kitesurf"]
 				},
 				{
 					"name": "action-timeout",
@@ -24058,6 +23821,13 @@
 					"type": "number",
 					"required": false,
 					"description": "Cache TTL default is 5s. Set to 0 to disable."
+				},
+				{
+					"name": "browser",
+					"type": "string",
+					"required": false,
+					"description": "Rendering backend. Set to `kitesurf` to use Kitesurf (beta).",
+					"enum": ["kitesurf"]
 				},
 				{
 					"name": "action-timeout",
@@ -37009,6 +36779,12 @@
 					"description": "Search"
 				},
 				{
+					"name": "searchBranches",
+					"type": "string",
+					"required": false,
+					"description": "JSON-encoded. OR branches of structured search filters. Filters within a branch are AND'd, branches are OR'd, and the result is AND'd with `search`: `AND(search) AND OR(AND(branch 1), ...)`. Max 8 branches of 1-10 conditions each. Not supported for analytics datasets, and `indicator` filters are not yet supported inside branches. Cursor pages carry the original branches, so do not resend them with `cursor`."
+				},
+				{
 					"name": "page",
 					"type": "number",
 					"required": false,
@@ -37812,6 +37588,56 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/articles/{article_id}/skills/{skill_id}/output",
 			"operationId": "rssArticleSkillOutputGet",
+			"hideCommand": false
+		},
+		{
+			"command": "cf cloudforce-one threat-signals articles skills run",
+			"name": "run",
+			"fullPath": [
+				"cloudforce-one",
+				"threat-signals",
+				"articles",
+				"skills",
+				"run"
+			],
+			"description": "Paid customer operation that always persists a managed default skill or an assigned active custom skill result without exposing diagnostic model data.",
+			"summary": "Run and persist a Threat Signals article skill",
+			"usage": "cf cloudforce-one threat-signals articles skills run <skill-id> [options]",
+			"arguments": [
+				{
+					"name": "skill-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Skill ID"
+				}
+			],
+			"options": [
+				{
+					"name": "article-id",
+					"type": "string",
+					"required": true,
+					"description": "Article ID"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "action",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/articles/{article_id}/skills/{skill_id}/run",
+			"operationId": "rssArticleSkillRun",
 			"hideCommand": false
 		},
 		{
@@ -44425,7 +44251,7 @@
 					"name": "shadowed-by-name",
 					"type": "string",
 					"required": false,
-					"description": "Filters to records at or below the given NS delegation name, excluding the NS records that form the delegation itself. The value must be a subdomain of the zone; the zone apex is not accepted. Requires `include_shadow_metadata=true`. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records)."
+					"description": "Filters the response to records at or below the specified NS delegation name. NS, DS, and NSEC records at the delegation name are excluded because they are not shadowed by that delegation. Those record types are included only when they exist below the delegation. The value must be a non-apex subdomain of the zone. Requires `include_shadow_metadata=true`. See [Shadowed records](https://developers.cloudflare.com/dns/manage-dns-records/reference/shadowed-records)."
 				},
 				{
 					"name": "shadowing-name",
@@ -52587,6 +52413,19 @@
 			"arguments": [],
 			"options": [
 				{
+					"name": "action",
+					"type": "string",
+					"required": false,
+					"description": "The action to apply to a matched request.",
+					"enum": [
+						"block",
+						"challenge",
+						"whitelist",
+						"js_challenge",
+						"managed_challenge"
+					]
+				},
+				{
 					"name": "configuration-target",
 					"type": "string",
 					"required": false,
@@ -60205,6 +60044,13 @@
 					"required": false,
 					"description": "Specify the jurisdiction to restrict the KV namespace to durably store data within. Can only be set at namespace creation time.",
 					"enum": ["eu", "fedramp", "us"]
+				},
+				{
+					"name": "namespace-mode",
+					"type": "string",
+					"required": false,
+					"description": "The mode of the Workers KV namespace. Specify `instant` when creating a namespace to create a KV Instant namespace. Omit this field when creating a namespace to create a classic namespace. Currently, `instant` is the only supported explicit value.",
+					"enum": ["instant"]
 				},
 				{
 					"name": "title",
@@ -75544,7 +75390,7 @@
 					"name": "auth-credentials",
 					"type": "string",
 					"required": false,
-					"description": "Static credential for the upstream MCP server. For auth_type \"bearer\", either a raw token string (e.g. \"sk-abc123\"), which is wrapped server-side as `Authorization: Bearer <token>`, or a JSON-encoded object of the form `{\"headers\":{\"Header-Name\":\"value\",...}}` for custom or multiple static headers (e.g. Cloudflare Access service tokens: `{\"headers\":{\"cf-access-client-id\":\"...\",\"cf-access-client-secret\":\"...\"}}`)."
+					"description": "Credential configuration for the upstream MCP server. For auth_type \"bearer\", either a raw token string (e.g. \"sk-abc123\"), which is wrapped server-side as `Authorization: Bearer <token>`, or a JSON-encoded object of the form `{\"headers\":{\"Header-Name\":\"value\",...}}` for custom or multiple static headers (e.g. Cloudflare Access service tokens: `{\"headers\":{\"cf-access-client-id\":\"...\",\"cf-access-client-secret\":\"...\"}}`). For auth_type \"oauth\" with a pre-registered client, send a JSON-encoded object containing `auth_mode:\"manual\"`, `config.authorization_endpoint`, `config.token_endpoint`, and `registration_info.client_id`. Also provide `registration_info.redirect_uris` unless `is_shared_oauth_callback_enabled` is true. Optional fields include `config.issuer`, `config.revocation_endpoint`, `registration_info.scope`, and `registration_info.token_endpoint_auth_method`. Send the client secret in the separate `client_secret` field. Omit `auth_credentials` on update to preserve the existing configuration."
 				},
 				{
 					"name": "auth-type",
@@ -75557,7 +75403,7 @@
 					"name": "client-secret",
 					"type": "string",
 					"required": false,
-					"description": "Pre-registered OAuth client_secret. Write-only - accepted on create/update when auth_credentials.auth_mode is 'manual'. Stored AES-GCM-encrypted in server_oauth_secrets; never returned by read endpoints."
+					"description": "Pre-registered OAuth client_secret. Write-only - accepted on create/update when auth_credentials.auth_mode is 'manual'. Required when creating a manual OAuth server or converting an existing server to manual mode. Omit it on update to preserve the existing secret; provide it to rotate the secret. Stored AES-GCM-encrypted in server_oauth_secrets; never returned by read endpoints."
 				},
 				{
 					"name": "description",
@@ -75847,13 +75693,13 @@
 					"name": "auth-credentials",
 					"type": "string",
 					"required": false,
-					"description": "Static credential for the upstream MCP server. For auth_type \"bearer\", either a raw token string (e.g. \"sk-abc123\"), which is wrapped server-side as `Authorization: Bearer <token>`, or a JSON-encoded object of the form `{\"headers\":{\"Header-Name\":\"value\",...}}` for custom or multiple static headers (e.g. Cloudflare Access service tokens: `{\"headers\":{\"cf-access-client-id\":\"...\",\"cf-access-client-secret\":\"...\"}}`)."
+					"description": "Credential configuration for the upstream MCP server. For auth_type \"bearer\", either a raw token string (e.g. \"sk-abc123\"), which is wrapped server-side as `Authorization: Bearer <token>`, or a JSON-encoded object of the form `{\"headers\":{\"Header-Name\":\"value\",...}}` for custom or multiple static headers (e.g. Cloudflare Access service tokens: `{\"headers\":{\"cf-access-client-id\":\"...\",\"cf-access-client-secret\":\"...\"}}`). For auth_type \"oauth\" with a pre-registered client, send a JSON-encoded object containing `auth_mode:\"manual\"`, `config.authorization_endpoint`, `config.token_endpoint`, and `registration_info.client_id`. Also provide `registration_info.redirect_uris` unless `is_shared_oauth_callback_enabled` is true. Optional fields include `config.issuer`, `config.revocation_endpoint`, `registration_info.scope`, and `registration_info.token_endpoint_auth_method`. Send the client secret in the separate `client_secret` field. Omit `auth_credentials` on update to preserve the existing configuration."
 				},
 				{
 					"name": "client-secret",
 					"type": "string",
 					"required": false,
-					"description": "Pre-registered OAuth client_secret. Write-only - accepted on create/update when auth_credentials.auth_mode is 'manual'. Stored AES-GCM-encrypted in server_oauth_secrets; never returned by read endpoints."
+					"description": "Pre-registered OAuth client_secret. Write-only - accepted on create/update when auth_credentials.auth_mode is 'manual'. Required when creating a manual OAuth server or converting an existing server to manual mode. Omit it on update to preserve the existing secret; provide it to rotate the secret. Stored AES-GCM-encrypted in server_oauth_secrets; never returned by read endpoints."
 				},
 				{
 					"name": "description",
@@ -75916,8 +75762,8 @@
 			"command": "cf mesh nodes configurations get",
 			"name": "get",
 			"fullPath": ["mesh", "nodes", "configurations", "get"],
-			"description": "Gets the high-availability configuration for a WARP Connector tunnel.",
-			"summary": "Get WARP Connector HA configuration",
+			"description": "Gets the high-availability configuration for a Mesh node.",
+			"summary": "Get Mesh node HA configuration",
 			"usage": "cf mesh nodes configurations get <tunnel-id>",
 			"arguments": [
 				{
@@ -75948,8 +75794,8 @@
 			"command": "cf mesh nodes configurations update",
 			"name": "update",
 			"fullPath": ["mesh", "nodes", "configurations", "update"],
-			"description": "Adds or updates the high-availability configuration for a WARP Connector tunnel.",
-			"summary": "Update WARP Connector HA configuration",
+			"description": "Adds or updates the high-availability configuration for a Mesh node.",
+			"summary": "Update Mesh node HA configuration",
 			"usage": "cf mesh nodes configurations update <tunnel-id> [options]",
 			"arguments": [
 				{
@@ -75971,7 +75817,7 @@
 					"name": "ha-mode",
 					"type": "string",
 					"required": true,
-					"description": "High-availability mode for the WARP Connector tunnel. `none` means HA is enabled but no provider is configured yet (newly created tunnels default to this). `disabled` means HA is explicitly turned off. `aws` uses AWS ENI move for failover. `local` uses virtual IPs (VIPs) on the local interface.",
+					"description": "High-availability mode for the Mesh node. `none` means HA is enabled but no provider is configured yet (newly created nodes default to this). `disabled` means HA is explicitly turned off. `aws` uses AWS ENI move for failover. `local` uses virtual IPs (VIPs) on the local interface.",
 					"enum": ["none", "disabled", "aws", "local"]
 				},
 				{
@@ -75999,13 +75845,13 @@
 			"command": "cf mesh nodes connections list",
 			"name": "list",
 			"fullPath": ["mesh", "nodes", "connections", "list"],
-			"description": "Fetches connection details for a WARP Connector Tunnel.",
-			"summary": "List WARP Connector Tunnel connections",
+			"description": "Lists connection details for a Mesh node.",
+			"summary": "List Mesh node connections",
 			"usage": "cf mesh nodes connections list [options]",
 			"arguments": [],
 			"options": [
 				{
-					"name": "tunnel-id",
+					"name": "node-id",
 					"type": "string",
 					"required": true,
 					"description": "UUID of the tunnel."
@@ -76029,8 +75875,8 @@
 			"command": "cf mesh nodes connectors get",
 			"name": "get",
 			"fullPath": ["mesh", "nodes", "connectors", "get"],
-			"description": "Fetches connector and connection details for a WARP Connector Tunnel.",
-			"summary": "Get WARP Connector Tunnel connector",
+			"description": "Fetches connector and connection details for a Mesh node.",
+			"summary": "Get a Mesh node connector",
 			"usage": "cf mesh nodes connectors get <connector-id> [options]",
 			"arguments": [
 				{
@@ -76043,7 +75889,7 @@
 			],
 			"options": [
 				{
-					"name": "tunnel-id",
+					"name": "node-id",
 					"type": "string",
 					"required": true,
 					"description": "UUID of the tunnel."
@@ -76067,8 +75913,8 @@
 			"command": "cf mesh nodes create",
 			"name": "create",
 			"fullPath": ["mesh", "nodes", "create"],
-			"description": "Creates a new Warp Connector Tunnel in an account.",
-			"summary": "Create a Warp Connector Tunnel",
+			"description": "Creates a new Mesh node in an account.",
+			"summary": "Create a Mesh node",
 			"usage": "cf mesh nodes create [options]",
 			"arguments": [],
 			"options": [
@@ -76110,12 +75956,12 @@
 			"command": "cf mesh nodes delete",
 			"name": "delete",
 			"fullPath": ["mesh", "nodes", "delete"],
-			"description": "Deletes a Warp Connector Tunnel from an account.",
-			"summary": "Delete a Warp Connector Tunnel",
-			"usage": "cf mesh nodes delete <tunnel-id>",
+			"description": "Deletes a Mesh node from an account.",
+			"summary": "Delete a Mesh node",
+			"usage": "cf mesh nodes delete <node-id>",
 			"arguments": [
 				{
-					"name": "tunnel-id",
+					"name": "node-id",
 					"position": 0,
 					"type": "string",
 					"required": true,
@@ -76142,12 +75988,12 @@
 			"command": "cf mesh nodes edit",
 			"name": "edit",
 			"fullPath": ["mesh", "nodes", "edit"],
-			"description": "Updates an existing Warp Connector Tunnel.",
-			"summary": "Update a Warp Connector Tunnel",
-			"usage": "cf mesh nodes edit <tunnel-id> [options]",
+			"description": "Updates an existing Mesh node.",
+			"summary": "Update a Mesh node",
+			"usage": "cf mesh nodes edit <node-id> [options]",
 			"arguments": [
 				{
-					"name": "tunnel-id",
+					"name": "node-id",
 					"position": 0,
 					"type": "string",
 					"required": true,
@@ -76192,12 +76038,12 @@
 			"command": "cf mesh nodes failover",
 			"name": "failover",
 			"fullPath": ["mesh", "nodes", "failover"],
-			"description": "Triggers a manual failover for a specific WARP Connector Tunnel, setting the specified client as the active connector. The tunnel must be configured for high availability (HA) and the client must be linked to the tunnel.",
-			"summary": "Trigger a manual failover for a WARP Connector Tunnel",
-			"usage": "cf mesh nodes failover <tunnel-id> [options]",
+			"description": "Triggers a manual failover for a specific Mesh node, setting the specified client as the active connector. The tunnel must be configured for high availability (HA) and the client must be linked to the tunnel.",
+			"summary": "Trigger a manual failover for a Mesh node",
+			"usage": "cf mesh nodes failover <node-id>",
 			"arguments": [
 				{
-					"name": "tunnel-id",
+					"name": "node-id",
 					"position": 0,
 					"type": "string",
 					"required": true,
@@ -76205,12 +76051,6 @@
 				}
 			],
 			"options": [
-				{
-					"name": "client-id",
-					"type": "string",
-					"required": true,
-					"description": "UUID of the Cloudflare Tunnel connector."
-				},
 				{
 					"name": "dry-run",
 					"type": "boolean",
@@ -76236,12 +76076,12 @@
 			"command": "cf mesh nodes get",
 			"name": "get",
 			"fullPath": ["mesh", "nodes", "get"],
-			"description": "Fetches a single Warp Connector Tunnel.",
-			"summary": "Get a Warp Connector Tunnel",
-			"usage": "cf mesh nodes get <tunnel-id>",
+			"description": "Fetches a single Mesh node.",
+			"summary": "Get a Mesh node",
+			"usage": "cf mesh nodes get <node-id>",
 			"arguments": [
 				{
-					"name": "tunnel-id",
+					"name": "node-id",
 					"position": 0,
 					"type": "string",
 					"required": true,
@@ -76268,8 +76108,8 @@
 			"command": "cf mesh nodes list",
 			"name": "list",
 			"fullPath": ["mesh", "nodes", "list"],
-			"description": "Lists and filters Warp Connector Tunnels in an account.",
-			"summary": "List Warp Connector Tunnels",
+			"description": "Lists and filters Mesh nodes in an account.",
+			"summary": "List Mesh nodes",
 			"usage": "cf mesh nodes list [options]",
 			"arguments": [],
 			"options": [
@@ -76359,12 +76199,12 @@
 			"command": "cf mesh nodes token get",
 			"name": "get",
 			"fullPath": ["mesh", "nodes", "token", "get"],
-			"description": "Gets the token used to associate warp device with a specific Warp Connector tunnel.",
-			"summary": "Get a Warp Connector Tunnel token",
-			"usage": "cf mesh nodes token get <tunnel-id>",
+			"description": "Gets the token used to associate a WARP device with a specific Mesh node.",
+			"summary": "Get a Mesh node token",
+			"usage": "cf mesh nodes token get <node-id>",
 			"arguments": [
 				{
-					"name": "tunnel-id",
+					"name": "node-id",
 					"position": 0,
 					"type": "string",
 					"required": true,
@@ -78350,7 +78190,7 @@
 					"name": "bgp-mode",
 					"type": "string",
 					"required": false,
-					"description": "The BGP mode for a CNI.\n\nControls the customer-facing data path:\n* `DynamicRouteExchange` — Full BGP: routes flow through to conduit via CRE / bgp-bridge /\nbgp-bridge-receiver.\n* `AdvertiseOnly` — static advertisement via taserver, no routes exchanged with Conduit",
+					"description": "The BGP mode for a CNI.\nOne of the following:\n* `dynamic_route_exchange`\n* `advertise_only`",
 					"enum": ["dynamic_route_exchange", "advertise_only"]
 				},
 				{
@@ -80488,13 +80328,6 @@
 					"enum": ["log", "linear"]
 				},
 				{
-					"name": "dry",
-					"type": "boolean",
-					"required": false,
-					"description": "When true, executes the query without persisting the results. Useful for validation or previewing.",
-					"default": false
-				},
-				{
 					"name": "granularity",
 					"type": "number",
 					"required": false,
@@ -80792,13 +80625,6 @@
 					"required": false,
 					"description": "Value-axis bucketing for chartType 'distribution'. Omitted or 'log': geometric buckets, best for heavy-tailed latency. 'linear': fixed-width buckets, clearer for narrow or additive ranges. Ignored for other chartTypes. The response echoes the scheme used in distribution.bucketMode.",
 					"enum": ["log", "linear"]
-				},
-				{
-					"name": "dry",
-					"type": "boolean",
-					"required": false,
-					"description": "When true, executes the query without persisting the results. Useful for validation or previewing.",
-					"default": false
 				},
 				{
 					"name": "granularity",
@@ -85040,542 +84866,6 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf pay-per-crawl pay-per-use operator get-configuration",
-			"name": "get-configuration",
-			"fullPath": [
-				"pay-per-crawl",
-				"pay-per-use",
-				"operator",
-				"get-configuration"
-			],
-			"description": "Gets the pay-per-use operator configuration for an account, including its read-only non-billable classification timestamp.",
-			"summary": "Get pay-per-use operator configuration",
-			"usage": "cf pay-per-crawl pay-per-use operator get-configuration",
-			"arguments": [],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/pay-per-use/operator/configuration",
-			"operationId": "pay-per-crawl.getPPUOperatorConfiguration",
-			"hideCommand": false
-		},
-		{
-			"command": "cf pay-per-crawl pay-per-use operator set-configuration",
-			"name": "set-configuration",
-			"fullPath": [
-				"pay-per-crawl",
-				"pay-per-use",
-				"operator",
-				"set-configuration"
-			],
-			"description": "Creates or updates the pay-per-use operator configuration for an account. Creating an enabled configuration or re-enabling a disabled operator requires completed Stripe onboarding; an already-enabled operator is not affected by later Stripe status changes. A Cloudflare-verified operator's name and default price cannot be changed.",
-			"summary": "Set pay-per-use operator configuration",
-			"usage": "cf pay-per-crawl pay-per-use operator set-configuration [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "default-price-usd-microcents",
-					"type": "number",
-					"required": true,
-					"description": "Default price in microcents. 1 USD = 100,000,000 microcents. Must be a multiple of 100,000 ($0.001) between $0.001 and $9,999.999."
-				},
-				{
-					"name": "enabled",
-					"type": "boolean",
-					"required": true,
-					"description": "The enabled field"
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": true,
-					"description": "The name field"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "action",
-			"hasRequestBody": true,
-			"httpMethod": "PUT",
-			"apiPath": "/accounts/{account_id}/pay-per-use/operator/configuration",
-			"operationId": "pay-per-crawl.putPPUOperatorConfiguration",
-			"hideCommand": false
-		},
-		{
-			"command": "cf pay-per-crawl pay-per-use operator update-configuration",
-			"name": "update-configuration",
-			"fullPath": [
-				"pay-per-crawl",
-				"pay-per-use",
-				"operator",
-				"update-configuration"
-			],
-			"description": "Updates one or more fields of an existing pay-per-use operator configuration. Re-enabling a disabled operator requires completed Stripe onboarding; an already-enabled operator is not affected by later Stripe status changes. A Cloudflare-verified operator's name and default price cannot be changed.",
-			"summary": "Update pay-per-use operator configuration",
-			"usage": "cf pay-per-crawl pay-per-use operator update-configuration [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "default-price-usd-microcents",
-					"type": "number",
-					"required": false,
-					"description": "Default price in microcents. 1 USD = 100,000,000 microcents. Must be a multiple of 100,000 ($0.001) between $0.001 and $9,999.999."
-				},
-				{
-					"name": "enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "The enabled field"
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": false,
-					"description": "The name field"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "action",
-			"hasRequestBody": true,
-			"httpMethod": "PATCH",
-			"apiPath": "/accounts/{account_id}/pay-per-use/operator/configuration",
-			"operationId": "pay-per-crawl.patchPPUOperatorConfiguration",
-			"hideCommand": false
-		},
-		{
-			"command": "cf pay-per-crawl pay-per-use pricing list-operators",
-			"name": "list-operators",
-			"fullPath": ["pay-per-crawl", "pay-per-use", "pricing", "list-operators"],
-			"description": "Lists a paginated set of enabled pay-per-use operators with verified names, matching billing classification, and their prices for a zone.",
-			"summary": "List pay-per-use operators",
-			"usage": "cf pay-per-crawl pay-per-use pricing list-operators [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "page",
-					"type": "number",
-					"required": false,
-					"description": "Page number."
-				},
-				{
-					"name": "per-page",
-					"type": "number",
-					"required": false,
-					"description": "Results per page."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/zones/{zone_id}/pay-per-use/operators",
-			"operationId": "pay-per-crawl.listPPUOperators",
-			"hideCommand": false
-		},
-		{
-			"command": "cf pay-per-crawl pay-per-use pricing opt-out-operator-price",
-			"name": "opt-out-operator-price",
-			"fullPath": [
-				"pay-per-crawl",
-				"pay-per-use",
-				"pricing",
-				"opt-out-operator-price"
-			],
-			"description": "Opts a zone out by scheduling the current accepted pay-per-use operator price to expire at the start of the next UTC month. Use the withdraw action for a pending proposal.",
-			"summary": "Opt out of a pay-per-use operator price",
-			"usage": "cf pay-per-crawl pay-per-use pricing opt-out-operator-price <operator-id>",
-			"arguments": [
-				{
-					"name": "operator-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Stable pay-per-use operator identifier."
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "DELETE",
-			"apiPath": "/zones/{zone_id}/pay-per-use/operators/{operator_id}/price",
-			"operationId": "pay-per-crawl.deletePPUPublisherPrice",
-			"hideCommand": false
-		},
-		{
-			"command": "cf pay-per-crawl pay-per-use pricing set-operator-price",
-			"name": "set-operator-price",
-			"fullPath": [
-				"pay-per-crawl",
-				"pay-per-use",
-				"pricing",
-				"set-operator-price"
-			],
-			"description": "Proposes a required price, withdraws a pending proposal, accepts an operator's default pay-per-use price, or resumes an accepted price before its scheduled expiry. Propose, accept_default, and resume require an enabled operator with a verified name, an enabled publisher zone, and matching billing classifications.",
-			"summary": "Set a pay-per-use operator price",
-			"usage": "cf pay-per-crawl pay-per-use pricing set-operator-price <operator-id> [options]",
-			"arguments": [
-				{
-					"name": "operator-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Stable pay-per-use operator identifier."
-				}
-			],
-			"options": [
-				{
-					"name": "action",
-					"type": "string",
-					"required": true,
-					"description": "The action field",
-					"enum": ["propose", "withdraw", "accept_default", "resume"]
-				},
-				{
-					"name": "price-usd-microcents",
-					"type": "number",
-					"required": false,
-					"description": "Price in microcents. Must be a multiple of 100,000 ($0.001) between $0.001 and $9,999.999."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "action",
-			"hasRequestBody": true,
-			"httpMethod": "POST",
-			"apiPath": "/zones/{zone_id}/pay-per-use/operators/{operator_id}/price",
-			"operationId": "pay-per-crawl.postPPUPublisherPriceAction",
-			"hideCommand": false
-		},
-		{
-			"command": "cf pay-per-crawl pay-per-use proposals decide",
-			"name": "decide",
-			"fullPath": ["pay-per-crawl", "pay-per-use", "proposals", "decide"],
-			"description": "Accepts or rejects the pending pay-per-use price proposal identified by price_id in the request body. Acceptance requires an enabled operator with a verified name, an enabled publisher zone, and matching billing classifications; rejection remains available for cleanup.",
-			"summary": "Decide a pay-per-use price proposal",
-			"usage": "cf pay-per-crawl pay-per-use proposals decide [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "action",
-					"type": "string",
-					"required": true,
-					"description": "The action field",
-					"enum": ["accept", "reject"]
-				},
-				{
-					"name": "price-id",
-					"type": "number",
-					"required": true,
-					"description": "Pending pay-per-use price id returned in the operator proposal queue."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "action",
-			"hasRequestBody": true,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/pay-per-use/proposals",
-			"operationId": "pay-per-crawl.postPPUProposalDecision",
-			"hideCommand": false
-		},
-		{
-			"command": "cf pay-per-crawl pay-per-use proposals list",
-			"name": "list",
-			"fullPath": ["pay-per-crawl", "pay-per-use", "proposals", "list"],
-			"description": "Lists a paginated set of outstanding pay-per-use publisher price proposals for an operator. Listing remains available while the operator is disabled or its name is unverified so proposals can be rejected.",
-			"summary": "List pay-per-use price proposals",
-			"usage": "cf pay-per-crawl pay-per-use proposals list [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "page",
-					"type": "number",
-					"required": false,
-					"description": "Page number."
-				},
-				{
-					"name": "per-page",
-					"type": "number",
-					"required": false,
-					"description": "Results per page."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/pay-per-use/proposals",
-			"operationId": "pay-per-crawl.listPPUProposals",
-			"hideCommand": false
-		},
-		{
-			"command": "cf pay-per-crawl pay-per-use usage-stats get-account",
-			"name": "get-account",
-			"fullPath": [
-				"pay-per-crawl",
-				"pay-per-use",
-				"usage-stats",
-				"get-account"
-			],
-			"description": "Returns reported usage and the full gross value across all Pay Per Use zones in a publisher account or zone over an explicit UTC range of at most 31 days. Usage from every domain and snapshotted price is summed by buyer. Ranges up to and including 7 days use hourly data points; longer ranges use daily data points. Because source data is aggregated hourly, both requested bounds are rounded down to the selected UTC interval and the resolved bounds are returned in the response. The resolved range must contain at least one complete interval. Empty periods are omitted. Buyers and their data points are paginated, while totals cover every buyer in the range. Values are raw usage counts and USD microcents; total_price_usd_microcents is the full value before the publisher revenue share.",
-			"summary": "Get pay-per-use usage statistics",
-			"usage": "cf pay-per-crawl pay-per-use usage-stats get-account [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "since",
-					"type": "string",
-					"required": true,
-					"description": "Requested inclusive beginning of the statistics range as an RFC3339 timestamp. Rounded down to the selected UTC interval."
-				},
-				{
-					"name": "until",
-					"type": "string",
-					"required": true,
-					"description": "Requested exclusive end of the statistics range as an RFC3339 timestamp. Rounded down to the selected UTC interval. The requested duration from since cannot exceed 31 days."
-				},
-				{
-					"name": "page",
-					"type": "number",
-					"required": false,
-					"description": "Page number."
-				},
-				{
-					"name": "per-page",
-					"type": "number",
-					"required": false,
-					"description": "Results per page."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/{account_or_zone}/{account_or_zone_id}/pay-per-use/usage-stats",
-			"operationId": "generated:get:/{account_or_zone}/{account_or_zone_id}/pay-per-use/usage-stats",
-			"hideCommand": false
-		},
-		{
-			"command": "cf pay-per-crawl pay-per-use zones get-can-be-enabled",
-			"name": "get-can-be-enabled",
-			"fullPath": [
-				"pay-per-crawl",
-				"pay-per-use",
-				"zones",
-				"get-can-be-enabled"
-			],
-			"description": "Gets whether pay-per-use can be enabled for a zone and the current zone-level grace period.",
-			"summary": "Get pay-per-use zone eligibility",
-			"usage": "cf pay-per-crawl pay-per-use zones get-can-be-enabled",
-			"arguments": [],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/zones/{zone_id}/pay-per-use/can_be_enabled",
-			"operationId": "pay-per-crawl.getPPUZoneCanBeEnabled",
-			"hideCommand": false
-		},
-		{
-			"command": "cf pay-per-crawl pay-per-use zones get-configuration",
-			"name": "get-configuration",
-			"fullPath": [
-				"pay-per-crawl",
-				"pay-per-use",
-				"zones",
-				"get-configuration"
-			],
-			"description": "Gets the pay-per-use configuration, zone-level grace period, and read-only non-billable classification timestamp for a zone.",
-			"summary": "Get pay-per-use zone configuration",
-			"usage": "cf pay-per-crawl pay-per-use zones get-configuration",
-			"arguments": [],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/zones/{zone_id}/pay-per-use/configuration",
-			"operationId": "pay-per-crawl.getPPUZoneConfiguration",
-			"hideCommand": false
-		},
-		{
-			"command": "cf pay-per-crawl pay-per-use zones set-can-be-enabled",
-			"name": "set-can-be-enabled",
-			"fullPath": [
-				"pay-per-crawl",
-				"pay-per-use",
-				"zones",
-				"set-can-be-enabled"
-			],
-			"description": "Sets pay-per-use eligibility for a list of account zones. An omitted can_be_enabled value leaves that zone unchanged. Revoking eligibility disables the zone immediately while existing accepted licenses remain active until the start of the next UTC month.",
-			"summary": "Set pay-per-use zone eligibility",
-			"usage": "cf pay-per-crawl pay-per-use zones set-can-be-enabled [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "zones",
-					"type": "string",
-					"required": true,
-					"description": "The zones field. Provide as a JSON array of objects or @path/to/file.json."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "action",
-			"hasRequestBody": true,
-			"httpMethod": "PATCH",
-			"apiPath": "/accounts/{account_id}/pay-per-use/zones_can_be_enabled",
-			"operationId": "pay-per-crawl.setPPUZonesCanBeEnabled",
-			"hideCommand": false
-		},
-		{
-			"command": "cf pay-per-crawl pay-per-use zones update-configuration",
-			"name": "update-configuration",
-			"fullPath": [
-				"pay-per-crawl",
-				"pay-per-use",
-				"zones",
-				"update-configuration"
-			],
-			"description": "Enables or disables an existing pay-per-use zone configuration. Omitting enabled leaves the zone unchanged. Enabling a disabled zone requires completed publisher Stripe onboarding; an already-enabled zone is not affected by later Stripe status changes. Disabling starts a disabled period immediately while existing accepted licenses remain active until the start of the next UTC month; re-enabling before expiry clears the schedule and restores those licenses.",
-			"summary": "Update pay-per-use zone configuration",
-			"usage": "cf pay-per-crawl pay-per-use zones update-configuration [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "The enabled field"
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "action",
-			"hasRequestBody": true,
-			"httpMethod": "PATCH",
-			"apiPath": "/zones/{zone_id}/pay-per-use/configuration",
-			"operationId": "pay-per-crawl.patchPPUZoneConfiguration",
-			"hideCommand": false
-		},
-		{
 			"command": "cf pay-per-crawl publisher stripe create",
 			"name": "create",
 			"fullPath": ["pay-per-crawl", "publisher", "stripe", "create"],
@@ -85895,6 +85185,324 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf pay-per-use operator get-configuration",
+			"name": "get-configuration",
+			"fullPath": ["pay-per-use", "operator", "get-configuration"],
+			"description": "Gets the pay-per-use operator configuration for an account, including its read-only non-billable classification timestamp.",
+			"summary": "Get pay-per-use operator configuration",
+			"usage": "cf pay-per-use operator get-configuration",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/pay-per-use/operator/configuration",
+			"operationId": "pay-per-crawl.getPPUOperatorConfiguration",
+			"hideCommand": false
+		},
+		{
+			"command": "cf pay-per-use operator set-configuration",
+			"name": "set-configuration",
+			"fullPath": ["pay-per-use", "operator", "set-configuration"],
+			"description": "Creates or updates the pay-per-use operator configuration for an account. Creating an enabled configuration or re-enabling a disabled billable operator requires completed Stripe onboarding, while non-billable operators do not; an already-enabled operator is not affected by later Stripe status changes. A Cloudflare-verified operator's name and default price cannot be changed.",
+			"summary": "Set pay-per-use operator configuration",
+			"usage": "cf pay-per-use operator set-configuration [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "default-price-usd-microcents",
+					"type": "number",
+					"required": true,
+					"description": "Default price in microcents. 1 USD = 100,000,000 microcents. Must be a multiple of 100,000 ($0.001) between $0.001 and $9,999.999."
+				},
+				{
+					"name": "enabled",
+					"type": "boolean",
+					"required": true,
+					"description": "The enabled field"
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "The name field"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "action",
+			"hasRequestBody": true,
+			"httpMethod": "PUT",
+			"apiPath": "/accounts/{account_id}/pay-per-use/operator/configuration",
+			"operationId": "pay-per-crawl.putPPUOperatorConfiguration",
+			"hideCommand": false
+		},
+		{
+			"command": "cf pay-per-use operator update-configuration",
+			"name": "update-configuration",
+			"fullPath": ["pay-per-use", "operator", "update-configuration"],
+			"description": "Updates one or more fields of an existing pay-per-use operator configuration. Re-enabling a disabled billable operator requires completed Stripe onboarding, while non-billable operators do not; an already-enabled operator is not affected by later Stripe status changes. A Cloudflare-verified operator's name and default price cannot be changed.",
+			"summary": "Update pay-per-use operator configuration",
+			"usage": "cf pay-per-use operator update-configuration [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "default-price-usd-microcents",
+					"type": "number",
+					"required": false,
+					"description": "Default price in microcents. 1 USD = 100,000,000 microcents. Must be a multiple of 100,000 ($0.001) between $0.001 and $9,999.999."
+				},
+				{
+					"name": "enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "The enabled field"
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": false,
+					"description": "The name field"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "action",
+			"hasRequestBody": true,
+			"httpMethod": "PATCH",
+			"apiPath": "/accounts/{account_id}/pay-per-use/operator/configuration",
+			"operationId": "pay-per-crawl.patchPPUOperatorConfiguration",
+			"hideCommand": false
+		},
+		{
+			"command": "cf pay-per-use pricing list-operators",
+			"name": "list-operators",
+			"fullPath": ["pay-per-use", "pricing", "list-operators"],
+			"description": "Lists a paginated set of enabled pay-per-use operators with verified names, matching billing classification, and their prices for a zone.",
+			"summary": "List pay-per-use operators",
+			"usage": "cf pay-per-use pricing list-operators [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "page",
+					"type": "number",
+					"required": false,
+					"description": "Page number."
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": false,
+					"description": "Results per page."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/zones/{zone_id}/pay-per-use/operators",
+			"operationId": "pay-per-crawl.listPPUOperators",
+			"hideCommand": false
+		},
+		{
+			"command": "cf pay-per-use pricing opt-out-operator-price",
+			"name": "opt-out-operator-price",
+			"fullPath": ["pay-per-use", "pricing", "opt-out-operator-price"],
+			"description": "Opts a zone out by scheduling the current accepted pay-per-use operator price to expire at the start of the next UTC month. Use the withdraw action for a pending proposal.",
+			"summary": "Opt out of a pay-per-use operator price",
+			"usage": "cf pay-per-use pricing opt-out-operator-price <operator-id>",
+			"arguments": [
+				{
+					"name": "operator-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Stable pay-per-use operator identifier."
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/zones/{zone_id}/pay-per-use/operators/{operator_id}/price",
+			"operationId": "pay-per-crawl.deletePPUPublisherPrice",
+			"hideCommand": false
+		},
+		{
+			"command": "cf pay-per-use pricing set-operator-price",
+			"name": "set-operator-price",
+			"fullPath": ["pay-per-use", "pricing", "set-operator-price"],
+			"description": "Proposes a required price, withdraws a pending proposal, accepts an operator's default pay-per-use price, or resumes an accepted price before its scheduled expiry. Propose, accept_default, and resume require an enabled operator with a verified name, an enabled publisher zone, and matching billing classifications.",
+			"summary": "Set a pay-per-use operator price",
+			"usage": "cf pay-per-use pricing set-operator-price <operator-id> [options]",
+			"arguments": [
+				{
+					"name": "operator-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Stable pay-per-use operator identifier."
+				}
+			],
+			"options": [
+				{
+					"name": "action",
+					"type": "string",
+					"required": true,
+					"description": "The action field",
+					"enum": ["propose", "withdraw", "accept_default", "resume"]
+				},
+				{
+					"name": "price-usd-microcents",
+					"type": "number",
+					"required": false,
+					"description": "Price in microcents. Must be a multiple of 100,000 ($0.001) between $0.001 and $9,999.999."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "action",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/zones/{zone_id}/pay-per-use/operators/{operator_id}/price",
+			"operationId": "pay-per-crawl.postPPUPublisherPriceAction",
+			"hideCommand": false
+		},
+		{
+			"command": "cf pay-per-use proposals decide",
+			"name": "decide",
+			"fullPath": ["pay-per-use", "proposals", "decide"],
+			"description": "Accepts or rejects the pending pay-per-use price proposal identified by price_id in the request body. Acceptance requires an enabled operator with a verified name, an enabled publisher zone, and matching billing classifications; rejection remains available for cleanup.",
+			"summary": "Decide a pay-per-use price proposal",
+			"usage": "cf pay-per-use proposals decide [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "action",
+					"type": "string",
+					"required": true,
+					"description": "The action field",
+					"enum": ["accept", "reject"]
+				},
+				{
+					"name": "price-id",
+					"type": "number",
+					"required": true,
+					"description": "Pending pay-per-use price id returned in the operator proposal queue."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "action",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/pay-per-use/proposals",
+			"operationId": "pay-per-crawl.postPPUProposalDecision",
+			"hideCommand": false
+		},
+		{
+			"command": "cf pay-per-use proposals list",
+			"name": "list",
+			"fullPath": ["pay-per-use", "proposals", "list"],
+			"description": "Lists a paginated set of outstanding pay-per-use publisher price proposals for an operator. Listing remains available while the operator is disabled or its name is unverified so proposals can be rejected.",
+			"summary": "List pay-per-use price proposals",
+			"usage": "cf pay-per-use proposals list [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "page",
+					"type": "number",
+					"required": false,
+					"description": "Page number."
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": false,
+					"description": "Results per page."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/pay-per-use/proposals",
+			"operationId": "pay-per-crawl.listPPUProposals",
+			"hideCommand": false
+		},
+		{
 			"command": "cf pay-per-use usage-reports submit",
 			"name": "submit",
 			"fullPath": ["pay-per-use", "usage-reports", "submit"],
@@ -85928,6 +85536,174 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/pay-per-use/usage-reports",
 			"operationId": "pay-per-use.submitUsageReport",
+			"hideCommand": false
+		},
+		{
+			"command": "cf pay-per-use usage-stats get-account",
+			"name": "get-account",
+			"fullPath": ["pay-per-use", "usage-stats", "get-account"],
+			"description": "Returns reported usage and the full gross value across all Pay Per Use zones in a publisher account or zone over an explicit UTC range of at most 31 days. Usage from every domain and snapshotted price is summed by buyer. Ranges up to and including 7 days use hourly data points; longer ranges use daily data points. Because source data is aggregated hourly, both requested bounds are rounded down to the selected UTC interval and the resolved bounds are returned in the response. The resolved range must contain at least one complete interval. Empty periods are omitted. Buyers and their data points are paginated, while totals cover every buyer in the range. Values are raw usage counts and USD microcents; total_price_usd_microcents is the full value before the publisher revenue share.",
+			"summary": "Get pay-per-use usage statistics",
+			"usage": "cf pay-per-use usage-stats get-account [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "since",
+					"type": "string",
+					"required": true,
+					"description": "Requested inclusive beginning of the statistics range as an RFC3339 timestamp. Rounded down to the selected UTC interval."
+				},
+				{
+					"name": "until",
+					"type": "string",
+					"required": true,
+					"description": "Requested exclusive end of the statistics range as an RFC3339 timestamp. Rounded down to the selected UTC interval. The requested duration from since cannot exceed 31 days."
+				},
+				{
+					"name": "page",
+					"type": "number",
+					"required": false,
+					"description": "Page number."
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": false,
+					"description": "Results per page."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/{account_or_zone}/{account_or_zone_id}/pay-per-use/usage-stats",
+			"operationId": "generated:get:/{account_or_zone}/{account_or_zone_id}/pay-per-use/usage-stats",
+			"hideCommand": false
+		},
+		{
+			"command": "cf pay-per-use zones get-can-be-enabled",
+			"name": "get-can-be-enabled",
+			"fullPath": ["pay-per-use", "zones", "get-can-be-enabled"],
+			"description": "Gets whether pay-per-use can be enabled for a zone and the current zone-level grace period.",
+			"summary": "Get pay-per-use zone eligibility",
+			"usage": "cf pay-per-use zones get-can-be-enabled",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/zones/{zone_id}/pay-per-use/can_be_enabled",
+			"operationId": "pay-per-crawl.getPPUZoneCanBeEnabled",
+			"hideCommand": false
+		},
+		{
+			"command": "cf pay-per-use zones get-configuration",
+			"name": "get-configuration",
+			"fullPath": ["pay-per-use", "zones", "get-configuration"],
+			"description": "Gets the pay-per-use configuration, zone-level grace period, and read-only non-billable classification timestamp for a zone.",
+			"summary": "Get pay-per-use zone configuration",
+			"usage": "cf pay-per-use zones get-configuration",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/zones/{zone_id}/pay-per-use/configuration",
+			"operationId": "pay-per-crawl.getPPUZoneConfiguration",
+			"hideCommand": false
+		},
+		{
+			"command": "cf pay-per-use zones set-can-be-enabled",
+			"name": "set-can-be-enabled",
+			"fullPath": ["pay-per-use", "zones", "set-can-be-enabled"],
+			"description": "Sets pay-per-use eligibility for a list of account zones. An omitted can_be_enabled value leaves that zone unchanged. Revoking eligibility disables the zone immediately while existing accepted licenses remain active until the start of the next UTC month.",
+			"summary": "Set pay-per-use zone eligibility",
+			"usage": "cf pay-per-use zones set-can-be-enabled [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "zones",
+					"type": "string",
+					"required": true,
+					"description": "The zones field. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "action",
+			"hasRequestBody": true,
+			"httpMethod": "PATCH",
+			"apiPath": "/accounts/{account_id}/pay-per-use/zones_can_be_enabled",
+			"operationId": "pay-per-crawl.setPPUZonesCanBeEnabled",
+			"hideCommand": false
+		},
+		{
+			"command": "cf pay-per-use zones update-configuration",
+			"name": "update-configuration",
+			"fullPath": ["pay-per-use", "zones", "update-configuration"],
+			"description": "Enables or disables an existing pay-per-use zone configuration. Omitting enabled leaves the zone unchanged. Enabling a disabled billable zone requires completed publisher Stripe onboarding, while non-billable zones do not; an already-enabled zone is not affected by later Stripe status changes. Disabling starts a disabled period immediately while existing accepted licenses remain active until the start of the next UTC month; re-enabling before expiry clears the schedule and restores those licenses.",
+			"summary": "Update pay-per-use zone configuration",
+			"usage": "cf pay-per-use zones update-configuration [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "The enabled field"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "action",
+			"hasRequestBody": true,
+			"httpMethod": "PATCH",
+			"apiPath": "/zones/{zone_id}/pay-per-use/configuration",
+			"operationId": "pay-per-crawl.patchPPUZoneConfiguration",
 			"hideCommand": false
 		},
 		{
@@ -112162,7 +111938,7 @@
 			"name": "create",
 			"fullPath": ["resource-sharing", "create"],
 			"description": "Creates a new resource share for sharing Cloudflare resources with other accounts or organizations.",
-			"summary": "Create a new share",
+			"summary": "Trigger a share creation",
 			"usage": "cf resource-sharing create [options]",
 			"arguments": [],
 			"options": [
@@ -112210,7 +111986,7 @@
 			"name": "delete",
 			"fullPath": ["resource-sharing", "delete"],
 			"description": "Deletion is not immediate, an updated share object with a new status will be returned.",
-			"summary": "Delete a share",
+			"summary": "Trigger a share deletion",
 			"usage": "cf resource-sharing delete <share-id>",
 			"arguments": [
 				{
@@ -112242,7 +112018,7 @@
 			"name": "create",
 			"fullPath": ["resource-sharing", "excluded-recipients", "create"],
 			"description": "Excludes a single account from an organization-targeted share. The share continues to target the entire organization, but the excluded account is skipped during reconciliation.",
-			"summary": "Create a new share excluded recipient",
+			"summary": "Trigger an account exclusion from a share",
 			"usage": "cf resource-sharing excluded-recipients create <share-id> [options]",
 			"arguments": [
 				{
@@ -112286,7 +112062,7 @@
 			"name": "delete",
 			"fullPath": ["resource-sharing", "excluded-recipients", "delete"],
 			"description": "Removes a single account from a share's excluded-recipient list. The account becomes eligible to receive the share again on the next reconciliation cycle.",
-			"summary": "Delete a share excluded recipient",
+			"summary": "Trigger an account un-exclusion from a share",
 			"usage": "cf resource-sharing excluded-recipients delete <excluded-recipient-id> [options]",
 			"arguments": [
 				{
@@ -112410,7 +112186,7 @@
 			"name": "update",
 			"fullPath": ["resource-sharing", "excluded-recipients", "update"],
 			"description": "Reconciles a share's excluded recipients to match the given list. Only valid for shares with `target_type=organization`.",
-			"summary": "Update a share's excluded recipients",
+			"summary": "Trigger excluded-account reconciliation on a share",
 			"usage": "cf resource-sharing excluded-recipients update <share-id> [options]",
 			"arguments": [
 				{
@@ -112593,7 +112369,7 @@
 			"name": "create",
 			"fullPath": ["resource-sharing", "recipients", "create"],
 			"description": "Adds a single recipient to an account-targeted resource share, granting them access to the shared resources. The recipient account must belong to the same organization as the share owner. To replace the entire recipient list in one call, use `PUT /accounts/{account_id}/shares/{share_id}/recipients` instead.",
-			"summary": "Create a new share recipient",
+			"summary": "Trigger a recipient addition to a share",
 			"usage": "cf resource-sharing recipients create <share-id> [options]",
 			"arguments": [
 				{
@@ -112643,7 +112419,7 @@
 			"name": "delete",
 			"fullPath": ["resource-sharing", "recipients", "delete"],
 			"description": "Performs a **soft delete**: sets the recipient's `desired_association_status` to `disassociated`, which signals the background reconciliation workflow (Temporal) to remove the shared resources from the recipient account. The recipient record remains in the database for audit purposes and is still returned by `GET /accounts/{account_id}/shares/{share_id}/recipients` with its updated status. Resource access is not fully removed until the workflow completes and `current_association_status` transitions to `disassociated`. The recipient record itself is never physically deleted.",
-			"summary": "Delete a share recipient",
+			"summary": "Trigger a recipient removal from a share",
 			"usage": "cf resource-sharing recipients delete <recipient-id> [options]",
 			"arguments": [
 				{
@@ -112779,7 +112555,7 @@
 			"name": "update",
 			"fullPath": ["resource-sharing", "recipients", "update"],
 			"description": "Replaces the full recipient list for an account-targeted share. The server computes the diff between the current and desired recipients: new accounts are added, accounts no longer in the list are marked for disassociation, and unchanged accounts are left as-is. Returns an error if the share targets an organization (`target_type=organization`); org-targeted shares derive their recipients dynamically from org membership and cannot be modified through this endpoint.",
-			"summary": "Update a share's recipients",
+			"summary": "Trigger recipient reconciliation on a share",
 			"usage": "cf resource-sharing recipients update <share-id> [options]",
 			"arguments": [
 				{
@@ -112823,7 +112599,7 @@
 			"name": "create",
 			"fullPath": ["resource-sharing", "resources", "create"],
 			"description": "Adds a resource to an existing share, making it available to share recipients.",
-			"summary": "Create a new share resource",
+			"summary": "Trigger a resource addition to a share",
 			"usage": "cf resource-sharing resources create <share-id> [options]",
 			"arguments": [
 				{
@@ -112888,7 +112664,7 @@
 			"name": "delete",
 			"fullPath": ["resource-sharing", "resources", "delete"],
 			"description": "Deletion is not immediate, an updated share resource object with a new status will be returned.",
-			"summary": "Delete a share resource",
+			"summary": "Trigger a resource deletion from a share",
 			"usage": "cf resource-sharing resources delete <share-resource-id> [options]",
 			"arguments": [
 				{
@@ -113028,7 +112804,7 @@
 			"name": "update",
 			"fullPath": ["resource-sharing", "resources", "update"],
 			"description": "Update is not immediate, an updated share resource object with a new status will be returned.",
-			"summary": "Update a share resource",
+			"summary": "Trigger a resource metadata update in a share",
 			"usage": "cf resource-sharing resources update <share-resource-id> [options]",
 			"arguments": [
 				{
@@ -113072,7 +112848,7 @@
 			"name": "update",
 			"fullPath": ["resource-sharing", "update"],
 			"description": "Updates the share's display name and tags. This endpoint does **not** modify recipients or resources — those are managed via dedicated subresource endpoints: - **Recipients**: Use `POST /accounts/{account_id}/shares/{share_id}/recipients` to add a single recipient, `PUT /accounts/{account_id}/shares/{share_id}/recipients` to replace the full recipient list, or `DELETE /accounts/{account_id}/shares/{share_id}/recipients/{recipient_id}` to remove a recipient. - **Resources**: Use the share's resource subresource endpoints. Updating is not immediate; an updated share object with a new status will be returned.",
-			"summary": "Update a share",
+			"summary": "Trigger a share rename",
 			"usage": "cf resource-sharing update <share-id> [options]",
 			"arguments": [
 				{
@@ -119241,6 +119017,134 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf sql datasets",
+			"name": "datasets",
+			"fullPath": ["sql", "datasets"],
+			"description": "Returns the analytics dataset catalogue. By default, the response contains dataset names, titles, categories, descriptions, kinds, and hidden flags. Set `include_columns` to include each dataset's column names, descriptions, data types, and hidden flags. The caller must have Account Analytics Read permission on the account identified by `account_tag`. Dataset names, descriptions, and columns are the same for every authorized account. When `include_custom_attributes` is set, the response also includes custom attribute names and types discovered from that account's own data, which legitimately differs per caller. `hidden` marks catalogue entries a client should de-emphasise. It has no effect on access: hidden datasets and columns are returned here and remain fully queryable. The catalogue lists the datasets this deployment is able to describe, which is not a fixed list. Some datasets are described by the service that owns them and are listed only where that service is available, so the same account may see a different catalogue in different environments, and datasets may appear or disappear without a change to this API. Clients should query the catalogue rather than hard-coding it, and should not treat a dataset's absence as proof that it does not exist. Workers Analytics Engine datasets are named by the account that writes them, so they are discovered from that account's own data rather than from a fixed list. They appear as `events.analyticsEngine.<dataset_name>` and differ per account. A dataset is listed for as long as any of its data is retained, so it does not disappear from the catalogue merely because writes have stopped. An account with a very large number of datasets may receive a truncated list. Set `include_wae=false` to omit them. Log Explorer datasets are listed only where the account has them, so they differ per account and are not part of the static catalogue. Set `include_lex=false` to omit them.",
+			"summary": "List available analytics datasets",
+			"usage": "cf sql datasets [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "account-tag",
+					"type": "string",
+					"required": true,
+					"description": "Account whose available analytics datasets are returned."
+				},
+				{
+					"name": "include-columns",
+					"type": "boolean",
+					"required": false,
+					"description": "Include column metadata for each returned dataset."
+				},
+				{
+					"name": "include-custom-attributes",
+					"type": "boolean",
+					"required": false,
+					"description": "Include a capped set of custom attribute names and types observed during the preceding seven days. Requires a nonempty dataset_name."
+				},
+				{
+					"name": "include-wae",
+					"type": "boolean",
+					"required": false,
+					"description": "Include Workers Analytics Engine datasets, which are discovered from the account's own data. Set to `false` to return only datasets described from the static catalogue, which avoids that lookup."
+				},
+				{
+					"name": "include-lex",
+					"type": "boolean",
+					"required": false,
+					"description": "Include Log Explorer datasets, which are listed only where the account has them. Set to `false` to return only datasets described from the static catalogue, which avoids that lookup."
+				},
+				{
+					"name": "dataset-name",
+					"type": "string",
+					"required": false,
+					"description": "Return only the dataset with this exact name. An empty value is treated as if the parameter had been omitted, and does not filter the catalogue. A name that matches no dataset in this deployment's catalogue is rejected with `422`; a dataset that exists but is not describable here is rejected identically, so the two cases cannot be told apart.\n\nA Workers Analytics Engine dataset is named in full, as `events.analyticsEngine.<dataset_name>`; the namespace on its own returns every such dataset the account has. A `dataset_name` the account does not have is rejected with `422` like any other unknown name."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/analytics/sql/introspection",
+			"operationId": "sql-api-introspection",
+			"hideCommand": false
+		},
+		{
+			"command": "cf sql query",
+			"name": "query",
+			"fullPath": ["sql", "query"],
+			"description": "Executes a SQL query against the analytics datasets available to the caller. Send either raw SQL or a JSON object containing the query and optional positional or named parameters, time range, and account or zone scope. Raw SQL placeholders can also be bound with query parameters named `param_<name>`. A trailing `FORMAT JSON`, `FORMAT JSONEachRow`, `FORMAT TabSeparated`, or `FORMAT TSV` is supported for all datasets. Without FORMAT, each backend retains its existing default JSON response.",
+			"summary": "Query analytics datasets",
+			"usage": "cf sql query <query> [options]",
+			"arguments": [
+				{
+					"name": "query",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "SQL query to execute. A trailing FORMAT selects JSON, JSONEachRow, TabSeparated, or TSV output on any dataset.\n"
+				}
+			],
+			"options": [
+				{
+					"name": "scope-account",
+					"type": "string",
+					"required": false,
+					"description": "Account tag used to authorize and scope the query. Must be a 32-character lowercase hex string.\n"
+				},
+				{
+					"name": "scope-zone",
+					"type": "string",
+					"required": false,
+					"description": "Zone tag used to authorize and scope the query. Must be a 32-character lowercase hex string.\n"
+				},
+				{
+					"name": "time-until",
+					"type": "string",
+					"required": false,
+					"description": "Inclusive upper bound for the dataset's timestamp column."
+				},
+				{
+					"name": "time-since",
+					"type": "string",
+					"required": false,
+					"description": "Inclusive lower bound for the dataset's timestamp column."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				},
+				{
+					"name": "file",
+					"type": "string",
+					"required": false,
+					"description": "Path to a file to upload as the request body"
+				}
+			],
+			"category": "action",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/analytics/sql",
+			"operationId": "sql-api-query-post",
+			"hideCommand": false
+		},
+		{
 			"command": "cf ssl analyze create",
 			"name": "create",
 			"fullPath": ["ssl", "analyze", "create"],
@@ -122555,14 +122459,6 @@
 			"arguments": [],
 			"options": [
 				{
-					"name": "config-src",
-					"type": "string",
-					"required": false,
-					"description": "Indicates if this is a locally or remotely configured tunnel. If `local`, manage the tunnel using a YAML file on the origin machine. If `cloudflare`, manage the tunnel on the Zero Trust dashboard.",
-					"default": "local",
-					"enum": ["local", "cloudflare"]
-				},
-				{
 					"name": "name",
 					"type": "string",
 					"required": true,
@@ -124469,6 +124365,19 @@
 			"usage": "cf user firewall access-rules list [options]",
 			"arguments": [],
 			"options": [
+				{
+					"name": "action",
+					"type": "string",
+					"required": false,
+					"description": "The action to apply to a matched request.",
+					"enum": [
+						"block",
+						"challenge",
+						"whitelist",
+						"js_challenge",
+						"managed_challenge"
+					]
+				},
 				{
 					"name": "configuration-target",
 					"type": "string",
@@ -127093,6 +127002,7 @@
 						"cws_policy_set",
 						"cws_workload",
 						"d1_database",
+						"device",
 						"dns_record",
 						"durable_object_namespace",
 						"gateway_list",
@@ -133239,7 +133149,7 @@
 				"tags",
 				"delete"
 			],
-			"description": "Delete a tag from a script uploaded to a Workers for Platforms dispatch namespace.",
+			"description": "Delete a tag from a script uploaded to a Workers for Platforms dispatch namespace. On `api-version` dates on or after `2026-10-01`, `tag` identifies a key and the operation returns the complete updated tag map. Deleting a missing key succeeds. Earlier versions retain the legacy string-tag behavior and return a null result.",
 			"summary": "Delete Workers for Platforms Script Tag",
 			"usage": "cf workers-for-platforms dispatch-namespaces scripts tags delete <tag> [options]",
 			"arguments": [
@@ -133263,6 +133173,12 @@
 					"type": "string",
 					"required": true,
 					"description": "Name of the script."
+				},
+				{
+					"name": "api-version",
+					"type": "string",
+					"required": false,
+					"description": "Requested API compatibility date in `YYYY-MM-DD[.release]` format (UTC). The optional release suffix contains lowercase letters; for example, `2026-10-01.epoch`.\n\nTyped Worker tag operations require a date on or after `2026-10-01`."
 				},
 				{
 					"name": "dry-run",
@@ -136168,6 +136084,108 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf zero-trust access infrastructure audit-ssh-settings get",
+			"name": "get",
+			"fullPath": [
+				"zero-trust",
+				"access",
+				"infrastructure",
+				"audit-ssh-settings",
+				"get"
+			],
+			"description": "Retrieve all Zero Trust Audit SSH and SSH with Access for Infrastructure settings for an account.",
+			"summary": "Get Zero Trust SSH settings",
+			"usage": "cf zero-trust access infrastructure audit-ssh-settings get",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/gateway/audit_ssh_settings",
+			"operationId": "zero-trust-get-audit-ssh-settings",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust access infrastructure audit-ssh-settings rotate-seed",
+			"name": "rotate-seed",
+			"fullPath": [
+				"zero-trust",
+				"access",
+				"infrastructure",
+				"audit-ssh-settings",
+				"rotate-seed"
+			],
+			"description": "Rotate the SSH account seed that generates the host key identity when connecting through the Cloudflare SSH Proxy.",
+			"summary": "Rotate Zero Trust SSH account seed",
+			"usage": "cf zero-trust access infrastructure audit-ssh-settings rotate-seed",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/gateway/audit_ssh_settings/rotate_seed",
+			"operationId": "zero-trust-rotate-ssh-account-seed",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust access infrastructure audit-ssh-settings update",
+			"name": "update",
+			"fullPath": [
+				"zero-trust",
+				"access",
+				"infrastructure",
+				"audit-ssh-settings",
+				"update"
+			],
+			"description": "Update Zero Trust Audit SSH and SSH with Access for Infrastructure settings for an account.",
+			"summary": "Update Zero Trust SSH settings",
+			"usage": "cf zero-trust access infrastructure audit-ssh-settings update [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "public-key",
+					"type": "string",
+					"required": true,
+					"description": "Provide the Base64-encoded HPKE public key that encrypts SSH session logs. See https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/use-cases/ssh/ssh-infrastructure-access/#enable-ssh-command-logging."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PUT",
+			"apiPath": "/accounts/{account_id}/gateway/audit_ssh_settings",
+			"operationId": "zero-trust-update-audit-ssh-settings",
+			"hideCommand": false
+		},
+		{
 			"command": "cf zero-trust access infrastructure ssh-ca create",
 			"name": "create",
 			"fullPath": [
@@ -138565,6 +138583,186 @@
 			"httpMethod": "PUT",
 			"apiPath": "/accounts/{account_id}/infrastructure/targets/{target_id}",
 			"operationId": "infra-targets-put",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust access user-populations create",
+			"name": "create",
+			"fullPath": ["zero-trust", "access", "user-populations", "create"],
+			"description": "Creates a user population in an account.",
+			"summary": "Create a user population",
+			"usage": "cf zero-trust access user-populations create [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "The name of the user population. Leading and trailing whitespace is trimmed before validation. After trimming, the name must contain at least one non-whitespace character and must not exceed 128 UTF-8 bytes.\n"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "create",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/access/user_populations",
+			"operationId": "access-user-populations-create-user-population",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust access user-populations delete",
+			"name": "delete",
+			"fullPath": ["zero-trust", "access", "user-populations", "delete"],
+			"description": "Deletes a user population that is not attached to an application.",
+			"summary": "Delete a user population",
+			"usage": "cf zero-trust access user-populations delete <user-population-id>",
+			"arguments": [
+				{
+					"name": "user-population-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "UUID."
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "delete",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/access/user_populations/{user_population_id}",
+			"operationId": "access-user-populations-delete-user-population",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust access user-populations get",
+			"name": "get",
+			"fullPath": ["zero-trust", "access", "user-populations", "get"],
+			"description": "Fetches a user population.",
+			"summary": "Get a user population",
+			"usage": "cf zero-trust access user-populations get <user-population-id>",
+			"arguments": [
+				{
+					"name": "user-population-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "UUID."
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/access/user_populations/{user_population_id}",
+			"operationId": "access-user-populations-get-user-population",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust access user-populations list",
+			"name": "list",
+			"fullPath": ["zero-trust", "access", "user-populations", "list"],
+			"description": "Lists the user populations in an account.",
+			"summary": "List user populations",
+			"usage": "cf zero-trust access user-populations list [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "page",
+					"type": "number",
+					"required": false,
+					"description": "Page number of results."
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": false,
+					"description": "Number of results per page."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/access/user_populations",
+			"operationId": "access-user-populations-list-user-populations",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust access user-populations update",
+			"name": "update",
+			"fullPath": ["zero-trust", "access", "user-populations", "update"],
+			"description": "Updates a user population's name.",
+			"summary": "Update a user population",
+			"usage": "cf zero-trust access user-populations update <user-population-id> [options]",
+			"arguments": [
+				{
+					"name": "user-population-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "UUID."
+				}
+			],
+			"options": [
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "The name of the user population. Leading and trailing whitespace is trimmed before validation. After trimming, the name must contain at least one non-whitespace character and must not exceed 128 UTF-8 bytes.\n"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PUT",
+			"apiPath": "/accounts/{account_id}/access/user_populations/{user_population_id}",
+			"operationId": "access-user-populations-update-user-population",
 			"hideCommand": false
 		},
 		{
@@ -149881,95 +150079,6 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf zero-trust gateway audit-ssh-settings get",
-			"name": "get",
-			"fullPath": ["zero-trust", "gateway", "audit-ssh-settings", "get"],
-			"description": "Retrieve all Zero Trust Audit SSH and SSH with Access for Infrastructure settings for an account.",
-			"summary": "Get Zero Trust SSH settings",
-			"usage": "cf zero-trust gateway audit-ssh-settings get",
-			"arguments": [],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/gateway/audit_ssh_settings",
-			"operationId": "zero-trust-get-audit-ssh-settings",
-			"hideCommand": false
-		},
-		{
-			"command": "cf zero-trust gateway audit-ssh-settings rotate-seed",
-			"name": "rotate-seed",
-			"fullPath": [
-				"zero-trust",
-				"gateway",
-				"audit-ssh-settings",
-				"rotate-seed"
-			],
-			"description": "Rotate the SSH account seed that generates the host key identity when connecting through the Cloudflare SSH Proxy.",
-			"summary": "Rotate Zero Trust SSH account seed",
-			"usage": "cf zero-trust gateway audit-ssh-settings rotate-seed",
-			"arguments": [],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/gateway/audit_ssh_settings/rotate_seed",
-			"operationId": "zero-trust-rotate-ssh-account-seed",
-			"hideCommand": false
-		},
-		{
-			"command": "cf zero-trust gateway audit-ssh-settings update",
-			"name": "update",
-			"fullPath": ["zero-trust", "gateway", "audit-ssh-settings", "update"],
-			"description": "Update Zero Trust Audit SSH and SSH with Access for Infrastructure settings for an account.",
-			"summary": "Update Zero Trust SSH settings",
-			"usage": "cf zero-trust gateway audit-ssh-settings update [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "public-key",
-					"type": "string",
-					"required": true,
-					"description": "Provide the Base64-encoded HPKE public key that encrypts SSH session logs. See https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/use-cases/ssh/ssh-infrastructure-access/#enable-ssh-command-logging."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "update",
-			"hasRequestBody": true,
-			"httpMethod": "PUT",
-			"apiPath": "/accounts/{account_id}/gateway/audit_ssh_settings",
-			"operationId": "zero-trust-update-audit-ssh-settings",
-			"hideCommand": false
-		},
-		{
 			"command": "cf zero-trust gateway categories list",
 			"name": "list",
 			"fullPath": ["zero-trust", "gateway", "categories", "list"],
@@ -156811,8 +156920,6 @@
 		"analytics query data-security": "Operations for query.data-security",
 		"analytics query data-security content-findings": "Operations for query.data-security.content-findings",
 		"analytics query data-security findings": "Operations for query.data-security.findings",
-		"analytics sql": "Operations for sql",
-		"analytics sql introspection": "Operations for sql.introspection",
 		"analytics_engine": "analytics_engine",
 		"analytics_engine sql": "Operations for sql",
 		"api-security": "api-security",
@@ -156881,7 +156988,6 @@
 		"browser-run devtools": "Operations for devtools",
 		"browser-run devtools browser": "Operations for devtools.browser",
 		"browser-run devtools browser live-view": "Operations for devtools.browser.live-view",
-		"browser-run devtools browser page": "Operations for devtools.browser.page",
 		"browser-run devtools browser targets": "Operations for devtools.browser.targets",
 		"browser-run devtools json": "Operations for devtools.json",
 		"browser-run devtools session": "Operations for devtools.session",
@@ -157356,9 +157462,9 @@
 		"managed-transforms": "managed-transforms",
 		"matches": "matches",
 		"matches download": "Operations for download",
-		"mcp": "mcp",
-		"mcp portals": "Operations for portals",
-		"mcp servers": "Operations for servers",
+		"mcp": "Manage MCP portals and upstream MCP servers for Cloudflare Access AI controls",
+		"mcp portals": "Manage MCP portals, attached servers, and Code Mode settings",
+		"mcp servers": "Manage upstream MCP servers, credentials, capabilities, and sync state",
 		"mesh": "mesh",
 		"mesh nodes": "Operations for nodes",
 		"mesh nodes configurations": "Operations for nodes.configurations",
@@ -157431,19 +157537,18 @@
 		"pay-per-crawl crawler": "Operations for crawler",
 		"pay-per-crawl crawler stripe": "Operations for crawler.stripe",
 		"pay-per-crawl crawlers": "Operations for crawlers",
-		"pay-per-crawl pay-per-use": "Operations for pay-per-use",
-		"pay-per-crawl pay-per-use operator": "Operations for pay-per-use.operator",
-		"pay-per-crawl pay-per-use pricing": "Operations for pay-per-use.pricing",
-		"pay-per-crawl pay-per-use proposals": "Operations for pay-per-use.proposals",
-		"pay-per-crawl pay-per-use usage-stats": "Operations for pay-per-use.usage-stats",
-		"pay-per-crawl pay-per-use zones": "Operations for pay-per-use.zones",
 		"pay-per-crawl publisher": "Operations for publisher",
 		"pay-per-crawl publisher stripe": "Operations for publisher.stripe",
 		"pay-per-crawl terms": "Operations for terms",
 		"pay-per-crawl zones": "Operations for zones",
 		"pay-per-use": "pay-per-use",
 		"pay-per-use enabled-domains": "Operations for enabled-domains",
+		"pay-per-use operator": "Operations for operator",
+		"pay-per-use pricing": "Operations for pricing",
+		"pay-per-use proposals": "Operations for proposals",
 		"pay-per-use usage-reports": "Operations for usage-reports",
+		"pay-per-use usage-stats": "Operations for usage-stats",
+		"pay-per-use zones": "Operations for zones",
 		"pipelines": "Ingest, transform, and route event streams into R2, analytics, or other destinations in real time",
 		"pipelines sinks": "Destinations where pipeline data is written — R2 buckets, HTTP endpoints, or other storage",
 		"pipelines streams": "Inbound data streams that feed events into a pipeline for processing",
@@ -157721,6 +157826,7 @@
 		"speed pages": "Tested pages with their performance history, trends, and individual test results",
 		"speed pages tests": "Operations for pages.tests",
 		"speed schedule": "Scheduled recurring speed tests that automatically run at regular intervals",
+		"sql": "sql",
 		"ssl": "SSL/TLS certificate management — certificate packs, Universal SSL, verification, and TLS mode recommendations",
 		"ssl analyze": "Operations for analyze",
 		"ssl auto-origin-tls-kex": "Operations for auto-origin-tls-kex",
@@ -157887,6 +157993,7 @@
 		"zero-trust access bookmarks": "Operations for access.bookmarks",
 		"zero-trust access custom-pages": "Operations for access.custom-pages",
 		"zero-trust access infrastructure": "Operations for access.infrastructure",
+		"zero-trust access infrastructure audit-ssh-settings": "Operations for access.infrastructure.audit-ssh-settings",
 		"zero-trust access infrastructure ssh-ca": "Operations for access.infrastructure.ssh-ca",
 		"zero-trust access logs": "Operations for access.logs",
 		"zero-trust access logs access-requests": "Operations for access.logs.access-requests",
@@ -157905,6 +158012,7 @@
 		"zero-trust access tags": "Operations for access.tags",
 		"zero-trust access targets": "Operations for access.targets",
 		"zero-trust access targets bulk": "Operations for access.targets.bulk",
+		"zero-trust access user-populations": "Operations for access.user-populations",
 		"zero-trust access users": "Operations for access.users",
 		"zero-trust access users active-sessions": "Operations for access.users.active-sessions",
 		"zero-trust access users failed-logins": "Operations for access.users.failed-logins",
@@ -157993,7 +158101,6 @@
 		"zero-trust dlp settings": "Data Loss Prevention - manage account-level settings",
 		"zero-trust gateway": "Operations for gateway",
 		"zero-trust gateway app-types": "Operations for gateway.app-types",
-		"zero-trust gateway audit-ssh-settings": "Operations for gateway.audit-ssh-settings",
 		"zero-trust gateway categories": "Operations for gateway.categories",
 		"zero-trust gateway certificates": "Operations for gateway.certificates",
 		"zero-trust gateway configurations": "Operations for gateway.configurations",

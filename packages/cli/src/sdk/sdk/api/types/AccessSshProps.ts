@@ -41,6 +41,7 @@ export namespace AccessSshProps {
     /** The application type. */
     export const Type = {
         SelfHosted: "self_hosted",
+        EndUser: "end_user",
         Saas: "saas",
         Ssh: "ssh",
         Vnc: "vnc",

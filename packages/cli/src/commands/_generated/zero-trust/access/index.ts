@@ -11,6 +11,7 @@ import $servicetokens from "./service-tokens/index.js";
 import $signingkeys from "./signing-keys/index.js";
 import $tags from "./tags/index.js";
 import $targets from "./targets/index.js";
+import $userpopulations from "./user-populations/index.js";
 import $users from "./users/index.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
@@ -38,6 +39,7 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($signingkeys)
 			.command($tags)
 			.command($targets)
+			.command($userpopulations)
 			.command($users)
 			.demandCommand(1, "Please specify a subcommand");
 	},

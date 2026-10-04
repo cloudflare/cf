@@ -49,6 +49,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"cws_policy_set",
 				"cws_workload",
 				"d1_database",
+				"device",
 				"dns_record",
 				"durable_object_namespace",
 				"gateway_list",

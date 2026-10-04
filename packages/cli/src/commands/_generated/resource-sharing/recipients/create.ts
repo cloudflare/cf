@@ -52,7 +52,7 @@ type Body = Request["body"];
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "create <share-id>",
-	describe: "Create a new share recipient",
+	describe: "Trigger a recipient addition to a share",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(

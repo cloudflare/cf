@@ -7,5 +7,5 @@ export interface AccessSingleResponse15 {
     messages: CloudflareApi.AccessMessages;
     /** Whether the API call was successful. */
     success: true;
-    result?: CloudflareApi.AccessOrganizations2 | undefined;
+    result?: CloudflareApi.AccessTag | undefined;
 }

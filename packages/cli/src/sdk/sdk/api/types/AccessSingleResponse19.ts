@@ -7,5 +7,5 @@ export interface AccessSingleResponse19 {
     messages: CloudflareApi.AccessMessages;
     /** Whether the API call was successful. */
     success: true;
-    result?: CloudflareApi.AccessCa2 | undefined;
+    result?: CloudflareApi.AccessServiceTokens2 | undefined;
 }

@@ -52,7 +52,7 @@ type Request = SdkRequest<"share-excluded-recipient-delete">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <excluded-recipient-id>",
-	describe: "Delete a share excluded recipient",
+	describe: "Trigger an account un-exclusion from a share",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(

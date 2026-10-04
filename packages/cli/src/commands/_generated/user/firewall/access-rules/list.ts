@@ -18,6 +18,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			"$0 user firewall access-rules list\n\nFetches IP Access rules of the user. You can filter the results using several optional parameters."
 		)
+		.option("action", {
+			type: "string",
+			description: "The action to apply to a matched request.",
+			choices: [
+				"block",
+				"challenge",
+				"whitelist",
+				"js_challenge",
+				"managed_challenge",
+			],
+		})
 		.option("configuration-target", {
 			type: "string",
 			description: "Defines the target to search in existing rules.",
@@ -69,6 +80,7 @@ type Query = SdkQuery<"ip-access-rules-for-a-user-list-ip-access-rules">;
 
 const typedBuilder = withArgTypes<
 	{
+		action: Query["mode"];
 		"configuration-target": Query["configuration.target"];
 		match: Query["match"];
 		order: Query["order"];
@@ -88,6 +100,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				command: "user firewall access-rules list",
 				classification: {
 					safeFlags: [
+						"action",
 						"configuration-target",
 						"match",
 						"order",
@@ -99,6 +112,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			argv as Record<string, unknown>,
 			async () => {
 				const queryParams: Query = {
+					mode: argv["action"],
 					"configuration.target": argv["configuration-target"],
 					"configuration.value": argv["configuration-value"],
 					notes: argv["notes"],

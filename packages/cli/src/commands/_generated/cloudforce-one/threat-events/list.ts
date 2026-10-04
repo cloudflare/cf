@@ -29,6 +29,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Cursor for pagination. When provided, filters are embedded in the cursor so you only need to pass cursor and pageSize. Returned in the previous response's result_info.cursor field. Use cursor-based pagination for deep pagination (beyond 100,000 records) or for optimal performance.",
 		})
 		.option("search", { type: "string", description: "Search" })
+		.option("search-branches", {
+			type: "string",
+			description:
+				"JSON-encoded. OR branches of structured search filters. Filters within a branch are AND'd, branches are OR'd, and the result is AND'd with `search`: `AND(search) AND OR(AND(branch 1), ...)`. Max 8 branches of 1-10 conditions each. Not supported for analytics datasets, and `indicator` filters are not yet supported inside branches. Cursor pages carry the original branches, so do not resend them with `cursor`.",
+		})
 		.option("page", {
 			type: "number",
 			description:
@@ -74,6 +79,7 @@ type Query = SdkQuery<"get_EventListGet">;
 const typedBuilder = withArgTypes<
 	{
 		search: Query["search"];
+		"search-branches": Query["searchBranches"];
 		order: Query["order"];
 		format: Query["format"];
 		cache: Query["cache"];
@@ -99,6 +105,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const queryParams: Query = {
 					cursor: argv["cursor"],
 					search: argv["search"],
+					searchBranches: argv["search-branches"],
 					page: argv["page"],
 					pageSize: argv["page-size"],
 					orderBy: argv["order-by"],

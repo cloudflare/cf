@@ -114,6 +114,7 @@ export class ThreatEventsClient {
             account_id: accountId,
             cursor,
             search,
+            searchBranches,
             page,
             pageSize,
             orderBy,
@@ -131,6 +132,11 @@ export class ThreatEventsClient {
                   ? typeof search === "string"
                       ? search
                       : toJson(search)
+                  : undefined,
+            searchBranches: Array.isArray(searchBranches)
+                ? searchBranches.map((item) => toJson(item))
+                : searchBranches != null
+                  ? toJson(searchBranches)
                   : undefined,
             page,
             pageSize,

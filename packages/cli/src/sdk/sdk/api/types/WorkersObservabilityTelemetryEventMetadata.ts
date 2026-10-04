@@ -15,6 +15,8 @@ export interface WorkersObservabilityTelemetryEventMetadata {
     duration?: number | undefined;
     /** Span end time as a Unix epoch in milliseconds. */
     endTime?: number | undefined;
+    /** Span end time as a Unix epoch in nanoseconds. */
+    endTimeNs?: string | undefined;
     /** Error message, present when the log represents an error. */
     error?: string | undefined;
     /** Templatized version of the error message used for grouping similar errors. */
@@ -53,8 +55,12 @@ export interface WorkersObservabilityTelemetryEventMetadata {
     stackId?: string | undefined;
     /** Span start time as a Unix epoch in milliseconds. */
     startTime?: number | undefined;
+    /** Span start time as a Unix epoch in nanoseconds. */
+    startTimeNs?: string | undefined;
     /** HTTP response status code returned by the Worker. */
     statusCode?: number | undefined;
+    /** Event time as a Unix epoch in nanoseconds. */
+    timestampNs?: string | undefined;
     /** Total duration of the entire trace in milliseconds. */
     traceDuration?: number | undefined;
     /** Distributed trace ID linking spans across services. */

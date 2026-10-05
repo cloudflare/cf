@@ -1,4 +1,11 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from "vite-plus/test";
+import {
+	afterEach,
+	beforeEach,
+	describe,
+	expect,
+	it,
+	vi,
+} from "vite-plus/test";
 import {
 	createCloudflareClientWithToken,
 	createCommandClient,
@@ -144,6 +151,26 @@ describe("createCommandClient", () => {
 						timeout: 10,
 					}
 				)
+			).rejects.toThrow("Request timed out after 10ms");
+		});
+
+		it("reports the configured client timeout for uploads", async () => {
+			const client = createCloudflareClientWithToken({
+				apiToken: "test-token",
+				timeout: 10,
+				fetch: async (_url, init) =>
+					new Promise<Response>((_resolve, reject) => {
+						init?.signal?.addEventListener(
+							"abort",
+							() => reject(init.signal?.reason),
+							{ once: true }
+						);
+					}),
+			});
+			await expect(
+				requestApi(client, "PUT", "/upload", {
+					body: Buffer.from("data"),
+				})
 			).rejects.toThrow("Request timed out after 10ms");
 		});
 

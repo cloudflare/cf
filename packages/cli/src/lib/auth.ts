@@ -69,7 +69,6 @@ function isRawBody(body: unknown): body is BodyInit {
 	);
 }
 
-
 function hasContentType(headers: Record<string, string>): boolean {
 	return Object.keys(headers).some(
 		(key) => key.toLowerCase() === "content-type"
@@ -134,6 +133,7 @@ function passthroughUrl(
 }
 
 const clientBaseUrls = new WeakMap<CloudflareApiClient, string>();
+const clientTimeouts = new WeakMap<CloudflareApiClient, number>();
 const uploadClients = new WeakMap<CloudflareApiClient, CloudflareApiClient>();
 
 export async function requestApi<T>(
@@ -162,7 +162,8 @@ export async function requestApi<T>(
 		options.timeout === undefined && isUploadBody(body)
 			? uploadClients.get(client)
 			: undefined;
-	const timeout = options.timeout ?? API_TIMEOUT_MS;
+	const timeout =
+		options.timeout ?? clientTimeouts.get(client) ?? API_TIMEOUT_MS;
 	let response: Response;
 	try {
 		response = await (uploadClient ?? client).fetch(
@@ -258,6 +259,7 @@ export function createCloudflareClientWithToken(
 
 	const client = new CloudflareApiClient(clientOptions);
 	clientBaseUrls.set(client, baseURL);
+	clientTimeouts.set(client, options.timeout ?? API_TIMEOUT_MS);
 	if (options.timeout === undefined) {
 		// SDK passthrough requests inherit the client's timeout. Use a separate
 		// client for uploads so typed API calls retain their 30-second deadline.

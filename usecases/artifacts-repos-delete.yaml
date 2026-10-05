@@ -1,9 +1,0 @@
-description: "Delete an Artifacts repository"
-command: "wrangler artifacts repos delete <repo> --namespace <namespace>"
-status: "partial"
-sourceCommands:
-  - "wrangler artifacts repos delete <repo> --namespace <namespace>"
-cfReplacementFlow:
-  - "cf artifacts repos delete <repo> --namespace <namespace> --force"
-notes:
-  - "Use cf --force for non-interactive deletion."

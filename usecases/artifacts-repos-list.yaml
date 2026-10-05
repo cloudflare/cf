@@ -1,9 +1,0 @@
-description: "List Artifacts repositories in a namespace"
-command: "wrangler artifacts repos list --namespace <namespace>"
-status: "partial"
-sourceCommands:
-  - "wrangler artifacts repos list --namespace <namespace>"
-cfReplacementFlow:
-  - "cf artifacts repos list --namespace <namespace>"
-notes:
-  - "Verify exact generated command path."

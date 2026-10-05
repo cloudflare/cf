@@ -1,9 +1,0 @@
-description: "List Cloudchamber SSH keys"
-command: "wrangler cloudchamber ssh list"
-status: "partial"
-sourceCommands:
-  - "wrangler cloudchamber ssh list"
-cfReplacementFlow:
-  - "cf cloudchamber ssh list"
-notes:
-  - "Verify cf product coverage."

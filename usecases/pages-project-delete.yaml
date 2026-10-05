@@ -1,9 +1,0 @@
-description: "Delete a Pages project"
-command: "wrangler pages project delete <project>"
-status: "direct"
-sourceCommands:
-  - "wrangler pages project delete <project>"
-cfReplacementFlow:
-  - "cf pages projects delete <project> --force"
-notes:
-  - "Use cf --force instead of Wrangler --yes."

@@ -1,9 +1,0 @@
-description: "Get Hyperdrive configuration details"
-command: "wrangler hyperdrive get <id>"
-status: "direct"
-sourceCommands:
-  - "wrangler hyperdrive get <id>"
-cfReplacementFlow:
-  - "cf hyperdrive get <id>"
-notes:
-  - "Wrangler identifies configs by ID in this flow."

@@ -1,9 +1,0 @@
-description: "List Hyperdrive configurations"
-command: "wrangler hyperdrive list"
-status: "direct"
-sourceCommands:
-  - "wrangler hyperdrive list"
-cfReplacementFlow:
-  - "cf hyperdrive list"
-notes:
-  - "cf outputs JSON by default."

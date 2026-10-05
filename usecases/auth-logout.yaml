@@ -1,9 +1,0 @@
-description: "Log out and remove local Wrangler authentication state"
-command: "wrangler logout"
-status: "direct"
-sourceCommands:
-  - "wrangler logout"
-cfReplacementFlow:
-  - "cf auth logout"
-notes:
-  - "Wrangler and cf store credentials in different files. Logging out of one does not necessarily remove the other's credentials."

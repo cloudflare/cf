@@ -1,9 +1,0 @@
-description: "List Queue event subscriptions"
-command: "wrangler queues subscription list <queue>"
-status: "partial"
-sourceCommands:
-  - "wrangler queues subscription list <queue>"
-cfReplacementFlow:
-  - "cf queues subscriptions list"
-notes:
-  - "Filter by destination queue ID/name if generated flags support it; otherwise filter JSON output manually."

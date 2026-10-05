@@ -1,9 +1,0 @@
-description: "Create an Email Routing destination address"
-command: "wrangler email routing addresses create <email>"
-status: "direct"
-sourceCommands:
-  - "wrangler email routing addresses create <email>"
-cfReplacementFlow:
-  - "cf email-routing addresses create --email <email>"
-notes:
-  - "This typically sends a verification email."

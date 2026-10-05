@@ -1,9 +1,0 @@
-description: "Get an Email Routing destination address"
-command: "wrangler email routing addresses get <address-id>"
-status: "direct"
-sourceCommands:
-  - "wrangler email routing addresses get <address-id>"
-cfReplacementFlow:
-  - "cf email-routing addresses get <address-id>"
-notes:
-  - "Verify exact generated command path."

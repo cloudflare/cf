@@ -1,9 +1,0 @@
-description: "Show R2 local uploads setting"
-command: "wrangler r2 bucket local-uploads get <bucket>"
-status: "direct"
-sourceCommands:
-  - "wrangler r2 bucket local-uploads get <bucket>"
-cfReplacementFlow:
-  - "cf r2 buckets local-uploads get <bucket>"
-notes:
-  - "Command shapes are close."

@@ -1,9 +1,0 @@
-description: "Upload Pages project files through the lower-level hidden project upload command"
-command: "wrangler pages project upload"
-status: "gap"
-sourceCommands:
-  - "wrangler pages project upload"
-cfReplacementFlow:
-  - "No direct cf replacement."
-notes:
-  - "This is part of Pages deployment plumbing. Full Pages deployment workflows are out of scope for this investigation."

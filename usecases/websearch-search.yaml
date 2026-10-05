@@ -1,9 +1,0 @@
-description: "Run a Cloudflare Web Search query"
-command: "wrangler websearch search <query>"
-status: "gap"
-sourceCommands:
-  - "wrangler websearch search <query>"
-cfReplacementFlow:
-  - "No direct cf replacement identified."
-notes:
-  - "If Web Search API is later generated, expect a product such as cf web-search or cf websearch."

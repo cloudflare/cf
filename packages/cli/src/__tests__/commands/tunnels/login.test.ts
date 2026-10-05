@@ -1,6 +1,6 @@
 import { writeFile } from "node:fs/promises";
 import { runInTempDir } from "@cloudflare/workers-utils/test-helpers";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import { runCloudflared } from "../../../commands/cloudflared.js";
 import { runCf } from "../../helpers/run-cf.js";
 

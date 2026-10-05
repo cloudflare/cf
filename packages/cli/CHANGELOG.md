@@ -1,5 +1,51 @@
 # cf
 
+## 1.0.0-beta.12
+
+### Patch Changes
+
+- 2aea37c: Deploy SSH settings for Durable Object-managed Containers
+
+  `cf deploy` now forwards a Durable Object-managed Container's `ssh` and `authorizedKeys` from Build Output to the Containers API.
+
+- 8c55fb3: Recognize explicit boolean values before commands
+
+  When a global boolean flag or alias is followed by `true` or `false`, treat the literal as its value while identifying the command. This keeps invocations such as `cf --local false complete bash` from receiving the wrong startup behavior.
+
+## 1.0.0-beta.11
+
+### Patch Changes
+
+- 398a2e6: Reduce SDK client imports when running API commands.
+
+  Generate narrow runtime imports for SDK error constructors and load the client entry directly, avoiding the API type and resource barrels while preserving error classes and request behavior.
+
+- be8fdad: Reduce startup imports for authentication and raw API requests.
+
+  Load token and OAuth helpers independently of the SDK client, and use the SDK error entrypoint for error handling and telemetry.
+
+## 1.0.0-beta.10
+
+### Minor Changes
+
+- 5725210: Update the generated command surface and vendored Forge packages for
+  Forge OpenAPI release `10cdded1d9e93c9b055e27cac83b397b2bd7f0c6`.
+
+## 1.0.0-beta.9
+
+### Minor Changes
+
+- b26d943: Update the generated command surface and vendored Forge packages for
+  Forge OpenAPI release `4322e43f4f29a33c7cc9be83ead916d6bc17fa73`.
+
+## 1.0.0-beta.8
+
+### Patch Changes
+
+- 8782301: Update Workers authentication to the latest release
+
+  Use `@cloudflare/workers-auth` 0.11.0 for cf's bundled authentication flows.
+
 ## 1.0.0-beta.7
 
 ### Patch Changes
@@ -64,6 +110,7 @@
   `cf migrate` now uses the Vite bundler only when `@cloudflare/vite-plugin` is declared next to the Wrangler configuration, and uses the Wrangler bundler otherwise. Previously, every project defaulted to Vite, so migrations of non-Vite Workers reported Vite-only follow-ups even though `cf build` would continue to use Wrangler. Pass `--bundler vite` or `--bundler wrangler` to choose explicitly.
 
 - b4112c2: Allow `cf` commands to use these variables from `.env` files:
+
   - `CLOUDFLARE_ACCESS_CLIENT_ID`
   - `CLOUDFLARE_ACCESS_CLIENT_SECRET`
   - `CLOUDFLARE_ACCOUNT_ID`
@@ -342,6 +389,7 @@
 ### Minor Changes
 
 - 5aa6d11: Add Container build, push, and deploy workflows
+
   - `cf containers build <path> --tag <name:tag> [--push]`
   - `cf containers push --tag <name:tag>`
   - `cf deploy [--containers-rollout immediate|gradual|none]`
@@ -515,6 +563,7 @@ workers check`, and `cf workers triggers deploy` to consume the latest Build
 
   The command now fetches the extension's schema
   (`GET /registrar/extensions/{name}`) and drives itself from it:
+
   - The domain is a positional: `cf registrar registrations create example.travel`.
     Its extension is derived from the name (longest suffix first, so `co.uk` beats
     `uk`), or set explicitly with `--extension`.
@@ -581,6 +630,7 @@ workers check`, and `cf workers triggers deploy` to consume the latest Build
 
   Closes the gap that kept migrated repos on a `wrangler.jsonc` and a `wrangler`
   devDependency for one job. Three subcommands:
+
   - `cf d1 migrations apply <database>` — apply every unapplied migration
   - `cf d1 migrations list <database>` — report unapplied migrations as JSON
   - `cf d1 migrations create <message>` — scaffold a numbered migration file
@@ -663,6 +713,7 @@ create`) type a field the schema says nothing about — `{}`, as Workers AI
   (`--text`, `--prompt`, `--guidance`, …) — accurate for none of them. `cf ai run`
   is now hand-written and reads the chosen model's input schema from
   `/ai/models/schema` at run time:
+
   - `cf ai run <model> --help` lists **that model's** fields, with types, defaults
     and enum choices. `cf ai run --help` on its own makes no network request.
   - Input is validated against the model's schema before the request goes out, so
@@ -852,6 +903,7 @@ create`) type a field the schema says nothing about — `{}`, as Workers AI
   (PKCE flow, callback server, token refresh) instead of cf's own implementation,
   while keeping cf's own OAuth identity (client ID and consent pages). Notable
   changes:
+
   - Tokens are now stored as JSONC in cf's XDG-compliant config directory (e.g.
     `~/.config/.cf/auth.jsonc`) instead of `~/.cf/config.toml`. You will need to
     run `cf auth login` once to re-authenticate.
@@ -886,6 +938,7 @@ create`) type a field the schema says nothing about — `{}`, as Workers AI
 - 11ad38d: Drop client-side input "hardening"
 
   cf no longer pre-validates user input before sending it to the API:
+
   - **Path params / string positionals.** Generated commands previously
     ran `validateResourceId` / `validateStringInput` to reject `..`, URL
     operators (`?` `#` `%`), and control characters. These are gone.

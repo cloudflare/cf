@@ -4,7 +4,7 @@ import {
 	runInTempDir,
 	seed,
 } from "@cloudflare/workers-utils/test-helpers";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import {
 	findWranglerConfig,
 	maybeMigrateWranglerProject,
@@ -165,7 +165,7 @@ describe("cf migrate", () => {
 		expect(migrateWranglerToCf).not.toHaveBeenCalled();
 	});
 
-	it("offers to run the same migration for project workflows", async () => {
+	it("offers to convert a Wrangler config before project setup", async () => {
 		await seed({ "wrangler.jsonc": "{}" });
 		const confirmMigration = vi.fn().mockResolvedValue(true);
 
@@ -189,6 +189,31 @@ describe("cf migrate", () => {
 				installDependencies: true,
 			}
 		);
+	});
+
+	it("dry-runs an accepted Wrangler config conversion before project setup", async () => {
+		await seed({ "wrangler.jsonc": "{}" });
+		const confirmMigration = vi.fn().mockResolvedValue(true);
+
+		await expect(
+			maybeMigrateWranglerProject(
+				process.cwd(),
+				confirmMigration,
+				"stdout",
+				true
+			)
+		).resolves.toBe(true);
+
+		expect(migrateWranglerToCf).toHaveBeenCalledWith(
+			path.join(process.cwd(), "wrangler.jsonc"),
+			{
+				bundler: "wrangler",
+				dryRun: true,
+				force: false,
+				installDependencies: true,
+			}
+		);
+		expect(migrateWranglerToCf).toHaveBeenCalledOnce();
 	});
 
 	it("uses Vite for automatic migration when the plugin is declared", async () => {

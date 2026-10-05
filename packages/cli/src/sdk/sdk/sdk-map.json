@@ -4903,6 +4903,23 @@
       "id"
     ]
   },
+  "aig-config-fetch-providers": {
+    "accessor": [
+      "aiGateway",
+      "gateways",
+      "providers"
+    ],
+    "method": "get",
+    "httpMethod": "GET",
+    "path": "/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/provider_configs/{id}",
+    "requestType": "GetProvidersRequest",
+    "responseType": "GetProvidersResponse",
+    "requiredRequestProperties": [
+      "account_id",
+      "gateway_id",
+      "id"
+    ]
+  },
   "aig-config-get-gateway-dynamic-route": {
     "accessor": [
       "aiGateway",
@@ -11861,6 +11878,21 @@
     "requestType": "DeleteUrlNormalizationRequest",
     "requiredRequestProperties": [
       "zone_id"
+    ]
+  },
+  "deleteV4AccountsByAccount_idK2StreamsByStream_id": {
+    "accessor": [
+      "k2",
+      "streams"
+    ],
+    "method": "delete",
+    "httpMethod": "DELETE",
+    "path": "/accounts/{account_id}/k2/streams/{stream_id}",
+    "requestType": "DeleteStreamsRequest",
+    "responseType": "Record",
+    "requiredRequestProperties": [
+      "account_id",
+      "stream_id"
     ]
   },
   "deleteV4AccountsByAccount_idPipelinesByPipeline_name_deprecated": {
@@ -21117,6 +21149,51 @@
       "zone_id"
     ]
   },
+  "getV4AccountsByAccount_idK2Streams": {
+    "accessor": [
+      "k2",
+      "streams"
+    ],
+    "method": "list",
+    "httpMethod": "GET",
+    "path": "/accounts/{account_id}/k2/streams",
+    "requestType": "ListStreamsRequest",
+    "responseType": "ListStreamsResponse",
+    "requiredRequestProperties": [
+      "account_id"
+    ]
+  },
+  "getV4AccountsByAccount_idK2StreamsByStream_id": {
+    "accessor": [
+      "k2",
+      "streams"
+    ],
+    "method": "get",
+    "httpMethod": "GET",
+    "path": "/accounts/{account_id}/k2/streams/{stream_id}",
+    "requestType": "GetStreamsRequest",
+    "responseType": "CloudflareK2K2Stream",
+    "requiredRequestProperties": [
+      "account_id",
+      "stream_id"
+    ]
+  },
+  "getV4AccountsByAccount_idK2StreamsByStream_idSubscriptions": {
+    "accessor": [
+      "k2",
+      "streams",
+      "subscriptions"
+    ],
+    "method": "list",
+    "httpMethod": "GET",
+    "path": "/accounts/{account_id}/k2/streams/{stream_id}/subscriptions",
+    "requestType": "ListSubscriptionsRequest",
+    "responseType": "ListSubscriptionsResponse",
+    "requiredRequestProperties": [
+      "account_id",
+      "stream_id"
+    ]
+  },
   "getV4AccountsByAccount_idPipelinesByPipeline_name_deprecated": {
     "accessor": [
       "pipelines"
@@ -25227,7 +25304,7 @@
     "path": "/user/load_balancers/pools",
     "responseType": "PoolsPoolsResponse",
     "requiredRequestProperties": [
-      "__@iterator@7516",
+      "__@iterator@7539",
       "anchor",
       "at",
       "big",
@@ -29987,6 +30064,21 @@
       "worker_id"
     ]
   },
+  "patchV4AccountsByAccount_idK2StreamsByStream_id": {
+    "accessor": [
+      "k2",
+      "streams"
+    ],
+    "method": "update",
+    "httpMethod": "PATCH",
+    "path": "/accounts/{account_id}/k2/streams/{stream_id}",
+    "requestType": "CloudflareK2UpdateK2StreamRequest",
+    "responseType": "CloudflareK2K2Stream",
+    "requiredRequestProperties": [
+      "account_id",
+      "stream_id"
+    ]
+  },
   "patchV4AccountsByAccount_idPipelinesV1StreamsByStream_id": {
     "accessor": [
       "pipelines",
@@ -31142,6 +31234,22 @@
     "responseType": "BrandProtectionApiUrlSubmit",
     "requiredRequestProperties": [
       "account_id"
+    ]
+  },
+  "postV4AccountsByAccount_idK2Streams": {
+    "accessor": [
+      "k2",
+      "streams"
+    ],
+    "method": "create",
+    "httpMethod": "POST",
+    "path": "/accounts/{account_id}/k2/streams",
+    "requestType": "CloudflareK2CreateK2StreamRequest",
+    "responseType": "CloudflareK2K2Stream",
+    "requiredRequestProperties": [
+      "account_id",
+      "http",
+      "name"
     ]
   },
   "postV4AccountsByAccount_idPipelinesV1Pipelines": {
@@ -40773,7 +40881,7 @@
     "httpMethod": "GET",
     "path": "/analytics/sql",
     "requestType": "GetSqlRequest",
-    "responseType": "AnalyticsSqlSqlQueryResponse",
+    "responseType": "GetSqlResponse",
     "requiredRequestProperties": [
       "query"
     ]
@@ -40787,7 +40895,7 @@
     "httpMethod": "POST",
     "path": "/analytics/sql",
     "requestType": "AnalyticsSqlSqlQueryRequest",
-    "responseType": "AnalyticsSqlSqlQueryResponse",
+    "responseType": "PostSqlResponse",
     "requiredRequestProperties": [
       "query"
     ]

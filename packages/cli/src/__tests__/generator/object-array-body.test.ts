@@ -1,5 +1,5 @@
 import { readFileSync } from "node:fs";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "vite-plus/test";
 import { generateBuilderLines } from "../../../generator/emit/builder.js";
 import { emitBodyObject } from "../../../generator/emit/handler/body-object.js";
 import { emitBodyPrompts } from "../../../generator/emit/handler/body-prompts.js";

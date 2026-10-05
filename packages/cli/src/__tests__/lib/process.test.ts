@@ -1,5 +1,5 @@
 import { EventEmitter } from "node:events";
-import { afterEach, describe, it, vi } from "vitest";
+import { afterEach, describe, it, vi } from "vite-plus/test";
 import { createChildProcessController } from "../../lib/process.js";
 import type { ChildProcess } from "node:child_process";
 

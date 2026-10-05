@@ -1,10 +1,11 @@
+import { existsSync, readFileSync } from "node:fs";
 import {
 	mockConsoleMethods,
 	runInTempDir,
 	seed,
 } from "@cloudflare/workers-utils/test-helpers";
 import { http, HttpResponse } from "msw";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import { createMockDeployContext } from "../../helpers/mock-deploy-context.js";
 import { createFetchResult, msw, setupMsw } from "../../helpers/msw.js";
 import { runCf } from "../../helpers/run-cf.js";
@@ -43,6 +44,66 @@ describe("cf deploy", () => {
 	});
 
 	describe("simple worker", () => {
+		it.each([
+			["D1", { type: "d1", name: "my-database" }, "database_id"],
+			["R2", { type: "r2" }, "bucket_name"],
+		])(
+			"rejects an unconfigured %s binding with --no-provision",
+			async (_resource, binding, missingField) => {
+				const requests = recordRequests();
+				const upload = mockWorkerUpload();
+				await seed({
+					".cloudflare/output/v0/config.json": buildOutputRootConfig(),
+					".cloudflare/output/v0/workers/default/worker.config.json":
+						workerConfig({ env: { MY_BINDING: binding } }),
+					".cloudflare/output/v0/workers/default/bundle/index.js":
+						"export default {}",
+				});
+
+				await expect(
+					runCf(["deploy", "--prebuilt", "--no-provision"])
+				).rejects.toThrow(missingField);
+				expect(upload.metadata).toBeUndefined();
+				expect(
+					requests.some((request) =>
+						/\/d1\/database|\/r2\/buckets/.test(request)
+					)
+				).toBe(false);
+			}
+		);
+
+		it("deploys a configured binding with --no-provision", async () => {
+			const requests = recordRequests();
+			const upload = mockWorkerUpload();
+			await seed({
+				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v0/workers/default/worker.config.json":
+					workerConfig({
+						env: {
+							MY_DB: { type: "d1", name: "my-db", id: "d1-db-id-123" },
+						},
+					}),
+				".cloudflare/output/v0/workers/default/bundle/index.js":
+					"export default {}",
+			});
+
+			const { exitCode } = await runCf([
+				"deploy",
+				"--prebuilt",
+				"--no-provision",
+			]);
+
+			expect(exitCode).toBe(0);
+			expect(upload.metadata?.bindings).toContainEqual({
+				name: "MY_DB",
+				type: "d1",
+				id: "d1-db-id-123",
+			});
+			expect(requests.some((request) => request.includes("/d1/database"))).toBe(
+				false
+			);
+		});
+
 		it("loads dotenv values after the delegated build", async () => {
 			vi.stubEnv("CLOUDFLARE_API_TOKEN", undefined);
 			vi.stubEnv("CLOUDFLARE_ACCOUNT_ID", undefined);
@@ -1137,6 +1198,42 @@ describe("cf deploy", () => {
 	});
 
 	describe("--dry-run", () => {
+		it("keeps existing project files unchanged and skips the build when setup is needed", async () => {
+			const packageJson = JSON.stringify({
+				name: "astro-project",
+				scripts: { deploy: "astro build && wrangler deploy" },
+				dependencies: {
+					astro: "7.3.5",
+					"@astrojs/cloudflare": "14.3.3",
+				},
+				devDependencies: { cf: "1.0.0-beta.6", wrangler: "^4.142.0" },
+			});
+			const tsconfig = '{"include":["src/**/*"]}\n';
+			const lockfile = "existing lockfile\n";
+			const requests = recordRequests();
+			await seed({
+				"package.json": packageJson,
+				"package-lock.json": lockfile,
+				"tsconfig.json": tsconfig,
+				"wrangler.jsonc": '{"name":"astro-project"}',
+				"node_modules/astro/package.json": JSON.stringify({
+					name: "astro",
+					version: "7.3.5",
+				}),
+			});
+
+			const { exitCode } = await runCf(["deploy", "--dry-run"]);
+
+			expect(exitCode).toBe(0);
+			expect(readFileSync("package.json", "utf8")).toBe(packageJson);
+			expect(readFileSync("package-lock.json", "utf8")).toBe(lockfile);
+			expect(readFileSync("tsconfig.json", "utf8")).toBe(tsconfig);
+			expect(existsSync("public/.assetsignore")).toBe(false);
+			expect(buildDelegateWasCalled()).toBe(false);
+			expect(requests).toEqual([]);
+			expect(std.out).toContain("Autoconfig process run in dry-run mode");
+		});
+
 		it("does not upload the worker", async () => {
 			const upload = mockWorkerUpload();
 			await seed({

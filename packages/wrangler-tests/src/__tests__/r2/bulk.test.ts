@@ -1,4 +1,4 @@
-import { describe, it } from "vitest";
+import { describe, it } from "vite-plus/test";
 
 // Skipped: every test in this file exercises wrangler's `r2 bulk put`
 // command, which performs manifest-driven bulk uploads of R2 objects. cf's

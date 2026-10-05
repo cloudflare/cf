@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "vite-plus/test";
 import { buildEmitContext } from "../../../generator/emit/build-context.js";
 import { generateBuilderLines } from "../../../generator/emit/builder.js";
 import { emitHandler } from "../../../generator/emit/handler/index.js";

@@ -1,7 +1,7 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { runInTempDir } from "@cloudflare/workers-utils/test-helpers";
-import { beforeEach, describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from "vite-plus/test";
 import {
 	clearLoadedProjectSettings,
 	findCloudflareConfig,

@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
-import * as CloudflareApi from "../../../index.js";
+import type * as CloudflareApi from "../../../index.js";
 import { CertificatePackClient } from "../resources/certificatePack/client/Client.js";
 import { FallbackOriginClient } from "../resources/fallbackOrigin/client/Client.js";
 import { QuotaClient } from "../resources/quota/client/Client.js";

@@ -1,4 +1,4 @@
-import { describe, it } from "vitest";
+import { describe, it } from "vite-plus/test";
 
 // Tests wrangler's internal `getHostFromUrl` helper from `../zones`. That
 // module doesn't exist in cf — zone/host parsing is forge-side (the API

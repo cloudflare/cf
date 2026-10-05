@@ -9,7 +9,7 @@ import {
 } from "@cloudflare/workers-utils/test-helpers";
 import { http, HttpResponse } from "msw";
 import { getGlobalDispatcher, MockAgent, setGlobalDispatcher } from "undici";
-import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it } from "vite-plus/test";
 import { server, setupMsw, TEST_BASE_URL } from "../../helpers/msw.js";
 import { runCf } from "../../helpers/run-cf.js";
 

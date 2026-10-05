@@ -1,5 +1,5 @@
 import { http, HttpResponse } from "msw";
-import { assert } from "vitest";
+import { assert } from "vite-plus/test";
 import { msw } from "./msw";
 import type { Settings } from "../../deployment-bundle/bindings";
 

@@ -5,13 +5,14 @@ import {
 	triggersDeploy,
 } from "@cloudflare/deploy-helpers";
 import { getCloudflareComplianceRegion } from "@cloudflare/workers-utils";
-import { getAccountId, getAuthToken } from "../../../lib/auth.js";
+import { getAuthToken } from "../../../lib/auth-token.js";
 import {
 	buildOutputWorkerOption,
 	parseWorkerConfig,
 	selectBuildOutputWorker,
 	validateBuildOutputMode,
 } from "../../../lib/build-output.js";
+import { getAccountId } from "../../../lib/context.js";
 import { createDeployContext } from "../../../lib/deploy-context.js";
 import { createTriggerProps } from "../../../lib/deploy-input.js";
 import { withCloudflareDotEnv } from "../../../lib/dotenv.js";
@@ -56,7 +57,14 @@ const triggersDeployCommand: CommandModule<
 		}
 
 		if (!argv.prebuilt) {
-			await runBuild(argv.mode, { worker: argv.worker });
+			const build = await runBuild(argv.mode, {
+				worker: argv.worker,
+				dryRun: argv["dry-run"],
+			});
+			if (build === "setup-needed") {
+				clack.log.success("--dry-run: exiting now.");
+				return;
+			}
 			clack.log.message("", { spacing: 0 });
 		}
 
@@ -100,9 +108,9 @@ async function deployTriggers(argv: TriggersDeployArgs): Promise<void> {
 	await triggersDeploy(
 		createTriggerProps(worker, wranglerConfig, accountId, argv)
 	);
-	clack.log.success(
-		argv["dry-run"] ? "Dry run complete" : "Trigger deploy complete"
-	);
+	if (!argv["dry-run"]) {
+		clack.log.success("Trigger deploy complete");
+	}
 }
 
 export default triggersDeployCommand;

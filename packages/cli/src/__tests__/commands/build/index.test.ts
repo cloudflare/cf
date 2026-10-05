@@ -5,7 +5,7 @@ import {
 	runInTempDir,
 	seed,
 } from "@cloudflare/workers-utils/test-helpers";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "vite-plus/test";
 import { runBuild } from "../../../commands/build/index.js";
 import { BuildOutputError } from "../../../lib/build-output.js";
 import { runCf } from "../../helpers/run-cf.js";

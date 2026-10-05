@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "vite-plus/test";
 import { generateResourceIndexFile } from "../../../../generator/emit/index-files.js";
 import { handWrittenSubGroups } from "../../../../generator/hand-written-overrides.js";
 import type { CommandMeta } from "@cloudflare/forge";

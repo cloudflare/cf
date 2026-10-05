@@ -1,6 +1,6 @@
 import { readBuildOutput } from "@cloudflare/build-output-utils";
 import { runInTempDir, seed } from "@cloudflare/workers-utils/test-helpers";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "vite-plus/test";
 import {
 	BuildOutputConfigError,
 	parseWorkerConfig,
@@ -289,6 +289,7 @@ describe("transforms Build Output Specification into deploy input", () => {
 		const { wranglerConfig } = parseWorkerConfig(worker, rootConfig);
 
 		const argv: DeployArgs = {
+			provision: true,
 			worker: undefined,
 			"dispatch-namespace": undefined,
 			"containers-rollout": undefined,

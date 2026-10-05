@@ -10,7 +10,7 @@ import { mergeHeaders } from "../../../../../../../../core/headers.js";
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 import { AggregatesClient } from "../resources/aggregates/client/Client.js";
 import { OverTimeClient } from "../resources/overTime/client/Client.js";
 

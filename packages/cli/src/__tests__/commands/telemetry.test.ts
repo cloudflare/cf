@@ -2,7 +2,7 @@ import {
 	mockConsoleMethods,
 	runInTempDir,
 } from "@cloudflare/workers-utils/test-helpers";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "vite-plus/test";
 import { runCf } from "../helpers/run-cf.js";
 
 describe("cf cli telemetry", () => {

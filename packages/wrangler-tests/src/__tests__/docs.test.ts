@@ -1,4 +1,4 @@
-import { describe, it } from "vitest";
+import { describe, it } from "vite-plus/test";
 
 // All tests in this file exercise wrangler's `docs` command, which uses
 // Algolia's `developers-cloudflare2` index to resolve search terms to

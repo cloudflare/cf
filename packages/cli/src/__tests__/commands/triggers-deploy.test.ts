@@ -5,7 +5,7 @@ import {
 	seed,
 } from "@cloudflare/workers-utils/test-helpers";
 import { http, HttpResponse } from "msw";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import { createMockDeployContext } from "../helpers/mock-deploy-context.js";
 import { createFetchResult, msw, setupMsw } from "../helpers/msw.js";
 import { runCf } from "../helpers/run-cf.js";
@@ -81,6 +81,27 @@ describe("cf workers triggers deploy", () => {
 		expect(std.out).not.toContain("--persist-to");
 		expect(buildDelegateWasCalled()).toBe(false);
 		expect(requests).toEqual([]);
+	});
+
+	it("skips the build and trigger deployment when setup is needed during a dry run", async () => {
+		const requests = recordRequests();
+		await seed({
+			"package.json": JSON.stringify({
+				name: "astro-project",
+				dependencies: { astro: "7.3.5" },
+			}),
+			"node_modules/astro/package.json": JSON.stringify({
+				name: "astro",
+				version: "7.3.5",
+			}),
+		});
+
+		const { exitCode } = await runCf([...TRIGGERS_DEPLOY_COMMAND, "--dry-run"]);
+
+		expect(exitCode).toBe(0);
+		expect(buildDelegateWasCalled()).toBe(false);
+		expect(requests).toEqual([]);
+		expect(std.out).toContain("Autoconfig process run in dry-run mode");
 	});
 
 	it("builds and deploys scheduled triggers with --local=false", async () => {

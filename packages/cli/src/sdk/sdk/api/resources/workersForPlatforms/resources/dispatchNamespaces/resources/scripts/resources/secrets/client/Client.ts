@@ -11,7 +11,8 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../../../cor
 import * as environments from "../../../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../../../index.js";
+import * as CloudflareApiErrors from "../../../../../../../../../errors/index.js";
 
 export declare namespace SecretsClient {
     export type Options = BaseClientOptions;
@@ -172,7 +173,7 @@ export class SecretsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 429:
-                    throw new CloudflareApi.TooManyRequestsError(
+                    throw new CloudflareApiErrors.TooManyRequestsError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -269,7 +270,7 @@ export class SecretsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 429:
-                    throw new CloudflareApi.TooManyRequestsError(
+                    throw new CloudflareApiErrors.TooManyRequestsError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );

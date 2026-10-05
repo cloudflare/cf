@@ -15,13 +15,14 @@ import {
 	getCloudflareComplianceRegion,
 	getDockerPath,
 } from "@cloudflare/workers-utils";
-import { getAccountId, getAuthToken } from "../../lib/auth.js";
+import { getAuthToken } from "../../lib/auth-token.js";
 import {
 	buildOutputWorkerOption,
 	parseWorkerConfig,
 	selectBuildOutputWorker,
 	validateBuildOutputMode,
 } from "../../lib/build-output.js";
+import { getAccountId } from "../../lib/context.js";
 import { createDeployContext } from "../../lib/deploy-context.js";
 import {
 	assembleBuildResult,
@@ -78,6 +79,7 @@ export type SharedUploadArgs = InferArgs<typeof sharedUploadBuilder>;
 
 type UploadCommand = { command: "Deploy" } | { command: "Version upload" };
 type UploadArgs = SharedUploadArgs & {
+	provision?: boolean;
 	"preview-alias"?: string;
 	"containers-rollout"?: "immediate" | "gradual" | "none";
 };
@@ -93,7 +95,14 @@ type UploadArgs = SharedUploadArgs & {
 export async function runUpload(argv: UploadArgs, ctx: UploadCommand) {
 	// Delegate the build before applying cf's dotenv values.
 	if (!argv.prebuilt) {
-		await runBuild(argv.mode, { worker: argv.worker });
+		const build = await runBuild(argv.mode, {
+			worker: argv.worker,
+			dryRun: argv["dry-run"],
+		});
+		if (build === "setup-needed") {
+			clack.log.success("--dry-run: exiting now.");
+			return;
+		}
 		clack.log.message("", { spacing: 0 });
 	}
 
@@ -213,7 +222,7 @@ async function uploadBuildOutput(argv: UploadArgs, ctx: UploadCommand) {
 		);
 	}
 
-	clack.log.success(
-		argv["dry-run"] ? "Dry run complete" : `${ctx.command} complete`
-	);
+	if (!argv["dry-run"]) {
+		clack.log.success(`${ctx.command} complete`);
+	}
 }

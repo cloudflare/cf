@@ -1,6 +1,3 @@
-import $build from "#commands/containers/build/index.js";
-import $push from "#commands/containers/push/index.js";
-import $ssh from "#commands/containers/ssh/index.js";
 import $applications from "./applications/index.js";
 import $images from "./images/index.js";
 import $registries from "./registries/index.js";
@@ -10,6 +7,9 @@ import type { CommonYargsOptions } from "#lib/cli-types.js";
  * @generated from apis/overlays/containers.ts
  */
 import type { CommandModule } from "yargs";
+import $build from "#commands/containers/build/index.js";
+import $push from "#commands/containers/push/index.js";
+import $ssh from "#commands/containers/ssh/index.js";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "containers",

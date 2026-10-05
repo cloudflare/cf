@@ -1,4 +1,3 @@
-import { getSdkMapEntry } from "#sdk";
 /**
  * Construct an {@link EmitContext} from a method + resolved OpenAPI op.
  *
@@ -33,6 +32,7 @@ import { computeVariantPromptBlock } from "./handler/variant-prompt.js";
 import { computePathBookkeeping } from "./sdk-path.js";
 import type { EmitContext } from "./context.js";
 import type { OperationInfo, Schema } from "@cloudflare/forge";
+import { getSdkMapEntry } from "#sdk";
 
 export interface BuildContextInput {
 	method: Schema.method;

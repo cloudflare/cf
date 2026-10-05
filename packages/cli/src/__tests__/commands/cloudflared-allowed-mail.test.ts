@@ -4,9 +4,16 @@ import { syncBuiltinESMExports } from "node:module";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { spawnCloudflared } from "@cloudflare/workers-utils";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import {
+	afterEach,
+	beforeEach,
+	describe,
+	expect,
+	it,
+	vi,
+} from "vite-plus/test";
 
-// Exercise the installed workers-utils patch rather than mocking its API.
+// Exercise the released workers-utils implementation without mocking its API.
 describe("email-protected cloudflared", () => {
 	let binaryDir: string;
 	let binaryPath: string;

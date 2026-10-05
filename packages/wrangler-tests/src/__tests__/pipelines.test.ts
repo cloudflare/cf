@@ -1,5 +1,5 @@
 import { http, HttpResponse } from "msw";
-import { afterEach, beforeEach, describe, it } from "vitest";
+import { afterEach, beforeEach, describe, it } from "vite-plus/test";
 import { mockAccountId, mockApiToken } from "./helpers/mock-account-id";
 import { mockConsoleMethods } from "./helpers/mock-console";
 import { clearDialogs, mockConfirm } from "./helpers/mock-dialogs";
@@ -7,7 +7,7 @@ import { useMockIsTTY } from "./helpers/mock-istty";
 import { msw } from "./helpers/msw";
 import { runInTempDir } from "./helpers/run-in-tmp";
 import { runWrangler } from "./helpers/run-wrangler";
-import type { ExpectStatic } from "vitest";
+import type { ExpectStatic } from "vite-plus/test";
 
 // Inline replacements for `../pipelines/types` (which doesn't exist in
 // this corpus). Just enough shape to keep the mocked-response objects
@@ -878,7 +878,7 @@ describe("wrangler pipelines", () => {
 			await expect(
 				runWrangler("pipelines sinks create --name my_sink")
 			).rejects.toThrowErrorMatchingInlineSnapshot(
-				`[Error: --type is required (one of: r2, r2_data_catalog). Pass --type <value> or run interactively.]`
+				`[Error: --type is required (one of: r2, r2_data_catalog, basin_catalog). Pass --type <value> or run interactively.]`
 			);
 		});
 

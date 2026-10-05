@@ -12,7 +12,7 @@
 // mockConfirm) through the wizard's state machine — there is no
 // single CRUD endpoint to retarget at, and there's no `cf pipelines
 // setup` to invoke. So every test is `.skip` rather than ported.
-import { describe, it } from "vitest";
+import { describe, it } from "vite-plus/test";
 
 describe("wrangler pipelines setup", () => {
 	describe("pipeline name validation", () => {

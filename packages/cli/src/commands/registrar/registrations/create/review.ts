@@ -1,7 +1,7 @@
 import { isDeepStrictEqual } from "node:util";
+import type { FlagDescriptor, JsonSchema } from "#lib/schema-flags.js";
 import { sanitizeTerminalText, validateJsonSchema } from "#lib/schema-flags.js";
 import { theme } from "#lib/ui/theme.js";
-import type { FlagDescriptor, JsonSchema } from "#lib/schema-flags.js";
 
 interface RegistrationPricing {
 	currency: string;

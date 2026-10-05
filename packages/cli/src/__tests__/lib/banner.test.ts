@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vite-plus/test";
 import { renderPromptIntro } from "../../lib/ui/banner.js";
 
 /**
@@ -7,7 +7,7 @@ import { renderPromptIntro } from "../../lib/ui/banner.js";
  * "· delegated" tag to the headline so it's clear why the running
  * version may differ from the global cf the user invoked. The signal is
  * the `CF_DELEGATION` sentinel the child is spawned with (see
- * lib/delegate.ts). `unstubEnvs: true` (vitest.config.mts) auto-restores
+ * lib/delegate.ts). `unstubEnvs: true` (vite.config.ts) auto-restores
  * the env after each test.
  */
 describe("renderPromptIntro", () => {

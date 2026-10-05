@@ -153,6 +153,7 @@ async function createWorkerProject(
 		name,
 		compatibilityDate: DEFAULT_COMPAT_DATE,
 		cfVersion: VERSION,
+		packageManager,
 	});
 
 	for (const [path, contents] of Object.entries(files)) {

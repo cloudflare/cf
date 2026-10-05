@@ -24,6 +24,10 @@ export interface CommandOutputOptions {
 	output?: CommandOutput;
 }
 
+interface ProjectPreparationOptions extends CommandOutputOptions {
+	dryRun?: boolean;
+}
+
 export interface RunProjectCommandOptions extends CommandOutputOptions {
 	env?: Readonly<Record<string, string>>;
 	args?: readonly string[];
@@ -77,23 +81,34 @@ export async function analyzeProject(
 	}
 }
 
+/**
+ * Run framework autoconfig after detection, applying or dry-running setup
+ * without building.
+ */
 export async function configureProject(
 	details: AutoConfigDetails,
-	options: CommandOutputOptions = {}
+	options: ProjectPreparationOptions = {}
 ): Promise<AutoConfigSummary> {
 	return runAutoConfig(details, {
 		target: "cf",
 		context: createAutoConfigContext(options),
+		dryRun: options.dryRun,
 		runBuild: false,
 	});
 }
 
+/**
+ * Choose project setup before a build: an accepted Wrangler config conversion
+ * takes precedence over framework setup. In a dry run, `setupNeeded` means
+ * a setup route was selected but not applied, so callers must skip the build.
+ */
 export async function prepareProject(
 	cwd: string,
-	options: CommandOutputOptions = {}
+	options: ProjectPreparationOptions = {}
 ): Promise<{
 	details: AutoConfigDetails | undefined;
 	configuration?: AutoConfigSummary;
+	setupNeeded?: true;
 }> {
 	let details = await analyzeProject(cwd, options);
 	if (details?.configured) {
@@ -101,13 +116,16 @@ export async function prepareProject(
 	}
 
 	const context = createAutoConfigContext(options);
-	if (
-		await maybeMigrateWranglerProject(
-			cwd,
-			(text, confirmOptions) => context.dialogs.confirm(text, confirmOptions),
-			options.output
-		)
-	) {
+	const migrationRan = await maybeMigrateWranglerProject(
+		cwd,
+		(text, confirmOptions) => context.dialogs.confirm(text, confirmOptions),
+		options.output,
+		options.dryRun
+	);
+	if (migrationRan) {
+		if (options.dryRun) {
+			return { details, setupNeeded: true };
+		}
 		details = await analyzeProject(cwd, options);
 		return { details };
 	}
@@ -115,7 +133,10 @@ export async function prepareProject(
 	return {
 		details,
 		...(details
-			? { configuration: await configureProject(details, options) }
+			? {
+					configuration: await configureProject(details, options),
+					...(options.dryRun ? { setupNeeded: true as const } : {}),
+				}
 			: {}),
 	};
 }

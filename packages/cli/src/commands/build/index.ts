@@ -24,16 +24,25 @@ interface RunBuildOptions extends CommandOutputOptions {
 	// Validate the Worker the caller will consume, so an invalid default
 	// Worker cannot block a workflow that selected another one.
 	worker?: string;
+	dryRun?: boolean;
 }
 
 export async function runBuild(
 	mode?: string,
-	{ worker: selectedWorker, ...options }: RunBuildOptions = {},
+	{ worker: selectedWorker, dryRun = false, ...options }: RunBuildOptions = {},
 	ctx: { isPreview?: boolean } = {}
-): Promise<void> {
+): Promise<"built" | "setup-needed"> {
 	const output = options.output ?? "stdout";
 	const cwd = process.cwd();
-	const { details, configuration } = await prepareProject(cwd, options);
+	const { details, configuration, setupNeeded } = await prepareProject(cwd, {
+		...options,
+		dryRun,
+	});
+	if (setupNeeded) {
+		// A Wrangler config conversion or framework setup was dry-run, so the
+		// configuration the build needs has not been written yet.
+		return "setup-needed";
+	}
 	const buildCommand = configuration?.buildCommand ?? details?.buildCommand;
 	const env: Record<string, string> = {
 		...details?.env,
@@ -91,6 +100,7 @@ export async function runBuild(
 			output: output === "stderr" ? process.stderr : undefined,
 		});
 	}
+	return "built";
 }
 
 function formatImplName(discovered: DiscoveredImpl): string {

@@ -1,5 +1,5 @@
 import { seed } from "@cloudflare/workers-utils/test-helpers";
-import { describe, it, test } from "vitest";
+import { describe, it, test } from "vite-plus/test";
 import { mockAccountId, mockApiToken } from "../helpers/mock-account-id";
 import { runInTempDir } from "../helpers/run-in-tmp";
 import { runWrangler } from "../helpers/run-wrangler";

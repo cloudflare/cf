@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 import { PoliciesClient } from "../resources/policies/client/Client.js";
 import { PolicyTestsClient } from "../resources/policyTests/client/Client.js";
 import { SettingsClient } from "../resources/settings/client/Client.js";

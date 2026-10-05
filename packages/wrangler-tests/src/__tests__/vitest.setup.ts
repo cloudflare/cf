@@ -9,7 +9,7 @@ process.env.CLI_VERSION = "x.x.x";
 import { PassThrough } from "node:stream";
 import chalk from "chalk";
 import { passthrough } from "msw";
-import { afterAll, afterEach, beforeAll, beforeEach, vi } from "vitest";
+import { afterAll, afterEach, beforeAll, beforeEach, vi } from "vite-plus/test";
 import { msw } from "./helpers/msw";
 
 //turn off chalk for tests due to inconsistencies between operating systems
@@ -17,7 +17,6 @@ chalk.level = 0;
 
 // In general we don't want the ConfigController to watch the config files
 // as this tends to make the tests flaky.
-// eslint-disable-next-line turbo/no-undeclared-env-vars
 process.env.WRANGLER_CI_DISABLE_CONFIG_WATCHING = "true";
 
 /**
@@ -249,7 +248,7 @@ vi.mock("prompts", async () => {
 	return { __esModule: true, default: vi.fn(promptsImpl) };
 });
 
-// `@clack/prompts` is intercepted via a vite alias (see vitest.config.mts
+// `@clack/prompts` is intercepted via a Vite alias (see vite.config.ts
 // → resolve.alias) — all imports across the workspace go to
 // `helpers/clack-mock.ts`, which consumes from the same mock-dialogs
 // queues `mockConfirm`/`mockPrompt`/`mockSelect` push to.

@@ -1,14 +1,12 @@
-import {
-	CloudflareApiClient,
-	CloudflareApiEnvironment,
-	CloudflareApiError,
-} from "#sdk";
-import { getAuthFromEnv } from "@cloudflare/workers-auth";
-import { getCloudflareApiBaseUrl } from "@cloudflare/workers-utils";
+import { getCloudflareApiBaseUrl } from "@cloudflare/workers-utils/compliance";
+import { API_TIMEOUT_MS } from "./api-constants.js";
+import { getAuthToken } from "./auth-token.js";
 import { getComplianceRegion, resolveAccountIdSilent } from "./context.js";
-import { getValidToken as getOAuthToken } from "./oauth/index.js";
 import { getDefaultHeaders } from "./request-headers.js";
 import type { BaseClientOptions } from "#sdk";
+import { CloudflareApiClient } from "#sdk/client";
+import { CloudflareApiEnvironment } from "#sdk/environments";
+import { CloudflareApiError } from "#sdk/errors";
 
 // Re-export context helpers used by generated commands and hand-written paths.
 export { getAccountId, getWorkerName, getZoneId } from "./context.js";
@@ -27,8 +25,7 @@ export {
 	setProfile,
 } from "./oauth/index.js";
 
-/** Default timeout for API calls (30 seconds). */
-export const API_TIMEOUT_MS = 30_000;
+export { API_TIMEOUT_MS, getAuthToken };
 const DEFAULT_BASE_URL = CloudflareApiEnvironment.Default;
 
 type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
@@ -248,40 +245,6 @@ export function createCloudflareClientWithToken(
 	const client = new CloudflareApiClient(clientOptions);
 	clientBaseUrls.set(client, baseURL);
 	return client;
-}
-
-/**
- * Get the authentication token for the Cloudflare API.
- *
- * Resolution order:
- * 1. `CLOUDFLARE_API_TOKEN` environment variable (cf does not support the
- *    global API key + email pair, so `allowGlobalAuthKey` is `false`).
- * 2. cf's stored OAuth token (refreshed if expired).
- *
- * @throws Error if no authentication token is found.
- */
-export async function getAuthToken(): Promise<string> {
-	// Environment credential (scoped API token only).
-	const envAuth = getAuthFromEnv({ allowGlobalAuthKey: false });
-	if (envAuth && "apiToken" in envAuth) {
-		return envAuth.apiToken;
-	}
-
-	// cf's own OAuth token (refreshes if needed).
-	const cfToken = await getOAuthToken();
-	if (cfToken) {
-		return cfToken;
-	}
-
-	throw new Error(
-		`No authentication token found.
-
-Please set one of the following:
-  1. Set the CLOUDFLARE_API_TOKEN environment variable
-  2. Run 'cf auth login' to authenticate via OAuth
-
-For API tokens, visit: https://dash.cloudflare.com/profile/api-tokens`
-	);
 }
 
 /**

@@ -239,6 +239,7 @@ export interface SdkOperationRequestMap {
   "aig-config-fetch-custom-domain": CloudflareApi.aiGateway.GetCustomDomainsRequest;
   "aig-config-fetch-dataset": CloudflareApi.aiGateway.GetDatasetsRequest;
   "aig-config-fetch-evaluations": CloudflareApi.aiGateway.GetEvaluationsRequest;
+  "aig-config-fetch-providers": CloudflareApi.aiGateway.gateways.GetProvidersRequest;
   "aig-config-get-gateway-dynamic-route": CloudflareApi.aiGateway.GetDynamicRoutingRequest;
   "aig-config-get-gateway-dynamic-route-version": CloudflareApi.aiGateway.dynamicRouting.GetVersionsRequest;
   "aig-config-get-gateway-log-detail": CloudflareApi.aiGateway.GetLogsRequest;
@@ -714,6 +715,7 @@ export interface SdkOperationRequestMap {
   "deleteTcpFlowProtectionRulesForAccount": CloudflareApi.magicTransit.advancedTcpProtection.configs.tcp.flow.protection.rules.delete_.AccountForRequest;
   "deleteTrigger": CloudflareApi.builds.DeleteTriggersRequest;
   "deleteUrlNormalization": CloudflareApi.DeleteUrlNormalizationRequest;
+  "deleteV4AccountsByAccount_idK2StreamsByStream_id": CloudflareApi.k2.DeleteStreamsRequest;
   "deleteV4AccountsByAccount_idPipelinesByPipeline_name_deprecated": CloudflareApi.LegacyDeletePipelinesRequest;
   "deleteV4AccountsByAccount_idPipelinesV1PipelinesByPipeline_id": CloudflareApi.DeletePipelinesRequest;
   "deleteV4AccountsByAccount_idPipelinesV1SinksBySink_id": CloudflareApi.pipelines.DeleteSinksRequest;
@@ -1370,6 +1372,9 @@ export interface SdkOperationRequestMap {
   "getTcpFlowProtectionFilter": CloudflareApi.magicTransit.advancedTcpProtection.configs.tcp.flow.protection.GetFiltersRequest;
   "getTcpFlowProtectionRule": CloudflareApi.magicTransit.advancedTcpProtection.configs.tcp.flow.protection.GetRulesRequest;
   "getUrlNormalization": CloudflareApi.GetUrlNormalizationRequest;
+  "getV4AccountsByAccount_idK2Streams": CloudflareApi.k2.ListStreamsRequest;
+  "getV4AccountsByAccount_idK2StreamsByStream_id": CloudflareApi.k2.GetStreamsRequest;
+  "getV4AccountsByAccount_idK2StreamsByStream_idSubscriptions": CloudflareApi.k2.streams.ListSubscriptionsRequest;
   "getV4AccountsByAccount_idPipelines_deprecated": CloudflareApi.LegacyListPipelinesRequest;
   "getV4AccountsByAccount_idPipelinesByPipeline_name_deprecated": CloudflareApi.LegacyGetPipelinesRequest;
   "getV4AccountsByAccount_idPipelinesV1Pipelines": CloudflareApi.ListPipelinesRequest;
@@ -1889,6 +1894,7 @@ export interface SdkOperationRequestMap {
   "patch-hyperdrive": CloudflareApi.HyperdriveHyperdriveConfigPatch;
   "patch-presets-preset_id": CloudflareApi.realtime.kit.RealtimekitUpdatePreset;
   "patchLatestWorkerVersion": CloudflareApi.workers.versions.EditLatestRequest;
+  "patchV4AccountsByAccount_idK2StreamsByStream_id": CloudflareApi.k2.CloudflareK2UpdateK2StreamRequest;
   "patchV4AccountsByAccount_idPipelinesV1StreamsByStream_id": CloudflareApi.pipelines.UpdateStreamsRequest;
   "pause_integration_v2": CloudflareApi.zeroTrust.casb.PauseIntegrationsRequest;
   "pause_resume_stop_recording": CloudflareApi.realtime.kit.ControlRecordingsRequest;
@@ -1999,6 +2005,7 @@ export interface SdkOperationRequestMap {
   "postAccountsAccountIdBrandProtectionQueries": CloudflareApi.BrandProtectionApiQuery;
   "postAccountsAccountIdBrandProtectionQueriesBulk": CloudflareApi.queries.BrandProtectionApiQueryBulk;
   "postAccountsAccountIdBrandProtectionSubmit": CloudflareApi.CreateSubmitRequest;
+  "postV4AccountsByAccount_idK2Streams": CloudflareApi.k2.CloudflareK2CreateK2StreamRequest;
   "postV4AccountsByAccount_idPipelines_deprecated": CloudflareApi.LegacyCreatePipelinesRequest;
   "postV4AccountsByAccount_idPipelinesV1Pipelines": CloudflareApi.CreatePipelinesRequest;
   "postV4AccountsByAccount_idPipelinesV1Sinks": CloudflareApi.pipelines.CreateSinksRequest;
@@ -3468,6 +3475,7 @@ export interface SdkOperationQueryMap {
   "GetSessionParticipants": Pick<CloudflareApi.realtime.kit.sessions.ListParticipantsRequest, Extract<"search" | "page_no" | "per_page" | "sort_order" | "sort_by" | "include_peer_events" | "view", keyof CloudflareApi.realtime.kit.sessions.ListParticipantsRequest>>;
   "GetSessions": Pick<CloudflareApi.realtime.kit.ListSessionsRequest, Extract<"page_no" | "per_page" | "sort_by" | "sort_order" | "start_time" | "end_time" | "participants" | "status" | "search" | "associated_id", keyof CloudflareApi.realtime.kit.ListSessionsRequest>>;
   "GetSessionTranscript": Pick<CloudflareApi.realtime.kit.sessions.ExportTranscriptsRequest, Extract<"format", keyof CloudflareApi.realtime.kit.sessions.ExportTranscriptsRequest>>;
+  "getV4AccountsByAccount_idK2Streams": Pick<CloudflareApi.k2.ListStreamsRequest, Extract<"name" | "page" | "per_page", keyof CloudflareApi.k2.ListStreamsRequest>>;
   "getV4AccountsByAccount_idPipelines_deprecated": Pick<CloudflareApi.LegacyListPipelinesRequest, Extract<"search" | "page" | "per_page", keyof CloudflareApi.LegacyListPipelinesRequest>>;
   "getV4AccountsByAccount_idPipelinesV1Pipelines": Pick<CloudflareApi.ListPipelinesRequest, Extract<"page" | "per_page" | "name", keyof CloudflareApi.ListPipelinesRequest>>;
   "getV4AccountsByAccount_idPipelinesV1Sinks": Pick<CloudflareApi.pipelines.ListSinksRequest, Extract<"pipeline_id" | "name" | "page" | "per_page", keyof CloudflareApi.pipelines.ListSinksRequest>>;

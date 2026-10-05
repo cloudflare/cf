@@ -56,9 +56,11 @@ writeFileSync("delegate-ready.json", JSON.stringify({ pid: process.pid }));
 `)
 			);
 			// Cover the extensionless shebang and npm's Windows .cmd launch paths.
+			// npm ends the batch context before running Node to avoid its Ctrl+C
+			// confirmation prompt: npm/cmd-shim's lib/index.js uses this tail.
 			writeFileSync(
 				framework,
-				`@echo off\r\n"${process.execPath}" "%~dp0delegate" %*\r\n`
+				`@echo off\r\nsetlocal\r\nendlocal & goto #_undefined_# 2>NUL || title %COMSPEC% & "${process.execPath}" "%~dp0delegate" %*\r\n`
 			);
 			writeFileSync(
 				driver,
@@ -75,7 +77,7 @@ const execution = ${
   binary: ${JSON.stringify(delegate)},
   manifestPath: "test"
 }, "dev", [], { output: ${JSON.stringify(output)} })`
-						: `runProjectCommand(${JSON.stringify(directory)}, ${JSON.stringify(`"${framework}"`)}, { output: ${JSON.stringify(output)} })`
+						: `runProjectCommand(${JSON.stringify(`"${framework}"`)}, ${JSON.stringify(directory)}, { output: ${JSON.stringify(output)} })`
 				};
 writeFileSync("parent-ready.json", JSON.stringify({ pid: process.pid }));
 const result = await execution;

@@ -25,7 +25,7 @@ export function withHandWrittenDryRun<T, U>(
 			});
 			if (strategy === "preview") {
 				withDryRun.middleware((argv) => {
-					if (!argv.dryRun || argv.help) {
+					if (argv["dry-run"] !== true || argv.help) {
 						return;
 					}
 					console.log(

@@ -56,6 +56,37 @@ describe("hand-written dry runs", () => {
 		});
 	});
 
+	it("skips delegates when their parser disables camel-case expansion", async () => {
+		const handler = vi.fn();
+		const output = vi.spyOn(console, "log").mockImplementation(() => {});
+		const command = withHandWrittenDryRun(
+			{
+				command: "dev [implArgs..]",
+				describe: "Run a delegate",
+				builder: (args) =>
+					args
+						.positional("implArgs", { type: "string", array: true })
+						.parserConfiguration({
+							"camel-case-expansion": false,
+							"unknown-options-as-args": true,
+						}),
+				handler,
+			},
+			"preview"
+		);
+
+		await expect(async () => {
+			await yargs(["dev", "--dry-run", "--token", "secret-value"])
+				.command(command)
+				.strict()
+				.exitProcess(false)
+				.parseAsync();
+		}).rejects.toMatchObject({ code: 0 });
+		expect(handler).not.toHaveBeenCalled();
+		expect(output).toHaveBeenCalledTimes(1);
+		expect(String(output.mock.calls[0]?.[0])).not.toContain("secret-value");
+	});
+
 	it("lets an existing command implement its own dry run", async () => {
 		const handler = vi.fn();
 		const command = withHandWrittenDryRun(

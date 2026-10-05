@@ -134,6 +134,21 @@ describe("spawnImpl", () => {
 		);
 	});
 
+	it("reports a missing executable and restores signal listeners", async () => {
+		const fake = makeFakeImpl("process.exit(0)");
+		fake.binary = join(
+			mkdtempSync(join(tmpdir(), "cf-missing-bin-")),
+			"missing"
+		);
+		const sigintListeners = process.listenerCount("SIGINT");
+		const sigtermListeners = process.listenerCount("SIGTERM");
+		await expect(spawnImpl(fake, "dev", [])).rejects.toMatchObject({
+			code: "ENOENT",
+		});
+		expect(process.listenerCount("SIGINT")).toBe(sigintListeners);
+		expect(process.listenerCount("SIGTERM")).toBe(sigtermListeners);
+	});
+
 	it.skipIf(process.platform === "win32")(
 		"maps signal-killed exits to 128 + signal_number",
 		async () => {

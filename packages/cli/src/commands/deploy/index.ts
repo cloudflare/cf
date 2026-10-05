@@ -1,3 +1,4 @@
+import * as clack from "@clack/prompts";
 import { runUpload, sharedUploadBuilder } from "./shared.js";
 import type { CommonYargsOptions, InferArgs } from "../../lib/cli-types.js";
 import type { Argv, CommandModule } from "yargs";

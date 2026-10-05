@@ -1,12 +1,9 @@
 import { readFile, stat, utimes } from "node:fs/promises";
 import path from "node:path";
 import * as runtimeTypes from "@cloudflare/runtime-types";
-import {
-	mockConsoleMethods,
-	runInTempDir,
-	seed,
-} from "@cloudflare/workers-utils/test-helpers";
+import { runInTempDir, seed } from "@cloudflare/workers-utils/test-helpers";
 import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
+import { captureOutput } from "../helpers/capture-output.js";
 import { runCf } from "../helpers/run-cf.js";
 
 const RUNTIME_TYPES_MARKER = "// Begin mocked runtime types";
@@ -32,9 +29,10 @@ function workerConfig(
 
 describe("cf workers types", () => {
 	runInTempDir();
-	const std = mockConsoleMethods();
+	let output: ReturnType<typeof captureOutput>;
 
 	beforeEach(() => {
+		output = captureOutput();
 		vi.clearAllMocks();
 		vi.mocked(runtimeTypes.generateRuntimeTypes).mockResolvedValue({
 			runtimeHeader: "// Runtime types header",
@@ -59,7 +57,7 @@ describe("cf workers types", () => {
 		expect(generated).toContain("// Runtime types header");
 		expect(generated).toContain(RUNTIME_TYPES_MARKER);
 		expect(generated).toContain("declare const runtimeBinding: Fetcher;");
-		expect(JSON.parse(std.out)).toEqual({ path: TYPES_PATH });
+		expect(JSON.parse(output.stdout())).toEqual({ path: TYPES_PATH });
 	});
 
 	it("omits runtime types when --include-runtime=false", async () => {

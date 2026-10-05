@@ -13,6 +13,10 @@ import { afterAll, beforeAll, describe, expect, it } from "vite-plus/test";
 import { server, setupMsw, TEST_BASE_URL } from "../../helpers/msw.js";
 import { runCf } from "../../helpers/run-cf.js";
 
+function normalizeProfileOutput(output: string): string {
+	return output.replace(/^(i|ℹ) /gm, "ℹ ").replace(/^(‼|⚠) /gm, "⚠ ");
+}
+
 function createProfile(name: string, token = `${name}-token`): void {
 	writeAuthConfigFile(
 		{ oauth_token: token, expiration_time: "2999-01-01T00:00:00.000Z" },
@@ -58,12 +62,12 @@ describe("cf auth profiles", () => {
 
 		await runCf(["auth", "activate", "work"]);
 		expect(store.bindings.getProfileForDirectory(cwd)).toBe("work");
-		expect(std.getAndClearOut()).toMatchInlineSnapshot(
+		expect(normalizeProfileOutput(std.getAndClearOut())).toMatchInlineSnapshot(
 			`"ℹ Profile "work" activated for "<cwd>"."`
 		);
 
 		await runCf(["auth", "list"]);
-		expect(std.getAndClearOut()).toMatchInlineSnapshot(`
+		expect(normalizeProfileOutput(std.getAndClearOut())).toMatchInlineSnapshot(`
 			"[
 			  {
 			    "name": "work",
@@ -76,7 +80,7 @@ describe("cf auth profiles", () => {
 
 		await runCf(["auth", "deactivate"]);
 		expect(store.bindings.getProfileForDirectory(cwd)).toBeUndefined();
-		expect(std.getAndClearOut()).toMatchInlineSnapshot(`
+		expect(normalizeProfileOutput(std.getAndClearOut())).toMatchInlineSnapshot(`
 			"ℹ Profile "work" deactivated from "<cwd>".
 			→ Run cf auth login to set up the default profile, or cf auth create <name> to create a named profile."
 		`);
@@ -135,7 +139,7 @@ describe("cf auth profiles", () => {
 
 		expect(store.configs.exists("work")).toBe(false);
 		expect(store.bindings.getBindingsForProfile("work")).toEqual([]);
-		expect(std.out).toMatchInlineSnapshot(`
+		expect(normalizeProfileOutput(std.out)).toMatchInlineSnapshot(`
 			"ℹ Removed directory bindings:
 			  <cwd>
 			ℹ Profile "work" deleted.
@@ -146,7 +150,7 @@ describe("cf auth profiles", () => {
 	it("does not duplicate the active profile in whoami output", async () => {
 		await runCf(["auth", "whoami", "--profile", "work"]);
 
-		expect(std.out).toMatchInlineSnapshot(`
+		expect(normalizeProfileOutput(std.out)).toMatchInlineSnapshot(`
 			"{
 			  "authenticated": false,
 			  "error": "Not logged in"
@@ -190,7 +194,7 @@ describe("cf auth profiles", () => {
 		store.bindings.activate("work", process.cwd());
 
 		await runCf(["auth", "login"]);
-		expect(std.getAndClearOut()).toMatchInlineSnapshot(`
+		expect(normalizeProfileOutput(std.getAndClearOut())).toMatchInlineSnapshot(`
 			"⚠ This directory has profile "work" active. \`cf auth login\` updates the default profile, not "work".
 			To re-authenticate "work", run \`cf auth create work\`.
 			ℹ You are already logged in.
@@ -200,7 +204,7 @@ describe("cf auth profiles", () => {
 		`);
 
 		await runCf(["auth", "logout"]);
-		expect(std.getAndClearOut()).toMatchInlineSnapshot(`
+		expect(normalizeProfileOutput(std.getAndClearOut())).toMatchInlineSnapshot(`
 			"⚠ This directory has profile "work" active. \`cf auth logout\` removes the default profile's token, not "work".
 			To delete "work", run \`cf auth delete work\`.
 			ℹ Logging out...

@@ -142,9 +142,13 @@ describe("spawnImpl", () => {
 		);
 		const sigintListeners = process.listenerCount("SIGINT");
 		const sigtermListeners = process.listenerCount("SIGTERM");
-		await expect(spawnImpl(fake, "dev", [])).rejects.toMatchObject({
-			code: "ENOENT",
-		});
+		const execution = spawnImpl(fake, "dev", []);
+		if (process.platform === "win32") {
+			// cmd.exe reports a missing extensionless command as a failed exit.
+			await expect(execution).resolves.toEqual({ exitCode: 1 });
+		} else {
+			await expect(execution).rejects.toMatchObject({ code: "ENOENT" });
+		}
 		expect(process.listenerCount("SIGINT")).toBe(sigintListeners);
 		expect(process.listenerCount("SIGTERM")).toBe(sigtermListeners);
 	});

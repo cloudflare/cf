@@ -1,3 +1,4 @@
+import { resolve } from "node:path";
 import { runInTempDir, seed } from "@cloudflare/workers-utils/test-helpers";
 import { describe, expect, it } from "vite-plus/test";
 import { discoverImpls } from "../../../commands/dev/discover.js";
@@ -54,8 +55,8 @@ describe("discoverImpls", () => {
 			const results = discoverImpls(process.cwd());
 			expect(results).toHaveLength(1);
 			expect(results[0]?.impl.pkg).toBe("@cloudflare/vite-plugin");
-			expect(results[0]?.binary).toMatch(
-				/node_modules\/@cloudflare\/vite-plugin\/bin\/cf-vite$/
+			expect(results[0]?.binary).toBe(
+				resolve("node_modules/@cloudflare/vite-plugin/bin/cf-vite")
 			);
 		});
 

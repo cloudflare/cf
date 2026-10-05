@@ -81,7 +81,7 @@ describe("resolveDelegateTarget", () => {
 
 		expect(target).not.toBeNull();
 		expect(target?.version).toBe("1.2.3");
-		expect(target?.binPath).toMatch(/node_modules\/cf\/bin\/cf\.mjs$/);
+		expect(target?.binPath).toBe(resolve("node_modules/cf/bin/cf.mjs"));
 	});
 
 	it("returns null when the resolved install is the running install", () => {
@@ -212,7 +212,7 @@ describe("resolveDelegateTarget", () => {
 			ownPackageJsonPath: OWN_PKG,
 			env: {},
 		});
-		expect(target?.binPath).toMatch(/node_modules\/cf\/bin\/cf\.mjs$/);
+		expect(target?.binPath).toBe(resolve("node_modules/cf/bin/cf.mjs"));
 	});
 });
 
@@ -295,10 +295,10 @@ describe("maybeDelegateToLocalInstall", () => {
 		).toBe("1");
 	});
 
-	it("maps a signal-killed local cf to 128 + signal number", async () => {
+	it("preserves the platform exit status of a self-terminated local cf", async () => {
 		await seedLocalCf({
-			// Keep the event loop alive so the self-sent SIGTERM is what
-			// terminates the process (exit code 128 + 15 = 143).
+			// Windows reports a self-terminated process as exit 1; POSIX reports SIGTERM.
+			// Keep the event loop alive so the self-sent signal terminates the process.
 			script:
 				`setTimeout(() => process.exit(0), 100000);\n` +
 				`process.kill(process.pid, "SIGTERM");\n`,
@@ -311,7 +311,7 @@ describe("maybeDelegateToLocalInstall", () => {
 			ownPackageJsonPath: OWN_PKG,
 		});
 
-		expect(result.exitCode).toBe(143);
+		expect(result.exitCode).toBe(process.platform === "win32" ? 1 : 143);
 	});
 
 	it("does not delegate when the loop-guard sentinel is set", async () => {

@@ -1,4 +1,4 @@
-import { chmodSync, readFileSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import * as clack from "@clack/prompts";
 import {
@@ -12,6 +12,7 @@ import {
 	runProjectCommand,
 	shouldRelayProjectCommandSignal,
 } from "../../../lib/autoconfig.js";
+import { makeExecutable, nodeScript } from "../../helpers/executable.js";
 import { runCf } from "../../helpers/run-cf.js";
 
 /**
@@ -195,15 +196,9 @@ describe("cf dev", () => {
 					version: "1.61.0",
 				}),
 				"node_modules/@cloudflare/vite-plugin/bin/cf-vite":
-					"#!/usr/bin/env bash\nexit 0\n",
+					nodeScript("process.exit(0);"),
 			});
-			chmodSync(
-				resolve(
-					process.cwd(),
-					"node_modules/@cloudflare/vite-plugin/bin/cf-vite"
-				),
-				0o755
-			);
+			makeExecutable("node_modules/@cloudflare/vite-plugin/bin/cf-vite");
 
 			const result = await runCf(["dev"]);
 
@@ -228,10 +223,11 @@ describe("cf dev", () => {
 					name: "astro",
 					version: "5.0.0",
 				}),
-				"node_modules/.bin/astro":
-					'#!/usr/bin/env bash\nprintf "%s\\n" "$@" > astro-argv.out\n',
+				"node_modules/.bin/astro": nodeScript(
+					'require("node:fs").writeFileSync("astro-argv.out", process.argv.slice(2).join("\\n") + "\\n");'
+				),
 			});
-			chmodSync(resolve(process.cwd(), "node_modules/.bin/astro"), 0o755);
+			makeExecutable("node_modules/.bin/astro", { npmBin: true });
 
 			const result = await runCf(["dev", "--mode", "staging"]);
 
@@ -261,10 +257,11 @@ describe("cf dev", () => {
 					name: "vinext",
 					version: "0.0.1",
 				}),
-				"node_modules/.bin/vite":
-					'#!/usr/bin/env bash\nprintf "%s\\n" "$@" > vite-argv.out\nprintf "%s\\n" "$CLOUDFLARE_VITE_FORCE_BUILD_OUTPUT" >> vite-argv.out\n',
+				"node_modules/.bin/vite": nodeScript(
+					'require("node:fs").writeFileSync("vite-argv.out", [...process.argv.slice(2), process.env.CLOUDFLARE_VITE_FORCE_BUILD_OUTPUT].join("\\n") + "\\n");'
+				),
 			});
-			chmodSync(resolve(process.cwd(), "node_modules/.bin/vite"), 0o755);
+			makeExecutable("node_modules/.bin/vite", { npmBin: true });
 
 			const result = await runCf(["dev", "--mode", "staging"]);
 
@@ -292,10 +289,11 @@ describe("cf dev", () => {
 					name: "vinext",
 					version: "0.0.1",
 				}),
-				"node_modules/.bin/next":
-					'#!/usr/bin/env bash\nprintf "next" > selected-command.out\n',
+				"node_modules/.bin/next": nodeScript(
+					'require("node:fs").writeFileSync("selected-command.out", "next");'
+				),
 			});
-			chmodSync(resolve(process.cwd(), "node_modules/.bin/next"), 0o755);
+			makeExecutable("node_modules/.bin/next", { npmBin: true });
 
 			const result = await runCf(["dev"]);
 
@@ -345,10 +343,11 @@ describe("cf dev", () => {
 					name: "vite",
 					version: "7.0.0",
 				}),
-				"node_modules/.bin/vite":
-					'#!/usr/bin/env bash\nprintf "%s\\n%s\\n%s\\n%s\\n" "$CLOUDFLARE_VITE_FORCE_BUILD_OUTPUT" "$CLOUDFLARE_REGISTRY_PATH" "$WRANGLER_REGISTRY_PATH" "$MINIFLARE_REGISTRY_PATH" > env.out\n',
+				"node_modules/.bin/vite": nodeScript(
+					'require("node:fs").writeFileSync("env.out", [process.env.CLOUDFLARE_VITE_FORCE_BUILD_OUTPUT, process.env.CLOUDFLARE_REGISTRY_PATH, process.env.WRANGLER_REGISTRY_PATH, process.env.MINIFLARE_REGISTRY_PATH].join("\\n") + "\\n");'
+				),
 			});
-			chmodSync(resolve(process.cwd(), "node_modules/.bin/vite"), 0o755);
+			makeExecutable("node_modules/.bin/vite", { npmBin: true });
 
 			const result = await runCf(["dev"]);
 
@@ -383,6 +382,54 @@ describe("cf dev", () => {
 					process.cwd()
 				)
 			).toEqual({ exitCode: 0 });
+		});
+
+		it("preserves PATH and environment overrides for project commands", async () => {
+			await runProjectCommand(
+				`node -e "require('node:fs').writeFileSync('command-env.json', JSON.stringify([process.env.PATH, process.env.CF_TEST_ENV]))"`,
+				process.cwd(),
+				{ env: { CF_TEST_ENV: "override" } }
+			);
+
+			expect(JSON.parse(readFileSync("command-env.json", "utf8"))).toEqual([
+				process.env.PATH,
+				"override",
+			]);
+		});
+
+		it("propagates non-zero project command exits", async () => {
+			expect(
+				await runProjectCommand('node -e "process.exit(42)"', process.cwd())
+			).toEqual({ exitCode: 42 });
+		});
+
+		it.skipIf(process.platform === "win32")(
+			"reports signal-killed project commands",
+			async () => {
+				expect(
+					await runProjectCommand(
+						`node -e "process.kill(process.pid, 'SIGTERM')"`,
+						process.cwd()
+					)
+				).toEqual({ exitCode: 143, signal: "SIGTERM" });
+			}
+		);
+
+		it("reports missing project commands and restores signal listeners", async () => {
+			const sigintListeners = process.listenerCount("SIGINT");
+			const sigtermListeners = process.listenerCount("SIGTERM");
+			const execution = runProjectCommand(
+				"cf-missing-project-command",
+				process.cwd(),
+				{ output: "silent" }
+			);
+			if (process.platform === "win32") {
+				await expect(execution).resolves.toEqual({ exitCode: 1 });
+			} else {
+				await expect(execution).rejects.toMatchObject({ code: "ENOENT" });
+			}
+			expect(process.listenerCount("SIGINT")).toBe(sigintListeners);
+			expect(process.listenerCount("SIGTERM")).toBe(sigtermListeners);
 		});
 
 		it("hides environment overrides unless DEBUG is set", async () => {
@@ -484,10 +531,7 @@ describe("cf dev", () => {
 		});
 
 		it("spawns the impl and propagates its exit code", async () => {
-			// Lay down a fake-impl fixture: a bash script at the
-			// per-impl conventional `bin/<binary>` path (cf-vite for
-			// the vite-plugin impl). The script exits 0 after echoing
-			// nothing — we just want to confirm spawn went through.
+			// Lay down a fake implementation at the conventional delegate path.
 			await seed({
 				"package.json": JSON.stringify({
 					devDependencies: { "@cloudflare/vite-plugin": "beta" },
@@ -497,17 +541,9 @@ describe("cf dev", () => {
 					version: "2.0.0-beta.sha-805ec1ff3",
 				}),
 				"node_modules/@cloudflare/vite-plugin/bin/cf-vite":
-					"#!/usr/bin/env bash\nexit 0\n",
+					nodeScript("process.exit(0);"),
 			});
-			// `seed` doesn't chmod +x; flip the bit so the kernel will
-			// honour the shebang on exec.
-			chmodSync(
-				resolve(
-					process.cwd(),
-					"node_modules/@cloudflare/vite-plugin/bin/cf-vite"
-				),
-				0o755
-			);
+			makeExecutable("node_modules/@cloudflare/vite-plugin/bin/cf-vite");
 
 			const result = await runCf(["dev"]);
 			expect(result.exitCode).toBe(0);
@@ -523,15 +559,9 @@ describe("cf dev", () => {
 					version: "3.0.0-beta.1",
 				}),
 				"node_modules/@cloudflare/vite-plugin/bin/cf-vite":
-					"#!/usr/bin/env bash\nexit 0\n",
+					nodeScript("process.exit(0);"),
 			});
-			chmodSync(
-				resolve(
-					process.cwd(),
-					"node_modules/@cloudflare/vite-plugin/bin/cf-vite"
-				),
-				0o755
-			);
+			makeExecutable("node_modules/@cloudflare/vite-plugin/bin/cf-vite");
 
 			const result = await runCf(["dev"]);
 			expect(result.exitCode).toBe(1);
@@ -551,27 +581,16 @@ describe("cf dev", () => {
 					version: "2.0.0-beta.sha-805ec1ff3",
 				}),
 				"node_modules/@cloudflare/vite-plugin/bin/cf-vite":
-					"#!/usr/bin/env bash\nexit 17\n",
+					nodeScript("process.exit(17);"),
 			});
-			chmodSync(
-				resolve(
-					process.cwd(),
-					"node_modules/@cloudflare/vite-plugin/bin/cf-vite"
-				),
-				0o755
-			);
+			makeExecutable("node_modules/@cloudflare/vite-plugin/bin/cf-vite");
 
 			const result = await runCf(["dev"]);
 			expect(result.exitCode).toBe(17);
 		});
 
 		it("forwards unknown flags to the impl", async () => {
-			// The fixture writes its argv to stdout; we capture it via
-			// the standard console hook. (The impl inherits stdio, so
-			// its stdout flows through `process.stdout` which
-			// `mockConsoleMethods` does NOT intercept — we have to
-			// route through console.log via Node from inside the bash
-			// script. Easiest: write argv to a known file, read it.)
+			// The delegate inherits stdout, so write argv to a file for inspection.
 			await seed({
 				"package.json": JSON.stringify({
 					devDependencies: { "@cloudflare/vite-plugin": "beta" },
@@ -580,16 +599,11 @@ describe("cf dev", () => {
 					name: "@cloudflare/vite-plugin",
 					version: "2.0.0-beta.sha-805ec1ff3",
 				}),
-				"node_modules/@cloudflare/vite-plugin/bin/cf-vite":
-					'#!/usr/bin/env bash\nprintf "%s\\n" "$@" > argv.out\n',
-			});
-			chmodSync(
-				resolve(
-					process.cwd(),
-					"node_modules/@cloudflare/vite-plugin/bin/cf-vite"
+				"node_modules/@cloudflare/vite-plugin/bin/cf-vite": nodeScript(
+					'require("node:fs").writeFileSync("argv.out", process.argv.slice(2).join("\\n") + "\\n");'
 				),
-				0o755
-			);
+			});
+			makeExecutable("node_modules/@cloudflare/vite-plugin/bin/cf-vite");
 
 			const result = await runCf([
 				"dev",

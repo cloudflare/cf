@@ -141,7 +141,7 @@ describe("cf migrate", () => {
 			}
 		);
 		expect(std.out).toContain(
-			`Would update 2 file(s):\n├─ ${path.join("config", "cloudflare.config.ts")}\n└─ ${path.join("config", "package.json")}`
+			"Would update 2 file(s):\n├─ config/cloudflare.config.ts\n└─ config/package.json"
 		);
 		expect(std.out).toContain("Migration preview complete.");
 	});

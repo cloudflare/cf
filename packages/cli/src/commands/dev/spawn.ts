@@ -14,8 +14,8 @@
  * delegate binary supports. Future subcommands like `build` / `deploy`
  * will follow the same shape: `<impl-binary> <verb> [argv]`.
  */
-import { spawn } from "node:child_process";
 import { constants } from "node:os";
+import { x } from "tinyexec";
 import { getCloudflareRegistryEnvironment } from "../../lib/registry.js";
 import type { CommandOutputOptions } from "../../lib/autoconfig.js";
 import type { DiscoveredImpl } from "./discover.js";
@@ -89,37 +89,45 @@ export async function spawnImpl(
 
 	// PyPI impls under uv use a `uv:<pkg>` sentinel from the discoverer
 	// to signal "invoke via `uv run` rather than the bare binary." Split
-	// it out into the right argv shape for child_process.spawn.
+	// it out into the right argv shape for the subprocess.
 	const { command, prefixArgs } = parseBinaryToken(binary);
 
-	const child = spawn(command, [...prefixArgs, verb, ...argv], {
-		// Dev inherits stdout so the implementation owns the terminal. A
-		// composed one-shot command may instead route build output to stderr
-		// (preserving JSON stdout) or suppress non-error output under --quiet.
-		stdio: [
-			"inherit",
-			output === "stderr"
-				? process.stderr
-				: output === "silent"
-					? "ignore"
-					: "inherit",
-			"inherit",
-		],
-		// Pass cwd through implicitly via process.cwd(); the impl reads
-		// its own config from there. The impl also needs the user's full
-		// environment (PATH, NODE_OPTIONS, virtualenv markers, etc.), so
-		// we don't whitelist. Dev servers are always pointed at cf's
-		// resolved registry: existing Wrangler/Vite-based implementations
-		// consume WRANGLER_REGISTRY_PATH, while cf-native implementations
-		// consume CLOUDFLARE_REGISTRY_PATH. We also append
-		// `--no-deprecation` to NODE_OPTIONS so transitive userland
-		// `punycode` deprecation warnings don't leak into the impl's
-		// terminal output. The impls themselves can't easily suppress
-		// these (the warning fires before user code runs); the parent
-		// is the right place to set the env flag. Other deprecation
-		// warnings the user might actually want to see are sacrificed
-		// here in exchange for clean dev-server output.
-		env: implEnvironment(verb, options.env),
+	// tinyexec resolves delegate shebangs on Windows, including extensionless
+	// entrypoints that native spawn cannot execute directly.
+	const child = x(command, [...prefixArgs, verb, ...argv], {
+		// Delegates should see the user's PATH without extra local binaries.
+		nodePath: false,
+		nodeOptions: {
+			// Inherited stdin/stderr keep the Windows console attached even
+			// with tinyexec's windowsHide default, so console Ctrl+C still works.
+			// Dev inherits stdout so the implementation owns the terminal. A
+			// composed one-shot command may instead route build output to stderr
+			// (preserving JSON stdout) or suppress non-error output under --quiet.
+			stdio: [
+				"inherit",
+				output === "stderr"
+					? process.stderr
+					: output === "silent"
+						? "ignore"
+						: "inherit",
+				"inherit",
+			],
+			// Pass cwd through implicitly via process.cwd(); the impl reads
+			// its own config from there. The impl also needs the user's full
+			// environment (PATH, NODE_OPTIONS, virtualenv markers, etc.), so
+			// we don't whitelist. Dev servers are always pointed at cf's
+			// resolved registry: existing Wrangler/Vite-based implementations
+			// consume WRANGLER_REGISTRY_PATH, while cf-native implementations
+			// consume CLOUDFLARE_REGISTRY_PATH. We also append
+			// `--no-deprecation` to NODE_OPTIONS so transitive userland
+			// `punycode` deprecation warnings don't leak into the impl's
+			// terminal output. The impls themselves can't easily suppress
+			// these (the warning fires before user code runs); the parent
+			// is the right place to set the env flag. Other deprecation
+			// warnings the user might actually want to see are sacrificed
+			// here in exchange for clean dev-server output.
+			env: implEnvironment(verb, options.env),
+		},
 	});
 
 	// SIGINT / SIGTERM forwarding. Node delivers signals to cf; we
@@ -135,8 +143,7 @@ export async function spawnImpl(
 		if (!shouldRelaySignal(sig)) {
 			return;
 		}
-		// `child.kill` is best-effort: if the child has already exited
-		// the call is a no-op (Node returns false; we ignore).
+		// Termination is best-effort if the child has already exited.
 		child.kill(sig);
 	};
 	const onSigInt = () => forward("SIGINT");
@@ -145,19 +152,12 @@ export async function spawnImpl(
 	process.on("SIGTERM", onSigTerm);
 
 	try {
-		// Wait for the child. We resolve on `exit` (process tree gone)
-		// rather than `close` (stdio closed) because stdio is inherited
-		// — there are no pipes for us to drain.
-		const result = await new Promise<SpawnResult>((resolve, reject) => {
-			child.once("exit", (code, signal) => {
-				resolve(normalizeSpawnExit(code, signal, forwardedSignal));
-			});
-			child.once("error", (err) => {
-				// Spawn-time failure (binary not executable, ENOENT race).
-				reject(err);
-			});
-		});
-		return result;
+		const result = await child;
+		return normalizeSpawnExit(
+			result.exitCode ?? null,
+			child.process?.signalCode ?? null,
+			forwardedSignal
+		);
 	} finally {
 		process.off("SIGINT", onSigInt);
 		process.off("SIGTERM", onSigTerm);
@@ -190,7 +190,7 @@ function implEnvironment(
  *
  * Most impls return a plain absolute path (e.g.
  * `/path/to/node_modules/@cloudflare/vite-plugin/bin/cf-vite`) and we
- * spawn it directly. PyPI impls under uv-managed projects return
+ * pass it to tinyexec directly. PyPI impls under uv-managed projects return
  * `uv:<pkg>` (the discoverer's sentinel), which we expand to
  * `uv run --no-sync <pkg>` so the impl runs in the project's uv
  * environment without paying for a lock-resolution roundtrip.

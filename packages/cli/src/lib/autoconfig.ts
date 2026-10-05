@@ -6,11 +6,12 @@ import {
 	getDetailsForAutoConfig,
 	runAutoConfig,
 } from "@cloudflare/autoconfig";
-import { execa } from "execa";
 import { parse as parseShell } from "shell-quote";
+import { x } from "tinyexec";
 import { CliExit } from "./cli-exit.js";
 import { confirm, prompt, select } from "./dialog.js";
 import { isNonInteractiveOrCI } from "./interactive.js";
+import { createChildProcessController } from "./process.js";
 import { maybeApplyVinextCommandOverrides } from "./vinext.js";
 import { maybeMigrateWranglerProject } from "./wrangler-migration.js";
 import type {
@@ -171,20 +172,28 @@ export async function runProjectCommand(
 		);
 	}
 	const [file, ...commandArgs] = parseProjectCommand(command);
-	const subprocess = execa(file, [...commandArgs, ...(options.args ?? [])], {
-		cwd,
-		env: options.env,
-		stdio: [
-			"inherit",
-			output === "stderr"
-				? process.stderr
-				: output === "silent"
-					? "ignore"
-					: "inherit",
-			"inherit",
-		],
-		reject: false,
+	const subprocess = x(file, [...commandArgs, ...(options.args ?? [])], {
+		nodePath: false,
+		nodeOptions: {
+			cwd,
+			env: options.env,
+			// Inherited stdin/stderr preserve console Ctrl+C on Windows even
+			// with tinyexec's windowsHide default.
+			stdio: [
+				"inherit",
+				output === "stderr"
+					? process.stderr
+					: output === "silent"
+						? "ignore"
+						: "inherit",
+				"inherit",
+			],
+		},
 	});
+	// Retain the five-second SIGTERM fallback for framework commands.
+	const controller = subprocess.process
+		? createChildProcessController(subprocess.process)
+		: undefined;
 	let forwardedSignal: NodeJS.Signals | undefined;
 	const relay = (signal: NodeJS.Signals) => () => {
 		forwardedSignal ??= signal;
@@ -192,7 +201,11 @@ export async function runProjectCommand(
 		// Resending SIGINT would forcefully terminate the framework command
 		// before its own Ctrl+C handler can finish graceful shutdown.
 		if (shouldRelayProjectCommandSignal(signal)) {
-			subprocess.kill(signal);
+			if (signal === "SIGTERM" && controller) {
+				controller.terminate(signal);
+			} else {
+				subprocess.kill(signal);
+			}
 		}
 	};
 	const onSigInt = relay("SIGINT");
@@ -204,7 +217,7 @@ export async function runProjectCommand(
 		const result = await subprocess;
 		return normalizeProjectCommandExit(
 			result.exitCode,
-			result.signal,
+			subprocess.process?.signalCode ?? undefined,
 			forwardedSignal
 		);
 	} finally {

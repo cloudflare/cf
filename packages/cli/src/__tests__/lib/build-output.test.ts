@@ -1,4 +1,4 @@
-import { join } from "node:path";
+import { join, resolve } from "node:path";
 import {
 	BuildOutputError,
 	readBuildOutput,
@@ -70,7 +70,9 @@ describe("build output", () => {
 			compatibility_date: "2026-04-25",
 			compatibility_flags: ["nodejs_compat"],
 		});
-		expect(wranglerConfig.main).toMatch(/bundle\/index\.js$/);
+		expect(wranglerConfig.main).toBe(
+			resolve(".cloudflare/output/v0/workers/default/bundle/index.js")
+		);
 	});
 
 	it("keeps Build Output Containers separate from Worker validation", async () => {

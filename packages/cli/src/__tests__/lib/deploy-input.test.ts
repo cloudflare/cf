@@ -1,3 +1,4 @@
+import { resolve } from "node:path";
 import { readBuildOutput } from "@cloudflare/build-output-utils";
 import { runInTempDir, seed } from "@cloudflare/workers-utils/test-helpers";
 import { describe, expect, it } from "vite-plus/test";
@@ -40,7 +41,9 @@ describe("transforms Build Output Specification into deploy input", () => {
 		const { builtConfig } = parseWorkerConfig(worker, rootConfig);
 		const result = assembleBuildResult(worker, builtConfig);
 
-		expect(result.resolvedEntryPointPath).toMatch(/bundle\/index\.js$/);
+		expect(result.resolvedEntryPointPath).toBe(
+			resolve(".cloudflare/output/v0/workers/default/bundle/index.js")
+		);
 		expect(result.bundleType).toBe("esm");
 		expect(result.content).toBe("export default {}");
 		expect(result.modules).toHaveLength(1);

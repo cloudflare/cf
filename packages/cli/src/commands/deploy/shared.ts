@@ -22,8 +22,8 @@ import {
 	selectBuildOutputWorker,
 	validateBuildOutputMode,
 } from "../../lib/build-output.js";
-import { getAccountId } from "../../lib/context.js";
 import { CliExit } from "../../lib/cli-exit.js";
+import { getAccountId } from "../../lib/context.js";
 import { createDeployContext } from "../../lib/deploy-context.js";
 import {
 	assembleBuildResult,
@@ -148,10 +148,7 @@ async function uploadBuildOutput(argv: UploadArgs, ctx: UploadCommand) {
 			})));
 
 	// Initialize the deploy-helpers context.
-	const deployContext = createDeployContext(
-		authToken,
-		ctx.command === "Deploy" ? "cf deploy --force" : undefined
-	);
+	const deployContext = createDeployContext(authToken);
 	initDeployHelpersContext(deployContext);
 	initContainersSharedContext({
 		logger: deployContext.logger,

@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vite-plus/test";
 import { formatDryRun, redactDryRunBody } from "../../lib/dry-run.js";
 
 afterEach(() => vi.restoreAllMocks());

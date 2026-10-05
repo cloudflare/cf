@@ -1,6 +1,13 @@
 import { writeFileSync } from "node:fs";
 import { runInTempDir } from "@cloudflare/workers-utils/test-helpers";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import {
+	afterEach,
+	beforeEach,
+	describe,
+	expect,
+	it,
+	vi,
+} from "vite-plus/test";
 import { runCf } from "../helpers/run-cf.js";
 
 describe("generated dry-run redaction", () => {

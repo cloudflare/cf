@@ -98,6 +98,8 @@ export async function spawnImpl(
 		// Delegates should see the user's PATH without extra local binaries.
 		nodePath: false,
 		nodeOptions: {
+			// Inherited stdin/stderr keep the Windows console attached even
+			// with tinyexec's windowsHide default, so console Ctrl+C still works.
 			// Dev inherits stdout so the implementation owns the terminal. A
 			// composed one-shot command may instead route build output to stderr
 			// (preserving JSON stdout) or suppress non-error output under --quiet.

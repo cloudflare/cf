@@ -177,6 +177,8 @@ export async function runProjectCommand(
 		nodeOptions: {
 			cwd,
 			env: options.env,
+			// Inherited stdin/stderr preserve console Ctrl+C on Windows even
+			// with tinyexec's windowsHide default.
 			stdio: [
 				"inherit",
 				output === "stderr"

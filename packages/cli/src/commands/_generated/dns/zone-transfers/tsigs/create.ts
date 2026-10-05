@@ -84,6 +84,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 									}),
+						sensitiveBodyPaths: [["secret"]],
 					});
 					return;
 				}

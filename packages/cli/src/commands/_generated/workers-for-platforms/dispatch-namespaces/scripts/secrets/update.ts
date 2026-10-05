@@ -145,6 +145,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										),
 										usages: argv["usages"],
 									}),
+						sensitiveBodyPaths: [["text"], ["key_base64"]],
 					});
 					return;
 				}

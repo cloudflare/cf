@@ -135,6 +135,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 									}),
+						sensitiveBodyPaths: [["headers"]],
 					});
 					return;
 				}

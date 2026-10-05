@@ -464,6 +464,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 									}),
+						sensitiveBodyPaths: [
+							["config", "credentials", "secret_access_key"],
+							["config", "token"],
+						],
 					});
 					return;
 				}

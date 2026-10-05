@@ -242,6 +242,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											wildcard: argv["ssl-wildcard"],
 										},
 									}),
+						sensitiveBodyPaths: [["ssl", "custom_key"]],
 					});
 					return;
 				}

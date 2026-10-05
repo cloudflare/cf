@@ -274,6 +274,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										},
 										origin_connection_limit: argv["origin-connection-limit"],
 									}),
+						sensitiveBodyPaths: [
+							["origin", "password"],
+							["origin", "access_client_secret"],
+						],
 					});
 					return;
 				}

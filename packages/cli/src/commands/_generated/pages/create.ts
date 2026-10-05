@@ -537,6 +537,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											),
 										},
 									}),
+						sensitiveBodyPaths: [["build_config", "web_analytics_token"]],
 					});
 					return;
 				}

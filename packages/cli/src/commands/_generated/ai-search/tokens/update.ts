@@ -96,6 +96,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 									}),
+						sensitiveBodyPaths: [["cf_api_key"]],
 					});
 					return;
 				}

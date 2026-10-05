@@ -139,6 +139,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 									}),
+						sensitiveBodyPaths: [["signing_secret"]],
 					});
 					return;
 				}

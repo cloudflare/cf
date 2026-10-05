@@ -203,6 +203,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 									}),
+						sensitiveBodyPaths: [
+							["secret", "secretAccessKey"],
+							["secret", "privateKey"],
+						],
 					});
 					return;
 				}

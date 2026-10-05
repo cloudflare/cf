@@ -386,6 +386,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										},
 										waitForTimeout: argv["wait-for-timeout"],
 									}),
+						sensitiveBodyPaths: [["authenticate", "password"]],
 					});
 					return;
 				}

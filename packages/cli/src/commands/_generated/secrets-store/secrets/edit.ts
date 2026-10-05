@@ -105,6 +105,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 									}),
+						sensitiveBodyPaths: [["value"]],
 					});
 					return;
 				}

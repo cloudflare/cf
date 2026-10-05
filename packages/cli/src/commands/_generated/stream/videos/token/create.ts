@@ -136,6 +136,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 									}),
+						sensitiveBodyPaths: [["pem"]],
 					});
 					return;
 				}

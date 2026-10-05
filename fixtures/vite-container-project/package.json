@@ -3,7 +3,7 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"build:fixture": "vite build",
+		"build:fixture": "vp build",
 		"check:type": "vp run task:check:type"
 	},
 	"devDependencies": {

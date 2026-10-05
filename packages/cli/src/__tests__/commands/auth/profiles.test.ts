@@ -9,7 +9,7 @@ import {
 } from "@cloudflare/workers-utils/test-helpers";
 import { http, HttpResponse } from "msw";
 import { getGlobalDispatcher, MockAgent, setGlobalDispatcher } from "undici";
-import { afterAll, beforeAll, describe, expect, it } from "vite-plus/test";
+import { afterAll, beforeAll, describe, expect, it, vi } from "vite-plus/test";
 import { server, setupMsw, TEST_BASE_URL } from "../../helpers/msw.js";
 import { runCf } from "../../helpers/run-cf.js";
 
@@ -67,16 +67,12 @@ describe("cf auth profiles", () => {
 		);
 
 		await runCf(["auth", "list"]);
-		expect(normalizeProfileOutput(std.getAndClearOut())).toMatchInlineSnapshot(`
-			"[
-			  {
-			    "name": "work",
-			    "boundDirectories": [
-			      "<cwd>"
-			    ]
-			  }
-			]"
-		`);
+		// Parse JSON before the shared console mock normalizes Windows separators.
+		expect(console.log).toHaveBeenCalledTimes(1);
+		expect(
+			JSON.parse(String(vi.mocked(console.log).mock.lastCall?.[0]))
+		).toEqual([{ name: "work", boundDirectories: [cwd] }]);
+		std.getAndClearOut();
 
 		await runCf(["auth", "deactivate"]);
 		expect(store.bindings.getProfileForDirectory(cwd)).toBeUndefined();

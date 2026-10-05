@@ -73,6 +73,15 @@ describe("command recommendations", () => {
 		}
 	);
 
+	it("lists global flags when several unknown root flags are supplied", async () => {
+		await expect(
+			runCf(["--unknown-first", "--unknown-second"])
+		).rejects.toThrow("Unknown arguments:");
+		expect(stderr()).toContain("Global flags:");
+		expect(stderr()).toContain("--profile");
+		expect(stderr()).toContain("For more information, run cf --help");
+	});
+
 	it("rejects an unknown command after a global option value", async () => {
 		await expect(
 			runCf(["--profile", "example", "unrecognizable", "--help"])

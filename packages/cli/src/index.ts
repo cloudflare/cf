@@ -912,7 +912,7 @@ export async function main(): Promise<void> {
 		if (err instanceof CliUsageError) {
 			if (
 				err.helpCommand === "cf --help" &&
-				err.message.startsWith("Unknown argument:")
+				/^Unknown arguments?:/.test(err.message)
 			) {
 				console.error(`\nGlobal flags:\n${GLOBAL_FLAGS_LIST}`);
 			}

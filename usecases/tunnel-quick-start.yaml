@@ -3,7 +3,11 @@ command: "wrangler tunnel quick-start <url>"
 status: "direct"
 sourceCommands:
   - "wrangler tunnel quick-start http://localhost:8787"
+  - "wrangler tunnel quick-start http://localhost:8787 --allowed-mail user@example.com"
 cfReplacementFlow:
   - "cf tunnels quick-start http://localhost:8787"
+  - "cf tunnels quick-start http://localhost:8787 --allowed-mail user@example.com"
 notes:
   - "cf downloads and manages the cloudflared binary."
+  - "Email-protected tunnels require cloudflared 2026.9.2 or later."
+  - "--allowed-mail accepts exact addresses, comma-separated lists, and wildcard domains; it may be repeated."

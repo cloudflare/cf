@@ -128,6 +128,17 @@ describe("hand-written command metadata", () => {
 		});
 	});
 
+	it("publishes Quick Tunnel email protection for completions and tools", () => {
+		expect(commands.get("cf tunnels quick-start")?.options).toContainEqual(
+			expect.objectContaining({
+				name: "allowed-mail",
+				type: "string",
+				required: false,
+				description: expect.stringContaining("cloudflared 2026.9.2 or later"),
+			})
+		);
+	});
+
 	it("does not publish global mode as a command-local option", () => {
 		for (const command of commands.values()) {
 			expect(command.options?.some((option) => option.name === "mode")).toBe(

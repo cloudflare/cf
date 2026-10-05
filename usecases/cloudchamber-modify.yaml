@@ -1,9 +1,0 @@
-description: "Modify a Cloudchamber deployment"
-command: "wrangler cloudchamber modify"
-status: "partial"
-sourceCommands:
-  - "wrangler cloudchamber modify"
-cfReplacementFlow:
-  - "cf cloudchamber update <deployment-id> --body @cloudchamber-update.json"
-notes:
-  - "Verify product coverage and generated names."

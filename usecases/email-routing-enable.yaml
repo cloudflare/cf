@@ -1,9 +1,0 @@
-description: "Enable Email Routing for a zone"
-command: "wrangler email routing enable <domain>"
-status: "direct"
-sourceCommands:
-  - "wrangler email routing enable <domain>"
-cfReplacementFlow:
-  - "cf email-routing enable --zone <zone>"
-notes:
-  - "cf has had generator body-shape bugs around enable/disable commands; verify with current cf schema."

@@ -1,9 +1,0 @@
-description: "Compile Pages Functions into a Worker bundle"
-command: "wrangler pages functions build <directory>"
-status: "gap"
-sourceCommands:
-  - "wrangler pages functions build <directory>"
-cfReplacementFlow:
-  - "No direct cf replacement."
-notes:
-  - "This is build tooling, not an API command. It is distinct from the out-of-scope pages deploy flow."

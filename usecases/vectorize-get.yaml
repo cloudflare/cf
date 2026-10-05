@@ -1,9 +1,0 @@
-description: "Get a Vectorize index by name"
-command: "wrangler vectorize get <index>"
-status: "direct"
-sourceCommands:
-  - "wrangler vectorize get <index>"
-cfReplacementFlow:
-  - "cf vectorize get <index>"
-notes:
-  - "Wrangler also has vectorize info for more detailed output."

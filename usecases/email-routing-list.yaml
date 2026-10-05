@@ -1,9 +1,0 @@
-description: "List zones/domains with Email Routing"
-command: "wrangler email routing list"
-status: "direct"
-sourceCommands:
-  - "wrangler email routing list"
-cfReplacementFlow:
-  - "cf email-routing list"
-notes:
-  - "Verify exact generated cf command path; cf outputs JSON by default."

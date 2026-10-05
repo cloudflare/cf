@@ -1,9 +1,0 @@
-description: "Optimize Pages Functions _routes.json"
-command: "wrangler pages functions optimize-routes"
-status: "gap"
-sourceCommands:
-  - "wrangler pages functions optimize-routes"
-cfReplacementFlow:
-  - "No direct cf replacement."
-notes:
-  - "This is Pages build-time file generation/validation."

@@ -1,9 +1,0 @@
-description: "Delete a Pipeline sink"
-command: "wrangler pipelines sinks delete <sink>"
-status: "partial"
-sourceCommands:
-  - "wrangler pipelines sinks delete <sink>"
-cfReplacementFlow:
-  - "cf pipelines sinks delete <sink-id> --force"
-notes:
-  - "Use cf --force for non-interactive deletion."

@@ -1,9 +1,0 @@
-description: "Create an R2 event notification rule targeting a Queue"
-command: "wrangler r2 bucket notification create <bucket> --queue <queue>"
-status: "partial"
-sourceCommands:
-  - "wrangler r2 bucket notification create <bucket>"
-cfReplacementFlow:
-  - "cf r2 buckets event-notifications update <bucket> --body @notification.json"
-notes:
-  - "Wrangler exposes friendly event-type/prefix/suffix/queue flags. cf likely expects the lower-level API shape."

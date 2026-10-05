@@ -1,9 +1,0 @@
-description: "Update R2 custom domain settings such as minimum TLS version"
-command: "wrangler r2 bucket domain update <bucket> --domain <domain>"
-status: "partial"
-sourceCommands:
-  - "wrangler r2 bucket domain update <bucket> --domain <domain> --min-tls <version>"
-cfReplacementFlow:
-  - "cf r2 buckets domains custom update <domain> --bucket-name <bucket> --body @custom-domain-update.json"
-notes:
-  - "cf replacement may be exact once generated flags are inspected."

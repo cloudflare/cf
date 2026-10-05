@@ -1,9 +1,0 @@
-description: "Run Wrangler's hidden hello-world example get command"
-command: "wrangler hello-world get"
-status: "gap"
-sourceCommands:
-  - "wrangler hello-world get"
-cfReplacementFlow:
-  - "No cf replacement."
-notes:
-  - "This is a hidden Wrangler example/internal command, not a real product workflow. Included only for completeness because it is registered."

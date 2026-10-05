@@ -1,9 +1,0 @@
-description: "Delete an AI Search instance"
-command: "wrangler ai-search delete <name>"
-status: "direct"
-sourceCommands:
-  - "wrangler ai-search delete <name>"
-cfReplacementFlow:
-  - "cf ai-search delete <name> --force"
-notes:
-  - "Use cf --force instead of Wrangler --yes."

@@ -1,9 +1,0 @@
-description: "Query D1 query-insights analytics"
-command: "wrangler d1 insights <database>"
-status: "gap"
-sourceCommands:
-  - "wrangler d1 insights <database>"
-cfReplacementFlow:
-  - "No direct cf replacement identified."
-notes:
-  - "Wrangler has a hand-written insights command. No obvious generated cf command was identified in the current d1 surface."

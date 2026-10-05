@@ -1,9 +1,0 @@
-description: "Clear R2 bucket CORS configuration"
-command: "wrangler r2 bucket cors delete <bucket>"
-status: "direct"
-sourceCommands:
-  - "wrangler r2 bucket cors delete <bucket>"
-cfReplacementFlow:
-  - "cf r2 buckets cors delete <bucket> --force"
-notes:
-  - "Use cf --force for non-interactive confirmation."

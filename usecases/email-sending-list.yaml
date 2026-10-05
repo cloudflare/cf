@@ -1,9 +1,0 @@
-description: "List zones/domains with Email Sending"
-command: "wrangler email sending list"
-status: "direct"
-sourceCommands:
-  - "wrangler email sending list"
-cfReplacementFlow:
-  - "cf email-sending list"
-notes:
-  - "Wrangler nests under email sending; cf likely has top-level email-sending generated product."

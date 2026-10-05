@@ -1,9 +1,0 @@
-description: "Enable public r2.dev access for a bucket"
-command: "wrangler r2 bucket dev-url enable <bucket>"
-status: "partial"
-sourceCommands:
-  - "wrangler r2 bucket dev-url enable <bucket>"
-cfReplacementFlow:
-  - 'cf r2 buckets domains managed update <bucket> --body ''{"enabled":true}'''
-notes:
-  - "Wrangler surfaces a public-access warning. cf replacement is lower-level API mutation."

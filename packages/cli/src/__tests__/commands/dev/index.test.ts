@@ -384,6 +384,54 @@ describe("cf dev", () => {
 			).toEqual({ exitCode: 0 });
 		});
 
+		it("preserves PATH and environment overrides for project commands", async () => {
+			await runProjectCommand(
+				`node -e "require('node:fs').writeFileSync('command-env.json', JSON.stringify([process.env.PATH, process.env.CF_TEST_ENV]))"`,
+				process.cwd(),
+				{ env: { CF_TEST_ENV: "override" } }
+			);
+
+			expect(JSON.parse(readFileSync("command-env.json", "utf8"))).toEqual([
+				process.env.PATH,
+				"override",
+			]);
+		});
+
+		it("propagates non-zero project command exits", async () => {
+			expect(
+				await runProjectCommand('node -e "process.exit(42)"', process.cwd())
+			).toEqual({ exitCode: 42 });
+		});
+
+		it.skipIf(process.platform === "win32")(
+			"reports signal-killed project commands",
+			async () => {
+				expect(
+					await runProjectCommand(
+						`node -e "process.kill(process.pid, 'SIGTERM')"`,
+						process.cwd()
+					)
+				).toEqual({ exitCode: 143, signal: "SIGTERM" });
+			}
+		);
+
+		it("reports missing project commands and restores signal listeners", async () => {
+			const sigintListeners = process.listenerCount("SIGINT");
+			const sigtermListeners = process.listenerCount("SIGTERM");
+			const execution = runProjectCommand(
+				"cf-missing-project-command",
+				process.cwd(),
+				{ output: "silent" }
+			);
+			if (process.platform === "win32") {
+				await expect(execution).resolves.toEqual({ exitCode: 1 });
+			} else {
+				await expect(execution).rejects.toMatchObject({ code: "ENOENT" });
+			}
+			expect(process.listenerCount("SIGINT")).toBe(sigintListeners);
+			expect(process.listenerCount("SIGTERM")).toBe(sigtermListeners);
+		});
+
 		it("hides environment overrides unless DEBUG is set", async () => {
 			const logMessage = vi
 				.spyOn(clack.log, "message")

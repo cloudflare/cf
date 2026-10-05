@@ -84,6 +84,20 @@ describe("spawnImpl", () => {
 		expect(readFileSync(authFile, "utf-8")).toBe("true");
 	});
 
+	it("preserves PATH and environment overrides", async () => {
+		const envFile = join(mkdtempSync(join(tmpdir(), "cf-spawn-path-")), "env");
+		const fake = makeFakeImpl(
+			`require("node:fs").writeFileSync(${JSON.stringify(envFile)}, JSON.stringify([process.env.PATH, process.env.CF_TEST_ENV]))`
+		);
+
+		await spawnImpl(fake, "dev", [], { env: { CF_TEST_ENV: "override" } });
+
+		expect(JSON.parse(readFileSync(envFile, "utf8"))).toEqual([
+			process.env.PATH,
+			"override",
+		]);
+	});
+
 	it("forces dev servers onto cf's registry", async () => {
 		const envFile = join(mkdtempSync(join(tmpdir(), "cf-spawn-env-")), "env");
 		const registryPath = join(tmpdir(), "cf-test-registry");

@@ -84,7 +84,9 @@ export default defineConfig({
 			neverBundle: [
 				"blake3-wasm",
 				"miniflare",
-				...(testBundle ? ["@clack/prompts", "ci-info", "execa", "undici"] : []),
+				...(testBundle
+					? ["@clack/prompts", "ci-info", "tinyexec", "undici"]
+					: []),
 			],
 		},
 		// Keep the delegate entry independent of the full command tree.

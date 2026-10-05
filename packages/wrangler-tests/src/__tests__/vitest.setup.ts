@@ -253,14 +253,17 @@ vi.mock("prompts", async () => {
 // `helpers/clack-mock.ts`, which consumes from the same mock-dialogs
 // queues `mockConfirm`/`mockPrompt`/`mockSelect` push to.
 
-vi.mock("execa", async (importOriginal) => {
-	const realModule = await importOriginal<typeof import("execa")>();
+vi.mock("tinyexec", async (importOriginal) => {
+	const realModule = await importOriginal<typeof import("tinyexec")>();
 	return {
 		...realModule,
-		execa: vi.fn((...args: Parameters<typeof realModule.execa>) => {
+		x: vi.fn((...args: Parameters<typeof realModule.x>) => {
 			return args[0] === "mockpm"
-				? Promise.resolve()
-				: realModule.execa(...args);
+				? Object.assign(
+						Promise.resolve({ stdout: "", stderr: "", exitCode: 0 }),
+						{ process: undefined, kill: () => false }
+					)
+				: realModule.x(...args);
 		}),
 	};
 });

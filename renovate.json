@@ -33,10 +33,10 @@
 			"rangeStrategy": "bump"
 		},
 		{
-			"description": "Follow Miniflare's date-based alpha/beta releases",
+			"description": "Follow Miniflare's latest release",
 			"matchManagers": ["npm"],
 			"matchPackageNames": ["miniflare"],
-			"ignoreUnstable": false
+			"followTag": "latest"
 		}
 	]
 }

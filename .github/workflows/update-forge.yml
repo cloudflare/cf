@@ -44,7 +44,7 @@ jobs:
         uses: voidzero-dev/setup-vp@3754dd7dbdb32bd8f6d28b6043de13ad3a75f21f # v1.21.1
         with:
           node-version: "22"
-          run-install: false
+          run-install: true
 
       - name: Update Forge and OpenAPI
         run: node scripts/update-forge.ts

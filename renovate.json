@@ -1,14 +1,9 @@
 {
 	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
-	"extends": ["config:recommended"],
+	"extends": ["config:recommended", "group:allNonMajor"],
 	"enabledManagers": ["npm"],
 	"dependencyDashboard": false,
 	"packageRules": [
-		{
-			"description": "Disable npm dependency updates by default",
-			"matchManagers": ["npm"],
-			"enabled": false
-		},
 		{
 			"description": "Update packages published from workers-sdk together",
 			"matchManagers": ["npm"],
@@ -21,7 +16,6 @@
 				"@cloudflare/containers-shared",
 				"@cloudflare/deploy-helpers",
 				"@cloudflare/runtime-types",
-				"@cloudflare/vite-plugin",
 				"@cloudflare/workers-auth",
 				"@cloudflare/workers-utils",
 				"miniflare",
@@ -40,9 +34,12 @@
 			"followTag": "latest"
 		},
 		{
-			"description": "Follow the Vite plugin's beta release",
+			"description": "Update the Vite plugin beta",
 			"matchManagers": ["npm"],
 			"matchPackageNames": ["@cloudflare/vite-plugin"],
+			"enabled": true,
+			"groupName": "Vite plugin beta",
+			"groupSlug": "vite-plugin-beta",
 			"followTag": "beta",
 			"rollbackPrs": true
 		}

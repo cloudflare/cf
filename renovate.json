@@ -41,6 +41,13 @@
 			"groupSlug": "vite-plugin-beta",
 			"followTag": "beta",
 			"rollbackPrs": true
+		},
+		{
+			"description": "Update pnpm",
+			"matchManagers": ["npm"],
+			"matchPackageNames": ["pnpm"],
+			"groupName": "pnpm",
+			"groupSlug": "pnpm"
 		}
 	]
 }

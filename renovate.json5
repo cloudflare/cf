@@ -2,7 +2,14 @@
 	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
 	"extends": ["config:recommended", "group:allNonMajor"],
 	"enabledManagers": ["npm"],
-	"ignoreDeps": ["@changesets/cli", "node"],
+	"ignoreDeps": [
+		// This dependency is patched locally, so updates require a manual patch review.
+		"@changesets/cli",
+		// Keep the supported Node range broad instead of raising its minimum version.
+		"node",
+		// This must match the Vitest version bundled with Vite+.
+		"vitest"
+	],
 	"dependencyDashboard": false,
 	"labels": ["dependencies"],
 	"minimumReleaseAge": "3 days",

@@ -21,6 +21,7 @@
 				"@cloudflare/containers-shared",
 				"@cloudflare/deploy-helpers",
 				"@cloudflare/runtime-types",
+				"@cloudflare/vite-plugin",
 				"@cloudflare/workers-auth",
 				"@cloudflare/workers-utils",
 				"miniflare",
@@ -37,6 +38,13 @@
 			"matchManagers": ["npm"],
 			"matchPackageNames": ["miniflare"],
 			"followTag": "latest"
+		},
+		{
+			"description": "Follow the Vite plugin's beta release",
+			"matchManagers": ["npm"],
+			"matchPackageNames": ["@cloudflare/vite-plugin"],
+			"followTag": "beta",
+			"rollbackPrs": true
 		}
 	]
 }

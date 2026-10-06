@@ -76,7 +76,7 @@
 		"@cloudflare/config": "0.23.0",
 		"@cloudflare/runtime-types": "0.1.7",
 		"blake3-wasm": "2.1.5",
-		"miniflare": "5.20260930.0-alpha",
+		"miniflare": "5.20261001.0-alpha",
 		"minisearch": "7.2.0"
 	},
 	"devDependencies": {

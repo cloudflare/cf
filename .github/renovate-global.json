@@ -1,0 +1,6 @@
+{
+	"platform": "github",
+	"repositories": ["cloudflare/cf"],
+	"onboarding": false,
+	"requireConfig": "required"
+}

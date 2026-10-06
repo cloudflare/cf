@@ -1,0 +1,50 @@
+{
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"extends": ["config:recommended"],
+	"enabledManagers": ["npm"],
+	"dependencyDashboard": false,
+	"packageRules": [
+		{
+			"description": "Disable npm dependency updates by default",
+			"matchManagers": ["npm"],
+			"enabled": false
+		},
+		{
+			"description": "Update packages published from workers-sdk together",
+			"matchManagers": ["npm"],
+			"matchPackageNames": [
+				"@cloudflare/autoconfig",
+				"@cloudflare/build-output-utils",
+				"@cloudflare/cli-shared-helpers",
+				"@cloudflare/codemods",
+				"@cloudflare/config",
+				"@cloudflare/containers-shared",
+				"@cloudflare/deploy-helpers",
+				"@cloudflare/runtime-types",
+				"@cloudflare/vite-plugin",
+				"@cloudflare/workers-auth",
+				"@cloudflare/workers-utils",
+				"miniflare",
+				"wrangler"
+			],
+			"enabled": true,
+			"groupName": "workers-sdk",
+			"groupSlug": "workers-sdk",
+			"labels": ["dependencies"],
+			"rangeStrategy": "bump"
+		},
+		{
+			"description": "Follow Miniflare's latest release",
+			"matchManagers": ["npm"],
+			"matchPackageNames": ["miniflare"],
+			"followTag": "latest"
+		},
+		{
+			"description": "Follow the Vite plugin's beta release",
+			"matchManagers": ["npm"],
+			"matchPackageNames": ["@cloudflare/vite-plugin"],
+			"followTag": "beta",
+			"rollbackPrs": true
+		}
+	]
+}

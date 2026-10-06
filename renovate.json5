@@ -1,0 +1,66 @@
+{
+	$schema: "https://docs.renovatebot.com/renovate-schema.json",
+	extends: ["config:recommended", "group:allNonMajor"],
+	enabledManagers: ["npm"],
+	ignoreDeps: [
+		// This dependency is patched locally, so updates require a manual patch review.
+		"@changesets/cli",
+		// Keep the supported Node range broad instead of raising its minimum version.
+		"node",
+		// This must match the Vitest version bundled with Vite+.
+		"vitest",
+		// tsx 4.23.1+ exhausts file handles during SDK generation on macOS and Windows.
+		"tsx",
+	],
+	dependencyDashboard: false,
+	labels: ["dependencies"],
+	minimumReleaseAge: "3 days",
+	rangeStrategy: "bump",
+	postUpdateOptions: ["pnpmDedupe"],
+	schedule: ["on monday"],
+	packageRules: [
+		{
+			description: "Update packages published from workers-sdk together",
+			matchPackageNames: [
+				"@cloudflare/autoconfig",
+				"@cloudflare/build-output-utils",
+				"@cloudflare/cli-shared-helpers",
+				"@cloudflare/codemods",
+				"@cloudflare/config",
+				"@cloudflare/containers-shared",
+				"@cloudflare/deploy-helpers",
+				"@cloudflare/runtime-types",
+				"@cloudflare/workers-auth",
+				"@cloudflare/workers-utils",
+				"miniflare",
+				"wrangler",
+			],
+			enabled: true,
+			groupName: "workers-sdk",
+			groupSlug: "workers-sdk",
+			minimumReleaseAge: "0 minutes",
+			schedule: ["at any time"],
+		},
+		{
+			description: "Follow Miniflare's latest release",
+			matchPackageNames: ["miniflare"],
+			followTag: "latest",
+		},
+		{
+			description: "Update the Vite plugin beta",
+			matchPackageNames: ["@cloudflare/vite-plugin"],
+			groupName: "Vite plugin beta",
+			groupSlug: "vite-plugin-beta",
+			followTag: "beta",
+			minimumReleaseAge: "0 minutes",
+			rollbackPrs: true,
+			schedule: ["at any time"],
+		},
+		{
+			description: "Update pnpm",
+			matchPackageNames: ["pnpm"],
+			groupName: "pnpm",
+			groupSlug: "pnpm",
+		},
+	],
+}

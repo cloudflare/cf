@@ -106,7 +106,10 @@ await test("subprocesses leave the event loop responsive and preserve exit statu
 	await run(process.execPath, ["-e", "setTimeout(() => {}, 100)"]);
 	assert.equal(timerFired, true);
 	assert.equal(
-		await output(process.execPath, ["-e", "process.stdout.write('  value \\n')"]),
+		await output(process.execPath, [
+			"-e",
+			"process.stdout.write('  value \\n')",
+		]),
 		"value"
 	);
 	await assert.rejects(

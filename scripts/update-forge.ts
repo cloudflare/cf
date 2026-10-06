@@ -48,7 +48,7 @@ function execute(
 	options: CommandOptions = {},
 	captureOutput = false
 ): Promise<{ status: number; stdout: string }> {
-	return new Promise((resolve, reject) => {
+	return new Promise((resolveResult, reject) => {
 		const child = spawn(command, args, {
 			cwd: options.cwd ?? REPO_ROOT,
 			env: options.env ?? process.env,
@@ -65,7 +65,7 @@ function execute(
 				reject(new Error(`${command} terminated by signal ${signal}`));
 				return;
 			}
-			resolve({ status, stdout: stdout.trim() });
+			resolveResult({ status, stdout: stdout.trim() });
 		});
 	});
 }
@@ -649,9 +649,13 @@ This PR is maintained automatically by [the Update Forge workflow](${GITHUB_SERV
 	const cfGitEnvironment = githubGitEnvironment(CF_GITHUB_TOKEN);
 	const remoteSha = await getRemoteBranchSha(cfGitEnvironment);
 	const lease = `--force-with-lease=refs/heads/${UPDATE_BRANCH}:${remoteSha ?? ""}`;
-	await run("git", ["push", lease, "origin", `HEAD:refs/heads/${UPDATE_BRANCH}`], {
-		env: cfGitEnvironment,
-	});
+	await run(
+		"git",
+		["push", lease, "origin", `HEAD:refs/heads/${UPDATE_BRANCH}`],
+		{
+			env: cfGitEnvironment,
+		}
+	);
 
 	logStep("Creating or updating the pull request");
 	await createOrUpdatePullRequest(repository, updatePr?.number, title, body);

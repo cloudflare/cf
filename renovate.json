@@ -37,7 +37,6 @@
 			"description": "Update the Vite plugin beta",
 			"matchManagers": ["npm"],
 			"matchPackageNames": ["@cloudflare/vite-plugin"],
-			"enabled": true,
 			"groupName": "Vite plugin beta",
 			"groupSlug": "vite-plugin-beta",
 			"followTag": "beta",

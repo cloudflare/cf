@@ -19,7 +19,9 @@ const {
 	getForgeEnvironment,
 	getLatestForgeRelease,
 	githubResponse,
+	output,
 	prepareForgeOpenApi,
+	run,
 } = await import("./update-forge.ts");
 if (originalToken === undefined) {
 	delete process.env.GH_TOKEN;
@@ -41,11 +43,7 @@ const forgeCredentials = {
 };
 
 await test("Forge release reads are anonymous while cf requests can authenticate", async (context) => {
-	const requests: {
-		path: string;
-		authorization: string | null;
-		connection: string | null;
-	}[] = [];
+	const requests: { path: string; authorization: string | null }[] = [];
 	context.mock.method(
 		globalThis,
 		"fetch",
@@ -53,7 +51,6 @@ await test("Forge release reads are anonymous while cf requests can authenticate
 			requests.push({
 				path: new URL(url).pathname,
 				authorization: new Headers(init.headers).get("Authorization"),
-				connection: new Headers(init.headers).get("Connection"),
 			});
 			return Response.json({
 				tag_name: `openapi@${version}`,
@@ -69,20 +66,15 @@ await test("Forge release reads are anonymous while cf requests can authenticate
 	});
 	await githubResponse("/repos/cloudflare/cf/pulls", {}, "cf-write-token");
 	assert.deepEqual(requests, [
-		{
-			path: "/repos/cloudflare/forge/releases/latest",
-			authorization: null,
-			connection: "close",
-		},
+		{ path: "/repos/cloudflare/forge/releases/latest", authorization: null },
 		{
 			path: "/repos/cloudflare/cf/pulls",
 			authorization: "Bearer cf-write-token",
-			connection: "close",
 		},
 	]);
 });
 
-await test("GitHub POST closes its connection without retrying failures", async (context) => {
+await test("GitHub POST does not retry transport failures", async (context) => {
 	let attempts = 0;
 	const failure = new TypeError("fetch failed", { cause: new Error("EPIPE") });
 	context.mock.method(
@@ -91,7 +83,6 @@ await test("GitHub POST closes its connection without retrying failures", async 
 		async (_url: string, init: RequestInit) => {
 			attempts++;
 			assert.equal(init.method, "POST");
-			assert.equal(new Headers(init.headers).get("Connection"), "close");
 			throw failure;
 		}
 	);
@@ -105,6 +96,23 @@ await test("GitHub POST closes its connection without retrying failures", async 
 		(error: unknown) => error === failure
 	);
 	assert.equal(attempts, 1);
+});
+
+await test("subprocesses leave the event loop responsive and preserve exit status", async () => {
+	let timerFired = false;
+	setTimeout(() => {
+		timerFired = true;
+	}, 10);
+	await run(process.execPath, ["-e", "setTimeout(() => {}, 100)"]);
+	assert.equal(timerFired, true);
+	assert.equal(
+		await output(process.execPath, ["-e", "process.stdout.write('  value \\n')"]),
+		"value"
+	);
+	await assert.rejects(
+		run(process.execPath, ["-e", "process.exit(7)"]),
+		/exited with status 7/
+	);
 });
 
 await test("Forge subprocesses receive no GitHub tokens or injected Git credentials", () => {

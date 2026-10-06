@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { execFileSync, spawnSync } from "node:child_process";
+import { spawn } from "node:child_process";
 import {
 	mkdirSync,
 	mkdtempSync,
@@ -40,30 +40,63 @@ function isObject(value: unknown): value is JsonObject {
 	return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
-function run(
+type CommandOptions = { cwd?: string; env?: NodeJS.ProcessEnv };
+
+function execute(
 	command: string,
 	args: string[],
-	options: { cwd?: string; env?: NodeJS.ProcessEnv } = {}
-): void {
-	execFileSync(command, args, {
-		cwd: options.cwd ?? REPO_ROOT,
-		env: options.env ?? process.env,
-		stdio: "inherit",
+	options: CommandOptions = {},
+	captureOutput = false
+): Promise<{ status: number; stdout: string }> {
+	return new Promise((resolve, reject) => {
+		const child = spawn(command, args, {
+			cwd: options.cwd ?? REPO_ROOT,
+			env: options.env ?? process.env,
+			stdio: captureOutput ? ["ignore", "pipe", "inherit"] : "inherit",
+		});
+		let stdout = "";
+		child.stdout?.setEncoding("utf8");
+		child.stdout?.on("data", (chunk: string) => {
+			stdout += chunk;
+		});
+		child.once("error", reject);
+		child.once("close", (status, signal) => {
+			if (status === null) {
+				reject(new Error(`${command} terminated by signal ${signal}`));
+				return;
+			}
+			resolve({ status, stdout: stdout.trim() });
+		});
 	});
 }
 
-function output(
+export async function run(
+	command: string,
+	args: string[],
+	options: CommandOptions = {}
+): Promise<void> {
+	const { status } = await execute(command, args, options);
+	if (status !== 0) {
+		throw new Error(`${command} exited with status ${status}`);
+	}
+}
+
+export async function output(
 	command: string,
 	args: string[],
 	cwd = REPO_ROOT,
 	environment: NodeJS.ProcessEnv = process.env
-): string {
-	return execFileSync(command, args, {
-		cwd,
-		env: environment,
-		encoding: "utf8",
-		stdio: ["ignore", "pipe", "inherit"],
-	}).trim();
+): Promise<string> {
+	const { status, stdout } = await execute(
+		command,
+		args,
+		{ cwd, env: environment },
+		true
+	);
+	if (status !== 0) {
+		throw new Error(`${command} exited with status ${status}`);
+	}
+	return stdout;
 }
 
 function githubGitEnvironment(token: string): NodeJS.ProcessEnv {
@@ -77,12 +110,12 @@ function githubGitEnvironment(token: string): NodeJS.ProcessEnv {
 	};
 }
 
-function inferRepository(): string {
+async function inferRepository(): Promise<string> {
 	if (process.env.GITHUB_REPOSITORY) {
 		return process.env.GITHUB_REPOSITORY;
 	}
 
-	const remote = output("git", ["remote", "get-url", "origin"]);
+	const remote = await output("git", ["remote", "get-url", "origin"]);
 	const match = remote.match(/github\.com[/:]([^/]+\/[^/]+?)(?:\.git)?$/);
 	if (!match?.[1]) {
 		throw new Error(`Could not infer GitHub repository from origin: ${remote}`);
@@ -108,7 +141,6 @@ export async function githubResponse(
 	headers.set("Accept", accept);
 	headers.set("X-GitHub-Api-Version", "2022-11-28");
 	headers.set("User-Agent", "cloudflare-cf-forge-updater");
-	headers.set("Connection", "close");
 	if (token) {
 		headers.set("Authorization", `Bearer ${token}`);
 	}
@@ -333,8 +365,8 @@ function updateOpenApiVersion(version: string): void {
 	);
 }
 
-function assertCleanWorktree(): void {
-	const status = output("git", ["status", "--porcelain"]);
+async function assertCleanWorktree(): Promise<void> {
+	const status = await output("git", ["status", "--porcelain"]);
 	if (status) {
 		throw new Error(
 			"Refusing to update Forge because the working tree is not clean"
@@ -359,10 +391,10 @@ Forge OpenAPI release \`${version}\`.
 	);
 }
 
-function getRemoteBranchSha(
+async function getRemoteBranchSha(
 	environment: NodeJS.ProcessEnv = process.env
-): string | undefined {
-	const result = spawnSync(
+): Promise<string | undefined> {
+	const result = await execute(
 		"git",
 		[
 			"ls-remote",
@@ -371,23 +403,16 @@ function getRemoteBranchSha(
 			"origin",
 			`refs/heads/${UPDATE_BRANCH}`,
 		],
-		{
-			cwd: REPO_ROOT,
-			env: environment,
-			encoding: "utf8",
-			stdio: ["ignore", "pipe", "inherit"],
-		}
+		{ env: environment },
+		true
 	);
-	if (result.error) {
-		throw result.error;
-	}
 	if (result.status === 2) {
 		return undefined;
 	}
 	if (result.status !== 0) {
 		throw new Error(`git ls-remote failed with status ${result.status}`);
 	}
-	const sha = result.stdout.trim().split(/\s+/, 1)[0];
+	const sha = result.stdout.split(/\s+/, 1)[0];
 	if (!sha) {
 		throw new Error("git ls-remote returned no branch SHA");
 	}
@@ -451,7 +476,7 @@ async function main(): Promise<void> {
 	}
 
 	const checkOnly = args.has("--check");
-	const repository = inferRepository();
+	const repository = await inferRepository();
 	logStep("Checking the latest Forge release");
 	const { tag, version, assetId } = await getLatestForgeRelease();
 	const current = extractOpenApiVersion(
@@ -496,7 +521,7 @@ async function main(): Promise<void> {
 		updatePr !== undefined &&
 		managedUpdateCommit !== undefined
 	) {
-		const baseSha = output("git", ["rev-parse", "HEAD"]);
+		const baseSha = await output("git", ["rev-parse", "HEAD"]);
 		const proposedBaseSha = managedUpdateCommit.parentSha;
 		if (proposedBaseSha === baseSha) {
 			console.log(
@@ -517,7 +542,7 @@ async function main(): Promise<void> {
 	if (!CF_GITHUB_TOKEN) {
 		throw new Error("GH_TOKEN or GITHUB_TOKEN is required to update cf");
 	}
-	assertCleanWorktree();
+	await assertCleanWorktree();
 
 	const tempRoot = mkdtempSync(
 		join(process.env.RUNNER_TEMP ?? tmpdir(), "cf-update-forge-")
@@ -528,7 +553,7 @@ async function main(): Promise<void> {
 	const failedChecks: string[] = [];
 	try {
 		logStep(`Cloning Forge release ${tag}`);
-		run(
+		await run(
 			"git",
 			[
 				"clone",
@@ -542,7 +567,7 @@ async function main(): Promise<void> {
 			],
 			{ env: forgeEnvironment }
 		);
-		forgeSourceSha = output(
+		forgeSourceSha = await output(
 			"git",
 			["rev-parse", "HEAD"],
 			forgeDir,
@@ -550,7 +575,7 @@ async function main(): Promise<void> {
 		);
 
 		logStep("Installing the Forge workspace");
-		run("pnpm", ["--dir", forgeDir, "install", "--frozen-lockfile"], {
+		await run("pnpm", ["--dir", forgeDir, "install", "--frozen-lockfile"], {
 			env: forgeEnvironment,
 		});
 
@@ -559,7 +584,7 @@ async function main(): Promise<void> {
 
 		logStep("Vendoring the Forge packages");
 		updateOpenApiVersion(version);
-		run("node", ["scripts/sync-forge.ts"], {
+		await run("node", ["scripts/sync-forge.ts"], {
 			env: { ...forgeEnvironment, FORGE_REPO: forgeDir },
 		});
 
@@ -567,7 +592,7 @@ async function main(): Promise<void> {
 		logStep("Regenerating the SDK and command surface");
 		let generated = true;
 		try {
-			run("pnpm", ["generate"], { env: forgeEnvironment });
+			await run("pnpm", ["generate"], { env: forgeEnvironment });
 		} catch {
 			generated = false;
 			failedChecks.push("pnpm generate");
@@ -576,14 +601,14 @@ async function main(): Promise<void> {
 
 		logStep("Validating the generated update");
 		try {
-			run("git", ["diff", "--check"], { env: forgeEnvironment });
+			await run("git", ["diff", "--check"], { env: forgeEnvironment });
 		} catch {
 			failedChecks.push("git diff --check");
 			console.warn("Diff validation failed; continuing to open the update PR.");
 		}
 		if (generated) {
 			try {
-				run("pnpm", ["check"], { env: forgeEnvironment });
+				await run("pnpm", ["check"], { env: forgeEnvironment });
 			} catch {
 				failedChecks.push("pnpm check");
 				console.warn(
@@ -615,16 +640,16 @@ This PR is maintained automatically by [the Update Forge workflow](${GITHUB_SERV
 `;
 
 	logStep("Committing the generated update");
-	run("git", ["config", "user.name", "github-actions[bot]"]);
-	run("git", ["config", "user.email", UPDATE_COMMIT_EMAIL]);
-	run("git", ["add", "--all"]);
-	run("git", ["commit", "-m", title]);
+	await run("git", ["config", "user.name", "github-actions[bot]"]);
+	await run("git", ["config", "user.email", UPDATE_COMMIT_EMAIL]);
+	await run("git", ["add", "--all"]);
+	await run("git", ["commit", "-m", title]);
 
 	logStep(`Pushing ${UPDATE_BRANCH}`);
 	const cfGitEnvironment = githubGitEnvironment(CF_GITHUB_TOKEN);
-	const remoteSha = getRemoteBranchSha(cfGitEnvironment);
+	const remoteSha = await getRemoteBranchSha(cfGitEnvironment);
 	const lease = `--force-with-lease=refs/heads/${UPDATE_BRANCH}:${remoteSha ?? ""}`;
-	run("git", ["push", lease, "origin", `HEAD:refs/heads/${UPDATE_BRANCH}`], {
+	await run("git", ["push", lease, "origin", `HEAD:refs/heads/${UPDATE_BRANCH}`], {
 		env: cfGitEnvironment,
 	});
 

@@ -9,7 +9,7 @@
 		"@cloudflare/vite-plugin": "2.0.0-beta.sha-ad79608dd",
 		"@cloudflare/workers-types": "5.20260930.2",
 		"cf": "workspace:*",
-		"vite": "8.3.0",
+		"vite": "catalog:",
 		"wrangler": "4.147.0"
 	}
 }

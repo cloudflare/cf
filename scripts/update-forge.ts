@@ -108,6 +108,7 @@ export async function githubResponse(
 	headers.set("Accept", accept);
 	headers.set("X-GitHub-Api-Version", "2022-11-28");
 	headers.set("User-Agent", "cloudflare-cf-forge-updater");
+	headers.set("Connection", "close");
 	if (token) {
 		headers.set("Authorization", `Bearer ${token}`);
 	}
@@ -641,7 +642,13 @@ if (
 	resolve(process.argv[1]) === fileURLToPath(import.meta.url)
 ) {
 	main().catch((error: unknown) => {
-		console.error(error instanceof Error ? error.message : error);
+		console.error(
+			error instanceof TypeError && error.cause !== undefined
+				? error
+				: error instanceof Error
+					? error.message
+					: error
+		);
 		process.exitCode = 1;
 	});
 }

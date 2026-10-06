@@ -41,7 +41,11 @@ const forgeCredentials = {
 };
 
 await test("Forge release reads are anonymous while cf requests can authenticate", async (context) => {
-	const requests: { path: string; authorization: string | null }[] = [];
+	const requests: {
+		path: string;
+		authorization: string | null;
+		connection: string | null;
+	}[] = [];
 	context.mock.method(
 		globalThis,
 		"fetch",
@@ -49,6 +53,7 @@ await test("Forge release reads are anonymous while cf requests can authenticate
 			requests.push({
 				path: new URL(url).pathname,
 				authorization: new Headers(init.headers).get("Authorization"),
+				connection: new Headers(init.headers).get("Connection"),
 			});
 			return Response.json({
 				tag_name: `openapi@${version}`,
@@ -64,12 +69,42 @@ await test("Forge release reads are anonymous while cf requests can authenticate
 	});
 	await githubResponse("/repos/cloudflare/cf/pulls", {}, "cf-write-token");
 	assert.deepEqual(requests, [
-		{ path: "/repos/cloudflare/forge/releases/latest", authorization: null },
+		{
+			path: "/repos/cloudflare/forge/releases/latest",
+			authorization: null,
+			connection: "close",
+		},
 		{
 			path: "/repos/cloudflare/cf/pulls",
 			authorization: "Bearer cf-write-token",
+			connection: "close",
 		},
 	]);
+});
+
+await test("GitHub POST closes its connection without retrying failures", async (context) => {
+	let attempts = 0;
+	const failure = new TypeError("fetch failed", { cause: new Error("EPIPE") });
+	context.mock.method(
+		globalThis,
+		"fetch",
+		async (_url: string, init: RequestInit) => {
+			attempts++;
+			assert.equal(init.method, "POST");
+			assert.equal(new Headers(init.headers).get("Connection"), "close");
+			throw failure;
+		}
+	);
+
+	await assert.rejects(
+		githubResponse(
+			"/repos/cloudflare/cf/pulls",
+			{ method: "POST", body: "{}" },
+			"cf-write-token"
+		),
+		(error: unknown) => error === failure
+	);
+	assert.equal(attempts, 1);
 });
 
 await test("Forge subprocesses receive no GitHub tokens or injected Git credentials", () => {

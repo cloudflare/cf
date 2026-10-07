@@ -23,6 +23,7 @@ export type OutputKind = "json" | "binary" | "text" | "websocket";
 
 const BINARY_CONTENT_TYPES = new Set([
 	"application/octet-stream",
+	"application/vnd.google.protobuf",
 	"application/zip",
 	"application/pdf",
 	"application/vnd.tcpdump.pcap",

@@ -12,11 +12,14 @@ interface HarnessSettings {
 interface AgentsConfig {
 	version?: number;
 	gateway?: string;
+	/** Access-protected AI Gateway custom domain, used for per-user identity. */
+	endpoint?: string;
 	harnesses?: Partial<Record<AiHarness, HarnessSettings>>;
 }
 
 export interface ResolvedHarnessSettings {
 	gateway?: string;
+	endpoint?: string;
 	model: string;
 }
 
@@ -53,6 +56,9 @@ function validateConfig(value: unknown): AgentsConfig {
 	}
 	if (config.gateway !== undefined && typeof config.gateway !== "string") {
 		throw new Error(`${configPath()} gateway must be a string.`);
+	}
+	if (config.endpoint !== undefined && typeof config.endpoint !== "string") {
+		throw new Error(`${configPath()} endpoint must be a string.`);
 	}
 	if (config.harnesses !== undefined) {
 		if (
@@ -110,11 +116,12 @@ function readConfig(): AgentsConfig {
 
 export function resolveHarnessSettings(
 	harness: AiHarness,
-	overrides: { gateway?: string; model?: string } = {}
+	overrides: { gateway?: string; model?: string; endpoint?: string } = {}
 ): ResolvedHarnessSettings {
 	const config = readConfig();
 	return {
 		gateway: overrides.gateway ?? config.gateway,
+		endpoint: overrides.endpoint ?? config.endpoint,
 		model:
 			overrides.model ??
 			config.harnesses?.[harness]?.model ??

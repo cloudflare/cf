@@ -23,6 +23,23 @@ describe("resolveHarnessSettings", () => {
 		expect(resolveHarnessSettings("opencode")).toEqual({
 			model: "openai/gpt-5.5",
 			gateway: undefined,
+			endpoint: undefined,
+		});
+	});
+
+	it("loads a Codex model from the shared user config", async () => {
+		await writeFile(
+			configPath,
+			JSON.stringify({
+				version: 1,
+				harnesses: { codex: { model: "openai/gpt-5.5" } },
+			})
+		);
+
+		expect(resolveHarnessSettings("codex")).toEqual({
+			gateway: undefined,
+			endpoint: undefined,
+			model: "openai/gpt-5.5",
 		});
 	});
 
@@ -38,6 +55,7 @@ describe("resolveHarnessSettings", () => {
 
 		expect(resolveHarnessSettings("opencode")).toEqual({
 			gateway: "coding-agents",
+			endpoint: undefined,
 			model: "anthropic/claude-sonnet-5",
 		});
 	});
@@ -58,6 +76,7 @@ describe("resolveHarnessSettings", () => {
 			})
 		).toEqual({
 			gateway: "other-gateway",
+			endpoint: undefined,
 			model: "openai/gpt-4.1-mini",
 		});
 	});
@@ -95,11 +114,11 @@ describe("resolveHarnessSettings", () => {
 	it("rejects unknown harnesses", async () => {
 		await writeFile(
 			configPath,
-			JSON.stringify({ harnesses: { codex: { model: "openai/gpt-5.5" } } })
+			JSON.stringify({ harnesses: { unknown: { model: "openai/gpt-5.5" } } })
 		);
 
 		expect(() => resolveHarnessSettings("opencode")).toThrow(
-			"unknown harness codex"
+			"unknown harness unknown"
 		);
 	});
 });

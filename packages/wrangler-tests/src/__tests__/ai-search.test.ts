@@ -102,7 +102,7 @@ describe("ai-search commands", () => {
 			expect,
 		}) => {
 			mockListInstances([MOCK_INSTANCE, MOCK_INSTANCE_2]);
-			await runWrangler("ai-search list --name default");
+			await runWrangler("ai-search list --namespace default");
 			expect(std.out).toContain(MOCK_INSTANCE.id);
 			expect(std.out).toContain(MOCK_INSTANCE_2.id);
 			expect(std.out).toContain(MOCK_INSTANCE.type);
@@ -125,7 +125,7 @@ describe("ai-search commands", () => {
 					{ once: true }
 				)
 			);
-			await runWrangler("ai-search list --name blog");
+			await runWrangler("ai-search list --namespace blog");
 			expect(capturedNamespace).toBe("blog");
 		});
 
@@ -166,7 +166,7 @@ describe("ai-search commands", () => {
 					{ once: true }
 				)
 			);
-			await runWrangler("ai-search list --name default --page 2 --per-page 5");
+			await runWrangler("ai-search list --namespace default --page 2 --per-page 5");
 			expect(capturedUrl?.searchParams.get("page")).toBe("2");
 			expect(capturedUrl?.searchParams.get("per_page")).toBe("5");
 		});
@@ -411,7 +411,7 @@ describe("ai-search commands", () => {
 	describe("get", () => {
 		it("should get instance details", async ({ expect }) => {
 			mockGetInstance(MOCK_INSTANCE);
-			await runWrangler("ai-search get my-instance --name default");
+			await runWrangler("ai-search get my-instance --namespace default");
 			expect(std.out).toContain("my-instance");
 			expect(std.out).toContain("r2");
 			expect(std.out).toContain("active");
@@ -453,7 +453,7 @@ describe("ai-search commands", () => {
 				)
 			);
 			await runWrangler(
-				"ai-search update my-instance --name default --chunk-size 256 --chunk-overlap 64 --max-num-results 10 --reranking --cache --score-threshold 0.5"
+				"ai-search update my-instance --namespace default --chunk-size 256 --chunk-overlap 64 --max-num-results 10 --reranking --cache --score-threshold 0.5"
 			);
 			expect(capturedBody).toMatchObject({
 				chunk_size: 256,
@@ -497,7 +497,7 @@ describe("ai-search commands", () => {
 				)
 			);
 			await runWrangler(
-				"ai-search update my-instance --name default --cache --score-threshold 0.75"
+				"ai-search update my-instance --namespace default --cache --score-threshold 0.75"
 			);
 			// Only the fields explicitly passed as flags should be sent;
 			// unpassed flags (incl. create-only required fields) are omitted
@@ -515,7 +515,7 @@ describe("ai-search commands", () => {
 				result: true,
 			});
 			const requests = mockDeleteInstance();
-			await runWrangler("ai-search delete my-instance --name default");
+			await runWrangler("ai-search delete my-instance --namespace default");
 			expect(requests.count).toBe(1);
 		});
 
@@ -525,13 +525,13 @@ describe("ai-search commands", () => {
 				result: false,
 			});
 			const requests = mockDeleteInstance();
-			await runWrangler("ai-search delete my-instance --name default");
+			await runWrangler("ai-search delete my-instance --namespace default");
 			expect(requests.count).toBe(0);
 		});
 
 		it("should delete with --force flag", async ({ expect }) => {
 			const requests = mockDeleteInstance();
-			await runWrangler("ai-search delete my-instance --name default --force");
+			await runWrangler("ai-search delete my-instance --namespace default --force");
 			expect(requests.count).toBe(1);
 		});
 		it.todo("should delete instance from custom namespace");
@@ -547,7 +547,7 @@ describe("ai-search commands", () => {
 
 		it("should display stats as JSON", async ({ expect }) => {
 			mockGetStats(MOCK_STATS);
-			await runWrangler("ai-search stats my-instance --name default");
+			await runWrangler("ai-search stats my-instance --namespace default");
 			const parsed = JSON.parse(std.out);
 			expect(parsed.queued).toBe(0);
 			expect(parsed.running).toBe(0);
@@ -594,7 +594,7 @@ describe("ai-search commands", () => {
 				)
 			);
 			await runWrangler(
-				'ai-search search my-instance "hello world" --name default'
+				'ai-search search my-instance "hello world" --namespace default'
 			);
 			// cf sends `{ ai_search_options, query }` rather than wrangler's
 			// `{ messages: [{ role, content }] }`. Same endpoint, different
@@ -770,7 +770,7 @@ describe("ai-search commands", () => {
 					[MOCK_JOB, MOCK_JOB_2]
 				);
 				await runWrangler(
-					"ai-search jobs list --name default --id my-instance"
+					"ai-search jobs list --namespace default --instance-id my-instance"
 				);
 				expect(JSON.parse(std.out)).toEqual([MOCK_JOB, MOCK_JOB_2]);
 			});
@@ -792,7 +792,7 @@ describe("ai-search commands", () => {
 						{ once: true }
 					)
 				);
-				await runWrangler("ai-search jobs list --name blog --id my-instance");
+				await runWrangler("ai-search jobs list --namespace blog --instance-id my-instance");
 				expect(captured.namespace).toBe("blog");
 				expect(captured.id).toBe("my-instance");
 			});
@@ -812,7 +812,7 @@ describe("ai-search commands", () => {
 					)
 				);
 				await runWrangler(
-					"ai-search jobs list --name default --id my-instance --page 2 --per-page 5"
+					"ai-search jobs list --namespace default --instance-id my-instance --page 2 --per-page 5"
 				);
 				expect(capturedUrl?.searchParams.get("page")).toBe("2");
 				expect(capturedUrl?.searchParams.get("per_page")).toBe("5");
@@ -833,7 +833,7 @@ describe("ai-search commands", () => {
 					)
 				);
 				await runWrangler(
-					'ai-search jobs create my-instance --name default --description "Manual reindex"'
+					'ai-search jobs create my-instance --namespace default --description "Manual reindex"'
 				);
 				expect(capturedBody).toEqual({ description: "Manual reindex" });
 			});
@@ -850,7 +850,7 @@ describe("ai-search commands", () => {
 						{ once: true }
 					)
 				);
-				await runWrangler("ai-search jobs create my-instance --name default");
+				await runWrangler("ai-search jobs create my-instance --namespace default");
 				expect(capturedBody).toEqual({});
 			});
 
@@ -865,7 +865,7 @@ describe("ai-search commands", () => {
 					MOCK_JOB
 				);
 				await runWrangler(
-					"ai-search jobs get job-001 --name default --id my-instance"
+					"ai-search jobs get job-001 --namespace default --instance-id my-instance"
 				);
 				expect(JSON.parse(std.out)).toEqual(MOCK_JOB);
 			});
@@ -875,7 +875,7 @@ describe("ai-search commands", () => {
 
 			it("should error when job id is missing", async ({ expect }) => {
 				await expect(
-					runWrangler("ai-search jobs get --name default --id my-instance")
+					runWrangler("ai-search jobs get --namespace default --instance-id my-instance")
 				).rejects.toThrow("Not enough non-option arguments");
 			});
 		});

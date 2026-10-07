@@ -83,7 +83,7 @@ describe("tunnel commands", () => {
 			const request = mockTunnelCreate();
 
 			await runWrangler(
-				"tunnels create --name my-new-tunnel --config-src cloudflare"
+				"tunnels create --name my-new-tunnel --config-source cloudflare"
 			);
 
 			await expect(request).resolves.toEqual({
@@ -99,7 +99,7 @@ describe("tunnel commands", () => {
 		it("should require a tunnel name", async ({ expect }) => {
 			setIsTTY(false);
 			await expect(
-				runWrangler("tunnels create --config-src cloudflare")
+				runWrangler("tunnels create --config-source cloudflare")
 			).rejects.toThrow("--name is required");
 		});
 	});

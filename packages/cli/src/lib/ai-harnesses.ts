@@ -3,7 +3,7 @@ import { join } from "node:path";
 import { getCfConfigPath } from "@cloudflare/workers-auth/cf";
 import { API_TIMEOUT_MS } from "./api-constants.js";
 
-export type AiHarness = "codex" | "opencode";
+export type AiHarness = "claude-code" | "codex" | "opencode";
 
 interface HarnessSettings {
 	model?: string;
@@ -24,6 +24,7 @@ export interface ResolvedHarnessSettings {
 }
 
 const DEFAULTS: Record<AiHarness, Required<HarnessSettings>> = {
+	"claude-code": { model: "anthropic/claude-sonnet-5" },
 	codex: { model: "openai/gpt-5.5" },
 	opencode: { model: "openai/gpt-5.5" },
 };
@@ -70,7 +71,11 @@ function validateConfig(value: unknown): AgentsConfig {
 			throw new Error(`${configPath()} harnesses must be an object.`);
 		}
 		for (const [harness, settings] of Object.entries(config.harnesses)) {
-			if (harness !== "codex" && harness !== "opencode") {
+			if (
+				harness !== "claude-code" &&
+				harness !== "codex" &&
+				harness !== "opencode"
+			) {
 				throw new Error(`${configPath()} has unknown harness ${harness}.`);
 			}
 			if (

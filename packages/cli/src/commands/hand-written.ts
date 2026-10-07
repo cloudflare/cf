@@ -198,6 +198,12 @@ export const handWrittenCommands: readonly HandWrittenCommand[] = [
 	{
 		kind: "leaf",
 		parent: "ai",
+		name: "claude",
+		dir: "ai/claude",
+	},
+	{
+		kind: "leaf",
+		parent: "ai",
 		name: "codex",
 		dir: "ai/codex",
 	},

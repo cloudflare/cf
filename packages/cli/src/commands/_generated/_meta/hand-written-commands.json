@@ -250,6 +250,29 @@
 			}
 		},
 		{
+			"command": "cf ai claude",
+			"name": "claude",
+			"fullPath": ["ai", "claude"],
+			"category": "action",
+			"description": "Run Claude Code through an Access-protected AI Gateway.",
+			"usage": "cf ai claude --endpoint <domain> [-- <claude-arguments>]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "endpoint",
+					"type": "string",
+					"required": true,
+					"description": "Access-protected AI Gateway custom domain"
+				}
+			],
+			"handWritten": {
+				"kind": "leaf",
+				"overrides": false,
+				"dir": "ai/claude",
+				"parent": "ai"
+			}
+		},
+		{
 			"command": "cf ai codex",
 			"name": "codex",
 			"fullPath": ["ai", "codex"],

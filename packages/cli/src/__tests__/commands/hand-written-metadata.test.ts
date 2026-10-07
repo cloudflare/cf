@@ -165,7 +165,8 @@ describe("hand-written-only command metadata", () => {
 	);
 
 	it("contains only hand-written commands", () => {
-		expect(commands.size).toBe(51);
+		expect(commands.size).toBe(52);
+		expect(commands.has("cf ai claude")).toBe(true);
 		expect(commands.has("cf ai codex")).toBe(true);
 		expect(commands.has("cf ai opencode")).toBe(true);
 		expect(commands.has("cf pages deploy")).toBe(true);

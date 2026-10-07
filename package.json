@@ -19,6 +19,7 @@
 		"@changesets/cli": "2.31.0",
 		"@types/node": "25.9.9",
 		"@typescript/native-preview": "latest",
+		"tinyexec": "1.3.1",
 		"tsx": "4.21.0",
 		"vite-plus": "catalog:"
 	},

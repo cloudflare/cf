@@ -4661,6 +4661,7 @@ export * from "./PagesPagesAssetsUpsertHashesRequest.js";
 export * from "./PagesPagesUploadTokenResponse.js";
 export * from "./PagesPlainTextEnvVar.js";
 export * from "./PagesProject.js";
+export * from "./PagesProjectBuildImageAutoUpgrade.js";
 export * from "./PagesProjectDeploymentConfigs.js";
 export * from "./PagesProjectName.js";
 export * from "./PagesSecretTextEnvVar.js";

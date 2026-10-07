@@ -176,7 +176,9 @@ describe("createCommandClient", () => {
 
 		it("lets binary uploads continue past the standard API deadline", async () => {
 			vi.useFakeTimers();
-			let startRequest!: () => void;
+			let startRequest = () => {
+				throw new Error("Request did not start");
+			};
 			const started = new Promise<void>((resolve) => {
 				startRequest = resolve;
 			});

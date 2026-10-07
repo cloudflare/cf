@@ -2,11 +2,9 @@
 
 /**
  * The BGP mode for a CNI.
- *
- * Controls the customer-facing data path:
- * * `DynamicRouteExchange` — Full BGP: routes flow through to conduit via CRE / bgp-bridge /
- * bgp-bridge-receiver.
- * * `AdvertiseOnly` — static advertisement via taserver, no routes exchanged with Conduit
+ * One of the following:
+ * * `dynamic_route_exchange`
+ * * `advertise_only`
  */
 export const NscBgpMode = {
     DynamicRouteExchange: "dynamic_route_exchange",

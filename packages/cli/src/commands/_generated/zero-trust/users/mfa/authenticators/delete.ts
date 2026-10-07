@@ -21,7 +21,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 zero-trust users mfa authenticators delete <authenticator-id>\n\nDeletes a specific MFA device, including a PIV key or FIDO2 key enrollment, for a user. This action is only available if MFA is turned on for the organization. Successful deletion revokes the enrollment and returns a null result."
+			"$0 zero-trust users mfa authenticators delete <authenticator-id>\n\nDeletes a specific MFA device or passkey, including a PIV key or FIDO2 key enrollment, for a user. Admin deletion remains available when MFA is disabled. Successful deletion revokes the enrollment and returns a null result."
 		)
 		.positional("authenticator-id", {
 			type: "string",
@@ -52,7 +52,7 @@ type Request = SdkRequest<"zero-trust-users-delete-mfa-authenticator">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <authenticator-id>",
-	describe: "Delete a user's MFA device",
+	describe: "Delete a user's authenticator",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(

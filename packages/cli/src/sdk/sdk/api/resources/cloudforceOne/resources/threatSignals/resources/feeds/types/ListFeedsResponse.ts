@@ -3,6 +3,10 @@
 export interface ListFeedsResponse {
     /** Number of feeds on this page. */
     count: number;
+    /** The current count of custom feeds for the account. */
+    custom_feed_count: number;
+    /** The resolved custom feed limit for the account. */
+    custom_feed_limit: number;
     feeds: ListFeedsResponse.Feeds.Item[];
     page: number;
     per_page: number;

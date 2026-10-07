@@ -21,7 +21,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage("$0 ai-search list\n\nList all AI Search instances in the account.")
-		.option("name", {
+		.option("namespace", {
 			type: "string",
 			description: "Namespace to use for this operation.",
 			demandOption: true,
@@ -97,8 +97,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf ai-search list",
 						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/namespaces/${argv["name"] == null ? "<name>" : encodeURIComponent(String(argv["name"]))}/instances`,
-						pathParams: { name: String(argv["name"] ?? "") },
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/namespaces/${argv["namespace"] == null ? "<namespace>" : encodeURIComponent(String(argv["namespace"]))}/instances`,
+						pathParams: { namespace: String(argv["namespace"] ?? "") },
 						query: queryParams,
 						bodyKind: "none",
 					});
@@ -111,7 +111,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const result = await withProgress(`Loading`, async () =>
 					client.aiSearch.list({
 						account_id: accountId,
-						name: argv["name"],
+						namespace: argv["namespace"],
 						...queryParams,
 					} satisfies Request)
 				);

@@ -53,7 +53,7 @@ export class AccessRulesClient {
         const {
             account_or_zone: accountOrZone,
             account_or_zone_id: accountOrZoneId,
-            mode,
+            mode: action,
             "configuration.target": configurationTarget,
             "configuration.value": configurationValue,
             notes,
@@ -64,7 +64,7 @@ export class AccessRulesClient {
             direction,
         } = request;
         const _queryParams: Record<string, unknown> = {
-            mode: mode != null ? mode : undefined,
+            mode: action != null ? action : undefined,
             "configuration.target": configurationTarget != null ? configurationTarget : undefined,
             "configuration.value": configurationValue,
             notes,

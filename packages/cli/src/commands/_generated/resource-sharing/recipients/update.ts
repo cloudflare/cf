@@ -46,7 +46,7 @@ type Body = Request["body"];
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update <share-id>",
-	describe: "Update a share's recipients",
+	describe: "Trigger recipient reconciliation on a share",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(

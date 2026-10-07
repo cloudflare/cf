@@ -3,6 +3,8 @@
 import * as CloudflareApi from "../index.js";
 
 export interface CloudflareK2K2MonitoredSubscriptionListResponse {
+    errors: CloudflareApi.CloudflareK2WorkersK2Messages;
+    messages: CloudflareApi.CloudflareK2WorkersK2Messages;
     result: CloudflareApi.CloudflareK2K2MonitoredSubscription[];
     success: CloudflareApi.CloudflareK2WorkersK2CommonSuccess;
 }

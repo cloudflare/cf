@@ -8,5 +8,5 @@ export interface AccessResponseCollection16 {
     /** Whether the API call was successful. */
     success: true;
     result_info?: CloudflareApi.AccessResponseCollection16ResultInfo | undefined;
-    result?: CloudflareApi.AccessAuthenticatorDeviceAaguid[] | undefined;
+    result?: CloudflareApi.AccessTag[] | undefined;
 }

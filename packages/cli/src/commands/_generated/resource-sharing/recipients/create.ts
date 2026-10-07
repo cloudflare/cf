@@ -29,9 +29,18 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Account identifier.",
 			demandOption: true,
 		})
+		.option("account-id", {
+			type: "string",
+			description:
+				"Deprecated alias for `recipient_account_id`. Use `recipient_account_id` instead.\nThe body field collided with the URL path parameter of the same name, which prevented SDK generators from distinguishing the source account (in the URL) from the recipient account (in the body). Both names will continue to be accepted until 2027-05-26 (see `x-sunset`).\n",
+		})
 		.option("organization-id", {
 			type: "string",
 			description: "Organization identifier.",
+		})
+		.option("recipient-account-id", {
+			type: "string",
+			description: "The account that will receive the share.",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -52,7 +61,7 @@ type Body = Request["body"];
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "create <share-id>",
-	describe: "Create a new share recipient",
+	describe: "Trigger a recipient addition to a share",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
@@ -78,9 +87,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
+										account_id: resolveFileToken(
+											argv["account-id"] as string | undefined,
+											"account-id",
+											"text"
+										),
 										organization_id: resolveFileToken(
 											argv["organization-id"] as string | undefined,
 											"organization-id",
+											"text"
+										),
+										recipient_account_id: resolveFileToken(
+											argv["recipient-account-id"] as string | undefined,
+											"recipient-account-id",
 											"text"
 										),
 									}),
@@ -104,9 +123,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
+					account_id: resolveFileToken(
+						argv["account-id"] as string | undefined,
+						"account-id",
+						"text"
+					),
 					organization_id: resolveFileToken(
 						argv["organization-id"] as string | undefined,
 						"organization-id",
+						"text"
+					),
+					recipient_account_id: resolveFileToken(
+						argv["recipient-account-id"] as string | undefined,
+						"recipient-account-id",
 						"text"
 					),
 				});

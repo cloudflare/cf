@@ -9,6 +9,6 @@ export interface TunnelSchemasWarpConnectorConnection {
     id?: CloudflareApi.TunnelConnectionId | undefined;
     /** Timestamp of when the connection was established. */
     opened_at?: string | undefined;
-    /** The public IP address of the host running WARP Connector. */
+    /** The public IP address of the host running the Mesh node connector. */
     origin_ip?: CloudflareApi.TunnelIp | undefined;
 }

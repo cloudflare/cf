@@ -4,16 +4,16 @@
  * @example
  *     {
  *         account_id: "account_id",
- *         name: "name",
- *         id: "id",
+ *         namespace: "namespace",
+ *         "instance-id": "instance-id",
  *         item_id: "item_id"
  *     }
  */
 export interface DownloadItemsRequest {
     account_id: string;
     /** Namespace name */
-    name: string;
+    namespace: string;
     /** AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores. */
-    id: string;
+    "instance-id": string;
     item_id: string;
 }

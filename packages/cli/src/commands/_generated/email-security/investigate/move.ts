@@ -36,6 +36,22 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"RecoverableItemsPurges",
 			],
 		})
+		.option("expected-disposition", {
+			type: "string",
+			description: "Nonfunctional field. End of life: December 1, 2026.",
+			choices: [
+				"MALICIOUS",
+				"MALICIOUS-BEC",
+				"SUSPICIOUS",
+				"SPOOF",
+				"SPAM",
+				"BULK",
+				"ENCRYPTED",
+				"EXTERNAL",
+				"UNKNOWN",
+				"NONE",
+			],
+		})
 		.option("ids", {
 			type: "string",
 			array: true,
@@ -72,7 +88,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "email-security investigate move",
 				classification: {
-					safeFlags: ["destination", "dry-run"],
+					safeFlags: ["destination", "expected-disposition", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -92,6 +108,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										destination: resolveFileToken(
 											argv["destination"] as string | undefined,
 											"destination",
+											"text"
+										),
+										expected_disposition: resolveFileToken(
+											argv["expected-disposition"] as string | undefined,
+											"expected-disposition",
 											"text"
 										),
 										ids: argv["ids"],
@@ -139,6 +160,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					destination: resolveFileToken(
 						argv["destination"] as string | undefined,
 						"destination",
+						"text"
+					),
+					expected_disposition: resolveFileToken(
+						argv["expected-disposition"] as string | undefined,
+						"expected-disposition",
 						"text"
 					),
 					ids: argv["ids"],

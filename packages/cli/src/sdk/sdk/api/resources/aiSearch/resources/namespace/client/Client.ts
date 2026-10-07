@@ -207,7 +207,7 @@ export class NamespaceClient {
      * @example
      *     await client.aiSearch.namespace.get({
      *         account_id: "c3dc5f0b34a14ff8e1b3ec04895e1b22",
-     *         name: "production"
+     *         namespace: "production"
      *     })
      */
     public get(
@@ -221,7 +221,7 @@ export class NamespaceClient {
         request: CloudflareApi.aiSearch.GetNamespaceRequest,
         requestOptions?: NamespaceClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.aiSearch.GetNamespaceResponse>> {
-        const { account_id: accountId, name } = request;
+        const { account_id: accountId, namespace } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -233,7 +233,7 @@ export class NamespaceClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(name)}`,
+                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(namespace)}`,
             ),
             method: "GET",
             headers: _headers,
@@ -268,7 +268,7 @@ export class NamespaceClient {
             _response.error,
             _response.rawResponse,
             "GET",
-            "/accounts/{account_id}/ai-search/namespaces/{name}",
+            "/accounts/{account_id}/ai-search/namespaces/{namespace}",
         );
     }
 
@@ -285,7 +285,7 @@ export class NamespaceClient {
      * @example
      *     await client.aiSearch.namespace.update({
      *         account_id: "c3dc5f0b34a14ff8e1b3ec04895e1b22",
-     *         name: "production"
+     *         namespace: "production"
      *     })
      */
     public update(
@@ -299,7 +299,7 @@ export class NamespaceClient {
         request: CloudflareApi.aiSearch.UpdateNamespaceRequest,
         requestOptions?: NamespaceClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.aiSearch.UpdateNamespaceResponse>> {
-        const { account_id: accountId, name, ..._body } = request;
+        const { account_id: accountId, namespace, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -311,7 +311,7 @@ export class NamespaceClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(name)}`,
+                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(namespace)}`,
             ),
             method: "PUT",
             headers: _headers,
@@ -353,7 +353,7 @@ export class NamespaceClient {
             _response.error,
             _response.rawResponse,
             "PUT",
-            "/accounts/{account_id}/ai-search/namespaces/{name}",
+            "/accounts/{account_id}/ai-search/namespaces/{namespace}",
         );
     }
 
@@ -369,7 +369,7 @@ export class NamespaceClient {
      * @example
      *     await client.aiSearch.namespace.delete({
      *         account_id: "c3dc5f0b34a14ff8e1b3ec04895e1b22",
-     *         name: "production"
+     *         namespace: "production"
      *     })
      */
     public delete(
@@ -383,7 +383,7 @@ export class NamespaceClient {
         request: CloudflareApi.aiSearch.DeleteNamespaceRequest,
         requestOptions?: NamespaceClient.RequestOptions,
     ): Promise<core.WithRawResponse<Record<string, unknown>>> {
-        const { account_id: accountId, name } = request;
+        const { account_id: accountId, namespace } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -395,7 +395,7 @@ export class NamespaceClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(name)}`,
+                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(namespace)}`,
             ),
             method: "DELETE",
             headers: _headers,
@@ -429,7 +429,7 @@ export class NamespaceClient {
             _response.error,
             _response.rawResponse,
             "DELETE",
-            "/accounts/{account_id}/ai-search/namespaces/{name}",
+            "/accounts/{account_id}/ai-search/namespaces/{namespace}",
         );
     }
 }

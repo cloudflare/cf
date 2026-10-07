@@ -3,21 +3,20 @@
 import * as CloudflareApi from "../index.js";
 
 /**
- * Descriptor of a bucket background job, discriminated by `jobType`. Returned when the
- * delete-objects endpoint is invoked with a `prefix` query parameter, and by the Get Bucket
- * Job and List Bucket Jobs endpoints. A small operation can already be `COMPLETED` when it
- * is returned.
+ * Descriptor of a bucket background job, discriminated by `jobType`. Returned by the
+ * Create Bucket Job, Get Bucket Job and List Bucket Jobs endpoints. A small operation can
+ * already be `COMPLETED` when it is returned.
  */
 export type R2R2BucketJob =
     | CloudflareApi.R2R2BucketJob.PrefixDelete
     | CloudflareApi.R2R2BucketJob.StorageClassMigration;
 
 export namespace R2R2BucketJob {
-    export interface PrefixDelete extends CloudflareApi.R2R2PrefixDeleteJob {
+    export interface PrefixDelete extends CloudflareApi.R2PrefixDeleteJob {
         jobType: "prefixDelete";
     }
 
-    export interface StorageClassMigration extends CloudflareApi.R2R2StorageClassMigrationJob {
+    export interface StorageClassMigration extends CloudflareApi.R2StorageClassMigrationJob {
         jobType: "storageClassMigration";
     }
 }

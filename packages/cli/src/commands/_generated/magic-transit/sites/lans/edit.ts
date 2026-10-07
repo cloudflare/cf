@@ -78,6 +78,10 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "A valid IPv4 address.",
 		})
+		.option("static-addressing-dhcp-server-dns-server", {
+			type: "string",
+			description: "A valid IPv4 address.",
+		})
 		.option("static-addressing-dhcp-server-dns-servers", {
 			type: "string",
 			array: true,
@@ -110,6 +114,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"static-addressing-dhcp-relay-server-addresses",
 				"static-addressing-dhcp-server-dhcp-pool-end",
 				"static-addressing-dhcp-server-dhcp-pool-start",
+				"static-addressing-dhcp-server-dns-server",
 				"static-addressing-dhcp-server-dns-servers",
 				"static-addressing-secondary-address",
 				"static-addressing-virtual-address",
@@ -208,6 +213,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 													"static-addressing-dhcp-server-dhcp-pool-start",
 													"text"
 												),
+												dns_server: resolveFileToken(
+													argv["static-addressing-dhcp-server-dns-server"] as
+														| string
+														| undefined,
+													"static-addressing-dhcp-server-dns-server",
+													"text"
+												),
 												dns_servers:
 													argv["static-addressing-dhcp-server-dns-servers"],
 											},
@@ -295,6 +307,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 									| string
 									| undefined,
 								"static-addressing-dhcp-server-dhcp-pool-start",
+								"text"
+							),
+							dns_server: resolveFileToken(
+								argv["static-addressing-dhcp-server-dns-server"] as
+									| string
+									| undefined,
+								"static-addressing-dhcp-server-dns-server",
 								"text"
 							),
 							dns_servers: argv["static-addressing-dhcp-server-dns-servers"],

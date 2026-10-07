@@ -32,7 +32,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("ip-set", {
 			type: "number",
 			description:
-				"Selects the account-specific IP set that supplies the nameserver addresses. The account's entitlement determines the maximum value. Nameserver sets with the same `ip_set` and `advanced` value may reuse addresses; otherwise, they use disjoint address groups.",
+				"Selects the account-specific IP set that supplies the nameserver addresses. Nameserver sets with the same `ip_set` and `advanced` value may reuse addresses; otherwise, they use disjoint address groups.",
 			default: 1,
 		})
 		.option("nameservers", {

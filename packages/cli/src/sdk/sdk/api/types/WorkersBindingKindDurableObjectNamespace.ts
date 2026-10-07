@@ -12,6 +12,7 @@ export interface WorkersBindingKindDurableObjectNamespace {
     name: CloudflareApi.WorkersBindingName;
     /** Namespace identifier tag. */
     namespace_id?: string | undefined;
+    retry?: (CloudflareApi.WorkersBindingKindDurableObjectNamespaceRetry | null) | undefined;
     /** The script where the Durable Object is defined, if it is external to this Worker. */
     script_name?: string | undefined;
 }

@@ -22,14 +22,14 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 ai-search items upload <id>\n\nUploads a file to a managed AI Search instance via multipart/form-data."
+			"$0 ai-search items upload <instance-id>\n\nUploads a file to a managed AI Search instance via multipart/form-data."
 		)
-		.positional("id", {
+		.positional("instance-id", {
 			type: "string",
 			description: "AI Search instance ID.",
 			demandOption: true,
 		})
-		.option("name", {
+		.option("namespace", {
 			type: "string",
 			description: "Namespace to use for this operation.",
 			demandOption: true,
@@ -54,14 +54,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("wait-for-completion", {
 			type: "boolean",
 			description:
-				"Wait for indexing to fully complete before responding. On RAGs with vector indexing enabled, this additionally waits for Vectorize ingestion confirmation (up to 40s) so the returned item reflects a queryable state. On timeout the item is returned in \`running\` state and the background alarm continues polling. Defaults to false.",
+				"Wait for indexing before responding. After processing, vector-indexed instances use any time remaining in a 25s wait budget to confirm Vectorize ingestion. Processing itself is not interrupted and can exceed that budget. If confirmation times out, the current item state is returned and background indexing continues. Defaults to false.",
 		});
 }
 
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "upload <id>",
+	command: "upload <instance-id>",
 	describe: "Upload Item.",
 	builder,
 	handler: async (argv): Promise<void> =>
@@ -79,10 +79,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf ai-search items upload",
 						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/namespaces/${argv["name"] == null ? "<name>" : encodeURIComponent(String(argv["name"]))}/instances/${argv["id"] == null ? "<id>" : encodeURIComponent(String(argv["id"]))}/items`,
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/namespaces/${argv["namespace"] == null ? "<namespace>" : encodeURIComponent(String(argv["namespace"]))}/instances/${argv["instance-id"] == null ? "<instance-id>" : encodeURIComponent(String(argv["instance-id"]))}/items`,
 						pathParams: {
-							id: String(argv["id"] ?? ""),
-							name: String(argv["name"] ?? ""),
+							"instance-id": String(argv["instance-id"] ?? ""),
+							namespace: String(argv["namespace"] ?? ""),
 						},
 						bodyKind: "multipart",
 						body: {
@@ -135,7 +135,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						requestApi<unknown>(
 							client,
 							"POST",
-							`/accounts/${accountId}/ai-search/namespaces/${encodeURIComponent(String(argv["name"]))}/instances/${encodeURIComponent(String(argv["id"]))}/items`,
+							`/accounts/${accountId}/ai-search/namespaces/${encodeURIComponent(String(argv["namespace"]))}/instances/${encodeURIComponent(String(argv["instance-id"]))}/items`,
 							{ body: formData }
 						)
 					);
@@ -151,7 +151,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						requestApi<unknown>(
 							client,
 							"POST",
-							`/accounts/${accountId}/ai-search/namespaces/${encodeURIComponent(String(argv["name"]))}/instances/${encodeURIComponent(String(argv["id"]))}/items`,
+							`/accounts/${accountId}/ai-search/namespaces/${encodeURIComponent(String(argv["namespace"]))}/instances/${encodeURIComponent(String(argv["instance-id"]))}/items`,
 							{
 								body: bodyData,
 								headers: { "Content-Type": "multipart/form-data" },

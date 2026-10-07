@@ -35,6 +35,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: [
 				"access_application",
 				"access_group",
+				"access_service_token",
 				"account",
 				"account_ruleset",
 				"ai_gateway",
@@ -46,6 +47,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"cws_policy_set",
 				"cws_workload",
 				"d1_database",
+				"device",
 				"durable_object_namespace",
 				"gateway_list",
 				"gateway_rule",

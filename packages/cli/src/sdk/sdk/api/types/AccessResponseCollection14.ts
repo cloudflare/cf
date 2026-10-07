@@ -8,5 +8,5 @@ export interface AccessResponseCollection14 {
     /** Whether the API call was successful. */
     success: true;
     result_info?: CloudflareApi.AccessResponseCollection14ResultInfo | undefined;
-    result?: CloudflareApi.AccessBookmarks[] | undefined;
+    result?: CloudflareApi.AccessSeats[] | undefined;
 }

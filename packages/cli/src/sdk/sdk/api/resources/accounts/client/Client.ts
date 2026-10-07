@@ -35,12 +35,12 @@ export class AccountsClient {
     protected _organization: OrganizationClient | undefined;
     protected _profile: ProfileClient | undefined;
     protected _applications: ApplicationsClient | undefined;
+    protected _categories: CategoriesClient | undefined;
     protected _roles: RolesClient | undefined;
     protected _transformations: TransformationsClient | undefined;
     protected _utBilling: UtBillingClient | undefined;
     protected _subscriptions: SubscriptionsClient | undefined;
     protected _tokens: TokensClient | undefined;
-    protected _categories: CategoriesClient | undefined;
     protected _logs: LogsClient | undefined;
 
     constructor(options: AccountsClient.Options = {}) {
@@ -67,6 +67,10 @@ export class AccountsClient {
         return (this._applications ??= new ApplicationsClient(this._options));
     }
 
+    public get categories(): CategoriesClient {
+        return (this._categories ??= new CategoriesClient(this._options));
+    }
+
     public get roles(): RolesClient {
         return (this._roles ??= new RolesClient(this._options));
     }
@@ -85,10 +89,6 @@ export class AccountsClient {
 
     public get tokens(): TokensClient {
         return (this._tokens ??= new TokensClient(this._options));
-    }
-
-    public get categories(): CategoriesClient {
-        return (this._categories ??= new CategoriesClient(this._options));
     }
 
     public get logs(): LogsClient {

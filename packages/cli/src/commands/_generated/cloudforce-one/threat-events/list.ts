@@ -21,7 +21,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one threat-events list\n\nUse `datasetId=all` or `datasetId=*` for the legacy all-datasets scope, `datasetId=analytics` for datasets with `isAnalytics=true`, or `datasetId=operational` for datasets with `isAnalytics=false` (limited to 50). Scope values must be used alone. When `datasetId` is unspecified, events are listed from the default Cloudforce One Threat Events dataset. To list existing datasets, use the [`List Datasets`](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/datasets/methods/list/) endpoint."
+			"$0 cloudforce-one threat-events list\n\nUse one standalone `datasetId` scope value: 'all'/'*' or 'operational' for readable intelligence datasets (isAnalytics=false), or 'analytics' for readable analytics datasets (isAnalytics=true). Scope values query at most 50 datasets and must be used alone. When `datasetId` is unspecified, events are listed from the default Cloudforce One Threat Events dataset. To list existing datasets, use the [`List Datasets`](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/datasets/methods/list/) endpoint."
 		)
 		.option("cursor", {
 			type: "string",
@@ -29,6 +29,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Cursor for pagination. When provided, filters are embedded in the cursor so you only need to pass cursor and pageSize. Returned in the previous response's result_info.cursor field. Use cursor-based pagination for deep pagination (beyond 100,000 records) or for optimal performance.",
 		})
 		.option("search", { type: "string", description: "Search" })
+		.option("search-branches", {
+			type: "string",
+			description:
+				"JSON-encoded. OR branches of structured search filters. Filters within a branch are AND'd, branches are OR'd, and the result is AND'd with `search`: `AND(search) AND OR(AND(branch 1), ...)`. Max 8 branches of 1-10 conditions each. Not supported for analytics datasets, and `indicator` filters are not yet supported inside branches. Cursor pages carry the original branches, so do not resend them with `cursor`.",
+		})
 		.option("page", {
 			type: "number",
 			description:
@@ -47,7 +52,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("dataset-id", {
 			type: "string",
 			description:
-				"Dataset UUIDs to query, or one standalone scope value: 'all'/'*' for the legacy all-datasets behavior, 'analytics' for isAnalytics=true datasets, or 'operational' for isAnalytics=false datasets. If not provided, uses the default dataset.",
+				"Dataset UUIDs to query, or one standalone scope value: 'all'/'*' or 'operational' for readable intelligence datasets (isAnalytics=false), or 'analytics' for readable analytics datasets (isAnalytics=true). Scope values query at most 50 datasets. If not provided, uses the default dataset.",
 		})
 		.option("force-refresh", { type: "boolean", description: "ForceRefresh" })
 		.option("format", {
@@ -74,6 +79,7 @@ type Query = SdkQuery<"get_EventListGet">;
 const typedBuilder = withArgTypes<
 	{
 		search: Query["search"];
+		"search-branches": Query["searchBranches"];
 		order: Query["order"];
 		format: Query["format"];
 		cache: Query["cache"];
@@ -99,6 +105,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const queryParams: Query = {
 					cursor: argv["cursor"],
 					search: argv["search"],
+					searchBranches: argv["search-branches"],
 					page: argv["page"],
 					pageSize: argv["page-size"],
 					orderBy: argv["order-by"],

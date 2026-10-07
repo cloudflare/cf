@@ -18,6 +18,7 @@ import { ServiceTokensClient } from "../resources/serviceTokens/client/Client.js
 import { SigningKeysClient } from "../resources/signingKeys/client/Client.js";
 import { TagsClient } from "../resources/tags/client/Client.js";
 import { TargetsClient } from "../resources/targets/client/Client.js";
+import { UserPopulationsClient } from "../resources/userPopulations/client/Client.js";
 import { UsersClient } from "../resources/users/client/Client.js";
 
 export declare namespace AccessClient {
@@ -33,6 +34,7 @@ export class AccessClient {
     protected _samlEncryptionCertificates: SamlEncryptionCertificatesClient | undefined;
     protected _serviceTokens: ServiceTokensClient | undefined;
     protected _tags: TagsClient | undefined;
+    protected _userPopulations: UserPopulationsClient | undefined;
     protected _users: UsersClient | undefined;
     protected _targets: TargetsClient | undefined;
     protected _applications: ApplicationsClient | undefined;
@@ -72,6 +74,10 @@ export class AccessClient {
 
     public get tags(): TagsClient {
         return (this._tags ??= new TagsClient(this._options));
+    }
+
+    public get userPopulations(): UserPopulationsClient {
+        return (this._userPopulations ??= new UserPopulationsClient(this._options));
     }
 
     public get users(): UsersClient {

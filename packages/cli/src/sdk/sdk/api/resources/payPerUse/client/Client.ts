@@ -5,7 +5,12 @@ import { normalizeClientOptionsWithAuth, type NormalizedClientOptionsWithAuth } 
 import * as core from "../../../../core/index.js";
 import * as environments from "../../../../environments.js";
 import { EnabledDomainsClient } from "../resources/enabledDomains/client/Client.js";
+import { OperatorClient } from "../resources/operator/client/Client.js";
+import { PricingClient } from "../resources/pricing/client/Client.js";
+import { ProposalsClient } from "../resources/proposals/client/Client.js";
 import { UsageReportsClient } from "../resources/usageReports/client/Client.js";
+import { UsageStatsClient } from "../resources/usageStats/client/Client.js";
+import { ZonesClient } from "../resources/zones/client/Client.js";
 
 export declare namespace PayPerUseClient {
     export type Options = BaseClientOptions;
@@ -14,7 +19,12 @@ export declare namespace PayPerUseClient {
 export class PayPerUseClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<PayPerUseClient.Options>;
     protected _enabledDomains: EnabledDomainsClient | undefined;
+    protected _operator: OperatorClient | undefined;
+    protected _proposals: ProposalsClient | undefined;
     protected _usageReports: UsageReportsClient | undefined;
+    protected _zones: ZonesClient | undefined;
+    protected _pricing: PricingClient | undefined;
+    protected _usageStats: UsageStatsClient | undefined;
 
     constructor(options: PayPerUseClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
@@ -24,7 +34,27 @@ export class PayPerUseClient {
         return (this._enabledDomains ??= new EnabledDomainsClient(this._options));
     }
 
+    public get operator(): OperatorClient {
+        return (this._operator ??= new OperatorClient(this._options));
+    }
+
+    public get proposals(): ProposalsClient {
+        return (this._proposals ??= new ProposalsClient(this._options));
+    }
+
     public get usageReports(): UsageReportsClient {
         return (this._usageReports ??= new UsageReportsClient(this._options));
+    }
+
+    public get zones(): ZonesClient {
+        return (this._zones ??= new ZonesClient(this._options));
+    }
+
+    public get pricing(): PricingClient {
+        return (this._pricing ??= new PricingClient(this._options));
+    }
+
+    public get usageStats(): UsageStatsClient {
+        return (this._usageStats ??= new UsageStatsClient(this._options));
     }
 }

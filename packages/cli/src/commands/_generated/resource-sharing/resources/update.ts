@@ -51,7 +51,7 @@ type Body = Request;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update <share-resource-id>",
-	describe: "Update a share resource",
+	describe: "Trigger a resource metadata update in a share",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(

@@ -22,14 +22,14 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 ai-search chat-completions <id>\n\nPerforms a chat completion request against an AI Search instance, using indexed content as context for generating responses."
+			"$0 ai-search chat-completions <instance-id>\n\nPerforms a chat completion request against an AI Search instance, using indexed content as context for generating responses."
 		)
-		.positional("id", {
+		.positional("instance-id", {
 			type: "string",
 			description: "AI Search instance ID.",
 			demandOption: true,
 		})
-		.option("name", {
+		.option("namespace", {
 			type: "string",
 			description: "Namespace to use for this operation.",
 			demandOption: true,
@@ -133,7 +133,7 @@ type Request = SdkRequest<"ai-search-namespace-instance-chat-completion">;
 type Body = Request;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "chat-completions <id>",
+	command: "chat-completions <instance-id>",
 	describe: "Chat Completions",
 	builder,
 	handler: async (argv): Promise<void> =>
@@ -162,10 +162,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf ai-search chat-completions",
 						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/namespaces/${argv["name"] == null ? "<name>" : encodeURIComponent(String(argv["name"]))}/instances/${argv["id"] == null ? "<id>" : encodeURIComponent(String(argv["id"]))}/chat/completions`,
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/namespaces/${argv["namespace"] == null ? "<namespace>" : encodeURIComponent(String(argv["namespace"]))}/instances/${argv["instance-id"] == null ? "<instance-id>" : encodeURIComponent(String(argv["instance-id"]))}/chat/completions`,
 						pathParams: {
-							id: String(argv["id"] ?? ""),
-							name: String(argv["name"] ?? ""),
+							"instance-id": String(argv["instance-id"] ?? ""),
+							namespace: String(argv["namespace"] ?? ""),
 						},
 						bodyKind: "json",
 						body:
@@ -266,8 +266,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						client.aiSearch.chatCompletions({
 							...bodyData,
 							account_id: accountId,
-							name: argv["name"],
-							id: argv["id"],
+							namespace: argv["namespace"],
+							"instance-id": argv["instance-id"],
 						} satisfies Request)
 					);
 					formatOutput(result, { successLabel: `Created` });
@@ -363,8 +363,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					client.aiSearch.chatCompletions({
 						...bodyData,
 						account_id: accountId,
-						name: argv["name"],
-						id: argv["id"],
+						namespace: argv["namespace"],
+						"instance-id": argv["instance-id"],
 					} satisfies Request)
 				);
 				formatOutput(result, { successLabel: `Created` });

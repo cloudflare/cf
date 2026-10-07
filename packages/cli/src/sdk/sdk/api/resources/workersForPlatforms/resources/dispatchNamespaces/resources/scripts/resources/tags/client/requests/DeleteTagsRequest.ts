@@ -3,6 +3,7 @@
 /**
  * @example
  *     {
+ *         "api-version": "2026-10-01.epoch",
  *         account_id: "account_id",
  *         dispatch_namespace: "dispatch_namespace",
  *         script_name: "script_name",
@@ -17,4 +18,10 @@ export interface DeleteTagsRequest {
     /** Name of the script. */
     script_name: string;
     tag: string;
+    /**
+     * Requested API compatibility date in `YYYY-MM-DD[.release]` format (UTC). The optional release suffix contains lowercase letters; for example, `2026-10-01.epoch`.
+     *
+     * Typed Worker tag operations require a date on or after `2026-10-01`.
+     */
+    "api-version"?: string;
 }

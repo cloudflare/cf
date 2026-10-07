@@ -21,7 +21,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 accounts applications update <id>\n\nReplace the network matchers for a custom application and create a new version."
+			"$0 accounts applications update <id>\n\nReplace the supplied network matchers for a custom application and create a new version. Omitted matcher lists remain unchanged; send an empty list to clear a matcher type."
 		)
 		.positional("id", {
 			type: "string",
@@ -42,7 +42,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("port-protocols", {
 			type: "string",
 			array: true,
-			description: "Port and protocol pairs matched by the application.",
+			description:
+				"Ports matched by the application, in `protocol/port` or inclusive `protocol/start-end` format (for example, `tcp/443` or `udp/10000-20000`). TCP and UDP ports must be between 0 and 65535.",
 		})
 		.option("support-domains", {
 			type: "string",

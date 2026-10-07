@@ -23,19 +23,19 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 ai-search move <id>\n\nMoves an instance from its current namespace to the specified target namespace. Use 'default' with --destination-namespace to move the instance back to the default namespace. Fails with 400 if the target namespace already has an instance with the same id (ids must be unique within a namespace — the same id can exist in different namespaces). Search for Agents instances cannot move to another namespace."
+			"$0 ai-search move <instance-id>\n\nMoves an instance from its current namespace to the specified target namespace. Use 'default' with --destination-namespace to move the instance back to the default namespace. Fails with 400 if the target namespace already has an instance with the same id (ids must be unique within a namespace — the same id can exist in different namespaces)."
 		)
-		.positional("id", {
+		.positional("instance-id", {
 			type: "string",
 			description: "AI Search instance ID.",
 			demandOption: true,
 		})
-		.option("name", {
+		.option("source-namespace", {
 			type: "string",
 			description: "Namespace currently containing the instance.",
 			demandOption: true,
 		})
-		.option("new-namespace", {
+		.option("destination-namespace", {
 			type: "string",
 			description: "Target namespace to move the instance into.",
 		})
@@ -56,7 +56,7 @@ type Request = SdkRequest<"ai-search-move-instance">;
 type Body = Request;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "move <id>",
+	command: "move <instance-id>",
 	describe: "Move an instance to a different namespace.",
 	builder,
 	handler: async (argv): Promise<void> =>
@@ -74,10 +74,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf ai-search move",
 						method: "PATCH",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/namespaces/${argv["name"] == null ? "<name>" : encodeURIComponent(String(argv["name"]))}/instances/${argv["id"] == null ? "<id>" : encodeURIComponent(String(argv["id"]))}`,
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/namespaces/${argv["source-namespace"] == null ? "<source-namespace>" : encodeURIComponent(String(argv["source-namespace"]))}/instances/${argv["instance-id"] == null ? "<instance-id>" : encodeURIComponent(String(argv["instance-id"]))}`,
 						pathParams: {
-							name: String(argv["name"] ?? ""),
-							id: String(argv["id"] ?? ""),
+							"source-namespace": String(argv["source-namespace"] ?? ""),
+							"instance-id": String(argv["instance-id"] ?? ""),
 						},
 						bodyKind: "json",
 						body:
@@ -85,8 +85,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								? parseBody(argv.body)
 								: compactBody({
 										new_namespace: resolveFileToken(
-											argv["new-namespace"] as string | undefined,
-											"new-namespace",
+											argv["destination-namespace"] as string | undefined,
+											"destination-namespace",
 											"text"
 										),
 									}),
@@ -103,16 +103,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						client.aiSearch.move({
 							...bodyData,
 							account_id: accountId,
-							name: argv["name"],
-							id: argv["id"],
+							"source-namespace": argv["source-namespace"],
+							"instance-id": argv["instance-id"],
 						} satisfies Request)
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-				if (argv["new-namespace"] === undefined) {
-					argv["new-namespace"] = await promptForRequiredField(
-						"new-namespace",
+				if (argv["destination-namespace"] === undefined) {
+					argv["destination-namespace"] = await promptForRequiredField(
+						"destination-namespace",
 						"Target namespace to move the instance into."
 					);
 				}
@@ -120,8 +120,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
 					new_namespace: resolveFileToken(
-						argv["new-namespace"] as string | undefined,
-						"new-namespace",
+						argv["destination-namespace"] as string | undefined,
+						"destination-namespace",
 						"text"
 					),
 				});
@@ -129,8 +129,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					client.aiSearch.move({
 						...bodyData,
 						account_id: accountId,
-						name: argv["name"],
-						id: argv["id"],
+						"source-namespace": argv["source-namespace"],
+						"instance-id": argv["instance-id"],
 					} satisfies Request)
 				);
 				formatOutput(result, { successLabel: `Updated` });

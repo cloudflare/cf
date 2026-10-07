@@ -6,9 +6,7 @@ import * as CloudflareApi from "../../../../../../index.js";
  * @example
  *     {
  *         account_or_zone: "account_or_zone",
- *         account_or_zone_id: "account_or_zone_id",
- *         auth_domain: "test.cloudflareaccess.com",
- *         name: "Widget Corps Internal Applications"
+ *         account_or_zone_id: "account_or_zone_id"
  *     }
  */
 export interface CreateOrganizationRequest {
@@ -16,7 +14,7 @@ export interface CreateOrganizationRequest {
     /** Identifier. */
     account_or_zone_id: string;
     allow_authenticate_via_warp?: CloudflareApi.AccessAllowAuthenticateViaWarp;
-    auth_domain: CloudflareApi.AccessAuthDomain;
+    auth_domain?: CloudflareApi.AccessAuthDomain;
     auto_redirect_to_identity?: CloudflareApi.AccessAutoRedirectToIdentity;
     deny_unmatched_requests?: CloudflareApi.AccessDenyUnmatchedRequests;
     deny_unmatched_requests_exempted_zone_names?: CloudflareApi.AccessDenyUnmatchedRequestsExemptedZoneNames;
@@ -25,7 +23,7 @@ export interface CreateOrganizationRequest {
     mfa_config?: CloudflareApi.AccessOrgMfaConfig;
     mfa_piv_key_requirements?: CloudflareApi.AccessMfaPivKeyRequirements;
     mfa_required_for_all_apps?: CloudflareApi.AccessMfaRequiredForAllApps;
-    name: CloudflareApi.AccessName;
+    name?: CloudflareApi.AccessName;
     service_token_inactivity?: CloudflareApi.AccessServiceTokenInactivity;
     session_duration?: CloudflareApi.AccessSessionDuration;
     strict_service_token_auth?: CloudflareApi.AccessStrictServiceTokenAuth;

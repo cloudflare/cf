@@ -22,9 +22,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
-		.usage(
-			"$0 mesh nodes create\n\nCreates a new Warp Connector Tunnel in an account."
-		)
+		.usage("$0 mesh nodes create\n\nCreates a new Mesh node in an account.")
 		.option("ha", {
 			type: "boolean",
 			description:
@@ -53,7 +51,7 @@ type Body = Request;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "create",
-	describe: "Create a Warp Connector Tunnel",
+	describe: "Create a Mesh node",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(

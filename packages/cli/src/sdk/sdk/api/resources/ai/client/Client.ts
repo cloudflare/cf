@@ -455,4 +455,91 @@ export class AiClient {
             "/accounts/{account_id}/ai/tomarkdown/supported",
         );
     }
+
+    /**
+     * Run a web search through a configured AI Gateway.
+     *
+     * @param {CloudflareApi.WebsearchAiRequest} request
+     * @param {AiClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link CloudflareApi.ForbiddenError}
+     * @throws {@link CloudflareApi.BadGatewayError}
+     *
+     * @example
+     *     await client.ai.websearch({
+     *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
+     *         options: {
+     *             gateway: {
+     *                 id: "id"
+     *             }
+     *         },
+     *         query: "query"
+     *     })
+     */
+    public websearch(
+        request: CloudflareApi.WebsearchAiRequest,
+        requestOptions?: AiClient.RequestOptions,
+    ): core.HttpResponsePromise<CloudflareApi.WebsearchAiResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__websearch(request, requestOptions));
+    }
+
+    private async __websearch(
+        request: CloudflareApi.WebsearchAiRequest,
+        requestOptions?: AiClient.RequestOptions,
+    ): Promise<core.WithRawResponse<CloudflareApi.WebsearchAiResponse>> {
+        const { account_id: accountId, ..._body } = request;
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.CloudflareApiEnvironment.Default,
+                `accounts/${core.url.encodePathParam(accountId)}/ai/websearch`,
+            ),
+            method: "POST",
+            headers: _headers,
+            contentType: "application/json",
+            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
+            requestType: "json",
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return { data: _response.body as CloudflareApi.WebsearchAiResponse, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 403:
+                    throw new CloudflareApiErrors.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                case 502:
+                    throw new CloudflareApiErrors.BadGatewayError(_response.error.body as unknown, _response.rawResponse);
+                default:
+                    throw new errors.CloudflareApiError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(
+            _response.error,
+            _response.rawResponse,
+            "POST",
+            "/accounts/{account_id}/ai/websearch",
+        );
+    }
 }

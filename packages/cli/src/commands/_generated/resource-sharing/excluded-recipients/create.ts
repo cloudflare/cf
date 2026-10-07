@@ -7,10 +7,12 @@ import type { SdkRequest } from "#sdk";
  */
 import type { Argv, CommandModule } from "yargs";
 import { createCommandClient } from "#lib/auth.js";
-import { parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
+import { resolveFileToken } from "#lib/input-validation.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
+import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
@@ -27,6 +29,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "Account identifier.",
 			demandOption: true,
+		})
+		.option("account-id", {
+			type: "string",
+			description:
+				"The account to exclude from the organization-targeted share.",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -46,7 +53,7 @@ type Body = Request["body"];
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "create <share-id>",
-	describe: "Create a new share excluded recipient",
+	describe: "Trigger an account exclusion from a share",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
@@ -68,7 +75,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"share-id": String(argv["share-id"] ?? ""),
 						},
 						bodyKind: "json",
-						body: argv.body !== undefined ? parseBody(argv.body) : undefined,
+						body:
+							argv.body !== undefined
+								? parseBody(argv.body)
+								: compactBody({
+										account_id: resolveFileToken(
+											argv["account-id"] as string | undefined,
+											"account-id",
+											"text"
+										),
+									}),
 					});
 					return;
 				}
@@ -86,12 +102,29 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-
-				if (argv.body === undefined) {
-					throw new Error(
-						"--body is required for this command. Pass --body '<json>' or --body @path/to/file.json."
+				if (argv["account-id"] === undefined) {
+					argv["account-id"] = await promptForRequiredField(
+						"account-id",
+						"The account to exclude from the organization-targeted share."
 					);
 				}
+
+				// Assemble request body from individual flags
+				const bodyData = compactBody<Body>({
+					account_id: resolveFileToken(
+						argv["account-id"] as string | undefined,
+						"account-id",
+						"text"
+					),
+				});
+				const result = await withProgress(`Creating`, async () =>
+					client.resourceSharing.excludedRecipients.create({
+						body: bodyData,
+						account_id_path: argv["account-id-path"],
+						share_id: argv["share-id"],
+					} satisfies Request)
+				);
+				formatOutput(result, { successLabel: `Created` });
 			}
 		),
 };

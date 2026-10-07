@@ -21,7 +21,7 @@ import * as CloudflareApi from "../../../../../../../../index.js";
 export interface GetIndicatorsRequest {
     /** Account ID. */
     account_id: string;
-    /** Dataset UUIDs to query, or one standalone scope value: 'all'/'*' for legacy all-datasets behavior, 'analytics' for isAnalytics=true datasets, or 'operational' for isAnalytics=false datasets. If not provided, uses the default dataset. */
+    /** Dataset UUIDs to query, or one standalone scope value: 'all'/'*' or 'operational' for readable intelligence datasets (isAnalytics=false), or 'analytics' for readable analytics datasets (isAnalytics=true). If not provided, uses the default dataset. */
     datasetIds?: string | string[];
     page?: number;
     pageSize?: number;

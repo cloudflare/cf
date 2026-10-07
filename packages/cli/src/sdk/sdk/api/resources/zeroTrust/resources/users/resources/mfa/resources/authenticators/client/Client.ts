@@ -26,7 +26,7 @@ export class AuthenticatorsClient {
     }
 
     /**
-     * Deletes a specific MFA device, including a PIV key or FIDO2 key enrollment, for a user. This action is only available if MFA is turned on for the organization. Successful deletion revokes the enrollment and returns a null result.
+     * Deletes a specific MFA device or passkey, including a PIV key or FIDO2 key enrollment, for a user. Admin deletion remains available when MFA is disabled. Successful deletion revokes the enrollment and returns a null result.
      *
      * @param {CloudflareApi.zeroTrust.users.mfa.DeleteAuthenticatorsRequest} request
      * @param {AuthenticatorsClient.RequestOptions} requestOptions - Request-specific configuration.

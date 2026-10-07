@@ -137,7 +137,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("match", {
 			type: "string",
 			description:
-				'The wirefilter expression to match devices. Available values: "identity.email", "identity.groups.id", "identity.groups.name", "identity.groups.email", "identity.service_token_uuid", "identity.saml_attributes", "network", "os.name", "os.version".',
+				'The wirefilter expression to match devices. Available values: "identity.email", "identity.groups.id", "identity.groups.name", "identity.groups.email", "identity.service_token_uuid", "identity.saml_attributes", "network", "os.name", "os.version", "device.tags".',
 		})
 		.option("name", {
 			type: "string",

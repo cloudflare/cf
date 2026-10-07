@@ -3,7 +3,7 @@
 import * as CloudflareApi from "../../../index.js";
 
 export interface ListManagedTransformsResponse {
-    errors?: unknown[] | undefined;
+    errors?: CloudflareApi.RulesetsMessage[] | undefined;
     result?: CloudflareApi.RulesetsManagedTransforms | undefined;
     /** Whether the API call was successful. */
     success?: true | undefined;

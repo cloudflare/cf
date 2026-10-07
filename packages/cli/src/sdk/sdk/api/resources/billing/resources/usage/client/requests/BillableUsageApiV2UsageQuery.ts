@@ -14,5 +14,7 @@ export interface BillableUsageApiV2UsageQuery {
     FilterBy?: CloudflareApi.BillableUsageApiV2FilterBy;
     /** Grouping definitions used to split result rows. At most two unique keys may be supplied. */
     GroupBy?: CloudflareApi.BillableUsageApiV2GroupBy[];
+    /** Type of cost/usage records to retrieve. `usage` returns unrated usage quantities. Unrelated to `FilterBy.BillableMetricIds`. Defaults to `usage` when omitted. */
+    Metric?: "usage";
     TimePeriod?: CloudflareApi.BillableUsageApiV2TimePeriod;
 }

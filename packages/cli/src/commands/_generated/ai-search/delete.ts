@@ -21,14 +21,14 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 ai-search delete <id>\n\nPermanently delete an AI Search instance and all its indexed data."
+			"$0 ai-search delete <instance-id>\n\nPermanently delete an AI Search instance and all its indexed data."
 		)
-		.positional("id", {
+		.positional("instance-id", {
 			type: "string",
 			description: "AI Search instance ID.",
 			demandOption: true,
 		})
-		.option("name", {
+		.option("namespace", {
 			type: "string",
 			description: "Namespace to use for this operation.",
 			demandOption: true,
@@ -51,7 +51,7 @@ type Args = InferArgs<typeof builder>;
 type Request = SdkRequest<"ai-search-namespace-delete-instance">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "delete <id>",
+	command: "delete <instance-id>",
 	describe: "Delete an AI Search instance.",
 	builder,
 	handler: async (argv): Promise<void> =>
@@ -70,10 +70,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf ai-search delete",
 						method: "DELETE",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/namespaces/${argv["name"] == null ? "<name>" : encodeURIComponent(String(argv["name"]))}/instances/${argv["id"] == null ? "<id>" : encodeURIComponent(String(argv["id"]))}`,
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/namespaces/${argv["namespace"] == null ? "<namespace>" : encodeURIComponent(String(argv["namespace"]))}/instances/${argv["instance-id"] == null ? "<instance-id>" : encodeURIComponent(String(argv["instance-id"]))}`,
 						pathParams: {
-							id: String(argv["id"] ?? ""),
-							name: String(argv["name"] ?? ""),
+							"instance-id": String(argv["instance-id"] ?? ""),
+							namespace: String(argv["namespace"] ?? ""),
 						},
 						bodyKind: "none",
 					});
@@ -96,8 +96,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const result = await withProgress(`Deleting`, async () =>
 					client.aiSearch.delete({
 						account_id: accountId,
-						name: argv["name"],
-						id: argv["id"],
+						namespace: argv["namespace"],
+						"instance-id": argv["instance-id"],
 					} satisfies Request)
 				);
 				formatOutput(result, { successLabel: `Deleted` });

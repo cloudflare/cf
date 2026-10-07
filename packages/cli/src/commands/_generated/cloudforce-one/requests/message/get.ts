@@ -29,6 +29,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "UUID.",
 			demandOption: true,
 		})
+		.option("after", {
+			type: "string",
+			description: "Retrieve mes  ges created after this time.",
+		})
+		.option("before", {
+			type: "string",
+			description: "Retrieve messages created before this time.",
+		})
 		.option("page", { type: "number", description: "Page number of results." })
 		.option("per-page", {
 			type: "number",
@@ -85,6 +93,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
+										after: resolveFileToken(
+											argv["after"] as string | undefined,
+											"after",
+											"text"
+										),
+										before: resolveFileToken(
+											argv["before"] as string | undefined,
+											"before",
+											"text"
+										),
 										page: argv["page"],
 										per_page: argv["per-page"],
 										sort_by: resolveFileToken(
@@ -130,6 +148,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
+					after: resolveFileToken(
+						argv["after"] as string | undefined,
+						"after",
+						"text"
+					),
+					before: resolveFileToken(
+						argv["before"] as string | undefined,
+						"before",
+						"text"
+					),
 					page: argv["page"],
 					per_page: argv["per-page"],
 					sort_by: resolveFileToken(

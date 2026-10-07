@@ -24,7 +24,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			"$0 billing usage query\n\nReturns cost and usage data for a single Cloudflare account, aligned with the [FinOps FOCUS v1.3](https://focus.finops.org/focus-specification/v1-3/) Cost and Usage dataset specification. This is the filterable counterpart to `GET` on the same path. It is a read-only operation and requires only the `#billing:read` permission; `POST` is used so that filter criteria can be supplied in a request body rather than in the query string. Each record represents one billable metric for one account on one day. This includes all metered usage, including usage that falls within free-tier allowances and may result in zero cost. **Note:** Cost and pricing fields are not yet populated and will be absent from responses until billing integration is complete. The request body is optional. When it is omitted, or when `TimePeriod` is omitted, the range defaults to the start of the current month through today. The maximum date range is 31 days. Filters of different kinds are combined with AND. Values within one tag filter are combined with OR. Filter values that do not match usage produce an empty result set. Results can be grouped by up to two groups, in any combination of dimension keys and resource-tag keys. Tag groups are returned in the `Tags` field. Usage without a requested tag remains in an untagged group, with that key omitted from `Tags`. Requests that use tag filtering or tag grouping return HTTP 400 when the underlying usage data source does not support tags. Requests that use dimension grouping return HTTP 400 when the underlying usage data source does not support dimensions."
 		)
-		.option("filter-by-metric-ids", {
+		.option("filter-by-billable-metric-ids", {
 			type: "string",
 			array: true,
 			description:
@@ -40,6 +40,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description:
 				"Grouping definitions used to split result rows. At most two unique keys may be supplied. Provide as a JSON array of objects or @path/to/file.json.",
+		})
+		.option("metric", {
+			type: "string",
+			description:
+				"Type of cost/usage records to retrieve. `usage` returns unrated usage quantities. Unrelated to `FilterBy.BillableMetricIds`. Defaults to `usage` when omitted.",
+			choices: ["usage"],
+			default: "usage",
 		})
 		.option("time-period-from", {
 			type: "string",
@@ -76,7 +83,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "billing usage query",
 				classification: {
-					safeFlags: ["dry-run"],
+					safeFlags: ["metric", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -94,10 +101,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								? parseBody(argv.body)
 								: compactBody({
 										FilterBy: {
-											MetricIds: argv["filter-by-metric-ids"],
+											BillableMetricIds: argv["filter-by-billable-metric-ids"],
 											ProductFamilyIds: argv["filter-by-product-family-ids"],
 										},
 										GroupBy: parseObjectArray(argv["group-by"], "group-by"),
+										Metric: resolveFileToken(
+											argv["metric"] as string | undefined,
+											"metric",
+											"text"
+										),
 										TimePeriod: {
 											From: resolveFileToken(
 												argv["time-period-from"] as string | undefined,
@@ -133,10 +145,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
 					FilterBy: {
-						MetricIds: argv["filter-by-metric-ids"],
+						BillableMetricIds: argv["filter-by-billable-metric-ids"],
 						ProductFamilyIds: argv["filter-by-product-family-ids"],
 					},
 					GroupBy: parseObjectArray(argv["group-by"], "group-by"),
+					Metric: resolveFileToken(
+						argv["metric"] as string | undefined,
+						"metric",
+						"text"
+					),
 					TimePeriod: {
 						From: resolveFileToken(
 							argv["time-period-from"] as string | undefined,

@@ -52,7 +52,7 @@ type Request = SdkRequest<"share-recipient-delete">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <recipient-id>",
-	describe: "Delete a share recipient",
+	describe: "Trigger a recipient removal from a share",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(

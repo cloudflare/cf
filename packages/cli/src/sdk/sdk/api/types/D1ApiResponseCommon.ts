@@ -5,7 +5,6 @@ import * as CloudflareApi from "../index.js";
 export interface D1ApiResponseCommon {
     errors: CloudflareApi.D1Messages;
     messages: CloudflareApi.D1Messages;
-    result: Record<string, unknown>;
     /** Whether the API call was successful */
     success: true;
 }

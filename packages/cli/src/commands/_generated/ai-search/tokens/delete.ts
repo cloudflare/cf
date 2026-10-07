@@ -21,9 +21,9 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 ai-search tokens delete <id>\n\nPermanently delete a stored AI Search credential. Credentials in use by an instance cannot be deleted."
+			"$0 ai-search tokens delete <token-id>\n\nPermanently delete a stored AI Search credential. Credentials in use by an instance cannot be deleted."
 		)
-		.positional("id", {
+		.positional("token-id", {
 			type: "string",
 			description: "Stored credential record ID.",
 			demandOption: true,
@@ -46,7 +46,7 @@ type Args = InferArgs<typeof builder>;
 type Request = SdkRequest<"ai-search-delete-tokens">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "delete <id>",
+	command: "delete <token-id>",
 	describe: "Delete a token",
 	builder,
 	handler: async (argv): Promise<void> =>
@@ -65,8 +65,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf ai-search tokens delete",
 						method: "DELETE",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/tokens/${argv["id"] == null ? "<id>" : encodeURIComponent(String(argv["id"]))}`,
-						pathParams: { id: String(argv["id"] ?? "") },
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/tokens/${argv["token-id"] == null ? "<token-id>" : encodeURIComponent(String(argv["token-id"]))}`,
+						pathParams: { "token-id": String(argv["token-id"] ?? "") },
 						bodyKind: "none",
 					});
 					return;
@@ -88,7 +88,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const result = await withProgress(`Deleting`, async () =>
 					client.aiSearch.tokens.delete({
 						account_id: accountId,
-						id: argv["id"],
+						"token-id": argv["token-id"],
 					} satisfies Request)
 				);
 				formatOutput(result, { successLabel: `Deleted` });

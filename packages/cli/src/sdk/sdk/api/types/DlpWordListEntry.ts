@@ -7,5 +7,5 @@ export interface DlpWordListEntry {
     name: string;
     profile_id?: (string | null) | undefined;
     updated_at: string;
-    word_list?: unknown | undefined;
+    word_list: string[];
 }

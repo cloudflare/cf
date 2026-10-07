@@ -602,13 +602,13 @@ packages:
     resolution: {integrity: sha512-AhvyfdaxOJL7KQUZ/2paO6LBgbITXlgrNBPkF22j/K00erMBo7hZrza2VKFfbD8G4i15+0194WJV5jL8YPSUNA==}
 
   '@cloudflare/forge-transformer-sdk-ts@file:vendor/cloudflare-forge-transformer-sdk-ts-0.1.0.tgz':
-    resolution: {integrity: sha512-kFXwnkznw5nNqVey5HzT8F2H9vmBXr2kT39PszKo7+fEfVbFVoHmwfeQckqr9yHTr/xonvFdZOdrFxVFc9xR6g==, tarball: file:vendor/cloudflare-forge-transformer-sdk-ts-0.1.0.tgz}
+    resolution: {integrity: sha512-cCWbu8FYXabMMzdBfCQXMVaghCPGbZISHNrulmENkZjIZI4FNGeAMpp2AM4LF5JEXmtjl4G3HXZ+CxRfUfK/OQ==, tarball: file:vendor/cloudflare-forge-transformer-sdk-ts-0.1.0.tgz}
     version: 0.1.0
     engines: {node: '>=22'}
     hasBin: true
 
   '@cloudflare/forge@file:vendor/cloudflare-forge-0.1.0.tgz':
-    resolution: {integrity: sha512-483RWBHT1qzM8cbN3Q2YlRnwLlQr0f2jrlxR6hFF/nhI1het4ENJ3tWVrdSCb9RNnbg2Z/w5+BtwNMcL9sktJQ==, tarball: file:vendor/cloudflare-forge-0.1.0.tgz}
+    resolution: {integrity: sha512-yweK06TrmjGoZpIuUv++x1u1XxS3gONdnQ4thJPQDJybe4o0HVGsEj2Cof/YH+H5DOQoDsF3PKWKG14wYkqMww==, tarball: file:vendor/cloudflare-forge-0.1.0.tgz}
     version: 0.1.0
     engines: {node: '>=22'}
 

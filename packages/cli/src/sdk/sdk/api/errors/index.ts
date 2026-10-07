@@ -12,6 +12,7 @@ export * from "./LockedError.js";
 export * from "./MethodNotAllowedError.js";
 export * from "./NotFoundError.js";
 export * from "./NotImplementedError.js";
+export * from "./PaymentRequiredError.js";
 export * from "./PreconditionFailedError.js";
 export * from "./RequestTimeoutError.js";
 export * from "./ServiceUnavailableError.js";

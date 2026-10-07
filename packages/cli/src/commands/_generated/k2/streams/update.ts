@@ -21,21 +21,27 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 k2 streams update <stream-id>\n\nUpdate a K2 stream. Omitted `http` settings, such as `authentication` and `cors`, keep their current values while HTTP stays enabled. Disabling HTTP clears its settings. At least one input must remain enabled."
+			"$0 k2 streams update <stream-id>\n\nUpdate a K2 stream. Omitted `http` settings, such as `authentication` and `cors`, keep their current values. Disabling HTTP keeps them, so enabling HTTP again restores them. At least one input must remain enabled."
 		)
 		.positional("stream-id", {
 			type: "string",
 			description: "Specifies the public ID of the K2 stream.",
 			demandOption: true,
 		})
-		.option("http-enabled", {
-			type: "boolean",
-			description: "Indicates whether the HTTP endpoint accepts records.",
-		})
 		.option("http-authentication", {
 			type: "boolean",
 			description:
-				"Indicates whether the HTTP endpoint requires an API token with K2 produce permission. When false or omitted, the endpoint accepts unauthenticated records.",
+				"Indicates whether the HTTP endpoint requires an API token with K2 produce permission. When false, the endpoint accepts unauthenticated records. Defaults to true when HTTP is enabled without a stored value.",
+		})
+		.option("http-cors-origins", {
+			type: "string",
+			array: true,
+			description:
+				"Allows browser requests from these HTTP or HTTPS origins. Use a wildcard only as the sole origin. An empty list blocks cross-origin browser requests. Defaults to `['*']` when HTTP is enabled without stored origins.",
+		})
+		.option("http-enabled", {
+			type: "boolean",
+			description: "Indicates whether the HTTP endpoint accepts records.",
 		})
 		.option("retention-seconds", {
 			type: "number",
@@ -57,9 +63,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Raw JSON request body (bypasses individual flags)",
 		})
 		.check((argv) => {
-			const groupSet = ["http-enabled", "http-authentication"].some(
-				(k) => argv[k] !== undefined
-			);
+			const groupSet = [
+				"http-authentication",
+				"http-cors-origins",
+				"http-enabled",
+			].some((k) => argv[k] !== undefined);
 			if (groupSet) {
 				const missing = ["http-enabled"].filter((k) => argv[k] === undefined);
 				if (missing.length > 0) {
@@ -103,8 +111,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				command: "k2 streams update",
 				classification: {
 					safeFlags: [
-						"http-enabled",
 						"http-authentication",
+						"http-enabled",
 						"worker-binding-enabled",
 						"dry-run",
 					],
@@ -125,8 +133,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								? parseBody(argv.body)
 								: compactBody({
 										http: {
-											enabled: argv["http-enabled"],
 											authentication: argv["http-authentication"],
+											cors: {
+												origins: argv["http-cors-origins"],
+											},
+											enabled: argv["http-enabled"],
 										},
 										retention_seconds: argv["retention-seconds"],
 										worker_binding: {
@@ -156,8 +167,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
 					http: {
-						enabled: argv["http-enabled"],
 						authentication: argv["http-authentication"],
+						cors: {
+							origins: argv["http-cors-origins"],
+						},
+						enabled: argv["http-enabled"],
 					},
 					retention_seconds: argv["retention-seconds"],
 					worker_binding: {

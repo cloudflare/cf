@@ -42,6 +42,7 @@ export namespace AccessSaml {
         Pingone: "pingone",
         Yandex: "yandex",
         Cloudflare: "cloudflare",
+        Passkeys: "passkeys",
     } as const;
     export type Type = (typeof Type)[keyof typeof Type];
 }

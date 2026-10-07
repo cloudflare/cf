@@ -7,5 +7,5 @@ export interface ClientSideSecurityApiResponseSingle {
     messages?: CloudflareApi.ClientSideSecurityMessages | undefined;
     /** Whether the API call was successful */
     success: true;
-    result?: CloudflareApi.ClientSideSecurityApiResponseSingleResult | undefined;
+    result?: Record<string, unknown> | undefined;
 }

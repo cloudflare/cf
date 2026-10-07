@@ -38,8 +38,8 @@ export class ItemsClient {
      * @example
      *     await client.aiSearch.items.list({
      *         account_id: "c3dc5f0b34a14ff8e1b3ec04895e1b22",
-     *         name: "my-namespace",
-     *         id: "my-ai-search"
+     *         namespace: "my-namespace",
+     *         "instance-id": "my-ai-search"
      *     })
      */
     public list(
@@ -55,8 +55,8 @@ export class ItemsClient {
     ): Promise<core.WithRawResponse<CloudflareApi.aiSearch.ListItemsResponse>> {
         const {
             account_id: accountId,
-            name,
-            id,
+            namespace,
+            "instance-id": instanceId,
             page,
             per_page: perPage,
             search,
@@ -89,7 +89,7 @@ export class ItemsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(name)}/instances/${core.url.encodePathParam(id)}/items`,
+                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(namespace)}/instances/${core.url.encodePathParam(instanceId)}/items`,
             ),
             method: "GET",
             headers: _headers,
@@ -135,7 +135,7 @@ export class ItemsClient {
             _response.error,
             _response.rawResponse,
             "GET",
-            "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items",
+            "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{instance-id}/items",
         );
     }
 
@@ -157,8 +157,8 @@ export class ItemsClient {
      *     await client.aiSearch.items.upload({
      *         file: fs.createReadStream("/path/to/your/file"),
      *         account_id: "c3dc5f0b34a14ff8e1b3ec04895e1b22",
-     *         name: "my-namespace",
-     *         id: "my-ai-search"
+     *         namespace: "my-namespace",
+     *         "instance-id": "my-ai-search"
      *     })
      */
     public upload(
@@ -195,7 +195,7 @@ export class ItemsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(request.account_id)}/ai-search/namespaces/${core.url.encodePathParam(request.name)}/instances/${core.url.encodePathParam(request.id)}/items`,
+                `accounts/${core.url.encodePathParam(request.account_id)}/ai-search/namespaces/${core.url.encodePathParam(request.namespace)}/instances/${core.url.encodePathParam(request["instance-id"])}/items`,
             ),
             method: "POST",
             headers: _headers,
@@ -252,7 +252,7 @@ export class ItemsClient {
             _response.error,
             _response.rawResponse,
             "POST",
-            "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items",
+            "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{instance-id}/items",
         );
     }
 
@@ -271,8 +271,8 @@ export class ItemsClient {
      * @example
      *     await client.aiSearch.items.upsert({
      *         account_id: "c3dc5f0b34a14ff8e1b3ec04895e1b22",
-     *         name: "my-namespace",
-     *         id: "my-ai-search",
+     *         namespace: "my-namespace",
+     *         "instance-id": "my-ai-search",
      *         key: "key"
      *     })
      */
@@ -287,7 +287,7 @@ export class ItemsClient {
         request: CloudflareApi.aiSearch.UpsertItemsRequest,
         requestOptions?: ItemsClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.aiSearch.UpsertItemsResponse>> {
-        const { account_id: accountId, name, id, ..._body } = request;
+        const { account_id: accountId, namespace, "instance-id": instanceId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -299,7 +299,7 @@ export class ItemsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(name)}/instances/${core.url.encodePathParam(id)}/items`,
+                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(namespace)}/instances/${core.url.encodePathParam(instanceId)}/items`,
             ),
             method: "PUT",
             headers: _headers,
@@ -354,7 +354,7 @@ export class ItemsClient {
             _response.error,
             _response.rawResponse,
             "PUT",
-            "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items",
+            "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{instance-id}/items",
         );
     }
 
@@ -370,8 +370,8 @@ export class ItemsClient {
      * @example
      *     await client.aiSearch.items.get({
      *         account_id: "c3dc5f0b34a14ff8e1b3ec04895e1b22",
-     *         name: "my-namespace",
-     *         id: "my-ai-search",
+     *         namespace: "my-namespace",
+     *         "instance-id": "my-ai-search",
      *         item_id: "item_id"
      *     })
      */
@@ -386,7 +386,7 @@ export class ItemsClient {
         request: CloudflareApi.aiSearch.GetItemsRequest,
         requestOptions?: ItemsClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.aiSearch.GetItemsResponse>> {
-        const { account_id: accountId, name, id, item_id: itemId } = request;
+        const { account_id: accountId, namespace, "instance-id": instanceId, item_id: itemId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -398,7 +398,7 @@ export class ItemsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(name)}/instances/${core.url.encodePathParam(id)}/items/${core.url.encodePathParam(itemId)}`,
+                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(namespace)}/instances/${core.url.encodePathParam(instanceId)}/items/${core.url.encodePathParam(itemId)}`,
             ),
             method: "GET",
             headers: _headers,
@@ -438,7 +438,7 @@ export class ItemsClient {
             _response.error,
             _response.rawResponse,
             "GET",
-            "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items/{item_id}",
+            "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{instance-id}/items/{item_id}",
         );
     }
 
@@ -455,8 +455,8 @@ export class ItemsClient {
      * @example
      *     await client.aiSearch.items.delete({
      *         account_id: "c3dc5f0b34a14ff8e1b3ec04895e1b22",
-     *         name: "my-namespace",
-     *         id: "my-ai-search",
+     *         namespace: "my-namespace",
+     *         "instance-id": "my-ai-search",
      *         item_id: "item_id"
      *     })
      */
@@ -471,7 +471,7 @@ export class ItemsClient {
         request: CloudflareApi.aiSearch.DeleteItemsRequest,
         requestOptions?: ItemsClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.aiSearch.DeleteItemsResponse>> {
-        const { account_id: accountId, name, id, item_id: itemId } = request;
+        const { account_id: accountId, namespace, "instance-id": instanceId, item_id: itemId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -483,7 +483,7 @@ export class ItemsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(name)}/instances/${core.url.encodePathParam(id)}/items/${core.url.encodePathParam(itemId)}`,
+                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(namespace)}/instances/${core.url.encodePathParam(instanceId)}/items/${core.url.encodePathParam(itemId)}`,
             ),
             method: "DELETE",
             headers: _headers,
@@ -525,7 +525,7 @@ export class ItemsClient {
             _response.error,
             _response.rawResponse,
             "DELETE",
-            "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items/{item_id}",
+            "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{instance-id}/items/{item_id}",
         );
     }
 
@@ -543,8 +543,8 @@ export class ItemsClient {
      * @example
      *     await client.aiSearch.items.sync({
      *         account_id: "c3dc5f0b34a14ff8e1b3ec04895e1b22",
-     *         name: "my-namespace",
-     *         id: "my-ai-search",
+     *         namespace: "my-namespace",
+     *         "instance-id": "my-ai-search",
      *         item_id: "item_id"
      *     })
      */
@@ -559,7 +559,7 @@ export class ItemsClient {
         request: CloudflareApi.aiSearch.SyncItemsRequest,
         requestOptions?: ItemsClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.aiSearch.SyncItemsResponse>> {
-        const { account_id: accountId, name, id, item_id: itemId, ..._body } = request;
+        const { account_id: accountId, namespace, "instance-id": instanceId, item_id: itemId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -571,7 +571,7 @@ export class ItemsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(name)}/instances/${core.url.encodePathParam(id)}/items/${core.url.encodePathParam(itemId)}`,
+                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(namespace)}/instances/${core.url.encodePathParam(instanceId)}/items/${core.url.encodePathParam(itemId)}`,
             ),
             method: "PATCH",
             headers: _headers,
@@ -624,7 +624,7 @@ export class ItemsClient {
             _response.error,
             _response.rawResponse,
             "PATCH",
-            "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items/{item_id}",
+            "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{instance-id}/items/{item_id}",
         );
     }
 
@@ -641,8 +641,8 @@ export class ItemsClient {
      * @example
      *     await client.aiSearch.items.chunks({
      *         account_id: "c3dc5f0b34a14ff8e1b3ec04895e1b22",
-     *         name: "my-namespace",
-     *         id: "my-ai-search",
+     *         namespace: "my-namespace",
+     *         "instance-id": "my-ai-search",
      *         item_id: "item_id"
      *     })
      */
@@ -657,7 +657,7 @@ export class ItemsClient {
         request: CloudflareApi.aiSearch.ChunksItemsRequest,
         requestOptions?: ItemsClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.aiSearch.ChunksItemsResponse>> {
-        const { account_id: accountId, name, id, item_id: itemId, limit, offset } = request;
+        const { account_id: accountId, namespace, "instance-id": instanceId, item_id: itemId, limit, offset } = request;
         const _queryParams: Record<string, unknown> = {
             limit,
             offset,
@@ -673,7 +673,7 @@ export class ItemsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(name)}/instances/${core.url.encodePathParam(id)}/items/${core.url.encodePathParam(itemId)}/chunks`,
+                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(namespace)}/instances/${core.url.encodePathParam(instanceId)}/items/${core.url.encodePathParam(itemId)}/chunks`,
             ),
             method: "GET",
             headers: _headers,
@@ -719,7 +719,7 @@ export class ItemsClient {
             _response.error,
             _response.rawResponse,
             "GET",
-            "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items/{item_id}/chunks",
+            "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{instance-id}/items/{item_id}/chunks",
         );
     }
 
@@ -742,7 +742,7 @@ export class ItemsClient {
         request: CloudflareApi.aiSearch.DownloadItemsRequest,
         requestOptions?: ItemsClient.RequestOptions,
     ): Promise<core.WithRawResponse<core.BinaryResponse>> {
-        const { account_id: accountId, name, id, item_id: itemId } = request;
+        const { account_id: accountId, namespace, "instance-id": instanceId, item_id: itemId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -754,7 +754,7 @@ export class ItemsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(name)}/instances/${core.url.encodePathParam(id)}/items/${core.url.encodePathParam(itemId)}/download`,
+                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(namespace)}/instances/${core.url.encodePathParam(instanceId)}/items/${core.url.encodePathParam(itemId)}/download`,
             ),
             method: "GET",
             headers: _headers,
@@ -796,7 +796,7 @@ export class ItemsClient {
             _response.error,
             _response.rawResponse,
             "GET",
-            "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items/{item_id}/download",
+            "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{instance-id}/items/{item_id}/download",
         );
     }
 
@@ -813,8 +813,8 @@ export class ItemsClient {
      * @example
      *     await client.aiSearch.items.logs({
      *         account_id: "c3dc5f0b34a14ff8e1b3ec04895e1b22",
-     *         name: "my-namespace",
-     *         id: "my-ai-search",
+     *         namespace: "my-namespace",
+     *         "instance-id": "my-ai-search",
      *         item_id: "item_id"
      *     })
      */
@@ -829,7 +829,7 @@ export class ItemsClient {
         request: CloudflareApi.aiSearch.LogsItemsRequest,
         requestOptions?: ItemsClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.aiSearch.LogsItemsResponse>> {
-        const { account_id: accountId, name, id, item_id: itemId, limit, cursor } = request;
+        const { account_id: accountId, namespace, "instance-id": instanceId, item_id: itemId, limit, cursor } = request;
         const _queryParams: Record<string, unknown> = {
             limit,
             cursor,
@@ -845,7 +845,7 @@ export class ItemsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(name)}/instances/${core.url.encodePathParam(id)}/items/${core.url.encodePathParam(itemId)}/logs`,
+                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(namespace)}/instances/${core.url.encodePathParam(instanceId)}/items/${core.url.encodePathParam(itemId)}/logs`,
             ),
             method: "GET",
             headers: _headers,
@@ -891,7 +891,7 @@ export class ItemsClient {
             _response.error,
             _response.rawResponse,
             "GET",
-            "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items/{item_id}/logs",
+            "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{instance-id}/items/{item_id}/logs",
         );
     }
 }

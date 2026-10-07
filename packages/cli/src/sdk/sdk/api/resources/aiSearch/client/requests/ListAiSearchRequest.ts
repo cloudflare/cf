@@ -6,7 +6,7 @@ import * as CloudflareApi from "../../../../index.js";
  * @example
  *     {
  *         account_id: "c3dc5f0b34a14ff8e1b3ec04895e1b22",
- *         name: "my-namespace",
+ *         namespace: "my-namespace",
  *         page: 1,
  *         per_page: 20
  *     }
@@ -14,7 +14,7 @@ import * as CloudflareApi from "../../../../index.js";
 export interface ListAiSearchRequest {
     account_id: string;
     /** Namespace name */
-    name: string;
+    namespace: string;
     /** Page number (1-indexed). */
     page?: number;
     /** Number of results per page. */
@@ -23,8 +23,6 @@ export interface ListAiSearchRequest {
     search?: string;
     /** Filter by exact Search for Agents hostname (case-insensitive). */
     hostname?: string;
-    /** Filter by namespace. */
-    namespace?: string;
     /** Field to order results by. */
     order_by?: "created_at";
     /** Order direction. */

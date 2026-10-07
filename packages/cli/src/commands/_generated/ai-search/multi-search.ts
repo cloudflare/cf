@@ -22,9 +22,9 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 ai-search multi-search <name> <query>\n\nPerforms a semantic search query against multiple AI Search instances in parallel, merging the retrieved results into a single ranked response."
+			"$0 ai-search multi-search <namespace> <query>\n\nPerforms a semantic search query against multiple AI Search instances in parallel, merging the retrieved results into a single ranked response."
 		)
-		.positional("name", {
+		.positional("namespace", {
 			type: "string",
 			description: "Namespace to use for this operation.",
 			demandOption: true,
@@ -136,7 +136,7 @@ type Request = SdkRequest<"ai-search-namespace-multi-instance-search">;
 type Body = Request;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "multi-search <name> <query>",
+	command: "multi-search <namespace> <query>",
 	describe: "Multi-Instance Search",
 	builder,
 	handler: async (argv): Promise<void> =>
@@ -164,8 +164,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf ai-search multi-search",
 						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/namespaces/${argv["name"] == null ? "<name>" : encodeURIComponent(String(argv["name"]))}/search`,
-						pathParams: { name: String(argv["name"] ?? "") },
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/namespaces/${argv["namespace"] == null ? "<namespace>" : encodeURIComponent(String(argv["namespace"]))}/search`,
+						pathParams: { namespace: String(argv["namespace"] ?? "") },
 						bodyKind: "json",
 						body:
 							argv.body !== undefined
@@ -261,7 +261,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						client.aiSearch.multiSearch({
 							...bodyData,
 							account_id: accountId,
-							name: argv["name"],
+							namespace: argv["namespace"],
 						} satisfies Request)
 					);
 					formatOutput(result, { successLabel: `Created` });
@@ -353,7 +353,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					client.aiSearch.multiSearch({
 						...bodyData,
 						account_id: accountId,
-						name: argv["name"],
+						namespace: argv["namespace"],
 					} satisfies Request)
 				);
 				formatOutput(result, { successLabel: `Created` });

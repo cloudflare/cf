@@ -8,5 +8,5 @@ export interface AccessResponseCollection9 {
     /** Whether the API call was successful. */
     success: true;
     result_info?: CloudflareApi.AccessResponseCollection9ResultInfo | undefined;
-    result?: CloudflareApi.AccessReusablePolicyResp[] | undefined;
+    result?: CloudflareApi.AccessAppPolicyResult[] | undefined;
 }

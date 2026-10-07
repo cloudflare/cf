@@ -27,7 +27,7 @@ export class ConfigurationsClient {
     }
 
     /**
-     * Gets the high-availability configuration for a WARP Connector tunnel.
+     * Gets the high-availability configuration for a Mesh node.
      *
      * @param {CloudflareApi.mesh.nodes.GetConfigurationsRequest} request
      * @param {ConfigurationsClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -96,7 +96,7 @@ export class ConfigurationsClient {
     }
 
     /**
-     * Adds or updates the high-availability configuration for a WARP Connector tunnel.
+     * Adds or updates the high-availability configuration for a Mesh node.
      *
      * @param {CloudflareApi.mesh.nodes.TunnelMeshConfigurationRequestBody} request
      * @param {ConfigurationsClient.RequestOptions} requestOptions - Request-specific configuration.

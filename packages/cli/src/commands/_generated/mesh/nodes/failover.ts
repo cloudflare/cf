@@ -23,14 +23,14 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 mesh nodes failover <tunnel-id>\n\nTriggers a manual failover for a specific WARP Connector Tunnel, setting the specified client as the active connector. The tunnel must be configured for high availability (HA) and the client must be linked to the tunnel."
+			"$0 mesh nodes failover <node-id>\n\nTriggers a manual failover for a specific Mesh node, setting the specified client as the active connector. The tunnel must be configured for high availability (HA) and the client must be linked to the tunnel."
 		)
-		.positional("tunnel-id", {
+		.positional("node-id", {
 			type: "string",
 			description: "UUID of the tunnel.",
 			demandOption: true,
 		})
-		.option("client-id", {
+		.option("connector-id", {
 			type: "string",
 			description: "UUID of the Cloudflare Tunnel connector.",
 		})
@@ -58,8 +58,8 @@ type Request =
 type Body = Request;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "failover <tunnel-id>",
-	describe: "Trigger a manual failover for a WARP Connector Tunnel",
+	command: "failover <node-id>",
+	describe: "Trigger a manual failover for a Mesh node",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
@@ -77,16 +77,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf mesh nodes failover",
 						method: "PUT",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/warp_connector/${argv["tunnel-id"] == null ? "<tunnel-id>" : encodeURIComponent(String(argv["tunnel-id"]))}/failover`,
-						pathParams: { "tunnel-id": String(argv["tunnel-id"] ?? "") },
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/warp_connector/${argv["node-id"] == null ? "<node-id>" : encodeURIComponent(String(argv["node-id"]))}/failover`,
+						pathParams: { "node-id": String(argv["node-id"] ?? "") },
 						bodyKind: "json",
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
 										client_id: resolveFileToken(
-											argv["client-id"] as string | undefined,
-											"client-id",
+											argv["connector-id"] as string | undefined,
+											"connector-id",
 											"text"
 										),
 									}),
@@ -113,15 +113,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						client.mesh.nodes.failover({
 							...bodyData,
 							account_id: accountId,
-							tunnel_id: argv["tunnel-id"],
+							"node-id": argv["node-id"],
 						} satisfies Request)
 					);
 					formatOutput(result, { successLabel: `Deleted` });
 					return;
 				}
-				if (argv["client-id"] === undefined) {
-					argv["client-id"] = await promptForRequiredField(
-						"client-id",
+				if (argv["connector-id"] === undefined) {
+					argv["connector-id"] = await promptForRequiredField(
+						"connector-id",
 						"UUID of the Cloudflare Tunnel connector."
 					);
 				}
@@ -129,8 +129,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
 					client_id: resolveFileToken(
-						argv["client-id"] as string | undefined,
-						"client-id",
+						argv["connector-id"] as string | undefined,
+						"connector-id",
 						"text"
 					),
 				});
@@ -138,7 +138,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					client.mesh.nodes.failover({
 						...bodyData,
 						account_id: accountId,
-						tunnel_id: argv["tunnel-id"],
+						"node-id": argv["node-id"],
 					} satisfies Request)
 				);
 				formatOutput(result, { successLabel: `Deleted` });

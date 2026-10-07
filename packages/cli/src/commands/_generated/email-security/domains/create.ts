@@ -40,6 +40,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				'Dispositions to drop instead of delivering, e.g. `["MALICIOUS", "SPAM"]`.',
 		})
+		.option("folder", {
+			type: "string",
+			description: "The mailbox folder to scan, for API-scanning domains.",
+			choices: ["AllItems", "Inbox"],
+		})
 		.option("integration-id", {
 			type: "string",
 			description:
@@ -100,7 +105,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "email-security domains create",
 				classification: {
-					safeFlags: ["require-tls-inbound", "require-tls-outbound", "dry-run"],
+					safeFlags: [
+						"folder",
+						"require-tls-inbound",
+						"require-tls-outbound",
+						"dry-run",
+					],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -124,6 +134,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 										drop_dispositions: argv["drop-dispositions"],
+										folder: resolveFileToken(
+											argv["folder"] as string | undefined,
+											"folder",
+											"text"
+										),
 										integration_id: resolveFileToken(
 											argv["integration-id"] as string | undefined,
 											"integration-id",
@@ -194,6 +209,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"text"
 					),
 					drop_dispositions: argv["drop-dispositions"],
+					folder: resolveFileToken(
+						argv["folder"] as string | undefined,
+						"folder",
+						"text"
+					),
 					integration_id: resolveFileToken(
 						argv["integration-id"] as string | undefined,
 						"integration-id",

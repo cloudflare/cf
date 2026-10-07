@@ -1,5 +1,6 @@
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
 /**
  * export command
  * @generated from apis/overlays/zero-trust.ts
@@ -8,15 +9,9 @@ import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
-	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import {
-	compactBody,
-	parseBody,
-	parseObjectArray,
-	setNestedValue,
-} from "#lib/body-parser.js";
+import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -67,6 +62,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
+
+type Request = SdkRequest<"CreateFindingInstancesExportCSV">;
+type Body = Request;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "export <finding-namespace-id>",
@@ -124,66 +122,44 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody(argv.body);
+					const bodyData = parseBody<Request>(argv.body);
 					const result = await withProgress(`Loading`, async () =>
-						requestApi<unknown>(
-							client,
-							"POST",
-							`/accounts/${accountId}/data-security/posture/findings/${encodeURIComponent(String(argv["finding-namespace-id"]))}/instances/export`,
-							{ body: bodyData }
-						)
+						client.zeroTrust.casb.findings.instances.export({
+							...bodyData,
+							account_id: accountId,
+							"finding-namespace-id": argv["finding-namespace-id"],
+						} satisfies Request)
 					);
 					formatOutput(result, { successLabel: `Loaded` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData: Record<string, unknown> = {};
-				if (argv["archived"] !== undefined)
-					setNestedValue(bodyData, ["archived"], argv["archived"]);
-				if (argv["max-affliction-date"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["max_affliction_date"],
-						resolveFileToken(
-							argv["max-affliction-date"] as string | undefined,
-							"max-affliction-date",
-							"text"
-						)
-					);
-				if (argv["min-affliction-date"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["min_affliction_date"],
-						resolveFileToken(
-							argv["min-affliction-date"] as string | undefined,
-							"min-affliction-date",
-							"text"
-						)
-					);
-				if (argv["orders"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["orders"],
-						parseObjectArray(argv["orders"], "orders")
-					);
-				if (argv["search"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["search"],
-						resolveFileToken(
-							argv["search"] as string | undefined,
-							"search",
-							"text"
-						)
-					);
+				const bodyData = compactBody<Body>({
+					archived: argv["archived"],
+					max_affliction_date: resolveFileToken(
+						argv["max-affliction-date"] as string | undefined,
+						"max-affliction-date",
+						"text"
+					),
+					min_affliction_date: resolveFileToken(
+						argv["min-affliction-date"] as string | undefined,
+						"min-affliction-date",
+						"text"
+					),
+					orders: parseObjectArray(argv["orders"], "orders"),
+					search: resolveFileToken(
+						argv["search"] as string | undefined,
+						"search",
+						"text"
+					),
+				});
 				const result = await withProgress(`Loading`, async () =>
-					requestApi<unknown>(
-						client,
-						"POST",
-						`/accounts/${accountId}/data-security/posture/findings/${encodeURIComponent(String(argv["finding-namespace-id"]))}/instances/export`,
-						{ body: Object.keys(bodyData).length > 0 ? bodyData : undefined }
-					)
+					client.zeroTrust.casb.findings.instances.export({
+						...bodyData,
+						account_id: accountId,
+						"finding-namespace-id": argv["finding-namespace-id"],
+					} satisfies Request)
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

@@ -9,6 +9,7 @@ import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
 import type * as CloudflareApi from "../../../../../index.js";
+import * as CloudflareApiErrors from "../../../../../errors/index.js";
 import { LatestClient } from "../resources/latest/client/Client.js";
 
 export declare namespace VersionsClient {
@@ -324,6 +325,98 @@ export class VersionsClient {
             _response.rawResponse,
             "DELETE",
             "/accounts/{account_id}/workers/workers/{worker_id}/versions/{version_id}",
+        );
+    }
+
+    /**
+     * Captures a CPU or heap profile from a recently active isolate running the specified Worker version. This endpoint requires the Worker profiling feature to be enabled for the account.
+     *
+     * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link CloudflareApi.UnauthorizedError}
+     * @throws {@link CloudflareApi.ForbiddenError}
+     * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link CloudflareApi.TooManyRequestsError}
+     * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link CloudflareApi.ServiceUnavailableError}
+     */
+    public profile(
+        request: CloudflareApi.workers.ProfileVersionsRequest,
+        requestOptions?: VersionsClient.RequestOptions,
+    ): core.HttpResponsePromise<core.BinaryResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__profile(request, requestOptions));
+    }
+
+    private async __profile(
+        request: CloudflareApi.workers.ProfileVersionsRequest,
+        requestOptions?: VersionsClient.RequestOptions,
+    ): Promise<core.WithRawResponse<core.BinaryResponse>> {
+        const { account_id: accountId, worker_id: workerId, version_id: versionId, ..._body } = request;
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)<core.BinaryResponse>({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.CloudflareApiEnvironment.Default,
+                `accounts/${core.url.encodePathParam(accountId)}/workers/workers/${core.url.encodePathParam(workerId)}/versions/${core.url.encodePathParam(versionId)}/profile`,
+            ),
+            method: "POST",
+            headers: _headers,
+            contentType: "application/json",
+            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
+            requestType: "json",
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            responseType: "binary-response",
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return { data: _response.body, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new CloudflareApiErrors.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                case 403:
+                    throw new CloudflareApiErrors.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                case 404:
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 429:
+                    throw new CloudflareApiErrors.TooManyRequestsError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
+                case 500:
+                    throw new CloudflareApiErrors.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                case 503:
+                    throw new CloudflareApiErrors.ServiceUnavailableError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
+                default:
+                    throw new errors.CloudflareApiError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(
+            _response.error,
+            _response.rawResponse,
+            "POST",
+            "/accounts/{account_id}/workers/workers/{worker_id}/versions/{version_id}/profile",
         );
     }
 }

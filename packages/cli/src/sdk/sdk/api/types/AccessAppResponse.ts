@@ -8,6 +8,20 @@ export type AccessAppResponse =
           created_at?: CloudflareApi.AccessCreatedAt | undefined;
           id?: CloudflareApi.AccessUuid | undefined;
           updated_at?: CloudflareApi.AccessUpdatedAt | undefined;
+          allowed_idps?: CloudflareApi.AccessAllowedIdps | undefined;
+          destinations?: CloudflareApi.AccessEndUserDestinations | undefined;
+          domain?: CloudflareApi.AccessDomain | undefined;
+          name?: CloudflareApi.AccessName8 | undefined;
+          oauth_configuration: CloudflareApi.AccessEndUserOauthConfiguration;
+          self_hosted_domains?: CloudflareApi.AccessSelfHostedDomains | undefined;
+          type: "end_user";
+          user_populations: CloudflareApi.AccessUuid[];
+      }
+    | {
+          aud?: CloudflareApi.AccessAud2 | undefined;
+          created_at?: CloudflareApi.AccessCreatedAt | undefined;
+          id?: CloudflareApi.AccessUuid | undefined;
+          updated_at?: CloudflareApi.AccessUpdatedAt | undefined;
           allow_authenticate_via_warp?: CloudflareApi.AccessAllowAuthenticateViaWarp2 | undefined;
           allow_iframe?: CloudflareApi.AccessAllowIframe | undefined;
           allowed_idps?: CloudflareApi.AccessAllowedIdps | undefined;
@@ -39,6 +53,7 @@ export type AccessAppResponse =
           tags?: CloudflareApi.AccessTags | undefined;
           type:
               | "self_hosted"
+              | "end_user"
               | "saas"
               | "ssh"
               | "vnc"
@@ -74,6 +89,7 @@ export type AccessAppResponse =
           type?:
               | (
                     | "self_hosted"
+                    | "end_user"
                     | "saas"
                     | "ssh"
                     | "vnc"
@@ -127,6 +143,7 @@ export type AccessAppResponse =
           tags?: CloudflareApi.AccessTags | undefined;
           type:
               | "self_hosted"
+              | "end_user"
               | "saas"
               | "ssh"
               | "vnc"
@@ -181,6 +198,7 @@ export type AccessAppResponse =
           tags?: CloudflareApi.AccessTags | undefined;
           type:
               | "self_hosted"
+              | "end_user"
               | "saas"
               | "ssh"
               | "vnc"
@@ -214,6 +232,7 @@ export type AccessAppResponse =
           session_duration?: CloudflareApi.AccessSessionDuration2 | undefined;
           type:
               | "self_hosted"
+              | "end_user"
               | "saas"
               | "ssh"
               | "vnc"
@@ -250,6 +269,7 @@ export type AccessAppResponse =
           session_duration?: CloudflareApi.AccessSessionDuration2 | undefined;
           type:
               | "self_hosted"
+              | "end_user"
               | "saas"
               | "ssh"
               | "vnc"
@@ -280,6 +300,7 @@ export type AccessAppResponse =
           session_duration?: CloudflareApi.AccessSessionDuration2 | undefined;
           type:
               | "self_hosted"
+              | "end_user"
               | "saas"
               | "ssh"
               | "vnc"
@@ -310,6 +331,7 @@ export type AccessAppResponse =
           session_duration?: CloudflareApi.AccessSessionDuration2 | undefined;
           type:
               | "self_hosted"
+              | "end_user"
               | "saas"
               | "ssh"
               | "vnc"
@@ -338,6 +360,7 @@ export type AccessAppResponse =
           type?:
               | (
                     | "self_hosted"
+                    | "end_user"
                     | "saas"
                     | "ssh"
                     | "vnc"
@@ -364,6 +387,7 @@ export type AccessAppResponse =
           name?: CloudflareApi.AccessName8 | undefined;
           type:
               | "self_hosted"
+              | "end_user"
               | "saas"
               | "ssh"
               | "vnc"
@@ -417,6 +441,7 @@ export type AccessAppResponse =
           tags?: CloudflareApi.AccessTags | undefined;
           type:
               | "self_hosted"
+              | "end_user"
               | "saas"
               | "ssh"
               | "vnc"
@@ -459,6 +484,7 @@ export type AccessAppResponse =
           tags?: CloudflareApi.AccessTags | undefined;
           type:
               | "self_hosted"
+              | "end_user"
               | "saas"
               | "ssh"
               | "vnc"
@@ -499,6 +525,7 @@ export type AccessAppResponse =
           tags?: CloudflareApi.AccessTags | undefined;
           type:
               | "self_hosted"
+              | "end_user"
               | "saas"
               | "ssh"
               | "vnc"

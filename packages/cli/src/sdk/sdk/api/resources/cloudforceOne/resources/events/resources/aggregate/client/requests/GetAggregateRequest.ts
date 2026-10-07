@@ -12,7 +12,7 @@ export interface GetAggregateRequest {
     account_id: string;
     /** Column(s) to aggregate by - single column or comma-separated list (e.g., 'attacker', 'targetIndustry', 'attacker,targetIndustry') */
     aggregateBy: string;
-    /** Dataset UUIDs to filter by, or one standalone scope value: 'all'/'*' for all accessible non-analytics event datasets (analytics datasets are silently excluded), 'analytics' for isAnalytics=true datasets, or 'operational' for isAnalytics=false datasets. If not provided, uses the default dataset. */
+    /** Dataset UUIDs to filter by, or one standalone scope value: 'all'/'*' or 'operational' for readable intelligence datasets (isAnalytics=false), or 'analytics' for readable analytics datasets (isAnalytics=true). Scope values query at most 50 datasets. If not provided, uses the default dataset. */
     datasetId?: string | string[];
     /** Start date for filtering (ISO 8601 format, e.g., '2024-01-01') */
     startDate?: string;

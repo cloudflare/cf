@@ -20,9 +20,9 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 ai-search tokens get <id>\n\nRetrieve a stored AI Search credential without exposing its secret."
+			"$0 ai-search tokens get <token-id>\n\nRetrieve a stored AI Search credential without exposing its secret."
 		)
-		.positional("id", {
+		.positional("token-id", {
 			type: "string",
 			description: "Stored credential record ID.",
 			demandOption: true,
@@ -39,7 +39,7 @@ type Args = InferArgs<typeof builder>;
 type Request = SdkRequest<"ai-search-fetch-tokens">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "get <id>",
+	command: "get <token-id>",
 	describe: "Get a token",
 	builder,
 	handler: async (argv): Promise<void> =>
@@ -57,8 +57,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf ai-search tokens get",
 						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/tokens/${argv["id"] == null ? "<id>" : encodeURIComponent(String(argv["id"]))}`,
-						pathParams: { id: String(argv["id"] ?? "") },
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/tokens/${argv["token-id"] == null ? "<token-id>" : encodeURIComponent(String(argv["token-id"]))}`,
+						pathParams: { "token-id": String(argv["token-id"] ?? "") },
 						bodyKind: "none",
 					});
 					return;
@@ -70,7 +70,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const result = await withProgress(`Loading`, async () =>
 					client.aiSearch.tokens.get({
 						account_id: accountId,
-						id: argv["id"],
+						"token-id": argv["token-id"],
 					} satisfies Request)
 				);
 				formatOutput(result, { successLabel: `Loaded` });

@@ -22,9 +22,9 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 ai-search multi-chat-completions <name>\n\nPerforms a chat completion request against multiple AI Search instances in parallel, merging retrieved content as context for generating a response."
+			"$0 ai-search multi-chat-completions <namespace>\n\nPerforms a chat completion request against multiple AI Search instances in parallel, merging retrieved content as context for generating a response."
 		)
-		.positional("name", {
+		.positional("namespace", {
 			type: "string",
 			description: "Namespace to use for this operation.",
 			demandOption: true,
@@ -138,7 +138,7 @@ type Request = SdkRequest<"ai-search-namespace-multi-instance-chat-completion">;
 type Body = Request;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "multi-chat-completions <name>",
+	command: "multi-chat-completions <namespace>",
 	describe: "Multi-Instance Chat Completions",
 	builder,
 	handler: async (argv): Promise<void> =>
@@ -167,8 +167,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf ai-search multi-chat-completions",
 						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/namespaces/${argv["name"] == null ? "<name>" : encodeURIComponent(String(argv["name"]))}/chat/completions`,
-						pathParams: { name: String(argv["name"] ?? "") },
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/namespaces/${argv["namespace"] == null ? "<namespace>" : encodeURIComponent(String(argv["namespace"]))}/chat/completions`,
+						pathParams: { namespace: String(argv["namespace"] ?? "") },
 						bodyKind: "json",
 						body:
 							argv.body !== undefined
@@ -269,7 +269,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						client.aiSearch.multiChatCompletions({
 							...bodyData,
 							account_id: accountId,
-							name: argv["name"],
+							namespace: argv["namespace"],
 						} satisfies Request)
 					);
 					formatOutput(result, { successLabel: `Created` });
@@ -371,7 +371,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					client.aiSearch.multiChatCompletions({
 						...bodyData,
 						account_id: accountId,
-						name: argv["name"],
+						namespace: argv["namespace"],
 					} satisfies Request)
 				);
 				formatOutput(result, { successLabel: `Created` });

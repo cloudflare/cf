@@ -8,5 +8,5 @@ export interface AccessResponseCollection15 {
     /** Whether the API call was successful. */
     success: true;
     result_info?: CloudflareApi.AccessResponseCollection15ResultInfo | undefined;
-    result?: CloudflareApi.AccessTag[] | undefined;
+    result?: CloudflareApi.AccessBookmarks[] | undefined;
 }

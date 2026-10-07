@@ -97,7 +97,7 @@ export class CustomPromptTopicsClient {
     /**
      * Creates a DLP custom prompt topic entry.
      *
-     * @param {CloudflareApi.zeroTrust.dlp.CreateCustomPromptTopicsRequest} request
+     * @param {CloudflareApi.zeroTrust.dlp.DlpNewCustomPromptTopic} request
      * @param {CustomPromptTopicsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @example
@@ -109,14 +109,14 @@ export class CustomPromptTopicsClient {
      *     })
      */
     public create(
-        request: CloudflareApi.zeroTrust.dlp.CreateCustomPromptTopicsRequest,
+        request: CloudflareApi.zeroTrust.dlp.DlpNewCustomPromptTopic,
         requestOptions?: CustomPromptTopicsClient.RequestOptions,
     ): core.HttpResponsePromise<CloudflareApi.DlpCustomPromptTopic> {
         return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
     }
 
     private async __create(
-        request: CloudflareApi.zeroTrust.dlp.CreateCustomPromptTopicsRequest,
+        request: CloudflareApi.zeroTrust.dlp.DlpNewCustomPromptTopic,
         requestOptions?: CustomPromptTopicsClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.DlpCustomPromptTopic>> {
         const { account_id: accountId, ..._body } = request;
@@ -234,7 +234,7 @@ export class CustomPromptTopicsClient {
     /**
      * Updates a DLP custom prompt topic entry.
      *
-     * @param {CloudflareApi.zeroTrust.dlp.UpdateCustomPromptTopicsRequest} request
+     * @param {CloudflareApi.zeroTrust.dlp.DlpCustomPromptTopicUpdate} request
      * @param {CustomPromptTopicsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @example
@@ -247,14 +247,14 @@ export class CustomPromptTopicsClient {
      *     })
      */
     public update(
-        request: CloudflareApi.zeroTrust.dlp.UpdateCustomPromptTopicsRequest,
+        request: CloudflareApi.zeroTrust.dlp.DlpCustomPromptTopicUpdate,
         requestOptions?: CustomPromptTopicsClient.RequestOptions,
     ): core.HttpResponsePromise<CloudflareApi.DlpCustomPromptTopic> {
         return core.HttpResponsePromise.fromPromise(this.__update(request, requestOptions));
     }
 
     private async __update(
-        request: CloudflareApi.zeroTrust.dlp.UpdateCustomPromptTopicsRequest,
+        request: CloudflareApi.zeroTrust.dlp.DlpCustomPromptTopicUpdate,
         requestOptions?: CustomPromptTopicsClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.DlpCustomPromptTopic>> {
         const { account_id: accountId, entry_id: entryId, ..._body } = request;

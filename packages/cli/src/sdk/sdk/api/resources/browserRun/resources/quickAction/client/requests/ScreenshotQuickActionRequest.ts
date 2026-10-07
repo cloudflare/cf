@@ -16,5 +16,7 @@ export interface ScreenshotQuickActionRequest {
     account_id: string;
     /** Cache TTL default is 5s. Set to 0 to disable. */
     cacheTTL?: number;
+    /** Rendering backend. Set to `kitesurf` to use Kitesurf (beta). */
+    browser?: "kitesurf";
     body: CloudflareApi.browserRun.ScreenshotQuickActionRequestBody;
 }

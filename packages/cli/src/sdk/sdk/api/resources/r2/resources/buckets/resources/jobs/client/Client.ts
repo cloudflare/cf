@@ -7,10 +7,12 @@ import {
 } from "../../../../../../../../BaseClient.js";
 import * as core from "../../../../../../../../core/index.js";
 import { mergeHeaders, mergeOnlyDefinedHeaders } from "../../../../../../../../core/headers.js";
+import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requestBody.js";
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
 import type * as CloudflareApi from "../../../../../../../index.js";
+import * as CloudflareApiErrors from "../../../../../../../errors/index.js";
 
 export declare namespace JobsClient {
     export type Options = BaseClientOptions;
@@ -113,9 +115,137 @@ export class JobsClient {
     }
 
     /**
+     * Creates a background job for an R2 bucket. The `jobType` field selects the job:
+     *
+     * - **`prefixDelete`**: deletes every object whose key begins with `prefix`. A non-empty
+     *   prefix must end in `/`. An empty prefix (`""`) empties the entire bucket.
+     * - **`storageClassMigration`**: migrates every object in the bucket between storage
+     *   classes. `sourceStorageClass` and `destinationStorageClass` must be provided together
+     *   and must differ; omitting both migrates from `InfrequentAccess` to `Standard`.
+     *
+     * Poll the returned `id` with the Get Bucket Job endpoint. Small prefix-delete jobs can
+     * finish synchronously and return `COMPLETED`. Objects uploaded after a background job
+     * starts are not affected by that job.
+     *
+     * For prefix-delete jobs: abort active multipart uploads before submitting the request,
+     * since a synchronously completed job does not abort them, and avoid writing objects or
+     * starting multipart uploads while a bucket-emptying job is in progress. Each request
+     * creates a distinct job, and the number of active prefix-delete jobs is limited per
+     * bucket; wait for an existing job to finish before retrying a request rejected with
+     * HTTP 429. A bucket cannot be emptied while event notifications are configured (HTTP 409
+     * / error code 10083). To protect a bucket with R2 Data Catalog enabled, send the
+     * `cf-r2-data-catalog-check` header; a conflict is returned with HTTP 409 / error code
+     * 10081.
+     *
+     * Prefix-delete jobs require permission to delete objects; storage-class migration jobs
+     * require permission to write to the bucket.
+     *
+     * @param {CloudflareApi.r2.buckets.CreateJobsRequest} request
+     * @param {JobsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link CloudflareApi.ConflictError}
+     * @throws {@link CloudflareApi.TooManyRequestsError}
+     *
+     * @example
+     *     await client.r2.buckets.jobs.create({
+     *         account_id: "account_id",
+     *         bucket_name: "bucket_name",
+     *         body: {
+     *             jobType: "prefixDelete",
+     *             prefix: "path/to/"
+     *         }
+     *     })
+     *
+     * @example
+     *     await client.r2.buckets.jobs.create({
+     *         account_id: "account_id",
+     *         bucket_name: "bucket_name",
+     *         body: {
+     *             jobType: "storageClassMigration"
+     *         }
+     *     })
+     */
+    public create(
+        request: CloudflareApi.r2.buckets.CreateJobsRequest,
+        requestOptions?: JobsClient.RequestOptions,
+    ): core.HttpResponsePromise<CloudflareApi.R2R2BucketJob> {
+        return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
+    }
+
+    private async __create(
+        request: CloudflareApi.r2.buckets.CreateJobsRequest,
+        requestOptions?: JobsClient.RequestOptions,
+    ): Promise<core.WithRawResponse<CloudflareApi.R2R2BucketJob>> {
+        const {
+            account_id: accountId,
+            bucket_name: bucketName,
+            "cf-r2-jurisdiction": cfR2Jurisdiction,
+            "cf-r2-data-catalog-check": cfR2DataCatalogCheck,
+            body: _body,
+        } = request;
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({
+                "cf-r2-jurisdiction": cfR2Jurisdiction,
+                "cf-r2-data-catalog-check": cfR2DataCatalogCheck,
+            }),
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.CloudflareApiEnvironment.Default,
+                `accounts/${core.url.encodePathParam(accountId)}/r2/buckets/${core.url.encodePathParam(bucketName)}/jobs`,
+            ),
+            method: "POST",
+            headers: _headers,
+            contentType: "application/json",
+            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
+            requestType: "json",
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return { data: _response.body as CloudflareApi.R2R2BucketJob, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 409:
+                    throw new CloudflareApiErrors.ConflictError(_response.error.body as unknown, _response.rawResponse);
+                case 429:
+                    throw new CloudflareApiErrors.TooManyRequestsError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
+                default:
+                    throw new errors.CloudflareApiError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(
+            _response.error,
+            _response.rawResponse,
+            "POST",
+            "/accounts/{account_id}/r2/buckets/{bucket_name}/jobs",
+        );
+    }
+
+    /**
      * Gets the current status of a background job of any type for an R2 bucket. Poll this
-     * endpoint with the job identifier returned when the operation was submitted until the
-     * status is `COMPLETED`, `FAILED`, or `CANCELLED`.
+     * endpoint with the job identifier returned by Create Bucket Job until the status is
+     * `COMPLETED`, `FAILED`, or `CANCELLED`.
      *
      * @param {CloudflareApi.r2.buckets.GetJobsRequest} request
      * @param {JobsClient.RequestOptions} requestOptions - Request-specific configuration.

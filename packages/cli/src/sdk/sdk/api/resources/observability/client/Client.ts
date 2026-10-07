@@ -4,6 +4,7 @@ import type { BaseClientOptions } from "../../../../BaseClient.js";
 import { normalizeClientOptionsWithAuth, type NormalizedClientOptionsWithAuth } from "../../../../BaseClient.js";
 import * as core from "../../../../core/index.js";
 import * as environments from "../../../../environments.js";
+import { AgentsClient } from "../resources/agents/client/Client.js";
 import { DestinationsClient } from "../resources/destinations/client/Client.js";
 import { IssuesClient } from "../resources/issues/client/Client.js";
 import { QueriesClient } from "../resources/queries/client/Client.js";
@@ -22,6 +23,7 @@ export class ObservabilityClient {
     protected _queries: QueriesClient | undefined;
     protected _sharedQueries: SharedQueriesClient | undefined;
     protected _telemetry: TelemetryClient | undefined;
+    protected _agents: AgentsClient | undefined;
     protected _tracing: TracingClient | undefined;
 
     constructor(options: ObservabilityClient.Options = {}) {
@@ -46,6 +48,10 @@ export class ObservabilityClient {
 
     public get telemetry(): TelemetryClient {
         return (this._telemetry ??= new TelemetryClient(this._options));
+    }
+
+    public get agents(): AgentsClient {
+        return (this._agents ??= new AgentsClient(this._options));
     }
 
     public get tracing(): TracingClient {

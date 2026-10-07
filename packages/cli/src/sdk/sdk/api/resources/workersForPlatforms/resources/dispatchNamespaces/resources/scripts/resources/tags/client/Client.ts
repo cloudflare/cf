@@ -6,7 +6,7 @@ import {
     type NormalizedClientOptionsWithAuth,
 } from "../../../../../../../../../../BaseClient.js";
 import * as core from "../../../../../../../../../../core/index.js";
-import { mergeHeaders } from "../../../../../../../../../../core/headers.js";
+import { mergeHeaders, mergeOnlyDefinedHeaders } from "../../../../../../../../../../core/headers.js";
 import { mergeAdditionalBodyParameters } from "../../../../../../../../../../core/requestBody.js";
 import * as environments from "../../../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../../../errors/handleNonStatusCodeError.js";
@@ -246,11 +246,14 @@ export class TagsClient {
     /**
      * Delete a tag from a script uploaded to a Workers for Platforms dispatch namespace.
      *
+     * On `api-version` dates on or after `2026-10-01`, `tag` identifies a key and the operation returns the complete updated tag map. Deleting a missing key succeeds. Earlier versions retain the legacy string-tag behavior and return a null result.
+     *
      * @param {CloudflareApi.workersForPlatforms.dispatchNamespaces.scripts.DeleteTagsRequest} request
      * @param {TagsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @example
      *     await client.workersForPlatforms.dispatchNamespaces.scripts.tags.delete({
+     *         "api-version": "2026-10-01.epoch",
      *         account_id: "account_id",
      *         dispatch_namespace: "dispatch_namespace",
      *         script_name: "script_name",
@@ -260,19 +263,26 @@ export class TagsClient {
     public delete(
         request: CloudflareApi.workersForPlatforms.dispatchNamespaces.scripts.DeleteTagsRequest,
         requestOptions?: TagsClient.RequestOptions,
-    ): core.HttpResponsePromise<Record<string, unknown> | null> {
+    ): core.HttpResponsePromise<CloudflareApi.workersForPlatforms.dispatchNamespaces.scripts.DeleteTagsResponse> {
         return core.HttpResponsePromise.fromPromise(this.__delete(request, requestOptions));
     }
 
     private async __delete(
         request: CloudflareApi.workersForPlatforms.dispatchNamespaces.scripts.DeleteTagsRequest,
         requestOptions?: TagsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<Record<string, unknown> | null>> {
-        const { account_id: accountId, dispatch_namespace: dispatchNamespace, script_name: scriptName, tag } = request;
+    ): Promise<core.WithRawResponse<CloudflareApi.workersForPlatforms.dispatchNamespaces.scripts.DeleteTagsResponse>> {
+        const {
+            account_id: accountId,
+            dispatch_namespace: dispatchNamespace,
+            script_name: scriptName,
+            tag,
+            "api-version": apiVersion,
+        } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
+            mergeOnlyDefinedHeaders({ "api-version": apiVersion }),
             requestOptions?.headers,
         );
         const _response = await (this._options.fetcher ?? core.fetcher)({
@@ -292,7 +302,10 @@ export class TagsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as Record<string, unknown> | null, rawResponse: _response.rawResponse };
+            return {
+                data: _response.body as CloudflareApi.workersForPlatforms.dispatchNamespaces.scripts.DeleteTagsResponse,
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -307,6 +320,89 @@ export class TagsClient {
             _response.error,
             _response.rawResponse,
             "DELETE",
+            "/accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/tags/{tag}",
+        );
+    }
+
+    /**
+     * Add or update one tag key/value on a script uploaded to a Workers for Platforms dispatch namespace without replacing its other tags.
+     *
+     * This operation requires an `api-version` on or after `2026-10-01`.
+     *
+     * @param {CloudflareApi.workersForPlatforms.dispatchNamespaces.scripts.WorkersTagPatch} request
+     * @param {TagsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @example
+     *     await client.workersForPlatforms.dispatchNamespaces.scripts.tags.edit({
+     *         "api-version": "2026-10-01.epoch",
+     *         account_id: "account_id",
+     *         dispatch_namespace: "dispatch_namespace",
+     *         script_name: "script_name",
+     *         tag: "tag",
+     *         value: "production"
+     *     })
+     */
+    public edit(
+        request: CloudflareApi.workersForPlatforms.dispatchNamespaces.scripts.WorkersTagPatch,
+        requestOptions?: TagsClient.RequestOptions,
+    ): core.HttpResponsePromise<CloudflareApi.WorkersTagsKv> {
+        return core.HttpResponsePromise.fromPromise(this.__edit(request, requestOptions));
+    }
+
+    private async __edit(
+        request: CloudflareApi.workersForPlatforms.dispatchNamespaces.scripts.WorkersTagPatch,
+        requestOptions?: TagsClient.RequestOptions,
+    ): Promise<core.WithRawResponse<CloudflareApi.WorkersTagsKv>> {
+        const {
+            account_id: accountId,
+            dispatch_namespace: dispatchNamespace,
+            script_name: scriptName,
+            tag,
+            "api-version": apiVersion,
+            ..._body
+        } = request;
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({ "api-version": apiVersion }),
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.CloudflareApiEnvironment.Default,
+                `accounts/${core.url.encodePathParam(accountId)}/workers/dispatch/namespaces/${core.url.encodePathParam(dispatchNamespace)}/scripts/${core.url.encodePathParam(scriptName)}/tags/${core.url.encodePathParam(tag)}`,
+            ),
+            method: "PATCH",
+            headers: _headers,
+            contentType: "application/json",
+            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
+            requestType: "json",
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return { data: _response.body as CloudflareApi.WorkersTagsKv, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            throw new errors.CloudflareApiError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
+        }
+
+        return handleNonStatusCodeError(
+            _response.error,
+            _response.rawResponse,
+            "PATCH",
             "/accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/tags/{tag}",
         );
     }

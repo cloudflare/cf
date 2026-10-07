@@ -1,3 +1,4 @@
+export * as agents from "./agents/index.js";
 export * as destinations from "./destinations/index.js";
 export * from "./destinations/client/requests/index.js";
 export * from "./destinations/types/index.js";

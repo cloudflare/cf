@@ -86,7 +86,7 @@ export class ThreatEventsClient {
     }
 
     /**
-     * Use `datasetId=all` or `datasetId=*` for the legacy all-datasets scope, `datasetId=analytics` for datasets with `isAnalytics=true`, or `datasetId=operational` for datasets with `isAnalytics=false` (limited to 50). Scope values must be used alone. When `datasetId` is unspecified, events are listed from the default Cloudforce One Threat Events dataset. To list existing datasets, use the [`List Datasets`](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/datasets/methods/list/) endpoint.
+     * Use one standalone `datasetId` scope value: 'all'/'*' or 'operational' for readable intelligence datasets (isAnalytics=false), or 'analytics' for readable analytics datasets (isAnalytics=true). Scope values query at most 50 datasets and must be used alone. When `datasetId` is unspecified, events are listed from the default Cloudforce One Threat Events dataset. To list existing datasets, use the [`List Datasets`](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/datasets/methods/list/) endpoint.
      *
      * @param {CloudflareApi.cloudforceOne.ListThreatEventsRequest} request
      * @param {ThreatEventsClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -114,6 +114,7 @@ export class ThreatEventsClient {
             account_id: accountId,
             cursor,
             search,
+            searchBranches,
             page,
             pageSize,
             orderBy,
@@ -131,6 +132,11 @@ export class ThreatEventsClient {
                   ? typeof search === "string"
                       ? search
                       : toJson(search)
+                  : undefined,
+            searchBranches: Array.isArray(searchBranches)
+                ? searchBranches.map((item) => toJson(item))
+                : searchBranches != null
+                  ? toJson(searchBranches)
                   : undefined,
             page,
             pageSize,
@@ -196,7 +202,7 @@ export class ThreatEventsClient {
     }
 
     /**
-     * Use `datasetId: ["all"]` or `datasetId: ["*"]` for the legacy all-datasets scope, `datasetId: ["analytics"]` for datasets with `isAnalytics=true`, or `datasetId: ["operational"]` for datasets with `isAnalytics=false` (limited to 50). Scope values must be used alone. When `datasetId` is unspecified, events are listed from the default Cloudforce One Threat Events dataset. To list existing datasets, use the [`List Datasets`](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/datasets/methods/list/) endpoint.
+     * Use one standalone `datasetId` scope value: 'all'/'*' or 'operational' for readable intelligence datasets (isAnalytics=false), or 'analytics' for readable analytics datasets (isAnalytics=true). Scope values query at most 50 datasets and must be used alone. When `datasetId` is unspecified, events are listed from the default Cloudforce One Threat Events dataset. To list existing datasets, use the [`List Datasets`](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/datasets/methods/list/) endpoint.
      *
      * @param {CloudflareApi.cloudforceOne.SearchThreatEventsRequest} request
      * @param {ThreatEventsClient.RequestOptions} requestOptions - Request-specific configuration.

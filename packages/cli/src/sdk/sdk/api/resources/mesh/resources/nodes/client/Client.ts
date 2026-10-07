@@ -48,7 +48,7 @@ export class NodesClient {
     }
 
     /**
-     * Lists and filters Warp Connector Tunnels in an account.
+     * Lists and filters Mesh nodes in an account.
      *
      * @param {CloudflareApi.mesh.ListNodesRequest} request
      * @param {NodesClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -151,7 +151,7 @@ export class NodesClient {
     }
 
     /**
-     * Creates a new Warp Connector Tunnel in an account.
+     * Creates a new Mesh node in an account.
      *
      * @param {CloudflareApi.mesh.CreateNodesRequest} request
      * @param {NodesClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -223,7 +223,7 @@ export class NodesClient {
     }
 
     /**
-     * Fetches a single Warp Connector Tunnel.
+     * Fetches a single Mesh node.
      *
      * @param {CloudflareApi.mesh.GetNodesRequest} request
      * @param {NodesClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -231,7 +231,7 @@ export class NodesClient {
      * @example
      *     await client.mesh.nodes.get({
      *         account_id: "account_id",
-     *         tunnel_id: "tunnel_id"
+     *         "node-id": "tunnel_id"
      *     })
      */
     public get(
@@ -245,7 +245,7 @@ export class NodesClient {
         request: CloudflareApi.mesh.GetNodesRequest,
         requestOptions?: NodesClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.TunnelWarpConnectorTunnel>> {
-        const { account_id: accountId, tunnel_id: tunnelId } = request;
+        const { account_id: accountId, "node-id": nodeId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -257,7 +257,7 @@ export class NodesClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/warp_connector/${core.url.encodePathParam(tunnelId)}`,
+                `accounts/${core.url.encodePathParam(accountId)}/warp_connector/${core.url.encodePathParam(nodeId)}`,
             ),
             method: "GET",
             headers: _headers,
@@ -287,12 +287,12 @@ export class NodesClient {
             _response.error,
             _response.rawResponse,
             "GET",
-            "/accounts/{account_id}/warp_connector/{tunnel_id}",
+            "/accounts/{account_id}/warp_connector/{node-id}",
         );
     }
 
     /**
-     * Deletes a Warp Connector Tunnel from an account.
+     * Deletes a Mesh node from an account.
      *
      * @param {CloudflareApi.mesh.DeleteNodesRequest} request
      * @param {NodesClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -300,7 +300,7 @@ export class NodesClient {
      * @example
      *     await client.mesh.nodes.delete({
      *         account_id: "account_id",
-     *         tunnel_id: "tunnel_id"
+     *         "node-id": "tunnel_id"
      *     })
      */
     public delete(
@@ -314,7 +314,7 @@ export class NodesClient {
         request: CloudflareApi.mesh.DeleteNodesRequest,
         requestOptions?: NodesClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.TunnelWarpConnectorTunnel>> {
-        const { account_id: accountId, tunnel_id: tunnelId } = request;
+        const { account_id: accountId, "node-id": nodeId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -326,7 +326,7 @@ export class NodesClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/warp_connector/${core.url.encodePathParam(tunnelId)}`,
+                `accounts/${core.url.encodePathParam(accountId)}/warp_connector/${core.url.encodePathParam(nodeId)}`,
             ),
             method: "DELETE",
             headers: _headers,
@@ -356,12 +356,12 @@ export class NodesClient {
             _response.error,
             _response.rawResponse,
             "DELETE",
-            "/accounts/{account_id}/warp_connector/{tunnel_id}",
+            "/accounts/{account_id}/warp_connector/{node-id}",
         );
     }
 
     /**
-     * Updates an existing Warp Connector Tunnel.
+     * Updates an existing Mesh node.
      *
      * @param {CloudflareApi.mesh.EditNodesRequest} request
      * @param {NodesClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -369,7 +369,7 @@ export class NodesClient {
      * @example
      *     await client.mesh.nodes.edit({
      *         account_id: "account_id",
-     *         tunnel_id: "tunnel_id"
+     *         "node-id": "tunnel_id"
      *     })
      */
     public edit(
@@ -383,7 +383,7 @@ export class NodesClient {
         request: CloudflareApi.mesh.EditNodesRequest,
         requestOptions?: NodesClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.TunnelWarpConnectorTunnel>> {
-        const { account_id: accountId, tunnel_id: tunnelId, ..._body } = request;
+        const { account_id: accountId, "node-id": nodeId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -395,7 +395,7 @@ export class NodesClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/warp_connector/${core.url.encodePathParam(tunnelId)}`,
+                `accounts/${core.url.encodePathParam(accountId)}/warp_connector/${core.url.encodePathParam(nodeId)}`,
             ),
             method: "PATCH",
             headers: _headers,
@@ -428,12 +428,12 @@ export class NodesClient {
             _response.error,
             _response.rawResponse,
             "PATCH",
-            "/accounts/{account_id}/warp_connector/{tunnel_id}",
+            "/accounts/{account_id}/warp_connector/{node-id}",
         );
     }
 
     /**
-     * Triggers a manual failover for a specific WARP Connector Tunnel, setting the specified client as the active connector. The tunnel must be configured for high availability (HA) and the client must be linked to the tunnel.
+     * Triggers a manual failover for a specific Mesh node, setting the specified client as the active connector. The tunnel must be configured for high availability (HA) and the client must be linked to the tunnel.
      *
      * @param {CloudflareApi.mesh.FailoverNodesRequest} request
      * @param {NodesClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -441,7 +441,7 @@ export class NodesClient {
      * @example
      *     await client.mesh.nodes.failover({
      *         account_id: "account_id",
-     *         tunnel_id: "tunnel_id",
+     *         "node-id": "tunnel_id",
      *         client_id: "1bedc50d-42b3-473c-b108-ff3d10c0d925"
      *     })
      */
@@ -456,7 +456,7 @@ export class NodesClient {
         request: CloudflareApi.mesh.FailoverNodesRequest,
         requestOptions?: NodesClient.RequestOptions,
     ): Promise<core.WithRawResponse<Record<string, unknown> | null>> {
-        const { account_id: accountId, tunnel_id: tunnelId, ..._body } = request;
+        const { account_id: accountId, "node-id": nodeId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -468,7 +468,7 @@ export class NodesClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/warp_connector/${core.url.encodePathParam(tunnelId)}/failover`,
+                `accounts/${core.url.encodePathParam(accountId)}/warp_connector/${core.url.encodePathParam(nodeId)}/failover`,
             ),
             method: "PUT",
             headers: _headers,
@@ -498,7 +498,7 @@ export class NodesClient {
             _response.error,
             _response.rawResponse,
             "PUT",
-            "/accounts/{account_id}/warp_connector/{tunnel_id}/failover",
+            "/accounts/{account_id}/warp_connector/{node-id}/failover",
         );
     }
 }

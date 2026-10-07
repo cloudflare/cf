@@ -11,7 +11,7 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -60,6 +60,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("name", {
 			type: "string",
 			description: "The name of the DEX test. Must be unique.",
+		})
+		.option("target-policies", {
+			type: "string",
+			description:
+				"DEX rules targeted by this test. Provide as a JSON array of objects or @path/to/file.json.",
 		})
 		.option("targeted", { type: "boolean", description: "The targeted field" })
 		.option("dry-run", {
@@ -142,6 +147,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											argv["name"] as string | undefined,
 											"name",
 											"text"
+										),
+										target_policies: parseObjectArray(
+											argv["target-policies"],
+											"target-policies"
 										),
 										targeted: argv["targeted"],
 									}),
@@ -229,6 +238,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						argv["name"] as string | undefined,
 						"name",
 						"text"
+					),
+					target_policies: parseObjectArray(
+						argv["target-policies"],
+						"target-policies"
 					),
 					targeted: argv["targeted"],
 				});

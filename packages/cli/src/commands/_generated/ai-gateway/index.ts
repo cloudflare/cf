@@ -3,7 +3,6 @@ import $customproviders from "./custom-providers/index.js";
 import $dynamicrouting from "./dynamic-routing/index.js";
 import $gateways from "./gateways/index.js";
 import $logs from "./logs/index.js";
-import $websearch from "./web-search.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * ai-gateway command
@@ -18,7 +17,6 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
-			.command($websearch)
 			.command($customdomains)
 			.command($customproviders)
 			.command($dynamicrouting)

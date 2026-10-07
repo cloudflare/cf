@@ -3,7 +3,7 @@
 import * as CloudflareApi from "../index.js";
 
 /**
- * A WARP Connector client that maintains a connection to a Cloudflare data center.
+ * A Mesh node connector that maintains a connection to a Cloudflare data center.
  */
 export interface TunnelTunnelWarpConnectorClient {
     arch?: CloudflareApi.TunnelArch | undefined;

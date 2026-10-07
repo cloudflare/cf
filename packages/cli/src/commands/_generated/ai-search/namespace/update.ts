@@ -22,9 +22,9 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 ai-search namespace update <name>\n\nUpdate the description and/or the public endpoint configuration of an existing namespace. The default namespace's description cannot be modified, but its public endpoint can."
+			"$0 ai-search namespace update <namespace>\n\nUpdate the description and/or the public endpoint configuration of an existing namespace. The default namespace's description cannot be modified, but its public endpoint can."
 		)
-		.positional("name", {
+		.positional("namespace", {
 			type: "string",
 			description: "Namespace to update.",
 			demandOption: true,
@@ -106,7 +106,7 @@ type Request = SdkRequest<"ai-search-update-namespace">;
 type Body = Request;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "update <name>",
+	command: "update <namespace>",
 	describe: "Update a namespace",
 	builder,
 	handler: async (argv): Promise<void> =>
@@ -132,8 +132,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf ai-search namespace update",
 						method: "PUT",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/namespaces/${argv["name"] == null ? "<name>" : encodeURIComponent(String(argv["name"]))}`,
-						pathParams: { name: String(argv["name"] ?? "") },
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/namespaces/${argv["namespace"] == null ? "<namespace>" : encodeURIComponent(String(argv["namespace"]))}`,
+						pathParams: { namespace: String(argv["namespace"] ?? "") },
 						bodyKind: "json",
 						body:
 							argv.body !== undefined
@@ -204,7 +204,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						client.aiSearch.namespace.update({
 							...bodyData,
 							account_id: accountId,
-							name: argv["name"],
+							namespace: argv["namespace"],
 						} satisfies Request)
 					);
 					formatOutput(result, { successLabel: `Updated` });
@@ -261,7 +261,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					client.aiSearch.namespace.update({
 						...bodyData,
 						account_id: accountId,
-						name: argv["name"],
+						namespace: argv["namespace"],
 					} satisfies Request)
 				);
 				formatOutput(result, { successLabel: `Updated` });

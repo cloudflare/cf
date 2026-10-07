@@ -10,7 +10,6 @@ import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStat
 import * as errors from "../../../../../../errors/index.js";
 import type * as CloudflareApi from "../../../../../index.js";
 import * as CloudflareApiErrors from "../../../../../errors/index.js";
-import { GetClient } from "../resources/get/client/Client.js";
 
 export declare namespace ApplicationsClient {
     export type Options = BaseClientOptions;
@@ -20,18 +19,126 @@ export declare namespace ApplicationsClient {
 
 export class ApplicationsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<ApplicationsClient.Options>;
-    protected _get: GetClient | undefined;
 
     constructor(options: ApplicationsClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 
-    public get get(): GetClient {
-        return (this._get ??= new GetClient(this._options));
+    /**
+     * List the applications available to an account, both the applications Cloudflare
+     * curates and the custom applications the account has defined.
+     *
+     * Results are paginated. Use `filter` and `search` to narrow the list, `order_by` to
+     * sort it, and `fields` to reduce each result to only the properties you need.
+     * Use `lookup` to find complete application names mentioned in a rule sentence,
+     * ignoring case. Lookup does not correct misspellings. It ranks matches by
+     * relevance and uses the same filters, fields, and pagination as listing.
+     * `lookup` cannot be combined with `search`.
+     *
+     * The authenticated principal must have access to the account identified by
+     * `account_id`.
+     *
+     * @param {CloudflareApi.accounts.ListApplicationsRequest} request
+     * @param {ApplicationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link CloudflareApi.ForbiddenError}
+     * @throws {@link CloudflareApi.BadGatewayError}
+     * @throws {@link CloudflareApi.ServiceUnavailableError}
+     *
+     * @example
+     *     await client.accounts.applications.list({
+     *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
+     *         filter: "name:HR",
+     *         order_by: "name:asc",
+     *         search: "MyNewApp",
+     *         lookup: "block access to Google Chat",
+     *         fields: "id,name"
+     *     })
+     */
+    public list(
+        request: CloudflareApi.accounts.ListApplicationsRequest,
+        requestOptions?: ApplicationsClient.RequestOptions,
+    ): core.HttpResponsePromise<CloudflareApi.accounts.ListApplicationsResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__list(request, requestOptions));
+    }
+
+    private async __list(
+        request: CloudflareApi.accounts.ListApplicationsRequest,
+        requestOptions?: ApplicationsClient.RequestOptions,
+    ): Promise<core.WithRawResponse<CloudflareApi.accounts.ListApplicationsResponse>> {
+        const { account_id: accountId, filter, limit, offset, order_by: orderBy, search, lookup, fields } = request;
+        const _queryParams: Record<string, unknown> = {
+            filter,
+            limit,
+            offset,
+            order_by: orderBy,
+            search,
+            lookup,
+            fields,
+        };
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.CloudflareApiEnvironment.Default,
+                `accounts/${core.url.encodePathParam(accountId)}/resource-library/applications`,
+            ),
+            method: "GET",
+            headers: _headers,
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return {
+                data: _response.body as CloudflareApi.accounts.ListApplicationsResponse,
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 403:
+                    throw new CloudflareApiErrors.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                case 502:
+                    throw new CloudflareApiErrors.BadGatewayError(_response.error.body as unknown, _response.rawResponse);
+                case 503:
+                    throw new CloudflareApiErrors.ServiceUnavailableError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
+                default:
+                    throw new errors.CloudflareApiError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(
+            _response.error,
+            _response.rawResponse,
+            "GET",
+            "/accounts/{account_id}/resource-library/applications",
+        );
     }
 
     /**
-     * Create a custom application for an account.
+     * Create a custom application for an account from a name, category, and optional network matchers.
      *
      * @param {CloudflareApi.accounts.CreateApplicationsRequest} request
      * @param {ApplicationsClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -98,6 +205,72 @@ export class ApplicationsClient {
             _response.rawResponse,
             "POST",
             "/accounts/{account_id}/resource-library/applications",
+        );
+    }
+
+    /**
+     * Retrieve an application available to the account by its numeric application ID.
+     *
+     * @param {CloudflareApi.accounts.GetApplicationsRequest} request
+     * @param {ApplicationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @example
+     *     await client.accounts.applications.get({
+     *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
+     *         id: "id"
+     *     })
+     */
+    public get(
+        request: CloudflareApi.accounts.GetApplicationsRequest,
+        requestOptions?: ApplicationsClient.RequestOptions,
+    ): core.HttpResponsePromise<CloudflareApi.AlexandriaApplication> {
+        return core.HttpResponsePromise.fromPromise(this.__get(request, requestOptions));
+    }
+
+    private async __get(
+        request: CloudflareApi.accounts.GetApplicationsRequest,
+        requestOptions?: ApplicationsClient.RequestOptions,
+    ): Promise<core.WithRawResponse<CloudflareApi.AlexandriaApplication>> {
+        const { account_id: accountId, id } = request;
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.CloudflareApiEnvironment.Default,
+                `accounts/${core.url.encodePathParam(accountId)}/resource-library/applications/${core.url.encodePathParam(id)}`,
+            ),
+            method: "GET",
+            headers: _headers,
+            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return { data: _response.body as CloudflareApi.AlexandriaApplication, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            throw new errors.CloudflareApiError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
+        }
+
+        return handleNonStatusCodeError(
+            _response.error,
+            _response.rawResponse,
+            "GET",
+            "/accounts/{account_id}/resource-library/applications/{id}",
         );
     }
 
@@ -178,7 +351,7 @@ export class ApplicationsClient {
     }
 
     /**
-     * Replace the network matchers for a custom application and create a new version.
+     * Replace the supplied network matchers for a custom application and create a new version. Omitted matcher lists remain unchanged; send an empty list to clear a matcher type.
      *
      * @param {CloudflareApi.accounts.AlexandriaUpdateApplicationRequest} request
      * @param {ApplicationsClient.RequestOptions} requestOptions - Request-specific configuration.

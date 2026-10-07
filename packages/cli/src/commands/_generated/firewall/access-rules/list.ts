@@ -24,6 +24,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			"$0 firewall access-rules list\n\nFetches IP Access rules of an account or zone. These rules apply to all the zones in the account or zone. You can filter the results using several optional parameters."
 		)
+		.option("action", {
+			type: "string",
+			description: "The action to apply to a matched request.",
+			choices: [
+				"block",
+				"challenge",
+				"whitelist",
+				"js_challenge",
+				"managed_challenge",
+			],
+		})
 		.option("configuration-target", {
 			type: "string",
 			description: "Defines the target to search in existing rules.",
@@ -78,6 +89,7 @@ type Query =
 
 const typedBuilder = withArgTypes<
 	{
+		action: Query["mode"];
 		"configuration-target": Query["configuration.target"];
 		match: Query["match"];
 		order: Query["order"];
@@ -97,6 +109,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				command: "firewall access-rules list",
 				classification: {
 					safeFlags: [
+						"action",
 						"configuration-target",
 						"match",
 						"order",
@@ -108,6 +121,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			argv as Record<string, unknown>,
 			async () => {
 				const queryParams: Query = {
+					mode: argv["action"],
 					"configuration.target": argv["configuration-target"],
 					"configuration.value": argv["configuration-value"],
 					notes: argv["notes"],

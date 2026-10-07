@@ -799,7 +799,7 @@
 					"name": "category-id",
 					"type": "number",
 					"required": true,
-					"description": "Returns the category ID."
+					"description": "Numeric identifier for an application category."
 				},
 				{
 					"name": "hostnames",
@@ -811,7 +811,7 @@
 					"name": "human-id",
 					"type": "string",
 					"required": true,
-					"description": "Returns the human readable ID."
+					"description": "Human-readable identifier for the application."
 				},
 				{
 					"name": "ip-subnets",
@@ -823,13 +823,13 @@
 					"name": "name",
 					"type": "string",
 					"required": true,
-					"description": "Returns the application name."
+					"description": "Application name."
 				},
 				{
 					"name": "port-protocols",
 					"type": "string",
 					"required": false,
-					"description": "Port and protocol pairs matched by the application."
+					"description": "Ports matched by the application, in `protocol/port` or inclusive `protocol/start-end` format (for example, `tcp/443` or `udp/10000-20000`). TCP and UDP ports must be between 0 and 65535."
 				},
 				{
 					"name": "support-domains",
@@ -859,7 +859,27 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"accounts applications get applications": {
+		"accounts applications get": {
+			"operationId": "getResourceLibraryApplicationById",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/resource-library/applications/{id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"accounts applications list": {
 			"operationId": "getResourceLibraryApplications",
 			"httpMethod": "GET",
 			"path": "/accounts/{account_id}/resource-library/applications",
@@ -897,31 +917,16 @@
 					"required": false
 				},
 				{
+					"name": "lookup",
+					"type": "string",
+					"required": false
+				},
+				{
 					"name": "fields",
 					"type": "string",
 					"required": false
 				}
 			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"accounts applications get by id": {
-			"operationId": "getResourceLibraryApplicationById",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/resource-library/applications/{id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
@@ -960,7 +965,7 @@
 					"name": "port-protocols",
 					"type": "string",
 					"required": false,
-					"description": "Port and protocol pairs matched by the application."
+					"description": "Ports matched by the application, in `protocol/port` or inclusive `protocol/start-end` format (for example, `tcp/443` or `udp/10000-20000`). TCP and UDP ports must be between 0 and 65535."
 				},
 				{
 					"name": "support-domains",
@@ -1552,7 +1557,7 @@
 				}
 			]
 		},
-		"accounts categories get by id": {
+		"accounts categories get": {
 			"operationId": "getResourceLibraryCategoryById",
 			"httpMethod": "GET",
 			"path": "/accounts/{account_id}/resource-library/categories/{id}",
@@ -1572,7 +1577,7 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"accounts categories get categories": {
+		"accounts categories list": {
 			"operationId": "getResourceLibraryCategories",
 			"httpMethod": "GET",
 			"path": "/accounts/{account_id}/resource-library/categories",
@@ -4830,6 +4835,52 @@
 			"hasRequestBody": true,
 			"requestBodyFields": []
 		},
+		"ai websearch": {
+			"operationId": "workers-ai-ai-gateway-web-search",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/ai/websearch",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "byok-alias",
+					"type": "string",
+					"required": false,
+					"description": "The byokAlias field"
+				},
+				{
+					"name": "limit",
+					"type": "number",
+					"required": false,
+					"description": "The limit field"
+				},
+				{
+					"name": "options-gateway-id",
+					"type": "string",
+					"required": true,
+					"description": "The options.gateway.id field"
+				},
+				{
+					"name": "provider",
+					"type": "string",
+					"required": false,
+					"description": "The provider field"
+				},
+				{
+					"name": "query",
+					"type": "string",
+					"required": true,
+					"description": "The query field"
+				}
+			]
+		},
 		"ai-audit robots bulk-get": {
 			"operationId": "ai-audit-bulk-get-robots",
 			"httpMethod": "POST",
@@ -6772,52 +6823,6 @@
 				}
 			]
 		},
-		"ai-gateway web-search": {
-			"operationId": "workers-ai-ai-gateway-web-search",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/ai/websearch",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "byok-alias",
-					"type": "string",
-					"required": false,
-					"description": "The byokAlias field"
-				},
-				{
-					"name": "limit",
-					"type": "number",
-					"required": false,
-					"description": "The limit field"
-				},
-				{
-					"name": "options-gateway-id",
-					"type": "string",
-					"required": true,
-					"description": "The options.gateway.id field"
-				},
-				{
-					"name": "provider",
-					"type": "string",
-					"required": false,
-					"description": "The provider field"
-				},
-				{
-					"name": "query",
-					"type": "string",
-					"required": true,
-					"description": "The query field"
-				}
-			]
-		},
 		"ai-search chat-completions": {
 			"operationId": "ai-search-namespace-instance-chat-completion",
 			"httpMethod": "POST",
@@ -7078,6 +7083,18 @@
 					"type": "boolean",
 					"required": false,
 					"description": "The metadata.created_from_aisearch_wizard field"
+				},
+				{
+					"name": "metadata-created-from-emdash-plugin-type",
+					"type": "string",
+					"required": false,
+					"description": "The metadata.created_from_emdash_plugin.type field"
+				},
+				{
+					"name": "metadata-created-from-emdash-plugin-version",
+					"type": "string",
+					"required": false,
+					"description": "The metadata.created_from_emdash_plugin.version field"
 				},
 				{
 					"name": "metadata-worker-domain",
@@ -7623,7 +7640,7 @@
 					"name": "wait-for-completion",
 					"type": "boolean",
 					"required": false,
-					"description": "Wait for indexing to fully complete before responding. On RAGs with vector indexing enabled, this additionally waits for Vectorize ingestion confirmation (up to 40s) so the returned item reflects a queryable state. On timeout the item is returned in `running` state and the background alarm continues polling. Defaults to false."
+					"description": "Wait for indexing before responding. After processing, vector-indexed instances use any time remaining in a 25s wait budget to confirm Vectorize ingestion. Processing itself is not interrupted and can exceed that budget. If confirmation times out, the current item state is returned and background indexing continues. Defaults to false."
 				}
 			]
 		},
@@ -7692,7 +7709,7 @@
 					"name": "wait-for-completion",
 					"type": "boolean",
 					"required": false,
-					"description": "Wait for indexing to fully complete before responding. On RAGs with vector indexing enabled, this additionally waits for Vectorize ingestion confirmation (up to 40s) so the returned item reflects a queryable state. On timeout the item is returned in `running` state and the background alarm continues polling. Defaults to false."
+					"description": "Wait for indexing before responding. After processing, vector-indexed instances use any time remaining in a 25s wait budget to confirm Vectorize ingestion. Processing itself is not interrupted and can exceed that budget. If confirmation times out, the current item state is returned and background indexing continues. Defaults to false."
 				}
 			]
 		},
@@ -7910,11 +7927,6 @@
 					"required": false
 				},
 				{
-					"name": "namespace",
-					"type": "string",
-					"required": false
-				},
-				{
 					"name": "order_by",
 					"type": "string",
 					"required": false
@@ -7953,7 +7965,7 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
-					"name": "new-namespace",
+					"name": "destination-namespace",
 					"type": "string",
 					"required": true,
 					"description": "Target namespace to move the instance into."
@@ -8245,7 +8257,7 @@
 					"description": "Optional description for the namespace. Max 256 characters."
 				},
 				{
-					"name": "name",
+					"name": "namespace",
 					"type": "string",
 					"required": true,
 					"description": "Name for the new namespace."
@@ -8687,13 +8699,13 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
-					"name": "cf-api-id",
+					"name": "api-token-id",
 					"type": "string",
 					"required": true,
 					"description": "The cf_api_id field"
 				},
 				{
-					"name": "cf-api-key",
+					"name": "api-token",
 					"type": "string",
 					"required": true,
 					"description": "The cf_api_key field"
@@ -8803,13 +8815,13 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
-					"name": "cf-api-id",
+					"name": "api-token-id",
 					"type": "string",
 					"required": true,
 					"description": "The cf_api_id field"
 				},
 				{
-					"name": "cf-api-key",
+					"name": "api-token",
 					"type": "string",
 					"required": true,
 					"description": "The cf_api_key field"
@@ -8947,6 +8959,18 @@
 					"type": "boolean",
 					"required": false,
 					"description": "The metadata.created_from_aisearch_wizard field"
+				},
+				{
+					"name": "metadata-created-from-emdash-plugin-type",
+					"type": "string",
+					"required": false,
+					"description": "The metadata.created_from_emdash_plugin.type field"
+				},
+				{
+					"name": "metadata-created-from-emdash-plugin-version",
+					"type": "string",
+					"required": false,
+					"description": "The metadata.created_from_emdash_plugin.version field"
 				},
 				{
 					"name": "metadata-worker-domain",
@@ -10710,101 +10734,6 @@
 				}
 			]
 		},
-		"analytics sql get": {
-			"operationId": "sql-api-query-get",
-			"httpMethod": "GET",
-			"path": "/analytics/sql",
-			"pathParams": [],
-			"queryParams": [
-				{
-					"name": "query",
-					"type": "string",
-					"required": true
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"analytics sql introspection get": {
-			"operationId": "sql-api-introspection",
-			"httpMethod": "GET",
-			"path": "/analytics/sql/introspection",
-			"pathParams": [],
-			"queryParams": [
-				{
-					"name": "account_tag",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "include_columns",
-					"type": "boolean",
-					"required": false
-				},
-				{
-					"name": "include_custom_attributes",
-					"type": "boolean",
-					"required": false
-				},
-				{
-					"name": "include_wae",
-					"type": "boolean",
-					"required": false
-				},
-				{
-					"name": "include_lex",
-					"type": "boolean",
-					"required": false
-				},
-				{
-					"name": "dataset_name",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"analytics sql post": {
-			"operationId": "sql-api-query-post",
-			"httpMethod": "POST",
-			"path": "/analytics/sql",
-			"pathParams": [],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "query",
-					"type": "string",
-					"required": true,
-					"description": "SQL query to execute. A trailing FORMAT selects JSON, JSONEachRow, TabSeparated, or TSV output on any dataset.\n"
-				},
-				{
-					"name": "scope-account-tag",
-					"type": "string",
-					"required": false,
-					"description": "Account tag used to authorize and scope the query. Must be a 32-character lowercase hex string.\n"
-				},
-				{
-					"name": "scope-zone-tag",
-					"type": "string",
-					"required": false,
-					"description": "Zone tag used to authorize and scope the query. Must be a 32-character lowercase hex string.\n"
-				},
-				{
-					"name": "time-range-end",
-					"type": "string",
-					"required": false,
-					"description": "Inclusive upper bound for the dataset's timestamp column."
-				},
-				{
-					"name": "time-range-start",
-					"type": "string",
-					"required": false,
-					"description": "Inclusive lower bound for the dataset's timestamp column."
-				}
-			]
-		},
 		"analytics_engine sql query": {
 			"operationId": "analytics-engine-sql-query-post",
 			"httpMethod": "POST",
@@ -12387,6 +12316,30 @@
 					"description": "Cloudflare zone tag. The zone must belong to the account.\n"
 				}
 			]
+		},
+		"argo smart-routing count-zones-enabled-for-account": {
+			"operationId": "argo-smart-routing-get-count-zones-enabled-for-account",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/argo/count_zones_enabled",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"argo smart-routing count-zones-enabled-for-user": {
+			"operationId": "argo-smart-routing-get-count-zones-enabled-for-user",
+			"httpMethod": "GET",
+			"path": "/user/argo/count_zones_enabled",
+			"pathParams": [],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
 		},
 		"argo smart-routing edit": {
 			"operationId": "argo-smart-routing-patch-argo-smart-routing-setting",
@@ -14197,7 +14150,7 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
-					"name": "filter-by-metric-ids",
+					"name": "filter-by-billable-metric-ids",
 					"type": "string",
 					"required": false,
 					"description": "Restrict results to rows whose `x_BillableMetricId` matches one of these billable metric ids (e.g. `workers_standard_requests`). Values must be unique."
@@ -14213,6 +14166,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Grouping definitions used to split result rows. At most two unique keys may be supplied. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "metric",
+					"type": "string",
+					"required": false,
+					"description": "Type of cost/usage records to retrieve. `usage` returns unrated usage quantities. Unrelated to `FilterBy.BillableMetricIds`. Defaults to `usage` when omitted."
 				},
 				{
 					"name": "time-period-from",
@@ -15048,42 +15007,6 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"browser-run devtools browser connect": {
-			"operationId": "brapi-get_DevtoolsBrowser",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/browser-rendering/devtools/browser/{session_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "session_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "keep_alive",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "lab",
-					"type": "boolean",
-					"required": false
-				},
-				{
-					"name": "recording",
-					"type": "boolean",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
 		"browser-run devtools browser create": {
 			"operationId": "brapi-post_DevtoolsAcquire",
 			"httpMethod": "POST",
@@ -15158,37 +15081,6 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"browser-run devtools browser launch": {
-			"operationId": "brapi-get_DevtoolsBrowserAcquire",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/browser-rendering/devtools/browser",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "keep_alive",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "lab",
-					"type": "boolean",
-					"required": false
-				},
-				{
-					"name": "recording",
-					"type": "boolean",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
 		"browser-run devtools browser live-view create": {
 			"operationId": "brapi-post_DevtoolsLiveView",
 			"httpMethod": "POST",
@@ -15227,31 +15119,6 @@
 					"description": "Target ID (page) to connect to. If omitted, auto-resolves to the first active page."
 				}
 			]
-		},
-		"browser-run devtools browser page get": {
-			"operationId": "brapi-get_DevtoolsPage",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/browser-rendering/devtools/browser/{session_id}/page/{target_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "session_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "target_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
 		},
 		"browser-run devtools browser protocol": {
 			"operationId": "brapi-get_DevtoolsJsonProtocol",
@@ -15513,6 +15380,11 @@
 					"name": "cacheTTL",
 					"type": "number",
 					"required": false
+				},
+				{
+					"name": "browser",
+					"type": "string",
+					"required": false
 				}
 			],
 			"hasRequestBody": true,
@@ -15715,6 +15587,11 @@
 					"name": "cacheTTL",
 					"type": "number",
 					"required": false
+				},
+				{
+					"name": "browser",
+					"type": "string",
+					"required": false
 				}
 			],
 			"hasRequestBody": true,
@@ -15904,6 +15781,11 @@
 				{
 					"name": "cacheTTL",
 					"type": "number",
+					"required": false
+				},
+				{
+					"name": "browser",
+					"type": "string",
 					"required": false
 				}
 			],
@@ -16113,6 +15995,11 @@
 					"name": "cacheTTL",
 					"type": "number",
 					"required": false
+				},
+				{
+					"name": "browser",
+					"type": "string",
+					"required": false
 				}
 			],
 			"hasRequestBody": true,
@@ -16315,6 +16202,11 @@
 					"name": "cacheTTL",
 					"type": "number",
 					"required": false
+				},
+				{
+					"name": "browser",
+					"type": "string",
+					"required": false
 				}
 			],
 			"hasRequestBody": true,
@@ -16504,6 +16396,11 @@
 				{
 					"name": "cacheTTL",
 					"type": "number",
+					"required": false
+				},
+				{
+					"name": "browser",
+					"type": "string",
 					"required": false
 				}
 			],
@@ -16773,6 +16670,11 @@
 					"name": "cacheTTL",
 					"type": "number",
 					"required": false
+				},
+				{
+					"name": "browser",
+					"type": "string",
+					"required": false
 				}
 			],
 			"hasRequestBody": true,
@@ -16968,6 +16870,11 @@
 				{
 					"name": "cacheTTL",
 					"type": "number",
+					"required": false
+				},
+				{
+					"name": "browser",
+					"type": "string",
 					"required": false
 				}
 			],
@@ -17236,6 +17143,11 @@
 				{
 					"name": "cacheTTL",
 					"type": "number",
+					"required": false
+				},
+				{
+					"name": "browser",
+					"type": "string",
 					"required": false
 				}
 			],
@@ -17573,6 +17485,24 @@
 			"queryParams": [],
 			"hasRequestBody": true,
 			"requestBodyFields": [
+				{
+					"name": "branch",
+					"type": "string",
+					"required": false,
+					"description": "Git branch name (required if commit_hash not provided)"
+				},
+				{
+					"name": "commit-hash",
+					"type": "string",
+					"required": false,
+					"description": "Git commit hash (required if branch not provided)"
+				},
+				{
+					"name": "seed-repo-branch",
+					"type": "string",
+					"required": false,
+					"description": "Repository branch to seed."
+				},
 				{
 					"name": "seed-repo-owner",
 					"type": "string",
@@ -18406,6 +18336,12 @@
 					"description": "Grant ID required for grant-backed providers"
 				},
 				{
+					"name": "previews-base-config-build-caching-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether builds reuse cached dependencies and build artifacts."
+				},
+				{
 					"name": "previews-base-config-build-command",
 					"type": "string",
 					"required": true,
@@ -18436,10 +18372,22 @@
 					"description": "Path patterns that can start builds."
 				},
 				{
+					"name": "previews-base-config-root-directory",
+					"type": "string",
+					"required": false,
+					"description": "Repository directory in which build and deploy commands run."
+				},
+				{
 					"name": "previews-enabled",
 					"type": "boolean",
 					"required": true,
 					"description": "Whether Previews are enabled for this Worker"
+				},
+				{
+					"name": "production-settings-build-caching-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether builds reuse cached dependencies and build artifacts."
 				},
 				{
 					"name": "production-settings-build-command",
@@ -18470,6 +18418,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Path patterns that can start builds."
+				},
+				{
+					"name": "production-settings-root-directory",
+					"type": "string",
+					"required": false,
+					"description": "Repository directory in which build and deploy commands run."
 				},
 				{
 					"name": "script-tag",
@@ -22473,6 +22427,28 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"cloudforce-one priority-intelligence filters generate": {
+			"operationId": "post_PirFilterGenerate",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/cloudforce-one/v2/priority-intelligence/filters/generate",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "requirement",
+					"type": "string",
+					"required": true,
+					"description": "Natural-language Priority Intelligence Requirement."
+				}
+			]
+		},
 		"cloudforce-one priority-intelligence get": {
 			"operationId": "get_PirGet",
 			"httpMethod": "GET",
@@ -23121,6 +23097,30 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
+					"name": "completed-after",
+					"type": "string",
+					"required": false,
+					"description": "Retrieve requests completed after this time."
+				},
+				{
+					"name": "completed-before",
+					"type": "string",
+					"required": false,
+					"description": "Retrieve requests completed before this time."
+				},
+				{
+					"name": "created-after",
+					"type": "string",
+					"required": false,
+					"description": "Retrieve requests created after this time."
+				},
+				{
+					"name": "created-before",
+					"type": "string",
+					"required": false,
+					"description": "Retrieve requests created before this time."
+				},
+				{
 					"name": "page",
 					"type": "number",
 					"required": true,
@@ -23502,6 +23502,18 @@
 			"queryParams": [],
 			"hasRequestBody": true,
 			"requestBodyFields": [
+				{
+					"name": "after",
+					"type": "string",
+					"required": false,
+					"description": "Retrieve mes  ges created after this time."
+				},
+				{
+					"name": "before",
+					"type": "string",
+					"required": false,
+					"description": "Retrieve messages created before this time."
+				},
 				{
 					"name": "page",
 					"type": "number",
@@ -26149,6 +26161,11 @@
 					"required": false
 				},
 				{
+					"name": "searchBranches",
+					"type": "array",
+					"required": false
+				},
+				{
 					"name": "page",
 					"type": "number",
 					"required": false
@@ -26322,7 +26339,7 @@
 					"name": "dataset-id",
 					"type": "string",
 					"required": false,
-					"description": "Dataset UUIDs to query, or one standalone scope value: 'all'/'*' for the legacy all-datasets behavior, 'analytics' for isAnalytics=true datasets, or 'operational' for isAnalytics=false datasets. If not provided, uses the default dataset."
+					"description": "Dataset UUIDs to query, or one standalone scope value: 'all'/'*' or 'operational' for readable intelligence datasets (isAnalytics=false), or 'analytics' for readable analytics datasets (isAnalytics=true). Scope values query at most 50 datasets. If not provided, uses the default dataset."
 				},
 				{
 					"name": "order",
@@ -26712,6 +26729,31 @@
 			],
 			"queryParams": [],
 			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one threat-signals articles skills run": {
+			"operationId": "rssArticleSkillRun",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/articles/{article_id}/skills/{skill_id}/run",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "article_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "skill_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
 			"requestBodyFields": []
 		},
 		"cloudforce-one threat-signals articles tags add": {
@@ -28388,6 +28430,12 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Omit this field or set it to `false`. Public Docker Hub images do not require\nregistry configuration and cannot be added with this endpoint.\n"
+				},
+				{
+					"name": "kind",
+					"type": "string",
+					"required": true,
+					"description": "Registry provider. This must match `domain`: `DockerHub` for `docker.io`,\n`ECR` for AWS ECR, or `GAR` for Google Artifact Registry.\n"
 				}
 			]
 		},
@@ -31347,7 +31395,7 @@
 					"name": "ip-set",
 					"type": "number",
 					"required": false,
-					"description": "Selects the account-specific IP set that supplies the nameserver addresses. The account's entitlement determines the maximum value. Nameserver sets with the same `ip_set` and `advanced` value may reuse addresses; otherwise, they use disjoint address groups."
+					"description": "Selects the account-specific IP set that supplies the nameserver addresses. Nameserver sets with the same `ip_set` and `advanced` value may reuse addresses; otherwise, they use disjoint address groups."
 				},
 				{
 					"name": "nameservers",
@@ -33976,6 +34024,18 @@
 					"description": "Optional note describing the job."
 				},
 				{
+					"name": "destination",
+					"type": "string",
+					"required": false,
+					"description": "Required when action is 'MOVE'."
+				},
+				{
+					"name": "expected-disposition",
+					"type": "string",
+					"required": false,
+					"description": "Nonfunctional field. End of life: December 1, 2026."
+				},
+				{
 					"name": "search-params-action-log",
 					"type": "boolean",
 					"required": false,
@@ -33986,6 +34046,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Alert ID of the detection to filter by."
+				},
+				{
+					"name": "search-params-delivery-status",
+					"type": "string",
+					"required": false,
+					"description": "Delivery status to filter by."
 				},
 				{
 					"name": "search-params-detections-only",
@@ -34010,6 +34076,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Match messages whose subject line equals this value exactly."
+				},
+				{
+					"name": "search-params-final-disposition",
+					"type": "string",
+					"required": false,
+					"description": "Dispositions to filter by."
 				},
 				{
 					"name": "search-params-message-action",
@@ -34486,6 +34558,12 @@
 					"description": "Dispositions to drop instead of delivering, e.g. `[\"MALICIOUS\", \"SPAM\"]`."
 				},
 				{
+					"name": "folder",
+					"type": "string",
+					"required": false,
+					"description": "The mailbox folder to scan, for API-scanning domains."
+				},
+				{
 					"name": "integration-id",
 					"type": "string",
 					"required": false,
@@ -34579,6 +34657,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Dispositions to drop instead of delivering, e.g. `[\"MALICIOUS\", \"SPAM\"]`."
+				},
+				{
+					"name": "folder",
+					"type": "string",
+					"required": false,
+					"description": "The mailbox folder to scan, for API-scanning domains."
 				},
 				{
 					"name": "integration-id",
@@ -34742,6 +34826,12 @@
 					"description": "Dispositions to drop instead of delivering, e.g. `[\"MALICIOUS\", \"SPAM\"]`."
 				},
 				{
+					"name": "folder",
+					"type": "string",
+					"required": false,
+					"description": "The mailbox folder to scan, for API-scanning domains."
+				},
+				{
 					"name": "integration-id",
 					"type": "string",
 					"required": false,
@@ -34860,6 +34950,12 @@
 					"type": "string",
 					"required": true,
 					"description": "Display name of the protected identity."
+				},
+				{
+					"name": "provenance",
+					"type": "string",
+					"required": false,
+					"description": "Source the entry was created from."
 				}
 			]
 		},
@@ -34943,6 +35039,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Display name of the protected identity."
+				},
+				{
+					"name": "provenance",
+					"type": "string",
+					"required": false,
+					"description": "Source the entry was created from."
 				}
 			]
 		},
@@ -35214,6 +35316,12 @@
 					"type": "string",
 					"required": true,
 					"description": "The mailbox folder to move messages to."
+				},
+				{
+					"name": "expected-disposition",
+					"type": "string",
+					"required": false,
+					"description": "Nonfunctional field. End of life: December 1, 2026."
 				},
 				{
 					"name": "ids",
@@ -41575,16 +41683,22 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
-					"name": "http-enabled",
-					"type": "boolean",
-					"required": true,
-					"description": "Indicates whether the HTTP endpoint accepts records."
-				},
-				{
 					"name": "http-authentication",
 					"type": "boolean",
 					"required": false,
-					"description": "Indicates whether the HTTP endpoint requires an API token with K2 produce permission. When false or omitted, the endpoint accepts unauthenticated records."
+					"description": "Indicates whether the HTTP endpoint requires an API token with K2 produce permission. When false, the endpoint accepts unauthenticated records. Defaults to true when HTTP is enabled without a stored value."
+				},
+				{
+					"name": "http-cors-origins",
+					"type": "string",
+					"required": false,
+					"description": "Allows browser requests from these HTTP or HTTPS origins. Use a wildcard only as the sole origin. An empty list blocks cross-origin browser requests. Defaults to `['*']` when HTTP is enabled without stored origins."
+				},
+				{
+					"name": "http-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Indicates whether the HTTP endpoint accepts records."
 				},
 				{
 					"name": "name",
@@ -41717,16 +41831,22 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
+					"name": "http-authentication",
+					"type": "boolean",
+					"required": false,
+					"description": "Indicates whether the HTTP endpoint requires an API token with K2 produce permission. When false, the endpoint accepts unauthenticated records. Defaults to true when HTTP is enabled without a stored value."
+				},
+				{
+					"name": "http-cors-origins",
+					"type": "string",
+					"required": false,
+					"description": "Allows browser requests from these HTTP or HTTPS origins. Use a wildcard only as the sole origin. An empty list blocks cross-origin browser requests. Defaults to `['*']` when HTTP is enabled without stored origins."
+				},
+				{
 					"name": "http-enabled",
 					"type": "boolean",
 					"required": false,
 					"description": "Indicates whether the HTTP endpoint accepts records."
-				},
-				{
-					"name": "http-authentication",
-					"type": "boolean",
-					"required": false,
-					"description": "Indicates whether the HTTP endpoint requires an API token with K2 produce permission. When false or omitted, the endpoint accepts unauthenticated records."
 				},
 				{
 					"name": "retention-seconds",
@@ -42178,6 +42298,12 @@
 					"type": "string",
 					"required": false,
 					"description": "Specify the jurisdiction to restrict the KV namespace to durably store data within. Can only be set at namespace creation time."
+				},
+				{
+					"name": "namespace-mode",
+					"type": "string",
+					"required": false,
+					"description": "The mode of the Workers KV namespace. Specify `instant` when creating a namespace to create a KV Instant namespace. Omit this field when creating a namespace to create a classic namespace. Currently, `instant` is the only supported explicit value."
 				},
 				{
 					"name": "title",
@@ -44715,7 +44841,7 @@
 					"name": "output-options-merge-subrequests",
 					"type": "boolean",
 					"required": false,
-					"description": "If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset. Not supported for account-scoped jobs."
+					"description": "If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset."
 				},
 				{
 					"name": "output-options-output-type",
@@ -44943,7 +45069,7 @@
 					"name": "output-options-merge-subrequests",
 					"type": "boolean",
 					"required": false,
-					"description": "If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset. Not supported for account-scoped jobs."
+					"description": "If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset."
 				},
 				{
 					"name": "output-options-output-type",
@@ -51374,6 +51500,12 @@
 					"description": "A valid IPv4 address."
 				},
 				{
+					"name": "static-addressing-dhcp-server-dns-server",
+					"type": "string",
+					"required": false,
+					"description": "A valid IPv4 address."
+				},
+				{
 					"name": "static-addressing-dhcp-server-dns-servers",
 					"type": "string",
 					"required": false,
@@ -51516,6 +51648,12 @@
 				},
 				{
 					"name": "static-addressing-dhcp-server-dhcp-pool-start",
+					"type": "string",
+					"required": false,
+					"description": "A valid IPv4 address."
+				},
+				{
+					"name": "static-addressing-dhcp-server-dns-server",
 					"type": "string",
 					"required": false,
 					"description": "A valid IPv4 address."
@@ -51683,6 +51821,12 @@
 				},
 				{
 					"name": "static-addressing-dhcp-server-dhcp-pool-start",
+					"type": "string",
+					"required": false,
+					"description": "A valid IPv4 address."
+				},
+				{
+					"name": "static-addressing-dhcp-server-dns-server",
 					"type": "string",
 					"required": false,
 					"description": "A valid IPv4 address."
@@ -52948,7 +53092,7 @@
 					"name": "auth-credentials",
 					"type": "string",
 					"required": false,
-					"description": "Static credential for the upstream MCP server. For auth_type \"bearer\", either a raw token string (e.g. \"sk-abc123\"), which is wrapped server-side as `Authorization: Bearer <token>`, or a JSON-encoded object of the form `{\"headers\":{\"Header-Name\":\"value\",...}}` for custom or multiple static headers (e.g. Cloudflare Access service tokens: `{\"headers\":{\"cf-access-client-id\":\"...\",\"cf-access-client-secret\":\"...\"}}`)."
+					"description": "Credential configuration for the upstream MCP server. For auth_type \"bearer\", either a raw token string (e.g. \"sk-abc123\"), which is wrapped server-side as `Authorization: Bearer <token>`, or a JSON-encoded object of the form `{\"headers\":{\"Header-Name\":\"value\",...}}` for custom or multiple static headers (e.g. Cloudflare Access service tokens: `{\"headers\":{\"cf-access-client-id\":\"...\",\"cf-access-client-secret\":\"...\"}}`). For auth_type \"oauth\" with a pre-registered client, send a JSON-encoded object containing `auth_mode:\"manual\"`, `config.authorization_endpoint`, `config.token_endpoint`, and `registration_info.client_id`. Also provide `registration_info.redirect_uris` unless `is_shared_oauth_callback_enabled` is true. Optional fields include `config.issuer`, `config.revocation_endpoint`, `registration_info.scope`, and `registration_info.token_endpoint_auth_method`. Send the client secret in the separate `client_secret` field. Omit `auth_credentials` on update to preserve the existing configuration."
 				},
 				{
 					"name": "auth-type",
@@ -52960,7 +53104,7 @@
 					"name": "client-secret",
 					"type": "string",
 					"required": false,
-					"description": "Pre-registered OAuth client_secret. Write-only - accepted on create/update when auth_credentials.auth_mode is 'manual'. Stored AES-GCM-encrypted in server_oauth_secrets; never returned by read endpoints."
+					"description": "Pre-registered OAuth client_secret. Write-only - accepted on create/update when auth_credentials.auth_mode is 'manual'. Required when creating a manual OAuth server or converting an existing server to manual mode. Omit it on update to preserve the existing secret; provide it to rotate the secret. Stored AES-GCM-encrypted in server_oauth_secrets; never returned by read endpoints."
 				},
 				{
 					"name": "description",
@@ -53167,13 +53311,13 @@
 					"name": "auth-credentials",
 					"type": "string",
 					"required": false,
-					"description": "Static credential for the upstream MCP server. For auth_type \"bearer\", either a raw token string (e.g. \"sk-abc123\"), which is wrapped server-side as `Authorization: Bearer <token>`, or a JSON-encoded object of the form `{\"headers\":{\"Header-Name\":\"value\",...}}` for custom or multiple static headers (e.g. Cloudflare Access service tokens: `{\"headers\":{\"cf-access-client-id\":\"...\",\"cf-access-client-secret\":\"...\"}}`)."
+					"description": "Credential configuration for the upstream MCP server. For auth_type \"bearer\", either a raw token string (e.g. \"sk-abc123\"), which is wrapped server-side as `Authorization: Bearer <token>`, or a JSON-encoded object of the form `{\"headers\":{\"Header-Name\":\"value\",...}}` for custom or multiple static headers (e.g. Cloudflare Access service tokens: `{\"headers\":{\"cf-access-client-id\":\"...\",\"cf-access-client-secret\":\"...\"}}`). For auth_type \"oauth\" with a pre-registered client, send a JSON-encoded object containing `auth_mode:\"manual\"`, `config.authorization_endpoint`, `config.token_endpoint`, and `registration_info.client_id`. Also provide `registration_info.redirect_uris` unless `is_shared_oauth_callback_enabled` is true. Optional fields include `config.issuer`, `config.revocation_endpoint`, `registration_info.scope`, and `registration_info.token_endpoint_auth_method`. Send the client secret in the separate `client_secret` field. Omit `auth_credentials` on update to preserve the existing configuration."
 				},
 				{
 					"name": "client-secret",
 					"type": "string",
 					"required": false,
-					"description": "Pre-registered OAuth client_secret. Write-only - accepted on create/update when auth_credentials.auth_mode is 'manual'. Stored AES-GCM-encrypted in server_oauth_secrets; never returned by read endpoints."
+					"description": "Pre-registered OAuth client_secret. Write-only - accepted on create/update when auth_credentials.auth_mode is 'manual'. Required when creating a manual OAuth server or converting an existing server to manual mode. Omit it on update to preserve the existing secret; provide it to rotate the secret. Stored AES-GCM-encrypted in server_oauth_secrets; never returned by read endpoints."
 				},
 				{
 					"name": "description",
@@ -53262,7 +53406,7 @@
 					"name": "ha-mode",
 					"type": "string",
 					"required": true,
-					"description": "High-availability mode for the WARP Connector tunnel. `none` means HA is enabled but no provider is configured yet (newly created tunnels default to this). `disabled` means HA is explicitly turned off. `aws` uses AWS ENI move for failover. `local` uses virtual IPs (VIPs) on the local interface."
+					"description": "High-availability mode for the Mesh node. `none` means HA is enabled but no provider is configured yet (newly created nodes default to this). `disabled` means HA is explicitly turned off. `aws` uses AWS ENI move for failover. `local` uses virtual IPs (VIPs) on the local interface."
 				}
 			]
 		},
@@ -53412,7 +53556,7 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
-					"name": "client-id",
+					"name": "connector-id",
 					"type": "string",
 					"required": true,
 					"description": "UUID of the Cloudflare Tunnel connector."
@@ -54891,7 +55035,7 @@
 					"name": "bgp-mode",
 					"type": "string",
 					"required": false,
-					"description": "The BGP mode for a CNI.\n\nControls the customer-facing data path:\n* `DynamicRouteExchange` — Full BGP: routes flow through to conduit via CRE / bgp-bridge /\nbgp-bridge-receiver.\n* `AdvertiseOnly` — static advertisement via taserver, no routes exchanged with Conduit"
+					"description": "The BGP mode for a CNI.\nOne of the following:\n* `dynamic_route_exchange`\n* `advertise_only`"
 				},
 				{
 					"name": "cust-ip",
@@ -55234,6 +55378,1638 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"o11y agents sessions list": {
+			"operationId": "agents.sessions.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/workers/observability/agents/sessions",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "service",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "agent",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "from",
+					"type": "number",
+					"required": true
+				},
+				{
+					"name": "to",
+					"type": "number",
+					"required": true
+				},
+				{
+					"name": "cursor",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"type": "number",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"o11y agents sessions runs": {
+			"operationId": "agents.sessions.runs.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/workers/observability/agents/sessions/{conversationId}/runs",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "conversationId",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "service",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "agent",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "from",
+					"type": "number",
+					"required": true
+				},
+				{
+					"name": "to",
+					"type": "number",
+					"required": true
+				},
+				{
+					"name": "cursor",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"type": "number",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"o11y destinations create": {
+			"operationId": "destination.create",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/workers/observability/destinations",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "configuration-type",
+					"type": "string",
+					"required": true,
+					"description": "The configuration.type field"
+				},
+				{
+					"name": "configuration-url",
+					"type": "string",
+					"required": true,
+					"description": "The configuration.url field"
+				},
+				{
+					"name": "enabled",
+					"type": "boolean",
+					"required": true,
+					"description": "The enabled field"
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "The name field"
+				},
+				{
+					"name": "skip-preflight-check",
+					"type": "boolean",
+					"required": false,
+					"description": "The skipPreflightCheck field"
+				}
+			]
+		},
+		"o11y destinations delete": {
+			"operationId": "destinations.delete",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/workers/observability/destinations/{slug}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "slug",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"o11y destinations list": {
+			"operationId": "destination.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/workers/observability/destinations",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "perPage",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "order",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "orderBy",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"o11y destinations update": {
+			"operationId": "destination.update",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/workers/observability/destinations/{slug}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "slug",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "configuration-type",
+					"type": "string",
+					"required": true,
+					"description": "The configuration.type field"
+				},
+				{
+					"name": "configuration-url",
+					"type": "string",
+					"required": true,
+					"description": "The configuration.url field"
+				},
+				{
+					"name": "enabled",
+					"type": "boolean",
+					"required": true,
+					"description": "The enabled field"
+				}
+			]
+		},
+		"o11y issues add": {
+			"operationId": "issues.groups.members.add",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/workers/observability/issues/groups/{groupId}/members",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "groupId",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "issue-ids",
+					"type": "string",
+					"required": true,
+					"description": "The issueIds field"
+				}
+			]
+		},
+		"o11y issues automations create": {
+			"operationId": "issues.automations.create",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/workers/observability/issues/automations",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "after-inactivity-seconds",
+					"type": "number",
+					"required": false,
+					"description": "The afterInactivitySeconds field"
+				},
+				{
+					"name": "after-occurrences",
+					"type": "number",
+					"required": false,
+					"description": "The afterOccurrences field"
+				},
+				{
+					"name": "enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "The enabled field"
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": false,
+					"description": "The name field"
+				},
+				{
+					"name": "policy-id",
+					"type": "string",
+					"required": true,
+					"description": "The policyId field"
+				},
+				{
+					"name": "service",
+					"type": "string",
+					"required": false,
+					"description": "The service field"
+				}
+			]
+		},
+		"o11y issues automations delete": {
+			"operationId": "issues.automations.delete",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/workers/observability/issues/automations/{automationId}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "automationId",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"o11y issues automations get": {
+			"operationId": "issues.automations.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/workers/observability/issues/automations/{automationId}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "automationId",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"o11y issues automations list": {
+			"operationId": "issues.automations.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/workers/observability/issues/automations",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "service",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"o11y issues automations update": {
+			"operationId": "issues.automations.update",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/workers/observability/issues/automations/{automationId}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "automationId",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "after-inactivity-seconds",
+					"type": "number",
+					"required": false,
+					"description": "The afterInactivitySeconds field"
+				},
+				{
+					"name": "after-occurrences",
+					"type": "number",
+					"required": false,
+					"description": "The afterOccurrences field"
+				},
+				{
+					"name": "enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "The enabled field"
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": false,
+					"description": "The name field"
+				},
+				{
+					"name": "policy-id",
+					"type": "string",
+					"required": true,
+					"description": "The policyId field"
+				},
+				{
+					"name": "service",
+					"type": "string",
+					"required": false,
+					"description": "The service field"
+				}
+			]
+		},
+		"o11y issues get": {
+			"operationId": "issues.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/workers/observability/issues/{issueId}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "issueId",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"o11y issues group": {
+			"operationId": "issues.groups.create",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/workers/observability/issues/groups",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "issue-ids",
+					"type": "string",
+					"required": true,
+					"description": "The issueIds field"
+				},
+				{
+					"name": "title",
+					"type": "string",
+					"required": true,
+					"description": "The title field"
+				}
+			]
+		},
+		"o11y issues list": {
+			"operationId": "issues.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/workers/observability/issues",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "perPage",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "order",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "orderBy",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "search",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "service",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "type",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "status",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"o11y issues notify": {
+			"operationId": "issues.notificationRuns.create",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/workers/observability/issues/{issueId}/notification-runs",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "issueId",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "policy-id",
+					"type": "string",
+					"required": false,
+					"description": "The policyId field"
+				}
+			]
+		},
+		"o11y issues occurrences": {
+			"operationId": "issues.occurrences.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/workers/observability/issues/{issueId}/occurrences",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "issueId",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "cursor",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"type": "number",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"o11y issues remove": {
+			"operationId": "issues.groups.members.remove",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/workers/observability/issues/groups/{groupId}/members/{issueId}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "groupId",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "issueId",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"o11y issues summary": {
+			"operationId": "issues.summary",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/workers/observability/issues/summary",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "service",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"o11y issues ungroup": {
+			"operationId": "issues.groups.delete",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/workers/observability/issues/groups/{groupId}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "groupId",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"o11y issues update": {
+			"operationId": "issues.patch",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/workers/observability/issues/{issueId}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "issueId",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "status",
+					"type": "string",
+					"required": false,
+					"description": "The status field"
+				},
+				{
+					"name": "title",
+					"type": "string",
+					"required": false,
+					"description": "The title field"
+				}
+			]
+		},
+		"o11y metrics-export list": {
+			"operationId": "metricsExport.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/workers/observability/metricsexport",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"o11y metrics-export upsert": {
+			"operationId": "metricsExport.upsert",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/workers/observability/metricsexport",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "requester-requester-id",
+					"type": "string",
+					"required": true,
+					"description": "The requester.requesterId field"
+				},
+				{
+					"name": "requester-requester-type",
+					"type": "string",
+					"required": true,
+					"description": "The requester.requesterType field"
+				},
+				{
+					"name": "resources",
+					"type": "string",
+					"required": true,
+					"description": "The resources field. Provide as a JSON array of objects or @path/to/file.json."
+				}
+			]
+		},
+		"o11y queries create": {
+			"operationId": "queries.post",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/workers/observability/queries",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "description",
+					"type": "string",
+					"required": true,
+					"description": "The description field"
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Query name"
+				},
+				{
+					"name": "parameters-datasets",
+					"type": "string",
+					"required": false,
+					"description": "Set the Datasets to query. Leave it empty to query all the datasets."
+				},
+				{
+					"name": "parameters-filter-combination",
+					"type": "string",
+					"required": false,
+					"description": "Set a Flag to describe how to combine the filters on the query."
+				},
+				{
+					"name": "parameters-limit",
+					"type": "number",
+					"required": false,
+					"description": "Set a limit on the number of results / records returned by the query"
+				},
+				{
+					"name": "parameters-needle-is-regex",
+					"type": "boolean",
+					"required": false,
+					"description": "The parameters.needle.isRegex field"
+				},
+				{
+					"name": "parameters-needle-match-case",
+					"type": "boolean",
+					"required": false,
+					"description": "The parameters.needle.matchCase field"
+				},
+				{
+					"name": "parameters-order-by-order",
+					"type": "string",
+					"required": false,
+					"description": "Set the order of the results"
+				},
+				{
+					"name": "parameters-order-by-value",
+					"type": "string",
+					"required": true,
+					"description": "Configure which Calculation to order the results by."
+				}
+			]
+		},
+		"o11y queries delete": {
+			"operationId": "queries.delete",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/workers/observability/queries/{queryId}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "queryId",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"o11y queries edit": {
+			"operationId": "queries.patch",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/workers/observability/queries/{queryId}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "queryId",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "description",
+					"type": "string",
+					"required": true,
+					"description": "The description field"
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Query name"
+				},
+				{
+					"name": "parameters-datasets",
+					"type": "string",
+					"required": false,
+					"description": "Set the Datasets to query. Leave it empty to query all the datasets."
+				},
+				{
+					"name": "parameters-filter-combination",
+					"type": "string",
+					"required": false,
+					"description": "Set a Flag to describe how to combine the filters on the query."
+				},
+				{
+					"name": "parameters-limit",
+					"type": "number",
+					"required": false,
+					"description": "Set a limit on the number of results / records returned by the query"
+				},
+				{
+					"name": "parameters-needle-is-regex",
+					"type": "boolean",
+					"required": false,
+					"description": "The parameters.needle.isRegex field"
+				},
+				{
+					"name": "parameters-needle-match-case",
+					"type": "boolean",
+					"required": false,
+					"description": "The parameters.needle.matchCase field"
+				},
+				{
+					"name": "parameters-order-by-order",
+					"type": "string",
+					"required": false,
+					"description": "Set the order of the results"
+				},
+				{
+					"name": "parameters-order-by-value",
+					"type": "string",
+					"required": true,
+					"description": "Configure which Calculation to order the results by."
+				}
+			]
+		},
+		"o11y queries get": {
+			"operationId": "queries.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/workers/observability/queries/{queryId}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "queryId",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"o11y queries list": {
+			"operationId": "queries.list",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/workers/observability/queries",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "perPage",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "order",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "orderBy",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"o11y shared-queries create": {
+			"operationId": "shared.query.post",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/workers/observability/shared/query",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "chart",
+					"type": "boolean",
+					"required": false,
+					"description": "When true, includes time-series data in the response."
+				},
+				{
+					"name": "chart-type",
+					"type": "string",
+					"required": false,
+					"description": "Controls the SQL shape and response payload for the 'calculations' view. Omitted or 'timeseries_and_aggregate': current behaviour — both the time-series and aggregate queries. 'timeseries': time-series only. 'aggregate': aggregate only. 'distribution': a bucketed 2D histogram (time × value buckets) returned in 'distribution' instead of 'calculations'. 'distribution' is not compatible with 'compare' — combining them returns a 400."
+				},
+				{
+					"name": "compare",
+					"type": "boolean",
+					"required": false,
+					"description": "When true, includes a comparison dataset from the previous time period of equal length."
+				},
+				{
+					"name": "distribution-scale",
+					"type": "string",
+					"required": false,
+					"description": "Value-axis bucketing for chartType 'distribution'. Omitted or 'log': geometric buckets, best for heavy-tailed latency. 'linear': fixed-width buckets, clearer for narrow or additive ranges. Ignored for other chartTypes. The response echoes the scheme used in distribution.bucketMode."
+				},
+				{
+					"name": "granularity",
+					"type": "number",
+					"required": false,
+					"description": "Number of time-series buckets. Only used when view is 'calculations'. Omit to let the system auto-detect an appropriate granularity."
+				},
+				{
+					"name": "ignore-series",
+					"type": "boolean",
+					"required": false,
+					"description": "When true, omits time-series data from the response and returns only aggregated values. Reduces response size when series are not needed."
+				},
+				{
+					"name": "limit",
+					"type": "number",
+					"required": false,
+					"description": "Maximum number of events to return when view is 'events'. Also controls the number of group-by rows when view is 'calculations'."
+				},
+				{
+					"name": "offset",
+					"type": "string",
+					"required": false,
+					"description": "Cursor for pagination in event, trace, invocation, and agent views. Pass the $metadata.id of the last event, the trace cursor, or AgentRun.id to fetch the next page."
+				},
+				{
+					"name": "offset-by",
+					"type": "number",
+					"required": false,
+					"description": "Numeric offset for paginating grouped/pattern results (top-N lists). Use together with limit. Not used by cursor-based pagination."
+				},
+				{
+					"name": "offset-direction",
+					"type": "string",
+					"required": false,
+					"description": "Pagination direction: 'next' for forward, 'prev' for backward."
+				},
+				{
+					"name": "parameters-datasets",
+					"type": "string",
+					"required": false,
+					"description": "Datasets to query. Leave empty to query all available datasets."
+				},
+				{
+					"name": "parameters-filter-combination",
+					"type": "string",
+					"required": false,
+					"description": "Logical operator for combining top-level filters: 'and' (all must match) or 'or' (any must match). Defaults to 'and'."
+				},
+				{
+					"name": "parameters-limit",
+					"type": "number",
+					"required": false,
+					"description": "Maximum number of group-by rows to return in calculation results. A value of 10 is a sensible default for most use cases."
+				},
+				{
+					"name": "parameters-needle-is-regex",
+					"type": "boolean",
+					"required": false,
+					"description": "When true, treats the value as a regular expression (RE2 syntax)."
+				},
+				{
+					"name": "parameters-needle-match-case",
+					"type": "boolean",
+					"required": false,
+					"description": "When true, performs a case-sensitive search. Defaults to case-insensitive."
+				},
+				{
+					"name": "parameters-order-by-order",
+					"type": "string",
+					"required": false,
+					"description": "Sort direction: 'asc' for ascending, 'desc' for descending."
+				},
+				{
+					"name": "parameters-order-by-value",
+					"type": "string",
+					"required": false,
+					"description": "Alias of the calculation to order results by. Must match the alias (or operator) of a calculation in the query."
+				},
+				{
+					"name": "query-id",
+					"type": "string",
+					"required": true,
+					"description": "Identifier for the query. When parameters are omitted, this ID is used to load a previously saved query's parameters. When providing parameters inline, pass any identifier (e.g. an ad-hoc ID)."
+				},
+				{
+					"name": "timeframe-from",
+					"type": "number",
+					"required": true,
+					"description": "Start timestamp for the query timeframe. Unix timestamp in milliseconds"
+				},
+				{
+					"name": "timeframe-to",
+					"type": "number",
+					"required": true,
+					"description": "End timestamp for the query timeframe. Unix timestamp in milliseconds"
+				},
+				{
+					"name": "view",
+					"type": "string",
+					"required": false,
+					"description": "Controls the shape of the response. 'events': individual log lines matching the query. 'calculations': aggregated metrics (count, avg, p99, etc.) with optional group-by breakdowns and time-series. 'invocations': events grouped by request ID. 'traces': distributed trace summaries. 'agents': agent-specific trace summaries."
+				}
+			]
+		},
+		"o11y shared-queries get": {
+			"operationId": "shared.query.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/workers/observability/shared/query/{id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "view",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"o11y telemetry heartbeat": {
+			"operationId": "telemetry.live-tail.heartbeat.get",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/workers/observability/telemetry/live-tail/heartbeat",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "script-id",
+					"type": "string",
+					"required": false,
+					"description": "The scriptId field"
+				}
+			]
+		},
+		"o11y telemetry keys": {
+			"operationId": "telemetry.keys.list",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/workers/observability/telemetry/keys",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "datasets",
+					"type": "string",
+					"required": false,
+					"description": "Leave this empty to use the default datasets"
+				},
+				{
+					"name": "filters",
+					"type": "string",
+					"required": false,
+					"description": "Apply filters to narrow key discovery. Supports nested groups via kind: 'group'. Maximum nesting depth is 4. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "from",
+					"type": "number",
+					"required": false,
+					"description": "The from field"
+				},
+				{
+					"name": "key-needle-is-regex",
+					"type": "boolean",
+					"required": false,
+					"description": "When true, treats the value as a regular expression (RE2 syntax)."
+				},
+				{
+					"name": "key-needle-match-case",
+					"type": "boolean",
+					"required": false,
+					"description": "When true, performs a case-sensitive search. Defaults to case-insensitive."
+				},
+				{
+					"name": "limit",
+					"type": "number",
+					"required": false,
+					"description": "Advanced usage: set limit=1000+ to retrieve comprehensive key options without needing additional filtering."
+				},
+				{
+					"name": "needle-is-regex",
+					"type": "boolean",
+					"required": false,
+					"description": "When true, treats the value as a regular expression (RE2 syntax)."
+				},
+				{
+					"name": "needle-match-case",
+					"type": "boolean",
+					"required": false,
+					"description": "When true, performs a case-sensitive search. Defaults to case-insensitive."
+				},
+				{
+					"name": "to",
+					"type": "number",
+					"required": false,
+					"description": "The to field"
+				}
+			]
+		},
+		"o11y telemetry live-tail": {
+			"operationId": "telemetry.live-tail.post",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/workers/observability/telemetry/live-tail",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "filter-combination",
+					"type": "string",
+					"required": false,
+					"description": "Set a flag to describe how to combine the filters on the query."
+				},
+				{
+					"name": "filters",
+					"type": "string",
+					"required": false,
+					"description": "Apply filters to the query. Supports nested groups via kind: 'group'. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "script-id",
+					"type": "string",
+					"required": false,
+					"description": "The scriptId field"
+				}
+			]
+		},
+		"o11y telemetry query": {
+			"operationId": "telemetry.query",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/workers/observability/telemetry/query",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "chart",
+					"type": "boolean",
+					"required": false,
+					"description": "When true, includes time-series data in the response."
+				},
+				{
+					"name": "chart-type",
+					"type": "string",
+					"required": false,
+					"description": "Controls the SQL shape and response payload for the 'calculations' view. Omitted or 'timeseries_and_aggregate': current behaviour — both the time-series and aggregate queries. 'timeseries': time-series only. 'aggregate': aggregate only. 'distribution': a bucketed 2D histogram (time × value buckets) returned in 'distribution' instead of 'calculations'. 'distribution' is not compatible with 'compare' — combining them returns a 400."
+				},
+				{
+					"name": "compare",
+					"type": "boolean",
+					"required": false,
+					"description": "When true, includes a comparison dataset from the previous time period of equal length."
+				},
+				{
+					"name": "distribution-scale",
+					"type": "string",
+					"required": false,
+					"description": "Value-axis bucketing for chartType 'distribution'. Omitted or 'log': geometric buckets, best for heavy-tailed latency. 'linear': fixed-width buckets, clearer for narrow or additive ranges. Ignored for other chartTypes. The response echoes the scheme used in distribution.bucketMode."
+				},
+				{
+					"name": "granularity",
+					"type": "number",
+					"required": false,
+					"description": "Number of time-series buckets. Only used when view is 'calculations'. Omit to let the system auto-detect an appropriate granularity."
+				},
+				{
+					"name": "ignore-series",
+					"type": "boolean",
+					"required": false,
+					"description": "When true, omits time-series data from the response and returns only aggregated values. Reduces response size when series are not needed."
+				},
+				{
+					"name": "limit",
+					"type": "number",
+					"required": false,
+					"description": "Maximum number of events to return when view is 'events'. Also controls the number of group-by rows when view is 'calculations'."
+				},
+				{
+					"name": "offset",
+					"type": "string",
+					"required": false,
+					"description": "Cursor for pagination in event, trace, invocation, and agent views. Pass the $metadata.id of the last event, the trace cursor, or AgentRun.id to fetch the next page."
+				},
+				{
+					"name": "offset-by",
+					"type": "number",
+					"required": false,
+					"description": "Numeric offset for paginating grouped/pattern results (top-N lists). Use together with limit. Not used by cursor-based pagination."
+				},
+				{
+					"name": "offset-direction",
+					"type": "string",
+					"required": false,
+					"description": "Pagination direction: 'next' for forward, 'prev' for backward."
+				},
+				{
+					"name": "parameters-datasets",
+					"type": "string",
+					"required": false,
+					"description": "Datasets to query. Leave empty to query all available datasets."
+				},
+				{
+					"name": "parameters-filter-combination",
+					"type": "string",
+					"required": false,
+					"description": "Logical operator for combining top-level filters: 'and' (all must match) or 'or' (any must match). Defaults to 'and'."
+				},
+				{
+					"name": "parameters-limit",
+					"type": "number",
+					"required": false,
+					"description": "Maximum number of group-by rows to return in calculation results. A value of 10 is a sensible default for most use cases."
+				},
+				{
+					"name": "parameters-needle-is-regex",
+					"type": "boolean",
+					"required": false,
+					"description": "When true, treats the value as a regular expression (RE2 syntax)."
+				},
+				{
+					"name": "parameters-needle-match-case",
+					"type": "boolean",
+					"required": false,
+					"description": "When true, performs a case-sensitive search. Defaults to case-insensitive."
+				},
+				{
+					"name": "parameters-order-by-order",
+					"type": "string",
+					"required": false,
+					"description": "Sort direction: 'asc' for ascending, 'desc' for descending."
+				},
+				{
+					"name": "parameters-order-by-value",
+					"type": "string",
+					"required": false,
+					"description": "Alias of the calculation to order results by. Must match the alias (or operator) of a calculation in the query."
+				},
+				{
+					"name": "query-id",
+					"type": "string",
+					"required": true,
+					"description": "Identifier for the query. When parameters are omitted, this ID is used to load a previously saved query's parameters. When providing parameters inline, pass any identifier (e.g. an ad-hoc ID)."
+				},
+				{
+					"name": "timeframe-from",
+					"type": "number",
+					"required": true,
+					"description": "Start timestamp for the query timeframe. Unix timestamp in milliseconds"
+				},
+				{
+					"name": "timeframe-to",
+					"type": "number",
+					"required": true,
+					"description": "End timestamp for the query timeframe. Unix timestamp in milliseconds"
+				},
+				{
+					"name": "view",
+					"type": "string",
+					"required": false,
+					"description": "Controls the shape of the response. 'events': individual log lines matching the query. 'calculations': aggregated metrics (count, avg, p99, etc.) with optional group-by breakdowns and time-series. 'invocations': events grouped by request ID. 'traces': distributed trace summaries. 'agents': agent-specific trace summaries."
+				}
+			]
+		},
+		"o11y telemetry values": {
+			"operationId": "telemetry.values.list",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/workers/observability/telemetry/values",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "datasets",
+					"type": "string",
+					"required": true,
+					"description": "Leave this empty to use the default datasets"
+				},
+				{
+					"name": "filters",
+					"type": "string",
+					"required": false,
+					"description": "Apply filters before listing values. Supports nested groups via kind: 'group'. Maximum nesting depth is 4. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "key",
+					"type": "string",
+					"required": true,
+					"description": "The key field"
+				},
+				{
+					"name": "limit",
+					"type": "number",
+					"required": false,
+					"description": "The limit field"
+				},
+				{
+					"name": "needle-is-regex",
+					"type": "boolean",
+					"required": false,
+					"description": "When true, treats the value as a regular expression (RE2 syntax)."
+				},
+				{
+					"name": "needle-match-case",
+					"type": "boolean",
+					"required": false,
+					"description": "When true, performs a case-sensitive search. Defaults to case-insensitive."
+				},
+				{
+					"name": "timeframe-from",
+					"type": "number",
+					"required": true,
+					"description": "The timeframe.from field"
+				},
+				{
+					"name": "timeframe-to",
+					"type": "number",
+					"required": true,
+					"description": "The timeframe.to field"
+				},
+				{
+					"name": "type",
+					"type": "string",
+					"required": true,
+					"description": "The type field"
+				}
+			]
+		},
+		"o11y tracing rules delete": {
+			"operationId": "zone.observability.tracing.rules.delete",
+			"httpMethod": "DELETE",
+			"path": "/zones/{zone_id}/observability/tracing/rules",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"o11y tracing rules get": {
+			"operationId": "zone.observability.tracing.rules.get",
+			"httpMethod": "GET",
+			"path": "/zones/{zone_id}/observability/tracing/rules",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"o11y tracing rules update": {
+			"operationId": "zone.observability.tracing.rules.update",
+			"httpMethod": "PUT",
+			"path": "/zones/{zone_id}/observability/tracing/rules",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "rules",
+					"type": "string",
+					"required": true,
+					"description": "Trace rules in evaluation order. Provide as a JSON array of objects or @path/to/file.json."
+				}
+			]
+		},
+		"o11y tracing settings delete": {
+			"operationId": "zone.observability.tracing.settings.delete",
+			"httpMethod": "DELETE",
+			"path": "/zones/{zone_id}/observability/tracing/settings",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"o11y tracing settings get": {
+			"operationId": "zone.observability.tracing.settings.get",
+			"httpMethod": "GET",
+			"path": "/zones/{zone_id}/observability/tracing/settings",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"o11y tracing settings update": {
+			"operationId": "zone.observability.tracing.settings.update",
+			"httpMethod": "PATCH",
+			"path": "/zones/{zone_id}/observability/tracing/settings",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "destinations",
+					"type": "string",
+					"required": false,
+					"description": "Up to 100 OpenTelemetry destination identifiers that receive traces."
+				},
+				{
+					"name": "enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether Cloudflare Traces is enabled for the zone."
+				},
+				{
+					"name": "forward-context",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether trace context is sent externally or across a zone boundary."
+				},
+				{
+					"name": "persist",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether traces are persisted in Cloudflare."
+				},
+				{
+					"name": "propagation-policy",
+					"type": "string",
+					"required": false,
+					"description": "When inbound trace context may be continued. Authenticated propagation is not supported yet."
+				},
+				{
+					"name": "sampling-ratio",
+					"type": "number",
+					"required": false,
+					"description": "The ratio of requests sampled for tracing, from 0 to 1."
+				}
+			]
+		},
+		"o11y usage": {
+			"operationId": "usage.get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/workers/observability/usage",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "from",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "to",
+					"type": "string",
+					"required": true
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
 		"oauth-clients create": {
 			"operationId": "oauth-clients-create",
 			"httpMethod": "POST",
@@ -55536,1422 +57312,6 @@
 			"queryParams": [],
 			"hasRequestBody": false,
 			"requestBodyFields": []
-		},
-		"observability destinations create": {
-			"operationId": "destination.create",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/workers/observability/destinations",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "configuration-type",
-					"type": "string",
-					"required": true,
-					"description": "The configuration.type field"
-				},
-				{
-					"name": "configuration-url",
-					"type": "string",
-					"required": true,
-					"description": "The configuration.url field"
-				},
-				{
-					"name": "enabled",
-					"type": "boolean",
-					"required": true,
-					"description": "The enabled field"
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": true,
-					"description": "The name field"
-				},
-				{
-					"name": "skip-preflight-check",
-					"type": "boolean",
-					"required": false,
-					"description": "The skipPreflightCheck field"
-				}
-			]
-		},
-		"observability destinations delete": {
-			"operationId": "destinations.delete",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/workers/observability/destinations/{slug}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "slug",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"observability destinations list": {
-			"operationId": "destination.list",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/workers/observability/destinations",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "page",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "perPage",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "order",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "orderBy",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"observability destinations update": {
-			"operationId": "destination.update",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/workers/observability/destinations/{slug}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "slug",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "configuration-type",
-					"type": "string",
-					"required": true,
-					"description": "The configuration.type field"
-				},
-				{
-					"name": "configuration-url",
-					"type": "string",
-					"required": true,
-					"description": "The configuration.url field"
-				},
-				{
-					"name": "enabled",
-					"type": "boolean",
-					"required": true,
-					"description": "The enabled field"
-				}
-			]
-		},
-		"observability issues add": {
-			"operationId": "issues.groups.members.add",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/workers/observability/issues/groups/{groupId}/members",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "groupId",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "issue-ids",
-					"type": "string",
-					"required": true,
-					"description": "The issueIds field"
-				}
-			]
-		},
-		"observability issues automations create": {
-			"operationId": "issues.automations.create",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/workers/observability/issues/automations",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "after-inactivity-seconds",
-					"type": "number",
-					"required": false,
-					"description": "The afterInactivitySeconds field"
-				},
-				{
-					"name": "after-occurrences",
-					"type": "number",
-					"required": false,
-					"description": "The afterOccurrences field"
-				},
-				{
-					"name": "enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "The enabled field"
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": false,
-					"description": "The name field"
-				},
-				{
-					"name": "policy-id",
-					"type": "string",
-					"required": true,
-					"description": "The policyId field"
-				},
-				{
-					"name": "service",
-					"type": "string",
-					"required": false,
-					"description": "The service field"
-				}
-			]
-		},
-		"observability issues automations delete": {
-			"operationId": "issues.automations.delete",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/workers/observability/issues/automations/{automationId}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "automationId",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"observability issues automations get": {
-			"operationId": "issues.automations.get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/workers/observability/issues/automations/{automationId}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "automationId",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"observability issues automations list": {
-			"operationId": "issues.automations.list",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/workers/observability/issues/automations",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "service",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"observability issues automations update": {
-			"operationId": "issues.automations.update",
-			"httpMethod": "PUT",
-			"path": "/accounts/{account_id}/workers/observability/issues/automations/{automationId}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "automationId",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "after-inactivity-seconds",
-					"type": "number",
-					"required": false,
-					"description": "The afterInactivitySeconds field"
-				},
-				{
-					"name": "after-occurrences",
-					"type": "number",
-					"required": false,
-					"description": "The afterOccurrences field"
-				},
-				{
-					"name": "enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "The enabled field"
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": false,
-					"description": "The name field"
-				},
-				{
-					"name": "policy-id",
-					"type": "string",
-					"required": true,
-					"description": "The policyId field"
-				},
-				{
-					"name": "service",
-					"type": "string",
-					"required": false,
-					"description": "The service field"
-				}
-			]
-		},
-		"observability issues get": {
-			"operationId": "issues.get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/workers/observability/issues/{issueId}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "issueId",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"observability issues group": {
-			"operationId": "issues.groups.create",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/workers/observability/issues/groups",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "issue-ids",
-					"type": "string",
-					"required": true,
-					"description": "The issueIds field"
-				},
-				{
-					"name": "title",
-					"type": "string",
-					"required": true,
-					"description": "The title field"
-				}
-			]
-		},
-		"observability issues list": {
-			"operationId": "issues.list",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/workers/observability/issues",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "page",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "perPage",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "order",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "orderBy",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "search",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "service",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "type",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "status",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"observability issues notify": {
-			"operationId": "issues.notificationRuns.create",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/workers/observability/issues/{issueId}/notification-runs",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "issueId",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "policy-id",
-					"type": "string",
-					"required": false,
-					"description": "The policyId field"
-				}
-			]
-		},
-		"observability issues occurrences": {
-			"operationId": "issues.occurrences.list",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/workers/observability/issues/{issueId}/occurrences",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "issueId",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "cursor",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "per_page",
-					"type": "number",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"observability issues remove": {
-			"operationId": "issues.groups.members.remove",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/workers/observability/issues/groups/{groupId}/members/{issueId}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "groupId",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "issueId",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"observability issues summary": {
-			"operationId": "issues.summary",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/workers/observability/issues/summary",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "service",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"observability issues ungroup": {
-			"operationId": "issues.groups.delete",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/workers/observability/issues/groups/{groupId}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "groupId",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"observability issues update": {
-			"operationId": "issues.patch",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/workers/observability/issues/{issueId}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "issueId",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "status",
-					"type": "string",
-					"required": false,
-					"description": "The status field"
-				},
-				{
-					"name": "title",
-					"type": "string",
-					"required": false,
-					"description": "The title field"
-				}
-			]
-		},
-		"observability queries create": {
-			"operationId": "queries.post",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/workers/observability/queries",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "description",
-					"type": "string",
-					"required": true,
-					"description": "The description field"
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": true,
-					"description": "Query name"
-				},
-				{
-					"name": "parameters-datasets",
-					"type": "string",
-					"required": false,
-					"description": "Set the Datasets to query. Leave it empty to query all the datasets."
-				},
-				{
-					"name": "parameters-filter-combination",
-					"type": "string",
-					"required": false,
-					"description": "Set a Flag to describe how to combine the filters on the query."
-				},
-				{
-					"name": "parameters-limit",
-					"type": "number",
-					"required": false,
-					"description": "Set a limit on the number of results / records returned by the query"
-				},
-				{
-					"name": "parameters-needle-is-regex",
-					"type": "boolean",
-					"required": false,
-					"description": "The parameters.needle.isRegex field"
-				},
-				{
-					"name": "parameters-needle-match-case",
-					"type": "boolean",
-					"required": false,
-					"description": "The parameters.needle.matchCase field"
-				},
-				{
-					"name": "parameters-order-by-order",
-					"type": "string",
-					"required": false,
-					"description": "Set the order of the results"
-				},
-				{
-					"name": "parameters-order-by-value",
-					"type": "string",
-					"required": true,
-					"description": "Configure which Calculation to order the results by."
-				}
-			]
-		},
-		"observability queries delete": {
-			"operationId": "queries.delete",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/workers/observability/queries/{queryId}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "queryId",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"observability queries edit": {
-			"operationId": "queries.patch",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/workers/observability/queries/{queryId}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "queryId",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "description",
-					"type": "string",
-					"required": true,
-					"description": "The description field"
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": true,
-					"description": "Query name"
-				},
-				{
-					"name": "parameters-datasets",
-					"type": "string",
-					"required": false,
-					"description": "Set the Datasets to query. Leave it empty to query all the datasets."
-				},
-				{
-					"name": "parameters-filter-combination",
-					"type": "string",
-					"required": false,
-					"description": "Set a Flag to describe how to combine the filters on the query."
-				},
-				{
-					"name": "parameters-limit",
-					"type": "number",
-					"required": false,
-					"description": "Set a limit on the number of results / records returned by the query"
-				},
-				{
-					"name": "parameters-needle-is-regex",
-					"type": "boolean",
-					"required": false,
-					"description": "The parameters.needle.isRegex field"
-				},
-				{
-					"name": "parameters-needle-match-case",
-					"type": "boolean",
-					"required": false,
-					"description": "The parameters.needle.matchCase field"
-				},
-				{
-					"name": "parameters-order-by-order",
-					"type": "string",
-					"required": false,
-					"description": "Set the order of the results"
-				},
-				{
-					"name": "parameters-order-by-value",
-					"type": "string",
-					"required": true,
-					"description": "Configure which Calculation to order the results by."
-				}
-			]
-		},
-		"observability queries get": {
-			"operationId": "queries.get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/workers/observability/queries/{queryId}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "queryId",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"observability queries list": {
-			"operationId": "queries.list",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/workers/observability/queries",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "page",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "perPage",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "order",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "orderBy",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"observability shared-queries create": {
-			"operationId": "shared.query.post",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/workers/observability/shared/query",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "chart",
-					"type": "boolean",
-					"required": false,
-					"description": "When true, includes time-series data in the response."
-				},
-				{
-					"name": "chart-type",
-					"type": "string",
-					"required": false,
-					"description": "Controls the SQL shape and response payload for the 'calculations' view. Omitted or 'timeseries_and_aggregate': current behaviour — both the time-series and aggregate queries. 'timeseries': time-series only. 'aggregate': aggregate only. 'distribution': a bucketed 2D histogram (time × value buckets) returned in 'distribution' instead of 'calculations'. 'distribution' is not compatible with 'compare' — combining them returns a 400."
-				},
-				{
-					"name": "compare",
-					"type": "boolean",
-					"required": false,
-					"description": "When true, includes a comparison dataset from the previous time period of equal length."
-				},
-				{
-					"name": "distribution-scale",
-					"type": "string",
-					"required": false,
-					"description": "Value-axis bucketing for chartType 'distribution'. Omitted or 'log': geometric buckets, best for heavy-tailed latency. 'linear': fixed-width buckets, clearer for narrow or additive ranges. Ignored for other chartTypes. The response echoes the scheme used in distribution.bucketMode."
-				},
-				{
-					"name": "dry",
-					"type": "boolean",
-					"required": false,
-					"description": "When true, executes the query without persisting the results. Useful for validation or previewing."
-				},
-				{
-					"name": "granularity",
-					"type": "number",
-					"required": false,
-					"description": "Number of time-series buckets. Only used when view is 'calculations'. Omit to let the system auto-detect an appropriate granularity."
-				},
-				{
-					"name": "ignore-series",
-					"type": "boolean",
-					"required": false,
-					"description": "When true, omits time-series data from the response and returns only aggregated values. Reduces response size when series are not needed."
-				},
-				{
-					"name": "limit",
-					"type": "number",
-					"required": false,
-					"description": "Maximum number of events to return when view is 'events'. Also controls the number of group-by rows when view is 'calculations'."
-				},
-				{
-					"name": "offset",
-					"type": "string",
-					"required": false,
-					"description": "Cursor for pagination in event, trace, invocation, and agent views. Pass the $metadata.id of the last event, the trace cursor, or AgentRun.id to fetch the next page."
-				},
-				{
-					"name": "offset-by",
-					"type": "number",
-					"required": false,
-					"description": "Numeric offset for paginating grouped/pattern results (top-N lists). Use together with limit. Not used by cursor-based pagination."
-				},
-				{
-					"name": "offset-direction",
-					"type": "string",
-					"required": false,
-					"description": "Pagination direction: 'next' for forward, 'prev' for backward."
-				},
-				{
-					"name": "parameters-datasets",
-					"type": "string",
-					"required": false,
-					"description": "Datasets to query. Leave empty to query all available datasets."
-				},
-				{
-					"name": "parameters-filter-combination",
-					"type": "string",
-					"required": false,
-					"description": "Logical operator for combining top-level filters: 'and' (all must match) or 'or' (any must match). Defaults to 'and'."
-				},
-				{
-					"name": "parameters-limit",
-					"type": "number",
-					"required": false,
-					"description": "Maximum number of group-by rows to return in calculation results. A value of 10 is a sensible default for most use cases."
-				},
-				{
-					"name": "parameters-needle-is-regex",
-					"type": "boolean",
-					"required": false,
-					"description": "When true, treats the value as a regular expression (RE2 syntax)."
-				},
-				{
-					"name": "parameters-needle-match-case",
-					"type": "boolean",
-					"required": false,
-					"description": "When true, performs a case-sensitive search. Defaults to case-insensitive."
-				},
-				{
-					"name": "parameters-order-by-order",
-					"type": "string",
-					"required": false,
-					"description": "Sort direction: 'asc' for ascending, 'desc' for descending."
-				},
-				{
-					"name": "parameters-order-by-value",
-					"type": "string",
-					"required": false,
-					"description": "Alias of the calculation to order results by. Must match the alias (or operator) of a calculation in the query."
-				},
-				{
-					"name": "query-id",
-					"type": "string",
-					"required": true,
-					"description": "Identifier for the query. When parameters are omitted, this ID is used to load a previously saved query's parameters. When providing parameters inline, pass any identifier (e.g. an ad-hoc ID)."
-				},
-				{
-					"name": "timeframe-from",
-					"type": "number",
-					"required": true,
-					"description": "Start timestamp for the query timeframe. Unix timestamp in milliseconds"
-				},
-				{
-					"name": "timeframe-to",
-					"type": "number",
-					"required": true,
-					"description": "End timestamp for the query timeframe. Unix timestamp in milliseconds"
-				},
-				{
-					"name": "view",
-					"type": "string",
-					"required": false,
-					"description": "Controls the shape of the response. 'events': individual log lines matching the query. 'calculations': aggregated metrics (count, avg, p99, etc.) with optional group-by breakdowns and time-series. 'invocations': events grouped by request ID. 'traces': distributed trace summaries. 'agents': agent-specific trace summaries."
-				}
-			]
-		},
-		"observability shared-queries get": {
-			"operationId": "shared.query.get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/workers/observability/shared/query/{id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "view",
-					"type": "string",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"observability telemetry keys": {
-			"operationId": "telemetry.keys.list",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/workers/observability/telemetry/keys",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "datasets",
-					"type": "string",
-					"required": false,
-					"description": "Leave this empty to use the default datasets"
-				},
-				{
-					"name": "filters",
-					"type": "string",
-					"required": false,
-					"description": "Apply filters to narrow key discovery. Supports nested groups via kind: 'group'. Maximum nesting depth is 4. Provide as a JSON array of objects or @path/to/file.json."
-				},
-				{
-					"name": "from",
-					"type": "number",
-					"required": false,
-					"description": "The from field"
-				},
-				{
-					"name": "key-needle-is-regex",
-					"type": "boolean",
-					"required": false,
-					"description": "When true, treats the value as a regular expression (RE2 syntax)."
-				},
-				{
-					"name": "key-needle-match-case",
-					"type": "boolean",
-					"required": false,
-					"description": "When true, performs a case-sensitive search. Defaults to case-insensitive."
-				},
-				{
-					"name": "limit",
-					"type": "number",
-					"required": false,
-					"description": "Advanced usage: set limit=1000+ to retrieve comprehensive key options without needing additional filtering."
-				},
-				{
-					"name": "needle-is-regex",
-					"type": "boolean",
-					"required": false,
-					"description": "When true, treats the value as a regular expression (RE2 syntax)."
-				},
-				{
-					"name": "needle-match-case",
-					"type": "boolean",
-					"required": false,
-					"description": "When true, performs a case-sensitive search. Defaults to case-insensitive."
-				},
-				{
-					"name": "to",
-					"type": "number",
-					"required": false,
-					"description": "The to field"
-				}
-			]
-		},
-		"observability telemetry query": {
-			"operationId": "telemetry.query",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/workers/observability/telemetry/query",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "chart",
-					"type": "boolean",
-					"required": false,
-					"description": "When true, includes time-series data in the response."
-				},
-				{
-					"name": "chart-type",
-					"type": "string",
-					"required": false,
-					"description": "Controls the SQL shape and response payload for the 'calculations' view. Omitted or 'timeseries_and_aggregate': current behaviour — both the time-series and aggregate queries. 'timeseries': time-series only. 'aggregate': aggregate only. 'distribution': a bucketed 2D histogram (time × value buckets) returned in 'distribution' instead of 'calculations'. 'distribution' is not compatible with 'compare' — combining them returns a 400."
-				},
-				{
-					"name": "compare",
-					"type": "boolean",
-					"required": false,
-					"description": "When true, includes a comparison dataset from the previous time period of equal length."
-				},
-				{
-					"name": "distribution-scale",
-					"type": "string",
-					"required": false,
-					"description": "Value-axis bucketing for chartType 'distribution'. Omitted or 'log': geometric buckets, best for heavy-tailed latency. 'linear': fixed-width buckets, clearer for narrow or additive ranges. Ignored for other chartTypes. The response echoes the scheme used in distribution.bucketMode."
-				},
-				{
-					"name": "dry",
-					"type": "boolean",
-					"required": false,
-					"description": "When true, executes the query without persisting the results. Useful for validation or previewing."
-				},
-				{
-					"name": "granularity",
-					"type": "number",
-					"required": false,
-					"description": "Number of time-series buckets. Only used when view is 'calculations'. Omit to let the system auto-detect an appropriate granularity."
-				},
-				{
-					"name": "ignore-series",
-					"type": "boolean",
-					"required": false,
-					"description": "When true, omits time-series data from the response and returns only aggregated values. Reduces response size when series are not needed."
-				},
-				{
-					"name": "limit",
-					"type": "number",
-					"required": false,
-					"description": "Maximum number of events to return when view is 'events'. Also controls the number of group-by rows when view is 'calculations'."
-				},
-				{
-					"name": "offset",
-					"type": "string",
-					"required": false,
-					"description": "Cursor for pagination in event, trace, invocation, and agent views. Pass the $metadata.id of the last event, the trace cursor, or AgentRun.id to fetch the next page."
-				},
-				{
-					"name": "offset-by",
-					"type": "number",
-					"required": false,
-					"description": "Numeric offset for paginating grouped/pattern results (top-N lists). Use together with limit. Not used by cursor-based pagination."
-				},
-				{
-					"name": "offset-direction",
-					"type": "string",
-					"required": false,
-					"description": "Pagination direction: 'next' for forward, 'prev' for backward."
-				},
-				{
-					"name": "parameters-datasets",
-					"type": "string",
-					"required": false,
-					"description": "Datasets to query. Leave empty to query all available datasets."
-				},
-				{
-					"name": "parameters-filter-combination",
-					"type": "string",
-					"required": false,
-					"description": "Logical operator for combining top-level filters: 'and' (all must match) or 'or' (any must match). Defaults to 'and'."
-				},
-				{
-					"name": "parameters-limit",
-					"type": "number",
-					"required": false,
-					"description": "Maximum number of group-by rows to return in calculation results. A value of 10 is a sensible default for most use cases."
-				},
-				{
-					"name": "parameters-needle-is-regex",
-					"type": "boolean",
-					"required": false,
-					"description": "When true, treats the value as a regular expression (RE2 syntax)."
-				},
-				{
-					"name": "parameters-needle-match-case",
-					"type": "boolean",
-					"required": false,
-					"description": "When true, performs a case-sensitive search. Defaults to case-insensitive."
-				},
-				{
-					"name": "parameters-order-by-order",
-					"type": "string",
-					"required": false,
-					"description": "Sort direction: 'asc' for ascending, 'desc' for descending."
-				},
-				{
-					"name": "parameters-order-by-value",
-					"type": "string",
-					"required": false,
-					"description": "Alias of the calculation to order results by. Must match the alias (or operator) of a calculation in the query."
-				},
-				{
-					"name": "query-id",
-					"type": "string",
-					"required": true,
-					"description": "Identifier for the query. When parameters are omitted, this ID is used to load a previously saved query's parameters. When providing parameters inline, pass any identifier (e.g. an ad-hoc ID)."
-				},
-				{
-					"name": "timeframe-from",
-					"type": "number",
-					"required": true,
-					"description": "Start timestamp for the query timeframe. Unix timestamp in milliseconds"
-				},
-				{
-					"name": "timeframe-to",
-					"type": "number",
-					"required": true,
-					"description": "End timestamp for the query timeframe. Unix timestamp in milliseconds"
-				},
-				{
-					"name": "view",
-					"type": "string",
-					"required": false,
-					"description": "Controls the shape of the response. 'events': individual log lines matching the query. 'calculations': aggregated metrics (count, avg, p99, etc.) with optional group-by breakdowns and time-series. 'invocations': events grouped by request ID. 'traces': distributed trace summaries. 'agents': agent-specific trace summaries."
-				}
-			]
-		},
-		"observability telemetry values": {
-			"operationId": "telemetry.values.list",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/workers/observability/telemetry/values",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "datasets",
-					"type": "string",
-					"required": true,
-					"description": "Leave this empty to use the default datasets"
-				},
-				{
-					"name": "filters",
-					"type": "string",
-					"required": false,
-					"description": "Apply filters before listing values. Supports nested groups via kind: 'group'. Maximum nesting depth is 4. Provide as a JSON array of objects or @path/to/file.json."
-				},
-				{
-					"name": "key",
-					"type": "string",
-					"required": true,
-					"description": "The key field"
-				},
-				{
-					"name": "limit",
-					"type": "number",
-					"required": false,
-					"description": "The limit field"
-				},
-				{
-					"name": "needle-is-regex",
-					"type": "boolean",
-					"required": false,
-					"description": "When true, treats the value as a regular expression (RE2 syntax)."
-				},
-				{
-					"name": "needle-match-case",
-					"type": "boolean",
-					"required": false,
-					"description": "When true, performs a case-sensitive search. Defaults to case-insensitive."
-				},
-				{
-					"name": "timeframe-from",
-					"type": "number",
-					"required": true,
-					"description": "The timeframe.from field"
-				},
-				{
-					"name": "timeframe-to",
-					"type": "number",
-					"required": true,
-					"description": "The timeframe.to field"
-				},
-				{
-					"name": "type",
-					"type": "string",
-					"required": true,
-					"description": "The type field"
-				}
-			]
-		},
-		"observability tracing rules delete": {
-			"operationId": "zone.observability.tracing.rules.delete",
-			"httpMethod": "DELETE",
-			"path": "/zones/{zone_id}/observability/tracing/rules",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"observability tracing rules get": {
-			"operationId": "zone.observability.tracing.rules.get",
-			"httpMethod": "GET",
-			"path": "/zones/{zone_id}/observability/tracing/rules",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"observability tracing rules update": {
-			"operationId": "zone.observability.tracing.rules.update",
-			"httpMethod": "PUT",
-			"path": "/zones/{zone_id}/observability/tracing/rules",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "rules",
-					"type": "string",
-					"required": true,
-					"description": "Trace rules in evaluation order. Provide as a JSON array of objects or @path/to/file.json."
-				}
-			]
-		},
-		"observability tracing settings delete": {
-			"operationId": "zone.observability.tracing.settings.delete",
-			"httpMethod": "DELETE",
-			"path": "/zones/{zone_id}/observability/tracing/settings",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"observability tracing settings get": {
-			"operationId": "zone.observability.tracing.settings.get",
-			"httpMethod": "GET",
-			"path": "/zones/{zone_id}/observability/tracing/settings",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"observability tracing settings update": {
-			"operationId": "zone.observability.tracing.settings.update",
-			"httpMethod": "PATCH",
-			"path": "/zones/{zone_id}/observability/tracing/settings",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "destinations",
-					"type": "string",
-					"required": false,
-					"description": "Up to 100 OpenTelemetry destination identifiers that receive traces."
-				},
-				{
-					"name": "enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether Cloudflare Traces is enabled for the zone."
-				},
-				{
-					"name": "forward-context",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether trace context is sent externally or across a zone boundary."
-				},
-				{
-					"name": "persist",
-					"type": "boolean",
-					"required": false,
-					"description": "Whether traces are persisted in Cloudflare."
-				},
-				{
-					"name": "propagation-policy",
-					"type": "string",
-					"required": false,
-					"description": "When inbound trace context may be continued. Authenticated propagation is not supported yet."
-				},
-				{
-					"name": "sampling-ratio",
-					"type": "number",
-					"required": false,
-					"description": "The ratio of requests sampled for tracing, from 0 to 1."
-				}
-			]
 		},
 		"organization account list": {
 			"operationId": "Organizations_getAccounts",
@@ -59613,337 +59973,6 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"pay-per-crawl pay-per-use operator get-configuration": {
-			"operationId": "pay-per-crawl.getPPUOperatorConfiguration",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/pay-per-use/operator/configuration",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"pay-per-crawl pay-per-use operator set-configuration": {
-			"operationId": "pay-per-crawl.putPPUOperatorConfiguration",
-			"httpMethod": "PUT",
-			"path": "/accounts/{account_id}/pay-per-use/operator/configuration",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "default-price-usd-microcents",
-					"type": "number",
-					"required": true,
-					"description": "Default price in microcents. 1 USD = 100,000,000 microcents. Must be a multiple of 100,000 ($0.001) between $0.001 and $9,999.999."
-				},
-				{
-					"name": "enabled",
-					"type": "boolean",
-					"required": true,
-					"description": "The enabled field"
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": true,
-					"description": "The name field"
-				}
-			]
-		},
-		"pay-per-crawl pay-per-use operator update-configuration": {
-			"operationId": "pay-per-crawl.patchPPUOperatorConfiguration",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/pay-per-use/operator/configuration",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "default-price-usd-microcents",
-					"type": "number",
-					"required": false,
-					"description": "Default price in microcents. 1 USD = 100,000,000 microcents. Must be a multiple of 100,000 ($0.001) between $0.001 and $9,999.999."
-				},
-				{
-					"name": "enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "The enabled field"
-				},
-				{
-					"name": "name",
-					"type": "string",
-					"required": false,
-					"description": "The name field"
-				}
-			]
-		},
-		"pay-per-crawl pay-per-use pricing list-operators": {
-			"operationId": "pay-per-crawl.listPPUOperators",
-			"httpMethod": "GET",
-			"path": "/zones/{zone_id}/pay-per-use/operators",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "page",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "per_page",
-					"type": "number",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"pay-per-crawl pay-per-use pricing opt-out-operator-price": {
-			"operationId": "pay-per-crawl.deletePPUPublisherPrice",
-			"httpMethod": "DELETE",
-			"path": "/zones/{zone_id}/pay-per-use/operators/{operator_id}/price",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "operator_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"pay-per-crawl pay-per-use pricing set-operator-price": {
-			"operationId": "pay-per-crawl.postPPUPublisherPriceAction",
-			"httpMethod": "POST",
-			"path": "/zones/{zone_id}/pay-per-use/operators/{operator_id}/price",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "operator_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "action",
-					"type": "string",
-					"required": true,
-					"description": "The action field"
-				},
-				{
-					"name": "price-usd-microcents",
-					"type": "number",
-					"required": false,
-					"description": "Price in microcents. Must be a multiple of 100,000 ($0.001) between $0.001 and $9,999.999."
-				}
-			]
-		},
-		"pay-per-crawl pay-per-use proposals decide": {
-			"operationId": "pay-per-crawl.postPPUProposalDecision",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/pay-per-use/proposals",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "action",
-					"type": "string",
-					"required": true,
-					"description": "The action field"
-				},
-				{
-					"name": "price-id",
-					"type": "number",
-					"required": true,
-					"description": "Pending pay-per-use price id returned in the operator proposal queue."
-				}
-			]
-		},
-		"pay-per-crawl pay-per-use proposals list": {
-			"operationId": "pay-per-crawl.listPPUProposals",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/pay-per-use/proposals",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "page",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "per_page",
-					"type": "number",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"pay-per-crawl pay-per-use usage-stats get-account": {
-			"operationId": "generated:get:/{account_or_zone}/{account_or_zone_id}/pay-per-use/usage-stats",
-			"httpMethod": "GET",
-			"path": "/{account_or_zone}/{account_or_zone_id}/pay-per-use/usage-stats",
-			"pathParams": [
-				{
-					"name": "account_or_zone",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_or_zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "since",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "until",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "page",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "per_page",
-					"type": "number",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"pay-per-crawl pay-per-use zones get-can-be-enabled": {
-			"operationId": "pay-per-crawl.getPPUZoneCanBeEnabled",
-			"httpMethod": "GET",
-			"path": "/zones/{zone_id}/pay-per-use/can_be_enabled",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"pay-per-crawl pay-per-use zones get-configuration": {
-			"operationId": "pay-per-crawl.getPPUZoneConfiguration",
-			"httpMethod": "GET",
-			"path": "/zones/{zone_id}/pay-per-use/configuration",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"pay-per-crawl pay-per-use zones set-can-be-enabled": {
-			"operationId": "pay-per-crawl.setPPUZonesCanBeEnabled",
-			"httpMethod": "PATCH",
-			"path": "/accounts/{account_id}/pay-per-use/zones_can_be_enabled",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "zones",
-					"type": "string",
-					"required": true,
-					"description": "The zones field. Provide as a JSON array of objects or @path/to/file.json."
-				}
-			]
-		},
-		"pay-per-crawl pay-per-use zones update-configuration": {
-			"operationId": "pay-per-crawl.patchPPUZoneConfiguration",
-			"httpMethod": "PATCH",
-			"path": "/zones/{zone_id}/pay-per-use/configuration",
-			"pathParams": [
-				{
-					"name": "zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "enabled",
-					"type": "boolean",
-					"required": false,
-					"description": "The enabled field"
-				}
-			]
-		},
 		"pay-per-crawl publisher stripe create": {
 			"operationId": "pay-per-crawl.publisherCreateStripeConfig",
 			"httpMethod": "POST",
@@ -60151,6 +60180,222 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"pay-per-use operator get-configuration": {
+			"operationId": "pay-per-crawl.getPPUOperatorConfiguration",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/pay-per-use/operator/configuration",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"pay-per-use operator set-configuration": {
+			"operationId": "pay-per-crawl.putPPUOperatorConfiguration",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/pay-per-use/operator/configuration",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "default-price-usd-microcents",
+					"type": "number",
+					"required": true,
+					"description": "Default price in microcents. 1 USD = 100,000,000 microcents. Must be a multiple of 100,000 ($0.001) between $0.001 and $9,999.999."
+				},
+				{
+					"name": "enabled",
+					"type": "boolean",
+					"required": true,
+					"description": "The enabled field"
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "The name field"
+				}
+			]
+		},
+		"pay-per-use operator update-configuration": {
+			"operationId": "pay-per-crawl.patchPPUOperatorConfiguration",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/pay-per-use/operator/configuration",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "default-price-usd-microcents",
+					"type": "number",
+					"required": false,
+					"description": "Default price in microcents. 1 USD = 100,000,000 microcents. Must be a multiple of 100,000 ($0.001) between $0.001 and $9,999.999."
+				},
+				{
+					"name": "enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "The enabled field"
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": false,
+					"description": "The name field"
+				}
+			]
+		},
+		"pay-per-use pricing list-operators": {
+			"operationId": "pay-per-crawl.listPPUOperators",
+			"httpMethod": "GET",
+			"path": "/zones/{zone_id}/pay-per-use/operators",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"type": "number",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"pay-per-use pricing opt-out-operator-price": {
+			"operationId": "pay-per-crawl.deletePPUPublisherPrice",
+			"httpMethod": "DELETE",
+			"path": "/zones/{zone_id}/pay-per-use/operators/{operator_id}/price",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "operator_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"pay-per-use pricing set-operator-price": {
+			"operationId": "pay-per-crawl.postPPUPublisherPriceAction",
+			"httpMethod": "POST",
+			"path": "/zones/{zone_id}/pay-per-use/operators/{operator_id}/price",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "operator_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "action",
+					"type": "string",
+					"required": true,
+					"description": "The action field"
+				},
+				{
+					"name": "price-usd-microcents",
+					"type": "number",
+					"required": false,
+					"description": "Price in microcents. Must be a multiple of 100,000 ($0.001) between $0.001 and $9,999.999."
+				}
+			]
+		},
+		"pay-per-use proposals decide": {
+			"operationId": "pay-per-crawl.postPPUProposalDecision",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/pay-per-use/proposals",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "action",
+					"type": "string",
+					"required": true,
+					"description": "The action field"
+				},
+				{
+					"name": "price-id",
+					"type": "number",
+					"required": true,
+					"description": "Pending pay-per-use price id returned in the operator proposal queue."
+				}
+			]
+		},
+		"pay-per-use proposals list": {
+			"operationId": "pay-per-crawl.listPPUProposals",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/pay-per-use/proposals",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"type": "number",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
 		"pay-per-use usage-reports submit": {
 			"operationId": "pay-per-use.submitUsageReport",
 			"httpMethod": "POST",
@@ -60165,6 +60410,121 @@
 			"queryParams": [],
 			"hasRequestBody": true,
 			"requestBodyFields": []
+		},
+		"pay-per-use usage-stats get-account": {
+			"operationId": "generated:get:/{account_or_zone}/{account_or_zone_id}/pay-per-use/usage-stats",
+			"httpMethod": "GET",
+			"path": "/{account_or_zone}/{account_or_zone_id}/pay-per-use/usage-stats",
+			"pathParams": [
+				{
+					"name": "account_or_zone",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_or_zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "since",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "until",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"type": "number",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"pay-per-use zones get-can-be-enabled": {
+			"operationId": "pay-per-crawl.getPPUZoneCanBeEnabled",
+			"httpMethod": "GET",
+			"path": "/zones/{zone_id}/pay-per-use/can_be_enabled",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"pay-per-use zones get-configuration": {
+			"operationId": "pay-per-crawl.getPPUZoneConfiguration",
+			"httpMethod": "GET",
+			"path": "/zones/{zone_id}/pay-per-use/configuration",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"pay-per-use zones set-can-be-enabled": {
+			"operationId": "pay-per-crawl.setPPUZonesCanBeEnabled",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/pay-per-use/zones_can_be_enabled",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "zones",
+					"type": "string",
+					"required": true,
+					"description": "The zones field. Provide as a JSON array of objects or @path/to/file.json."
+				}
+			]
+		},
+		"pay-per-use zones update-configuration": {
+			"operationId": "pay-per-crawl.patchPPUZoneConfiguration",
+			"httpMethod": "PATCH",
+			"path": "/zones/{zone_id}/pay-per-use/configuration",
+			"pathParams": [
+				{
+					"name": "zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "The enabled field"
+				}
+			]
 		},
 		"pipelines create": {
 			"operationId": "postV4AccountsByAccount_idPipelinesV1Pipelines",
@@ -62499,6 +62859,51 @@
 			"queryParams": [],
 			"hasRequestBody": false,
 			"requestBodyFields": []
+		},
+		"r2 buckets jobs create": {
+			"operationId": "r2-create-bucket-job",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/r2/buckets/{bucket_name}/jobs",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "bucket_name",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "job-type",
+					"type": "string",
+					"required": true,
+					"description": "The jobType field"
+				},
+				{
+					"name": "prefix",
+					"type": "string",
+					"required": false,
+					"description": "Prefix matched against object keys. A non-empty value must end in `/`.\nAn empty string empties the entire bucket.\n"
+				},
+				{
+					"name": "destination-storage-class",
+					"type": "string",
+					"required": false,
+					"description": "The destinationStorageClass field"
+				},
+				{
+					"name": "source-storage-class",
+					"type": "string",
+					"required": false,
+					"description": "The sourceStorageClass field"
+				}
+			]
 		},
 		"r2 buckets jobs get": {
 			"operationId": "r2-get-bucket-job",
@@ -78820,7 +79225,14 @@
 			],
 			"queryParams": [],
 			"hasRequestBody": true,
-			"requestBodyFields": []
+			"requestBodyFields": [
+				{
+					"name": "account-id",
+					"type": "string",
+					"required": true,
+					"description": "The account to exclude from the organization-targeted share."
+				}
+			]
 		},
 		"resource-sharing excluded-recipients delete": {
 			"operationId": "share-excluded-recipient-delete",
@@ -79045,10 +79457,22 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
+					"name": "account-id",
+					"type": "string",
+					"required": false,
+					"description": "Deprecated alias for `recipient_account_id`. Use `recipient_account_id` instead.\nThe body field collided with the URL path parameter of the same name, which prevented SDK generators from distinguishing the source account (in the URL) from the recipient account (in the body). Both names will continue to be accepted until 2027-05-26 (see `x-sunset`).\n"
+				},
+				{
 					"name": "organization-id",
 					"type": "string",
 					"required": false,
 					"description": "Organization identifier."
+				},
+				{
+					"name": "recipient-account-id",
+					"type": "string",
+					"required": false,
+					"description": "The account that will receive the share."
 				}
 			]
 		},
@@ -79625,7 +80049,7 @@
 				}
 			]
 		},
-		"rulesets account-rulesets create": {
+		"rulesets create": {
 			"operationId": "generated:post:/{account_or_zone}/{account_or_zone_id}/rulesets",
 			"httpMethod": "POST",
 			"path": "/{account_or_zone}/{account_or_zone_id}/rulesets",
@@ -79682,7 +80106,7 @@
 				}
 			]
 		},
-		"rulesets account-rulesets delete": {
+		"rulesets delete": {
 			"operationId": "generated:delete:/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}",
 			"httpMethod": "DELETE",
 			"path": "/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}",
@@ -79713,63 +80137,7 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"rulesets account-rulesets get": {
-			"operationId": "generated:get:/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}",
-			"httpMethod": "GET",
-			"path": "/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}",
-			"pathParams": [
-				{
-					"name": "account_or_zone",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "ruleset_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_or_zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"rulesets account-rulesets list": {
-			"operationId": "generated:get:/{account_or_zone}/{account_or_zone_id}/rulesets",
-			"httpMethod": "GET",
-			"path": "/{account_or_zone}/{account_or_zone_id}/rulesets",
-			"pathParams": [
-				{
-					"name": "account_or_zone",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_or_zone_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "cursor",
-					"type": "string",
-					"required": false
-				},
-				{
-					"name": "per_page",
-					"type": "number",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"rulesets account-rulesets phases get": {
+		"rulesets entrypoint get": {
 			"operationId": "generated:get:/{account_or_zone}/{account_or_zone_id}/rulesets/phases/{ruleset_phase}/entrypoint",
 			"httpMethod": "GET",
 			"path": "/{account_or_zone}/{account_or_zone_id}/rulesets/phases/{ruleset_phase}/entrypoint",
@@ -79794,7 +80162,7 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"rulesets account-rulesets phases update": {
+		"rulesets entrypoint update": {
 			"operationId": "generated:put:/{account_or_zone}/{account_or_zone_id}/rulesets/phases/{ruleset_phase}/entrypoint",
 			"httpMethod": "PUT",
 			"path": "/{account_or_zone}/{account_or_zone_id}/rulesets/phases/{ruleset_phase}/entrypoint",
@@ -79844,7 +80212,7 @@
 				}
 			]
 		},
-		"rulesets account-rulesets phases versions get": {
+		"rulesets entrypoint versions get": {
 			"operationId": "generated:get:/{account_or_zone}/{account_or_zone_id}/rulesets/phases/{ruleset_phase}/entrypoint/versions/{ruleset_version}",
 			"httpMethod": "GET",
 			"path": "/{account_or_zone}/{account_or_zone_id}/rulesets/phases/{ruleset_phase}/entrypoint/versions/{ruleset_version}",
@@ -79874,7 +80242,7 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"rulesets account-rulesets phases versions list": {
+		"rulesets entrypoint versions list": {
 			"operationId": "generated:get:/{account_or_zone}/{account_or_zone_id}/rulesets/phases/{ruleset_phase}/entrypoint/versions",
 			"httpMethod": "GET",
 			"path": "/{account_or_zone}/{account_or_zone_id}/rulesets/phases/{ruleset_phase}/entrypoint/versions",
@@ -79899,7 +80267,63 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"rulesets account-rulesets rules create": {
+		"rulesets get": {
+			"operationId": "generated:get:/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}",
+			"httpMethod": "GET",
+			"path": "/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}",
+			"pathParams": [
+				{
+					"name": "account_or_zone",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "ruleset_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_or_zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"rulesets list": {
+			"operationId": "generated:get:/{account_or_zone}/{account_or_zone_id}/rulesets",
+			"httpMethod": "GET",
+			"path": "/{account_or_zone}/{account_or_zone_id}/rulesets",
+			"pathParams": [
+				{
+					"name": "account_or_zone",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_or_zone_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "cursor",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"type": "number",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"rulesets rules create": {
 			"operationId": "generated:post:/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}/rules",
 			"httpMethod": "POST",
 			"path": "/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}/rules",
@@ -79949,7 +80373,7 @@
 				}
 			]
 		},
-		"rulesets account-rulesets rules delete": {
+		"rulesets rules delete": {
 			"operationId": "generated:delete:/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}/rules/{rule_id}",
 			"httpMethod": "DELETE",
 			"path": "/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}/rules/{rule_id}",
@@ -79985,7 +80409,7 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"rulesets account-rulesets rules update": {
+		"rulesets rules update": {
 			"operationId": "generated:patch:/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}/rules/{rule_id}",
 			"httpMethod": "PATCH",
 			"path": "/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}/rules/{rule_id}",
@@ -80040,7 +80464,7 @@
 				}
 			]
 		},
-		"rulesets account-rulesets update": {
+		"rulesets update": {
 			"operationId": "generated:put:/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}",
 			"httpMethod": "PUT",
 			"path": "/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}",
@@ -80102,7 +80526,7 @@
 				}
 			]
 		},
-		"rulesets account-rulesets versions by-tag list": {
+		"rulesets versions by-tag get": {
 			"operationId": "generated:get:/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}/versions/{ruleset_version}/by_tag/{rule_tag}",
 			"httpMethod": "GET",
 			"path": "/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}/versions/{ruleset_version}/by_tag/{rule_tag}",
@@ -80137,7 +80561,7 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"rulesets account-rulesets versions delete": {
+		"rulesets versions delete": {
 			"operationId": "generated:delete:/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}/versions/{ruleset_version}",
 			"httpMethod": "DELETE",
 			"path": "/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}/versions/{ruleset_version}",
@@ -80173,7 +80597,7 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"rulesets account-rulesets versions get": {
+		"rulesets versions get": {
 			"operationId": "generated:get:/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}/versions/{ruleset_version}",
 			"httpMethod": "GET",
 			"path": "/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}/versions/{ruleset_version}",
@@ -80203,7 +80627,7 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"rulesets account-rulesets versions list": {
+		"rulesets versions list": {
 			"operationId": "generated:get:/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}/versions",
 			"httpMethod": "GET",
 			"path": "/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}/versions",
@@ -83655,6 +84079,86 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"sql datasets": {
+			"operationId": "sql-api-introspection",
+			"httpMethod": "GET",
+			"path": "/analytics/sql/introspection",
+			"pathParams": [],
+			"queryParams": [
+				{
+					"name": "account_tag",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "include_columns",
+					"type": "boolean",
+					"required": false
+				},
+				{
+					"name": "include_custom_attributes",
+					"type": "boolean",
+					"required": false
+				},
+				{
+					"name": "include_wae",
+					"type": "boolean",
+					"required": false
+				},
+				{
+					"name": "include_lex",
+					"type": "boolean",
+					"required": false
+				},
+				{
+					"name": "dataset_name",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"sql query": {
+			"operationId": "sql-api-query-post",
+			"httpMethod": "POST",
+			"path": "/analytics/sql",
+			"pathParams": [],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "query",
+					"type": "string",
+					"required": true,
+					"description": "SQL query to execute. A trailing FORMAT selects JSON, JSONEachRow, TabSeparated, or TSV output on any dataset.\n"
+				},
+				{
+					"name": "scope-account",
+					"type": "string",
+					"required": false,
+					"description": "Account tag used to authorize and scope the query. Must be a 32-character lowercase hex string.\n"
+				},
+				{
+					"name": "scope-zone",
+					"type": "string",
+					"required": false,
+					"description": "Zone tag used to authorize and scope the query. Must be a 32-character lowercase hex string.\n"
+				},
+				{
+					"name": "time-until",
+					"type": "string",
+					"required": false,
+					"description": "Inclusive upper bound for the dataset's timestamp column."
+				},
+				{
+					"name": "time-since",
+					"type": "string",
+					"required": false,
+					"description": "Inclusive lower bound for the dataset's timestamp column."
+				}
+			]
+		},
 		"ssl analyze create": {
 			"operationId": "analyze-certificate-analyze-certificate",
 			"httpMethod": "POST",
@@ -85893,7 +86397,7 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
-					"name": "config-src",
+					"name": "config-source",
 					"type": "string",
 					"required": false,
 					"description": "Indicates if this is a locally or remotely configured tunnel. If `local`, manage the tunnel using a YAML file on the origin machine. If `cloudflare`, manage the tunnel on the Zero Trust dashboard."
@@ -91855,6 +92359,56 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"workers versions profile": {
+			"operationId": "profileWorkerVersion",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/workers/workers/{worker_id}/versions/{version_id}/profile",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "worker_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "version_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "actor-id",
+					"type": "string",
+					"required": false,
+					"description": "Identifies the exact Durable Object actor to profile. Must be specified together with namespace_id. The actor must currently be active and running the requested Worker version."
+				},
+				{
+					"name": "duration-ms",
+					"type": "number",
+					"required": true,
+					"description": "Profile duration in milliseconds."
+				},
+				{
+					"name": "namespace-id",
+					"type": "string",
+					"required": false,
+					"description": "Identifies the Durable Object namespace containing the actor to profile. Must be specified together with actor_id."
+				},
+				{
+					"name": "profile-type",
+					"type": "string",
+					"required": false,
+					"description": "The profile_type field"
+				}
+			]
+		},
 		"workers-builds workers migrate-to-previews": {
 			"operationId": "migrateWorkerToPreviews",
 			"httpMethod": "POST",
@@ -91906,6 +92460,24 @@
 			"queryParams": [],
 			"hasRequestBody": true,
 			"requestBodyFields": [
+				{
+					"name": "branch",
+					"type": "string",
+					"required": false,
+					"description": "Git branch name (required if commit_hash not provided)"
+				},
+				{
+					"name": "commit-hash",
+					"type": "string",
+					"required": false,
+					"description": "Git commit hash (required if branch not provided)"
+				},
+				{
+					"name": "seed-repo-branch",
+					"type": "string",
+					"required": false,
+					"description": "Repository branch to seed."
+				},
 				{
 					"name": "seed-repo-owner",
 					"type": "string",
@@ -94592,6 +95164,58 @@
 				}
 			]
 		},
+		"zero-trust access infrastructure audit-ssh-settings get": {
+			"operationId": "zero-trust-get-audit-ssh-settings",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/gateway/audit_ssh_settings",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust access infrastructure audit-ssh-settings rotate-seed": {
+			"operationId": "zero-trust-rotate-ssh-account-seed",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/gateway/audit_ssh_settings/rotate_seed",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust access infrastructure audit-ssh-settings update": {
+			"operationId": "zero-trust-update-audit-ssh-settings",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/gateway/audit_ssh_settings",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "public-key",
+					"type": "string",
+					"required": true,
+					"description": "Provide the Base64-encoded HPKE public key that encrypts SSH session logs. See https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/use-cases/ssh/ssh-infrastructure-access/#enable-ssh-command-logging."
+				}
+			]
+		},
 		"zero-trust access infrastructure ssh-ca create": {
 			"operationId": "access-gateway-ca-add-an-SSH-ca",
 			"httpMethod": "POST",
@@ -96303,6 +96927,121 @@
 					"type": "string",
 					"required": false,
 					"description": "(optional) Private virtual network identifier for the target. If omitted, the default virtual network ID will be used."
+				}
+			]
+		},
+		"zero-trust access user-populations create": {
+			"operationId": "access-user-populations-create-user-population",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/access/user_populations",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "The name of the user population. Leading and trailing whitespace is trimmed before validation. After trimming, the name must contain at least one non-whitespace character and must not exceed 128 UTF-8 bytes.\n"
+				}
+			]
+		},
+		"zero-trust access user-populations delete": {
+			"operationId": "access-user-populations-delete-user-population",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/access/user_populations/{user_population_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "user_population_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust access user-populations get": {
+			"operationId": "access-user-populations-get-user-population",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/access/user_populations/{user_population_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "user_population_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust access user-populations list": {
+			"operationId": "access-user-populations-list-user-populations",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/access/user_populations",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"type": "number",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust access user-populations update": {
+			"operationId": "access-user-populations-update-user-population",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/access/user_populations/{user_population_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "user_population_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "The name of the user population. Leading and trailing whitespace is trimmed before validation. After trimming, the name must contain at least one non-whitespace character and must not exceed 128 UTF-8 bytes.\n"
 				}
 			]
 		},
@@ -100097,7 +100836,7 @@
 					"name": "match",
 					"type": "string",
 					"required": false,
-					"description": "The wirefilter expression to match devices. Available values: \"identity.email\", \"identity.groups.id\", \"identity.groups.name\", \"identity.groups.email\", \"identity.service_token_uuid\", \"identity.saml_attributes\", \"network\", \"os.name\", \"os.version\"."
+					"description": "The wirefilter expression to match devices. Available values: \"identity.email\", \"identity.groups.id\", \"identity.groups.name\", \"identity.groups.email\", \"identity.service_token_uuid\", \"identity.saml_attributes\", \"network\", \"os.name\", \"os.version\", \"device.tags\"."
 				},
 				{
 					"name": "name",
@@ -100395,7 +101134,7 @@
 					"name": "match",
 					"type": "string",
 					"required": false,
-					"description": "The wirefilter expression to match devices. Available values: \"identity.email\", \"identity.groups.id\", \"identity.groups.name\", \"identity.groups.email\", \"identity.service_token_uuid\", \"identity.saml_attributes\", \"network\", \"os.name\", \"os.version\"."
+					"description": "The wirefilter expression to match devices. Available values: \"identity.email\", \"identity.groups.id\", \"identity.groups.name\", \"identity.groups.email\", \"identity.service_token_uuid\", \"identity.saml_attributes\", \"network\", \"os.name\", \"os.version\", \"device.tags\"."
 				},
 				{
 					"name": "name",
@@ -101885,6 +102624,12 @@
 					"description": "The name of the DEX test. Must be unique."
 				},
 				{
+					"name": "target-policies",
+					"type": "string",
+					"required": false,
+					"description": "DEX rules targeted by this test. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
 					"name": "targeted",
 					"type": "boolean",
 					"required": false,
@@ -102069,6 +102814,12 @@
 					"type": "string",
 					"required": true,
 					"description": "The name of the DEX test. Must be unique."
+				},
+				{
+					"name": "target-policies",
+					"type": "string",
+					"required": false,
+					"description": "DEX rules targeted by this test. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "targeted",
@@ -104307,58 +105058,6 @@
 			"queryParams": [],
 			"hasRequestBody": false,
 			"requestBodyFields": []
-		},
-		"zero-trust gateway audit-ssh-settings get": {
-			"operationId": "zero-trust-get-audit-ssh-settings",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/gateway/audit_ssh_settings",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"zero-trust gateway audit-ssh-settings rotate-seed": {
-			"operationId": "zero-trust-rotate-ssh-account-seed",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/gateway/audit_ssh_settings/rotate_seed",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"zero-trust gateway audit-ssh-settings update": {
-			"operationId": "zero-trust-update-audit-ssh-settings",
-			"httpMethod": "PUT",
-			"path": "/accounts/{account_id}/gateway/audit_ssh_settings",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "public-key",
-					"type": "string",
-					"required": true,
-					"description": "Provide the Base64-encoded HPKE public key that encrypts SSH session logs. See https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/use-cases/ssh/ssh-infrastructure-access/#enable-ssh-command-logging."
-				}
-			]
 		},
 		"zero-trust gateway categories list": {
 			"operationId": "zero-trust-gateway-categories-list-categories",
@@ -107357,8 +108056,8 @@
 				{
 					"name": "auth-domain",
 					"type": "string",
-					"required": true,
-					"description": "The unique subdomain assigned to your Zero Trust organization."
+					"required": false,
+					"description": "The unique subdomain assigned to your Zero Trust organization. If omitted on creation, a unique subdomain is auto-generated in the format `adjective-noun-hex4` (e.g. `frosty-moon-7a3b.cloudflareaccess.com`)."
 				},
 				{
 					"name": "auto-redirect-to-identity",
@@ -107477,8 +108176,8 @@
 				{
 					"name": "name",
 					"type": "string",
-					"required": true,
-					"description": "The name of your Zero Trust organization."
+					"required": false,
+					"description": "The name of your Zero Trust organization. When omitted on creation, defaults to the provided auth_domain; when both are omitted, defaults to the auto-generated subdomain slug (e.g. frosty-moon-7a3b)."
 				},
 				{
 					"name": "service-token-inactivity-action",
@@ -107628,7 +108327,7 @@
 					"name": "auth-domain",
 					"type": "string",
 					"required": false,
-					"description": "The unique subdomain assigned to your Zero Trust organization."
+					"description": "The unique subdomain assigned to your Zero Trust organization. If omitted on creation, a unique subdomain is auto-generated in the format `adjective-noun-hex4` (e.g. `frosty-moon-7a3b.cloudflareaccess.com`)."
 				},
 				{
 					"name": "auto-redirect-to-identity",
@@ -107760,7 +108459,7 @@
 					"name": "name",
 					"type": "string",
 					"required": false,
-					"description": "The name of your Zero Trust organization."
+					"description": "The name of your Zero Trust organization. When omitted on creation, defaults to the provided auth_domain; when both are omitted, defaults to the auto-generated subdomain slug (e.g. frosty-moon-7a3b)."
 				},
 				{
 					"name": "service-token-inactivity-action",
@@ -108070,6 +108769,31 @@
 			"operationId": "zero-trust-users-delete-mfa-authenticator",
 			"httpMethod": "DELETE",
 			"path": "/accounts/{account_id}/access/users/{user_id}/mfa_authenticators/{authenticator_id}",
+			"pathParams": [
+				{
+					"name": "user_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "authenticator_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust users passkeys delete": {
+			"operationId": "zero-trust-users-delete-passkey",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/access/users/{user_id}/passkeys/{authenticator_id}",
 			"pathParams": [
 				{
 					"name": "user_id",

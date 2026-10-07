@@ -17,7 +17,10 @@ import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
-import { promptForRequiredField } from "#lib/prompt.js";
+import {
+	promptForRequiredEnumField,
+	promptForRequiredField,
+} from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
@@ -48,6 +51,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Omit this field or set it to `false`. Public Docker Hub images do not require\nregistry configuration and cannot be added with this endpoint.\n",
 		})
+		.option("kind", {
+			type: "string",
+			description:
+				"Registry provider. This must match `domain`: `DockerHub` for `docker.io`,\n`ECR` for AWS ECR, or `GAR` for Google Artifact Registry.\n",
+			choices: ["ECR", "DockerHub", "GAR"],
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -74,7 +83,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "containers registries create",
 				classification: {
-					safeFlags: ["is-public", "dry-run"],
+					safeFlags: ["is-public", "kind", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -120,6 +129,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 										is_public: argv["is-public"],
+										kind: resolveFileToken(
+											argv["kind"] as string | undefined,
+											"kind",
+											"text"
+										),
 									}),
 					});
 					return;
@@ -165,6 +179,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"Hostname of the private registry, without a scheme or image path. Supported hostnames are \`docker.io\`, AWS ECR hostnames, and Google Artifact Registry \`*-docker.pkg.dev\` hostnames. "
 					);
 				}
+				if (argv["kind"] === undefined) {
+					argv["kind"] = await promptForRequiredEnumField(
+						"kind",
+						"Registry provider. This must match \`domain\`: \`DockerHub\` for \`docker.io\`, \`ECR\` for AWS ECR, or \`GAR\` for Google Artifact Registry. ",
+						["ECR", "DockerHub", "GAR"] as const
+					);
+				}
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
@@ -195,6 +216,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"text"
 					),
 					is_public: argv["is-public"],
+					kind: resolveFileToken(
+						argv["kind"] as string | undefined,
+						"kind",
+						"text"
+					),
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.containers.registries.create({

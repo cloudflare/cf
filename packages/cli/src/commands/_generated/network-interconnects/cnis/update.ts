@@ -49,7 +49,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("bgp-mode", {
 			type: "string",
 			description:
-				"The BGP mode for a CNI.\n\nControls the customer-facing data path:\n* `DynamicRouteExchange` — Full BGP: routes flow through to conduit via CRE / bgp-bridge /\nbgp-bridge-receiver.\n* `AdvertiseOnly` — static advertisement via taserver, no routes exchanged with Conduit",
+				"The BGP mode for a CNI.\nOne of the following:\n* `dynamic_route_exchange`\n* `advertise_only`",
 			choices: ["dynamic_route_exchange", "advertise_only"],
 		})
 		.option("cust-ip", {

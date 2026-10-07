@@ -27,12 +27,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Indexing job ID.",
 			demandOption: true,
 		})
-		.option("name", {
+		.option("namespace", {
 			type: "string",
 			description: "Namespace to use for this operation.",
 			demandOption: true,
 		})
-		.option("id", {
+		.option("instance-id", {
 			type: "string",
 			description: "AI Search instance ID.",
 			demandOption: true,
@@ -74,11 +74,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf ai-search jobs logs",
 						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/namespaces/${argv["name"] == null ? "<name>" : encodeURIComponent(String(argv["name"]))}/instances/${argv["id"] == null ? "<id>" : encodeURIComponent(String(argv["id"]))}/jobs/${argv["job-id"] == null ? "<job-id>" : encodeURIComponent(String(argv["job-id"]))}/logs`,
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/namespaces/${argv["namespace"] == null ? "<namespace>" : encodeURIComponent(String(argv["namespace"]))}/instances/${argv["instance-id"] == null ? "<instance-id>" : encodeURIComponent(String(argv["instance-id"]))}/jobs/${argv["job-id"] == null ? "<job-id>" : encodeURIComponent(String(argv["job-id"]))}/logs`,
 						pathParams: {
-							id: String(argv["id"] ?? ""),
+							"instance-id": String(argv["instance-id"] ?? ""),
 							"job-id": String(argv["job-id"] ?? ""),
-							name: String(argv["name"] ?? ""),
+							namespace: String(argv["namespace"] ?? ""),
 						},
 						query: queryParams,
 						bodyKind: "none",
@@ -92,8 +92,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const result = await withProgress(`Loading`, async () =>
 					client.aiSearch.jobs.logs({
 						account_id: accountId,
-						name: argv["name"],
-						id: argv["id"],
+						namespace: argv["namespace"],
+						"instance-id": argv["instance-id"],
 						job_id: argv["job-id"],
 						...queryParams,
 					} satisfies Request)

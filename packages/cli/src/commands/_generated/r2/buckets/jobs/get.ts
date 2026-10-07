@@ -20,7 +20,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 r2 buckets jobs get <job-id>\n\nGets the current status of a background job of any type for an R2 bucket. Poll this endpoint with the job identifier returned when the operation was submitted until the status is `COMPLETED`, `FAILED`, or `CANCELLED`."
+			"$0 r2 buckets jobs get <job-id>\n\nGets the current status of a background job of any type for an R2 bucket. Poll this endpoint with the job identifier returned by Create Bucket Job until the status is `COMPLETED`, `FAILED`, or `CANCELLED`."
 		)
 		.positional("job-id", {
 			type: "string",

@@ -14,7 +14,7 @@ export interface LogpushOutputOptions {
     field_delimiter?: (string | null) | undefined;
     /** List of field names to be included in the Logpush output. For the moment, there is no option to add all fields at once, so you must specify all the fields names you are interested in. */
     field_names?: string[] | undefined;
-    /** If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset. Not supported for account-scoped jobs. */
+    /** If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset. */
     merge_subrequests?: (boolean | null) | undefined;
     /** Specifies the output type, such as `ndjson` or `csv`. This sets default values for the rest of the settings, depending on the chosen output type. Some formatting rules, like string quoting, are different between output types. */
     output_type?: LogpushOutputOptions.OutputType | undefined;

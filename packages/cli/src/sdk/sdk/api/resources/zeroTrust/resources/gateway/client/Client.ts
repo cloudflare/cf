@@ -9,7 +9,6 @@ import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStat
 import * as errors from "../../../../../../errors/index.js";
 import type * as CloudflareApi from "../../../../../index.js";
 import { AppTypesClient } from "../resources/appTypes/client/Client.js";
-import { AuditSshSettingsClient } from "../resources/auditSshSettings/client/Client.js";
 import { CategoriesClient } from "../resources/categories/client/Client.js";
 import { CertificatesClient } from "../resources/certificates/client/Client.js";
 import { ConfigurationsClient } from "../resources/configurations/client/Client.js";
@@ -32,7 +31,6 @@ export declare namespace GatewayClient {
 export class GatewayClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<GatewayClient.Options>;
     protected _appTypes: AppTypesClient | undefined;
-    protected _auditSshSettings: AuditSshSettingsClient | undefined;
     protected _categories: CategoriesClient | undefined;
     protected _certificates: CertificatesClient | undefined;
     protected _configurations: ConfigurationsClient | undefined;
@@ -52,10 +50,6 @@ export class GatewayClient {
 
     public get appTypes(): AppTypesClient {
         return (this._appTypes ??= new AppTypesClient(this._options));
-    }
-
-    public get auditSshSettings(): AuditSshSettingsClient {
-        return (this._auditSshSettings ??= new AuditSshSettingsClient(this._options));
     }
 
     public get categories(): CategoriesClient {

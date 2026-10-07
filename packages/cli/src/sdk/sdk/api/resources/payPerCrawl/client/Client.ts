@@ -7,7 +7,6 @@ import * as environments from "../../../../environments.js";
 import { ConfigClient } from "../resources/config/client/Client.js";
 import { CrawlerClient } from "../resources/crawler/client/Client.js";
 import { CrawlersClient } from "../resources/crawlers/client/Client.js";
-import { PayPerUseClient } from "../resources/payPerUse/client/Client.js";
 import { PublisherClient } from "../resources/publisher/client/Client.js";
 import { TermsClient } from "../resources/terms/client/Client.js";
 import { ZonesClient } from "../resources/zones/client/Client.js";
@@ -23,7 +22,6 @@ export class PayPerCrawlClient {
     protected _zones: ZonesClient | undefined;
     protected _config: ConfigClient | undefined;
     protected _crawler: CrawlerClient | undefined;
-    protected _payPerUse: PayPerUseClient | undefined;
     protected _publisher: PublisherClient | undefined;
 
     constructor(options: PayPerCrawlClient.Options = {}) {
@@ -48,10 +46,6 @@ export class PayPerCrawlClient {
 
     public get crawler(): CrawlerClient {
         return (this._crawler ??= new CrawlerClient(this._options));
-    }
-
-    public get payPerUse(): PayPerUseClient {
-        return (this._payPerUse ??= new PayPerUseClient(this._options));
     }
 
     public get publisher(): PublisherClient {

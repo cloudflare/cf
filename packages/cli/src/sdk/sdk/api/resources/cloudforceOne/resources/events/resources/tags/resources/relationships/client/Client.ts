@@ -28,7 +28,7 @@ export class RelationshipsClient {
     }
 
     /**
-     * Returns sparse relationship edges. Optionally hydrate related entities via `expand`. Fans out across all accessible indicator dataset shards. Analytics datasets do not expose tag associations, so the analytics scope returns an empty result.
+     * Returns sparse relationship edges. Optionally hydrate related entities via `expand`. Fans out across accessible intelligence (isAnalytics=false) indicator dataset shards; `all` and `operational` are equivalent. Analytics datasets do not expose tag associations, so the analytics scope returns an empty result.
      *
      * @param {CloudflareApi.cloudforceOne.events.tags.ListRelationshipsRequest} request
      * @param {RelationshipsClient.RequestOptions} requestOptions - Request-specific configuration.

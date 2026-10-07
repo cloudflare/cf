@@ -4,16 +4,16 @@
  * @example
  *     {
  *         account_id: "c3dc5f0b34a14ff8e1b3ec04895e1b22",
- *         name: "my-namespace",
- *         id: "my-ai-search",
+ *         namespace: "my-namespace",
+ *         "instance-id": "my-ai-search",
  *         job_id: "job_id"
  *     }
  */
 export interface GetJobsRequest {
     account_id: string;
     /** Namespace name */
-    name: string;
+    namespace: string;
     /** AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores. */
-    id: string;
+    "instance-id": string;
     job_id: string;
 }

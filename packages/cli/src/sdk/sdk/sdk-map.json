@@ -141,6 +141,23 @@
       "account_id"
     ]
   },
+  "CreateFindingInstancesExportCSV": {
+    "accessor": [
+      "zeroTrust",
+      "casb",
+      "findings",
+      "instances"
+    ],
+    "method": "export",
+    "httpMethod": "POST",
+    "path": "/accounts/{account_id}/data-security/posture/findings/{finding-namespace-id}/instances/export",
+    "requestType": "PostureApiFindingInstanceExportFilterRequest",
+    "responseType": "PostureApiExportJob",
+    "requiredRequestProperties": [
+      "account_id",
+      "finding-namespace-id"
+    ]
+  },
   "CreatePolicy": {
     "accessor": [
       "zeroTrust",
@@ -315,6 +332,20 @@
       "account_id",
       "authentication_type",
       "destination_url"
+    ]
+  },
+  "GetAbuseReport": {
+    "accessor": [
+      "abuseReports"
+    ],
+    "method": "get",
+    "httpMethod": "GET",
+    "path": "/accounts/{account_id}/abuse-reports/{report-id}",
+    "requestType": "GetAbuseReportsRequest",
+    "responseType": "AbuseReportsAbuseReport",
+    "requiredRequestProperties": [
+      "account_id",
+      "report-id"
     ]
   },
   "GetActiveSession": {
@@ -1120,6 +1151,22 @@
     "requiredRequestProperties": [
       "account_id",
       "finding_id"
+    ]
+  },
+  "SubmitAbuseReport": {
+    "accessor": [
+      "abuseReports"
+    ],
+    "method": "create",
+    "httpMethod": "POST",
+    "path": "/accounts/{account_id}/abuse-reports/{report-type}",
+    "requestType": "CreateAbuseReportsRequest",
+    "responseType": "AbuseReportsSubmitReportResponse",
+    "requestBodyProperty": "body",
+    "requiredRequestProperties": [
+      "account_id",
+      "body",
+      "report-type"
     ]
   },
   "Tenants_listAccounts": {
@@ -2126,6 +2173,88 @@
       "account_id",
       "name",
       "tag_name"
+    ]
+  },
+  "access-user-populations-create-user-population": {
+    "accessor": [
+      "zeroTrust",
+      "access",
+      "userPopulations"
+    ],
+    "method": "create",
+    "httpMethod": "POST",
+    "path": "/accounts/{account_id}/access/user_populations",
+    "requestType": "CreateUserPopulationsRequest",
+    "responseType": "AccessUserPopulation",
+    "requestBodyProperty": "body",
+    "requiredRequestProperties": [
+      "account_id",
+      "body"
+    ]
+  },
+  "access-user-populations-delete-user-population": {
+    "accessor": [
+      "zeroTrust",
+      "access",
+      "userPopulations"
+    ],
+    "method": "delete",
+    "httpMethod": "DELETE",
+    "path": "/accounts/{account_id}/access/user_populations/{user_population_id}",
+    "requestType": "DeleteUserPopulationsRequest",
+    "responseType": "DeleteUserPopulationsResponse",
+    "requiredRequestProperties": [
+      "account_id",
+      "user_population_id"
+    ]
+  },
+  "access-user-populations-get-user-population": {
+    "accessor": [
+      "zeroTrust",
+      "access",
+      "userPopulations"
+    ],
+    "method": "get",
+    "httpMethod": "GET",
+    "path": "/accounts/{account_id}/access/user_populations/{user_population_id}",
+    "requestType": "GetUserPopulationsRequest",
+    "responseType": "AccessUserPopulation",
+    "requiredRequestProperties": [
+      "account_id",
+      "user_population_id"
+    ]
+  },
+  "access-user-populations-list-user-populations": {
+    "accessor": [
+      "zeroTrust",
+      "access",
+      "userPopulations"
+    ],
+    "method": "list",
+    "httpMethod": "GET",
+    "path": "/accounts/{account_id}/access/user_populations",
+    "requestType": "ListUserPopulationsRequest",
+    "responseType": "ListUserPopulationsResponse",
+    "requiredRequestProperties": [
+      "account_id"
+    ]
+  },
+  "access-user-populations-update-user-population": {
+    "accessor": [
+      "zeroTrust",
+      "access",
+      "userPopulations"
+    ],
+    "method": "update",
+    "httpMethod": "PUT",
+    "path": "/accounts/{account_id}/access/user_populations/{user_population_id}",
+    "requestType": "UpdateUserPopulationsRequest",
+    "responseType": "AccessUserPopulation",
+    "requestBodyProperty": "body",
+    "requiredRequestProperties": [
+      "account_id",
+      "body",
+      "user_population_id"
     ]
   },
   "account-api-tokens-create-token": {
@@ -3962,6 +4091,53 @@
       "profile_name"
     ]
   },
+  "agents.sessions.list": {
+    "accessor": [
+      "observability",
+      "agents",
+      "sessions"
+    ],
+    "method": "list",
+    "httpMethod": "GET",
+    "path": "/accounts/{account_id}/workers/observability/agents/sessions",
+    "requestType": "ListSessionsRequest",
+    "responseType": "ListSessionsResponse",
+    "requiredRequestProperties": [
+      "account_id",
+      "agent",
+      "from",
+      "service",
+      "to"
+    ],
+    "numericRequestProperties": [
+      "from",
+      "to"
+    ]
+  },
+  "agents.sessions.runs.list": {
+    "accessor": [
+      "observability",
+      "agents",
+      "sessions"
+    ],
+    "method": "runs",
+    "httpMethod": "GET",
+    "path": "/accounts/{account_id}/workers/observability/agents/sessions/{conversationId}/runs",
+    "requestType": "RunsSessionsRequest",
+    "responseType": "RunsSessionsResponse",
+    "requiredRequestProperties": [
+      "account_id",
+      "agent",
+      "conversationId",
+      "from",
+      "service",
+      "to"
+    ],
+    "numericRequestProperties": [
+      "from",
+      "to"
+    ]
+  },
   "ai-audit-bulk-get-robots": {
     "accessor": [
       "aiAudit",
@@ -4031,12 +4207,12 @@
     ],
     "method": "delete",
     "httpMethod": "DELETE",
-    "path": "/accounts/{account_id}/ai-search/namespaces/{name}",
+    "path": "/accounts/{account_id}/ai-search/namespaces/{namespace}",
     "requestType": "DeleteNamespaceRequest",
     "responseType": "Record",
     "requiredRequestProperties": [
       "account_id",
-      "name"
+      "namespace"
     ]
   },
   "ai-search-delete-tokens": {
@@ -4046,12 +4222,12 @@
     ],
     "method": "delete",
     "httpMethod": "DELETE",
-    "path": "/accounts/{account_id}/ai-search/tokens/{id}",
+    "path": "/accounts/{account_id}/ai-search/tokens/{token-id}",
     "requestType": "DeleteTokensRequest",
     "responseType": "Record",
     "requiredRequestProperties": [
       "account_id",
-      "id"
+      "token-id"
     ]
   },
   "ai-search-fetch-namespace": {
@@ -4061,12 +4237,12 @@
     ],
     "method": "get",
     "httpMethod": "GET",
-    "path": "/accounts/{account_id}/ai-search/namespaces/{name}",
+    "path": "/accounts/{account_id}/ai-search/namespaces/{namespace}",
     "requestType": "GetNamespaceRequest",
     "responseType": "GetNamespaceResponse",
     "requiredRequestProperties": [
       "account_id",
-      "name"
+      "namespace"
     ]
   },
   "ai-search-fetch-tokens": {
@@ -4076,12 +4252,12 @@
     ],
     "method": "get",
     "httpMethod": "GET",
-    "path": "/accounts/{account_id}/ai-search/tokens/{id}",
+    "path": "/accounts/{account_id}/ai-search/tokens/{token-id}",
     "requestType": "GetTokensRequest",
     "responseType": "GetTokensResponse",
     "requiredRequestProperties": [
       "account_id",
-      "id"
+      "token-id"
     ]
   },
   "ai-search-list-namespaces": {
@@ -4118,14 +4294,14 @@
     ],
     "method": "move",
     "httpMethod": "PATCH",
-    "path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}",
+    "path": "/accounts/{account_id}/ai-search/namespaces/{source-namespace}/instances/{instance-id}",
     "requestType": "MoveAiSearchRequest",
     "responseType": "Record",
     "requiredRequestProperties": [
       "account_id",
-      "id",
-      "name",
-      "new_namespace"
+      "instance-id",
+      "new_namespace",
+      "source-namespace"
     ]
   },
   "ai-search-namespace-create-instance": {
@@ -4134,13 +4310,13 @@
     ],
     "method": "create",
     "httpMethod": "POST",
-    "path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances",
+    "path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances",
     "requestType": "CreateAiSearchRequest",
     "responseType": "CreateAiSearchResponse",
     "requiredRequestProperties": [
       "account_id",
       "id",
-      "name"
+      "namespace"
     ]
   },
   "ai-search-namespace-delete-instance": {
@@ -4149,13 +4325,13 @@
     ],
     "method": "delete",
     "httpMethod": "DELETE",
-    "path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}",
+    "path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{instance-id}",
     "requestType": "DeleteAiSearchRequest",
     "responseType": "DeleteAiSearchResponse",
     "requiredRequestProperties": [
       "account_id",
-      "id",
-      "name"
+      "instance-id",
+      "namespace"
     ]
   },
   "ai-search-namespace-fetch-instance": {
@@ -4164,13 +4340,13 @@
     ],
     "method": "get",
     "httpMethod": "GET",
-    "path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}",
+    "path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{instance-id}",
     "requestType": "GetAiSearchRequest",
     "responseType": "GetAiSearchResponse",
     "requiredRequestProperties": [
       "account_id",
-      "id",
-      "name"
+      "instance-id",
+      "namespace"
     ]
   },
   "ai-search-namespace-instance-change-job-status": {
@@ -4180,14 +4356,14 @@
     ],
     "method": "cancel",
     "httpMethod": "PATCH",
-    "path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/jobs/{job_id}",
+    "path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{instance-id}/jobs/{job_id}",
     "requestType": "CancelJobsRequest",
     "responseType": "CancelJobsResponse",
     "requiredRequestProperties": [
       "account_id",
-      "id",
+      "instance-id",
       "job_id",
-      "name"
+      "namespace"
     ]
   },
   "ai-search-namespace-instance-chat-completion": {
@@ -4196,14 +4372,14 @@
     ],
     "method": "chatCompletions",
     "httpMethod": "POST",
-    "path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/chat/completions",
+    "path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{instance-id}/chat/completions",
     "requestType": "ChatCompletionsAiSearchRequest",
     "responseType": "ChatCompletionsAiSearchResponse",
     "requiredRequestProperties": [
       "account_id",
-      "id",
+      "instance-id",
       "messages",
-      "name"
+      "namespace"
     ]
   },
   "ai-search-namespace-instance-create-job": {
@@ -4213,13 +4389,13 @@
     ],
     "method": "create",
     "httpMethod": "POST",
-    "path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/jobs",
+    "path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{instance-id}/jobs",
     "requestType": "CreateJobsRequest",
     "responseType": "CreateJobsResponse",
     "requiredRequestProperties": [
       "account_id",
-      "id",
-      "name"
+      "instance-id",
+      "namespace"
     ]
   },
   "ai-search-namespace-instance-create-or-update-item": {
@@ -4229,14 +4405,14 @@
     ],
     "method": "upsert",
     "httpMethod": "PUT",
-    "path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items",
+    "path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{instance-id}/items",
     "requestType": "UpsertItemsRequest",
     "responseType": "UpsertItemsResponse",
     "requiredRequestProperties": [
       "account_id",
-      "id",
+      "instance-id",
       "key",
-      "name"
+      "namespace"
     ]
   },
   "ai-search-namespace-instance-delete-item": {
@@ -4246,14 +4422,14 @@
     ],
     "method": "delete",
     "httpMethod": "DELETE",
-    "path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items/{item_id}",
+    "path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{instance-id}/items/{item_id}",
     "requestType": "DeleteItemsRequest",
     "responseType": "DeleteItemsResponse",
     "requiredRequestProperties": [
       "account_id",
-      "id",
+      "instance-id",
       "item_id",
-      "name"
+      "namespace"
     ]
   },
   "ai-search-namespace-instance-get-item": {
@@ -4263,14 +4439,14 @@
     ],
     "method": "get",
     "httpMethod": "GET",
-    "path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items/{item_id}",
+    "path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{instance-id}/items/{item_id}",
     "requestType": "GetItemsRequest",
     "responseType": "GetItemsResponse",
     "requiredRequestProperties": [
       "account_id",
-      "id",
+      "instance-id",
       "item_id",
-      "name"
+      "namespace"
     ]
   },
   "ai-search-namespace-instance-get-item-content": {
@@ -4280,14 +4456,14 @@
     ],
     "method": "download",
     "httpMethod": "GET",
-    "path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items/{item_id}/download",
+    "path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{instance-id}/items/{item_id}/download",
     "requestType": "DownloadItemsRequest",
     "responseType": "BinaryResponse",
     "requiredRequestProperties": [
       "account_id",
-      "id",
+      "instance-id",
       "item_id",
-      "name"
+      "namespace"
     ]
   },
   "ai-search-namespace-instance-get-job": {
@@ -4297,14 +4473,14 @@
     ],
     "method": "get",
     "httpMethod": "GET",
-    "path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/jobs/{job_id}",
+    "path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{instance-id}/jobs/{job_id}",
     "requestType": "GetJobsRequest",
     "responseType": "GetJobsResponse",
     "requiredRequestProperties": [
       "account_id",
-      "id",
+      "instance-id",
       "job_id",
-      "name"
+      "namespace"
     ]
   },
   "ai-search-namespace-instance-list-item-chunks": {
@@ -4314,14 +4490,14 @@
     ],
     "method": "chunks",
     "httpMethod": "GET",
-    "path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items/{item_id}/chunks",
+    "path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{instance-id}/items/{item_id}/chunks",
     "requestType": "ChunksItemsRequest",
     "responseType": "ChunksItemsResponse",
     "requiredRequestProperties": [
       "account_id",
-      "id",
+      "instance-id",
       "item_id",
-      "name"
+      "namespace"
     ]
   },
   "ai-search-namespace-instance-list-items": {
@@ -4331,13 +4507,13 @@
     ],
     "method": "list",
     "httpMethod": "GET",
-    "path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items",
+    "path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{instance-id}/items",
     "requestType": "ListItemsRequest",
     "responseType": "ListItemsResponse",
     "requiredRequestProperties": [
       "account_id",
-      "id",
-      "name"
+      "instance-id",
+      "namespace"
     ]
   },
   "ai-search-namespace-instance-list-job-logs": {
@@ -4347,14 +4523,14 @@
     ],
     "method": "logs",
     "httpMethod": "GET",
-    "path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/jobs/{job_id}/logs",
+    "path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{instance-id}/jobs/{job_id}/logs",
     "requestType": "LogsJobsRequest",
     "responseType": "LogsJobsResponse",
     "requiredRequestProperties": [
       "account_id",
-      "id",
+      "instance-id",
       "job_id",
-      "name"
+      "namespace"
     ]
   },
   "ai-search-namespace-instance-list-jobs": {
@@ -4364,13 +4540,13 @@
     ],
     "method": "list",
     "httpMethod": "GET",
-    "path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/jobs",
+    "path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{instance-id}/jobs",
     "requestType": "ListJobsRequest",
     "responseType": "ListJobsResponse",
     "requiredRequestProperties": [
       "account_id",
-      "id",
-      "name"
+      "instance-id",
+      "namespace"
     ]
   },
   "ai-search-namespace-instance-logs-item": {
@@ -4380,14 +4556,14 @@
     ],
     "method": "logs",
     "httpMethod": "GET",
-    "path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items/{item_id}/logs",
+    "path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{instance-id}/items/{item_id}/logs",
     "requestType": "LogsItemsRequest",
     "responseType": "LogsItemsResponse",
     "requiredRequestProperties": [
       "account_id",
-      "id",
+      "instance-id",
       "item_id",
-      "name"
+      "namespace"
     ]
   },
   "ai-search-namespace-instance-search": {
@@ -4396,13 +4572,13 @@
     ],
     "method": "search",
     "httpMethod": "POST",
-    "path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/search",
+    "path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{instance-id}/search",
     "requestType": "SearchAiSearchRequest",
     "responseType": "SearchAiSearchResponse",
     "requiredRequestProperties": [
       "account_id",
-      "id",
-      "name"
+      "instance-id",
+      "namespace"
     ]
   },
   "ai-search-namespace-instance-sync-item": {
@@ -4412,14 +4588,14 @@
     ],
     "method": "sync",
     "httpMethod": "PATCH",
-    "path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items/{item_id}",
+    "path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{instance-id}/items/{item_id}",
     "requestType": "SyncItemsRequest",
     "responseType": "SyncItemsResponse",
     "requiredRequestProperties": [
       "account_id",
-      "id",
+      "instance-id",
       "item_id",
-      "name"
+      "namespace"
     ]
   },
   "ai-search-namespace-instance-upload-item": {
@@ -4429,14 +4605,14 @@
     ],
     "method": "upload",
     "httpMethod": "POST",
-    "path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items",
+    "path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{instance-id}/items",
     "requestType": "UploadItemsRequest",
     "responseType": "UploadItemsResponse",
     "requiredRequestProperties": [
       "account_id",
       "file",
-      "id",
-      "name"
+      "instance-id",
+      "namespace"
     ]
   },
   "ai-search-namespace-list-instances": {
@@ -4445,12 +4621,12 @@
     ],
     "method": "list",
     "httpMethod": "GET",
-    "path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances",
+    "path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances",
     "requestType": "ListAiSearchRequest",
     "responseType": "ListAiSearchResponse",
     "requiredRequestProperties": [
       "account_id",
-      "name"
+      "namespace"
     ]
   },
   "ai-search-namespace-multi-instance-chat-completion": {
@@ -4459,14 +4635,14 @@
     ],
     "method": "multiChatCompletions",
     "httpMethod": "POST",
-    "path": "/accounts/{account_id}/ai-search/namespaces/{name}/chat/completions",
+    "path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/chat/completions",
     "requestType": "MultiChatCompletionsAiSearchRequest",
     "responseType": "MultiChatCompletionsAiSearchResponse",
     "requiredRequestProperties": [
       "account_id",
       "ai_search_options",
       "messages",
-      "name"
+      "namespace"
     ]
   },
   "ai-search-namespace-multi-instance-search": {
@@ -4475,13 +4651,13 @@
     ],
     "method": "multiSearch",
     "httpMethod": "POST",
-    "path": "/accounts/{account_id}/ai-search/namespaces/{name}/search",
+    "path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/search",
     "requestType": "MultiSearchAiSearchRequest",
     "responseType": "MultiSearchAiSearchResponse",
     "requiredRequestProperties": [
       "account_id",
       "ai_search_options",
-      "name"
+      "namespace"
     ]
   },
   "ai-search-namespace-purge-instance-cache": {
@@ -4490,13 +4666,13 @@
     ],
     "method": "purgeCache",
     "httpMethod": "POST",
-    "path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/purge_cache",
+    "path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{instance-id}/purge_cache",
     "requestType": "PurgeCacheAiSearchRequest",
     "responseType": "PurgeCacheAiSearchResponse",
     "requiredRequestProperties": [
       "account_id",
-      "id",
-      "name"
+      "instance-id",
+      "namespace"
     ]
   },
   "ai-search-namespace-stats": {
@@ -4505,13 +4681,13 @@
     ],
     "method": "stats",
     "httpMethod": "GET",
-    "path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/stats",
+    "path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{instance-id}/stats",
     "requestType": "StatsAiSearchRequest",
     "responseType": "StatsAiSearchResponse",
     "requiredRequestProperties": [
       "account_id",
-      "id",
-      "name"
+      "instance-id",
+      "namespace"
     ]
   },
   "ai-search-namespace-update-instance": {
@@ -4520,13 +4696,13 @@
     ],
     "method": "update",
     "httpMethod": "PUT",
-    "path": "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}",
+    "path": "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{instance-id}",
     "requestType": "UpdateAiSearchRequest",
     "responseType": "UpdateAiSearchResponse",
     "requiredRequestProperties": [
       "account_id",
-      "id",
-      "name"
+      "instance-id",
+      "namespace"
     ]
   },
   "ai-search-update-namespace": {
@@ -4536,12 +4712,12 @@
     ],
     "method": "update",
     "httpMethod": "PUT",
-    "path": "/accounts/{account_id}/ai-search/namespaces/{name}",
+    "path": "/accounts/{account_id}/ai-search/namespaces/{namespace}",
     "requestType": "UpdateNamespaceRequest",
     "responseType": "UpdateNamespaceResponse",
     "requiredRequestProperties": [
       "account_id",
-      "name"
+      "namespace"
     ]
   },
   "ai-search-update-tokens": {
@@ -4551,15 +4727,15 @@
     ],
     "method": "update",
     "httpMethod": "PUT",
-    "path": "/accounts/{account_id}/ai-search/tokens/{id}",
+    "path": "/accounts/{account_id}/ai-search/tokens/{token-id}",
     "requestType": "UpdateTokensRequest",
     "responseType": "UpdateTokensResponse",
     "requiredRequestProperties": [
       "account_id",
       "cf_api_id",
       "cf_api_key",
-      "id",
-      "name"
+      "name",
+      "token-id"
     ]
   },
   "ai-security-custom-topics-get": {
@@ -4792,6 +4968,21 @@
       "id"
     ]
   },
+  "aig-config-delete-gateway": {
+    "accessor": [
+      "aiGateway",
+      "gateways"
+    ],
+    "method": "delete",
+    "httpMethod": "DELETE",
+    "path": "/accounts/{account_id}/ai-gateway/gateways/{gateway-id}",
+    "requestType": "DeleteGatewaysRequest",
+    "responseType": "DeleteGatewaysResponse",
+    "requiredRequestProperties": [
+      "account_id",
+      "gateway-id"
+    ]
+  },
   "aig-config-delete-gateway-dynamic-route": {
     "accessor": [
       "aiGateway",
@@ -4901,6 +5092,21 @@
       "account_id",
       "gateway_id",
       "id"
+    ]
+  },
+  "aig-config-fetch-gateway": {
+    "accessor": [
+      "aiGateway",
+      "gateways"
+    ],
+    "method": "get",
+    "httpMethod": "GET",
+    "path": "/accounts/{account_id}/ai-gateway/gateways/{gateway-id}",
+    "requestType": "GetGatewaysRequest",
+    "responseType": "GetGatewaysResponse",
+    "requiredRequestProperties": [
+      "account_id",
+      "gateway-id"
     ]
   },
   "aig-config-fetch-providers": {
@@ -5285,6 +5491,26 @@
       "gateway_id",
       "id",
       "name"
+    ]
+  },
+  "aig-config-update-gateway": {
+    "accessor": [
+      "aiGateway",
+      "gateways"
+    ],
+    "method": "update",
+    "httpMethod": "PUT",
+    "path": "/accounts/{account_id}/ai-gateway/gateways/{gateway-id}",
+    "requestType": "UpdateGatewaysRequest",
+    "responseType": "UpdateGatewaysResponse",
+    "requiredRequestProperties": [
+      "account_id",
+      "cache_invalidate_on_update",
+      "cache_ttl",
+      "collect_logs",
+      "gateway-id",
+      "rate_limiting_interval",
+      "rate_limiting_limit"
     ]
   },
   "aig-config-update-gateway-dynamic-route": {
@@ -5902,6 +6128,28 @@
     "requiredRequestProperties": [
       "zone_id"
     ]
+  },
+  "argo-smart-routing-get-count-zones-enabled-for-account": {
+    "accessor": [
+      "argo",
+      "smartRouting"
+    ],
+    "method": "countZonesEnabledForAccount",
+    "httpMethod": "GET",
+    "path": "/accounts/{account_id}/argo/count_zones_enabled",
+    "requestType": "CountZonesEnabledForAccountSmartRoutingRequest",
+    "requiredRequestProperties": [
+      "account_id"
+    ]
+  },
+  "argo-smart-routing-get-count-zones-enabled-for-user": {
+    "accessor": [
+      "argo",
+      "smartRouting"
+    ],
+    "method": "countZonesEnabledForUser",
+    "httpMethod": "GET",
+    "path": "/user/argo/count_zones_enabled"
   },
   "argo-smart-routing-patch-argo-smart-routing-setting": {
     "accessor": [
@@ -7016,35 +7264,6 @@
       "job_id"
     ]
   },
-  "brapi-get_DevtoolsBrowser": {
-    "accessor": [
-      "browserRun",
-      "devtools",
-      "browser"
-    ],
-    "method": "connect",
-    "httpMethod": "GET",
-    "path": "/accounts/{account_id}/browser-rendering/devtools/browser/{session_id}",
-    "requestType": "ConnectBrowserRequest",
-    "requiredRequestProperties": [
-      "account_id",
-      "session_id"
-    ]
-  },
-  "brapi-get_DevtoolsBrowserAcquire": {
-    "accessor": [
-      "browserRun",
-      "devtools",
-      "browser"
-    ],
-    "method": "launch",
-    "httpMethod": "GET",
-    "path": "/accounts/{account_id}/browser-rendering/devtools/browser",
-    "requestType": "LaunchBrowserRequest",
-    "requiredRequestProperties": [
-      "account_id"
-    ]
-  },
   "brapi-get_DevtoolsJson": {
     "accessor": [
       "browserRun",
@@ -7160,23 +7379,6 @@
     "requiredRequestProperties": [
       "account_id",
       "session_id"
-    ]
-  },
-  "brapi-get_DevtoolsPage": {
-    "accessor": [
-      "browserRun",
-      "devtools",
-      "browser",
-      "page"
-    ],
-    "method": "get",
-    "httpMethod": "GET",
-    "path": "/accounts/{account_id}/browser-rendering/devtools/browser/{session_id}/page/{target_id}",
-    "requestType": "GetPageRequest",
-    "requiredRequestProperties": [
-      "account_id",
-      "session_id",
-      "target_id"
     ]
   },
   "brapi-get_DevtoolsSessionDetails": {
@@ -8565,12 +8767,12 @@
     ],
     "method": "delete",
     "httpMethod": "DELETE",
-    "path": "/accounts/{account_id}/warp_connector/{tunnel_id}",
+    "path": "/accounts/{account_id}/warp_connector/{node-id}",
     "requestType": "DeleteNodesRequest",
     "responseType": "TunnelWarpConnectorTunnel",
     "requiredRequestProperties": [
       "account_id",
-      "tunnel_id"
+      "node-id"
     ]
   },
   "cloudflare-tunnel-get-a-cloudflare-tunnel": {
@@ -8625,12 +8827,12 @@
     ],
     "method": "get",
     "httpMethod": "GET",
-    "path": "/accounts/{account_id}/warp_connector/{tunnel_id}",
+    "path": "/accounts/{account_id}/warp_connector/{node-id}",
     "requestType": "GetNodesRequest",
     "responseType": "TunnelWarpConnectorTunnel",
     "requiredRequestProperties": [
       "account_id",
-      "tunnel_id"
+      "node-id"
     ]
   },
   "cloudflare-tunnel-get-a-warp-connector-tunnel-token": {
@@ -8641,12 +8843,12 @@
     ],
     "method": "get",
     "httpMethod": "GET",
-    "path": "/accounts/{account_id}/warp_connector/{tunnel_id}/token",
+    "path": "/accounts/{account_id}/warp_connector/{node-id}/token",
     "requestType": "GetTokenRequest",
     "responseType": "TunnelTunnelToken",
     "requiredRequestProperties": [
       "account_id",
-      "tunnel_id"
+      "node-id"
     ]
   },
   "cloudflare-tunnel-get-cloudflare-tunnel-connector": {
@@ -8673,13 +8875,13 @@
     ],
     "method": "get",
     "httpMethod": "GET",
-    "path": "/accounts/{account_id}/warp_connector/{tunnel_id}/connectors/{connector_id}",
+    "path": "/accounts/{account_id}/warp_connector/{node-id}/connectors/{connector_id}",
     "requestType": "GetConnectorsRequest",
     "responseType": "TunnelTunnelWarpConnectorClient",
     "requiredRequestProperties": [
       "account_id",
       "connector_id",
-      "tunnel_id"
+      "node-id"
     ]
   },
   "cloudflare-tunnel-list-all-tunnels": {
@@ -8731,12 +8933,12 @@
     ],
     "method": "list",
     "httpMethod": "GET",
-    "path": "/accounts/{account_id}/warp_connector/{tunnel_id}/connections",
+    "path": "/accounts/{account_id}/warp_connector/{node-id}/connections",
     "requestType": "ListConnectionsRequest",
     "responseType": "ListConnectionsResponse",
     "requiredRequestProperties": [
       "account_id",
-      "tunnel_id"
+      "node-id"
     ]
   },
   "cloudflare-tunnel-list-warp-connector-tunnels": {
@@ -8760,12 +8962,12 @@
     ],
     "method": "failover",
     "httpMethod": "PUT",
-    "path": "/accounts/{account_id}/warp_connector/{tunnel_id}/failover",
+    "path": "/accounts/{account_id}/warp_connector/{node-id}/failover",
     "requestType": "FailoverNodesRequest",
     "requiredRequestProperties": [
       "account_id",
       "client_id",
-      "tunnel_id"
+      "node-id"
     ]
   },
   "cloudflare-tunnel-update-a-cloudflare-tunnel": {
@@ -8789,12 +8991,12 @@
     ],
     "method": "edit",
     "httpMethod": "PATCH",
-    "path": "/accounts/{account_id}/warp_connector/{tunnel_id}",
+    "path": "/accounts/{account_id}/warp_connector/{node-id}",
     "requestType": "EditNodesRequest",
     "responseType": "TunnelWarpConnectorTunnel",
     "requiredRequestProperties": [
       "account_id",
-      "tunnel_id"
+      "node-id"
     ]
   },
   "cloudforce-one-add-account-exemptions": {
@@ -13450,7 +13652,7 @@
     "method": "create",
     "httpMethod": "POST",
     "path": "/accounts/{account_id}/dlp/custom_prompt_topics",
-    "requestType": "CreateCustomPromptTopicsRequest",
+    "requestType": "DlpNewCustomPromptTopic",
     "responseType": "DlpCustomPromptTopic",
     "requiredRequestProperties": [
       "account_id",
@@ -13514,7 +13716,7 @@
     "method": "update",
     "httpMethod": "PUT",
     "path": "/accounts/{account_id}/dlp/custom_prompt_topics/{entry_id}",
-    "requestType": "UpdateCustomPromptTopicsRequest",
+    "requestType": "DlpCustomPromptTopicUpdate",
     "responseType": "DlpCustomPromptTopic",
     "requiredRequestProperties": [
       "account_id",
@@ -13807,7 +14009,7 @@
     "method": "create",
     "httpMethod": "POST",
     "path": "/accounts/{account_id}/dlp/datasets",
-    "requestType": "CreateDatasetsRequest",
+    "requestType": "DlpNewDataset",
     "responseType": "DlpDatasetCreation",
     "requiredRequestProperties": [
       "account_id",
@@ -13885,7 +14087,7 @@
     "method": "update",
     "httpMethod": "PUT",
     "path": "/accounts/{account_id}/dlp/datasets/{dataset_id}",
-    "requestType": "UpdateDatasetsRequest",
+    "requestType": "DlpDatasetUpdate",
     "responseType": "DlpDataset",
     "requiredRequestProperties": [
       "account_id",
@@ -13912,7 +14114,7 @@
     "method": "create",
     "httpMethod": "POST",
     "path": "/accounts/{account_id}/dlp/document_fingerprints",
-    "requestType": "CreateDocumentFingerprintsRequest",
+    "requestType": "DlpNewDocumentFingerprint",
     "responseType": "DlpDocumentFingerprint",
     "requiredRequestProperties": [
       "account_id",
@@ -17756,23 +17958,21 @@
   },
   "generated:delete:/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}": {
     "accessor": [
-      "rulesets",
-      "accountRulesets"
+      "rulesets"
     ],
     "method": "delete",
     "httpMethod": "DELETE",
-    "path": "/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}",
-    "requestType": "DeleteAccountRulesetsRequest",
+    "path": "/{account_or_zone}/{account_or_zone_id}/rulesets/{id}",
+    "requestType": "DeleteRulesetsRequest",
     "requiredRequestProperties": [
       "account_or_zone",
       "account_or_zone_id",
-      "ruleset_id"
+      "id"
     ]
   },
   "generated:delete:/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}/rules/{rule_id}": {
     "accessor": [
       "rulesets",
-      "accountRulesets",
       "rules"
     ],
     "method": "delete",
@@ -17790,17 +17990,16 @@
   "generated:delete:/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}/versions/{ruleset_version}": {
     "accessor": [
       "rulesets",
-      "accountRulesets",
       "versions"
     ],
     "method": "delete",
     "httpMethod": "DELETE",
-    "path": "/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}/versions/{ruleset_version}",
+    "path": "/{account_or_zone}/{account_or_zone_id}/rulesets/{id}/versions/{ruleset_version}",
     "requestType": "DeleteVersionsRequest",
     "requiredRequestProperties": [
       "account_or_zone",
       "account_or_zone_id",
-      "ruleset_id",
+      "id",
       "ruleset_version"
     ]
   },
@@ -18494,7 +18693,6 @@
   },
   "generated:get:/{account_or_zone}/{account_or_zone_id}/pay-per-use/usage-stats": {
     "accessor": [
-      "payPerCrawl",
       "payPerUse",
       "usageStats"
     ],
@@ -18512,14 +18710,13 @@
   },
   "generated:get:/{account_or_zone}/{account_or_zone_id}/rulesets": {
     "accessor": [
-      "rulesets",
-      "accountRulesets"
+      "rulesets"
     ],
     "method": "list",
     "httpMethod": "GET",
     "path": "/{account_or_zone}/{account_or_zone_id}/rulesets",
-    "requestType": "ListAccountRulesetsRequest",
-    "responseType": "ListAccountRulesetsResponse",
+    "requestType": "ListRulesetsRequest",
+    "responseType": "ListRulesetsResponse",
     "requiredRequestProperties": [
       "account_or_zone",
       "account_or_zone_id"
@@ -18528,126 +18725,119 @@
   "generated:get:/{account_or_zone}/{account_or_zone_id}/rulesets/phases/{ruleset_phase}/entrypoint": {
     "accessor": [
       "rulesets",
-      "accountRulesets",
-      "phases"
+      "entrypoint"
     ],
     "method": "get",
     "httpMethod": "GET",
-    "path": "/{account_or_zone}/{account_or_zone_id}/rulesets/phases/{ruleset_phase}/entrypoint",
-    "requestType": "GetPhasesRequest",
-    "responseType": "GetPhasesResponse",
+    "path": "/{account_or_zone}/{account_or_zone_id}/rulesets/phases/{phase}/entrypoint",
+    "requestType": "GetEntrypointRequest",
+    "responseType": "GetEntrypointResponse",
     "requiredRequestProperties": [
       "account_or_zone",
       "account_or_zone_id",
-      "ruleset_phase"
+      "phase"
     ]
   },
   "generated:get:/{account_or_zone}/{account_or_zone_id}/rulesets/phases/{ruleset_phase}/entrypoint/versions": {
     "accessor": [
       "rulesets",
-      "accountRulesets",
-      "phases",
+      "entrypoint",
       "versions"
     ],
     "method": "list",
     "httpMethod": "GET",
-    "path": "/{account_or_zone}/{account_or_zone_id}/rulesets/phases/{ruleset_phase}/entrypoint/versions",
+    "path": "/{account_or_zone}/{account_or_zone_id}/rulesets/phases/{phase}/entrypoint/versions",
     "requestType": "ListVersionsRequest",
     "responseType": "ListVersionsResponse",
     "requiredRequestProperties": [
       "account_or_zone",
       "account_or_zone_id",
-      "ruleset_phase"
+      "phase"
     ]
   },
   "generated:get:/{account_or_zone}/{account_or_zone_id}/rulesets/phases/{ruleset_phase}/entrypoint/versions/{ruleset_version}": {
     "accessor": [
       "rulesets",
-      "accountRulesets",
-      "phases",
+      "entrypoint",
       "versions"
     ],
     "method": "get",
     "httpMethod": "GET",
-    "path": "/{account_or_zone}/{account_or_zone_id}/rulesets/phases/{ruleset_phase}/entrypoint/versions/{ruleset_version}",
+    "path": "/{account_or_zone}/{account_or_zone_id}/rulesets/phases/{phase}/entrypoint/versions/{ruleset_version}",
     "requestType": "GetVersionsRequest",
     "responseType": "GetVersionsResponse",
     "requiredRequestProperties": [
       "account_or_zone",
       "account_or_zone_id",
-      "ruleset_phase",
+      "phase",
       "ruleset_version"
     ]
   },
   "generated:get:/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}": {
     "accessor": [
-      "rulesets",
-      "accountRulesets"
+      "rulesets"
     ],
     "method": "get",
     "httpMethod": "GET",
-    "path": "/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}",
-    "requestType": "GetAccountRulesetsRequest",
-    "responseType": "GetAccountRulesetsResponse",
+    "path": "/{account_or_zone}/{account_or_zone_id}/rulesets/{id}",
+    "requestType": "GetRulesetsRequest",
+    "responseType": "GetRulesetsResponse",
     "requiredRequestProperties": [
       "account_or_zone",
       "account_or_zone_id",
-      "ruleset_id"
+      "id"
     ]
   },
   "generated:get:/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}/versions": {
     "accessor": [
       "rulesets",
-      "accountRulesets",
       "versions"
     ],
     "method": "list",
     "httpMethod": "GET",
-    "path": "/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}/versions",
+    "path": "/{account_or_zone}/{account_or_zone_id}/rulesets/{id}/versions",
     "requestType": "ListVersionsRequest",
     "responseType": "ListVersionsResponse",
     "requiredRequestProperties": [
       "account_or_zone",
       "account_or_zone_id",
-      "ruleset_id"
+      "id"
     ]
   },
   "generated:get:/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}/versions/{ruleset_version}": {
     "accessor": [
       "rulesets",
-      "accountRulesets",
       "versions"
     ],
     "method": "get",
     "httpMethod": "GET",
-    "path": "/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}/versions/{ruleset_version}",
+    "path": "/{account_or_zone}/{account_or_zone_id}/rulesets/{id}/versions/{ruleset_version}",
     "requestType": "GetVersionsRequest",
     "responseType": "GetVersionsResponse",
     "requiredRequestProperties": [
       "account_or_zone",
       "account_or_zone_id",
-      "ruleset_id",
+      "id",
       "ruleset_version"
     ]
   },
   "generated:get:/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}/versions/{ruleset_version}/by_tag/{rule_tag}": {
     "accessor": [
       "rulesets",
-      "accountRulesets",
       "versions",
       "byTag"
     ],
-    "method": "list",
+    "method": "get",
     "httpMethod": "GET",
-    "path": "/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}/versions/{ruleset_version}/by_tag/{rule_tag}",
-    "requestType": "ListByTagRequest",
-    "responseType": "ListByTagResponse",
+    "path": "/{account_or_zone}/{account_or_zone_id}/rulesets/{id}/versions/{ruleset_version}/by_tag/{tag}",
+    "requestType": "GetByTagRequest",
+    "responseType": "GetByTagResponse",
     "requiredRequestProperties": [
       "account_or_zone",
       "account_or_zone_id",
-      "rule_tag",
-      "ruleset_id",
-      "ruleset_version"
+      "id",
+      "ruleset_version",
+      "tag"
     ]
   },
   "generated:get:/{account_or_zone}/{account_or_zone_id}/security-center/insights": {
@@ -18888,7 +19078,6 @@
   "generated:patch:/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}/rules/{rule_id}": {
     "accessor": [
       "rulesets",
-      "accountRulesets",
       "rules"
     ],
     "method": "update",
@@ -19035,9 +19224,7 @@
     "responseType": "AccessOrganizations",
     "requiredRequestProperties": [
       "account_or_zone",
-      "account_or_zone_id",
-      "auth_domain",
-      "name"
+      "account_or_zone_id"
     ]
   },
   "generated:post:/{account_or_zone}/{account_or_zone_id}/access/organizations/revoke_user": {
@@ -19321,27 +19508,24 @@
   },
   "generated:post:/{account_or_zone}/{account_or_zone_id}/rulesets": {
     "accessor": [
-      "rulesets",
-      "accountRulesets"
+      "rulesets"
     ],
     "method": "create",
     "httpMethod": "POST",
     "path": "/{account_or_zone}/{account_or_zone_id}/rulesets",
-    "requestType": "CreateAccountRulesetsRequest",
-    "responseType": "CreateAccountRulesetsResponse",
+    "requestType": "CreateRulesetsRequest",
+    "responseType": "CreateRulesetsResponse",
     "requiredRequestProperties": [
       "account_or_zone",
       "account_or_zone_id",
       "id",
       "kind",
-      "phase",
-      "version"
+      "phase"
     ]
   },
   "generated:post:/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}/rules": {
     "accessor": [
       "rulesets",
-      "accountRulesets",
       "rules"
     ],
     "method": "create",
@@ -19620,38 +19804,34 @@
   "generated:put:/{account_or_zone}/{account_or_zone_id}/rulesets/phases/{ruleset_phase}/entrypoint": {
     "accessor": [
       "rulesets",
-      "accountRulesets",
-      "phases"
+      "entrypoint"
     ],
     "method": "update",
     "httpMethod": "PUT",
-    "path": "/{account_or_zone}/{account_or_zone_id}/rulesets/phases/{ruleset_phase}/entrypoint",
-    "requestType": "UpdatePhasesRequest",
-    "responseType": "UpdatePhasesResponse",
+    "path": "/{account_or_zone}/{account_or_zone_id}/rulesets/phases/{phase}/entrypoint",
+    "requestType": "UpdateEntrypointRequest",
+    "responseType": "UpdateEntrypointResponse",
     "requiredRequestProperties": [
       "account_or_zone",
       "account_or_zone_id",
       "id",
-      "ruleset_phase",
-      "version"
+      "phase"
     ]
   },
   "generated:put:/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}": {
     "accessor": [
-      "rulesets",
-      "accountRulesets"
+      "rulesets"
     ],
     "method": "update",
     "httpMethod": "PUT",
     "path": "/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}",
-    "requestType": "UpdateAccountRulesetsRequest",
-    "responseType": "UpdateAccountRulesetsResponse",
+    "requestType": "UpdateRulesetsRequest",
+    "responseType": "UpdateRulesetsResponse",
     "requiredRequestProperties": [
       "account_or_zone",
       "account_or_zone_id",
       "id",
-      "ruleset_id",
-      "version"
+      "ruleset_id"
     ]
   },
   "generated:put:/{account_or_zone}/{account_or_zone_id}/security-center/insights/{issue_id}/dismiss": {
@@ -20997,14 +21177,12 @@
   "getResourceLibraryApplicationById": {
     "accessor": [
       "accounts",
-      "applications",
-      "get",
-      "by"
+      "applications"
     ],
-    "method": "id",
+    "method": "get",
     "httpMethod": "GET",
     "path": "/accounts/{account_id}/resource-library/applications/{id}",
-    "requestType": "IdByRequest",
+    "requestType": "GetApplicationsRequest",
     "responseType": "AlexandriaApplication",
     "requiredRequestProperties": [
       "account_id",
@@ -21014,14 +21192,13 @@
   "getResourceLibraryApplications": {
     "accessor": [
       "accounts",
-      "applications",
-      "get"
+      "applications"
     ],
-    "method": "applications",
+    "method": "list",
     "httpMethod": "GET",
     "path": "/accounts/{account_id}/resource-library/applications",
-    "requestType": "ApplicationsGetRequest",
-    "responseType": "ApplicationsGetResponse",
+    "requestType": "ListApplicationsRequest",
+    "responseType": "ListApplicationsResponse",
     "requiredRequestProperties": [
       "account_id"
     ]
@@ -21029,14 +21206,13 @@
   "getResourceLibraryCategories": {
     "accessor": [
       "accounts",
-      "categories",
-      "get"
+      "categories"
     ],
-    "method": "categories",
+    "method": "list",
     "httpMethod": "GET",
     "path": "/accounts/{account_id}/resource-library/categories",
-    "requestType": "CategoriesGetRequest",
-    "responseType": "CategoriesGetResponse",
+    "requestType": "ListCategoriesRequest",
+    "responseType": "ListCategoriesResponse",
     "requiredRequestProperties": [
       "account_id"
     ]
@@ -21044,14 +21220,12 @@
   "getResourceLibraryCategoryById": {
     "accessor": [
       "accounts",
-      "categories",
-      "get",
-      "by"
+      "categories"
     ],
-    "method": "id",
+    "method": "get",
     "httpMethod": "GET",
     "path": "/accounts/{account_id}/resource-library/categories/{id}",
-    "requestType": "IdByRequest",
+    "requestType": "GetCategoriesRequest",
     "responseType": "AlexandriaCategory",
     "requiredRequestProperties": [
       "account_id",
@@ -25304,7 +25478,7 @@
     "path": "/user/load_balancers/pools",
     "responseType": "PoolsPoolsResponse",
     "requiredRequestProperties": [
-      "__@iterator@7539",
+      "__@iterator@7041",
       "anchor",
       "at",
       "big",
@@ -28003,6 +28177,7 @@
     "httpMethod": "DELETE",
     "path": "/accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/tags/{tag}",
     "requestType": "DeleteTagsRequest",
+    "responseType": "DeleteTagsResponse",
     "requiredRequestProperties": [
       "account_id",
       "dispatch_namespace",
@@ -28231,6 +28406,26 @@
       "account_id",
       "dispatch_namespace",
       "script_name"
+    ]
+  },
+  "namespace-worker-patch-script-tag": {
+    "accessor": [
+      "workersForPlatforms",
+      "dispatchNamespaces",
+      "scripts",
+      "tags"
+    ],
+    "method": "edit",
+    "httpMethod": "PATCH",
+    "path": "/accounts/{account_id}/workers/dispatch/namespaces/{dispatch_namespace}/scripts/{script_name}/tags/{tag}",
+    "requestType": "WorkersTagPatch",
+    "responseType": "WorkersTagsKv",
+    "requiredRequestProperties": [
+      "account_id",
+      "dispatch_namespace",
+      "script_name",
+      "tag",
+      "value"
     ]
   },
   "namespace-worker-put-namespace": {
@@ -30445,7 +30640,6 @@
   },
   "pay-per-crawl.deletePPUPublisherPrice": {
     "accessor": [
-      "payPerCrawl",
       "payPerUse",
       "pricing"
     ],
@@ -30475,7 +30669,6 @@
   },
   "pay-per-crawl.getPPUOperatorConfiguration": {
     "accessor": [
-      "payPerCrawl",
       "payPerUse",
       "operator"
     ],
@@ -30490,7 +30683,6 @@
   },
   "pay-per-crawl.getPPUZoneCanBeEnabled": {
     "accessor": [
-      "payPerCrawl",
       "payPerUse",
       "zones"
     ],
@@ -30505,7 +30697,6 @@
   },
   "pay-per-crawl.getPPUZoneConfiguration": {
     "accessor": [
-      "payPerCrawl",
       "payPerUse",
       "zones"
     ],
@@ -30589,7 +30780,6 @@
   },
   "pay-per-crawl.listPPUOperators": {
     "accessor": [
-      "payPerCrawl",
       "payPerUse",
       "pricing"
     ],
@@ -30604,7 +30794,6 @@
   },
   "pay-per-crawl.listPPUProposals": {
     "accessor": [
-      "payPerCrawl",
       "payPerUse",
       "proposals"
     ],
@@ -30635,7 +30824,6 @@
   },
   "pay-per-crawl.patchPPUOperatorConfiguration": {
     "accessor": [
-      "payPerCrawl",
       "payPerUse",
       "operator"
     ],
@@ -30650,7 +30838,6 @@
   },
   "pay-per-crawl.patchPPUZoneConfiguration": {
     "accessor": [
-      "payPerCrawl",
       "payPerUse",
       "zones"
     ],
@@ -30665,7 +30852,6 @@
   },
   "pay-per-crawl.postPPUProposalDecision": {
     "accessor": [
-      "payPerCrawl",
       "payPerUse",
       "proposals"
     ],
@@ -30685,7 +30871,6 @@
   },
   "pay-per-crawl.postPPUPublisherPriceAction": {
     "accessor": [
-      "payPerCrawl",
       "payPerUse",
       "pricing"
     ],
@@ -30748,7 +30933,6 @@
   },
   "pay-per-crawl.putPPUOperatorConfiguration": {
     "accessor": [
-      "payPerCrawl",
       "payPerUse",
       "operator"
     ],
@@ -30795,7 +30979,6 @@
   },
   "pay-per-crawl.setPPUZonesCanBeEnabled": {
     "accessor": [
-      "payPerCrawl",
       "payPerUse",
       "zones"
     ],
@@ -31248,7 +31431,6 @@
     "responseType": "CloudflareK2K2Stream",
     "requiredRequestProperties": [
       "account_id",
-      "http",
       "name"
     ]
   },
@@ -32008,6 +32190,22 @@
       "requirement"
     ]
   },
+  "post_PirFilterGenerate": {
+    "accessor": [
+      "cloudforceOne",
+      "priorityIntelligence",
+      "filters"
+    ],
+    "method": "generate",
+    "httpMethod": "POST",
+    "path": "/accounts/{account_id}/cloudforce-one/v2/priority-intelligence/filters/generate",
+    "requestType": "GenerateFiltersRequest",
+    "responseType": "GenerateFiltersResponse",
+    "requiredRequestProperties": [
+      "account_id",
+      "requirement"
+    ]
+  },
   "post_PirInterestBacktestCreate": {
     "accessor": [
       "cloudforceOne",
@@ -32239,6 +32437,26 @@
     "requiredRequestProperties": [
       "account_id",
       "image"
+    ]
+  },
+  "profileWorkerVersion": {
+    "accessor": [
+      "workers",
+      "versions"
+    ],
+    "method": "profile",
+    "httpMethod": "POST",
+    "path": "/accounts/{account_id}/workers/workers/{worker_id}/versions/{version_id}/profile",
+    "requestType": "ProfileVersionsRequest",
+    "responseType": "BinaryResponse",
+    "requiredRequestProperties": [
+      "account_id",
+      "duration_ms",
+      "version_id",
+      "worker_id"
+    ],
+    "numericRequestProperties": [
+      "duration_ms"
     ]
   },
   "providers-create": {
@@ -33192,6 +33410,24 @@
     "responseType": "R2Bucket",
     "requiredRequestProperties": [
       "account_id",
+      "bucket_name"
+    ]
+  },
+  "r2-create-bucket-job": {
+    "accessor": [
+      "r2",
+      "buckets",
+      "jobs"
+    ],
+    "method": "create",
+    "httpMethod": "POST",
+    "path": "/accounts/{account_id}/r2/buckets/{bucket_name}/jobs",
+    "requestType": "CreateJobsRequest",
+    "responseType": "R2R2BucketJob",
+    "requestBodyProperty": "body",
+    "requiredRequestProperties": [
+      "account_id",
+      "body",
       "bucket_name"
     ]
   },
@@ -38026,6 +38262,26 @@
       "skill_id"
     ]
   },
+  "rssArticleSkillRun": {
+    "accessor": [
+      "cloudforceOne",
+      "threatSignals",
+      "articles",
+      "skills"
+    ],
+    "method": "run",
+    "httpMethod": "POST",
+    "path": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/articles/{article_id}/skills/{skill_id}/run",
+    "requestType": "RunSkillsRequest",
+    "responseType": "RunSkillsResponse",
+    "requestBodyProperty": "body",
+    "requiredRequestProperties": [
+      "account_id",
+      "article_id",
+      "body",
+      "skill_id"
+    ]
+  },
   "rssArticleTagAdd": {
     "accessor": [
       "cloudforceOne",
@@ -40859,13 +41115,27 @@
   },
   "sql-api-introspection": {
     "accessor": [
+      "sql"
+    ],
+    "method": "datasets",
+    "httpMethod": "GET",
+    "path": "/analytics/sql/introspection",
+    "requestType": "DatasetsSqlRequest",
+    "responseType": "AnalyticsSqlIntrospectionResponse",
+    "requiredRequestProperties": [
+      "account_tag"
+    ]
+  },
+  "sql-api-introspection-account-scoped": {
+    "accessor": [
       "analytics",
       "sql",
+      "accounts",
       "introspection"
     ],
     "method": "get",
     "httpMethod": "GET",
-    "path": "/analytics/sql/introspection",
+    "path": "/accounts/{account_tag}/analytics/sql/introspection",
     "requestType": "GetIntrospectionRequest",
     "responseType": "AnalyticsSqlIntrospectionResponse",
     "requiredRequestProperties": [
@@ -40886,18 +41156,50 @@
       "query"
     ]
   },
-  "sql-api-query-post": {
+  "sql-api-query-get-account-scoped": {
     "accessor": [
       "analytics",
+      "sql",
+      "accounts"
+    ],
+    "method": "get",
+    "httpMethod": "GET",
+    "path": "/accounts/{account_tag}/analytics/sql",
+    "requestType": "GetAccountsRequest",
+    "responseType": "GetAccountsResponse",
+    "requiredRequestProperties": [
+      "account_tag",
+      "query"
+    ]
+  },
+  "sql-api-query-post": {
+    "accessor": [
       "sql"
     ],
-    "method": "post",
+    "method": "query",
     "httpMethod": "POST",
     "path": "/analytics/sql",
     "requestType": "AnalyticsSqlSqlQueryRequest",
-    "responseType": "PostSqlResponse",
+    "responseType": "QuerySqlResponse",
     "requiredRequestProperties": [
       "query"
+    ]
+  },
+  "sql-api-query-post-account-scoped": {
+    "accessor": [
+      "analytics",
+      "sql",
+      "accounts"
+    ],
+    "method": "post",
+    "httpMethod": "POST",
+    "path": "/accounts/{account_tag}/analytics/sql",
+    "requestType": "PostAccountsRequest",
+    "responseType": "PostAccountsResponse",
+    "requestBodyProperty": "body",
+    "requiredRequestProperties": [
+      "account_tag",
+      "body"
     ]
   },
   "ssl-detector-auto-origin-tls-kex-get-enrollment": {
@@ -46311,13 +46613,13 @@
   },
   "workers-ai-ai-gateway-web-search": {
     "accessor": [
-      "aiGateway"
+      "ai"
     ],
-    "method": "webSearch",
+    "method": "websearch",
     "httpMethod": "POST",
     "path": "/accounts/{account_id}/ai/websearch",
-    "requestType": "WebSearchAiGatewayRequest",
-    "responseType": "WebSearchAiGatewayResponse",
+    "requestType": "WebsearchAiRequest",
+    "responseType": "WebsearchAiResponse",
     "requiredRequestProperties": [
       "account_id",
       "options",
@@ -47819,7 +48121,8 @@
   "zero-trust-get-audit-ssh-settings": {
     "accessor": [
       "zeroTrust",
-      "gateway",
+      "access",
+      "infrastructure",
       "auditSshSettings"
     ],
     "method": "get",
@@ -48198,7 +48501,8 @@
   "zero-trust-rotate-ssh-account-seed": {
     "accessor": [
       "zeroTrust",
-      "gateway",
+      "access",
+      "infrastructure",
       "auditSshSettings"
     ],
     "method": "rotateSeed",
@@ -48229,7 +48533,8 @@
   "zero-trust-update-audit-ssh-settings": {
     "accessor": [
       "zeroTrust",
-      "gateway",
+      "access",
+      "infrastructure",
       "auditSshSettings"
     ],
     "method": "update",
@@ -48269,6 +48574,22 @@
     "httpMethod": "DELETE",
     "path": "/accounts/{account_id}/access/users/{user_id}/mfa_authenticators/{authenticator_id}",
     "requestType": "DeleteAuthenticatorsRequest",
+    "requiredRequestProperties": [
+      "account_id",
+      "authenticator_id",
+      "user_id"
+    ]
+  },
+  "zero-trust-users-delete-passkey": {
+    "accessor": [
+      "zeroTrust",
+      "users",
+      "passkeys"
+    ],
+    "method": "delete",
+    "httpMethod": "DELETE",
+    "path": "/accounts/{account_id}/access/users/{user_id}/passkeys/{authenticator_id}",
+    "requestType": "DeletePasskeysRequest",
     "requiredRequestProperties": [
       "account_id",
       "authenticator_id",
@@ -48353,7 +48674,7 @@
     "httpMethod": "GET",
     "path": "/accounts/{account_id}/access/users/{user_id}/last_seen_identity",
     "requestType": "GetLastSeenIdentityRequest",
-    "responseType": "AccessIdentity",
+    "responseType": "GetLastSeenIdentityResponse",
     "requiredRequestProperties": [
       "account_id",
       "user_id"

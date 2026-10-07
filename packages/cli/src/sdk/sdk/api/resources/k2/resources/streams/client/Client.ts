@@ -104,7 +104,7 @@ export class StreamsClient {
     }
 
     /**
-     * Create a new K2 stream.
+     * Create a new K2 stream. HTTP is disabled when `http` is omitted. Enabled HTTP requires authentication and allows all origins unless `authentication` or `cors` say otherwise. At least one input must be enabled.
      *
      * @param {CloudflareApi.k2.CloudflareK2CreateK2StreamRequest} request
      * @param {StreamsClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -112,9 +112,6 @@ export class StreamsClient {
      * @example
      *     await client.k2.streams.create({
      *         account_id: "account_id",
-     *         http: {
-     *             enabled: false
-     *         },
      *         name: "my_k2_stream"
      *     })
      */
@@ -308,7 +305,7 @@ export class StreamsClient {
     }
 
     /**
-     * Update a K2 stream. Omitted `http` settings, such as `authentication` and `cors`, keep their current values while HTTP stays enabled. Disabling HTTP clears its settings. At least one input must remain enabled.
+     * Update a K2 stream. Omitted `http` settings, such as `authentication` and `cors`, keep their current values. Disabling HTTP keeps them, so enabling HTTP again restores them. At least one input must remain enabled.
      *
      * @param {CloudflareApi.k2.CloudflareK2UpdateK2StreamRequest} request
      * @param {StreamsClient.RequestOptions} requestOptions - Request-specific configuration.

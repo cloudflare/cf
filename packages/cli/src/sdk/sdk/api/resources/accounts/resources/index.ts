@@ -1,9 +1,12 @@
 export * as applications from "./applications/index.js";
 export * from "./applications/client/requests/index.js";
+export * from "./applications/types/index.js";
 export * as billing from "./billing/index.js";
 export * from "./billing/client/requests/index.js";
 export * from "./billing/types/index.js";
 export * as categories from "./categories/index.js";
+export * from "./categories/client/requests/index.js";
+export * from "./categories/types/index.js";
 export * as logs from "./logs/index.js";
 export * as members from "./members/index.js";
 export * from "./members/client/requests/index.js";

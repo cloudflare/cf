@@ -27,12 +27,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Indexed item ID.",
 			demandOption: true,
 		})
-		.option("name", {
+		.option("namespace", {
 			type: "string",
 			description: "Namespace to use for this operation.",
 			demandOption: true,
 		})
-		.option("id", {
+		.option("instance-id", {
 			type: "string",
 			description: "AI Search instance ID.",
 			demandOption: true,
@@ -71,11 +71,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf ai-search items download",
 						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/namespaces/${argv["name"] == null ? "<name>" : encodeURIComponent(String(argv["name"]))}/instances/${argv["id"] == null ? "<id>" : encodeURIComponent(String(argv["id"]))}/items/${argv["item-id"] == null ? "<item-id>" : encodeURIComponent(String(argv["item-id"]))}/download`,
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/namespaces/${argv["namespace"] == null ? "<namespace>" : encodeURIComponent(String(argv["namespace"]))}/instances/${argv["instance-id"] == null ? "<instance-id>" : encodeURIComponent(String(argv["instance-id"]))}/items/${argv["item-id"] == null ? "<item-id>" : encodeURIComponent(String(argv["item-id"]))}/download`,
 						pathParams: {
-							id: String(argv["id"] ?? ""),
+							"instance-id": String(argv["instance-id"] ?? ""),
 							"item-id": String(argv["item-id"] ?? ""),
-							name: String(argv["name"] ?? ""),
+							namespace: String(argv["namespace"] ?? ""),
 						},
 						bodyKind: "none",
 					});
@@ -87,7 +87,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				const __cfRawBytes = await withProgress(`Loading`, async () =>
 					fetchRawBytes(
-						`/accounts/${accountId}/ai-search/namespaces/${encodeURIComponent(String(argv["name"]))}/instances/${encodeURIComponent(String(argv["id"]))}/items/${encodeURIComponent(String(argv["item-id"]))}/download`,
+						`/accounts/${accountId}/ai-search/namespaces/${encodeURIComponent(String(argv["namespace"]))}/instances/${encodeURIComponent(String(argv["instance-id"]))}/items/${encodeURIComponent(String(argv["item-id"]))}/download`,
 						{
 							method: "GET",
 							local: argv.local === true,

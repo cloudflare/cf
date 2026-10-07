@@ -20,9 +20,9 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 ai-search namespace get <name>\n\nRetrieve a namespace and its description."
+			"$0 ai-search namespace get <namespace>\n\nRetrieve a namespace and its description."
 		)
-		.positional("name", {
+		.positional("namespace", {
 			type: "string",
 			description: "Namespace to retrieve.",
 			demandOption: true,
@@ -39,7 +39,7 @@ type Args = InferArgs<typeof builder>;
 type Request = SdkRequest<"ai-search-fetch-namespace">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "get <name>",
+	command: "get <namespace>",
 	describe: "Get a namespace",
 	builder,
 	handler: async (argv): Promise<void> =>
@@ -57,8 +57,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf ai-search namespace get",
 						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/namespaces/${argv["name"] == null ? "<name>" : encodeURIComponent(String(argv["name"]))}`,
-						pathParams: { name: String(argv["name"] ?? "") },
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/namespaces/${argv["namespace"] == null ? "<namespace>" : encodeURIComponent(String(argv["namespace"]))}`,
+						pathParams: { namespace: String(argv["namespace"] ?? "") },
 						bodyKind: "none",
 					});
 					return;
@@ -70,7 +70,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const result = await withProgress(`Loading`, async () =>
 					client.aiSearch.namespace.get({
 						account_id: accountId,
-						name: argv["name"],
+						namespace: argv["namespace"],
 					} satisfies Request)
 				);
 				formatOutput(result, { successLabel: `Loaded` });

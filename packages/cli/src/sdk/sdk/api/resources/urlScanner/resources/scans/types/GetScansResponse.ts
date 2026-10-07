@@ -351,6 +351,7 @@ export namespace GetScansResponse {
                             durationMs?: number | undefined;
                             evidence?: ContentSignals.Evidence.Item[] | undefined;
                             message?: string | undefined;
+                            messageRef?: ContentSignals.MessageRef | undefined;
                             status: string;
                         }
 
@@ -388,6 +389,12 @@ export namespace GetScansResponse {
                                     }
                                 }
                             }
+
+                            export interface MessageRef {
+                                /** Stable, translatable message code. */
+                                code: string;
+                                params?: Record<string, unknown> | undefined;
+                            }
                         }
 
                         export interface RobotsTxtAiRules {
@@ -395,6 +402,7 @@ export namespace GetScansResponse {
                             durationMs?: number | undefined;
                             evidence?: RobotsTxtAiRules.Evidence.Item[] | undefined;
                             message?: string | undefined;
+                            messageRef?: RobotsTxtAiRules.MessageRef | undefined;
                             status: string;
                         }
 
@@ -432,6 +440,12 @@ export namespace GetScansResponse {
                                     }
                                 }
                             }
+
+                            export interface MessageRef {
+                                /** Stable, translatable message code. */
+                                code: string;
+                                params?: Record<string, unknown> | undefined;
+                            }
                         }
 
                         export interface WebBotAuth {
@@ -439,6 +453,7 @@ export namespace GetScansResponse {
                             durationMs?: number | undefined;
                             evidence?: WebBotAuth.Evidence.Item[] | undefined;
                             message?: string | undefined;
+                            messageRef?: WebBotAuth.MessageRef | undefined;
                             status: string;
                         }
 
@@ -476,6 +491,12 @@ export namespace GetScansResponse {
                                     }
                                 }
                             }
+
+                            export interface MessageRef {
+                                /** Stable, translatable message code. */
+                                code: string;
+                                params?: Record<string, unknown> | undefined;
+                            }
                         }
                     }
 
@@ -493,6 +514,7 @@ export namespace GetScansResponse {
                             durationMs?: number | undefined;
                             evidence?: Acp.Evidence.Item[] | undefined;
                             message?: string | undefined;
+                            messageRef?: Acp.MessageRef | undefined;
                             status: string;
                         }
 
@@ -530,6 +552,12 @@ export namespace GetScansResponse {
                                     }
                                 }
                             }
+
+                            export interface MessageRef {
+                                /** Stable, translatable message code. */
+                                code: string;
+                                params?: Record<string, unknown> | undefined;
+                            }
                         }
 
                         export interface Ap2 {
@@ -537,6 +565,7 @@ export namespace GetScansResponse {
                             durationMs?: number | undefined;
                             evidence?: Ap2.Evidence.Item[] | undefined;
                             message?: string | undefined;
+                            messageRef?: Ap2.MessageRef | undefined;
                             status: string;
                         }
 
@@ -574,6 +603,12 @@ export namespace GetScansResponse {
                                     }
                                 }
                             }
+
+                            export interface MessageRef {
+                                /** Stable, translatable message code. */
+                                code: string;
+                                params?: Record<string, unknown> | undefined;
+                            }
                         }
 
                         export interface Mpp {
@@ -581,6 +616,7 @@ export namespace GetScansResponse {
                             durationMs?: number | undefined;
                             evidence?: Mpp.Evidence.Item[] | undefined;
                             message?: string | undefined;
+                            messageRef?: Mpp.MessageRef | undefined;
                             status: string;
                         }
 
@@ -618,6 +654,12 @@ export namespace GetScansResponse {
                                     }
                                 }
                             }
+
+                            export interface MessageRef {
+                                /** Stable, translatable message code. */
+                                code: string;
+                                params?: Record<string, unknown> | undefined;
+                            }
                         }
 
                         export interface Ucp {
@@ -625,6 +667,7 @@ export namespace GetScansResponse {
                             durationMs?: number | undefined;
                             evidence?: Ucp.Evidence.Item[] | undefined;
                             message?: string | undefined;
+                            messageRef?: Ucp.MessageRef | undefined;
                             status: string;
                         }
 
@@ -662,6 +705,12 @@ export namespace GetScansResponse {
                                     }
                                 }
                             }
+
+                            export interface MessageRef {
+                                /** Stable, translatable message code. */
+                                code: string;
+                                params?: Record<string, unknown> | undefined;
+                            }
                         }
 
                         export interface X402 {
@@ -669,6 +718,7 @@ export namespace GetScansResponse {
                             durationMs?: number | undefined;
                             evidence?: X402.Evidence.Item[] | undefined;
                             message?: string | undefined;
+                            messageRef?: X402.MessageRef | undefined;
                             status: string;
                         }
 
@@ -706,6 +756,12 @@ export namespace GetScansResponse {
                                     }
                                 }
                             }
+
+                            export interface MessageRef {
+                                /** Stable, translatable message code. */
+                                code: string;
+                                params?: Record<string, unknown> | undefined;
+                            }
                         }
                     }
 
@@ -719,6 +775,7 @@ export namespace GetScansResponse {
                             durationMs?: number | undefined;
                             evidence?: MarkdownNegotiation.Evidence.Item[] | undefined;
                             message?: string | undefined;
+                            messageRef?: MarkdownNegotiation.MessageRef | undefined;
                             status: string;
                         }
 
@@ -756,6 +813,12 @@ export namespace GetScansResponse {
                                     }
                                 }
                             }
+
+                            export interface MessageRef {
+                                /** Stable, translatable message code. */
+                                code: string;
+                                params?: Record<string, unknown> | undefined;
+                            }
                         }
                     }
 
@@ -772,6 +835,7 @@ export namespace GetScansResponse {
                             durationMs?: number | undefined;
                             evidence?: DnsAid.Evidence.Item[] | undefined;
                             message?: string | undefined;
+                            messageRef?: DnsAid.MessageRef | undefined;
                             status: string;
                         }
 
@@ -809,6 +873,12 @@ export namespace GetScansResponse {
                                     }
                                 }
                             }
+
+                            export interface MessageRef {
+                                /** Stable, translatable message code. */
+                                code: string;
+                                params?: Record<string, unknown> | undefined;
+                            }
                         }
 
                         export interface LinkHeaders {
@@ -816,6 +886,7 @@ export namespace GetScansResponse {
                             durationMs?: number | undefined;
                             evidence?: LinkHeaders.Evidence.Item[] | undefined;
                             message?: string | undefined;
+                            messageRef?: LinkHeaders.MessageRef | undefined;
                             status: string;
                         }
 
@@ -853,6 +924,12 @@ export namespace GetScansResponse {
                                     }
                                 }
                             }
+
+                            export interface MessageRef {
+                                /** Stable, translatable message code. */
+                                code: string;
+                                params?: Record<string, unknown> | undefined;
+                            }
                         }
 
                         export interface RobotsTxt {
@@ -860,6 +937,7 @@ export namespace GetScansResponse {
                             durationMs?: number | undefined;
                             evidence?: RobotsTxt.Evidence.Item[] | undefined;
                             message?: string | undefined;
+                            messageRef?: RobotsTxt.MessageRef | undefined;
                             status: string;
                         }
 
@@ -897,6 +975,12 @@ export namespace GetScansResponse {
                                     }
                                 }
                             }
+
+                            export interface MessageRef {
+                                /** Stable, translatable message code. */
+                                code: string;
+                                params?: Record<string, unknown> | undefined;
+                            }
                         }
 
                         export interface Sitemap {
@@ -904,6 +988,7 @@ export namespace GetScansResponse {
                             durationMs?: number | undefined;
                             evidence?: Sitemap.Evidence.Item[] | undefined;
                             message?: string | undefined;
+                            messageRef?: Sitemap.MessageRef | undefined;
                             status: string;
                         }
 
@@ -941,6 +1026,12 @@ export namespace GetScansResponse {
                                     }
                                 }
                             }
+
+                            export interface MessageRef {
+                                /** Stable, translatable message code. */
+                                code: string;
+                                params?: Record<string, unknown> | undefined;
+                            }
                         }
                     }
 
@@ -962,6 +1053,7 @@ export namespace GetScansResponse {
                             durationMs?: number | undefined;
                             evidence?: A2AAgentCard.Evidence.Item[] | undefined;
                             message?: string | undefined;
+                            messageRef?: A2AAgentCard.MessageRef | undefined;
                             status: string;
                         }
 
@@ -999,6 +1091,12 @@ export namespace GetScansResponse {
                                     }
                                 }
                             }
+
+                            export interface MessageRef {
+                                /** Stable, translatable message code. */
+                                code: string;
+                                params?: Record<string, unknown> | undefined;
+                            }
                         }
 
                         export interface AgentSkills {
@@ -1006,6 +1104,7 @@ export namespace GetScansResponse {
                             durationMs?: number | undefined;
                             evidence?: AgentSkills.Evidence.Item[] | undefined;
                             message?: string | undefined;
+                            messageRef?: AgentSkills.MessageRef | undefined;
                             status: string;
                         }
 
@@ -1043,6 +1142,12 @@ export namespace GetScansResponse {
                                     }
                                 }
                             }
+
+                            export interface MessageRef {
+                                /** Stable, translatable message code. */
+                                code: string;
+                                params?: Record<string, unknown> | undefined;
+                            }
                         }
 
                         export interface ApiCatalog {
@@ -1050,6 +1155,7 @@ export namespace GetScansResponse {
                             durationMs?: number | undefined;
                             evidence?: ApiCatalog.Evidence.Item[] | undefined;
                             message?: string | undefined;
+                            messageRef?: ApiCatalog.MessageRef | undefined;
                             status: string;
                         }
 
@@ -1087,6 +1193,12 @@ export namespace GetScansResponse {
                                     }
                                 }
                             }
+
+                            export interface MessageRef {
+                                /** Stable, translatable message code. */
+                                code: string;
+                                params?: Record<string, unknown> | undefined;
+                            }
                         }
 
                         export interface Ard {
@@ -1094,6 +1206,7 @@ export namespace GetScansResponse {
                             durationMs?: number | undefined;
                             evidence?: Ard.Evidence.Item[] | undefined;
                             message?: string | undefined;
+                            messageRef?: Ard.MessageRef | undefined;
                             status: string;
                         }
 
@@ -1131,6 +1244,12 @@ export namespace GetScansResponse {
                                     }
                                 }
                             }
+
+                            export interface MessageRef {
+                                /** Stable, translatable message code. */
+                                code: string;
+                                params?: Record<string, unknown> | undefined;
+                            }
                         }
 
                         export interface AuthMd {
@@ -1138,6 +1257,7 @@ export namespace GetScansResponse {
                             durationMs?: number | undefined;
                             evidence?: AuthMd.Evidence.Item[] | undefined;
                             message?: string | undefined;
+                            messageRef?: AuthMd.MessageRef | undefined;
                             status: string;
                         }
 
@@ -1175,6 +1295,12 @@ export namespace GetScansResponse {
                                     }
                                 }
                             }
+
+                            export interface MessageRef {
+                                /** Stable, translatable message code. */
+                                code: string;
+                                params?: Record<string, unknown> | undefined;
+                            }
                         }
 
                         export interface McpServerCard {
@@ -1182,6 +1308,7 @@ export namespace GetScansResponse {
                             durationMs?: number | undefined;
                             evidence?: McpServerCard.Evidence.Item[] | undefined;
                             message?: string | undefined;
+                            messageRef?: McpServerCard.MessageRef | undefined;
                             status: string;
                         }
 
@@ -1219,6 +1346,12 @@ export namespace GetScansResponse {
                                     }
                                 }
                             }
+
+                            export interface MessageRef {
+                                /** Stable, translatable message code. */
+                                code: string;
+                                params?: Record<string, unknown> | undefined;
+                            }
                         }
 
                         export interface OauthDiscovery {
@@ -1226,6 +1359,7 @@ export namespace GetScansResponse {
                             durationMs?: number | undefined;
                             evidence?: OauthDiscovery.Evidence.Item[] | undefined;
                             message?: string | undefined;
+                            messageRef?: OauthDiscovery.MessageRef | undefined;
                             status: string;
                         }
 
@@ -1263,6 +1397,12 @@ export namespace GetScansResponse {
                                     }
                                 }
                             }
+
+                            export interface MessageRef {
+                                /** Stable, translatable message code. */
+                                code: string;
+                                params?: Record<string, unknown> | undefined;
+                            }
                         }
 
                         export interface OauthProtectedResource {
@@ -1270,6 +1410,7 @@ export namespace GetScansResponse {
                             durationMs?: number | undefined;
                             evidence?: OauthProtectedResource.Evidence.Item[] | undefined;
                             message?: string | undefined;
+                            messageRef?: OauthProtectedResource.MessageRef | undefined;
                             status: string;
                         }
 
@@ -1307,6 +1448,12 @@ export namespace GetScansResponse {
                                     }
                                 }
                             }
+
+                            export interface MessageRef {
+                                /** Stable, translatable message code. */
+                                code: string;
+                                params?: Record<string, unknown> | undefined;
+                            }
                         }
 
                         export interface WebMcp {
@@ -1314,6 +1461,7 @@ export namespace GetScansResponse {
                             durationMs?: number | undefined;
                             evidence?: WebMcp.Evidence.Item[] | undefined;
                             message?: string | undefined;
+                            messageRef?: WebMcp.MessageRef | undefined;
                             status: string;
                         }
 
@@ -1350,6 +1498,12 @@ export namespace GetScansResponse {
                                         statusText: string;
                                     }
                                 }
+                            }
+
+                            export interface MessageRef {
+                                /** Stable, translatable message code. */
+                                code: string;
+                                params?: Record<string, unknown> | undefined;
                             }
                         }
                     }

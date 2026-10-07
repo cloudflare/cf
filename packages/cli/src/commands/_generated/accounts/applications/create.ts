@@ -23,11 +23,11 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 accounts applications create\n\nCreate a custom application for an account."
+			"$0 accounts applications create\n\nCreate a custom application for an account from a name, category, and optional network matchers."
 		)
 		.option("category-id", {
 			type: "number",
-			description: "Returns the category ID.",
+			description: "Numeric identifier for an application category.",
 		})
 		.option("hostnames", {
 			type: "string",
@@ -36,7 +36,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("human-id", {
 			type: "string",
-			description: "Returns the human readable ID.",
+			description: "Human-readable identifier for the application.",
 		})
 		.option("ip-subnets", {
 			type: "string",
@@ -44,14 +44,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"IP subnets for this application. Custom application create and update requests accept IPv4 prefix lengths /8 through /32 and IPv6 prefix lengths /32 through /128.",
 		})
-		.option("name", {
-			type: "string",
-			description: "Returns the application name.",
-		})
+		.option("name", { type: "string", description: "Application name." })
 		.option("port-protocols", {
 			type: "string",
 			array: true,
-			description: "Port and protocol pairs matched by the application.",
+			description:
+				"Ports matched by the application, in `protocol/port` or inclusive `protocol/start-end` format (for example, `tcp/443` or `udp/10000-20000`). TCP and UDP ports must be between 0 and 65535.",
 		})
 		.option("support-domains", {
 			type: "string",
@@ -143,13 +141,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv["human-id"] === undefined) {
 					argv["human-id"] = await promptForRequiredField(
 						"human-id",
-						"Returns the human readable ID."
+						"Human-readable identifier for the application."
 					);
 				}
 				if (argv["name"] === undefined) {
 					argv["name"] = await promptForRequiredField(
 						"name",
-						"Returns the application name."
+						"Application name."
 					);
 				}
 

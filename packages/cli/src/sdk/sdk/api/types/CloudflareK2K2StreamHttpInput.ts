@@ -2,12 +2,13 @@
 
 import * as CloudflareApi from "../index.js";
 
-export type CloudflareK2K2StreamHttpInput =
-    | {
-          enabled: false;
-      }
-    | {
-          authentication?: boolean | undefined;
-          cors?: CloudflareApi.CloudflareK2K2StreamCorsOptions | undefined;
-          enabled: true;
-      };
+/**
+ * Configures the HTTP endpoint. Disabling HTTP keeps `authentication` and `cors`, so enabling it again restores them.
+ */
+export interface CloudflareK2K2StreamHttpInput {
+    /** Indicates whether the HTTP endpoint requires an API token with K2 produce permission. When false, the endpoint accepts unauthenticated records. Defaults to true when HTTP is enabled without a stored value. */
+    authentication?: boolean | undefined;
+    cors?: CloudflareApi.CloudflareK2K2StreamCorsOptions | undefined;
+    /** Indicates whether the HTTP endpoint accepts records. */
+    enabled: boolean;
+}

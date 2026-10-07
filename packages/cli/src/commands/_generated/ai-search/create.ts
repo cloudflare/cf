@@ -22,9 +22,9 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 ai-search create <name> <id>\n\nCreate a new AI Search instance with the given configuration. If type is omitted or null, a non-blank HTTP(S) source infers web-crawler and an existing R2 bucket source infers r2. A missing or blank source without a type creates a managed upload-only instance. Search for Agents instances require the default namespace."
+			"$0 ai-search create <namespace> <id>\n\nCreate a new AI Search instance with the given configuration. If type is omitted or null, a non-blank HTTP(S) source infers web-crawler and any other source infers r2; r2 sources must name an existing bucket. A missing or blank source without a type creates a managed upload-only instance."
 		)
-		.positional("name", {
+		.positional("namespace", {
 			type: "string",
 			description: "Namespace to use for this operation.",
 			demandOption: true,
@@ -121,6 +121,15 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("metadata-created-from-aisearch-wizard", {
 			type: "boolean",
 			description: "The metadata.created_from_aisearch_wizard field",
+		})
+		.option("metadata-created-from-emdash-plugin-type", {
+			type: "string",
+			description: "The metadata.created_from_emdash_plugin.type field",
+			choices: ["native", "rest"],
+		})
+		.option("metadata-created-from-emdash-plugin-version", {
+			type: "string",
+			description: "The metadata.created_from_emdash_plugin.version field",
 		})
 		.option("metadata-worker-domain", {
 			type: "string",
@@ -309,6 +318,26 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				}
 			}
 			return true;
+		})
+		.check((argv) => {
+			const groupSet = [
+				"metadata-created-from-aisearch-wizard",
+				"metadata-created-from-emdash-plugin-type",
+				"metadata-created-from-emdash-plugin-version",
+				"metadata-worker-domain",
+			].some((k) => argv[k] !== undefined);
+			if (groupSet) {
+				const missing = [
+					"metadata-created-from-emdash-plugin-type",
+					"metadata-created-from-emdash-plugin-version",
+				].filter((k) => argv[k] === undefined);
+				if (missing.length > 0) {
+					throw new Error(
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --metadata-* flag is set`
+					);
+				}
+			}
+			return true;
 		});
 }
 
@@ -318,9 +347,8 @@ type Request = SdkRequest<"ai-search-namespace-create-instance">;
 type Body = Request;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "create <name> <id>",
-	describe:
-		"Create an AI Search instance (Search for Agents requires the default namespace).",
+	command: "create <namespace> <id>",
+	describe: "Create an AI Search instance.",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
@@ -338,6 +366,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"indexing-options-keyword-tokenizer",
 						"indexing-options-use-ocr",
 						"metadata-created-from-aisearch-wizard",
+						"metadata-created-from-emdash-plugin-type",
 						"public-endpoint-params-chat-completions-endpoint-disabled",
 						"public-endpoint-params-default-domain-enabled",
 						"public-endpoint-params-enabled",
@@ -365,8 +394,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf ai-search create",
 						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/namespaces/${argv["name"] == null ? "<name>" : encodeURIComponent(String(argv["name"]))}/instances`,
-						pathParams: { name: String(argv["name"] ?? "") },
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/namespaces/${argv["namespace"] == null ? "<namespace>" : encodeURIComponent(String(argv["namespace"]))}/instances`,
+						pathParams: { namespace: String(argv["namespace"] ?? "") },
 						bodyKind: "json",
 						body:
 							argv.body !== undefined
@@ -424,6 +453,22 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										metadata: {
 											created_from_aisearch_wizard:
 												argv["metadata-created-from-aisearch-wizard"],
+											created_from_emdash_plugin: {
+												type: resolveFileToken(
+													argv["metadata-created-from-emdash-plugin-type"] as
+														| string
+														| undefined,
+													"metadata-created-from-emdash-plugin-type",
+													"text"
+												),
+												version: resolveFileToken(
+													argv[
+														"metadata-created-from-emdash-plugin-version"
+													] as string | undefined,
+													"metadata-created-from-emdash-plugin-version",
+													"text"
+												),
+											},
 											worker_domain: resolveFileToken(
 												argv["metadata-worker-domain"] as string | undefined,
 												"metadata-worker-domain",
@@ -594,7 +639,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						client.aiSearch.create({
 							...bodyData,
 							account_id: accountId,
-							name: argv["name"],
+							namespace: argv["namespace"],
 						} satisfies Request)
 					);
 					formatOutput(result, { successLabel: `Created` });
@@ -653,6 +698,22 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					metadata: {
 						created_from_aisearch_wizard:
 							argv["metadata-created-from-aisearch-wizard"],
+						created_from_emdash_plugin: {
+							type: resolveFileToken(
+								argv["metadata-created-from-emdash-plugin-type"] as
+									| string
+									| undefined,
+								"metadata-created-from-emdash-plugin-type",
+								"text"
+							),
+							version: resolveFileToken(
+								argv["metadata-created-from-emdash-plugin-version"] as
+									| string
+									| undefined,
+								"metadata-created-from-emdash-plugin-version",
+								"text"
+							),
+						},
 						worker_domain: resolveFileToken(
 							argv["metadata-worker-domain"] as string | undefined,
 							"metadata-worker-domain",
@@ -797,7 +858,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					client.aiSearch.create({
 						...bodyData,
 						account_id: accountId,
-						name: argv["name"],
+						namespace: argv["namespace"],
 					} satisfies Request)
 				);
 				formatOutput(result, { successLabel: `Created` });

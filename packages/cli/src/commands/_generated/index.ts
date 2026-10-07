@@ -172,7 +172,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./argo/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -325,7 +325,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./client-side-security/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -879,7 +879,7 @@ export const generatedCommands: GeneratedCommand[] = [
 	{
 		command: lazyCommand<CommonYargsOptions>(
 			"mcp",
-			"mcp",
+			"Manage MCP portals and upstream MCP servers for Cloudflare Access AI controls",
 			() => import("./mcp/index.js"),
 			null
 		),
@@ -932,6 +932,15 @@ export const generatedCommands: GeneratedCommand[] = [
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
+			"o11y",
+			"o11y",
+			() => import("./o11y/index.js"),
+			null
+		),
+		hideCommand: false,
+	},
+	{
+		command: lazyCommand<CommonYargsOptions>(
 			"oauth-clients",
 			"oauth-clients",
 			() => import("./oauth-clients/index.js"),
@@ -947,15 +956,6 @@ export const generatedCommands: GeneratedCommand[] = [
 			null
 		),
 		hideCommand: true,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
-			"observability",
-			"observability",
-			() => import("./observability/index.js"),
-			null
-		),
-		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -1340,6 +1340,15 @@ export const generatedCommands: GeneratedCommand[] = [
 			"speed",
 			"Observatory speed tests — run Lighthouse audits, track performance trends, and schedule recurring tests",
 			() => import("./speed/index.js"),
+			null
+		),
+		hideCommand: false,
+	},
+	{
+		command: lazyCommand<CommonYargsOptions>(
+			"sql",
+			"sql",
+			() => import("./sql/index.js"),
 			null
 		),
 		hideCommand: false,

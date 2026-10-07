@@ -11,6 +11,7 @@ import * as errors from "../../../../../../errors/index.js";
 import type * as CloudflareApi from "../../../../../index.js";
 import * as CloudflareApiErrors from "../../../../../errors/index.js";
 import { ConstantsClient } from "../resources/constants/client/Client.js";
+import { FiltersClient } from "../resources/filters/client/Client.js";
 import { InterestsClient } from "../resources/interests/client/Client.js";
 import { QuotaClient } from "../resources/quota/client/Client.js";
 
@@ -23,6 +24,7 @@ export declare namespace PriorityIntelligenceClient {
 export class PriorityIntelligenceClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<PriorityIntelligenceClient.Options>;
     protected _constants: ConstantsClient | undefined;
+    protected _filters: FiltersClient | undefined;
     protected _interests: InterestsClient | undefined;
     protected _quota: QuotaClient | undefined;
 
@@ -32,6 +34,10 @@ export class PriorityIntelligenceClient {
 
     public get constants(): ConstantsClient {
         return (this._constants ??= new ConstantsClient(this._options));
+    }
+
+    public get filters(): FiltersClient {
+        return (this._filters ??= new FiltersClient(this._options));
     }
 
     public get interests(): InterestsClient {

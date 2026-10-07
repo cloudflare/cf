@@ -21,9 +21,9 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 mesh nodes delete <tunnel-id>\n\nDeletes a Warp Connector Tunnel from an account."
+			"$0 mesh nodes delete <node-id>\n\nDeletes a Mesh node from an account."
 		)
-		.positional("tunnel-id", {
+		.positional("node-id", {
 			type: "string",
 			description: "UUID of the tunnel.",
 			demandOption: true,
@@ -46,8 +46,8 @@ type Args = InferArgs<typeof builder>;
 type Request = SdkRequest<"cloudflare-tunnel-delete-a-warp-connector-tunnel">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "delete <tunnel-id>",
-	describe: "Delete a Warp Connector Tunnel",
+	command: "delete <node-id>",
+	describe: "Delete a Mesh node",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
@@ -65,8 +65,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf mesh nodes delete",
 						method: "DELETE",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/warp_connector/${argv["tunnel-id"] == null ? "<tunnel-id>" : encodeURIComponent(String(argv["tunnel-id"]))}`,
-						pathParams: { "tunnel-id": String(argv["tunnel-id"] ?? "") },
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/warp_connector/${argv["node-id"] == null ? "<node-id>" : encodeURIComponent(String(argv["node-id"]))}`,
+						pathParams: { "node-id": String(argv["node-id"] ?? "") },
 						bodyKind: "none",
 					});
 					return;
@@ -78,7 +78,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (
 					!(await confirmDelete({
 						force: Boolean(argv.force),
-						message: `This operation permanently deletes a Mesh node (Warp Connector Tunnel).`,
+						message: `This operation permanently deletes a Mesh node.`,
 					}))
 				) {
 					process.stderr.write("Aborted.\n");
@@ -88,7 +88,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const result = await withProgress(`Deleting`, async () =>
 					client.mesh.nodes.delete({
 						account_id: accountId,
-						tunnel_id: argv["tunnel-id"],
+						"node-id": argv["node-id"],
 					} satisfies Request)
 				);
 				formatOutput(result, { successLabel: `Deleted` });

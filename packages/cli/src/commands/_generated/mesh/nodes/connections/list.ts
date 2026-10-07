@@ -20,9 +20,9 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 mesh nodes connections list\n\nFetches connection details for a WARP Connector Tunnel."
+			"$0 mesh nodes connections list\n\nLists connection details for a Mesh node."
 		)
-		.option("tunnel-id", {
+		.option("node-id", {
 			type: "string",
 			description: "UUID of the tunnel.",
 			demandOption: true,
@@ -41,7 +41,7 @@ type Request =
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "list",
-	describe: "List WARP Connector Tunnel connections",
+	describe: "List Mesh node connections",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
@@ -58,8 +58,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf mesh nodes connections list",
 						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/warp_connector/${argv["tunnel-id"] == null ? "<tunnel-id>" : encodeURIComponent(String(argv["tunnel-id"]))}/connections`,
-						pathParams: { "tunnel-id": String(argv["tunnel-id"] ?? "") },
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/warp_connector/${argv["node-id"] == null ? "<node-id>" : encodeURIComponent(String(argv["node-id"]))}/connections`,
+						pathParams: { "node-id": String(argv["node-id"] ?? "") },
 						bodyKind: "none",
 					});
 					return;
@@ -71,7 +71,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const result = await withProgress(`Loading`, async () =>
 					client.mesh.nodes.connections.list({
 						account_id: accountId,
-						tunnel_id: argv["tunnel-id"],
+						"node-id": argv["node-id"],
 					} satisfies Request)
 				);
 				formatOutput(result, { successLabel: `Loaded` });

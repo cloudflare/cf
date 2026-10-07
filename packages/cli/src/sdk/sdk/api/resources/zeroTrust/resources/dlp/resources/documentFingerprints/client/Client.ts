@@ -98,7 +98,7 @@ export class DocumentFingerprintsClient {
     /**
      * Creates a new document fingerprint for DLP scanning. Document fingerprints detect documents that are structurally similar to the uploaded sample.
      *
-     * @param {CloudflareApi.zeroTrust.dlp.CreateDocumentFingerprintsRequest} request
+     * @param {CloudflareApi.zeroTrust.dlp.DlpNewDocumentFingerprint} request
      * @param {DocumentFingerprintsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @example
@@ -109,14 +109,14 @@ export class DocumentFingerprintsClient {
      *     })
      */
     public create(
-        request: CloudflareApi.zeroTrust.dlp.CreateDocumentFingerprintsRequest,
+        request: CloudflareApi.zeroTrust.dlp.DlpNewDocumentFingerprint,
         requestOptions?: DocumentFingerprintsClient.RequestOptions,
     ): core.HttpResponsePromise<CloudflareApi.DlpDocumentFingerprint> {
         return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
     }
 
     private async __create(
-        request: CloudflareApi.zeroTrust.dlp.CreateDocumentFingerprintsRequest,
+        request: CloudflareApi.zeroTrust.dlp.DlpNewDocumentFingerprint,
         requestOptions?: DocumentFingerprintsClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.DlpDocumentFingerprint>> {
         const { account_id: accountId, ..._body } = request;

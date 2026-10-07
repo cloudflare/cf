@@ -22,14 +22,14 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 ai-search jobs create <id>\n\nCreates a new indexing job for an AI Search instance."
+			"$0 ai-search jobs create <instance-id>\n\nCreates a new indexing job for an AI Search instance."
 		)
-		.positional("id", {
+		.positional("instance-id", {
 			type: "string",
 			description: "AI Search instance ID.",
 			demandOption: true,
 		})
-		.option("name", {
+		.option("namespace", {
 			type: "string",
 			description: "Namespace to use for this operation.",
 			demandOption: true,
@@ -55,7 +55,7 @@ type Request = SdkRequest<"ai-search-namespace-instance-create-job">;
 type Body = Request;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "create <id>",
+	command: "create <instance-id>",
 	describe: "Create new job",
 	builder,
 	handler: async (argv): Promise<void> =>
@@ -73,10 +73,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf ai-search jobs create",
 						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/namespaces/${argv["name"] == null ? "<name>" : encodeURIComponent(String(argv["name"]))}/instances/${argv["id"] == null ? "<id>" : encodeURIComponent(String(argv["id"]))}/jobs`,
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/namespaces/${argv["namespace"] == null ? "<namespace>" : encodeURIComponent(String(argv["namespace"]))}/instances/${argv["instance-id"] == null ? "<instance-id>" : encodeURIComponent(String(argv["instance-id"]))}/jobs`,
 						pathParams: {
-							id: String(argv["id"] ?? ""),
-							name: String(argv["name"] ?? ""),
+							"instance-id": String(argv["instance-id"] ?? ""),
+							namespace: String(argv["namespace"] ?? ""),
 						},
 						bodyKind: "json",
 						body:
@@ -102,8 +102,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						client.aiSearch.jobs.create({
 							...bodyData,
 							account_id: accountId,
-							name: argv["name"],
-							id: argv["id"],
+							namespace: argv["namespace"],
+							"instance-id": argv["instance-id"],
 						} satisfies Request)
 					);
 					formatOutput(result, { successLabel: `Created` });
@@ -122,8 +122,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					client.aiSearch.jobs.create({
 						...bodyData,
 						account_id: accountId,
-						name: argv["name"],
-						id: argv["id"],
+						namespace: argv["namespace"],
+						"instance-id": argv["instance-id"],
 					} satisfies Request)
 				);
 				formatOutput(result, { successLabel: `Created` });

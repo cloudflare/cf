@@ -22,9 +22,9 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 ai-search namespace create <name>\n\nCreate a namespace for organizing AI Search instances."
+			"$0 ai-search namespace create <namespace>\n\nCreate a namespace for organizing AI Search instances."
 		)
-		.positional("name", {
+		.positional("namespace", {
 			type: "string",
 			description: "Name for the new namespace.",
 			demandOption: true,
@@ -106,7 +106,7 @@ type Request = SdkRequest<"ai-search-create-namespace">;
 type Body = Request;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "create <name>",
+	command: "create <namespace>",
 	describe: "Create a namespace",
 	builder,
 	handler: async (argv): Promise<void> =>
@@ -190,7 +190,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 													],
 											},
 										},
-										name: argv["name"],
+										name: argv["namespace"],
 									}),
 					});
 					return;
@@ -256,7 +256,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							disabled: argv["public-endpoint-params-search-endpoint-disabled"],
 						},
 					},
-					name: argv["name"],
+					name: argv["namespace"],
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.aiSearch.namespace.create({

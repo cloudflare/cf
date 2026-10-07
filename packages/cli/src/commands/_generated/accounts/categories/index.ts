@@ -1,4 +1,5 @@
-import $get from "./get/index.js";
+import $get from "./get.js";
+import $list from "./list.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * categories command group
@@ -8,10 +9,13 @@ import type { CommandModule } from "yargs";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "categories",
-	describe: "Categories operations",
+	describe: "Browse the categories used to classify applications",
 
 	builder: (yargs) => {
-		return yargs.command($get).demandCommand(1, "Please specify a subcommand");
+		return yargs
+			.command($get)
+			.command($list)
+			.demandCommand(1, "Please specify a subcommand");
 	},
 
 	handler: () => {},

@@ -4,7 +4,7 @@
  * @example
  *     {
  *         account_id: "c3dc5f0b34a14ff8e1b3ec04895e1b22",
- *         name: "my-namespace",
+ *         namespace: "my-namespace",
  *         ai_search_options: {
  *             instance_ids: ["my-ai-search"]
  *         },
@@ -14,7 +14,7 @@
 export interface MultiChatCompletionsAiSearchRequest {
     account_id: string;
     /** Namespace name */
-    name: string;
+    namespace: string;
     ai_search_options: MultiChatCompletionsAiSearchRequest.AiSearchOptions;
     messages: MultiChatCompletionsAiSearchRequest.Messages.Item[];
     /** A Workers AI model ID or an AI Gateway model ID compatible with the OpenAI Chat Completions API. An empty string uses the configured or default model. */

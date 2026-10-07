@@ -1,6 +1,7 @@
 import $constants from "./constants/index.js";
 import $create from "./create.js";
 import $delete from "./delete.js";
+import $filters from "./filters/index.js";
 import $get from "./get.js";
 import $interests from "./interests/index.js";
 import $list from "./list.js";
@@ -25,6 +26,7 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($list)
 			.command($update)
 			.command($constants)
+			.command($filters)
 			.command($interests)
 			.command($quota)
 			.demandCommand(1, "Please specify a subcommand");

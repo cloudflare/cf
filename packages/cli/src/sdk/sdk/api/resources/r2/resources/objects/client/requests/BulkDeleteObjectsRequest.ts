@@ -7,7 +7,6 @@ import * as CloudflareApi from "../../../../../../index.js";
  *     {
  *         account_id: "account_id",
  *         bucket_name: "bucket_name",
- *         prefix: "",
  *         body: ["path/to/object-a.txt", "path/to/object-b.txt"]
  *     }
  */
@@ -17,10 +16,11 @@ export interface BulkDeleteObjectsRequest {
     /** Name of the bucket. */
     bucket_name: string;
     /**
-     * When present, switches the operation to prefix-delete mode. A non-empty value must
-     * end in `/` and deletes keys beginning with that prefix. Preserve an empty value
-     * (`?prefix=`) to empty the entire bucket. Omitting this parameter instead selects
-     * delete-by-list mode and requires a JSON request body.
+     * Deprecated. Create a `prefixDelete` job with the Create Bucket Job endpoint instead.
+     * When present, the request body is ignored and a prefix-delete job is created for this
+     * prefix, exactly as Create Bucket Job does; an empty value empties the bucket. The
+     * response is the job descriptor, with a `Deprecation` header and a deprecation message
+     * in `messages`.
      */
     prefix?: string;
     /** Jurisdiction where objects in this bucket are guaranteed to be stored. */

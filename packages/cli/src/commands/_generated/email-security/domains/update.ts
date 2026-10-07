@@ -40,6 +40,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				'Dispositions to drop instead of delivering, e.g. `["MALICIOUS", "SPAM"]`.',
 		})
+		.option("folder", {
+			type: "string",
+			description: "The mailbox folder to scan, for API-scanning domains.",
+			choices: ["AllItems", "Inbox"],
+		})
 		.option("integration-id", {
 			type: "string",
 			description:
@@ -101,7 +106,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "email-security domains update",
 				classification: {
-					safeFlags: ["require-tls-inbound", "require-tls-outbound", "dry-run"],
+					safeFlags: [
+						"folder",
+						"require-tls-inbound",
+						"require-tls-outbound",
+						"dry-run",
+					],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -120,6 +130,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								: compactBody({
 										allowed_delivery_modes: argv["allowed-delivery-modes"],
 										drop_dispositions: argv["drop-dispositions"],
+										folder: resolveFileToken(
+											argv["folder"] as string | undefined,
+											"folder",
+											"text"
+										),
 										integration_id: resolveFileToken(
 											argv["integration-id"] as string | undefined,
 											"integration-id",
@@ -180,6 +195,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const bodyData = compactBody<Body>({
 					allowed_delivery_modes: argv["allowed-delivery-modes"],
 					drop_dispositions: argv["drop-dispositions"],
+					folder: resolveFileToken(
+						argv["folder"] as string | undefined,
+						"folder",
+						"text"
+					),
 					integration_id: resolveFileToken(
 						argv["integration-id"] as string | undefined,
 						"integration-id",

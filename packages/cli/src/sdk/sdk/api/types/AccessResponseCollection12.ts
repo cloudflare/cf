@@ -7,6 +7,5 @@ export interface AccessResponseCollection12 {
     messages: CloudflareApi.AccessMessages;
     /** Whether the API call was successful. */
     success: true;
-    result_info?: CloudflareApi.AccessResponseCollection12ResultInfo | undefined;
-    result?: CloudflareApi.AccessJitRequestLog[] | undefined;
+    result?: CloudflareApi.AccessAccessRequests[] | undefined;
 }

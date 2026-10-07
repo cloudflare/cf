@@ -24,6 +24,22 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			"$0 cloudforce-one requests cloudforceOneRequestList\n\nLists Cloudforce One intelligence requests with filtering and pagination."
 		)
+		.option("completed-after", {
+			type: "string",
+			description: "Retrieve requests completed after this time.",
+		})
+		.option("completed-before", {
+			type: "string",
+			description: "Retrieve requests completed before this time.",
+		})
+		.option("created-after", {
+			type: "string",
+			description: "Retrieve requests created after this time.",
+		})
+		.option("created-before", {
+			type: "string",
+			description: "Retrieve requests created before this time.",
+		})
 		.option("page", { type: "number", description: "Page number of results." })
 		.option("per-page", {
 			type: "number",
@@ -96,6 +112,26 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
+										completed_after: resolveFileToken(
+											argv["completed-after"] as string | undefined,
+											"completed-after",
+											"text"
+										),
+										completed_before: resolveFileToken(
+											argv["completed-before"] as string | undefined,
+											"completed-before",
+											"text"
+										),
+										created_after: resolveFileToken(
+											argv["created-after"] as string | undefined,
+											"created-after",
+											"text"
+										),
+										created_before: resolveFileToken(
+											argv["created-before"] as string | undefined,
+											"created-before",
+											"text"
+										),
 										page: argv["page"],
 										per_page: argv["per-page"],
 										request_type: resolveFileToken(
@@ -150,6 +186,26 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
+					completed_after: resolveFileToken(
+						argv["completed-after"] as string | undefined,
+						"completed-after",
+						"text"
+					),
+					completed_before: resolveFileToken(
+						argv["completed-before"] as string | undefined,
+						"completed-before",
+						"text"
+					),
+					created_after: resolveFileToken(
+						argv["created-after"] as string | undefined,
+						"created-after",
+						"text"
+					),
+					created_before: resolveFileToken(
+						argv["created-before"] as string | undefined,
+						"created-before",
+						"text"
+					),
 					page: argv["page"],
 					per_page: argv["per-page"],
 					request_type: resolveFileToken(

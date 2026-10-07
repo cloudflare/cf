@@ -56,6 +56,16 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "Display name of the protected identity.",
 		})
+		.option("provenance", {
+			type: "string",
+			description: "Source the entry was created from.",
+			choices: [
+				"A1S_INTERNAL",
+				"SNOOPY-CASB_OFFICE_365",
+				"SNOOPY-OFFICE_365",
+				"SNOOPY-GOOGLE_DIRECTORY",
+			],
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -81,7 +91,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "email-security impersonation-registry create",
 				classification: {
-					safeFlags: ["is-email-regex", "dry-run"],
+					safeFlags: ["is-email-regex", "provenance", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -119,6 +129,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										name: resolveFileToken(
 											argv["name"] as string | undefined,
 											"name",
+											"text"
+										),
+										provenance: resolveFileToken(
+											argv["provenance"] as string | undefined,
+											"provenance",
 											"text"
 										),
 									}),
@@ -181,6 +196,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					name: resolveFileToken(
 						argv["name"] as string | undefined,
 						"name",
+						"text"
+					),
+					provenance: resolveFileToken(
+						argv["provenance"] as string | undefined,
+						"provenance",
 						"text"
 					),
 				});

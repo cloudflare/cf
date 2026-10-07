@@ -23,12 +23,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			"$0 ai-search items list\n\nLists indexed items in an AI Search instance."
 		)
-		.option("name", {
+		.option("namespace", {
 			type: "string",
 			description: "Namespace to use for this operation.",
 			demandOption: true,
 		})
-		.option("id", {
+		.option("instance-id", {
 			type: "string",
 			description: "AI Search instance ID.",
 			demandOption: true,
@@ -122,10 +122,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf ai-search items list",
 						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/namespaces/${argv["name"] == null ? "<name>" : encodeURIComponent(String(argv["name"]))}/instances/${argv["id"] == null ? "<id>" : encodeURIComponent(String(argv["id"]))}/items`,
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/namespaces/${argv["namespace"] == null ? "<namespace>" : encodeURIComponent(String(argv["namespace"]))}/instances/${argv["instance-id"] == null ? "<instance-id>" : encodeURIComponent(String(argv["instance-id"]))}/items`,
 						pathParams: {
-							id: String(argv["id"] ?? ""),
-							name: String(argv["name"] ?? ""),
+							"instance-id": String(argv["instance-id"] ?? ""),
+							namespace: String(argv["namespace"] ?? ""),
 						},
 						query: queryParams,
 						bodyKind: "none",
@@ -139,8 +139,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const result = await withProgress(`Loading`, async () =>
 					client.aiSearch.items.list({
 						account_id: accountId,
-						name: argv["name"],
-						id: argv["id"],
+						namespace: argv["namespace"],
+						"instance-id": argv["instance-id"],
 						...queryParams,
 					} satisfies Request)
 				);

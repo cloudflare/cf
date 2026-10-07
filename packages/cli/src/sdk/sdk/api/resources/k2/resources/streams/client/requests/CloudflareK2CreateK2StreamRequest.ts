@@ -6,16 +6,13 @@ import * as CloudflareApi from "../../../../../../index.js";
  * @example
  *     {
  *         account_id: "account_id",
- *         http: {
- *             enabled: false
- *         },
  *         name: "my_k2_stream"
  *     }
  */
 export interface CloudflareK2CreateK2StreamRequest {
     /** Specifies the public ID of the account. */
     account_id: string;
-    http: CloudflareApi.CloudflareK2K2StreamHttpInput;
+    http?: CloudflareApi.CloudflareK2K2StreamHttpInput;
     /** Specifies the name of the K2 stream. */
     name: string;
     /** Sets the record retention period from 1 hour (3600 seconds) to 30 days (2592000 seconds), inclusive. */

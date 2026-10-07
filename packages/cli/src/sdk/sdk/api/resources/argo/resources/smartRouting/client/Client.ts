@@ -24,6 +24,130 @@ export class SmartRoutingClient {
     }
 
     /**
+     * Returns the number of zones that have Argo Smart Routing enabled for the specified account.
+     *
+     * @param {CloudflareApi.argo.CountZonesEnabledForAccountSmartRoutingRequest} request
+     * @param {SmartRoutingClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @example
+     *     await client.argo.smartRouting.countZonesEnabledForAccount({
+     *         account_id: "account_id"
+     *     })
+     */
+    public countZonesEnabledForAccount(
+        request: CloudflareApi.argo.CountZonesEnabledForAccountSmartRoutingRequest,
+        requestOptions?: SmartRoutingClient.RequestOptions,
+    ): core.HttpResponsePromise<number> {
+        return core.HttpResponsePromise.fromPromise(this.__countZonesEnabledForAccount(request, requestOptions));
+    }
+
+    private async __countZonesEnabledForAccount(
+        request: CloudflareApi.argo.CountZonesEnabledForAccountSmartRoutingRequest,
+        requestOptions?: SmartRoutingClient.RequestOptions,
+    ): Promise<core.WithRawResponse<number>> {
+        const { account_id: accountId } = request;
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.CloudflareApiEnvironment.Default,
+                `accounts/${core.url.encodePathParam(accountId)}/argo/count_zones_enabled`,
+            ),
+            method: "GET",
+            headers: _headers,
+            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return { data: _response.body as number, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            throw new errors.CloudflareApiError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
+        }
+
+        return handleNonStatusCodeError(
+            _response.error,
+            _response.rawResponse,
+            "GET",
+            "/accounts/{account_id}/argo/count_zones_enabled",
+        );
+    }
+
+    /**
+     * Returns the number of zones that have Argo Smart Routing enabled for the authenticated user.
+     *
+     * @param {SmartRoutingClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @example
+     *     await client.argo.smartRouting.countZonesEnabledForUser()
+     */
+    public countZonesEnabledForUser(
+        requestOptions?: SmartRoutingClient.RequestOptions,
+    ): core.HttpResponsePromise<number> {
+        return core.HttpResponsePromise.fromPromise(this.__countZonesEnabledForUser(requestOptions));
+    }
+
+    private async __countZonesEnabledForUser(
+        requestOptions?: SmartRoutingClient.RequestOptions,
+    ): Promise<core.WithRawResponse<number>> {
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.CloudflareApiEnvironment.Default,
+                "user/argo/count_zones_enabled",
+            ),
+            method: "GET",
+            headers: _headers,
+            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return { data: _response.body as number, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            throw new errors.CloudflareApiError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
+        }
+
+        return handleNonStatusCodeError(
+            _response.error,
+            _response.rawResponse,
+            "GET",
+            "/user/argo/count_zones_enabled",
+        );
+    }
+
+    /**
      * Retrieves the value of Argo Smart Routing enablement setting.
      *
      * @param {CloudflareApi.argo.GetSmartRoutingRequest} request

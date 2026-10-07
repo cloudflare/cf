@@ -4,16 +4,16 @@
  * @example
  *     {
  *         account_id: "c3dc5f0b34a14ff8e1b3ec04895e1b22",
- *         name: "my-namespace",
- *         id: "my-ai-search"
+ *         namespace: "my-namespace",
+ *         "instance-id": "my-ai-search"
  *     }
  */
 export interface SearchAiSearchRequest {
     account_id: string;
     /** Namespace name */
-    name: string;
+    namespace: string;
     /** AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores. */
-    id: string;
+    "instance-id": string;
     ai_search_options?: SearchAiSearchRequest.AiSearchOptions;
     /** OpenAI-compatible message array. For multimodal queries, set the last user message's `content` to an array of typed parts: `[{type:'text', text:'…'}, {type:'image_url', image_url:{url:'…'}}]`. Image inputs require the RAG's embedding_model to declare 'image' in supported_modalities. */
     messages?: SearchAiSearchRequest.Messages.Item[];

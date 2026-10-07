@@ -20,14 +20,14 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 ai-search purge-cache <id>\n\nPurges all cached search results for an AI Search instance. A new internal cache key is generated, immediately orphaning all prior cached entries."
+			"$0 ai-search purge-cache <instance-id>\n\nPurges all cached search results for an AI Search instance. A new internal cache key is generated, immediately orphaning all prior cached entries."
 		)
-		.positional("id", {
+		.positional("instance-id", {
 			type: "string",
 			description: "AI Search instance ID.",
 			demandOption: true,
 		})
-		.option("name", {
+		.option("namespace", {
 			type: "string",
 			description: "Namespace to use for this operation.",
 			demandOption: true,
@@ -44,7 +44,7 @@ type Args = InferArgs<typeof builder>;
 type Request = SdkRequest<"ai-search-namespace-purge-instance-cache">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "purge-cache <id>",
+	command: "purge-cache <instance-id>",
 	describe: "Purge search cache.",
 	builder,
 	handler: async (argv): Promise<void> =>
@@ -62,10 +62,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf ai-search purge-cache",
 						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/namespaces/${argv["name"] == null ? "<name>" : encodeURIComponent(String(argv["name"]))}/instances/${argv["id"] == null ? "<id>" : encodeURIComponent(String(argv["id"]))}/purge_cache`,
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/namespaces/${argv["namespace"] == null ? "<namespace>" : encodeURIComponent(String(argv["namespace"]))}/instances/${argv["instance-id"] == null ? "<instance-id>" : encodeURIComponent(String(argv["instance-id"]))}/purge_cache`,
 						pathParams: {
-							id: String(argv["id"] ?? ""),
-							name: String(argv["name"] ?? ""),
+							"instance-id": String(argv["instance-id"] ?? ""),
+							namespace: String(argv["namespace"] ?? ""),
 						},
 						bodyKind: "none",
 					});
@@ -78,8 +78,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const result = await withProgress(`Creating`, async () =>
 					client.aiSearch.purgeCache({
 						account_id: accountId,
-						name: argv["name"],
-						id: argv["id"],
+						namespace: argv["namespace"],
+						"instance-id": argv["instance-id"],
 					} satisfies Request)
 				);
 				formatOutput(result, { successLabel: `Created` });

@@ -7,6 +7,7 @@ import {
 } from "../../../../../../../../BaseClient.js";
 import * as core from "../../../../../../../../core/index.js";
 import * as environments from "../../../../../../../../environments.js";
+import { AuditSshSettingsClient } from "../resources/auditSshSettings/client/Client.js";
 import { SshCaClient } from "../resources/sshCa/client/Client.js";
 
 export declare namespace InfrastructureClient {
@@ -16,6 +17,7 @@ export declare namespace InfrastructureClient {
 export class InfrastructureClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<InfrastructureClient.Options>;
     protected _sshCa: SshCaClient | undefined;
+    protected _auditSshSettings: AuditSshSettingsClient | undefined;
 
     constructor(options: InfrastructureClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
@@ -23,5 +25,9 @@ export class InfrastructureClient {
 
     public get sshCa(): SshCaClient {
         return (this._sshCa ??= new SshCaClient(this._options));
+    }
+
+    public get auditSshSettings(): AuditSshSettingsClient {
+        return (this._auditSshSettings ??= new AuditSshSettingsClient(this._options));
     }
 }

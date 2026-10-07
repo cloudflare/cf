@@ -22,7 +22,7 @@ export interface PostureApiPolicyResponse {
     display_name: string;
     /** Whether the policy is enabled. Derived from disabled_at (enabled when disabled_at is unset). */
     enabled: boolean;
-    /** The finding type this policy is associated with. Immutable after creation; changing it replaces the policy. */
+    /** The finding type this policy is associated with. Immutable after creation; attempts to change it via update are rejected. */
     finding_type_id: string;
     /** Unique identifier for the policy configuration. */
     id?: string | undefined;

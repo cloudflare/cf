@@ -22,15 +22,23 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
-		.usage("$0 k2 streams create\n\nCreate a new K2 stream.")
-		.option("http-enabled", {
-			type: "boolean",
-			description: "Indicates whether the HTTP endpoint accepts records.",
-		})
+		.usage(
+			"$0 k2 streams create\n\nCreate a new K2 stream. HTTP is disabled when `http` is omitted. Enabled HTTP requires authentication and allows all origins unless `authentication` or `cors` say otherwise. At least one input must be enabled."
+		)
 		.option("http-authentication", {
 			type: "boolean",
 			description:
-				"Indicates whether the HTTP endpoint requires an API token with K2 produce permission. When false or omitted, the endpoint accepts unauthenticated records.",
+				"Indicates whether the HTTP endpoint requires an API token with K2 produce permission. When false, the endpoint accepts unauthenticated records. Defaults to true when HTTP is enabled without a stored value.",
+		})
+		.option("http-cors-origins", {
+			type: "string",
+			array: true,
+			description:
+				"Allows browser requests from these HTTP or HTTPS origins. Use a wildcard only as the sole origin. An empty list blocks cross-origin browser requests. Defaults to `['*']` when HTTP is enabled without stored origins.",
+		})
+		.option("http-enabled", {
+			type: "boolean",
+			description: "Indicates whether the HTTP endpoint accepts records.",
 		})
 		.option("name", {
 			type: "string",
@@ -55,6 +63,22 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("body", {
 			type: "string",
 			description: "Raw JSON request body (bypasses individual flags)",
+		})
+		.check((argv) => {
+			const groupSet = [
+				"http-authentication",
+				"http-cors-origins",
+				"http-enabled",
+			].some((k) => argv[k] !== undefined);
+			if (groupSet) {
+				const missing = ["http-enabled"].filter((k) => argv[k] === undefined);
+				if (missing.length > 0) {
+					throw new Error(
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --http-* flag is set`
+					);
+				}
+			}
+			return true;
 		})
 		.check((argv) => {
 			const groupSet = ["worker-binding-enabled"].some(
@@ -89,8 +113,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				command: "k2 streams create",
 				classification: {
 					safeFlags: [
-						"http-enabled",
 						"http-authentication",
+						"http-enabled",
 						"worker-binding-enabled",
 						"dry-run",
 					],
@@ -111,8 +135,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								? parseBody(argv.body)
 								: compactBody({
 										http: {
-											enabled: argv["http-enabled"],
 											authentication: argv["http-authentication"],
+											cors: {
+												origins: argv["http-cors-origins"],
+											},
+											enabled: argv["http-enabled"],
 										},
 										name: resolveFileToken(
 											argv["name"] as string | undefined,
@@ -142,11 +169,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["http-enabled"] === undefined) {
-					throw new Error(
-						"--http-enabled is required (or pass --body with this field set)."
-					);
-				}
 				if (argv["name"] === undefined) {
 					argv["name"] = await promptForRequiredField(
 						"name",
@@ -157,8 +179,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
 					http: {
-						enabled: argv["http-enabled"],
 						authentication: argv["http-authentication"],
+						cors: {
+							origins: argv["http-cors-origins"],
+						},
+						enabled: argv["http-enabled"],
 					},
 					name: resolveFileToken(
 						argv["name"] as string | undefined,

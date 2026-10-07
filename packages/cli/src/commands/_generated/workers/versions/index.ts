@@ -1,6 +1,7 @@
 import $delete from "./delete.js";
 import $get from "./get.js";
 import $list from "./list.js";
+import $profile from "./profile.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * versions command group
@@ -19,6 +20,7 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($delete)
 			.command($get)
 			.command($list)
+			.command($profile)
 			.demandCommand(1, "Please specify a subcommand");
 	},
 

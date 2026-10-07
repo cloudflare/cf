@@ -22,7 +22,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 r2 objects bulk-delete\n\nDeletes objects from an R2 bucket. Three modes are supported: 1. **Delete by list** (default): Provide a JSON array of object keys in the request body. All listed objects are deleted; per-key errors are reported in the response. 2. **Delete by prefix**: Provide a non-empty `prefix` query parameter and no request body to delete every object whose key begins with that prefix. 3. **Empty bucket**: Provide the `prefix` query parameter with an empty value (`?prefix=`) and no request body to delete all objects in the bucket. Prefix and empty-bucket requests return a job descriptor. Small jobs can finish synchronously and return `COMPLETED`; larger jobs continue in the background. Poll the returned `id` with the Get Bucket Job endpoint. Objects uploaded after a background job starts are not deleted by that job. Abort active multipart uploads before submitting the request; a synchronously completed job does not abort them. Avoid writing objects or starting multipart uploads while a bucket-emptying job is in progress. Each repeated or concurrent request creates a distinct job. The number of active jobs is limited per bucket; wait for an existing job to finish before retrying a request rejected with HTTP 429. A bucket cannot be emptied while event notifications are configured. Remove the event notification rules and retry requests rejected with HTTP 409 / error code 10034. To protect a bucket with R2 Data Catalog enabled, send the `cf-r2-data-catalog-check` header; a conflict is returned with HTTP 409 / error code 10081. For most workloads, we recommend using R2's [S3-compatible API](https://developers.cloudflare.com/r2/api/s3/api/) or a [Worker with an R2 binding](https://developers.cloudflare.com/r2/api/workers/workers-api-reference/) instead."
+			"$0 r2 objects bulk-delete\n\nDeletes the listed objects from an R2 bucket. Provide a JSON array of 1 to 1000 object keys in the request body. If any key cannot be deleted (for example, because it does not exist or is locked), the remaining keys are still deleted, but the response is HTTP 200 with `success: false`, `result: null` and one entry in `errors` per failed key. The entries in `errors` do not identify which key failed. To delete every object under a prefix, or to empty a bucket, create a `prefixDelete` job with the Create Bucket Job endpoint instead. The `prefix` query parameter on this endpoint is deprecated; it creates the same job, but responses to it carry a `Deprecation` header and a message pointing to Create Bucket Job. For most workloads, we recommend using R2's [S3-compatible API](https://developers.cloudflare.com/r2/api/s3/api/) or a [Worker with an R2 binding](https://developers.cloudflare.com/r2/api/workers/workers-api-reference/) instead."
 		)
 		.option("bucket-name", {
 			type: "string",
@@ -32,7 +32,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("prefix", {
 			type: "string",
 			description:
-				"When present, switches the operation to prefix-delete mode. A non-empty value must\nend in `/` and deletes keys beginning with that prefix. Preserve an empty value\n(`?prefix=`) to empty the entire bucket. Omitting this parameter instead selects\ndelete-by-list mode and requires a JSON request body.",
+				"Deprecated. Create a `prefixDelete` job with the Create Bucket Job endpoint instead.\nWhen present, the request body is ignored and a prefix-delete job is created for this\nprefix, exactly as Create Bucket Job does; an empty value empties the bucket. The\nresponse is the job descriptor, with a `Deprecation` header and a deprecation message\nin `messages`.",
 		})
 		.option("cf-r2-jurisdiction", {
 			type: "string",
@@ -58,7 +58,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("body", {
 			type: "string",
 			description:
-				'Required for "delete by list" mode (when \`prefix\` query parameter is omitted). A JSON array of object keys to delete. Ignored when \`prefix\` is provided. ',
+				"A JSON array of 1 to 1000 object keys to delete. Required unless the deprecated \`prefix\` parameter is present.",
 		});
 }
 
@@ -66,7 +66,7 @@ type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "bulk-delete",
-	describe: "Delete Objects or Empty a Bucket",
+	describe: "Delete Objects",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
@@ -110,7 +110,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (
 					!(await confirmDelete({
 						force: Boolean(argv.force),
-						message: `This permanently deletes the selected R2 objects. An explicitly empty prefix deletes every object in the bucket while retaining the bucket itself.`,
+						message: `This permanently deletes the listed R2 objects. With the deprecated \`prefix\` parameter it deletes every object under that prefix, and an empty prefix empties the bucket.`,
 					}))
 				) {
 					process.stderr.write("Aborted.\n");
@@ -124,6 +124,30 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							.filter(([, v]) => v !== undefined)
 							.map(([k, v]) => [k, String(v)])
 					).toString();
+					if (Array.isArray(bodyData) && bodyData.length > 1000) {
+						const total = Math.ceil(bodyData.length / 1000);
+						let result: unknown = null;
+						for (let i = 0; i < bodyData.length; i += 1000) {
+							const batch = bodyData.slice(i, i + 1000);
+							const batchNum = Math.floor(i / 1000) + 1;
+							result = await withProgress(
+								`Deleting: batch ${batchNum}/${total}`,
+								async () =>
+									requestApi<unknown>(
+										client,
+										"DELETE",
+										`/accounts/${accountId}/r2/buckets/${encodeURIComponent(String(argv["bucket-name"]))}/objects${qs ? "?" + qs : ""}`,
+										{
+											body: batch,
+											headers:
+												Object.keys(headers).length > 0 ? headers : undefined,
+										}
+									)
+							);
+						}
+						formatOutput(result, { successLabel: `Deleted` });
+						return;
+					}
 					const result = await withProgress(`Deleting`, async () =>
 						requestApi<unknown>(
 							client,

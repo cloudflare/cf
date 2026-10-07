@@ -5,6 +5,7 @@ import $listmarkdownsupportedformats from "./list-markdown-supported-formats.js"
 import $models from "./models/index.js";
 import $tasks from "./tasks/index.js";
 import $tomarkdown from "./to-markdown.js";
+import $websearch from "./websearch.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * ai command
@@ -23,6 +24,7 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($listmarkdownsupportedformats)
 			.command($run)
 			.command($tomarkdown)
+			.command($websearch)
 			.command($authors)
 			.command($finetunes)
 			.command($models)

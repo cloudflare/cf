@@ -4,17 +4,17 @@
  * @example
  *     {
  *         account_id: "c3dc5f0b34a14ff8e1b3ec04895e1b22",
- *         name: "production",
- *         id: "my-blog",
+ *         "source-namespace": "production",
+ *         "instance-id": "my-blog",
  *         new_namespace: "staging"
  *     }
  */
 export interface MoveAiSearchRequest {
     account_id: string;
     /** Current namespace of the instance. */
-    name: string;
+    "source-namespace": string;
     /** Instance id. */
-    id: string;
+    "instance-id": string;
     /** Target namespace to move the instance into. */
     new_namespace: string;
 }

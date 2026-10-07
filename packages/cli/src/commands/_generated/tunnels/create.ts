@@ -25,7 +25,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			"$0 tunnels create\n\nCreates a remotely or locally managed Cloudflare Tunnel in an account. After creation, retrieve its token and run cloudflared to establish the connector connection."
 		)
-		.option("config-src", {
+		.option("config-source", {
 			type: "string",
 			description:
 				"Indicates if this is a locally or remotely configured tunnel. If `local`, manage the tunnel using a YAML file on the origin machine. If `cloudflare`, manage the tunnel on the Zero Trust dashboard.",
@@ -66,7 +66,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "tunnels create",
 				classification: {
-					safeFlags: ["config-src", "dry-run"],
+					safeFlags: ["config-source", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -84,8 +84,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								? parseBody(argv.body)
 								: compactBody({
 										config_src: resolveFileToken(
-											argv["config-src"] as string | undefined,
-											"config-src",
+											argv["config-source"] as string | undefined,
+											"config-source",
 											"text"
 										),
 										name: resolveFileToken(
@@ -128,8 +128,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
 					config_src: resolveFileToken(
-						argv["config-src"] as string | undefined,
-						"config-src",
+						argv["config-source"] as string | undefined,
+						"config-source",
 						"text"
 					),
 					name: resolveFileToken(

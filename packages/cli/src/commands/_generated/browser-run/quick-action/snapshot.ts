@@ -12,6 +12,7 @@ import {
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
+import { withArgTypes } from "#lib/cli-types.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -27,6 +28,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("cache-ttl", {
 			type: "number",
 			description: "Cache TTL default is 5s. Set to 0 to disable.",
+		})
+		.option("browser", {
+			type: "string",
+			description:
+				"Rendering backend. Set to `kitesurf` to use Kitesurf (beta).",
+			choices: ["kitesurf"],
 		})
 		.option("action-timeout", {
 			type: "number",
@@ -297,22 +304,29 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		});
 }
 
-type Args = InferArgs<typeof builder>;
-
 type Request = SdkRequest<"brapi-post_Snapshot">;
 type Body = Request["body"];
 type Query = SdkQuery<"brapi-post_Snapshot">;
 
+const typedBuilder = withArgTypes<
+	{
+		browser: Query["browser"];
+	},
+	typeof builder
+>(builder);
+
+type Args = InferArgs<typeof typedBuilder>;
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "snapshot",
 	describe: "Get HTML content and screenshot.",
-	builder,
+	builder: typedBuilder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "browser-run quick-action snapshot",
 				classification: {
 					safeFlags: [
+						"browser",
 						"best-attempt",
 						"screenshot-options-capture-beyond-viewport",
 						"screenshot-options-from-surface",
@@ -333,6 +347,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			async () => {
 				const queryParams: Query = {
 					cacheTTL: argv["cache-ttl"],
+					browser: argv["browser"],
 				};
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();

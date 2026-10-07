@@ -18,7 +18,6 @@ import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
-import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
@@ -35,7 +34,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("auth-domain", {
 			type: "string",
 			description:
-				"The unique subdomain assigned to your Zero Trust organization.",
+				"The unique subdomain assigned to your Zero Trust organization. If omitted on creation, a unique subdomain is auto-generated in the format `adjective-noun-hex4` (e.g. `frosty-moon-7a3b.cloudflareaccess.com`).",
 		})
 		.option("auto-redirect-to-identity", {
 			type: "boolean",
@@ -138,7 +137,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("name", {
 			type: "string",
-			description: "The name of your Zero Trust organization.",
+			description:
+				"The name of your Zero Trust organization. When omitted on creation, defaults to the provided auth_domain; when both are omitted, defaults to the auto-generated subdomain slug (e.g. frosty-moon-7a3b).",
 		})
 		.option("service-token-inactivity-action", {
 			type: "string",
@@ -439,18 +439,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-				if (argv["auth-domain"] === undefined) {
-					argv["auth-domain"] = await promptForRequiredField(
-						"auth-domain",
-						"The unique subdomain assigned to your Zero Trust organization."
-					);
-				}
-				if (argv["name"] === undefined) {
-					argv["name"] = await promptForRequiredField(
-						"name",
-						"The name of your Zero Trust organization."
-					);
 				}
 
 				// Assemble request body from individual flags

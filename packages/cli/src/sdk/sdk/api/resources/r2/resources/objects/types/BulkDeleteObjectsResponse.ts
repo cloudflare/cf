@@ -2,14 +2,17 @@
 
 import * as CloudflareApi from "../../../../../index.js";
 
-export interface BulkDeleteObjectsResponse {
-    result: BulkDeleteObjectsResponse.Result;
-    result_info?: Record<string, unknown> | undefined;
-}
-
-export namespace BulkDeleteObjectsResponse {
-    export type Result =
-        /**
-         * Per-key delete results returned in "delete by list" mode. */
-        CloudflareApi.R2R2DeleteObjectResult[] | CloudflareApi.R2R2PrefixDeleteJob;
-}
+export type BulkDeleteObjectsResponse =
+    | {
+          errors: CloudflareApi.R2Errors;
+          messages: CloudflareApi.R2Messages;
+          result: CloudflareApi.R2R2DeleteObjectResult[];
+          success: true;
+      }
+    | CloudflareApi.R2V4ResponseFailure
+    | {
+          errors: CloudflareApi.R2Errors;
+          messages: CloudflareApi.R2Messages;
+          result: CloudflareApi.R2PrefixDeleteJob;
+          success: true;
+      };

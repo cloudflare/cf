@@ -1,4 +1,14 @@
 export * as enabledDomains from "./enabledDomains/index.js";
 export * from "./enabledDomains/client/requests/index.js";
+export * as operator from "./operator/index.js";
+export * from "./operator/client/requests/index.js";
+export * as pricing from "./pricing/index.js";
+export * from "./pricing/client/requests/index.js";
+export * as proposals from "./proposals/index.js";
+export * from "./proposals/client/requests/index.js";
 export * as usageReports from "./usageReports/index.js";
 export * from "./usageReports/client/requests/index.js";
+export * as usageStats from "./usageStats/index.js";
+export * from "./usageStats/client/requests/index.js";
+export * as zones from "./zones/index.js";
+export * from "./zones/client/requests/index.js";

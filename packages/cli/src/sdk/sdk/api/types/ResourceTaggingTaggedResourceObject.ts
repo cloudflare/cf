@@ -6,6 +6,7 @@ export type ResourceTaggingTaggedResourceObject =
     | CloudflareApi.ResourceTaggingTaggedResourceObject.AccessApplication
     | CloudflareApi.ResourceTaggingTaggedResourceObject.AccessApplicationPolicy
     | CloudflareApi.ResourceTaggingTaggedResourceObject.AccessGroup
+    | CloudflareApi.ResourceTaggingTaggedResourceObject.AccessServiceToken
     | CloudflareApi.ResourceTaggingTaggedResourceObject.Account
     | CloudflareApi.ResourceTaggingTaggedResourceObject.AccountRuleset
     | CloudflareApi.ResourceTaggingTaggedResourceObject.AiGateway
@@ -20,6 +21,7 @@ export type ResourceTaggingTaggedResourceObject =
     | CloudflareApi.ResourceTaggingTaggedResourceObject.CwsPolicySet
     | CloudflareApi.ResourceTaggingTaggedResourceObject.CwsWorkload
     | CloudflareApi.ResourceTaggingTaggedResourceObject.D1Database
+    | CloudflareApi.ResourceTaggingTaggedResourceObject.Device
     | CloudflareApi.ResourceTaggingTaggedResourceObject.DnsRecord
     | CloudflareApi.ResourceTaggingTaggedResourceObject.DurableObjectNamespace
     | CloudflareApi.ResourceTaggingTaggedResourceObject.GatewayList
@@ -57,6 +59,10 @@ export namespace ResourceTaggingTaggedResourceObject {
 
     export interface AccessGroup extends CloudflareApi.ResourceTaggingTaggedResourceObjectAccessGroup {
         type: "access_group";
+    }
+
+    export interface AccessServiceToken extends CloudflareApi.ResourceTaggingTaggedResourceObjectAccessServiceToken {
+        type: "access_service_token";
     }
 
     export interface Account extends CloudflareApi.ResourceTaggingTaggedResourceObjectAccount {
@@ -113,6 +119,10 @@ export namespace ResourceTaggingTaggedResourceObject {
 
     export interface D1Database extends CloudflareApi.ResourceTaggingTaggedResourceObjectD1Database {
         type: "d1_database";
+    }
+
+    export interface Device extends CloudflareApi.ResourceTaggingTaggedResourceObjectDevice {
+        type: "device";
     }
 
     export interface DnsRecord extends CloudflareApi.ResourceTaggingTaggedResourceObjectDnsRecord {
@@ -218,6 +228,7 @@ export namespace ResourceTaggingTaggedResourceObject {
         | CloudflareApi.ResourceTaggingTaggedResourceObject.AccessApplication
         | CloudflareApi.ResourceTaggingTaggedResourceObject.AccessApplicationPolicy
         | CloudflareApi.ResourceTaggingTaggedResourceObject.AccessGroup
+        | CloudflareApi.ResourceTaggingTaggedResourceObject.AccessServiceToken
         | CloudflareApi.ResourceTaggingTaggedResourceObject.Account
         | CloudflareApi.ResourceTaggingTaggedResourceObject.AccountRuleset
         | CloudflareApi.ResourceTaggingTaggedResourceObject.AiGateway
@@ -232,6 +243,7 @@ export namespace ResourceTaggingTaggedResourceObject {
         | CloudflareApi.ResourceTaggingTaggedResourceObject.CwsPolicySet
         | CloudflareApi.ResourceTaggingTaggedResourceObject.CwsWorkload
         | CloudflareApi.ResourceTaggingTaggedResourceObject.D1Database
+        | CloudflareApi.ResourceTaggingTaggedResourceObject.Device
         | CloudflareApi.ResourceTaggingTaggedResourceObject.DnsRecord
         | CloudflareApi.ResourceTaggingTaggedResourceObject.DurableObjectNamespace
         | CloudflareApi.ResourceTaggingTaggedResourceObject.GatewayList

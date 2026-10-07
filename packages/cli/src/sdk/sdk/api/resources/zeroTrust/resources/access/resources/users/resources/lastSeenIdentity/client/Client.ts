@@ -40,14 +40,14 @@ export class LastSeenIdentityClient {
     public get(
         request: CloudflareApi.zeroTrust.access.users.GetLastSeenIdentityRequest,
         requestOptions?: LastSeenIdentityClient.RequestOptions,
-    ): core.HttpResponsePromise<CloudflareApi.AccessIdentity> {
+    ): core.HttpResponsePromise<CloudflareApi.zeroTrust.access.users.GetLastSeenIdentityResponse> {
         return core.HttpResponsePromise.fromPromise(this.__get(request, requestOptions));
     }
 
     private async __get(
         request: CloudflareApi.zeroTrust.access.users.GetLastSeenIdentityRequest,
         requestOptions?: LastSeenIdentityClient.RequestOptions,
-    ): Promise<core.WithRawResponse<CloudflareApi.AccessIdentity>> {
+    ): Promise<core.WithRawResponse<CloudflareApi.zeroTrust.access.users.GetLastSeenIdentityResponse>> {
         const { account_id: accountId, user_id: userId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -72,7 +72,10 @@ export class LastSeenIdentityClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as CloudflareApi.AccessIdentity, rawResponse: _response.rawResponse };
+            return {
+                data: _response.body as CloudflareApi.zeroTrust.access.users.GetLastSeenIdentityResponse,
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {

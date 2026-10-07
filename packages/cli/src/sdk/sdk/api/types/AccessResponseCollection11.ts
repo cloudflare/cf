@@ -7,5 +7,6 @@ export interface AccessResponseCollection11 {
     messages: CloudflareApi.AccessMessages;
     /** Whether the API call was successful. */
     success: true;
-    result?: CloudflareApi.AccessAccessRequests[] | undefined;
+    result_info?: CloudflareApi.AccessResponseCollection11ResultInfo | undefined;
+    result?: CloudflareApi.AccessCustomPageWithoutHtml[] | undefined;
 }

@@ -20,7 +20,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 mesh nodes configurations get <tunnel-id>\n\nGets the high-availability configuration for a WARP Connector tunnel."
+			"$0 mesh nodes configurations get <tunnel-id>\n\nGets the high-availability configuration for a Mesh node."
 		)
 		.positional("tunnel-id", {
 			type: "string",
@@ -41,7 +41,7 @@ type Request =
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <tunnel-id>",
-	describe: "Get WARP Connector HA configuration",
+	describe: "Get Mesh node HA configuration",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(

@@ -111,7 +111,25 @@ export namespace GetAiSearchResponse {
 
     export interface Metadata {
         created_from_aisearch_wizard?: boolean | undefined;
+        created_from_emdash_plugin?: Metadata.CreatedFromEmdashPlugin | undefined;
         worker_domain?: string | undefined;
+    }
+
+    export namespace Metadata {
+        export interface CreatedFromEmdashPlugin {
+            type: CreatedFromEmdashPlugin.Type;
+            version: string;
+            /** Accepts any additional properties */
+            [key: string]: any;
+        }
+
+        export namespace CreatedFromEmdashPlugin {
+            export const Type = {
+                Native: "native",
+                Rest: "rest",
+            } as const;
+            export type Type = (typeof Type)[keyof typeof Type];
+        }
     }
 
     export interface PublicEndpointParams {

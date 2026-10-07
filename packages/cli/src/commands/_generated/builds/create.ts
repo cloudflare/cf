@@ -29,6 +29,18 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Trigger UUID.",
 			demandOption: true,
 		})
+		.option("branch", {
+			type: "string",
+			description: "Git branch name (required if commit_hash not provided)",
+		})
+		.option("commit-hash", {
+			type: "string",
+			description: "Git commit hash (required if branch not provided)",
+		})
+		.option("seed-repo-branch", {
+			type: "string",
+			description: "Repository branch to seed.",
+		})
 		.option("seed-repo-owner", {
 			type: "string",
 			description: "Repository owner or namespace.",
@@ -57,6 +69,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.check((argv) => {
 			const groupSet = [
+				"seed-repo-branch",
 				"seed-repo-owner",
 				"seed-repo-path",
 				"seed-repo-provider",
@@ -109,7 +122,22 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
+										branch: resolveFileToken(
+											argv["branch"] as string | undefined,
+											"branch",
+											"text"
+										),
+										commit_hash: resolveFileToken(
+											argv["commit-hash"] as string | undefined,
+											"commit-hash",
+											"text"
+										),
 										seed_repo: {
+											branch: resolveFileToken(
+												argv["seed-repo-branch"] as string | undefined,
+												"seed-repo-branch",
+												"text"
+											),
 											owner: resolveFileToken(
 												argv["seed-repo-owner"] as string | undefined,
 												"seed-repo-owner",
@@ -154,7 +182,22 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
+					branch: resolveFileToken(
+						argv["branch"] as string | undefined,
+						"branch",
+						"text"
+					),
+					commit_hash: resolveFileToken(
+						argv["commit-hash"] as string | undefined,
+						"commit-hash",
+						"text"
+					),
 					seed_repo: {
+						branch: resolveFileToken(
+							argv["seed-repo-branch"] as string | undefined,
+							"seed-repo-branch",
+							"text"
+						),
 						owner: resolveFileToken(
 							argv["seed-repo-owner"] as string | undefined,
 							"seed-repo-owner",

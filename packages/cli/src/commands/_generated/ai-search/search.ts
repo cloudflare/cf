@@ -22,9 +22,9 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 ai-search search <id> <query>\n\nExecutes a semantic search query against an AI Search instance to find relevant indexed content."
+			"$0 ai-search search <instance-id> <query>\n\nExecutes a semantic search query against an AI Search instance to find relevant indexed content."
 		)
-		.positional("id", {
+		.positional("instance-id", {
 			type: "string",
 			description: "AI Search instance ID.",
 			demandOption: true,
@@ -33,7 +33,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "Text to search for.",
 		})
-		.option("name", {
+		.option("namespace", {
 			type: "string",
 			description: "Namespace to use for this operation.",
 			demandOption: true,
@@ -131,7 +131,7 @@ type Request = SdkRequest<"ai-search-namespace-instance-search">;
 type Body = Request;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "search <id> <query>",
+	command: "search <instance-id> <query>",
 	describe: "Search",
 	builder,
 	handler: async (argv): Promise<void> =>
@@ -159,10 +159,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf ai-search search",
 						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/namespaces/${argv["name"] == null ? "<name>" : encodeURIComponent(String(argv["name"]))}/instances/${argv["id"] == null ? "<id>" : encodeURIComponent(String(argv["id"]))}/search`,
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/namespaces/${argv["namespace"] == null ? "<namespace>" : encodeURIComponent(String(argv["namespace"]))}/instances/${argv["instance-id"] == null ? "<instance-id>" : encodeURIComponent(String(argv["instance-id"]))}/search`,
 						pathParams: {
-							id: String(argv["id"] ?? ""),
-							name: String(argv["name"] ?? ""),
+							"instance-id": String(argv["instance-id"] ?? ""),
+							namespace: String(argv["namespace"] ?? ""),
 						},
 						bodyKind: "json",
 						body:
@@ -258,8 +258,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						client.aiSearch.search({
 							...bodyData,
 							account_id: accountId,
-							name: argv["name"],
-							id: argv["id"],
+							namespace: argv["namespace"],
+							"instance-id": argv["instance-id"],
 						} satisfies Request)
 					);
 					formatOutput(result, { successLabel: `Loaded` });
@@ -345,8 +345,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					client.aiSearch.search({
 						...bodyData,
 						account_id: accountId,
-						name: argv["name"],
-						id: argv["id"],
+						namespace: argv["namespace"],
+						"instance-id": argv["instance-id"],
 					} satisfies Request)
 				);
 				formatOutput(result, { successLabel: `Loaded` });

@@ -21,7 +21,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one events tags relationships list\n\nReturns sparse relationship edges. Optionally hydrate related entities via `expand`. Fans out across all accessible indicator dataset shards. Analytics datasets do not expose tag associations, so the analytics scope returns an empty result."
+			"$0 cloudforce-one events tags relationships list\n\nReturns sparse relationship edges. Optionally hydrate related entities via `expand`. Fans out across accessible intelligence (isAnalytics=false) indicator dataset shards; `all` and `operational` are equivalent. Analytics datasets do not expose tag associations, so the analytics scope returns an empty result."
 		)
 		.option("tag-uuid", {
 			type: "string",
@@ -31,7 +31,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("datasets", {
 			type: "string",
 			description:
-				"Comma-separated dataset UUIDs to scope to, or one standalone scope: 'all'/'*', 'analytics' for isAnalytics=true datasets, or 'operational' for isAnalytics=false datasets. Analytics datasets do not expose tag associations, so 'analytics' returns an empty result. Omit for all.",
+				"Comma-separated dataset UUIDs to scope to, or one standalone scope value: 'all'/'*' or 'operational' for readable intelligence datasets (isAnalytics=false), or 'analytics' for readable analytics datasets (isAnalytics=true). Analytics datasets do not expose tag associations, so 'analytics' returns an empty result. Omit for 'all'.",
 		})
 		.option("search", {
 			type: "string",

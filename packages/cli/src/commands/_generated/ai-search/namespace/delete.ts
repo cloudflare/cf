@@ -21,9 +21,9 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 ai-search namespace delete <name>\n\nPermanently delete a namespace. The namespace must be empty (no instances), and the default namespace cannot be deleted."
+			"$0 ai-search namespace delete <namespace>\n\nPermanently delete a namespace. The namespace must be empty (no instances), and the default namespace cannot be deleted."
 		)
-		.positional("name", {
+		.positional("namespace", {
 			type: "string",
 			description: "Namespace to delete.",
 			demandOption: true,
@@ -46,7 +46,7 @@ type Args = InferArgs<typeof builder>;
 type Request = SdkRequest<"ai-search-delete-namespace">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "delete <name>",
+	command: "delete <namespace>",
 	describe: "Delete a namespace",
 	builder,
 	handler: async (argv): Promise<void> =>
@@ -65,8 +65,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf ai-search namespace delete",
 						method: "DELETE",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/namespaces/${argv["name"] == null ? "<name>" : encodeURIComponent(String(argv["name"]))}`,
-						pathParams: { name: String(argv["name"] ?? "") },
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/namespaces/${argv["namespace"] == null ? "<namespace>" : encodeURIComponent(String(argv["namespace"]))}`,
+						pathParams: { namespace: String(argv["namespace"] ?? "") },
 						bodyKind: "none",
 					});
 					return;
@@ -88,7 +88,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const result = await withProgress(`Deleting`, async () =>
 					client.aiSearch.namespace.delete({
 						account_id: accountId,
-						name: argv["name"],
+						namespace: argv["namespace"],
 					} satisfies Request)
 				);
 				formatOutput(result, { successLabel: `Deleted` });

@@ -20,14 +20,14 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 mesh nodes connectors get <connector-id>\n\nFetches connector and connection details for a WARP Connector Tunnel."
+			"$0 mesh nodes connectors get <connector-id>\n\nFetches connector and connection details for a Mesh node."
 		)
 		.positional("connector-id", {
 			type: "string",
 			description: "UUID of the Cloudflare Tunnel connector.",
 			demandOption: true,
 		})
-		.option("tunnel-id", {
+		.option("node-id", {
 			type: "string",
 			description: "UUID of the tunnel.",
 			demandOption: true,
@@ -46,7 +46,7 @@ type Request =
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <connector-id>",
-	describe: "Get WARP Connector Tunnel connector",
+	describe: "Get a Mesh node connector",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
@@ -63,9 +63,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf mesh nodes connectors get",
 						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/warp_connector/${argv["tunnel-id"] == null ? "<tunnel-id>" : encodeURIComponent(String(argv["tunnel-id"]))}/connectors/${argv["connector-id"] == null ? "<connector-id>" : encodeURIComponent(String(argv["connector-id"]))}`,
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/warp_connector/${argv["node-id"] == null ? "<node-id>" : encodeURIComponent(String(argv["node-id"]))}/connectors/${argv["connector-id"] == null ? "<connector-id>" : encodeURIComponent(String(argv["connector-id"]))}`,
 						pathParams: {
-							"tunnel-id": String(argv["tunnel-id"] ?? ""),
+							"node-id": String(argv["node-id"] ?? ""),
 							"connector-id": String(argv["connector-id"] ?? ""),
 						},
 						bodyKind: "none",
@@ -79,7 +79,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const result = await withProgress(`Loading`, async () =>
 					client.mesh.nodes.connectors.get({
 						account_id: accountId,
-						tunnel_id: argv["tunnel-id"],
+						"node-id": argv["node-id"],
 						connector_id: argv["connector-id"],
 					} satisfies Request)
 				);

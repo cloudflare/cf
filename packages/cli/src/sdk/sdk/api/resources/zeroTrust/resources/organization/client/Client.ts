@@ -107,9 +107,7 @@ export class OrganizationClient {
      * @example
      *     await client.zeroTrust.organization.create({
      *         account_or_zone: "account_or_zone",
-     *         account_or_zone_id: "account_or_zone_id",
-     *         auth_domain: "test.cloudflareaccess.com",
-     *         name: "Widget Corps Internal Applications"
+     *         account_or_zone_id: "account_or_zone_id"
      *     })
      */
     public create(

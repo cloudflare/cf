@@ -12,6 +12,7 @@ import type { CommonYargsOptions } from "#lib/cli-types.js";
  * @generated from apis/overlays/ai.ts
  */
 import type { CommandModule } from "yargs";
+import $opencode from "#commands/ai/opencode/index.js";
 import $run from "#commands/ai/run/index.js";
 
 const command: CommandModule<CommonYargsOptions> = {
@@ -28,6 +29,7 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($authors)
 			.command($finetunes)
 			.command($models)
+			.command($opencode)
 			.command($tasks)
 			.demandCommand(1, "Please specify a subcommand");
 	},

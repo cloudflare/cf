@@ -250,6 +250,43 @@
 			}
 		},
 		{
+			"command": "cf ai opencode run",
+			"name": "run",
+			"fullPath": ["ai", "opencode", "run"],
+			"category": "action",
+			"description": "Run OpenCode through AI Gateway's REST API. Uses Unified Billing or provider credentials configured on the selected gateway and creates a scoped token that expires after one hour.",
+			"usage": "cf ai opencode run <prompt> [--gateway <gateway>] [--model <provider/model>]",
+			"arguments": [
+				{
+					"name": "prompt",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Prompt to send to OpenCode"
+				}
+			],
+			"options": [
+				{
+					"name": "gateway",
+					"type": "string",
+					"required": false,
+					"description": "AI Gateway ID (defaults to the configured or account default gateway)"
+				},
+				{
+					"name": "model",
+					"type": "string",
+					"required": false,
+					"description": "Provider-prefixed AI Gateway model ID"
+				}
+			],
+			"handWritten": {
+				"kind": "subgroup",
+				"overrides": false,
+				"dir": "ai/opencode",
+				"parent": "ai"
+			}
+		},
+		{
 			"command": "cf ai run",
 			"name": "run",
 			"fullPath": ["ai", "run"],
@@ -2001,6 +2038,7 @@
 	"descriptions": {
 		"access": "Access protected applications and services",
 		"ai": "ai",
+		"ai opencode": "Run OpenCode through AI Gateway.",
 		"containers": "Deploy and manage Containers applications on Cloudflare's global network",
 		"containers images": "Operations for images",
 		"d1": "D1 is Cloudflare's managed, serverless database with SQLite's SQL semantics, built-in disaster recovery, and Worker and HTTP API access.",

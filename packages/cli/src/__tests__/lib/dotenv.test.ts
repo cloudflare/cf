@@ -162,6 +162,7 @@ describe("shouldApplyCloudflareDotEnv", () => {
 		"access ssh-gen",
 		"access tcp",
 		"access token",
+		"ai opencode run",
 		"build",
 		"dev",
 		"init",

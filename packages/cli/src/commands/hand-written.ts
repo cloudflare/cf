@@ -196,6 +196,13 @@ export const handWrittenCommands: readonly HandWrittenCommand[] = [
 		dir: "ai/run",
 	},
 	{
+		kind: "subgroup",
+		parent: "ai",
+		name: "opencode",
+		dir: "ai/opencode",
+		describe: "Run OpenCode through AI Gateway.",
+	},
+	{
 		kind: "leafOverride",
 		dryRun: "native",
 		emitKey: "registrar/registrations/create",

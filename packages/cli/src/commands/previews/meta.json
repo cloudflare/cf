@@ -28,6 +28,13 @@
 				"type": "string",
 				"required": false,
 				"description": "Name of the Worker in the Build Output to use (defaults to the default Worker)"
+			},
+			{
+				"name": "dry-run",
+				"type": "boolean",
+				"required": false,
+				"description": "Parse arguments and show the command without executing it",
+				"default": false
 			}
 		]
 	}

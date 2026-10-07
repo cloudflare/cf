@@ -101,7 +101,24 @@ describe("cf containers push", () => {
 		expect(std.out).toContain("--tag");
 		expect(std.out).toContain("-t");
 		expect(std.out).toContain("--path-to-docker");
+		expect(std.out).toContain("--dry-run");
 		expect(pushCommand).not.toHaveBeenCalled();
+	});
+
+	it("previews a push without accessing the registry or Docker", async () => {
+		const { exitCode } = await runCf([
+			"containers",
+			"push",
+			"--tag",
+			"example/image:tag",
+			"--dry-run",
+		]);
+
+		expect(exitCode).toBe(0);
+		expect(std.out).toContain('"command": "cf containers push"');
+		expect(pushCommand).not.toHaveBeenCalled();
+		expect(initContainersSharedContext).not.toHaveBeenCalled();
+		expect(configureOpenAPIForContainerPull).not.toHaveBeenCalled();
 	});
 
 	it("rejects local simulation mode", async () => {
@@ -116,6 +133,7 @@ describe("containers push hand-written leaf", () => {
 	it("is registered against the containers product", () => {
 		expect(handWrittenLeafCommands("containers")).toContainEqual({
 			kind: "leaf",
+			dryRun: "preview",
 			parent: "containers",
 			name: "push",
 			dir: "containers/push",
@@ -156,6 +174,7 @@ describe("containers push hand-written leaf", () => {
 				type: "string",
 				required: false,
 			}),
+			expect.objectContaining({ name: "dry-run", type: "boolean" }),
 		]);
 		expect(meta.httpMethod).toBeUndefined();
 		expect(meta.apiPath).toBeUndefined();

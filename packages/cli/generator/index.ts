@@ -1,4 +1,5 @@
 import {
+	handWrittenCommands,
 	leafOverrideHandWrittenCommands,
 	leafHandWrittenCommands,
 	rootCommandName,
@@ -25,6 +26,7 @@ import {
 	generateMetadataFile,
 	generateSchemaFile,
 	generateSchemaInfo,
+	validateHandWrittenDryRunMetadata,
 	type HandWrittenCommandMeta,
 	type SchemaInfo,
 } from "./metadata";
@@ -599,6 +601,20 @@ ${entries}
 		});
 	}
 	handWrittenCommandMeta.sort((a, b) => a.command.localeCompare(b.command));
+	for (const command of handWrittenCommands) {
+		if (
+			command.kind !== "parentOverride" &&
+			command.dryRun !== "preview" &&
+			command.dryRun !== "native"
+		) {
+			generationErrors.push(
+				`Hand-written command in ${command.dir} must choose a dry-run strategy in src/commands/hand-written.ts.`
+			);
+		}
+	}
+	generationErrors.push(
+		...validateHandWrittenDryRunMetadata(handWrittenCommandMeta)
+	);
 	const handWrittenDescriptionKeys = new Set<string>();
 	for (const meta of handWrittenCommandMeta) {
 		for (let i = 1; i < meta.fullPath.length; i++) {

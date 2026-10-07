@@ -41,6 +41,13 @@
 			"type": "number",
 			"required": false,
 			"description": "Sample log events by fraction greater than 0.0 and no greater than 1.0"
+		},
+		{
+			"name": "dry-run",
+			"type": "boolean",
+			"required": false,
+			"description": "Parse arguments and show the command without executing it",
+			"default": false
 		}
 	]
 }

@@ -20,6 +20,7 @@ import $quickstart from "#commands/tunnels/quick-start/index.js";
 import $ready from "#commands/tunnels/ready/index.js";
 import $run from "#commands/tunnels/run/index.js";
 import $tail from "#commands/tunnels/tail/index.js";
+import { withHandWrittenDryRun } from "#lib/hand-written-dry-run.js";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "tunnels",
@@ -29,15 +30,15 @@ const command: CommandModule<CommonYargsOptions> = {
 		return yargs
 			.command($create)
 			.command($delete)
-			.command($diag)
+			.command(withHandWrittenDryRun($diag, "preview"))
 			.command($edit)
 			.command($get)
 			.command($list)
-			.command($login)
-			.command($quickstart)
-			.command($ready)
-			.command($run)
-			.command($tail)
+			.command(withHandWrittenDryRun($login, "preview"))
+			.command(withHandWrittenDryRun($quickstart, "preview"))
+			.command(withHandWrittenDryRun($ready, "preview"))
+			.command(withHandWrittenDryRun($run, "preview"))
+			.command(withHandWrittenDryRun($tail, "preview"))
 			.command($config)
 			.command($connections)
 			.command($connectors)

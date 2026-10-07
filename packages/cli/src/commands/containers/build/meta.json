@@ -33,6 +33,13 @@
 			"type": "string",
 			"required": false,
 			"description": "Path to the Docker binary if it is not on PATH"
+		},
+		{
+			"name": "dry-run",
+			"type": "boolean",
+			"required": false,
+			"description": "Parse arguments and show the command without executing it",
+			"default": false
 		}
 	]
 }

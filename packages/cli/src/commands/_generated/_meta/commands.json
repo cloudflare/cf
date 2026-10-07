@@ -7261,21 +7261,13 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf ai opencode run",
-			"name": "run",
-			"fullPath": ["ai", "opencode", "run"],
+			"command": "cf ai opencode",
+			"name": "opencode",
+			"fullPath": ["ai", "opencode"],
 			"category": "action",
-			"description": "Run OpenCode through AI Gateway's REST API. Uses Unified Billing or provider credentials configured on the selected gateway and creates a scoped token that expires after one hour.",
-			"usage": "cf ai opencode run <prompt> [--gateway <gateway>] [--model <provider/model>]",
-			"arguments": [
-				{
-					"name": "prompt",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Prompt to send to OpenCode"
-				}
-			],
+			"description": "Run OpenCode through AI Gateway's REST API.",
+			"usage": "cf ai opencode [options] [-- <opencode-arguments>]",
+			"arguments": [],
 			"options": [
 				{
 					"name": "gateway",
@@ -7284,10 +7276,10 @@
 					"description": "AI Gateway ID (defaults to the configured or account default gateway)"
 				},
 				{
-					"name": "model",
+					"name": "endpoint",
 					"type": "string",
 					"required": false,
-					"description": "Provider-prefixed AI Gateway model ID"
+					"description": "Access-protected AI Gateway custom domain for per-user attribution"
 				}
 			]
 		},
@@ -157675,7 +157667,6 @@
 		"ai finetunes public": "Operations for finetunes.public",
 		"ai models": "Operations for models",
 		"ai tasks": "Operations for tasks",
-		"ai opencode": "Run OpenCode through AI Gateway.",
 		"ai-audit": "ai-audit",
 		"ai-audit robots": "Operations for robots",
 		"ai-gateway": "Proxy, cache, rate-limit, and observe requests to AI providers — OpenAI, Anthropic, Workers AI, and more",

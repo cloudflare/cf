@@ -1,33 +1,23 @@
-[
-	{
-		"command": "cf ai opencode run",
-		"name": "run",
-		"fullPath": ["ai", "opencode", "run"],
-		"category": "action",
-		"description": "Run OpenCode through AI Gateway's REST API. Uses Unified Billing or provider credentials configured on the selected gateway and creates a scoped token that expires after one hour.",
-		"usage": "cf ai opencode run <prompt> [--gateway <gateway>] [--model <provider/model>]",
-		"arguments": [
-			{
-				"name": "prompt",
-				"position": 0,
-				"type": "string",
-				"required": true,
-				"description": "Prompt to send to OpenCode"
-			}
-		],
-		"options": [
-			{
-				"name": "gateway",
-				"type": "string",
-				"required": false,
-				"description": "AI Gateway ID (defaults to the configured or account default gateway)"
-			},
-			{
-				"name": "model",
-				"type": "string",
-				"required": false,
-				"description": "Provider-prefixed AI Gateway model ID"
-			}
-		]
-	}
-]
+{
+	"command": "cf ai opencode",
+	"name": "opencode",
+	"fullPath": ["ai", "opencode"],
+	"category": "action",
+	"description": "Run OpenCode through AI Gateway's REST API.",
+	"usage": "cf ai opencode [options] [-- <opencode-arguments>]",
+	"arguments": [],
+	"options": [
+		{
+			"name": "gateway",
+			"type": "string",
+			"required": false,
+			"description": "AI Gateway ID (defaults to the configured or account default gateway)"
+		},
+		{
+			"name": "endpoint",
+			"type": "string",
+			"required": false,
+			"description": "Access-protected AI Gateway custom domain for per-user attribution"
+		}
+	]
+}

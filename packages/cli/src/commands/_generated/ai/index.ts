@@ -23,13 +23,13 @@ const command: CommandModule<CommonYargsOptions> = {
 		return yargs
 			.command($getmodelschema)
 			.command($listmarkdownsupportedformats)
+			.command($opencode)
 			.command($run)
 			.command($tomarkdown)
 			.command($websearch)
 			.command($authors)
 			.command($finetunes)
 			.command($models)
-			.command($opencode)
 			.command($tasks)
 			.demandCommand(1, "Please specify a subcommand");
 	},

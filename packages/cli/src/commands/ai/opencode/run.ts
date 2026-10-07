@@ -21,52 +21,49 @@ import { withCloudflareDotEnv } from "#lib/dotenv.js";
 import { createChildProcessController } from "#lib/process.js";
 
 interface OpenCodeRunArgs extends CommonYargsOptions {
-	prompt: string;
+	implArgs?: (string | number)[];
 	gateway?: string;
-	model?: string;
 	endpoint?: string;
 }
 
 function builder(yargs: Argv<CommonYargsOptions>): Argv<OpenCodeRunArgs> {
 	return yargs
-		.positional("prompt", {
-			type: "string",
-			description: "Prompt to send to OpenCode",
-			demandOption: true,
-		})
 		.option("gateway", {
 			type: "string",
 			description:
 				"AI Gateway ID (defaults to the configured or account default gateway)",
 		})
-		.option("model", {
-			type: "string",
-			description: "Provider-prefixed AI Gateway model ID",
-		})
 		.option("endpoint", {
 			type: "string",
 			description:
-				"AI Gateway custom domain. When it is Access-protected, cf sends your individual Access token so the gateway records cf.user_id",
+				"Access-protected AI Gateway custom domain for per-user attribution",
+		})
+		.positional("implArgs", {
+			type: "string",
+			array: true,
+			describe: "Arguments forwarded to OpenCode",
+		})
+		.parserConfiguration({
+			"unknown-options-as-args": true,
+			"camel-case-expansion": false,
 		}) as Argv<OpenCodeRunArgs>;
 }
 
 interface ProviderRoute {
 	baseUrl: string;
-	/** Identity-bearing Access token, sent in cf-access-token. */
 	accessToken?: string;
 }
 
 function config(route: ProviderRoute, model: string, gateway?: string): string {
-	// On an Access-protected endpoint the Access token is the credential, sent
-	// in cf-access-token. OpenCode always emits an Authorization header, and
-	// the gateway forwards whatever it finds there to the upstream provider —
-	// so a placeholder would surface as a provider auth failure. Reusing the
-	// Access token keeps that header valid while Unified Billing supplies the
-	// provider credentials.
 	const identityAware = route.accessToken !== undefined;
 	return JSON.stringify({
 		$schema: "https://opencode.ai/config.json",
 		share: "disabled",
+		// OpenCode merges OPENCODE_CONFIG with global and project config. Pin
+		// both the provider allowlist and default model for this launch so a
+		// global Anthropic/Cloudflare provider cannot bypass the injected route.
+		enabled_providers: ["openai"],
+		model: `openai/${model}`,
 		provider: {
 			openai: {
 				name: "OpenAI via Cloudflare AI Gateway",
@@ -118,6 +115,36 @@ function childEnvironment(
 	};
 }
 
+function configuredModel(args: string[], defaultModel: string): string {
+	const modelIndex = args.findIndex((arg) => arg === "--model" || arg === "-m");
+	const requested = modelIndex === -1 ? undefined : args[modelIndex + 1];
+	if (!requested) {
+		return defaultModel;
+	}
+	return requested.startsWith("openai/") ? requested : `openai/${requested}`;
+}
+
+function gatewayArgs(args: string[], defaultModel: string): string[] {
+	const result = [...args];
+	const modelIndex = result.findIndex(
+		(arg) => arg === "--model" || arg === "-m"
+	);
+	if (modelIndex === -1) {
+		result.unshift("--model", `openai/${defaultModel}`);
+		return result;
+	}
+	const model = result[modelIndex + 1];
+	if (model && !model.startsWith("openai/")) {
+		result[modelIndex + 1] = `openai/${model}`;
+	} else if (
+		model?.startsWith("openai/") &&
+		!model.startsWith("openai/openai/")
+	) {
+		result[modelIndex + 1] = `openai/${model}`;
+	}
+	return result;
+}
+
 async function writeConfig(
 	route: ProviderRoute,
 	model: string,
@@ -126,29 +153,21 @@ async function writeConfig(
 	const directory = await mkdtemp(join(tmpdir(), "cf-ai-"));
 	const path = join(directory, "opencode.json");
 	await chmod(directory, 0o700);
-	await writeFile(path, config(route, model, gateway), {
-		mode: 0o600,
-	});
+	await writeFile(path, config(route, model, gateway), { mode: 0o600 });
 	return { directory, path };
 }
 
 const command: CommandModule<CommonYargsOptions, OpenCodeRunArgs> = {
-	command: "run <prompt>",
-	describe:
-		"Run OpenCode through AI Gateway's REST API with a scoped token that expires after one hour.",
+	command: "opencode [implArgs..]",
+	describe: "Run OpenCode through AI Gateway's REST API.",
 	builder,
 	handler: async (argv: ArgumentsCamelCase<OpenCodeRunArgs>): Promise<void> => {
 		if (argv.local) {
-			throw new Error("--local is not supported by cf ai opencode run.");
+			throw new Error("--local is not supported by cf ai opencode.");
 		}
 
 		const settings = resolveHarnessSettings("opencode", argv);
-		const endpoint = settings.endpoint;
-
-		// An Access-protected custom domain is the only route that yields
-		// per-user attribution: the gateway resolves the individual Access
-		// token into cf.user_id. The account API path cannot, so it stays on a
-		// scoped API token.
+		const endpoint = argv.endpoint ?? settings.endpoint;
 		const protection =
 			endpoint === undefined
 				? undefined
@@ -161,16 +180,12 @@ const command: CommandModule<CommonYargsOptions, OpenCodeRunArgs> = {
 
 		let route: ProviderRoute;
 		let credentials: ChildCredentials;
-
 		if (endpoint !== undefined) {
 			const accessToken = await acquireAccessToken(endpoint);
 			const claims = describeAccessToken(accessToken);
 			if (claims?.email) {
 				console.error(`Using Cloudflare Access identity: ${claims.email}`);
 			}
-			// The gateway's /compat surface takes the same provider-prefixed
-			// model IDs as the account API, so a model configured for one route
-			// works unchanged on the other.
 			route = {
 				baseUrl: `${endpoint.replace(/\/$/, "")}/compat`,
 				accessToken,
@@ -198,24 +213,21 @@ const command: CommandModule<CommonYargsOptions, OpenCodeRunArgs> = {
 			credentials = { apiToken: childToken.value };
 		}
 
+		const implArgs = (argv.implArgs ?? []).map(String);
+		const model = configuredModel(implArgs, settings.model);
 		const temporary = await writeConfig(
 			route,
-			settings.model,
-			settings.gateway
+			model,
+			argv.gateway ?? settings.gateway
 		);
-
 		try {
-			const child = x(
-				"opencode",
-				["run", "--model", `openai/${settings.model}`, argv.prompt],
-				{
-					nodePath: false,
-					nodeOptions: {
-						stdio: "inherit",
-						env: childEnvironment(credentials, temporary.path),
-					},
-				}
-			);
+			const child = x("opencode", gatewayArgs(implArgs, settings.model), {
+				nodePath: false,
+				nodeOptions: {
+					stdio: "inherit",
+					env: childEnvironment(credentials, temporary.path),
+				},
+			});
 			if (!child.process) {
 				throw new Error("Unable to start OpenCode.");
 			}
@@ -229,7 +241,7 @@ const command: CommandModule<CommonYargsOptions, OpenCodeRunArgs> = {
 		} catch (error) {
 			if ((error as NodeJS.ErrnoException).code === "ENOENT") {
 				throw new Error(
-					"OpenCode is not installed. Install it, then run cf ai opencode run again."
+					"OpenCode is not installed. Install it, then run cf ai opencode again."
 				);
 			}
 			throw error;

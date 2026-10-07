@@ -108,6 +108,21 @@ describe("fetchRawBytes", () => {
 			expect(signal).toBeInstanceOf(AbortSignal);
 			expect(signal?.aborted).toBe(false);
 		});
+
+		it("omits the request deadline for binary uploads", async () => {
+			process.env.CLOUDFLARE_API_TOKEN = "prod-token";
+			let signal: AbortSignal | null | undefined;
+			globalThis.fetch = (async (_input, init) => {
+				signal = init?.signal;
+				return new Response(null, { status: 204 });
+			}) as typeof globalThis.fetch;
+
+			await fetchRawBytes("/accounts/abc/anything", {
+				method: "PUT",
+				body: Buffer.from("data"),
+			});
+			expect(signal).toBeUndefined();
+		});
 	});
 
 	describe("error handling", () => {

@@ -62,7 +62,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("deployment-configs-preview-build-image-major-version", {
 			type: "number",
 			description:
-				"The major version of the build image to use for Pages Functions.",
+				"The major version of the build image to use for Pages Functions. Version 1 is retired and its projects are moved to version 3. Once a project's builds have been moved, a request that sets version 1 is rejected.",
 		})
 		.option("deployment-configs-preview-compatibility-date", {
 			type: "string",
@@ -107,7 +107,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("deployment-configs-production-build-image-major-version", {
 			type: "number",
 			description:
-				"The major version of the build image to use for Pages Functions.",
+				"The major version of the build image to use for Pages Functions. Version 1 is retired and its projects are moved to version 3. Once a project's builds have been moved, a request that sets version 1 is rejected.",
 		})
 		.option("deployment-configs-production-compatibility-date", {
 			type: "string",

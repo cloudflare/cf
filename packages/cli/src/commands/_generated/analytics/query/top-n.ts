@@ -58,7 +58,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Specifies the end of the query time range (exclusive). Requires RFC3339 format with timezone.",
 		})
-		.option("n", {
+		.option("limit", {
 			type: "number",
 			description: "Maximum number of results to return.",
 		})
@@ -122,7 +122,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"to",
 											"text"
 										),
-										n: argv["n"],
+										n: argv["limit"],
 										orderBy: resolveFileToken(
 											argv["order-by"] as string | undefined,
 											"order-by",
@@ -175,9 +175,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"Specifies the end of the query time range (exclusive). Requires RFC3339 format with timezone."
 					);
 				}
-				if (argv["n"] === undefined) {
+				if (argv["limit"] === undefined) {
 					throw new Error(
-						"--n is required (or pass --body with this field set)."
+						"--limit is required (or pass --body with this field set)."
 					);
 				}
 				if (argv["order-by"] === undefined) {
@@ -198,7 +198,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					groupBy: argv["group-by"],
 					stats: argv["stats"],
 					to: resolveFileToken(argv["to"] as string | undefined, "to", "text"),
-					n: argv["n"],
+					n: argv["limit"],
 					orderBy: resolveFileToken(
 						argv["order-by"] as string | undefined,
 						"order-by",

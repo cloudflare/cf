@@ -24,8 +24,11 @@ export class AccountClient {
 
     /**
      * Retrieve the accounts immediately attached to a specific organization. Accounts
-     * attached to sub-organizations are not included. (Currently in Public Beta - see
-     * https://developers.cloudflare.com/fundamentals/organizations/)
+     * attached to sub-organizations are not included.
+     *
+     * Authentication: A Global API key for a user with
+     * `com.cloudflare.api.tenant.unit.read` is required. User API Tokens are not currently
+     * supported.
      *
      * @param {CloudflareApi.organization.ListAccountRequest} request
      * @param {AccountClient.RequestOptions} requestOptions - Request-specific configuration.

@@ -16,7 +16,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 organization account list\n\nRetrieve the accounts immediately attached to a specific organization. Accounts attached to sub-organizations are not included. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)"
+			"$0 organization account list\n\nRetrieve the accounts immediately attached to a specific organization. Accounts attached to sub-organizations are not included. Authentication: A Global API key for a user with `com.cloudflare.api.tenant.unit.read` is required. User API Tokens are not currently supported."
 		)
 		.option("organization-id", {
 			type: "string",

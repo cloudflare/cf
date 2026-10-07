@@ -30,6 +30,9 @@ export class OrganizationClient {
      * will be the organization that _immediately_ contains the specified
      * account.
      *
+     * Authentication: Use a Global API key, or a user-owned API Token scoped to the account with
+     * the `Account Settings Read` permission, which grants `com.cloudflare.api.account.read`.
+     *
      * @param {CloudflareApi.accounts.ListOrganizationRequest} request
      * @param {OrganizationClient.RequestOptions} requestOptions - Request-specific configuration.
      *

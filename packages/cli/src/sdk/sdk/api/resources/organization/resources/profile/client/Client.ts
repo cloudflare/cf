@@ -24,7 +24,11 @@ export class ProfileClient {
     }
 
     /**
-     * Get an organizations profile if it exists. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)
+     * Get an organizations profile if it exists.
+     *
+     * Authentication: A Global API key for a user with
+     * `com.cloudflare.api.tenant.unit.read` is required. User API Tokens are not currently
+     * supported.
      *
      * @param {CloudflareApi.organization.GetProfileRequest} request
      * @param {ProfileClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -92,7 +96,11 @@ export class ProfileClient {
     }
 
     /**
-     * Modify organization profile. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)
+     * Modify organization profile.
+     *
+     * Authentication: A Global API key for a user with
+     * `com.cloudflare.api.tenant.unit.update` is required. User API Tokens are not currently
+     * supported.
      *
      * @param {CloudflareApi.organization.OrganizationsApiModifyOrganizationProfileRequest} request
      * @param {ProfileClient.RequestOptions} requestOptions - Request-specific configuration.

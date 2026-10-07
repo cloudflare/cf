@@ -20,7 +20,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			'$0 accounts organization list\n\nRetrieve a list of the organizations that "contain" this account or are managing it. The returned list will be in order from "root" to "leaf", where the "leaf" will be the organization that _immediately_ contains the specified account.'
+			'$0 accounts organization list\n\nRetrieve a list of the organizations that "contain" this account or are managing it. The returned list will be in order from "root" to "leaf", where the "leaf" will be the organization that _immediately_ contains the specified account. Authentication: Use a Global API key, or a user-owned API Token scoped to the account with the `Account Settings Read` permission, which grants `com.cloudflare.api.account.read`.'
 		)
 		.option("dry-run", {
 			type: "boolean",

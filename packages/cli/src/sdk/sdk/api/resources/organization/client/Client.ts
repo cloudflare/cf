@@ -54,7 +54,10 @@ export class OrganizationClient {
     }
 
     /**
-     * Retrieve a list of organizations a particular user has access to. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)
+     * Retrieve a list of organizations a particular user has access to.
+     *
+     * Authentication: Use a Global API key, or a User API Token with the `User Details Read` or
+     * `User Details Write` permission.
      *
      * @param {CloudflareApi.ListOrganizationRequest} request
      * @param {OrganizationClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -155,7 +158,11 @@ export class OrganizationClient {
     }
 
     /**
-     * Create a new organization for a user. Sub-organization creation availability depends on the organization's capabilities. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)
+     * Create a new organization for a user. Sub-organization creation availability depends on
+     * the organization's capabilities.
+     *
+     * Authentication: Use a Global API key, or a User API Token with the `User Details Write`
+     * permission.
      *
      * @param {CloudflareApi.OrganizationsApiOrganization} request
      * @param {OrganizationClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -220,7 +227,11 @@ export class OrganizationClient {
     }
 
     /**
-     * Retrieve the details of a certain organization. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)
+     * Retrieve the details of a certain organization.
+     *
+     * Authentication: A Global API key for a user with
+     * `com.cloudflare.api.tenant.unit.read` is required. User API Tokens are not currently
+     * supported and return HTTP `403` with error code `10000`.
      *
      * @param {CloudflareApi.GetOrganizationRequest} request
      * @param {OrganizationClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -288,7 +299,11 @@ export class OrganizationClient {
     }
 
     /**
-     * Update an organization's name. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)
+     * Update an organization's name.
+     *
+     * Authentication: A Global API key for a user with
+     * `com.cloudflare.api.tenant.unit.update` is required. User API Tokens are not currently
+     * supported.
      *
      * @param {CloudflareApi.UpdateOrganizationRequest} request
      * @param {OrganizationClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -364,9 +379,13 @@ export class OrganizationClient {
     /**
      * Delete an organization. The organization MUST be empty before deleting.
      * It must not contain any sub-organizations, accounts, members or users. Sub-organization
-     * deletion availability depends on the organization's capabilities. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)
+     * deletion availability depends on the organization's capabilities.
      *
      * **Access Control:** Restricted to enterprise organizations.
+     *
+     * Authentication: A Global API key for a user with
+     * `com.cloudflare.api.tenant.unit.update` is required. User API Tokens are not currently
+     * supported.
      *
      * @param {CloudflareApi.DeleteOrganizationRequest} request
      * @param {OrganizationClient.RequestOptions} requestOptions - Request-specific configuration.

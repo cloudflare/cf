@@ -15,7 +15,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 organization get <organization-id>\n\nRetrieve the details of a certain organization. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)"
+			"$0 organization get <organization-id>\n\nRetrieve the details of a certain organization. Authentication: A Global API key for a user with `com.cloudflare.api.tenant.unit.read` is required. User API Tokens are not currently supported and return HTTP `403` with error code `10000`."
 		)
 		.positional("organization-id", {
 			type: "string",

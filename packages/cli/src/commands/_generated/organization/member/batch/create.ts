@@ -16,7 +16,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 organization member batch create <organization-id>\n\nBatch create multiple memberships that grant access to a specific Organization."
+			"$0 organization member batch create <organization-id>\n\nBatch create multiple memberships that grant access to a specific Organization. Authentication: A Global API key for a user with `com.cloudflare.api.tenant.unit.member.create` is required. User API Tokens are not currently supported."
 		)
 		.positional("organization-id", {
 			type: "string",

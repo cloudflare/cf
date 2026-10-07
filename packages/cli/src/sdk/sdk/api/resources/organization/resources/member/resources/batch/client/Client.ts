@@ -29,6 +29,10 @@ export class BatchClient {
     /**
      * Batch create multiple memberships that grant access to a specific Organization.
      *
+     * Authentication: A Global API key for a user with
+     * `com.cloudflare.api.tenant.unit.member.create` is required. User API Tokens are not
+     * currently supported.
+     *
      * @param {CloudflareApi.organization.member.OrganizationsApiBatchCreateMembersRequest} request
      * @param {BatchClient.RequestOptions} requestOptions - Request-specific configuration.
      *

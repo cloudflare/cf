@@ -18,7 +18,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 organization profile update <organization-id>\n\nModify organization profile. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)"
+			"$0 organization profile update <organization-id>\n\nModify organization profile. Authentication: A Global API key for a user with `com.cloudflare.api.tenant.unit.update` is required. User API Tokens are not currently supported."
 		)
 		.positional("organization-id", {
 			type: "string",

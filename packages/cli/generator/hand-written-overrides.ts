@@ -29,6 +29,7 @@ import type {
 	LeafOverrideHandWrittenCommand,
 	LeafHandWrittenCommand,
 } from "../src/commands/hand-written.js";
+import type { HandWrittenDryRunStrategy } from "../src/lib/hand-written-dry-run.js";
 import type {
 	CommandMeta as ForgeCommandMeta,
 	MethodCategory,
@@ -260,7 +261,7 @@ interface HandWrittenSubGroup {
 	dir: string;
 	/** One-line group description for `_meta/commands.json`. */
 	describe: string;
-	dryRun: "preview" | "native";
+	dryRun: HandWrittenDryRunStrategy;
 }
 
 /**

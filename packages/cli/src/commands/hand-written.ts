@@ -1,11 +1,12 @@
+import type { HandWrittenDryRunStrategy } from "../lib/hand-written-dry-run.js";
 import type { CommandTelemetryMeta } from "../lib/telemetry/run.js";
 
 type CommandImporter = () => Promise<{ default: unknown }>;
 
 export interface RootHandWrittenCommand {
 	kind: "root";
-	/** Every executable command must choose how --dry-run is handled. */
-	dryRun: "preview" | "native";
+	/** Every executable command must choose a {@link HandWrittenDryRunStrategy}. */
+	dryRun: HandWrittenDryRunStrategy;
 	command: string;
 	describe: string | false;
 	dir: string;
@@ -22,7 +23,7 @@ export interface LeafOverrideHandWrittenCommand {
 
 export interface LeafHandWrittenCommand {
 	kind: "leaf";
-	dryRun: "preview" | "native";
+	dryRun: HandWrittenDryRunStrategy;
 	/** Slash-separated parent path within the generated command tree. */
 	parent: string;
 	name: string;
@@ -38,7 +39,7 @@ export interface ParentOverrideHandWrittenCommand {
 
 export interface SubGroupHandWrittenCommand {
 	kind: "subgroup";
-	dryRun: "preview" | "native";
+	dryRun: HandWrittenDryRunStrategy;
 	parent: string;
 	name: string;
 	dir: string;

@@ -29,6 +29,7 @@ import {
 } from "../hand-written-overrides.js";
 import { escapeForSingleQuote } from "../util.js";
 import type { LeafHandWrittenCommand } from "../../src/commands/hand-written.js";
+import type { HandWrittenDryRunStrategy } from "../../src/lib/hand-written-dry-run.js";
 import type { Schema } from "@cloudflare/forge";
 
 interface IndexShape {
@@ -55,12 +56,12 @@ interface IndexShape {
 	 *
 	 * A hand-written sub-group carries `dir` instead, and imports from
 	 * `#commands/<dir>/index.js` since it lives outside `_generated/`.
+	 * It must also choose a {@link HandWrittenDryRunStrategy}.
 	 */
-	subGroups: readonly {
-		name: string;
-		dir?: string;
-		dryRun?: "preview" | "native";
-	}[];
+	subGroups: readonly (
+		| { name: string; dir?: never; dryRun?: never }
+		| { name: string; dir: string; dryRun: HandWrittenDryRunStrategy }
+	)[];
 }
 
 function generateIndexFile(shape: IndexShape): string {
@@ -101,11 +102,6 @@ function generateIndexFile(shape: IndexShape): string {
 				: `#commands/${sg.dir}/index.js`;
 		imports.push(`import ${varName} from '${module}';`);
 		if (sg.dir !== undefined) {
-			if (sg.dryRun === undefined) {
-				throw new Error(
-					`Hand-written subgroup ${sg.dir} has no dry-run strategy.`
-				);
-			}
 			wrapsHandWrittenCommand = true;
 			commandRegistrations.push(
 				`    .command(withHandWrittenDryRun(${varName}, '${sg.dryRun}'))`

@@ -1,5 +1,74 @@
 # cf
 
+## 1.0.0-beta.13
+
+### Minor Changes
+
+- 459fa81: Add `cf deploy --no-provision`
+
+  Disable automatic resource provisioning for a deployment so bindings without
+  required resource identifiers fail instead of creating new resources.
+  Provisioning remains enabled by default.
+
+- f16cc97: Print a parseable version from `cf --version`
+
+  Write the package version to stdout for `--version` and `-v`, so scripts can
+  parse it directly. Interactive use keeps the branded banner on stderr.
+
+- 07ff747: Add email protection to `cf tunnels quick-start`
+
+  Use `--allowed-mail` to require email authentication for a temporary tunnel.
+  The option accepts exact email addresses, comma-separated lists, and wildcard
+  domains, and may be repeated. For example:
+
+  ```sh
+  cf tunnels quick-start http://localhost:3000 --allowed-mail "alice@example.com,*@example.org"
+  ```
+
+  Protected tunnels require `cloudflared` 2026.9.2 or later. cf checks the selected
+  binary before launching and reports an upgrade error for older or unrecognised
+  versions. Recipient values are excluded from cf debug logs and telemetry.
+
+- 82bb260: Update the generated command surface and vendored Forge packages for
+  Forge OpenAPI release `42e2429763eedeb45da732e171b45638c331e356`.
+
+### Patch Changes
+
+- 1f0303e: Avoid project setup changes during deploy dry runs
+
+  Pass `--dry-run` to framework setup and Wrangler config conversion for `cf deploy`, `cf workers versions create`, and `cf workers triggers deploy`. If setup is needed, show the planned changes and skip the build and upload.
+
+- fc04a74: Resolve zone names beyond the first page of an account
+
+  Filter zone lookups by domain name so `--zone` and `CLOUDFLARE_ZONE_ID` can
+  resolve zones in accounts with more than one page of zones. Cache each name
+  separately within its account.
+
+- 2d8007d: Fix JSON string highlighting for escaped quotation marks
+
+  Keep the complete string value highlighted when JSON contains escaped quotes
+  or backslashes. Non-interactive output remains plain, parseable JSON.
+
+- f1ac89b: Allow required dependency build scripts in pnpm Worker projects
+
+  `cf init` now writes `pnpm-workspace.yaml` when pnpm is selected, approving the
+  `esbuild` and `workerd` build scripts before dependency installation. This also
+  applies with `--no-install` so a later `pnpm install` succeeds on pnpm 11 and
+  newer.
+
+- e4fcd8e: Write protobuf API responses as binary output
+
+  Recognize `application/vnd.google.protobuf` responses as binary data so generated
+  commands write the raw bytes to stdout instead of decoding them as JSON. This
+  allows Worker profiling responses to be redirected to a pprof file.
+
+- 2ff6a55: Redact API schema-marked sensitive fields in generated `--dry-run` request body previews, including nested values and JSON supplied through `--body`.
+- a02886b: Launch Node delegates through tinyexec on Windows
+
+  Wrangler and Vite delegation now works for `cf dev`, `cf build`, and
+  build-backed deploy commands without `spawn EFTYPE`. tinyexec uses the delegates'
+  Node shebangs on Windows and preserves argument boundaries without a shell.
+
 ## 1.0.0-beta.12
 
 ### Patch Changes

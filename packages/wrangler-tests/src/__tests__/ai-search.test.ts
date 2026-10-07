@@ -166,7 +166,9 @@ describe("ai-search commands", () => {
 					{ once: true }
 				)
 			);
-			await runWrangler("ai-search list --namespace default --page 2 --per-page 5");
+			await runWrangler(
+				"ai-search list --namespace default --page 2 --per-page 5"
+			);
 			expect(capturedUrl?.searchParams.get("page")).toBe("2");
 			expect(capturedUrl?.searchParams.get("per_page")).toBe("5");
 		});
@@ -531,7 +533,9 @@ describe("ai-search commands", () => {
 
 		it("should delete with --force flag", async ({ expect }) => {
 			const requests = mockDeleteInstance();
-			await runWrangler("ai-search delete my-instance --namespace default --force");
+			await runWrangler(
+				"ai-search delete my-instance --namespace default --force"
+			);
 			expect(requests.count).toBe(1);
 		});
 		it.todo("should delete instance from custom namespace");
@@ -792,7 +796,9 @@ describe("ai-search commands", () => {
 						{ once: true }
 					)
 				);
-				await runWrangler("ai-search jobs list --namespace blog --instance-id my-instance");
+				await runWrangler(
+					"ai-search jobs list --namespace blog --instance-id my-instance"
+				);
 				expect(captured.namespace).toBe("blog");
 				expect(captured.id).toBe("my-instance");
 			});
@@ -850,7 +856,9 @@ describe("ai-search commands", () => {
 						{ once: true }
 					)
 				);
-				await runWrangler("ai-search jobs create my-instance --namespace default");
+				await runWrangler(
+					"ai-search jobs create my-instance --namespace default"
+				);
 				expect(capturedBody).toEqual({});
 			});
 
@@ -875,7 +883,9 @@ describe("ai-search commands", () => {
 
 			it("should error when job id is missing", async ({ expect }) => {
 				await expect(
-					runWrangler("ai-search jobs get --namespace default --instance-id my-instance")
+					runWrangler(
+						"ai-search jobs get --namespace default --instance-id my-instance"
+					)
 				).rejects.toThrow("Not enough non-option arguments");
 			});
 		});

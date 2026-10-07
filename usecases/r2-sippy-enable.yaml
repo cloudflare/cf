@@ -1,9 +1,0 @@
-description: "Enable R2 Sippy incremental migration from S3 or GCS"
-command: "wrangler r2 bucket sippy enable <bucket>"
-status: "partial"
-sourceCommands:
-  - "wrangler r2 bucket sippy enable <bucket>"
-cfReplacementFlow:
-  - "cf r2 buckets sippy update <bucket> --body @sippy.json"
-notes:
-  - "Wrangler prompts/parses AWS or GCS credentials and service-account files. cf expects the API body."

@@ -1,9 +1,0 @@
-description: "Describe a Workflow"
-command: "wrangler workflows describe <workflow>"
-status: "direct"
-sourceCommands:
-  - "wrangler workflows describe <workflow>"
-cfReplacementFlow:
-  - "cf workflows get <workflow>"
-notes:
-  - "Generated cf naming may use get instead of describe."

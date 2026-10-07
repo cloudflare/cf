@@ -1,9 +1,0 @@
-description: "Show Cloudflare Tunnel details"
-command: "wrangler tunnel info <tunnel>"
-status: "partial"
-sourceCommands:
-  - "wrangler tunnel info <tunnel>"
-cfReplacementFlow:
-  - "cf zero-trust tunnels cloudflared get <tunnel-id>"
-notes:
-  - "Wrangler accepts name or UUID and resolves it. cf generated command likely expects tunnel ID."

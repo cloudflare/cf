@@ -1,9 +1,0 @@
-description: "Configure service bindings to other Workers"
-command: "wrangler.jsonc services"
-status: "gap"
-sourceCommands:
-  - "wrangler.jsonc services"
-cfReplacementFlow:
-  - "No current cf config-driven replacement."
-notes:
-  - "cf exposes no Worker settings/config synchronization command and does not read Wrangler config."

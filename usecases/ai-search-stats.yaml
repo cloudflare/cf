@@ -1,9 +1,0 @@
-description: "Show AI Search instance stats"
-command: "wrangler ai-search stats <name>"
-status: "direct"
-sourceCommands:
-  - "wrangler ai-search stats <name>"
-cfReplacementFlow:
-  - "cf ai-search stats <name>"
-notes:
-  - "Verify exact generated command path with cf --help."

@@ -1,9 +1,0 @@
-description: "Show DNS records required for Email Routing"
-command: "wrangler email routing dns get <domain>"
-status: "direct"
-sourceCommands:
-  - "wrangler email routing dns get <domain>"
-cfReplacementFlow:
-  - "cf email-routing dns get --zone <zone>"
-notes:
-  - "Exact generated group path may differ."

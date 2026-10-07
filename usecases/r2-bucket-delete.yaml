@@ -1,9 +1,0 @@
-description: "Delete an R2 bucket"
-command: "wrangler r2 bucket delete <bucket>"
-status: "direct"
-sourceCommands:
-  - "wrangler r2 bucket delete <bucket>"
-cfReplacementFlow:
-  - "cf r2 buckets delete <bucket> --force"
-notes:
-  - "Use cf's --force instead of Wrangler's --yes/confirmation shortcuts."

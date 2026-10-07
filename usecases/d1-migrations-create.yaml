@@ -1,9 +1,0 @@
-description: "Create a local D1 migration file"
-command: "wrangler d1 migrations create <database> <message>"
-status: "gap"
-sourceCommands:
-  - "wrangler d1 migrations create <database> <message>"
-cfReplacementFlow:
-  - "No direct cf replacement."
-notes:
-  - "This is local filesystem project tooling, not an API endpoint."

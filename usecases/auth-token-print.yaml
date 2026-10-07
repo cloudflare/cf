@@ -1,9 +1,0 @@
-description: "Print the currently resolved Wrangler auth token or credential source"
-command: "wrangler auth token"
-status: "gap"
-sourceCommands:
-  - "wrangler auth token"
-cfReplacementFlow:
-  - "No direct cf replacement; use cf auth whoami to validate credentials without printing the token."
-notes:
-  - "This is intentionally sensitive. A cf replacement should be explicit and probably hidden or debug-oriented."

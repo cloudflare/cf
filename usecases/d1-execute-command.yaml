@@ -1,9 +1,0 @@
-description: "Execute an inline SQL statement against D1"
-command: "wrangler d1 execute <database> --command <sql>"
-status: "partial"
-sourceCommands:
-  - 'wrangler d1 execute <database> --command "SELECT 1"'
-cfReplacementFlow:
-  - 'cf d1 query <database-id> --sql "SELECT 1"'
-notes:
-  - "Wrangler supports local/remote/preview modes. cf replacement targets the remote API unless local support is explicitly available for the generated endpoint."

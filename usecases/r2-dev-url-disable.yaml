@@ -1,9 +1,0 @@
-description: "Disable public r2.dev access for a bucket"
-command: "wrangler r2 bucket dev-url disable <bucket>"
-status: "partial"
-sourceCommands:
-  - "wrangler r2 bucket dev-url disable <bucket>"
-cfReplacementFlow:
-  - 'cf r2 buckets domains managed update <bucket> --body ''{"enabled":false}'''
-notes:
-  - "Exact cf flags depend on generated managed-domain schema."

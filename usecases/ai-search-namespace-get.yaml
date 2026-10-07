@@ -1,9 +1,0 @@
-description: "Get AI Search namespace details"
-command: "wrangler ai-search namespace get <name>"
-status: "direct"
-sourceCommands:
-  - "wrangler ai-search namespace get <name>"
-cfReplacementFlow:
-  - "cf ai-search namespaces get <name>"
-notes:
-  - "Generated command may use id/name as the positional subject."

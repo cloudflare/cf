@@ -1,9 +1,0 @@
-description: "Get or open a live Browser Run inspection target"
-command: "wrangler browser view <session-id>"
-status: "partial"
-sourceCommands:
-  - "wrangler browser view <session-id>"
-cfReplacementFlow:
-  - "cf browser sessions get <session-id>"
-notes:
-  - "Wrangler supports target selection and opening the inspection URL. cf likely only exposes the underlying API object."

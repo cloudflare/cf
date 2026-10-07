@@ -1,9 +1,0 @@
-description: "Create a Workers KV namespace"
-command: "wrangler kv namespace create <namespace>"
-status: "partial"
-sourceCommands:
-  - "wrangler kv namespace create <namespace>"
-cfReplacementFlow:
-  - "cf kv namespaces create --title <namespace>"
-notes:
-  - "Wrangler can create preview namespaces and update config bindings. cf creates the API resource only."

@@ -1,9 +1,0 @@
-description: "Delete an AI Search namespace"
-command: "wrangler ai-search namespace delete <name>"
-status: "direct"
-sourceCommands:
-  - "wrangler ai-search namespace delete <name>"
-cfReplacementFlow:
-  - "cf ai-search namespaces delete <name> --force"
-notes:
-  - "Use cf --force for non-interactive deletion."

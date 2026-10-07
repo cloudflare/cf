@@ -1,9 +1,0 @@
-description: "List Workers for Platforms dispatch namespaces"
-command: "wrangler dispatch-namespace list"
-status: "direct"
-sourceCommands:
-  - "wrangler dispatch-namespace list"
-cfReplacementFlow:
-  - "cf workers-for-platforms dispatch-namespaces list"
-notes:
-  - "Wrangler's singular root maps to cf's nested generated product path."

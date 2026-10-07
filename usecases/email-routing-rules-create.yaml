@@ -1,9 +1,0 @@
-description: "Create an Email Routing rule"
-command: "wrangler email routing rules create <domain>"
-status: "partial"
-sourceCommands:
-  - "wrangler email routing rules create <domain> --name <name> --matcher-type literal --action-type forward"
-cfReplacementFlow:
-  - "cf email-routing rules create --zone <zone> --body @routing-rule.json"
-notes:
-  - "Wrangler exposes matcher/action flags. cf likely uses nested API body fields or generated nested flags."

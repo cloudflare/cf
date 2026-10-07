@@ -1,9 +1,0 @@
-description: "Update Queue settings"
-command: "wrangler queues update <queue>"
-status: "partial"
-sourceCommands:
-  - "wrangler queues update <queue> --delivery-delay-secs <n>"
-cfReplacementFlow:
-  - "cf queues update <queue-id> --body @queue-settings.json"
-notes:
-  - "Wrangler uses queue names. cf generated API may require queue IDs."

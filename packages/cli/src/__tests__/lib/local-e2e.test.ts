@@ -110,6 +110,64 @@ describe("cf --local end to end", () => {
 		).toEqual([]);
 	}, 60_000);
 
+	it("deletes a persisted R2 object with a path-like key without credentials", async () => {
+		const env = { CLOUDFLARE_API_TOKEN: undefined };
+		const local = ["--local", "--persist-to", "state"];
+		const bucketName = "e2e-bucket";
+		const objectKey = "folder/file.txt";
+
+		const put = await runCf(
+			[
+				"r2",
+				"objects",
+				"put",
+				objectKey,
+				"--bucket-name",
+				bucketName,
+				"--body",
+				"delete me",
+				...local,
+			],
+			env
+		);
+		expect(put.exitCode).toBe(0);
+
+		log.mockClear();
+		const before = await runCf(
+			["r2", "objects", "list", "--bucket-name", bucketName, ...local],
+			env
+		);
+		expect(before.exitCode).toBe(0);
+		expect(JSON.stringify(log.mock.calls)).toContain(objectKey);
+
+		log.mockClear();
+		const deleted = await runCf(
+			[
+				"r2",
+				"objects",
+				"delete",
+				objectKey,
+				"--bucket-name",
+				bucketName,
+				"--force",
+				...local,
+			],
+			env
+		);
+		expect(deleted.exitCode).toBe(0);
+		expect(JSON.parse(String(log.mock.calls[0]?.[0]))).toEqual({
+			key: objectKey,
+		});
+
+		log.mockClear();
+		const after = await runCf(
+			["r2", "objects", "list", "--bucket-name", bucketName, ...local],
+			env
+		);
+		expect(after.exitCode).toBe(0);
+		expect(JSON.stringify(log.mock.calls)).not.toContain(objectKey);
+	}, 60_000);
+
 	it("explains how to retry commands without a local implementation", async () => {
 		await expect(
 			runCf(["zones", "list", "--local"], {

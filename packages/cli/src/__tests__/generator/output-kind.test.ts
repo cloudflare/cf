@@ -11,7 +11,7 @@ describe("deriveOutputKind", () => {
 		["text/plain", "text"],
 		["text/csv", "text"],
 		["application/json", "json"],
-		["application/problem+json", "json"],
+		["application/geo+json", "json"],
 	])("classifies %s responses as %s", (contentType, expectedKind) => {
 		const opInfo = {
 			responses: {

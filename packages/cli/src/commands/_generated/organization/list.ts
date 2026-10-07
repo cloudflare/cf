@@ -16,7 +16,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 organization list\n\nRetrieve a list of organizations a particular user has access to. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)"
+			"$0 organization list\n\nRetrieve a list of organizations a particular user has access to. Authentication: Use a Global API key, or a User API Token with the `User Details Read` or `User Details Write` permission."
 		)
 		.option("id", {
 			type: "string",

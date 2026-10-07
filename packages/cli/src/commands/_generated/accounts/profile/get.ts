@@ -20,7 +20,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 accounts profile get\n\nRetrieves the business profile (name, email, phone, address, and external metadata) associated with this account's parent organization customer record. Profiles can be shared across accounts and organizations. Only available to members of an organization that contains the account."
+			"$0 accounts profile get\n\nRetrieves the business profile (name, email, phone, address, and external metadata) associated with this account's parent organization customer record. Profiles can be shared across accounts and organizations. Only available to members of an organization that contains the account. Authentication: Use a Global API key, or a user-owned API Token scoped to the account with the `Account Settings Read` permission, which grants `com.cloudflare.api.account.read`."
 		)
 		.option("dry-run", {
 			type: "boolean",

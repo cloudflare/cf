@@ -18,7 +18,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 organization create\n\nCreate a new organization for a user. Sub-organization creation availability depends on the organization's capabilities. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)"
+			"$0 organization create\n\nCreate a new organization for a user. Sub-organization creation availability depends on the organization's capabilities. Authentication: Use a Global API key, or a User API Token with the `User Details Write` permission."
 		)
 		.option("name", { type: "string", description: "The name field" })
 		.option("parent-id", { type: "string", description: "The parent.id field" })

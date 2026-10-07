@@ -3179,7 +3179,7 @@
 			"command": "cf accounts move",
 			"name": "move",
 			"fullPath": ["accounts", "move"],
-			"description": "Move an account into a destination organization, either assigning a standalone account to an organization or moving it between organizations in the same hierarchy. Availability depends on the organization's capabilities. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)",
+			"description": "Move an account into a destination organization, either assigning a standalone account to an organization or moving it between organizations in the same hierarchy. Availability depends on the organization's capabilities. Authentication: A Global API key is required. User API Tokens do not include the required `com.cloudflare.api.account.move` permission.",
 			"summary": "Move account to organization",
 			"usage": "cf accounts move [options]",
 			"arguments": [],
@@ -3215,7 +3215,7 @@
 			"command": "cf accounts organization list",
 			"name": "list",
 			"fullPath": ["accounts", "organization", "list"],
-			"description": "Retrieve a list of the organizations that \"contain\" this account or are managing it. The returned list will be in order from \"root\" to \"leaf\", where the \"leaf\" will be the organization that _immediately_ contains the specified account.",
+			"description": "Retrieve a list of the organizations that \"contain\" this account or are managing it. The returned list will be in order from \"root\" to \"leaf\", where the \"leaf\" will be the organization that _immediately_ contains the specified account. Authentication: Use a Global API key, or a user-owned API Token scoped to the account with the `Account Settings Read` permission, which grants `com.cloudflare.api.account.read`.",
 			"summary": "List account organizations",
 			"usage": "cf accounts organization list",
 			"arguments": [],
@@ -3239,7 +3239,7 @@
 			"command": "cf accounts profile get",
 			"name": "get",
 			"fullPath": ["accounts", "profile", "get"],
-			"description": "Retrieves the business profile (name, email, phone, address, and external metadata) associated with this account's parent organization customer record. Profiles can be shared across accounts and organizations. Only available to members of an organization that contains the account.",
+			"description": "Retrieves the business profile (name, email, phone, address, and external metadata) associated with this account's parent organization customer record. Profiles can be shared across accounts and organizations. Only available to members of an organization that contains the account. Authentication: Use a Global API key, or a user-owned API Token scoped to the account with the `Account Settings Read` permission, which grants `com.cloudflare.api.account.read`.",
 			"summary": "Get account profile",
 			"usage": "cf accounts profile get",
 			"arguments": [],
@@ -3263,7 +3263,7 @@
 			"command": "cf accounts profile update",
 			"name": "update",
 			"fullPath": ["accounts", "profile", "update"],
-			"description": "Updates the business profile (name, email, phone, address, and external metadata) associated with this account's parent organization customer record. Changes apply to every account and organization sharing that profile. Omitted or empty fields are left unchanged. Only available to members of an organization that contains the account. Requires Account Settings Write permission.",
+			"description": "Updates the business profile (name, email, phone, address, and external metadata) associated with this account's parent organization customer record. Changes apply to every account and organization sharing that profile. Omitted or empty fields are left unchanged. Only available to members of an organization that contains the account. Authentication: Use a Global API key, or a user-owned API Token scoped to the account with the `Account Settings Write` permission, which grants `com.cloudflare.api.account.update`.",
 			"summary": "Update account profile",
 			"usage": "cf accounts profile update [options]",
 			"arguments": [],
@@ -14609,7 +14609,7 @@
 					"description": "Start of the query time range (inclusive). RFC3339."
 				},
 				{
-					"name": "n",
+					"name": "limit",
 					"type": "number",
 					"required": true,
 					"description": "Maximum number of integrations to return."
@@ -14939,7 +14939,7 @@
 					"description": "Specifies the end of the query time range (exclusive). Requires RFC3339 format with timezone."
 				},
 				{
-					"name": "n",
+					"name": "limit",
 					"type": "number",
 					"required": true,
 					"description": "Maximum number of results to return."
@@ -81751,7 +81751,7 @@
 			"command": "cf organization account list",
 			"name": "list",
 			"fullPath": ["organization", "account", "list"],
-			"description": "Retrieve the accounts immediately attached to a specific organization. Accounts attached to sub-organizations are not included. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)",
+			"description": "Retrieve the accounts immediately attached to a specific organization. Accounts attached to sub-organizations are not included. Authentication: A Global API key for a user with `com.cloudflare.api.tenant.unit.read` is required. User API Tokens are not currently supported.",
 			"summary": "List organization accounts",
 			"usage": "cf organization account list [options]",
 			"arguments": [],
@@ -81867,7 +81867,7 @@
 			"command": "cf organization create",
 			"name": "create",
 			"fullPath": ["organization", "create"],
-			"description": "Create a new organization for a user. Sub-organization creation availability depends on the organization's capabilities. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)",
+			"description": "Create a new organization for a user. Sub-organization creation availability depends on the organization's capabilities. Authentication: Use a Global API key, or a User API Token with the `User Details Write` permission.",
 			"summary": "Create organization",
 			"usage": "cf organization create [options]",
 			"arguments": [],
@@ -81939,7 +81939,7 @@
 			"command": "cf organization delete",
 			"name": "delete",
 			"fullPath": ["organization", "delete"],
-			"description": "Delete an organization. The organization MUST be empty before deleting. It must not contain any sub-organizations, accounts, members or users. Sub-organization deletion availability depends on the organization's capabilities. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/) **Access Control:** Restricted to enterprise organizations.",
+			"description": "Delete an organization. The organization MUST be empty before deleting. It must not contain any sub-organizations, accounts, members or users. Sub-organization deletion availability depends on the organization's capabilities. **Access Control:** Restricted to enterprise organizations. Authentication: A Global API key for a user with `com.cloudflare.api.tenant.unit.update` is required. User API Tokens are not currently supported.",
 			"summary": "Delete organization",
 			"usage": "cf organization delete <organization-id>",
 			"arguments": [
@@ -81971,7 +81971,7 @@
 			"command": "cf organization get",
 			"name": "get",
 			"fullPath": ["organization", "get"],
-			"description": "Retrieve the details of a certain organization. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)",
+			"description": "Retrieve the details of a certain organization. Authentication: A Global API key for a user with `com.cloudflare.api.tenant.unit.read` is required. User API Tokens are not currently supported and return HTTP `403` with error code `10000`.",
 			"summary": "Get organization",
 			"usage": "cf organization get <organization-id>",
 			"arguments": [
@@ -82003,7 +82003,7 @@
 			"command": "cf organization invite update",
 			"name": "update",
 			"fullPath": ["organization", "invite", "update"],
-			"description": "Accept or reject an invitation to a specific organization. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)",
+			"description": "Accept or reject an invitation to a specific organization. Authentication: A Global API key for the invited user is required. User API Tokens are not currently supported. No additional permission is required; the invitation must belong to the authenticated user.",
 			"summary": "Handle organization invite",
 			"usage": "cf organization invite update <member-code> [options]",
 			"arguments": [
@@ -82054,7 +82054,7 @@
 			"command": "cf organization list",
 			"name": "list",
 			"fullPath": ["organization", "list"],
-			"description": "Retrieve a list of organizations a particular user has access to. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)",
+			"description": "Retrieve a list of organizations a particular user has access to. Authentication: Use a Global API key, or a User API Token with the `User Details Read` or `User Details Write` permission.",
 			"summary": "List organizations the user has access to",
 			"usage": "cf organization list [options]",
 			"arguments": [],
@@ -82144,7 +82144,7 @@
 			"command": "cf organization member batch create",
 			"name": "create",
 			"fullPath": ["organization", "member", "batch", "create"],
-			"description": "Batch create multiple memberships that grant access to a specific Organization.",
+			"description": "Batch create multiple memberships that grant access to a specific Organization. Authentication: A Global API key for a user with `com.cloudflare.api.tenant.unit.member.create` is required. User API Tokens are not currently supported.",
 			"summary": "Batch create organization members",
 			"usage": "cf organization member batch create <organization-id> [options]",
 			"arguments": [
@@ -82188,7 +82188,7 @@
 			"command": "cf organization member create",
 			"name": "create",
 			"fullPath": ["organization", "member", "create"],
-			"description": "Create a membership that grants access to a specific Organization. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)",
+			"description": "Create a membership that grants access to a specific Organization. Authentication: A Global API key for a user with `com.cloudflare.api.tenant.unit.member.create` is required. User API Tokens are not currently supported.",
 			"summary": "Create organization member",
 			"usage": "cf organization member create <organization-id> [options]",
 			"arguments": [
@@ -82239,7 +82239,7 @@
 			"command": "cf organization member delete",
 			"name": "delete",
 			"fullPath": ["organization", "member", "delete"],
-			"description": "Delete a membership to a particular Organization. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)",
+			"description": "Delete a membership to a particular Organization. Authentication: A Global API key for a user with `com.cloudflare.api.tenant.unit.member.delete` is required. User API Tokens are not currently supported.",
 			"summary": "Delete organization member",
 			"usage": "cf organization member delete <member-id> [options]",
 			"arguments": [
@@ -82277,7 +82277,7 @@
 			"command": "cf organization member get",
 			"name": "get",
 			"fullPath": ["organization", "member", "get"],
-			"description": "Retrieve a single membership from an Organization. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)",
+			"description": "Retrieve a single membership from an Organization. Authentication: A Global API key for a user with `com.cloudflare.api.tenant.unit.member.read` is required. User API Tokens are not currently supported.",
 			"summary": "Get organization member",
 			"usage": "cf organization member get <member-id> [options]",
 			"arguments": [
@@ -82315,7 +82315,7 @@
 			"command": "cf organization member list",
 			"name": "list",
 			"fullPath": ["organization", "member", "list"],
-			"description": "List memberships for an Organization. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)",
+			"description": "List memberships for an Organization. Authentication: A Global API key for a user with `com.cloudflare.api.tenant.unit.member.list` is required. User API Tokens are not currently supported.",
 			"summary": "List organization members",
 			"usage": "cf organization member list [options]",
 			"arguments": [],
@@ -82387,7 +82387,7 @@
 			"command": "cf organization profile get",
 			"name": "get",
 			"fullPath": ["organization", "profile", "get"],
-			"description": "Get an organizations profile if it exists. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)",
+			"description": "Get an organizations profile if it exists. Authentication: A Global API key for a user with `com.cloudflare.api.tenant.unit.read` is required. User API Tokens are not currently supported.",
 			"summary": "Get organization profile",
 			"usage": "cf organization profile get <organization-id>",
 			"arguments": [
@@ -82419,7 +82419,7 @@
 			"command": "cf organization profile update",
 			"name": "update",
 			"fullPath": ["organization", "profile", "update"],
-			"description": "Modify organization profile. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)",
+			"description": "Modify organization profile. Authentication: A Global API key for a user with `com.cloudflare.api.tenant.unit.update` is required. User API Tokens are not currently supported.",
 			"summary": "Modify organization profile.",
 			"usage": "cf organization profile update <organization-id> [options]",
 			"arguments": [
@@ -82570,7 +82570,7 @@
 			"command": "cf organization update",
 			"name": "update",
 			"fullPath": ["organization", "update"],
-			"description": "Update an organization's name. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)",
+			"description": "Update an organization's name. Authentication: A Global API key for a user with `com.cloudflare.api.tenant.unit.update` is required. User API Tokens are not currently supported.",
 			"summary": "Update organization",
 			"usage": "cf organization update <organization-id> [options]",
 			"arguments": [

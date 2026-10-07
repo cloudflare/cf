@@ -34,7 +34,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "Start of the query time range (inclusive). RFC3339.",
 		})
-		.option("n", {
+		.option("limit", {
 			type: "number",
 			description: "Maximum number of integrations to return.",
 		})
@@ -90,7 +90,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"from",
 											"text"
 										),
-										n: argv["n"],
+										n: argv["limit"],
 										to: resolveFileToken(
 											argv["to"] as string | undefined,
 											"to",
@@ -126,9 +126,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"Start of the query time range (inclusive). RFC3339."
 					);
 				}
-				if (argv["n"] === undefined) {
+				if (argv["limit"] === undefined) {
 					throw new Error(
-						"--n is required (or pass --body with this field set)."
+						"--limit is required (or pass --body with this field set)."
 					);
 				}
 				if (argv["to"] === undefined) {
@@ -146,7 +146,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"from",
 						"text"
 					),
-					n: argv["n"],
+					n: argv["limit"],
 					to: resolveFileToken(argv["to"] as string | undefined, "to", "text"),
 				});
 				const result = await withProgress(`Creating`, async () =>

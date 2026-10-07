@@ -167,8 +167,23 @@ export function buildEmitContext(input: BuildContextInput): BuildContextResult {
 	const labels = buildLabels(labelHttpMethod, method.name);
 
 	// Closures over labels + outputKind for the handler emitters.
+	const paginationArgs = queryArgs(derived.args);
+	const hasPageQuery = paginationArgs.some(
+		(arg) =>
+			arg.origin.kind === "query" &&
+			arg.origin.wireName === "page" &&
+			arg.type === "number"
+	);
+	const hasPerPageQuery = paginationArgs.some(
+		(arg) =>
+			arg.origin.kind === "query" &&
+			arg.origin.wireName === "per_page" &&
+			arg.type === "number"
+	);
+	const checkPagination =
+		actualHttpMethod === "GET" && hasPageQuery && hasPerPageQuery;
 	const formatOutputCall = (indent: string): string =>
-		`${indent}formatOutput(result, { successLabel: \`${escapeForTemplateLiteral(labels.success)}\` });`;
+		`${indent}formatOutput(result, { successLabel: \`${escapeForTemplateLiteral(labels.success)}\`${checkPagination ? ", paginationQuery: queryParams" : ""} });`;
 	const wrapAwait = (expr: string): string =>
 		`await withProgress(\`${escapeForTemplateLiteral(labels.progress)}\`, async () => (${expr}))`;
 	const rawHttpVerbLiteral = `'${opInfo.method.toUpperCase()}'`;

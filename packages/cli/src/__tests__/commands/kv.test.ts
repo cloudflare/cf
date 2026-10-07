@@ -90,6 +90,26 @@ describe("cf kv (network)", () => {
 		expect(stdout()).not.toContain("success");
 	});
 
+	it("namespaces list — warns when the API reports another page", async () => {
+		server.use(
+			http.get(`${ACCT}/storage/kv/namespaces`, () =>
+				HttpResponse.json({
+					success: true,
+					result: Array.from({ length: 20 }, (_, id) => ({ id: `ns-${id}` })),
+					result_info: { page: 1, per_page: 20, count: 20, total_count: 49 },
+				})
+			)
+		);
+
+		const { exitCode } = await runCf(["kv", "namespaces", "list", "-q"], ENV);
+
+		expect(exitCode).toBe(0);
+		expect(JSON.parse(stdout())).toHaveLength(20);
+		expect(stderr()).toContain(
+			"Showing 20 of 49 results (page 1 of 3); use --page 2 for more."
+		);
+	});
+
 	it("namespaces list — stamps the bearer token and cf headers", async () => {
 		let headers: Headers | undefined;
 		server.use(

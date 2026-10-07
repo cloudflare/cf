@@ -90,6 +90,34 @@ describe("cf zones list (network)", () => {
 		]);
 	});
 
+	it("does not warn from an unfiltered total when a name filter is set", async () => {
+		server.use(
+			http.get(`${TEST_BASE_URL}/zones`, () =>
+				HttpResponse.json({
+					success: true,
+					result: [{ id: "zone-1", name: "example.com" }],
+					result_info: {
+						page: 1,
+						per_page: 20,
+						count: 1,
+						total_count: 46,
+					},
+				})
+			)
+		);
+
+		const { exitCode } = await runCf(
+			["zones", "list", "--name", "example.com"],
+			ENV
+		);
+
+		expect(exitCode).toBe(0);
+		expect(JSON.parse(stdout())).toHaveLength(1);
+		expect(
+			errSpy.mock.calls.map((call: unknown[]) => String(call[0])).join("")
+		).not.toContain("Showing");
+	});
+
 	it("stamps the bearer token and cf default headers on the request", async () => {
 		let captured: Headers | undefined;
 		server.use(

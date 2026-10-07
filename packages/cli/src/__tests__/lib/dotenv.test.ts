@@ -166,6 +166,7 @@ describe("shouldApplyCloudflareDotEnv", () => {
 		"ai codex",
 		"ai opencode",
 		"ai opencode run",
+		"ai pi",
 		"build",
 		"dev",
 		"init",

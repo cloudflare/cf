@@ -43,6 +43,22 @@ describe("resolveHarnessSettings", () => {
 		});
 	});
 
+	it("loads a Pi model from the shared user config", async () => {
+		await writeFile(
+			configPath,
+			JSON.stringify({
+				version: 1,
+				harnesses: { pi: { model: "anthropic/claude-sonnet-5" } },
+			})
+		);
+
+		expect(resolveHarnessSettings("pi")).toEqual({
+			gateway: undefined,
+			endpoint: undefined,
+			model: "anthropic/claude-sonnet-5",
+		});
+	});
+
 	it("loads a user gateway and harness model", async () => {
 		await writeFile(
 			configPath,

@@ -7324,6 +7324,23 @@
 			]
 		},
 		{
+			"command": "cf ai pi",
+			"name": "pi",
+			"fullPath": ["ai", "pi"],
+			"category": "action",
+			"description": "Run Pi through AI Gateway's REST API.",
+			"usage": "cf ai pi [options] [-- <pi-arguments>]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "gateway",
+					"type": "string",
+					"required": false,
+					"description": "AI Gateway ID (defaults to the configured or account default gateway)"
+				}
+			]
+		},
+		{
 			"command": "cf ai run",
 			"name": "run",
 			"fullPath": ["ai", "run"],

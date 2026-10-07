@@ -214,6 +214,12 @@ export const handWrittenCommands: readonly HandWrittenCommand[] = [
 		dir: "ai/opencode",
 	},
 	{
+		kind: "leaf",
+		parent: "ai",
+		name: "pi",
+		dir: "ai/pi",
+	},
+	{
 		kind: "leafOverride",
 		dryRun: "native",
 		emitKey: "registrar/registrations/create",

@@ -15,6 +15,7 @@ import type { CommandModule } from "yargs";
 import $claude from "#commands/ai/claude/index.js";
 import $codex from "#commands/ai/codex/index.js";
 import $opencode from "#commands/ai/opencode/index.js";
+import $pi from "#commands/ai/pi/index.js";
 import $run from "#commands/ai/run/index.js";
 
 const command: CommandModule<CommonYargsOptions> = {
@@ -28,6 +29,7 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($getmodelschema)
 			.command($listmarkdownsupportedformats)
 			.command($opencode)
+			.command($pi)
 			.command($run)
 			.command($tomarkdown)
 			.command($websearch)

@@ -84,6 +84,7 @@ const GLOBAL_DOTENV_EXCLUSIONS = new Set([
 	"ai codex",
 	"ai opencode",
 	"ai opencode run",
+	"ai pi",
 	"build",
 	"dev",
 	"init",

@@ -1,4 +1,4 @@
-import $signature from "./signature.js";
+import $signature from "#commands/hyperdrive/integration/planetscale/signature/index.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * planetscale command group

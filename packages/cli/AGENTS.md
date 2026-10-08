@@ -15,7 +15,7 @@ The cross-cutting runtime (`src/index.ts` and generic helpers under `src/lib/`) 
 
 If a generic runtime or generator change starts branching on a product name, first look for a Forge/OpenAPI annotation. The existing Worker-name derivation is a narrowly scoped generator exception. The runtime exception is likewise contained: `context.ts` delegates non-ID global zone values to `resolve.ts`, which validates the domain and calls `client.zones.list()` for the selected account. Do not use either as permission to spread product checks through the runtime.
 
-**Documented exceptions:** `src/commands/hand-written.ts` is the central registry for every hand-written root, generated-parent presentation override, generated leaf override, added leaf command, and generated-tree subgroup. `generator/hand-written-overrides.ts` consumes the non-root entries during generation. `ai/run` and `registrar/registrations/create` replace spec-backed leaves; `workers/check`, `workers/types`, nested `workers/versions/create`, advisory-only `pages/deploy`, the cloudflared-backed `tunnels/quick-start` and `tunnels/run`, and the process-backed `access/*` workflows add local workflow leaves; Access also exposes its otherwise hidden generated parent; and `d1/migrations` plus `workers/triggers` add subgroups with no matching one-shot spec operation. Keep the implementations contained in their command directories, register them once in `hand-written.ts`, and retain drift guards for product-scoped entries.
+**Documented exceptions:** `src/commands/hand-written.ts` is the central registry for every hand-written root, generated-parent presentation override, generated leaf override, added leaf command, and generated-tree subgroup. `generator/hand-written-overrides.ts` consumes the non-root entries during generation. `ai/run`, `registrar/registrations/create`, and `hyperdrive/integration/planetscale/signature` replace spec-backed leaves; `workers/check`, `workers/types`, nested `workers/versions/create`, advisory-only `pages/deploy`, the cloudflared-backed `tunnels/quick-start` and `tunnels/run`, and the process-backed `access/*` workflows add local workflow leaves; Access also exposes its otherwise hidden generated parent; and `d1/migrations` plus `workers/triggers` add subgroups with no matching one-shot spec operation. Keep the implementations contained in their command directories, register them once in `hand-written.ts`, and retain drift guards for product-scoped entries.
 
 ## Wrangler Parity Triage
 
@@ -37,21 +37,21 @@ second consumer.
 
 ## Where to Edit
 
-| Task                        | Location                                                                                                     |
-| --------------------------- | ------------------------------------------------------------------------------------------------------------ |
-| Fix a generated command     | Overlay in `@cloudflare/forge` → regenerate                                                                  |
-| Hand-written root command   | `src/commands/{auth,build,cli,completions,dev,deploy,init,previews}/`, `schema.ts`, or `tools.ts`            |
-| Generated-tree exception    | `src/commands/{access,ai,registrar,d1,tunnels,workers}/` plus the central registry and generator integration |
-| Hand-written registry/meta  | `src/commands/hand-written.ts`, per-command `meta.json`, `generator/hand-written-overrides.ts`               |
-| Auth / token / OAuth        | `src/lib/auth.ts`, `src/lib/oauth/`                                                                          |
-| Runtime value resolution    | `src/lib/context.ts`, `src/lib/resolve.ts`, `src/lib/project-settings.ts`                                    |
-| Global CLI state            | `src/lib/state.ts`                                                                                           |
-| Local request routing       | `src/lib/local.ts`, `src/lib/local-runtime.ts`, `src/lib/registry.ts`                                        |
-| Build/deploy conversion     | `src/lib/{build-output,deploy-context,deploy-input}.ts`                                                      |
-| Help labels and flag groups | yargs configuration in `src/index.ts` (no custom renderer)                                                   |
-| Generator output shape      | `generator/index.ts`, `generator/generator.ts`                                                               |
-| Metadata JSON shape         | `generator/metadata.ts` and `generator/index.ts`                                                             |
-| Shell completions           | `src/commands/completions/index.ts` (`@bomb.sh/tab`, backed by complete `commands.json` metadata)            |
+| Task                        | Location                                                                                                                |
+| --------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| Fix a generated command     | Overlay in `@cloudflare/forge` → regenerate                                                                             |
+| Hand-written root command   | `src/commands/{auth,build,cli,completions,dev,deploy,init,previews}/`, `schema.ts`, or `tools.ts`                       |
+| Generated-tree exception    | `src/commands/{access,ai,registrar,hyperdrive,d1,tunnels,workers}/` plus the central registry and generator integration |
+| Hand-written registry/meta  | `src/commands/hand-written.ts`, per-command `meta.json`, `generator/hand-written-overrides.ts`                          |
+| Auth / token / OAuth        | `src/lib/auth.ts`, `src/lib/oauth/`                                                                                     |
+| Runtime value resolution    | `src/lib/context.ts`, `src/lib/resolve.ts`, `src/lib/project-settings.ts`                                               |
+| Global CLI state            | `src/lib/state.ts`                                                                                                      |
+| Local request routing       | `src/lib/local.ts`, `src/lib/local-runtime.ts`, `src/lib/registry.ts`                                                   |
+| Build/deploy conversion     | `src/lib/{build-output,deploy-context,deploy-input}.ts`                                                                 |
+| Help labels and flag groups | yargs configuration in `src/index.ts` (no custom renderer)                                                              |
+| Generator output shape      | `generator/index.ts`, `generator/generator.ts`                                                                          |
+| Metadata JSON shape         | `generator/metadata.ts` and `generator/index.ts`                                                                        |
+| Shell completions           | `src/commands/completions/index.ts` (`@bomb.sh/tab`, backed by complete `commands.json` metadata)                       |
 
 ## Build
 
@@ -81,7 +81,7 @@ Forge from the finalized OpenAPI, then runs
 
 `auth`, `complete`, `dev`, `build`, `deploy`, `migrate`, `previews`, `cli`, `schema`, and `tools` are root entries in `src/commands/hand-written.ts`, registered lazily by `src/index.ts`. `cf cli telemetry` is the telemetry-settings path. `cf migrate` uses `@cloudflare/codemods` to convert a Wrangler configuration to `cloudflare.config.ts` and report manual follow-up work. `cf dev` analyzes and, when needed, configures a project before running its canonical framework command, with an installed Cloudflare implementation as fallback. `cf build` follows the same routing and validates the resulting Build Output. `cf previews deploy [preview-name]` builds with Preview context and uploads the default Worker from the resulting Preview Build Output, or the one selected with `--worker`. `cf deploy`, `cf workers versions create`, and `cf workers triggers deploy` build first unless `--prebuilt` is passed, then read Build Output and call `@cloudflare/deploy-helpers`; trigger deployment applies only the configured triggers. Deploy-helper provisioning is enabled for supported bindings.
 
-The registry's other entries are spliced into the generated tree via `generator/hand-written-overrides.ts`: leaf overrides for `cf ai run` and `cf registrar registrations create`; added leaves for `cf workers check`, `cf workers types`, nested `cf workers versions create`, `cf tunnels quick-start`, `cf tunnels run`, and the process-backed `cf access` workflows; and subgroups for `cf d1 migrations` and `cf workers triggers`. The cloudflared-backed Tunnel and Access leaves delegate to the cf-managed cloudflared binary alongside their generated API-backed operations. `cf workers check` profiles the default Worker emitted through Build Output, or the one selected with `--worker`. `cf workers types` is the bounded source-config exception: it validates the Worker in the nearest `cloudflare.config.ts` and writes `.cloudflare/types/index.d.ts`. Version creation remains a project-aware Build Output workflow while the raw upload operations are SDK-only. D1 migration apply targets a database identified by ID only, with `--dir` / `--pattern` / `--table` as flags rather than config; its bookkeeping is wire-compatible with `wrangler d1 migrations apply`.
+The registry's other entries are spliced into the generated tree via `generator/hand-written-overrides.ts`: leaf overrides for `cf ai run`, `cf registrar registrations create`, and `cf hyperdrive create-database-signature`; added leaves for `cf workers check`, `cf workers types`, nested `cf workers versions create`, `cf tunnels quick-start`, `cf tunnels run`, and the process-backed `cf access` workflows; and subgroups for `cf d1 migrations` and `cf workers triggers`. The Hyperdrive override preserves the generated API call while incrementally authorizing the PlanetScale setup scope before creating its client. The cloudflared-backed Tunnel and Access leaves delegate to the cf-managed cloudflared binary alongside their generated API-backed operations. `cf workers check` profiles the default Worker emitted through Build Output, or the one selected with `--worker`. `cf workers types` is the bounded source-config exception: it validates the Worker in the nearest `cloudflare.config.ts` and writes `.cloudflare/types/index.d.ts`. Version creation remains a project-aware Build Output workflow while the raw upload operations are SDK-only. D1 migration apply targets a database identified by ID only, with `--dir` / `--pattern` / `--table` as flags rather than config; its bookkeeping is wire-compatible with `wrangler d1 migrations apply`.
 
 ## Dotenv and Child Processes
 

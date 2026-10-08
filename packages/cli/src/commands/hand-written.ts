@@ -195,6 +195,12 @@ export const handWrittenCommands: readonly HandWrittenCommand[] = [
 		dir: "registrar/registrations/create",
 	},
 	{
+		kind: "leafOverride",
+		dryRun: "native",
+		emitKey: "hyperdrive/integration/planetscale/signature",
+		dir: "hyperdrive/integration/planetscale/signature",
+	},
+	{
 		kind: "leaf",
 		dryRun: "native",
 		parent: "workers/versions",

@@ -165,7 +165,7 @@ describe("hand-written-only command metadata", () => {
 	);
 
 	it("contains only hand-written commands", () => {
-		expect(commands.size).toBe(49);
+		expect(commands.size).toBe(50);
 		expect(commands.has("cf pages deploy")).toBe(true);
 		expect(commands.has("cf tunnels diag")).toBe(true);
 		expect(commands.has("cf tunnels login")).toBe(true);
@@ -193,6 +193,7 @@ describe("hand-written-only command metadata", () => {
 				"cf init workers",
 				"cf migrate",
 				"cf d1 migrations create",
+				"cf hyperdrive integration planetscale signature",
 				"cf workers triggers deploy",
 				"cf workers versions create",
 				"cf workers check",
@@ -250,6 +251,15 @@ describe("hand-written-only command metadata", () => {
 			overrides: true,
 			dir: "ai/run",
 			emitKey: "ai/run",
+		});
+		expect(
+			commands.get("cf hyperdrive integration planetscale signature")
+				?.handWritten
+		).toEqual({
+			kind: "leafOverride",
+			overrides: true,
+			dir: "hyperdrive/integration/planetscale/signature",
+			emitKey: "hyperdrive/integration/planetscale/signature",
 		});
 	});
 

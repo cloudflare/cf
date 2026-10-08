@@ -48,6 +48,7 @@ export class AbuseReportsClient {
      * @param {CloudflareApi.ListAbuseReportsRequest} request
      * @param {AbuseReportsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.UnauthorizedError}
      * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.InternalServerError}
@@ -56,6 +57,7 @@ export class AbuseReportsClient {
      *     await client.abuseReports.list({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
      *         sort: "cdate,desc",
+     *         search: "example.com",
      *         domain: "example.com",
      *         created_before: "2009-11-10T23:00:00Z",
      *         created_after: "2009-11-10T23:00:00Z"
@@ -77,6 +79,7 @@ export class AbuseReportsClient {
             page,
             per_page: perPage,
             sort,
+            search,
             domain,
             created_before: createdBefore,
             created_after: createdAfter,
@@ -88,6 +91,7 @@ export class AbuseReportsClient {
             page,
             per_page: perPage,
             sort,
+            search,
             domain,
             created_before: createdBefore,
             created_after: createdAfter,
@@ -130,6 +134,8 @@ export class AbuseReportsClient {
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
+                case 400:
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
                     throw new CloudflareApiErrors.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:

@@ -70,7 +70,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("ai-config-transcription-language", {
 			type: "string",
 			description:
-				"Specifies the language code for transcription to ensure accurate results.",
+				"Specifies the language code for transcription to ensure accurate results. If omitted, the language is auto-detected for post-meeting (Whisper) transcription.",
 			choices: [
 				"en-US",
 				"en-IN",

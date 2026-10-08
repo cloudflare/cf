@@ -134,7 +134,7 @@ export class SqlClient {
     }
 
     /**
-     * Returns the analytics dataset catalogue. By default, the response contains dataset names, titles, categories, descriptions, kinds, and hidden flags. Set `include_columns` to include each dataset's column names, descriptions, data types, and hidden flags. The caller must have Account Analytics Read permission on the account identified by `account_tag`. Dataset names, descriptions, and columns are the same for every authorized account. When `include_custom_attributes` is set, the response also includes custom attribute names and types discovered from that account's own data, which legitimately differs per caller. `hidden` marks catalogue entries a client should de-emphasise. It has no effect on access: hidden datasets and columns are returned here and remain fully queryable.
+     * Returns the analytics dataset catalogue. By default, the response contains dataset names, titles, categories, descriptions, kinds, and hidden flags. Set `include_columns` to include each dataset's column names, descriptions, data types, and hidden flags. The caller must have Account Analytics Read permission on the account identified by `account_tag`. Dataset names, descriptions, and columns are the same for every authorized account. When `include_custom_attributes` or `include_attributes` is set, the response also includes attribute names and types discovered from that account's own data, which legitimately differs per caller. `attributes` is a replacement for `custom_attributes` that will eventually be removed; until then, set either flag independently to receive the corresponding field. `hidden` marks catalogue entries a client should de-emphasise. It has no effect on access: hidden datasets and columns are returned here and remain fully queryable.
      *
      * The catalogue lists the datasets this deployment is able to describe, which is not a fixed list. Some datasets are described by the service that owns them and are listed only where that service is available, so the same account may see a different catalogue in different environments, and datasets may appear or disappear without a change to this API. Clients should query the catalogue rather than hard-coding it, and should not treat a dataset's absence as proof that it does not exist.
      *
@@ -172,6 +172,7 @@ export class SqlClient {
             account_tag: accountTag,
             include_columns: includeColumns,
             include_custom_attributes: includeCustomAttributes,
+            include_attributes: includeAttributes,
             include_wae: includeWae,
             include_lex: includeLex,
             dataset_name: datasetName,
@@ -180,6 +181,7 @@ export class SqlClient {
             account_tag: accountTag,
             include_columns: includeColumns,
             include_custom_attributes: includeCustomAttributes,
+            include_attributes: includeAttributes,
             include_wae: includeWae,
             include_lex: includeLex,
             dataset_name: datasetName,

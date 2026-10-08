@@ -1,31 +1,26 @@
-import $concurrency from "./concurrency/index.js";
+import $create from "./create.js";
 import $delete from "./delete.js";
+import $edit from "./edit.js";
 import $get from "./get.js";
-import $instances from "./instances/index.js";
 import $list from "./list.js";
-import $settings from "./settings/index.js";
-import $versions from "./versions/index.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
- * workflows command
+ * concurrency command group
  * @generated from apis/overlays/workflows.ts
  */
 import type { CommandModule } from "yargs";
 
 const command: CommandModule<CommonYargsOptions> = {
-	command: "workflows",
-	describe:
-		"Durable, multi-step workflows that run on Workers with automatic retries and state persistence",
+	command: "concurrency",
+	describe: "Operations for concurrency",
 
 	builder: (yargs) => {
 		return yargs
+			.command($create)
 			.command($delete)
+			.command($edit)
 			.command($get)
 			.command($list)
-			.command($concurrency)
-			.command($instances)
-			.command($settings)
-			.command($versions)
 			.demandCommand(1, "Please specify a subcommand");
 	},
 

@@ -1,14 +1,14 @@
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkQuery, SdkRequest } from "#sdk";
 /**
- * usage command
- * @generated from apis/overlays/o11y.ts
+ * list command
+ * @generated from apis/overlays/workflows.ts
  */
 import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
-	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -20,18 +20,10 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 o11y usage\n\nEvent counts and sizes broken down by dataset and service, bucketed by day, for up to 90 days. The top-level events field is the sum of all breakdown counts."
+			"$0 workflows concurrency list\n\nLists the account-scoped concurrency keys."
 		)
-		.option("from", {
-			type: "string",
-			description: "Unix timestamp in milliseconds for the start of the range.",
-			demandOption: true,
-		})
-		.option("to", {
-			type: "string",
-			description: "Unix timestamp in milliseconds for the end of the range.",
-			demandOption: true,
-		})
+		.option("per-page", { type: "number", description: "Per page" })
+		.option("page", { type: "number", description: "Page" })
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -41,30 +33,33 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
+type Request = SdkRequest<"wor-list-concurrency-keys">;
+type Query = SdkQuery<"wor-list-concurrency-keys">;
+
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "usage",
-	describe: "Get event count",
+	command: "list",
+	describe: "List concurrency keys",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
-				command: "o11y usage",
+				command: "workflows concurrency list",
 				classification: {
 					safeFlags: ["dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Record<string, unknown> = {
-					from: argv["from"],
-					to: argv["to"],
+				const queryParams: Query = {
+					per_page: argv["per-page"],
+					page: argv["page"],
 				};
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
-						command: "cf o11y usage",
+						command: "cf workflows concurrency list",
 						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/workers/observability/usage`,
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/workflows/concurrency`,
 						pathParams: {},
 						query: queryParams,
 						bodyKind: "none",
@@ -76,12 +71,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					requestApi<unknown>(
-						client,
-						"GET",
-						`/accounts/${accountId}/workers/observability/usage`,
-						{ query: queryParams }
-					)
+					client.workflows.concurrency.list({
+						account_id: accountId,
+						...queryParams,
+					} satisfies Request)
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

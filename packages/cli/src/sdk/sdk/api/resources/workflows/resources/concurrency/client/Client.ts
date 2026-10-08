@@ -10,89 +10,49 @@ import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStat
 import * as errors from "../../../../../../errors/index.js";
 import type * as CloudflareApi from "../../../../../index.js";
 import * as CloudflareApiErrors from "../../../../../errors/index.js";
-import { BatchClient } from "../resources/batch/client/Client.js";
-import { EventsClient } from "../resources/events/client/Client.js";
-import { StatusClient } from "../resources/status/client/Client.js";
-import { StepClient } from "../resources/step/client/Client.js";
 
-export declare namespace InstancesClient {
+export declare namespace ConcurrencyClient {
     export type Options = BaseClientOptions;
 
     export interface RequestOptions extends BaseRequestOptions {}
 }
 
-export class InstancesClient {
-    protected readonly _options: NormalizedClientOptionsWithAuth<InstancesClient.Options>;
-    protected _batch: BatchClient | undefined;
-    protected _events: EventsClient | undefined;
-    protected _status: StatusClient | undefined;
-    protected _step: StepClient | undefined;
+export class ConcurrencyClient {
+    protected readonly _options: NormalizedClientOptionsWithAuth<ConcurrencyClient.Options>;
 
-    constructor(options: InstancesClient.Options = {}) {
+    constructor(options: ConcurrencyClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 
-    public get batch(): BatchClient {
-        return (this._batch ??= new BatchClient(this._options));
-    }
-
-    public get events(): EventsClient {
-        return (this._events ??= new EventsClient(this._options));
-    }
-
-    public get status(): StatusClient {
-        return (this._status ??= new StatusClient(this._options));
-    }
-
-    public get step(): StepClient {
-        return (this._step ??= new StepClient(this._options));
-    }
-
     /**
-     * Lists all instances of a workflow with their execution status.
+     * Lists the account-scoped concurrency keys.
      *
-     * @param {CloudflareApi.workflows.ListInstancesRequest} request
-     * @param {InstancesClient.RequestOptions} requestOptions - Request-specific configuration.
+     * @param {CloudflareApi.workflows.ListConcurrencyRequest} request
+     * @param {ConcurrencyClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
-     * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link CloudflareApi.ForbiddenError}
      *
      * @example
-     *     await client.workflows.instances.list({
-     *         account_id: "account_id",
-     *         workflow_name: "workflow_name"
+     *     await client.workflows.concurrency.list({
+     *         account_id: "account_id"
      *     })
      */
     public list(
-        request: CloudflareApi.workflows.ListInstancesRequest,
-        requestOptions?: InstancesClient.RequestOptions,
-    ): core.HttpResponsePromise<CloudflareApi.workflows.ListInstancesResponse> {
+        request: CloudflareApi.workflows.ListConcurrencyRequest,
+        requestOptions?: ConcurrencyClient.RequestOptions,
+    ): core.HttpResponsePromise<CloudflareApi.workflows.ListConcurrencyResponse> {
         return core.HttpResponsePromise.fromPromise(this.__list(request, requestOptions));
     }
 
     private async __list(
-        request: CloudflareApi.workflows.ListInstancesRequest,
-        requestOptions?: InstancesClient.RequestOptions,
-    ): Promise<core.WithRawResponse<CloudflareApi.workflows.ListInstancesResponse>> {
-        const {
-            account_id: accountId,
-            workflow_name: workflowName,
-            page,
-            per_page: perPage,
-            cursor,
-            direction,
-            status,
-            date_start: start,
-            date_end: end,
-        } = request;
+        request: CloudflareApi.workflows.ListConcurrencyRequest,
+        requestOptions?: ConcurrencyClient.RequestOptions,
+    ): Promise<core.WithRawResponse<CloudflareApi.workflows.ListConcurrencyResponse>> {
+        const { account_id: accountId, per_page: perPage, page } = request;
         const _queryParams: Record<string, unknown> = {
-            page,
             per_page: perPage,
-            cursor,
-            direction: direction != null ? direction : undefined,
-            status: status != null ? status : undefined,
-            date_start: start != null ? start : undefined,
-            date_end: end != null ? end : undefined,
+            page,
         };
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -105,7 +65,7 @@ export class InstancesClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/workflows/${core.url.encodePathParam(workflowName)}/instances`,
+                `accounts/${core.url.encodePathParam(accountId)}/workflows/concurrency`,
             ),
             method: "GET",
             headers: _headers,
@@ -122,7 +82,7 @@ export class InstancesClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as CloudflareApi.workflows.ListInstancesResponse,
+                data: _response.body as CloudflareApi.workflows.ListConcurrencyResponse,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -131,8 +91,8 @@ export class InstancesClient {
             switch (_response.error.statusCode) {
                 case 400:
                     throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
-                case 404:
-                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 403:
+                    throw new CloudflareApiErrors.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -146,37 +106,39 @@ export class InstancesClient {
             _response.error,
             _response.rawResponse,
             "GET",
-            "/accounts/{account_id}/workflows/{workflow_name}/instances",
+            "/accounts/{account_id}/workflows/concurrency",
         );
     }
 
     /**
-     * Creates a new instance of a workflow, starting its execution.
+     * Creates an account-scoped concurrency key. Limits count steps still in flight from a previously deleted key of the same name.
      *
-     * @param {CloudflareApi.workflows.CreateInstancesRequest} request
-     * @param {InstancesClient.RequestOptions} requestOptions - Request-specific configuration.
+     * @param {CloudflareApi.workflows.CreateConcurrencyRequest} request
+     * @param {ConcurrencyClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
-     * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link CloudflareApi.ForbiddenError}
+     * @throws {@link CloudflareApi.ConflictError}
      *
      * @example
-     *     await client.workflows.instances.create({
+     *     await client.workflows.concurrency.create({
      *         account_id: "account_id",
-     *         workflow_name: "workflow_name"
+     *         limit: 1,
+     *         name: "name"
      *     })
      */
     public create(
-        request: CloudflareApi.workflows.CreateInstancesRequest,
-        requestOptions?: InstancesClient.RequestOptions,
-    ): core.HttpResponsePromise<CloudflareApi.workflows.CreateInstancesResponse> {
+        request: CloudflareApi.workflows.CreateConcurrencyRequest,
+        requestOptions?: ConcurrencyClient.RequestOptions,
+    ): core.HttpResponsePromise<CloudflareApi.workflows.CreateConcurrencyResponse> {
         return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
     }
 
     private async __create(
-        request: CloudflareApi.workflows.CreateInstancesRequest,
-        requestOptions?: InstancesClient.RequestOptions,
-    ): Promise<core.WithRawResponse<CloudflareApi.workflows.CreateInstancesResponse>> {
-        const { account_id: accountId, workflow_name: workflowName, ..._body } = request;
+        request: CloudflareApi.workflows.CreateConcurrencyRequest,
+        requestOptions?: ConcurrencyClient.RequestOptions,
+    ): Promise<core.WithRawResponse<CloudflareApi.workflows.CreateConcurrencyResponse>> {
+        const { account_id: accountId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -188,7 +150,7 @@ export class InstancesClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/workflows/${core.url.encodePathParam(workflowName)}/instances`,
+                `accounts/${core.url.encodePathParam(accountId)}/workflows/concurrency`,
             ),
             method: "POST",
             headers: _headers,
@@ -204,7 +166,7 @@ export class InstancesClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as CloudflareApi.workflows.CreateInstancesResponse,
+                data: _response.body as CloudflareApi.workflows.CreateConcurrencyResponse,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -213,8 +175,10 @@ export class InstancesClient {
             switch (_response.error.statusCode) {
                 case 400:
                     throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
-                case 404:
-                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 403:
+                    throw new CloudflareApiErrors.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                case 409:
+                    throw new CloudflareApiErrors.ConflictError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -228,42 +192,38 @@ export class InstancesClient {
             _response.error,
             _response.rawResponse,
             "POST",
-            "/accounts/{account_id}/workflows/{workflow_name}/instances",
+            "/accounts/{account_id}/workflows/concurrency",
         );
     }
 
     /**
-     * Retrieves logs and execution status for a specific workflow instance.
+     * Retrieves a concurrency key and the workflows whose latest version references it.
      *
-     * @param {CloudflareApi.workflows.GetInstancesRequest} request
-     * @param {InstancesClient.RequestOptions} requestOptions - Request-specific configuration.
+     * @param {CloudflareApi.workflows.GetConcurrencyRequest} request
+     * @param {ConcurrencyClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.NotFoundError}
      *
      * @example
-     *     await client.workflows.instances.get({
+     *     await client.workflows.concurrency.get({
      *         account_id: "account_id",
-     *         workflow_name: "workflow_name",
-     *         instance_id: "instance_id"
+     *         key_id: "key_id"
      *     })
      */
     public get(
-        request: CloudflareApi.workflows.GetInstancesRequest,
-        requestOptions?: InstancesClient.RequestOptions,
-    ): core.HttpResponsePromise<CloudflareApi.workflows.GetInstancesResponse> {
+        request: CloudflareApi.workflows.GetConcurrencyRequest,
+        requestOptions?: ConcurrencyClient.RequestOptions,
+    ): core.HttpResponsePromise<CloudflareApi.workflows.GetConcurrencyResponse> {
         return core.HttpResponsePromise.fromPromise(this.__get(request, requestOptions));
     }
 
     private async __get(
-        request: CloudflareApi.workflows.GetInstancesRequest,
-        requestOptions?: InstancesClient.RequestOptions,
-    ): Promise<core.WithRawResponse<CloudflareApi.workflows.GetInstancesResponse>> {
-        const { account_id: accountId, workflow_name: workflowName, instance_id: instanceId, simple, order } = request;
-        const _queryParams: Record<string, unknown> = {
-            simple: simple != null ? simple : undefined,
-            order: order != null ? order : undefined,
-        };
+        request: CloudflareApi.workflows.GetConcurrencyRequest,
+        requestOptions?: ConcurrencyClient.RequestOptions,
+    ): Promise<core.WithRawResponse<CloudflareApi.workflows.GetConcurrencyResponse>> {
+        const { account_id: accountId, key_id: keyId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -275,15 +235,11 @@ export class InstancesClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/workflows/${core.url.encodePathParam(workflowName)}/instances/${core.url.encodePathParam(instanceId)}`,
+                `accounts/${core.url.encodePathParam(accountId)}/workflows/concurrency/${core.url.encodePathParam(keyId)}`,
             ),
             method: "GET",
             headers: _headers,
-            queryString: core.url
-                .queryBuilder()
-                .addMany(_queryParams)
-                .mergeAdditional(requestOptions?.queryParams)
-                .build(),
+            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -292,7 +248,7 @@ export class InstancesClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as CloudflareApi.workflows.GetInstancesResponse,
+                data: _response.body as CloudflareApi.workflows.GetConcurrencyResponse,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -301,6 +257,8 @@ export class InstancesClient {
             switch (_response.error.statusCode) {
                 case 400:
                     throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 403:
+                    throw new CloudflareApiErrors.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
                     throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
@@ -316,37 +274,39 @@ export class InstancesClient {
             _response.error,
             _response.rawResponse,
             "GET",
-            "/accounts/{account_id}/workflows/{workflow_name}/instances/{instance_id}",
+            "/accounts/{account_id}/workflows/concurrency/{key_id}",
         );
     }
 
     /**
-     * Deletes a workflow instance and its stored state.
+     * Deletes a concurrency key. Fails while any workflow’s latest version references the key. The key disappears immediately, but steps already holding it keep their slots until they finish and still count against a key re-created with the same name.
      *
-     * @param {CloudflareApi.workflows.DeleteInstancesRequest} request
-     * @param {InstancesClient.RequestOptions} requestOptions - Request-specific configuration.
+     * @param {CloudflareApi.workflows.DeleteConcurrencyRequest} request
+     * @param {ConcurrencyClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link CloudflareApi.ConflictError}
      *
      * @example
-     *     await client.workflows.instances.delete({
+     *     await client.workflows.concurrency.delete({
      *         account_id: "account_id",
-     *         workflow_name: "workflow_name",
-     *         instance_id: "instance_id"
+     *         key_id: "key_id"
      *     })
      */
     public delete(
-        request: CloudflareApi.workflows.DeleteInstancesRequest,
-        requestOptions?: InstancesClient.RequestOptions,
-    ): core.HttpResponsePromise<CloudflareApi.workflows.DeleteInstancesResponse> {
+        request: CloudflareApi.workflows.DeleteConcurrencyRequest,
+        requestOptions?: ConcurrencyClient.RequestOptions,
+    ): core.HttpResponsePromise<CloudflareApi.workflows.DeleteConcurrencyResponse> {
         return core.HttpResponsePromise.fromPromise(this.__delete(request, requestOptions));
     }
 
     private async __delete(
-        request: CloudflareApi.workflows.DeleteInstancesRequest,
-        requestOptions?: InstancesClient.RequestOptions,
-    ): Promise<core.WithRawResponse<CloudflareApi.workflows.DeleteInstancesResponse>> {
-        const { account_id: accountId, workflow_name: workflowName, instance_id: instanceId } = request;
+        request: CloudflareApi.workflows.DeleteConcurrencyRequest,
+        requestOptions?: ConcurrencyClient.RequestOptions,
+    ): Promise<core.WithRawResponse<CloudflareApi.workflows.DeleteConcurrencyResponse>> {
+        const { account_id: accountId, key_id: keyId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -358,7 +318,7 @@ export class InstancesClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/workflows/${core.url.encodePathParam(workflowName)}/instances/${core.url.encodePathParam(instanceId)}`,
+                `accounts/${core.url.encodePathParam(accountId)}/workflows/concurrency/${core.url.encodePathParam(keyId)}`,
             ),
             method: "DELETE",
             headers: _headers,
@@ -371,13 +331,105 @@ export class InstancesClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as CloudflareApi.workflows.DeleteInstancesResponse,
+                data: _response.body as CloudflareApi.workflows.DeleteConcurrencyResponse,
                 rawResponse: _response.rawResponse,
             };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
+                case 400:
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 403:
+                    throw new CloudflareApiErrors.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                case 404:
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 409:
+                    throw new CloudflareApiErrors.ConflictError(_response.error.body as unknown, _response.rawResponse);
+                default:
+                    throw new errors.CloudflareApiError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(
+            _response.error,
+            _response.rawResponse,
+            "DELETE",
+            "/accounts/{account_id}/workflows/concurrency/{key_id}",
+        );
+    }
+
+    /**
+     * Updates the limit of a concurrency key. Applies to instances that start after the change.
+     *
+     * @param {CloudflareApi.workflows.EditConcurrencyRequest} request
+     * @param {ConcurrencyClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link CloudflareApi.ForbiddenError}
+     * @throws {@link CloudflareApi.NotFoundError}
+     *
+     * @example
+     *     await client.workflows.concurrency.edit({
+     *         account_id: "account_id",
+     *         key_id: "key_id",
+     *         limit: 1
+     *     })
+     */
+    public edit(
+        request: CloudflareApi.workflows.EditConcurrencyRequest,
+        requestOptions?: ConcurrencyClient.RequestOptions,
+    ): core.HttpResponsePromise<CloudflareApi.workflows.EditConcurrencyResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__edit(request, requestOptions));
+    }
+
+    private async __edit(
+        request: CloudflareApi.workflows.EditConcurrencyRequest,
+        requestOptions?: ConcurrencyClient.RequestOptions,
+    ): Promise<core.WithRawResponse<CloudflareApi.workflows.EditConcurrencyResponse>> {
+        const { account_id: accountId, key_id: keyId, ..._body } = request;
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.CloudflareApiEnvironment.Default,
+                `accounts/${core.url.encodePathParam(accountId)}/workflows/concurrency/${core.url.encodePathParam(keyId)}`,
+            ),
+            method: "PATCH",
+            headers: _headers,
+            contentType: "application/json",
+            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
+            requestType: "json",
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return {
+                data: _response.body as CloudflareApi.workflows.EditConcurrencyResponse,
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 403:
+                    throw new CloudflareApiErrors.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
                     throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
@@ -392,8 +444,8 @@ export class InstancesClient {
         return handleNonStatusCodeError(
             _response.error,
             _response.rawResponse,
-            "DELETE",
-            "/accounts/{account_id}/workflows/{workflow_name}/instances/{instance_id}",
+            "PATCH",
+            "/accounts/{account_id}/workflows/concurrency/{key_id}",
         );
     }
 }

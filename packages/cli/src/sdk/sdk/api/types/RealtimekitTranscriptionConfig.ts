@@ -6,14 +6,14 @@
 export interface RealtimekitTranscriptionConfig {
     /** Adds specific terms to improve accurate detection during transcription. */
     keywords?: string[] | undefined;
-    /** Specifies the language code for transcription to ensure accurate results. */
+    /** Specifies the language code for transcription to ensure accurate results. If omitted, the language is auto-detected for post-meeting (Whisper) transcription. */
     language?: RealtimekitTranscriptionConfig.Language | undefined;
     /** Control the inclusion of offensive language in transcriptions. */
     profanity_filter?: boolean | undefined;
 }
 
 export namespace RealtimekitTranscriptionConfig {
-    /** Specifies the language code for transcription to ensure accurate results. */
+    /** Specifies the language code for transcription to ensure accurate results. If omitted, the language is auto-detected for post-meeting (Whisper) transcription. */
     export const Language = {
         EnUs: "en-US",
         EnIn: "en-IN",

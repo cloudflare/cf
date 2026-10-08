@@ -1,3 +1,6 @@
+export * as concurrency from "./concurrency/index.js";
+export * from "./concurrency/client/requests/index.js";
+export * from "./concurrency/types/index.js";
 export * as instances from "./instances/index.js";
 export * from "./instances/client/requests/index.js";
 export * from "./instances/types/index.js";

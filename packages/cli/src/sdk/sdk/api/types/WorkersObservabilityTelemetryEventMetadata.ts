@@ -21,6 +21,8 @@ export interface WorkersObservabilityTelemetryEventMetadata {
     error?: string | undefined;
     /** Templatized version of the error message used for grouping similar errors. */
     errorTemplate?: string | undefined;
+    /** Size of the stored telemetry event in bytes. */
+    eventSize?: number | undefined;
     /** Content-based fingerprint used to group similar events. */
     fingerprint?: string | undefined;
     /** Unique event ID. Use as the cursor value for offset-based pagination. */

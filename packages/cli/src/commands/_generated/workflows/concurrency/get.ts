@@ -1,14 +1,14 @@
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
 /**
- * usage command
- * @generated from apis/overlays/o11y.ts
+ * get command
+ * @generated from apis/overlays/workflows.ts
  */
 import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
-	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -20,16 +20,11 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 o11y usage\n\nEvent counts and sizes broken down by dataset and service, bucketed by day, for up to 90 days. The top-level events field is the sum of all breakdown counts."
+			"$0 workflows concurrency get <key-id>\n\nRetrieves a concurrency key and the workflows whose latest version references it."
 		)
-		.option("from", {
+		.positional("key-id", {
 			type: "string",
-			description: "Unix timestamp in milliseconds for the start of the range.",
-			demandOption: true,
-		})
-		.option("to", {
-			type: "string",
-			description: "Unix timestamp in milliseconds for the end of the range.",
+			description: "Identifier of the concurrency key.",
 			demandOption: true,
 		})
 		.option("dry-run", {
@@ -41,32 +36,29 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
+type Request = SdkRequest<"wor-get-concurrency-key">;
+
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "usage",
-	describe: "Get event count",
+	command: "get <key-id>",
+	describe: "Get concurrency key details",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
-				command: "o11y usage",
+				command: "workflows concurrency get",
 				classification: {
 					safeFlags: ["dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Record<string, unknown> = {
-					from: argv["from"],
-					to: argv["to"],
-				};
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
 					formatDryRun({
-						command: "cf o11y usage",
+						command: "cf workflows concurrency get",
 						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/workers/observability/usage`,
-						pathParams: {},
-						query: queryParams,
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/workflows/concurrency/${argv["key-id"] == null ? "<key-id>" : encodeURIComponent(String(argv["key-id"]))}`,
+						pathParams: { "key-id": String(argv["key-id"] ?? "") },
 						bodyKind: "none",
 					});
 					return;
@@ -76,12 +68,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					requestApi<unknown>(
-						client,
-						"GET",
-						`/accounts/${accountId}/workers/observability/usage`,
-						{ query: queryParams }
-					)
+					client.workflows.concurrency.get({
+						account_id: accountId,
+						key_id: argv["key-id"],
+					} satisfies Request)
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

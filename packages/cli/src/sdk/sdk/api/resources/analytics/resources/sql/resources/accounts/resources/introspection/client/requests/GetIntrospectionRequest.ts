@@ -12,8 +12,10 @@ export interface GetIntrospectionRequest {
     account_tag: string;
     /** Include column metadata for each returned dataset. */
     include_columns?: boolean;
-    /** Include a capped set of custom attribute names and types observed during the preceding seven days. Requires a nonempty dataset_name. */
+    /** Include a capped set of custom attribute names and types observed during the preceding seven days, as `custom_attributes`. Requires a nonempty dataset_name. Deprecated in favor of `include_attributes`. */
     include_custom_attributes?: boolean;
+    /** Include a capped set of attribute names and types observed during the preceding seven days, as `attributes`. Requires a nonempty dataset_name. Replaces `include_custom_attributes`, which is deprecated. */
+    include_attributes?: boolean;
     /** Include Workers Analytics Engine datasets, which are discovered from the account's own data. Set to `false` to return only datasets described from the static catalogue, which avoids that lookup. */
     include_wae?: boolean;
     /** Include Log Explorer datasets, which are listed only where the account has them. Set to `false` to return only datasets described from the static catalogue, which avoids that lookup. */

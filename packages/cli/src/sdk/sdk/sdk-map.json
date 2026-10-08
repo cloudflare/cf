@@ -25478,7 +25478,7 @@
     "path": "/user/load_balancers/pools",
     "responseType": "PoolsPoolsResponse",
     "requiredRequestProperties": [
-      "__@iterator@7041",
+      "__@iterator@7066",
       "anchor",
       "at",
       "big",
@@ -45640,6 +45640,25 @@
       "workflow_name"
     ]
   },
+  "wor-create-concurrency-key": {
+    "accessor": [
+      "workflows",
+      "concurrency"
+    ],
+    "method": "create",
+    "httpMethod": "POST",
+    "path": "/accounts/{account_id}/workflows/concurrency",
+    "requestType": "CreateConcurrencyRequest",
+    "responseType": "CreateConcurrencyResponse",
+    "requiredRequestProperties": [
+      "account_id",
+      "limit",
+      "name"
+    ],
+    "numericRequestProperties": [
+      "limit"
+    ]
+  },
   "wor-create-new-workflow-instance": {
     "accessor": [
       "workflows",
@@ -45653,6 +45672,21 @@
     "requiredRequestProperties": [
       "account_id",
       "workflow_name"
+    ]
+  },
+  "wor-delete-concurrency-key": {
+    "accessor": [
+      "workflows",
+      "concurrency"
+    ],
+    "method": "delete",
+    "httpMethod": "DELETE",
+    "path": "/accounts/{account_id}/workflows/concurrency/{key_id}",
+    "requestType": "DeleteConcurrencyRequest",
+    "responseType": "DeleteConcurrencyResponse",
+    "requiredRequestProperties": [
+      "account_id",
+      "key_id"
     ]
   },
   "wor-delete-workflow": {
@@ -45733,6 +45767,21 @@
       "workflow_name"
     ]
   },
+  "wor-get-concurrency-key": {
+    "accessor": [
+      "workflows",
+      "concurrency"
+    ],
+    "method": "get",
+    "httpMethod": "GET",
+    "path": "/accounts/{account_id}/workflows/concurrency/{key_id}",
+    "requestType": "GetConcurrencyRequest",
+    "responseType": "GetConcurrencyResponse",
+    "requiredRequestProperties": [
+      "account_id",
+      "key_id"
+    ]
+  },
   "wor-get-workflow-details": {
     "accessor": [
       "workflows"
@@ -45776,6 +45825,20 @@
     "path": "/accounts/{account_id}/workflows/settings",
     "requestType": "GetSettingsRequest",
     "responseType": "GetSettingsResponse",
+    "requiredRequestProperties": [
+      "account_id"
+    ]
+  },
+  "wor-list-concurrency-keys": {
+    "accessor": [
+      "workflows",
+      "concurrency"
+    ],
+    "method": "list",
+    "httpMethod": "GET",
+    "path": "/accounts/{account_id}/workflows/concurrency",
+    "requestType": "ListConcurrencyRequest",
+    "responseType": "ListConcurrencyResponse",
     "requiredRequestProperties": [
       "account_id"
     ]
@@ -45841,19 +45904,23 @@
       "workflow_name"
     ]
   },
-  "wor-subscribe-workflow-instance-events": {
+  "wor-update-concurrency-key": {
     "accessor": [
       "workflows",
-      "instances"
+      "concurrency"
     ],
-    "method": "subscribe",
-    "httpMethod": "GET",
-    "path": "/accounts/{account_id}/workflows/{workflow_name}/instances/{instance_id}/subscribe",
-    "requestType": "SubscribeInstancesRequest",
+    "method": "edit",
+    "httpMethod": "PATCH",
+    "path": "/accounts/{account_id}/workflows/concurrency/{key_id}",
+    "requestType": "EditConcurrencyRequest",
+    "responseType": "EditConcurrencyResponse",
     "requiredRequestProperties": [
       "account_id",
-      "instance_id",
-      "workflow_name"
+      "key_id",
+      "limit"
+    ],
+    "numericRequestProperties": [
+      "limit"
     ]
   },
   "wor-update-workflow-settings": {

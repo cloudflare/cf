@@ -1,6 +1,6 @@
+import operation from "../../../_operations/cloudforce-one/rules/approvals/resubmit.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * resubmit command
  * @generated from apis/overlays/cloudforce-one.ts
@@ -57,9 +57,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"cloudforce-one-resubmit-rule-approval">;
-type Body = Request;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "resubmit <id>",
@@ -118,20 +115,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
-						client.cloudforceOne.rules.approvals.resubmit({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							account_id: accountId,
 							id: argv["id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					commit_message: resolveFileToken(
 						argv["commit-message"] as string | undefined,
 						"commit-message",
@@ -156,11 +153,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					namespaces: argv["namespaces"],
 				});
 				const result = await withProgress(`Creating`, async () =>
-					client.cloudforceOne.rules.approvals.resubmit({
-						...bodyData,
+					client.send(operation, {
+						body: bodyData,
 						account_id: accountId,
 						id: argv["id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

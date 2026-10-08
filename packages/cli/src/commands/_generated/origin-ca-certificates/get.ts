@@ -1,6 +1,6 @@
+import operation from "../_operations/origin-ca-certificates/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/origin-ca-certificates.ts
@@ -31,8 +31,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"origin-ca-get-certificate">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <certificate-id>",
 	describe: "Get Certificate",
@@ -62,9 +60,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const client = await createCommandClient(argv);
 
 				const result = await withProgress(`Loading`, async () =>
-					client.originCaCertificates.get({
-						certificate_id: argv["certificate-id"],
-					} satisfies Request)
+					client.send(operation, { certificate_id: argv["certificate-id"] })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

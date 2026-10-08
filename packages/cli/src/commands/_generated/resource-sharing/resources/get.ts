@@ -1,6 +1,6 @@
+import operation from "../../_operations/resource-sharing/resources/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/resource-sharing.ts
@@ -41,8 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"share-resources-get-by-id">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <share-resource-id>",
 	describe: "Get share resource by ID",
@@ -76,11 +74,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.resourceSharing.resources.get({
+					client.send(operation, {
 						account_id: accountId,
 						share_id: argv["share-id"],
 						share_resource_id: argv["share-resource-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

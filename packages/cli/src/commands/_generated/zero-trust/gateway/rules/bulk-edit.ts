@@ -1,6 +1,6 @@
+import operation from "../../../_operations/zero-trust/gateway/rules/bulk-edit.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * bulk-edit command
  * @generated from apis/overlays/zero-trust.ts
@@ -36,10 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"zero-trust-gateway-rules-patch-multiple-zero-trust-gateway-rules">;
-type Body = Request["body"];
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "bulk-edit",
 	describe: "Patch multiple Zero Trust Gateway rules",
@@ -71,12 +67,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.zeroTrust.gateway.rules.bulkEdit({
-							body: bodyData,
-							account_id: accountId,
-						} satisfies Request)
+						client.send(operation, { body: bodyData, account_id: accountId })
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;

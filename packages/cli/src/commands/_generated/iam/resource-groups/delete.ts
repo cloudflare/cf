@@ -1,6 +1,6 @@
+import operation from "../../_operations/iam/resource-groups/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/iam.ts
@@ -42,8 +42,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"account-resource-group-delete">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <resource-group-id>",
@@ -88,10 +86,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.iam.resourceGroups.delete({
+					client.send(operation, {
 						account_id: accountId,
 						resource_group_id: argv["resource-group-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

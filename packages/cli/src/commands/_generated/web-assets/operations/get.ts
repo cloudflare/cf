@@ -1,13 +1,12 @@
+import operation from "../../_operations/web-assets/operations/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/web-assets.ts
  */
 import type { Argv, CommandModule } from "yargs";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { withArgTypes } from "#lib/cli-types.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
@@ -40,23 +39,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		});
 }
 
-type Request =
-	SdkRequest<"api-shield-endpoint-management-retrieve-information-about-an-operation">;
-type Query =
-	SdkQuery<"api-shield-endpoint-management-retrieve-information-about-an-operation">;
+type Args = InferArgs<typeof builder>;
 
-const typedBuilder = withArgTypes<
-	{
-		feature: Query["feature"];
-	},
-	typeof builder
->(builder);
-
-type Args = InferArgs<typeof typedBuilder>;
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <operation-id>",
 	describe: "Get a web or API operation",
-	builder: typedBuilder,
+	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -67,7 +55,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					feature: argv["feature"],
 					with_schemas: argv["with-schemas"],
 				};
@@ -92,11 +80,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.webAssets.operations.get({
+					client.send(operation, {
 						zone_id: zoneId,
 						operation_id: argv["operation-id"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

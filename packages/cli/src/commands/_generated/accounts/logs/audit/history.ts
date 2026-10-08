@@ -1,6 +1,6 @@
+import operation from "../../../_operations/accounts/logs/audit/history.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * history command
  * @generated from apis/overlays/accounts.ts
@@ -11,7 +11,6 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { withArgTypes } from "#lib/cli-types.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
@@ -68,22 +67,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		});
 }
 
-type Request = SdkRequest<"audit-logs-v2-get-account-audit-log-history">;
-type Query = SdkQuery<"audit-logs-v2-get-account-audit-log-history">;
+type Args = InferArgs<typeof builder>;
 
-const typedBuilder = withArgTypes<
-	{
-		direction: Query["direction"];
-	},
-	typeof builder
->(builder);
-
-type Args = InferArgs<typeof typedBuilder>;
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "history <id>",
 	describe:
 		"Get resource change history from an account audit log entry (Version 2)",
-	builder: typedBuilder,
+	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -94,7 +84,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					action_time: argv["action-time"],
 					since: argv["since"],
 					before: argv["before"],
@@ -119,11 +109,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.accounts.logs.audit.history({
+					client.send(operation, {
 						account_id: accountId,
 						id: argv["id"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

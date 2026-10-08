@@ -1,6 +1,6 @@
+import operation from "../../_operations/waiting-rooms/rules/update.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * update command
  * @generated from apis/overlays/waiting-rooms.ts
@@ -36,9 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"waiting-room-replace-waiting-room-rules">;
-type Body = Request["body"];
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update <waiting-room-id>",
 	describe: "Replace Waiting Room Rules",
@@ -59,8 +56,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "PUT",
 						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/waiting_rooms/${argv["waiting-room-id"] == null ? "<waiting-room-id>" : encodeURIComponent(String(argv["waiting-room-id"]))}/rules`,
 						pathParams: {
-							"waiting-room-id": String(argv["waiting-room-id"] ?? ""),
 							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
+							"waiting-room-id": String(argv["waiting-room-id"] ?? ""),
 						},
 						bodyKind: "json",
 						body: argv.body !== undefined ? parseBody(argv.body) : undefined,
@@ -74,13 +71,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.waitingRooms.rules.update({
+						client.send(operation, {
 							body: bodyData,
 							zone_id: zoneId,
 							waiting_room_id: argv["waiting-room-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;

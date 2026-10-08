@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/browser-run/devtools/browser/live-view/create.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * create command
  * @generated from apis/overlays/browser-run.ts
@@ -75,9 +75,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"brapi-post_DevtoolsLiveView">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "create <session-id>",
 	describe: "Mint live view URLs for a browser session",
@@ -122,20 +119,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
-						client.browserRun.devtools.browser.liveView.create({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							account_id: accountId,
 							session_id: argv["session-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					expiresInMs: argv["expires-in-ms"],
 					guardrails: {
 						mode: argv["guardrails-mode"],
@@ -147,11 +144,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					),
 				});
 				const result = await withProgress(`Creating`, async () =>
-					client.browserRun.devtools.browser.liveView.create({
-						...bodyData,
+					client.send(operation, {
+						body: bodyData,
 						account_id: accountId,
 						session_id: argv["session-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

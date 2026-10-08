@@ -1,6 +1,6 @@
+import operation from "../../../_operations/zero-trust/risk-scoring/integrations/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/zero-trust.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"dlp-zt-risk-score-integration-get">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <integration-id>",
 	describe: "Get risk score integration by id.",
@@ -70,10 +68,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.zeroTrust.riskScoring.integrations.get({
+					client.send(operation, {
 						account_id: accountId,
 						integration_id: argv["integration-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

@@ -1,6 +1,6 @@
+import operation from "../../../_operations/user/firewall/access-rules/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/user.ts
@@ -37,9 +37,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request =
-	SdkRequest<"ip-access-rules-for-a-user-delete-an-ip-access-rule">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <rule-id>",
@@ -79,9 +76,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.user.firewall.accessRules.delete({
-						rule_id: argv["rule-id"],
-					} satisfies Request)
+					client.send(operation, { rule_id: argv["rule-id"] })
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

@@ -1,6 +1,6 @@
+import operation from "../../_operations/stream/videos/edit.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * edit command
  * @generated from apis/overlays/stream.ts
@@ -100,9 +100,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"stream-videos-update-video-details">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "edit <identifier>",
 	describe: "Edit video details",
@@ -186,20 +183,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
-						client.stream.videos.edit({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							account_id: accountId,
 							identifier: argv["identifier"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					allowedOrigins: argv["allowed-origins"],
 					creator: resolveFileToken(
 						argv["creator"] as string | undefined,
@@ -248,11 +245,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					),
 				});
 				const result = await withProgress(`Creating`, async () =>
-					client.stream.videos.edit({
-						...bodyData,
+					client.send(operation, {
+						body: bodyData,
 						account_id: accountId,
 						identifier: argv["identifier"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

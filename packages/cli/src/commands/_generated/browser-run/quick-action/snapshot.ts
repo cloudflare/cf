@@ -1,6 +1,6 @@
+import operation from "../../_operations/browser-run/quick-action/snapshot.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * snapshot command
  * @generated from apis/overlays/browser-run.ts
@@ -12,7 +12,6 @@ import {
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
-import { withArgTypes } from "#lib/cli-types.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -55,6 +54,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			array: true,
 			description:
 				"Only allow requests that match the provided regex patterns, eg. '/^.*\\.(css)'. Reject rules are applied first.",
+		})
+		.option("allow-resource-types", {
+			type: "string",
+			array: true,
+			description:
+				"Only allow requests that match the provided resource types, eg. 'image' or 'script'. Reject rules are applied first.",
 		})
 		.option("authenticate-password", {
 			type: "string",
@@ -105,6 +110,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Block undesired requests that match the provided regex patterns, eg. '/^.*\\.(css)'.",
 		})
+		.option("reject-resource-types", {
+			type: "string",
+			array: true,
+			description:
+				"Block undesired requests that match the provided resource types, eg. 'image' or 'script'.",
+		})
 		.option("screenshot-options-capture-beyond-viewport", {
 			type: "boolean",
 			description: "The screenshotOptions.captureBeyondViewport field",
@@ -149,6 +160,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "number",
 			description: "The screenshotOptions.quality field",
 		})
+		.option("screenshot-options-type", {
+			type: "string",
+			description: "The screenshotOptions.type field",
+			choices: ["png", "jpeg", "webp"],
+		})
+		.coerce("screenshot-options-type", (value) =>
+			resolveFileToken(value, "screenshot-options-type", "text")
+		)
 		.option("set-java-script-enabled", {
 			type: "boolean",
 			description: "The setJavaScriptEnabled field",
@@ -246,6 +265,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"screenshot-options-omit-background",
 				"screenshot-options-optimize-for-speed",
 				"screenshot-options-quality",
+				"screenshot-options-type",
 			].some((k) => argv[k] !== undefined);
 			if (groupSet) {
 				const missing = [
@@ -304,22 +324,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		});
 }
 
-type Request = SdkRequest<"brapi-post_Snapshot">;
-type Body = Request["body"];
-type Query = SdkQuery<"brapi-post_Snapshot">;
+type Args = InferArgs<typeof builder>;
 
-const typedBuilder = withArgTypes<
-	{
-		browser: Query["browser"];
-	},
-	typeof builder
->(builder);
-
-type Args = InferArgs<typeof typedBuilder>;
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "snapshot",
 	describe: "Get HTML content and screenshot.",
-	builder: typedBuilder,
+	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -333,6 +343,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"screenshot-options-full-page",
 						"screenshot-options-omit-background",
 						"screenshot-options-optimize-for-speed",
+						"screenshot-options-type",
 						"set-java-script-enabled",
 						"viewport-has-touch",
 						"viewport-is-landscape",
@@ -345,7 +356,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					cacheTTL: argv["cache-ttl"],
 					browser: argv["browser"],
 				};
@@ -372,6 +383,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"add-style-tag"
 										),
 										allowRequestPattern: argv["allow-request-pattern"],
+										allowResourceTypes: argv["allow-resource-types"],
 										authenticate: {
 											password: resolveFileToken(
 												argv["authenticate-password"] as string | undefined,
@@ -413,6 +425,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 										rejectRequestPattern: argv["reject-request-pattern"],
+										rejectResourceTypes: argv["reject-resource-types"],
 										screenshotOptions: {
 											captureBeyondViewport:
 												argv["screenshot-options-capture-beyond-viewport"],
@@ -430,6 +443,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											optimizeForSpeed:
 												argv["screenshot-options-optimize-for-speed"],
 											quality: argv["screenshot-options-quality"],
+											type: argv["screenshot-options-type"],
 										},
 										setJavaScriptEnabled: argv["set-java-script-enabled"],
 										url: resolveFileToken(
@@ -473,25 +487,25 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const qs = new URLSearchParams(
 						Object.entries(queryParams)
 							.filter(([, v]) => v !== undefined)
 							.map(([k, v]) => [k, String(v)])
 					).toString();
 					const result = await withProgress(`Creating`, async () =>
-						client.browserRun.quickAction.snapshot({
+						client.send(operation, {
 							body: bodyData,
 							account_id: accountId,
 							...queryParams,
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					actionTimeout: argv["action-timeout"],
 					addScriptTag: parseObjectArray(
 						argv["add-script-tag"],
@@ -499,6 +513,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					),
 					addStyleTag: parseObjectArray(argv["add-style-tag"], "add-style-tag"),
 					allowRequestPattern: argv["allow-request-pattern"],
+					allowResourceTypes: argv["allow-resource-types"],
 					authenticate: {
 						password: resolveFileToken(
 							argv["authenticate-password"] as string | undefined,
@@ -538,6 +553,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"text"
 					),
 					rejectRequestPattern: argv["reject-request-pattern"],
+					rejectResourceTypes: argv["reject-resource-types"],
 					screenshotOptions: {
 						captureBeyondViewport:
 							argv["screenshot-options-capture-beyond-viewport"],
@@ -553,6 +569,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						omitBackground: argv["screenshot-options-omit-background"],
 						optimizeForSpeed: argv["screenshot-options-optimize-for-speed"],
 						quality: argv["screenshot-options-quality"],
+						type: argv["screenshot-options-type"],
 					},
 					setJavaScriptEnabled: argv["set-java-script-enabled"],
 					url: resolveFileToken(
@@ -591,11 +608,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						.map(([k, v]) => [k, String(v)])
 				).toString();
 				const result = await withProgress(`Creating`, async () =>
-					client.browserRun.quickAction.snapshot({
+					client.send(operation, {
 						body: bodyData,
 						account_id: accountId,
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

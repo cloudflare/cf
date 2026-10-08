@@ -4,7 +4,7 @@ import { openSession } from "./session.js";
 import { errorBlock } from "./ui/blocks.js";
 import { hint } from "./ui/format.js";
 import { theme } from "./ui/theme.js";
-import { CloudflareApiError } from "#sdk/errors";
+import { ApiError } from "#api";
 
 /**
  * Drop the protocol+host (and the `/client/v4` API-version prefix)
@@ -63,7 +63,7 @@ export function handleError(error: unknown): unknown {
 	openSession(VERSION);
 
 	// Typed Fern calls and cf's passthrough/raw paths share this SDK error type.
-	if (error instanceof CloudflareApiError) {
+	if (error instanceof ApiError) {
 		const status = error.statusCode;
 		const errorBody = error.body;
 		const statusText =

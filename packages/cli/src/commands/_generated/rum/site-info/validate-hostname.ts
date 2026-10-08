@@ -1,6 +1,6 @@
+import operation from "../../_operations/rum/site-info/validate-hostname.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * validate-hostname command
  * @generated from apis/overlays/rum.ts
@@ -37,8 +37,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"web-analytics-validate-site-hostname">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "validate-hostname <hostname>",
 	describe: "Validate a Web Analytics site hostname",
@@ -69,10 +67,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.rum.siteInfo.validateHostname({
+					client.send(operation, {
 						account_id: accountId,
 						hostname: argv["hostname"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

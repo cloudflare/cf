@@ -131,15 +131,6 @@ export const generatedCommands: GeneratedCommand[] = [
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
-			"alerts",
-			"alerts",
-			() => import("./alerts/index.js"),
-			null
-		),
-		hideCommand: true,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
 			"analytics",
 			"Zone-level traffic analytics — dashboard summaries, per-colo breakdowns, and Argo latency metrics",
 			() => import("./analytics/index.js"),
@@ -149,9 +140,9 @@ export const generatedCommands: GeneratedCommand[] = [
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
-			"analytics_engine",
-			"analytics_engine",
-			() => import("./analytics_engine/index.js"),
+			"analytics-engine",
+			"analytics-engine",
+			() => import("./analytics-engine/index.js"),
 			null
 		),
 		hideCommand: true,
@@ -188,15 +179,6 @@ export const generatedCommands: GeneratedCommand[] = [
 			"audit-logs",
 			"audit-logs",
 			() => import("./audit-logs/index.js"),
-			null
-		),
-		hideCommand: true,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
-			"autorag",
-			"autorag",
-			() => import("./autorag/index.js"),
 			null
 		),
 		hideCommand: true,
@@ -248,24 +230,6 @@ export const generatedCommands: GeneratedCommand[] = [
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
-			"brands",
-			"brands",
-			() => import("./brands/index.js"),
-			null
-		),
-		hideCommand: true,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
-			"browser-extension",
-			"browser-extension",
-			() => import("./browser-extension/index.js"),
-			null
-		),
-		hideCommand: true,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
 			"browser-run",
 			"browser-run",
 			() => import("./browser-run/index.js"),
@@ -296,15 +260,6 @@ export const generatedCommands: GeneratedCommand[] = [
 			"certificate-authorities",
 			"certificate-authorities",
 			() => import("./certificate-authorities/index.js"),
-			null
-		),
-		hideCommand: true,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
-			"clear",
-			"clear",
-			() => import("./clear/index.js"),
 			null
 		),
 		hideCommand: true,
@@ -365,27 +320,9 @@ export const generatedCommands: GeneratedCommand[] = [
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
-			"connector-telemetry-events-latest",
-			"connector-telemetry-events-latest",
-			() => import("./connector-telemetry-events-latest/index.js"),
-			null
-		),
-		hideCommand: true,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
 			"connector-telemetry-snapshots",
 			"connector-telemetry-snapshots",
 			() => import("./connector-telemetry-snapshots/index.js"),
-			null
-		),
-		hideCommand: true,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
-			"connector-telemetry-snapshots-latest",
-			"connector-telemetry-snapshots-latest",
-			() => import("./connector-telemetry-snapshots-latest/index.js"),
 			null
 		),
 		hideCommand: true,
@@ -428,9 +365,9 @@ export const generatedCommands: GeneratedCommand[] = [
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
-			"csamScanner",
-			"csamScanner",
-			() => import("./csamScanner/index.js"),
+			"csam-scanner",
+			"csam-scanner",
+			() => import("./csam-scanner/index.js"),
 			null
 		),
 		hideCommand: true,
@@ -545,15 +482,6 @@ export const generatedCommands: GeneratedCommand[] = [
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
-			"domain-info",
-			"domain-info",
-			() => import("./domain-info/index.js"),
-			null
-		),
-		hideCommand: true,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
 			"durable-objects",
 			"durable-objects",
 			() => import("./durable-objects/index.js"),
@@ -599,9 +527,9 @@ export const generatedCommands: GeneratedCommand[] = [
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
-			"fieldExtractors",
-			"fieldExtractors",
-			() => import("./fieldExtractors/index.js"),
+			"field-extractors",
+			"field-extractors",
+			() => import("./field-extractors/index.js"),
 			null
 		),
 		hideCommand: true,
@@ -638,15 +566,6 @@ export const generatedCommands: GeneratedCommand[] = [
 			"google-tag-gateway",
 			"Google Tag Gateway operations",
 			() => import("./google-tag-gateway/index.js"),
-			null
-		),
-		hideCommand: true,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
-			"health",
-			"health",
-			() => import("./health/index.js"),
 			null
 		),
 		hideCommand: true,
@@ -707,15 +626,6 @@ export const generatedCommands: GeneratedCommand[] = [
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
-			"internal",
-			"internal",
-			() => import("./internal/index.js"),
-			null
-		),
-		hideCommand: true,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
 			"ips",
 			"ips",
 			() => import("./ips/index.js"),
@@ -767,15 +677,6 @@ export const generatedCommands: GeneratedCommand[] = [
 			null
 		),
 		hideCommand: false,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
-			"live",
-			"live",
-			() => import("./live/index.js"),
-			null
-		),
-		hideCommand: true,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -1094,15 +995,6 @@ export const generatedCommands: GeneratedCommand[] = [
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
-			"r2-data-catalog",
-			"Iceberg-compatible data catalog for R2 — organize objects into tables and namespaces for SQL query engines",
-			() => import("./r2-data-catalog/index.js"),
-			null
-		),
-		hideCommand: false,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
 			"radar",
 			"Internet-wide traffic intelligence — BGP, DNS, HTTP trends, attack data, and network quality insights",
 			() => import("./radar/index.js"),
@@ -1112,57 +1004,12 @@ export const generatedCommands: GeneratedCommand[] = [
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
-			"rate-limit-analytics",
-			"rate-limit-analytics",
-			() => import("./rate-limit-analytics/index.js"),
-			null
-		),
-		hideCommand: false,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
-			"rate-limits",
-			"Legacy per-zone rate limiting rules — prefer Advanced Rate Limiting in Rulesets for new configurations",
-			() => import("./rate-limits/index.js"),
-			null
-		),
-		hideCommand: true,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
-			"ready",
-			"ready",
-			() => import("./ready/index.js"),
-			null
-		),
-		hideCommand: true,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
 			"realtime",
 			"Real-time audio, video, and data services on Cloudflare's global network",
 			() => import("./realtime/index.js"),
 			null
 		),
 		hideCommand: false,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
-			"recent-submissions",
-			"recent-submissions",
-			() => import("./recent-submissions/index.js"),
-			null
-		),
-		hideCommand: true,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
-			"refute",
-			"refute",
-			() => import("./refute/index.js"),
-			null
-		),
-		hideCommand: true,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -1247,36 +1094,9 @@ export const generatedCommands: GeneratedCommand[] = [
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
-			"scan-logo",
-			"scan-logo",
-			() => import("./scan-logo/index.js"),
-			null
-		),
-		hideCommand: true,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
-			"scan-page",
-			"scan-page",
-			() => import("./scan-page/index.js"),
-			null
-		),
-		hideCommand: true,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
 			"scim",
 			"SCIM 2.0 provisioning — manage users, groups, and identity provider sync for your account",
 			() => import("./scim/index.js"),
-			null
-		),
-		hideCommand: true,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
-			"search",
-			"search",
-			() => import("./search/index.js"),
 			null
 		),
 		hideCommand: true,
@@ -1307,15 +1127,6 @@ export const generatedCommands: GeneratedCommand[] = [
 			null
 		),
 		hideCommand: false,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
-			"signed-url",
-			"signed-url",
-			() => import("./signed-url/index.js"),
-			null
-		),
-		hideCommand: true,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -1382,15 +1193,6 @@ export const generatedCommands: GeneratedCommand[] = [
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
-			"submission-info",
-			"submission-info",
-			() => import("./submission-info/index.js"),
-			null
-		),
-		hideCommand: true,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
 			"submit",
 			"submit",
 			() => import("./submit/index.js"),
@@ -1421,24 +1223,6 @@ export const generatedCommands: GeneratedCommand[] = [
 			"tenant-custom-nameservers",
 			"tenant-custom-nameservers",
 			() => import("./tenant-custom-nameservers/index.js"),
-			null
-		),
-		hideCommand: true,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
-			"total-queries",
-			"total-queries",
-			() => import("./total-queries/index.js"),
-			null
-		),
-		hideCommand: true,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
-			"tracked-domains",
-			"tracked-domains",
-			() => import("./tracked-domains/index.js"),
 			null
 		),
 		hideCommand: true,
@@ -1514,15 +1298,6 @@ export const generatedCommands: GeneratedCommand[] = [
 			null
 		),
 		hideCommand: false,
-	},
-	{
-		command: lazyCommand<CommonYargsOptions>(
-			"verify",
-			"verify",
-			() => import("./verify/index.js"),
-			null
-		),
-		hideCommand: true,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(

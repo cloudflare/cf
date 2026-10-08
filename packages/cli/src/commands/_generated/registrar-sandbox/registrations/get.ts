@@ -1,6 +1,6 @@
+import operation from "../../_operations/registrar-sandbox/registrations/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/registrar-sandbox.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"sandbox-registrar-domain-registration-get">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <domain-name>",
 	describe: "Get Registration",
@@ -68,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.registrarSandbox.registrations.get({
+					client.send(operation, {
 						account_id: accountId,
 						domain_name: argv["domain-name"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

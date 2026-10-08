@@ -1,6 +1,6 @@
+import operation from "../../_operations/url-scanner/scans/har.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * har command
  * @generated from apis/overlays/url-scanner.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"urlscanner-get-scan-har-v2">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "har <scan-id>",
 	describe: "Get URL scan's HAR",
@@ -68,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.urlScanner.scans.har({
+					client.send(operation, {
 						account_id: accountId,
 						scan_id: argv["scan-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

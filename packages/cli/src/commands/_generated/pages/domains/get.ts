@@ -1,6 +1,6 @@
+import operation from "../../_operations/pages/domains/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/pages.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"pages-domains-get-domain">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <domain-name>",
 	describe: "Get a Pages custom domain",
@@ -66,8 +64,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "GET",
 						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/pages/projects/${argv["project-name"] == null ? "<project-name>" : encodeURIComponent(String(argv["project-name"]))}/domains/${argv["domain-name"] == null ? "<domain-name>" : encodeURIComponent(String(argv["domain-name"]))}`,
 						pathParams: {
-							"domain-name": String(argv["domain-name"] ?? ""),
 							"project-name": String(argv["project-name"] ?? ""),
+							"domain-name": String(argv["domain-name"] ?? ""),
 						},
 						bodyKind: "none",
 					});
@@ -78,11 +76,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.pages.domains.get({
+					client.send(operation, {
 						account_id: accountId,
 						project_name: argv["project-name"],
 						domain_name: argv["domain-name"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

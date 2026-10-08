@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/realtime/kit/sessions/livestreams/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/realtime.ts
@@ -50,11 +50,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"get-v2-livestreamsession-session-meetingId-active-livestream">;
-type Query =
-	SdkQuery<"get-v2-livestreamsession-session-meetingId-active-livestream">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <session-id>",
 	describe: "Fetch livestream session details using a session ID",
@@ -69,7 +64,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					per_page: argv["per-page"],
 					page_no: argv["page-no"],
 				};
@@ -93,12 +88,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.realtime.kit.sessions.livestreams.get({
+					client.send(operation, {
 						account_id: accountId,
 						app_id: argv["app-id"],
 						session_id: argv["session-id"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

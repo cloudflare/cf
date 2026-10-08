@@ -511,7 +511,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"PUT",
 						`/accounts/${accountId}/magic/ipsec_tunnels/${encodeURIComponent(String(argv["ipsec-tunnel-id"]))}`,
 						{
-							body: Object.keys(bodyData).length > 0 ? bodyData : undefined,
+							body: bodyData,
 							headers: Object.keys(headers).length > 0 ? headers : undefined,
 						}
 					)

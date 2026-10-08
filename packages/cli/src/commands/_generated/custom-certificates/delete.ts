@@ -1,6 +1,6 @@
+import operation from "../_operations/custom-certificates/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/custom-certificates.ts
@@ -38,8 +38,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"custom-ssl-for-a-zone-delete-ssl-configuration">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <custom-certificate-id>",
 	describe: "Delete SSL Configuration",
@@ -61,10 +59,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "DELETE",
 						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/custom_certificates/${argv["custom-certificate-id"] == null ? "<custom-certificate-id>" : encodeURIComponent(String(argv["custom-certificate-id"]))}`,
 						pathParams: {
+							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
 							"custom-certificate-id": String(
 								argv["custom-certificate-id"] ?? ""
 							),
-							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
 						},
 						bodyKind: "none",
 					});
@@ -82,10 +80,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.customCertificates.delete({
+					client.send(operation, {
 						zone_id: zoneId,
 						custom_certificate_id: argv["custom-certificate-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

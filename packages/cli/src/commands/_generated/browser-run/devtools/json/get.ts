@@ -1,6 +1,6 @@
+import operation from "../../../_operations/browser-run/devtools/json/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/browser-run.ts
@@ -41,9 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"brapi-get_DevtoolsJson">;
-type Query = SdkQuery<"brapi-get_DevtoolsJson">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <session-id>",
 	describe: "List targets.",
@@ -58,7 +55,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					liveViewUrlExpiresInMs: argv["live-view-url-expires-in-ms"],
 				};
 				if (argv.dryRun) {
@@ -78,11 +75,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.browserRun.devtools.json.get({
+					client.send(operation, {
 						account_id: accountId,
 						session_id: argv["session-id"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

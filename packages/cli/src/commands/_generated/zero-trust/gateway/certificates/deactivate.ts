@@ -1,6 +1,6 @@
+import operation from "../../../_operations/zero-trust/gateway/certificates/deactivate.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * deactivate command
  * @generated from apis/overlays/zero-trust.ts
@@ -36,9 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"zero-trust-certificates-deactivate-zero-trust-certificate">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "deactivate <certificate-id>",
 	describe: "Deactivate a Zero Trust certificate",
@@ -71,10 +68,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Creating`, async () =>
-					client.zeroTrust.gateway.certificates.deactivate({
+					client.send(operation, {
 						account_id: accountId,
 						certificate_id: argv["certificate-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

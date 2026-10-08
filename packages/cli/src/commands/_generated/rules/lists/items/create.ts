@@ -1,6 +1,6 @@
+import operation from "../../../_operations/rules/lists/items/create.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * create command
  * @generated from apis/overlays/rules.ts
@@ -41,9 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"lists-create-list-items">;
-type Body = Request["body"];
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "create <list-id>",
 	describe: "Create list items",
@@ -75,13 +72,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
-						client.rules.lists.items.create({
+						client.send(operation, {
 							body: bodyData,
 							account_id: accountId,
 							list_id: argv["list-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;

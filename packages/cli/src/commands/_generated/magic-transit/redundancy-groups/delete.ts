@@ -1,6 +1,6 @@
+import operation from "../../_operations/magic-transit/redundancy-groups/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/magic-transit.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"magic-redundancy-groups-delete-redundancy-group">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <redundancy-group-id>",
 	describe: "Delete a Redundancy Group",
@@ -83,10 +81,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.magicTransit.redundancyGroups.delete({
+					client.send(operation, {
 						account_id: accountId,
 						redundancy_group_id: argv["redundancy-group-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

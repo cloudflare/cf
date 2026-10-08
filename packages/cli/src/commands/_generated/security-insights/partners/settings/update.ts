@@ -1,6 +1,6 @@
+import operation from "../../../_operations/security-insights/partners/settings/update.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * update command
  * @generated from apis/overlays/security-insights.ts
@@ -12,7 +12,6 @@ import {
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
-import { withArgTypes } from "#lib/cli-types.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
@@ -45,21 +44,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		});
 }
 
-type Request = SdkRequest<"update-security-center-partner-settings">;
-type Body = Request["body"];
+type Args = InferArgs<typeof builder>;
 
-const typedBuilder = withArgTypes<
-	{
-		partner: Request["partner"];
-	},
-	typeof builder
->(builder);
-
-type Args = InferArgs<typeof typedBuilder>;
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update <partner>",
 	describe: "Updates Partner Integration Settings",
-	builder: typedBuilder,
+	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -92,13 +82,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
-						client.securityInsights.partners.settings.update({
+						client.send(operation, {
 							body: bodyData,
 							account_id: accountId,
 							partner: argv["partner"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
@@ -110,15 +100,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					enabled: argv["enabled"],
 				});
 				const result = await withProgress(`Creating`, async () =>
-					client.securityInsights.partners.settings.update({
+					client.send(operation, {
 						body: bodyData,
 						account_id: accountId,
 						partner: argv["partner"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

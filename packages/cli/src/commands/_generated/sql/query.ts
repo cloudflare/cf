@@ -201,7 +201,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv["query"] !== undefined) bodyData["query"] = argv["query"];
 				const result = await withProgress(`Loading`, async () =>
 					requestApi<unknown>(client, "POST", `/analytics/sql`, {
-						body: Object.keys(bodyData).length > 0 ? bodyData : undefined,
+						body: bodyData,
 					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });

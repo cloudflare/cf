@@ -1,4 +1,3 @@
-import { Page } from "../sdk/sdk/core/pagination/Page.js";
 import { isNonInteractiveOrCI } from "./interactive.js";
 import { supportsColor, theme } from "./ui/theme.js";
 
@@ -12,10 +11,6 @@ export interface OutputOptions {
 }
 
 function outputPayload(data: unknown): unknown {
-	if (data instanceof Page) {
-		return data.data;
-	}
-
 	if (
 		data !== null &&
 		typeof data === "object" &&

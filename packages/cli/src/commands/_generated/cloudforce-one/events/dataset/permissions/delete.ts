@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/cloudforce-one/events/dataset/permissions/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/cloudforce-one.ts
@@ -48,8 +48,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"delete_PermissionDelete">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <grant-id>",
 	describe: "Delete a permission for dataset",
@@ -89,11 +87,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.cloudforceOne.events.dataset.permissions.delete({
+					client.send(operation, {
 						account_id: accountId,
 						dataset_id: argv["dataset-id"],
 						grant_id: argv["grant-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

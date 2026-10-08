@@ -1,0 +1,33 @@
+/** @generated from radar.dns.timeseries-groups-v2 */
+export default {
+	method: "GET",
+	path: "/radar/dns/timeseries_groups/{dimension}",
+	query: [
+		"aggInterval",
+		"name",
+		"dateRange",
+		"dateStart",
+		"dateEnd",
+		"asn",
+		"location",
+		"continent",
+		"cacheHit",
+		"nodata",
+		"protocol",
+		"queryType",
+		"responseCode",
+		"responseTtl",
+		"dnssec",
+		"dnssecAware",
+		"dnssecE2e",
+		"ipVersion",
+		"limitPerGroup",
+		"matchingAnswer",
+		"tld",
+		"normalization",
+		"format",
+	],
+	errors: {
+		400: "BadRequestError",
+	},
+} as const;

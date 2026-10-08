@@ -1,6 +1,6 @@
+import operation from "../../_operations/email-security/sending-domain-restrictions/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/email-security.ts
@@ -42,8 +42,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"email_security_delete_sending_domain_restriction">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <sending-domain-restriction-id>",
@@ -90,11 +88,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.emailSecurity.sendingDomainRestrictions.delete({
+					client.send(operation, {
 						account_id: accountId,
 						sending_domain_restriction_id:
 							argv["sending-domain-restriction-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

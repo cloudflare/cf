@@ -1,6 +1,6 @@
+import operation from "../../_operations/billing/usage/get-account-billable-metrics.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * get-account-billable-metrics command
  * @generated from apis/overlays/billing.ts
@@ -41,9 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"billable-usage-v2-get-account-billable-metrics">;
-type Query = SdkQuery<"billable-usage-v2-get-account-billable-metrics">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get-account-billable-metrics",
 	describe: "List Account Billable Metrics (Version 2, Alpha, Restricted)",
@@ -58,7 +55,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					from: argv["from"],
 					to: argv["to"],
 				};
@@ -79,10 +76,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.billing.usage.getAccountBillableMetrics({
-						account_id: accountId,
-						...queryParams,
-					} satisfies Request)
+					client.send(operation, { account_id: accountId, ...queryParams })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

@@ -1,6 +1,6 @@
+import operation from "../../_operations/images/import/start.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * start command
  * @generated from apis/overlays/images.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"cloudflare-images-sourcingkit-start-migration">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "start <migration-id>",
 	describe: "Start a migration",
@@ -68,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Updating`, async () =>
-					client.images.import.start({
+					client.send(operation, {
 						account_id: accountId,
 						migration_id: argv["migration-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

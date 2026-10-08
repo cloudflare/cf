@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/cloudforce-one/events/tags/relationships/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/cloudforce-one.ts
@@ -53,9 +53,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"delete_TagRelationshipDelete">;
-type Query = SdkQuery<"delete_TagRelationshipDelete">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <rel-uuid>",
 	describe: "Delete a tag relationship",
@@ -71,7 +68,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					datasetId: argv["dataset-id"],
 				};
 				if (argv.dryRun) {
@@ -99,12 +96,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.cloudforceOne.events.tags.relationships.delete({
+					client.send(operation, {
 						account_id: accountId,
 						tag_uuid: argv["tag-uuid"],
 						rel_uuid: argv["rel-uuid"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

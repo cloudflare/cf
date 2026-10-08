@@ -728,11 +728,9 @@ describe("cf ai run", () => {
 		expect(runBodies).toEqual([]);
 	});
 
-	it("uses the SDK's normal request policy outside help", async () => {
+	it("uses the normal request policy outside help", async () => {
 		const get = vi.fn().mockResolvedValue({ input: INPUT_SCHEMA });
-		const client = {
-			ai: { getModelSchema: get },
-		} as unknown as Cloudflare;
+		const client = { send: get } as unknown as Cloudflare;
 
 		await expect(
 			getModelInputSchema(
@@ -741,10 +739,15 @@ describe("cf ai run", () => {
 				async () => client
 			)
 		).resolves.toMatchObject({ ok: true });
-		expect(get).toHaveBeenCalledWith({
-			account_id: "normal-policy-account",
-			model: "@cf/test/normal-policy",
-		});
+		expect(get).toHaveBeenCalledWith(
+			expect.objectContaining({
+				path: "/accounts/{account_id}/ai/models/schema",
+			}),
+			{
+				account_id: "normal-policy-account",
+				model: "@cf/test/normal-policy",
+			}
+		);
 	});
 
 	it("refuses --body mixed with model input flags", async () => {
@@ -970,7 +973,7 @@ describe("cf ai run — spec drift guard", () => {
 		expect(spec).toBeDefined();
 		expect(spec?.httpMethod).toBe("POST");
 		expect(spec?.path).toBe("/accounts/{account_id}/ai/run");
-		expect(spec?.operationId).toBe("workers-ai-post-run-generic");
+		expect(spec?.operationId).toBe("ai.run");
 		expect(spec?.hasRequestBody).toBe(true);
 		expect(spec?.requestBodyFields).toContainEqual(
 			expect.objectContaining({ name: "model", required: true })

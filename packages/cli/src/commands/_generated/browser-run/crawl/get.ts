@@ -1,6 +1,6 @@
+import operation from "../../_operations/browser-run/crawl/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/browser-run.ts
@@ -11,7 +11,6 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { withArgTypes } from "#lib/cli-types.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
@@ -53,21 +52,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		});
 }
 
-type Request = SdkRequest<"brapi-get_CrawlResult">;
-type Query = SdkQuery<"brapi-get_CrawlResult">;
+type Args = InferArgs<typeof builder>;
 
-const typedBuilder = withArgTypes<
-	{
-		status: Query["status"];
-	},
-	typeof builder
->(builder);
-
-type Args = InferArgs<typeof typedBuilder>;
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <job-id>",
 	describe: "Get crawl result.",
-	builder: typedBuilder,
+	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -78,7 +68,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					cacheTTL: argv["cache-ttl"],
 					status: argv["status"],
 					cursor: argv["cursor"],
@@ -101,11 +91,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.browserRun.crawl.get({
+					client.send(operation, {
 						account_id: accountId,
 						job_id: argv["job-id"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

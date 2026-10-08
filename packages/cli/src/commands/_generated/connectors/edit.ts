@@ -1,6 +1,6 @@
+import operation from "../_operations/connectors/edit.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * edit command
  * @generated from apis/overlays/connectors.ts
@@ -71,9 +71,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"mconn-connectors-edit">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "edit <connector-id>",
 	describe: "Edit Connector",
@@ -129,20 +126,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.connectors.edit({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							account_id: accountId,
 							connector_id: argv["connector-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					activated: argv["activated"],
 					interrupt_window_days_of_week: argv["interrupt-window-days-of-week"],
 					interrupt_window_duration_hours:
@@ -163,11 +160,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					provision_license: argv["provision-license"],
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.connectors.edit({
-						...bodyData,
+					client.send(operation, {
+						body: bodyData,
 						account_id: accountId,
 						connector_id: argv["connector-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

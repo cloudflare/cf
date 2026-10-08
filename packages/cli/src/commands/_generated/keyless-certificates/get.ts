@@ -1,6 +1,6 @@
+import operation from "../_operations/keyless-certificates/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/keyless-certificates.ts
@@ -31,9 +31,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"keyless-ssl-for-a-zone-get-keyless-ssl-configuration">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <keyless-certificate-id>",
 	describe: "Get Keyless SSL Configuration",
@@ -54,10 +51,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "GET",
 						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/keyless_certificates/${argv["keyless-certificate-id"] == null ? "<keyless-certificate-id>" : encodeURIComponent(String(argv["keyless-certificate-id"]))}`,
 						pathParams: {
+							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
 							"keyless-certificate-id": String(
 								argv["keyless-certificate-id"] ?? ""
 							),
-							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
 						},
 						bodyKind: "none",
 					});
@@ -70,10 +67,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.keylessCertificates.get({
+					client.send(operation, {
 						zone_id: zoneId,
 						keyless_certificate_id: argv["keyless-certificate-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

@@ -1,0 +1,31 @@
+/** @generated from radar.http.timeseries-groups-v2 */
+export default {
+	method: "GET",
+	path: "/radar/http/timeseries_groups/{dimension}",
+	query: [
+		"aggInterval",
+		"name",
+		"dateRange",
+		"dateStart",
+		"dateEnd",
+		"asn",
+		"location",
+		"continent",
+		"geoId",
+		"apiTraffic",
+		"botClass",
+		"contentType",
+		"limitPerGroup",
+		"deviceType",
+		"httpProtocol",
+		"httpVersion",
+		"normalization",
+		"ipVersion",
+		"os",
+		"tlsVersion",
+		"format",
+	],
+	errors: {
+		400: "BadRequestError",
+	},
+} as const;

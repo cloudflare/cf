@@ -1,6 +1,6 @@
+import operation from "../_operations/pages/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/pages.ts
@@ -44,8 +44,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"pages-project-delete-project">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <project-name>",
 	describe: "Delete a Cloudflare Pages project",
@@ -82,10 +80,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.pages.delete({
+					client.send(operation, {
 						account_id: accountId,
 						project_name: argv["project-name"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

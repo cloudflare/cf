@@ -1,6 +1,6 @@
+import operation from "../../../_operations/user/firewall/access-rules/edit.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * edit command
  * @generated from apis/overlays/user.ts
@@ -42,10 +42,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"ip-access-rules-for-a-user-update-an-ip-access-rule">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "edit <rule-id>",
 	describe: "Update an IP Access rule",
@@ -83,19 +79,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const client = await createCommandClient(argv);
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.user.firewall.accessRules.edit({
-							...bodyData,
-							rule_id: argv["rule-id"],
-						} satisfies Request)
+						client.send(operation, { body: bodyData, rule_id: argv["rule-id"] })
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					notes: resolveFileToken(
 						argv["notes"] as string | undefined,
 						"notes",
@@ -103,10 +96,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					),
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.user.firewall.accessRules.edit({
-						...bodyData,
-						rule_id: argv["rule-id"],
-					} satisfies Request)
+					client.send(operation, { body: bodyData, rule_id: argv["rule-id"] })
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

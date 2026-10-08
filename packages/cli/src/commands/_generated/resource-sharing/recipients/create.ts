@@ -1,6 +1,6 @@
+import operation from "../../_operations/resource-sharing/recipients/create.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * create command
  * @generated from apis/overlays/resource-sharing.ts
@@ -56,9 +56,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"share-recipient-create">;
-type Body = Request["body"];
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "create <share-id>",
 	describe: "Trigger a recipient addition to a share",
@@ -109,20 +106,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const client = await createCommandClient(argv);
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
-						client.resourceSharing.recipients.create({
+						client.send(operation, {
 							body: bodyData,
 							account_id_path: argv["account-id-path"],
 							share_id: argv["share-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					account_id: resolveFileToken(
 						argv["account-id"] as string | undefined,
 						"account-id",
@@ -140,11 +137,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					),
 				});
 				const result = await withProgress(`Creating`, async () =>
-					client.resourceSharing.recipients.create({
+					client.send(operation, {
 						body: bodyData,
 						account_id_path: argv["account-id-path"],
 						share_id: argv["share-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

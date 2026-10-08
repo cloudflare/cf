@@ -1,6 +1,6 @@
+import operation from "../../../../../_operations/cloudforce-one/events/dataset/indicators/get/indicator.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * indicator command
  * @generated from apis/overlays/cloudforce-one.ts
@@ -41,8 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"get_IndicatorRead">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "indicator <indicator-id>",
 	describe: "Reads an indicator",
@@ -77,11 +75,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.cloudforceOne.events.dataset.indicators.get.indicator({
+					client.send(operation, {
 						account_id: accountId,
 						dataset_id: argv["dataset-id"],
 						indicator_id: argv["indicator-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

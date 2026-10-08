@@ -1,13 +1,12 @@
+import operation from "../../../../_operations/api-security/schema-validation/schemas/operations/list.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * list command
  * @generated from apis/overlays/api-security.ts
  */
 import type { Argv, CommandModule } from "yargs";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { withArgTypes } from "#lib/cli-types.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
@@ -62,22 +61,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		});
 }
 
-type Request = SdkRequest<"schema-validation-extract-operations-from-schema">;
-type Query = SdkQuery<"schema-validation-extract-operations-from-schema">;
+type Args = InferArgs<typeof builder>;
 
-const typedBuilder = withArgTypes<
-	{
-		feature: Query["feature"];
-		"operation-status": Query["operation_status"];
-	},
-	typeof builder
->(builder);
-
-type Args = InferArgs<typeof typedBuilder>;
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "list",
 	describe: "Retrieve all operations from the schema",
-	builder: typedBuilder,
+	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -88,7 +77,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					feature: argv["feature"],
 					host: argv["host"],
 					method: argv["method"],
@@ -119,11 +108,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.apiSecurity.schemaValidation.schemas.operations.list({
+					client.send(operation, {
 						zone_id: zoneId,
 						schema_id: argv["schema-id"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

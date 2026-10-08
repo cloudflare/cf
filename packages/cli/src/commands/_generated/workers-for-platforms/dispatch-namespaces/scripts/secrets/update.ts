@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/workers-for-platforms/dispatch-namespaces/scripts/secrets/update.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * update command
  * @generated from apis/overlays/workers-for-platforms.ts
@@ -86,9 +86,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"namespace-worker-put-script-secrets">;
-type Body = Request["body"];
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update <script-name>",
 	describe: "Add a secret to a Workers for Platforms script",
@@ -148,16 +145,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.workersForPlatforms.dispatchNamespaces.scripts.secrets.update(
-							{
-								body: bodyData,
-								account_id: accountId,
-								dispatch_namespace: argv["dispatch-namespace"],
-								script_name: argv["script-name"],
-							} satisfies Request
-						)
+						client.send(operation, {
+							body: bodyData,
+							account_id: accountId,
+							dispatch_namespace: argv["dispatch-namespace"],
+							script_name: argv["script-name"],
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
@@ -190,7 +185,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					name: resolveFileToken(
 						argv["name"] as string | undefined,
 						"name",
@@ -211,12 +206,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					usages: argv["usages"],
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.workersForPlatforms.dispatchNamespaces.scripts.secrets.update({
+					client.send(operation, {
 						body: bodyData,
 						account_id: accountId,
 						dispatch_namespace: argv["dispatch-namespace"],
 						script_name: argv["script-name"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

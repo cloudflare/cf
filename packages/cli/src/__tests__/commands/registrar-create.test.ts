@@ -578,13 +578,11 @@ describe("cf registrar registrations create", () => {
 		expect(registrations[0]).toMatchObject({ domain_name: DOMAIN });
 	});
 
-	it("uses the SDK's normal request policy outside help", async () => {
+	it("uses the normal request policy outside help", async () => {
 		const get = vi.fn().mockResolvedValue({
 			registration_schema: REGISTRATION_SCHEMA,
 		});
-		const client = {
-			registrar: { extensions: { get } },
-		} as unknown as Cloudflare;
+		const client = { send: get } as unknown as Cloudflare;
 
 		await expect(
 			resolveRegistrationSchema(
@@ -594,10 +592,15 @@ describe("cf registrar registrations create", () => {
 				async () => client
 			)
 		).resolves.toMatchObject({ ok: true, extension: "normal-policy" });
-		expect(get).toHaveBeenCalledWith({
-			account_id: "normal-policy-account",
-			extension: "normal-policy",
-		});
+		expect(get).toHaveBeenCalledWith(
+			expect.objectContaining({
+				path: "/accounts/{account_id}/registrar/extensions/{extension}",
+			}),
+			{
+				account_id: "normal-policy-account",
+				extension: "normal-policy",
+			}
+		);
 	});
 
 	it("checks a longer uncached suffix before a shorter cached suffix", async () => {
@@ -3186,7 +3189,7 @@ describe("cf registrar registrations create — spec drift guard", () => {
 		expect(spec).toBeDefined();
 		expect(spec?.httpMethod).toBe("POST");
 		expect(spec?.path).toBe("/accounts/{account_id}/registrar/registrations");
-		expect(spec?.operationId).toBe("registrar-domain-registration-create");
+		expect(spec?.operationId).toBe("registrar.registrations.create");
 		expect(spec?.hasRequestBody).toBe(true);
 		// The command promotes the domain to a positional and seeds it back
 		// into the body, so a rename here would send the wrong shape.

@@ -1,6 +1,6 @@
+import operation from "../_operations/smart-shield/update.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * update command
  * @generated from apis/overlays/smart-shield.ts
@@ -62,9 +62,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"smart-shield-patch-settings">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update",
 	describe: "Patch Smart Shield Settings",
@@ -121,19 +118,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.smartShield.update({
-							...bodyData,
-							zone_id: zoneId,
-						} satisfies Request)
+						client.send(operation, { body: bodyData, zone_id: zoneId })
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					cache_reserve: {
 						value: argv["cache-reserve-value"],
 					},
@@ -148,10 +142,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					},
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.smartShield.update({
-						...bodyData,
-						zone_id: zoneId,
-					} satisfies Request)
+					client.send(operation, { body: bodyData, zone_id: zoneId })
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

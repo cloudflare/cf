@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/zero-trust/access/users/active-sessions/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/zero-trust.ts
@@ -41,8 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"zero-trust-users-get-active-session">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <nonce>",
 	describe: "Get single active session",
@@ -76,11 +74,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.zeroTrust.access.users.activeSessions.get({
+					client.send(operation, {
 						account_id: accountId,
 						user_id: argv["user-id"],
 						nonce: argv["nonce"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

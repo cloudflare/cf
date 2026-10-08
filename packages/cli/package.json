@@ -47,10 +47,8 @@
 	"imports": {
 		"#commands/*": "./src/commands/*",
 		"#lib/*": "./src/lib/*",
-		"#sdk": "./src/sdk/sdk/index.ts",
-		"#sdk/errors": "./src/sdk/sdk/errors/index.ts",
-		"#sdk/client": "./src/sdk/sdk/Client.ts",
-		"#sdk/environments": "./src/sdk/sdk/environments.ts"
+		"#api": "./src/api/index.ts",
+		"#operations/*": "./src/commands/_generated/_operations/*"
 	},
 	"exports": {
 		".": "./dist/index.mjs",
@@ -81,6 +79,7 @@
 	},
 	"devDependencies": {
 		"@bomb.sh/tab": "0.0.22",
+		"@bytecodealliance/jco": "1.37.0",
 		"@clack/core": "1.5.1",
 		"@clack/prompts": "^1.8.1",
 		"@cloudflare/autoconfig": "0.7.7",
@@ -88,7 +87,6 @@
 		"@cloudflare/containers-shared": "0.21.5",
 		"@cloudflare/deploy-helpers": "0.20.1",
 		"@cloudflare/forge": "file:../../vendor/cloudflare-forge-0.1.0.tgz",
-		"@cloudflare/forge-transformer-sdk-ts": "file:../../vendor/cloudflare-forge-transformer-sdk-ts-0.1.0.tgz",
 		"@cloudflare/workers-auth": "0.13.1",
 		"@cloudflare/workers-utils": "0.47.1",
 		"@types/node": "25.9.9",

@@ -1,6 +1,6 @@
+import operation from "../../_operations/firewall/access-rules/list.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * list command
  * @generated from apis/overlays/firewall.ts
@@ -12,7 +12,6 @@ import {
 	getZoneId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { withArgTypes } from "#lib/cli-types.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
@@ -82,27 +81,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		});
 }
 
-type Request =
-	SdkRequest<"generated:get:/{account_or_zone}/{account_or_zone_id}/firewall/access_rules/rules">;
-type Query =
-	SdkQuery<"generated:get:/{account_or_zone}/{account_or_zone_id}/firewall/access_rules/rules">;
+type Args = InferArgs<typeof builder>;
 
-const typedBuilder = withArgTypes<
-	{
-		action: Query["mode"];
-		"configuration-target": Query["configuration.target"];
-		match: Query["match"];
-		order: Query["order"];
-		direction: Query["direction"];
-	},
-	typeof builder
->(builder);
-
-type Args = InferArgs<typeof typedBuilder>;
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "list",
 	describe: "List IP Access rules",
-	builder: typedBuilder,
+	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -120,7 +104,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					mode: argv["action"],
 					"configuration.target": argv["configuration-target"],
 					"configuration.value": argv["configuration-value"],
@@ -169,11 +153,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Loading`, async () =>
-					client.firewall.accessRules.list({
+					client.send(operation, {
 						account_or_zone: accountOrZone,
 						account_or_zone_id: accountOrZoneId,
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

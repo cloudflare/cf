@@ -1,6 +1,6 @@
+import operation from "../../_operations/o11y/telemetry/query.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * query command
  * @generated from apis/overlays/o11y.ts
@@ -197,9 +197,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"telemetry.query">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "query",
 	describe: "Run a query",
@@ -294,12 +291,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Loading`, async () =>
-						client.observability.telemetry.query({
-							...bodyData,
-							account_id: accountId,
-						} satisfies Request)
+						client.send(operation, { body: bodyData, account_id: accountId })
 					);
 					formatOutput(result, { successLabel: `Loaded` });
 					return;
@@ -322,7 +316,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					chart: argv["chart"],
 					chartType: argv["chart-type"],
 					compare: argv["compare"],
@@ -370,10 +364,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					view: argv["view"],
 				});
 				const result = await withProgress(`Loading`, async () =>
-					client.observability.telemetry.query({
-						...bodyData,
-						account_id: accountId,
-					} satisfies Request)
+					client.send(operation, { body: bodyData, account_id: accountId })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

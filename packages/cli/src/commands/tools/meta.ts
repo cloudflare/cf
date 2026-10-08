@@ -1,0 +1,24 @@
+import type { CommandMeta } from "../../lib/command-meta.js";
+
+export default [
+	{
+		command: "cf tools",
+		name: "tools",
+		fullPath: ["tools"],
+		category: "read",
+		description: "Output MCP tool definitions",
+		usage: "cf tools",
+		arguments: [],
+		options: [
+			{
+				name: "dry-run",
+				type: "boolean",
+				required: false,
+				description:
+					"Parse arguments and show the command without executing it",
+				default: false,
+			},
+		],
+		hideCommand: true,
+	},
+] satisfies CommandMeta[];

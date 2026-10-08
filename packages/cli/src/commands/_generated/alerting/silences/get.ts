@@ -1,6 +1,6 @@
+import operation from "../../_operations/alerting/silences/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/alerting.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"notification-silences-get-silence">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <silence-id>",
 	describe: "Get Silence",
@@ -68,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.alerting.silences.get({
+					client.send(operation, {
 						account_id: accountId,
 						silence_id: argv["silence-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

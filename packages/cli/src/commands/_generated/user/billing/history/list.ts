@@ -1,13 +1,12 @@
+import operation from "../../../_operations/user/billing/history/list.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery } from "#sdk";
 /**
  * list command
  * @generated from apis/overlays/user.ts
  */
 import type { Argv, CommandModule } from "yargs";
 import { createCommandClient } from "#lib/auth.js";
-import { withArgTypes } from "#lib/cli-types.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
@@ -47,21 +46,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		});
 }
 
-type Query =
-	SdkQuery<"user-billing-history-(-deprecated)-billing-history-details">;
+type Args = InferArgs<typeof builder>;
 
-const typedBuilder = withArgTypes<
-	{
-		order: Query["order"];
-	},
-	typeof builder
->(builder);
-
-type Args = InferArgs<typeof typedBuilder>;
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "list",
 	describe: "Billing History Details",
-	builder: typedBuilder,
+	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -72,7 +62,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					page: argv["page"],
 					per_page: argv["per-page"],
 					order: argv["order"],
@@ -94,7 +84,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const client = await createCommandClient(argv);
 
 				const result = await withProgress(`Loading`, async () =>
-					client.user.billing.history.list(queryParams)
+					client.send(operation, queryParams)
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

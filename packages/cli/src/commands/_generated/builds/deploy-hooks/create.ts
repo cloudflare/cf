@@ -1,6 +1,6 @@
+import operation from "../../_operations/builds/deploy-hooks/create.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * create command
  * @generated from apis/overlays/builds.ts
@@ -48,9 +48,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"createDeployHook">;
-type Body = Request["body"];
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "create <script-name>",
 	describe: "Create a deploy hook",
@@ -96,13 +93,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
-						client.builds.deployHooks.create({
+						client.send(operation, {
 							body: bodyData,
 							account_id: accountId,
 							script_name: argv["script-name"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
@@ -121,7 +118,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					branch: resolveFileToken(
 						argv["branch"] as string | undefined,
 						"branch",
@@ -134,11 +131,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					),
 				});
 				const result = await withProgress(`Creating`, async () =>
-					client.builds.deployHooks.create({
+					client.send(operation, {
 						body: bodyData,
 						account_id: accountId,
 						script_name: argv["script-name"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

@@ -1,6 +1,6 @@
+import operation from "../../_operations/containers/applications/create.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * create command
  * @generated from apis/overlays/containers.ts
@@ -48,7 +48,18 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description:
 				'The instance type configures vCPU, memory, and disk.\n\n- "lite": 1/16 vCPU, 256 MiB memory, 2 GB disk\n- "basic": 1/4 vCPU, 1 GiB memory, 4 GB disk\n- "standard-1": 1/2 vCPU, 4 GiB memory, 8 GB disk\n- "standard-2": 1 vCPU, 6 GiB memory, 12 GB disk\n- "standard-3": 2 vCPU, 8 GiB memory, 16 GB disk\n- "standard-4": 4 vCPU, 12 GiB memory, 20 GB disk\n',
+			choices: [
+				"lite",
+				"basic",
+				"standard-1",
+				"standard-2",
+				"standard-3",
+				"standard-4",
+			],
 		})
+		.coerce("configuration-instance-type", (value) =>
+			resolveFileToken(value, "configuration-instance-type", "text")
+		)
 		.option("configuration-observability-logs-enabled", {
 			type: "boolean",
 			description: "The configuration.observability.logs.enabled field",
@@ -70,6 +81,19 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			array: true,
 			description: "The constraints.regions field",
+		})
+		.option("durable-objects-namespace-id", {
+			type: "string",
+			description:
+				"The namespace ID of the durable object namespace to use for this application.",
+		})
+		.option("durable-objects-class-name", {
+			type: "string",
+			description: "The class name of the durable object.",
+		})
+		.option("durable-objects-script-name", {
+			type: "string",
+			description: "The script name where the durable object class is defined.",
 		})
 		.option("instances", {
 			type: "number",
@@ -131,6 +155,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		])
 		.conflicts("constraints-jurisdiction", ["configuration-wrangler-ssh-port"])
 		.conflicts("constraints-regions", ["configuration-wrangler-ssh-port"])
+		.conflicts("durable-objects-namespace-id", [
+			"durable-objects-class-name",
+			"durable-objects-script-name",
+		])
+		.conflicts("durable-objects-class-name", ["durable-objects-namespace-id"])
+		.implies("durable-objects-class-name", ["durable-objects-script-name"])
+		.conflicts("durable-objects-script-name", ["durable-objects-namespace-id"])
+		.implies("durable-objects-script-name", ["durable-objects-class-name"])
 		.conflicts("instances", ["configuration-wrangler-ssh-port"])
 		.implies("instances", ["max-instances"])
 		.conflicts("max-instances", ["configuration-wrangler-ssh-port"])
@@ -142,9 +174,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"createApplication">;
-type Body = Request["body"];
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "create",
 	describe: "Create a new application",
@@ -155,6 +184,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				command: "containers applications create",
 				classification: {
 					safeFlags: [
+						"configuration-instance-type",
 						"configuration-observability-logs-enabled",
 						"configuration-wrangler-ssh-enabled",
 						"observability-logs-enabled",
@@ -185,13 +215,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"configuration-image",
 												"text"
 											),
-											instance_type: resolveFileToken(
-												argv["configuration-instance-type"] as
-													| string
-													| undefined,
-												"configuration-instance-type",
-												"text"
-											),
+											instance_type: argv["configuration-instance-type"],
 											observability: {
 												logs: {
 													enabled:
@@ -210,6 +234,29 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"text"
 											),
 											regions: argv["constraints-regions"],
+										},
+										durable_objects: {
+											namespace_id: resolveFileToken(
+												argv["durable-objects-namespace-id"] as
+													| string
+													| undefined,
+												"durable-objects-namespace-id",
+												"text"
+											),
+											class_name: resolveFileToken(
+												argv["durable-objects-class-name"] as
+													| string
+													| undefined,
+												"durable-objects-class-name",
+												"text"
+											),
+											script_name: resolveFileToken(
+												argv["durable-objects-script-name"] as
+													| string
+													| undefined,
+												"durable-objects-script-name",
+												"text"
+											),
 										},
 										instances: argv["instances"],
 										max_instances: argv["max-instances"],
@@ -235,12 +282,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
-						client.containers.applications.create({
-							body: bodyData,
-							account_id: accountId,
-						} satisfies Request)
+						client.send(operation, { body: bodyData, account_id: accountId })
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
@@ -260,7 +304,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					configuration: {
 						command: argv["configuration-command"],
 						entrypoint: argv["configuration-entrypoint"],
@@ -269,11 +313,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"configuration-image",
 							"text"
 						),
-						instance_type: resolveFileToken(
-							argv["configuration-instance-type"] as string | undefined,
-							"configuration-instance-type",
-							"text"
-						),
+						instance_type: argv["configuration-instance-type"],
 						observability: {
 							logs: {
 								enabled: argv["configuration-observability-logs-enabled"],
@@ -292,6 +332,23 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						),
 						regions: argv["constraints-regions"],
 					},
+					durable_objects: {
+						namespace_id: resolveFileToken(
+							argv["durable-objects-namespace-id"] as string | undefined,
+							"durable-objects-namespace-id",
+							"text"
+						),
+						class_name: resolveFileToken(
+							argv["durable-objects-class-name"] as string | undefined,
+							"durable-objects-class-name",
+							"text"
+						),
+						script_name: resolveFileToken(
+							argv["durable-objects-script-name"] as string | undefined,
+							"durable-objects-script-name",
+							"text"
+						),
+					},
 					instances: argv["instances"],
 					max_instances: argv["max-instances"],
 					name: resolveFileToken(
@@ -308,10 +365,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					scheduling_policy: argv["scheduling-policy"],
 				});
 				const result = await withProgress(`Creating`, async () =>
-					client.containers.applications.create({
-						body: bodyData,
-						account_id: accountId,
-					} satisfies Request)
+					client.send(operation, { body: bodyData, account_id: accountId })
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

@@ -1,6 +1,6 @@
+import operation from "../../_operations/monetization/rules/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/monetization.ts
@@ -30,8 +30,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"monetization-get-rule">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <rule-id>",
@@ -67,10 +65,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.monetization.rules.get({
-						zone_id: zoneId,
-						rule_id: argv["rule-id"],
-					} satisfies Request)
+					client.send(operation, { zone_id: zoneId, rule_id: argv["rule-id"] })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

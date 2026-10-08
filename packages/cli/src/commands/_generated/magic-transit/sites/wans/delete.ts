@@ -1,6 +1,6 @@
+import operation from "../../../_operations/magic-transit/sites/wans/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/magic-transit.ts
@@ -48,8 +48,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"magic-site-wans-delete-wan">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <wan-id>",
 	describe: "Delete Site WAN",
@@ -89,11 +87,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.magicTransit.sites.wans.delete({
+					client.send(operation, {
 						account_id: accountId,
 						site_id: argv["site-id"],
 						wan_id: argv["wan-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

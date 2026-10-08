@@ -1,6 +1,6 @@
+import operation from "../../../_operations/containers/applications/versions/list.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * list command
  * @generated from apis/overlays/containers.ts
@@ -37,8 +37,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"listApplicationVersions">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "list",
 	describe: "List all application versions",
@@ -71,10 +69,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.containers.applications.versions.list({
+					client.send(operation, {
 						account_id: accountId,
 						application_id: argv["application-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

@@ -11,13 +11,11 @@ function makeClient(overrides: {
 	list?: (request: unknown) => Promise<unknown>;
 	token?: (request: unknown) => Promise<unknown>;
 }): Cloudflare {
+	const list = overrides.list ?? vi.fn();
+	const token = overrides.token ?? vi.fn();
 	return {
-		tunnel: {
-			list: overrides.list ?? vi.fn(),
-		},
-		tunnels: {
-			token: { get: overrides.token ?? vi.fn() },
-		},
+		send: (operation: { path: string }, request: unknown) =>
+			operation.path.endsWith("/token") ? token(request) : list(request),
 	} as unknown as Cloudflare;
 }
 

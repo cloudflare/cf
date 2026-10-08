@@ -1,6 +1,6 @@
+import operation from "../../_operations/logpush/transformers/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/logpush.ts
@@ -36,9 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"get-accounts-account_id-logpush-transformers-transformer_id">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <transformer-id>",
 	describe: "Get transformer",
@@ -71,10 +68,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.logpush.transformers.get({
+					client.send(operation, {
 						account_id: accountId,
 						transformer_id: argv["transformer-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

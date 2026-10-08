@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/zero-trust/access/infrastructure/ssh-ca/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/zero-trust.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"access-gateway-ca-delete-an-SSH-ca">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <certificate-id>",
 	describe: "Delete an SSH Certificate Authority (CA)",
@@ -83,10 +81,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.zeroTrust.access.infrastructure.sshCa.delete({
+					client.send(operation, {
 						account_id: accountId,
 						certificate_id: argv["certificate-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

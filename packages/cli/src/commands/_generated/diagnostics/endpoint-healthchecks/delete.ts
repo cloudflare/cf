@@ -1,6 +1,6 @@
+import operation from "../../_operations/diagnostics/endpoint-healthchecks/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/diagnostics.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"diagnostics-endpoint-healthcheck-delete">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <id>",
 	describe: "Delete Endpoint Health Check",
@@ -81,10 +79,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.diagnostics.endpointHealthchecks.delete({
-						account_id: accountId,
-						id: argv["id"],
-					} satisfies Request)
+					client.send(operation, { account_id: accountId, id: argv["id"] })
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

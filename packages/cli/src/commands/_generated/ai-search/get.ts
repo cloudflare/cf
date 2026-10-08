@@ -1,6 +1,5 @@
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/ai-search.ts
@@ -9,6 +8,7 @@ import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
+	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -41,8 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"ai-search-namespace-fetch-instance">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <instance-id>",
 	describe: "Get an AI Search instance.",
@@ -64,8 +62,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "GET",
 						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/namespaces/${argv["namespace"] == null ? "<namespace>" : encodeURIComponent(String(argv["namespace"]))}/instances/${argv["instance-id"] == null ? "<instance-id>" : encodeURIComponent(String(argv["instance-id"]))}`,
 						pathParams: {
-							"instance-id": String(argv["instance-id"] ?? ""),
 							namespace: String(argv["namespace"] ?? ""),
+							"instance-id": String(argv["instance-id"] ?? ""),
 						},
 						bodyKind: "none",
 					});
@@ -76,11 +74,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.aiSearch.get({
-						account_id: accountId,
-						namespace: argv["namespace"],
-						"instance-id": argv["instance-id"],
-					} satisfies Request)
+					requestApi<unknown>(
+						client,
+						"GET",
+						`/accounts/${accountId}/ai-search/namespaces/${encodeURIComponent(String(argv["namespace"]))}/instances/${encodeURIComponent(String(argv["instance-id"]))}`
+					)
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

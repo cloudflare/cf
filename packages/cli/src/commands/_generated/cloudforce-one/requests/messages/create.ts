@@ -205,7 +205,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"POST",
 						`/accounts/${accountId}/cloudforce-one/v2/requests/${encodeURIComponent(String(argv["project-type"]))}/${encodeURIComponent(String(argv["request-id"]))}/messages/new`,
 						{
-							body: Object.keys(bodyData).length > 0 ? bodyData : undefined,
+							body: bodyData,
 							headers: Object.keys(headers).length > 0 ? headers : undefined,
 						}
 					)

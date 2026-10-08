@@ -1,13 +1,12 @@
+import operation from "../../_operations/user/audit-logs/list.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery } from "#sdk";
 /**
  * list command
  * @generated from apis/overlays/user.ts
  */
 import type { Argv, CommandModule } from "yargs";
 import { createCommandClient } from "#lib/auth.js";
-import { withArgTypes } from "#lib/cli-types.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
@@ -41,16 +40,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Filters by the email address of the actor that made the change.",
 		})
-		.option("since", {
-			type: "string",
-			description:
-				"Limits the returned results to logs newer than the specified date. A `full-date` that conforms to RFC3339.",
-		})
-		.option("before", {
-			type: "string",
-			description:
-				"Limits the returned results to logs older than the specified date. A `full-date` that conforms to RFC3339.",
-		})
+		.option("since", { type: "string", description: "Since" })
+		.option("before", { type: "string", description: "Before" })
 		.option("zone-name", {
 			type: "string",
 			description: "Filters by the name of the zone associated to the change.",
@@ -79,22 +70,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		});
 }
 
-type Query = SdkQuery<"audit-logs-get-user-audit-logs">;
+type Args = InferArgs<typeof builder>;
 
-const typedBuilder = withArgTypes<
-	{
-		since: Query["since"];
-		before: Query["before"];
-		direction: Query["direction"];
-	},
-	typeof builder
->(builder);
-
-type Args = InferArgs<typeof typedBuilder>;
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "list",
 	describe: "Get user audit logs",
-	builder: typedBuilder,
+	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -105,7 +86,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					id: argv["id"],
 					export: argv["export"],
 					"action.type": argv["action-type"],
@@ -133,7 +114,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const client = await createCommandClient(argv);
 
 				const result = await withProgress(`Loading`, async () =>
-					client.user.auditLogs.list(queryParams)
+					client.send(operation, queryParams)
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

@@ -1,6 +1,6 @@
+import operation from "../../_operations/resource-sharing/resources/update.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * update command
  * @generated from apis/overlays/resource-sharing.ts
@@ -46,9 +46,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"share-resource-update">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update <share-resource-id>",
 	describe: "Trigger a resource metadata update in a share",
@@ -83,14 +80,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.resourceSharing.resources.update({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							account_id: accountId,
 							share_id: argv["share-id"],
 							share_resource_id: argv["share-resource-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;

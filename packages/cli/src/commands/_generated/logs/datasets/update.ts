@@ -1,6 +1,6 @@
+import operation from "../../_operations/logs/datasets/update.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * update command
  * @generated from apis/overlays/logs.ts
@@ -65,10 +65,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request =
-	SdkRequest<"generated:put:/{account_or_zone}/{account_or_zone_id}/logs/explorer/datasets/{dataset_id}">;
-type Body = Request;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update <dataset-id>",
@@ -141,14 +137,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.logs.datasets.update({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							account_or_zone: accountOrZone,
 							account_or_zone_id: accountOrZoneId,
 							dataset_id: argv["dataset-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
@@ -160,7 +156,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					deletion_protection: argv["deletion-protection"],
 					enabled: argv["enabled"],
 					fields: parseObjectArray(argv["fields"], "fields"),
@@ -172,12 +168,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					filter_attack_traffic: argv["filter-attack-traffic"],
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.logs.datasets.update({
-						...bodyData,
+					client.send(operation, {
+						body: bodyData,
 						account_or_zone: accountOrZone,
 						account_or_zone_id: accountOrZoneId,
 						dataset_id: argv["dataset-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

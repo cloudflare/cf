@@ -1,6 +1,6 @@
+import operation from "../../_operations/magic-cloud-networking/cloud-integrations/discover.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * discover command
  * @generated from apis/overlays/magic-cloud-networking.ts
@@ -37,9 +37,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"providers-discover">;
-type Query = SdkQuery<"providers-discover">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "discover <provider-id>",
 	describe: "Run Discovery",
@@ -54,7 +51,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					v2: argv["v2"],
 				};
 				if (argv.dryRun) {
@@ -74,11 +71,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Creating`, async () =>
-					client.magicCloudNetworking.cloudIntegrations.discover({
+					client.send(operation, {
 						account_id: accountId,
 						provider_id: argv["provider-id"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

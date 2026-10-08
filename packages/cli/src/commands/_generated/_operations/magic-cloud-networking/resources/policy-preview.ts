@@ -1,0 +1,13 @@
+/** @generated from magic-cloud-networking.resources.policy-preview */
+export default {
+	method: "POST",
+	path: "/accounts/{account_id}/magic/cloud/resources/policy-preview",
+	body: "json",
+	errors: {
+		400: "BadRequestError",
+		401: "UnauthorizedError",
+		403: "ForbiddenError",
+		422: "UnprocessableEntityError",
+		500: "InternalServerError",
+	},
+} as const;

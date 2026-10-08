@@ -1,6 +1,6 @@
+import operation from "../../_operations/user/subscriptions/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/user.ts
@@ -38,8 +38,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"user-subscription-delete-user-subscription">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <identifier>",
 	describe: "Delete User Subscription",
@@ -73,9 +71,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.user.subscriptions.delete({
-						identifier: argv["identifier"],
-					} satisfies Request)
+					client.send(operation, { identifier: argv["identifier"] })
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

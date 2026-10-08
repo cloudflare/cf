@@ -1,6 +1,6 @@
+import operation from "../../_operations/ai-gateway/custom-providers/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/ai-gateway.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"aig-config-fetch-account-provider">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <id>",
 	describe: "Get a custom provider",
@@ -68,10 +66,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.aiGateway.customProviders.get({
-						account_id: accountId,
-						id: argv["id"],
-					} satisfies Request)
+					client.send(operation, { account_id: accountId, id: argv["id"] })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

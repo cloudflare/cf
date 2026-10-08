@@ -1,6 +1,6 @@
+import operation from "../_operations/images/create.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * create command
  * @generated from apis/overlays/images.ts
@@ -64,8 +64,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"cloudflare-images-upload-an-image-via-url">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "create",
@@ -205,7 +203,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Creating`, async () =>
-					client.images.create({ account_id: accountId } satisfies Request)
+					client.send(operation, { account_id: accountId })
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

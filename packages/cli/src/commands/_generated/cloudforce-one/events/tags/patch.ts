@@ -1,6 +1,6 @@
+import operation from "../../../_operations/cloudforce-one/events/tags/patch.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * patch command
  * @generated from apis/overlays/cloudforce-one.ts
@@ -111,9 +111,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"patch_TagUpdate">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "patch <tag-uuid>",
 	describe: "Updates a tag (SoT)",
@@ -193,20 +190,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.cloudforceOne.events.tags.patch({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							account_id: accountId,
 							tag_uuid: argv["tag-uuid"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					aliasGroupNames: argv["alias-group-names"],
 					aliasGroupNamesInternal: argv["alias-group-names-internal"],
 					aliases: parseObjectArray(argv["aliases"], "aliases"),
@@ -253,11 +250,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					),
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.cloudforceOne.events.tags.patch({
-						...bodyData,
+					client.send(operation, {
+						body: bodyData,
 						account_id: accountId,
 						tag_uuid: argv["tag-uuid"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

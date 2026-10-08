@@ -1,6 +1,6 @@
+import operation from "../../../_operations/magic-transit/sites/netflow-config/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/magic-transit.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"magic-site-netflow-config-details">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <site-id>",
 	describe: "NetFlow Configuration Details",
@@ -68,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.magicTransit.sites.netflowConfig.get({
+					client.send(operation, {
 						account_id: accountId,
 						site_id: argv["site-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

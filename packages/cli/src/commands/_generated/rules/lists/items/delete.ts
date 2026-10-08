@@ -1,6 +1,6 @@
+import operation from "../../../_operations/rules/lists/items/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/rules.ts
@@ -53,9 +53,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"lists-delete-list-items">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <list-id>",
 	describe: "Delete list items",
@@ -103,28 +100,28 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Deleting`, async () =>
-						client.rules.lists.items.delete({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							account_id: accountId,
 							list_id: argv["list-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Deleted` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					items: parseObjectArray(argv["items"], "items"),
 				});
 				const result = await withProgress(`Deleting`, async () =>
-					client.rules.lists.items.delete({
-						...bodyData,
+					client.send(operation, {
+						body: bodyData,
 						account_id: accountId,
 						list_id: argv["list-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

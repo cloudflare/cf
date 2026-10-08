@@ -10,6 +10,7 @@ import {
 	rootCommandName,
 	rootHandWrittenCommands,
 } from "./commands/hand-written.js";
+import { loadableRootCommands } from "./commands/root-commands.js";
 import { detectAgentContext } from "./lib/agent-context.js";
 import { hasQuietFlag } from "./lib/args.js";
 import { CliExit } from "./lib/cli-exit.js";
@@ -122,7 +123,7 @@ function globalFlagTakesValue(arg: string, nextArg?: string): boolean {
  * metadata, etc. The `describe` string is supplied eagerly so help
  * output works without dynamically importing the underlying module.
  */
-const handWrittenRoots = rootHandWrittenCommands().map((command) =>
+const handWrittenRoots = loadableRootCommands().map((command) =>
 	withHandWrittenDryRun(
 		lazyCommand(
 			command.command,

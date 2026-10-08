@@ -1,6 +1,6 @@
+import operation from "../../../../../_operations/realtime/kit/meetings/participants/tokens/refresh.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * refresh command
  * @generated from apis/overlays/realtime.ts
@@ -48,8 +48,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"regenerate_token">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "refresh <participant-id>",
 	describe: "Refresh participant's authentication token",
@@ -84,12 +82,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Creating`, async () =>
-					client.realtime.kit.meetings.participants.tokens.refresh({
+					client.send(operation, {
 						account_id: accountId,
 						app_id: argv["app-id"],
 						meeting_id: argv["meeting-id"],
 						participant_id: argv["participant-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

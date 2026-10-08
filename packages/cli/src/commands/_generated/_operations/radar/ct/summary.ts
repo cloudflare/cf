@@ -1,0 +1,32 @@
+/** @generated from radar.ct.summary */
+export default {
+	method: "GET",
+	path: "/radar/ct/summary/{dimension}",
+	query: [
+		"name",
+		"dateRange",
+		"dateStart",
+		"dateEnd",
+		"limitPerGroup",
+		"ca",
+		"caOwner",
+		"duration",
+		"entryType",
+		"expirationStatus",
+		"hasIps",
+		"hasWildcards",
+		"log",
+		"logApi",
+		"logOperator",
+		"publicKeyAlgorithm",
+		"signatureAlgorithm",
+		"tld",
+		"validationLevel",
+		"uniqueEntries",
+		"normalization",
+		"format",
+	],
+	errors: {
+		400: "BadRequestError",
+	},
+} as const;

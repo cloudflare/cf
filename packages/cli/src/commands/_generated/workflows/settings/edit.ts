@@ -1,6 +1,6 @@
+import operation from "../../_operations/workflows/settings/edit.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * edit command
  * @generated from apis/overlays/workflows.ts
@@ -36,9 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"wor-update-workflow-settings">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "edit",
 	describe: "Update account settings",
@@ -70,23 +67,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.workflows.settings.edit({
-							...bodyData,
-							account_id: accountId,
-						} satisfies Request)
+						client.send(operation, { body: bodyData, account_id: accountId })
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
 
-				const result = await withProgress(`Updating`, async () =>
-					client.workflows.settings.edit({
-						account_id: accountId,
-					} satisfies Request)
-				);
-				formatOutput(result, { successLabel: `Updated` });
+				if (argv.body === undefined) {
+					throw new Error(
+						"--body is required for this command. Pass --body '<json>' or --body @path/to/file.json."
+					);
+				}
 			}
 		),
 };

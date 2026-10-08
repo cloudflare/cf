@@ -89,8 +89,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "DELETE",
 						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/event_notifications/r2/${argv["bucket-name"] == null ? "<bucket-name>" : encodeURIComponent(String(argv["bucket-name"]))}/configuration/queues/${argv["queue-id"] == null ? "<queue-id>" : encodeURIComponent(String(argv["queue-id"]))}`,
 						pathParams: {
-							"queue-id": String(argv["queue-id"] ?? ""),
 							"bucket-name": String(argv["bucket-name"] ?? ""),
+							"queue-id": String(argv["queue-id"] ?? ""),
 						},
 						bodyKind: "json",
 						body:
@@ -143,7 +143,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"DELETE",
 						`/accounts/${accountId}/event_notifications/r2/${encodeURIComponent(String(argv["bucket-name"]))}/configuration/queues/${encodeURIComponent(String(argv["queue-id"]))}`,
 						{
-							body: Object.keys(bodyData).length > 0 ? bodyData : undefined,
+							body: bodyData,
 							headers: Object.keys(headers).length > 0 ? headers : undefined,
 						}
 					)

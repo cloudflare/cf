@@ -1,6 +1,6 @@
+import operation from "../../../../../../_operations/magic-transit/advanced-tcp-protection/configs/syn/protection/filters/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/magic-transit.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"getSynProtectionFilter">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <filter-id>",
 	describe: "Get SYN Protection filter.",
@@ -70,12 +68,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.magicTransit.advancedTcpProtection.configs.syn.protection.filters.get(
-						{
-							account_id: accountId,
-							filter_id: argv["filter-id"],
-						} satisfies Request
-					)
+					client.send(operation, {
+						account_id: accountId,
+						filter_id: argv["filter-id"],
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

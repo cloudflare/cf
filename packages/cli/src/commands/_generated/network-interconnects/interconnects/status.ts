@@ -1,6 +1,6 @@
+import operation from "../../_operations/network-interconnects/interconnects/status.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * status command
  * @generated from apis/overlays/network-interconnects.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"get_interconnect_status">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "status <icon>",
 	describe: "Get the current status of an interconnect object",
@@ -68,10 +66,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.networkInterconnects.interconnects.status({
-						account_id: accountId,
-						icon: argv["icon"],
-					} satisfies Request)
+					client.send(operation, { account_id: accountId, icon: argv["icon"] })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

@@ -1,6 +1,5 @@
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/previews.ts
@@ -9,6 +8,7 @@ import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
+	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -52,9 +52,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"workers.previews.delete">;
-type Query = SdkQuery<"workers.previews.delete">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <name>",
 	describe: "Delete Preview",
@@ -70,7 +67,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					force: argv["delete-with-references"],
 				};
 				if (argv.dryRun) {
@@ -103,12 +100,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.previews.delete({
-						account_id: accountId,
-						worker: argv["worker"],
-						name: argv["name"],
-						...queryParams,
-					} satisfies Request)
+					requestApi<unknown>(
+						client,
+						"DELETE",
+						`/accounts/${accountId}/workers/workers/${encodeURIComponent(String(argv["worker"]))}/previews/${encodeURIComponent(String(argv["name"]))}`,
+						{ query: queryParams }
+					)
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

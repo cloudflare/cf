@@ -4,10 +4,9 @@ import { isUploadBody } from "./api-upload.js";
 import { getAuthToken } from "./auth-token.js";
 import { getComplianceRegion, resolveAccountIdSilent } from "./context.js";
 import { getDefaultHeaders } from "./request-headers.js";
-import type { BaseClientOptions } from "#sdk";
-import { CloudflareApiClient } from "#sdk/client";
-import { CloudflareApiEnvironment } from "#sdk/environments";
-import { CloudflareApiError } from "#sdk/errors";
+import { ApiError, Client, type ClientOptions } from "#api";
+import listAccounts from "#operations/accounts/list.js";
+import listMemberships from "#operations/user/memberships/list.js";
 
 // Re-export context helpers used by generated commands and hand-written paths.
 export { getAccountId, getWorkerName, getZoneId } from "./context.js";
@@ -27,7 +26,7 @@ export {
 } from "./oauth/index.js";
 
 export { API_TIMEOUT_MS, getAuthToken };
-const DEFAULT_BASE_URL = CloudflareApiEnvironment.Default;
+const DEFAULT_BASE_URL = "https://api.cloudflare.com/client/v4";
 
 type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
@@ -41,7 +40,7 @@ interface PassthroughOptions {
 	preserveNonJsonBytes?: boolean;
 }
 
-export type Cloudflare = CloudflareApiClient;
+export type Cloudflare = Client;
 
 interface CloudflareClientOptions {
 	apiToken: string;
@@ -49,6 +48,12 @@ interface CloudflareClientOptions {
 	timeout?: number;
 	fetch?: typeof globalThis.fetch;
 	defaultHeaders?: Record<string, string>;
+}
+
+/** A list response, unwrapped from its envelope. */
+interface ListResponse<T> {
+	result: T[];
+	result_info?: { total_count?: number };
 }
 
 interface CloudflareAPIResponse<T> {
@@ -132,17 +137,16 @@ function passthroughUrl(
 	return url.toString();
 }
 
-const clientBaseUrls = new WeakMap<CloudflareApiClient, string>();
-const clientTimeouts = new WeakMap<CloudflareApiClient, number>();
-const uploadClients = new WeakMap<CloudflareApiClient, CloudflareApiClient>();
+const clientTimeouts = new WeakMap<Client, number>();
+const uploadClients = new WeakMap<Client, Client>();
 
 export async function requestApi<T>(
-	client: CloudflareApiClient,
+	client: Client,
 	method: HttpMethod,
 	path: string,
 	options: PassthroughOptions = {}
 ): Promise<T> {
-	const baseURL = clientBaseUrls.get(client) ?? DEFAULT_BASE_URL;
+	const baseURL = client.baseUrl;
 	const url = passthroughUrl(path, baseURL, options.query);
 	const headers: Record<string, string> = { ...options.headers };
 	let body: BodyInit | undefined;
@@ -196,7 +200,7 @@ export async function requestApi<T>(
 		throw error;
 	}
 	if (!response.ok) {
-		throw new CloudflareApiError({
+		throw new ApiError({
 			statusCode: response.status,
 			body: await parseErrorResponse(response),
 			rawResponse: {
@@ -233,7 +237,7 @@ export async function requestApi<T>(
 				?.map((entry) => entry.message)
 				.filter(Boolean)
 				.join(", ") || "unknown error";
-		throw new CloudflareApiError({
+		throw new ApiError({
 			message: `API error: ${message}`,
 			statusCode: response.status,
 			body: data,
@@ -245,9 +249,8 @@ export async function requestApi<T>(
 export function createCloudflareClientWithToken(
 	options: CloudflareClientOptions
 ): Cloudflare {
-	const baseURL = options.baseURL ?? DEFAULT_BASE_URL;
-	const clientOptions: BaseClientOptions = {
-		baseUrl: baseURL,
+	const clientOptions: ClientOptions = {
+		baseUrl: options.baseURL ?? DEFAULT_BASE_URL,
 		auth: async () => ({
 			headers: { Authorization: `Bearer ${options.apiToken}` },
 		}),
@@ -257,15 +260,14 @@ export function createCloudflareClientWithToken(
 		fetch: options.fetch ?? globalThis.fetch,
 	};
 
-	const client = new CloudflareApiClient(clientOptions);
-	clientBaseUrls.set(client, baseURL);
+	const client = new Client(clientOptions);
 	clientTimeouts.set(client, options.timeout ?? API_TIMEOUT_MS);
 	if (options.timeout === undefined) {
-		// SDK passthrough requests inherit the client's timeout. Use a separate
+		// Passthrough requests inherit the client's timeout. Use a separate
 		// client for uploads so typed API calls retain their standard deadline.
 		uploadClients.set(
 			client,
-			new CloudflareApiClient({
+			new Client({
 				...clientOptions,
 				timeoutInSeconds: undefined,
 			})
@@ -307,8 +309,12 @@ export async function resolveAccountIdForHelp(
 			maxRetries: 0,
 		};
 		const [accountsResult, membershipsResult] = await Promise.allSettled([
-			client.accounts.list({ per_page: 50 }, requestOptions),
-			client.user.memberships.list({ per_page: 50 }, requestOptions),
+			client.send(listAccounts, { per_page: 50 }, requestOptions) as Promise<
+				ListResponse<{ id: string }>
+			>,
+			client.send(listMemberships, { per_page: 50 }, requestOptions) as Promise<
+				ListResponse<{ account?: { id?: string } }>
+			>,
 		]);
 		if (accountsResult.status === "rejected") {
 			return undefined;

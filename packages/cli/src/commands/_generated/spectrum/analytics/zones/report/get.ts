@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/spectrum/analytics/zones/report/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/spectrum.ts
@@ -17,16 +17,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			"$0 spectrum analytics zones report get\n\nRetrieves a list of total bandwidth by zone over a given time period."
 		)
-		.option("since", {
-			type: "string",
-			description:
-				"Start of time interval to query, defaults to `until` - 6 hours. Timestamp must be in RFC3339 format and uses UTC unless otherwise specified.",
-		})
-		.option("until", {
-			type: "string",
-			description:
-				"End of time interval to query, defaults to current time. Timestamp must be in RFC3339 format and uses UTC unless otherwise specified.",
-		})
+		.option("since", { type: "string", description: "Since" })
+		.option("until", { type: "string", description: "Until" })
 		.option("cdn-traffic", {
 			type: "boolean",
 			description: "Include CDN traffic in the bandwidth aggregation.",
@@ -39,8 +31,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Query = SdkQuery<"spectrum-analytics-get-zones-report">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get",
@@ -56,7 +46,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					since: argv["since"],
 					until: argv["until"],
 					cdn_traffic: argv["cdn-traffic"],
@@ -75,7 +65,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const client = await createCommandClient(argv);
 
 				const result = await withProgress(`Loading`, async () =>
-					client.spectrum.analytics.zones.report.get(queryParams)
+					client.send(operation, queryParams)
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

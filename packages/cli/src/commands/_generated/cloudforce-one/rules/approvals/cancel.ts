@@ -1,6 +1,6 @@
+import operation from "../../../_operations/cloudforce-one/rules/approvals/cancel.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * cancel command
  * @generated from apis/overlays/cloudforce-one.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"cloudforce-one-cancel-rule-approval">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "cancel <id>",
 	describe: "Cancel a pending approval",
@@ -68,10 +66,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Creating`, async () =>
-					client.cloudforceOne.rules.approvals.cancel({
-						account_id: accountId,
-						id: argv["id"],
-					} satisfies Request)
+					client.send(operation, { account_id: accountId, id: argv["id"] })
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

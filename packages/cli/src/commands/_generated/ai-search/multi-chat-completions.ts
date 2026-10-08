@@ -1,6 +1,5 @@
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * multi-chat-completions command
  * @generated from apis/overlays/ai-search.ts
@@ -9,9 +8,15 @@ import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
+	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
+import {
+	compactBody,
+	parseBody,
+	parseObjectArray,
+	setNestedValue,
+} from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -158,9 +163,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"ai-search-namespace-multi-instance-chat-completion">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "multi-chat-completions <namespace>",
 	describe: "Multi-Instance Chat Completions",
@@ -270,13 +272,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
-						client.aiSearch.multiChatCompletions({
-							...bodyData,
-							account_id: accountId,
-							namespace: argv["namespace"],
-						} satisfies Request)
+						requestApi<unknown>(
+							client,
+							"POST",
+							`/accounts/${accountId}/ai-search/namespaces/${encodeURIComponent(String(argv["namespace"]))}/chat/completions`,
+							{ body: bodyData }
+						)
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
@@ -293,70 +296,148 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
-					ai_search_options: {
-						cache: {
-							cache_threshold: argv["ai-search-options-cache-cache-threshold"],
-							enabled: argv["ai-search-options-cache-enabled"],
-						},
-						instance_ids: argv["ai-search-options-instance-ids"],
-						query_rewrite: {
-							enabled: argv["ai-search-options-query-rewrite-enabled"],
-							model: resolveFileToken(
-								argv["ai-search-options-query-rewrite-model"] as
-									| string
-									| undefined,
-								"ai-search-options-query-rewrite-model",
-								"text"
-							),
-							rewrite_prompt: resolveFileToken(
-								argv["ai-search-options-query-rewrite-rewrite-prompt"] as
-									| string
-									| undefined,
-								"ai-search-options-query-rewrite-rewrite-prompt",
-								"text"
-							),
-						},
-						reranking: {
-							enabled: argv["ai-search-options-reranking-enabled"],
-							match_threshold:
-								argv["ai-search-options-reranking-match-threshold"],
-							model: resolveFileToken(
-								argv["ai-search-options-reranking-model"] as string | undefined,
-								"ai-search-options-reranking-model",
-								"text"
-							),
-						},
-						retrieval: {
-							context_expansion:
-								argv["ai-search-options-retrieval-context-expansion"],
-							fusion_method: argv["ai-search-options-retrieval-fusion-method"],
-							keyword_match_mode:
-								argv["ai-search-options-retrieval-keyword-match-mode"],
-							match_threshold:
-								argv["ai-search-options-retrieval-match-threshold"],
-							max_num_results:
-								argv["ai-search-options-retrieval-max-num-results"],
-							retrieval_type:
-								argv["ai-search-options-retrieval-retrieval-type"],
-							return_on_failure:
-								argv["ai-search-options-retrieval-return-on-failure"],
-						},
-					},
-					messages: parseObjectArray(argv["messages"], "messages"),
-					model: resolveFileToken(
-						argv["model"] as string | undefined,
-						"model",
-						"text"
-					),
-					stream: argv["stream"],
-				});
+				const bodyData: Record<string, unknown> = {};
+				if (argv["ai-search-options-cache-cache-threshold"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["ai_search_options", "cache", "cache_threshold"],
+						argv["ai-search-options-cache-cache-threshold"]
+					);
+				if (argv["ai-search-options-cache-enabled"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["ai_search_options", "cache", "enabled"],
+						argv["ai-search-options-cache-enabled"]
+					);
+				if (argv["ai-search-options-instance-ids"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["ai_search_options", "instance_ids"],
+						argv["ai-search-options-instance-ids"]
+					);
+				if (argv["ai-search-options-query-rewrite-enabled"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["ai_search_options", "query_rewrite", "enabled"],
+						argv["ai-search-options-query-rewrite-enabled"]
+					);
+				if (argv["ai-search-options-query-rewrite-model"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["ai_search_options", "query_rewrite", "model"],
+						resolveFileToken(
+							argv["ai-search-options-query-rewrite-model"] as
+								| string
+								| undefined,
+							"ai-search-options-query-rewrite-model",
+							"text"
+						)
+					);
+				if (
+					argv["ai-search-options-query-rewrite-rewrite-prompt"] !== undefined
+				)
+					setNestedValue(
+						bodyData,
+						["ai_search_options", "query_rewrite", "rewrite_prompt"],
+						resolveFileToken(
+							argv["ai-search-options-query-rewrite-rewrite-prompt"] as
+								| string
+								| undefined,
+							"ai-search-options-query-rewrite-rewrite-prompt",
+							"text"
+						)
+					);
+				if (argv["ai-search-options-reranking-enabled"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["ai_search_options", "reranking", "enabled"],
+						argv["ai-search-options-reranking-enabled"]
+					);
+				if (argv["ai-search-options-reranking-match-threshold"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["ai_search_options", "reranking", "match_threshold"],
+						argv["ai-search-options-reranking-match-threshold"]
+					);
+				if (argv["ai-search-options-reranking-model"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["ai_search_options", "reranking", "model"],
+						resolveFileToken(
+							argv["ai-search-options-reranking-model"] as string | undefined,
+							"ai-search-options-reranking-model",
+							"text"
+						)
+					);
+				if (argv["ai-search-options-retrieval-context-expansion"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["ai_search_options", "retrieval", "context_expansion"],
+						argv["ai-search-options-retrieval-context-expansion"]
+					);
+				if (argv["ai-search-options-retrieval-fusion-method"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["ai_search_options", "retrieval", "fusion_method"],
+						argv["ai-search-options-retrieval-fusion-method"]
+					);
+				if (
+					argv["ai-search-options-retrieval-keyword-match-mode"] !== undefined
+				)
+					setNestedValue(
+						bodyData,
+						["ai_search_options", "retrieval", "keyword_match_mode"],
+						argv["ai-search-options-retrieval-keyword-match-mode"]
+					);
+				if (argv["ai-search-options-retrieval-match-threshold"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["ai_search_options", "retrieval", "match_threshold"],
+						argv["ai-search-options-retrieval-match-threshold"]
+					);
+				if (argv["ai-search-options-retrieval-max-num-results"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["ai_search_options", "retrieval", "max_num_results"],
+						argv["ai-search-options-retrieval-max-num-results"]
+					);
+				if (argv["ai-search-options-retrieval-retrieval-type"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["ai_search_options", "retrieval", "retrieval_type"],
+						argv["ai-search-options-retrieval-retrieval-type"]
+					);
+				if (argv["ai-search-options-retrieval-return-on-failure"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["ai_search_options", "retrieval", "return_on_failure"],
+						argv["ai-search-options-retrieval-return-on-failure"]
+					);
+				if (argv["messages"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["messages"],
+						parseObjectArray(argv["messages"], "messages")
+					);
+				if (argv["model"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["model"],
+						resolveFileToken(
+							argv["model"] as string | undefined,
+							"model",
+							"text"
+						)
+					);
+				if (argv["stream"] !== undefined)
+					setNestedValue(bodyData, ["stream"], argv["stream"]);
 				const result = await withProgress(`Creating`, async () =>
-					client.aiSearch.multiChatCompletions({
-						...bodyData,
-						account_id: accountId,
-						namespace: argv["namespace"],
-					} satisfies Request)
+					requestApi<unknown>(
+						client,
+						"POST",
+						`/accounts/${accountId}/ai-search/namespaces/${encodeURIComponent(String(argv["namespace"]))}/chat/completions`,
+						{ body: bodyData }
+					)
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

@@ -1,6 +1,6 @@
+import operation from "../../_operations/magic-cloud-networking/on-ramps/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/magic-cloud-networking.ts
@@ -46,9 +46,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"onramps-read">;
-type Query = SdkQuery<"onramps-read">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <onramp-id>",
 	describe: "Read On-ramp",
@@ -69,7 +66,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					status: argv["status"],
 					vpcs: argv["vpcs"],
 					post_apply_resources: argv["post-apply-resources"],
@@ -92,11 +89,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.magicCloudNetworking.onRamps.get({
+					client.send(operation, {
 						account_id: accountId,
 						onramp_id: argv["onramp-id"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

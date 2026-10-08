@@ -1,6 +1,6 @@
+import operation from "../../_operations/secrets-store/secrets/bulk-delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * bulk-delete command
  * @generated from apis/overlays/secrets-store.ts
@@ -53,9 +53,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"secrets-store-delete-bulk">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "bulk-delete",
 	describe: "Delete secrets",
@@ -103,13 +100,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Deleting`, async () =>
-						client.secretsStore.secrets.bulkDelete({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							account_id: accountId,
 							store_id: argv["store-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Deleted` });
 					return;
@@ -121,15 +118,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					ids: argv["ids"],
 				});
 				const result = await withProgress(`Deleting`, async () =>
-					client.secretsStore.secrets.bulkDelete({
-						...bodyData,
+					client.send(operation, {
+						body: bodyData,
 						account_id: accountId,
 						store_id: argv["store-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

@@ -1,6 +1,6 @@
+import operation from "../../../_operations/intel/asn/subnets/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/intel.ts
@@ -34,8 +34,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"asn-intelligence-get-asn-subnets">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <asn>",
 	describe: "Get ASN Subnets",
@@ -66,10 +64,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.intel.asn.subnets.get({
-						account_id: accountId,
-						asn: argv["asn"],
-					} satisfies Request)
+					client.send(operation, { account_id: accountId, asn: argv["asn"] })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

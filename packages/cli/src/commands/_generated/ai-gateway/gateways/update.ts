@@ -1,6 +1,5 @@
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * update command
  * @generated from apis/overlays/ai-gateway.ts
@@ -9,9 +8,15 @@ import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
+	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
+import {
+	compactBody,
+	parseBody,
+	parseObjectArray,
+	setNestedValue,
+} from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -377,9 +382,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"aig-config-update-gateway">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update <gateway-id>",
 	describe: "Update a gateway",
@@ -530,13 +532,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.aiGateway.gateways.update({
-							...bodyData,
-							account_id: accountId,
-							"gateway-id": argv["gateway-id"],
-						} satisfies Request)
+						requestApi<unknown>(
+							client,
+							"PUT",
+							`/accounts/${accountId}/ai-gateway/gateways/${encodeURIComponent(String(argv["gateway-id"]))}`,
+							{ body: bodyData }
+						)
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
@@ -568,86 +571,290 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
-					authentication: argv["authentication"],
-					byok_only: argv["byok-only"],
-					cache_invalidate_on_update: argv["cache-invalidate-on-update"],
-					cache_ttl: argv["cache-ttl"],
-					collect_logs: argv["collect-logs"],
-					guardrails: {
-						prompt: {
-							P1: argv["guardrails-prompt-p1"],
-							S1: argv["guardrails-prompt-s1"],
-							S10: argv["guardrails-prompt-s10"],
-							S11: argv["guardrails-prompt-s11"],
-							S12: argv["guardrails-prompt-s12"],
-							S13: argv["guardrails-prompt-s13"],
-							S2: argv["guardrails-prompt-s2"],
-							S3: argv["guardrails-prompt-s3"],
-							S4: argv["guardrails-prompt-s4"],
-							S5: argv["guardrails-prompt-s5"],
-							S6: argv["guardrails-prompt-s6"],
-							S7: argv["guardrails-prompt-s7"],
-							S8: argv["guardrails-prompt-s8"],
-							S9: argv["guardrails-prompt-s9"],
-						},
-						response: {
-							P1: argv["guardrails-response-p1"],
-							S1: argv["guardrails-response-s1"],
-							S10: argv["guardrails-response-s10"],
-							S11: argv["guardrails-response-s11"],
-							S12: argv["guardrails-response-s12"],
-							S13: argv["guardrails-response-s13"],
-							S2: argv["guardrails-response-s2"],
-							S3: argv["guardrails-response-s3"],
-							S4: argv["guardrails-response-s4"],
-							S5: argv["guardrails-response-s5"],
-							S6: argv["guardrails-response-s6"],
-							S7: argv["guardrails-response-s7"],
-							S8: argv["guardrails-response-s8"],
-							S9: argv["guardrails-response-s9"],
-						},
-					},
-					log_classification: argv["log-classification"],
-					log_management: argv["log-management"],
-					log_management_strategy: argv["log-management-strategy"],
-					logpush: argv["logpush"],
-					logpush_public_key: resolveFileToken(
-						argv["logpush-public-key"] as string | undefined,
-						"logpush-public-key",
-						"text"
-					),
-					otel: parseObjectArray(argv["otel"], "otel"),
-					rate_limiting_interval: argv["rate-limiting-interval"],
-					rate_limiting_limit: argv["rate-limiting-limit"],
-					rate_limiting_technique: argv["rate-limiting-technique"],
-					retry_backoff: argv["retry-backoff"],
-					retry_delay: argv["retry-delay"],
-					retry_max_attempts: argv["retry-max-attempts"],
-					spend_limits: {
-						enabled: argv["spend-limits-enabled"],
-					},
-					store_id: resolveFileToken(
-						argv["store-id"] as string | undefined,
-						"store-id",
-						"text"
-					),
-					stripe: {
-						authorization: resolveFileToken(
+				const bodyData: Record<string, unknown> = {};
+				if (argv["authentication"] !== undefined)
+					setNestedValue(bodyData, ["authentication"], argv["authentication"]);
+				if (argv["byok-only"] !== undefined)
+					setNestedValue(bodyData, ["byok_only"], argv["byok-only"]);
+				if (argv["cache-invalidate-on-update"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["cache_invalidate_on_update"],
+						argv["cache-invalidate-on-update"]
+					);
+				if (argv["cache-ttl"] !== undefined)
+					setNestedValue(bodyData, ["cache_ttl"], argv["cache-ttl"]);
+				if (argv["collect-logs"] !== undefined)
+					setNestedValue(bodyData, ["collect_logs"], argv["collect-logs"]);
+				if (argv["guardrails-prompt-p1"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["guardrails", "prompt", "P1"],
+						argv["guardrails-prompt-p1"]
+					);
+				if (argv["guardrails-prompt-s1"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["guardrails", "prompt", "S1"],
+						argv["guardrails-prompt-s1"]
+					);
+				if (argv["guardrails-prompt-s10"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["guardrails", "prompt", "S10"],
+						argv["guardrails-prompt-s10"]
+					);
+				if (argv["guardrails-prompt-s11"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["guardrails", "prompt", "S11"],
+						argv["guardrails-prompt-s11"]
+					);
+				if (argv["guardrails-prompt-s12"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["guardrails", "prompt", "S12"],
+						argv["guardrails-prompt-s12"]
+					);
+				if (argv["guardrails-prompt-s13"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["guardrails", "prompt", "S13"],
+						argv["guardrails-prompt-s13"]
+					);
+				if (argv["guardrails-prompt-s2"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["guardrails", "prompt", "S2"],
+						argv["guardrails-prompt-s2"]
+					);
+				if (argv["guardrails-prompt-s3"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["guardrails", "prompt", "S3"],
+						argv["guardrails-prompt-s3"]
+					);
+				if (argv["guardrails-prompt-s4"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["guardrails", "prompt", "S4"],
+						argv["guardrails-prompt-s4"]
+					);
+				if (argv["guardrails-prompt-s5"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["guardrails", "prompt", "S5"],
+						argv["guardrails-prompt-s5"]
+					);
+				if (argv["guardrails-prompt-s6"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["guardrails", "prompt", "S6"],
+						argv["guardrails-prompt-s6"]
+					);
+				if (argv["guardrails-prompt-s7"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["guardrails", "prompt", "S7"],
+						argv["guardrails-prompt-s7"]
+					);
+				if (argv["guardrails-prompt-s8"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["guardrails", "prompt", "S8"],
+						argv["guardrails-prompt-s8"]
+					);
+				if (argv["guardrails-prompt-s9"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["guardrails", "prompt", "S9"],
+						argv["guardrails-prompt-s9"]
+					);
+				if (argv["guardrails-response-p1"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["guardrails", "response", "P1"],
+						argv["guardrails-response-p1"]
+					);
+				if (argv["guardrails-response-s1"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["guardrails", "response", "S1"],
+						argv["guardrails-response-s1"]
+					);
+				if (argv["guardrails-response-s10"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["guardrails", "response", "S10"],
+						argv["guardrails-response-s10"]
+					);
+				if (argv["guardrails-response-s11"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["guardrails", "response", "S11"],
+						argv["guardrails-response-s11"]
+					);
+				if (argv["guardrails-response-s12"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["guardrails", "response", "S12"],
+						argv["guardrails-response-s12"]
+					);
+				if (argv["guardrails-response-s13"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["guardrails", "response", "S13"],
+						argv["guardrails-response-s13"]
+					);
+				if (argv["guardrails-response-s2"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["guardrails", "response", "S2"],
+						argv["guardrails-response-s2"]
+					);
+				if (argv["guardrails-response-s3"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["guardrails", "response", "S3"],
+						argv["guardrails-response-s3"]
+					);
+				if (argv["guardrails-response-s4"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["guardrails", "response", "S4"],
+						argv["guardrails-response-s4"]
+					);
+				if (argv["guardrails-response-s5"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["guardrails", "response", "S5"],
+						argv["guardrails-response-s5"]
+					);
+				if (argv["guardrails-response-s6"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["guardrails", "response", "S6"],
+						argv["guardrails-response-s6"]
+					);
+				if (argv["guardrails-response-s7"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["guardrails", "response", "S7"],
+						argv["guardrails-response-s7"]
+					);
+				if (argv["guardrails-response-s8"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["guardrails", "response", "S8"],
+						argv["guardrails-response-s8"]
+					);
+				if (argv["guardrails-response-s9"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["guardrails", "response", "S9"],
+						argv["guardrails-response-s9"]
+					);
+				if (argv["log-classification"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["log_classification"],
+						argv["log-classification"]
+					);
+				if (argv["log-management"] !== undefined)
+					setNestedValue(bodyData, ["log_management"], argv["log-management"]);
+				if (argv["log-management-strategy"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["log_management_strategy"],
+						argv["log-management-strategy"]
+					);
+				if (argv["logpush"] !== undefined)
+					setNestedValue(bodyData, ["logpush"], argv["logpush"]);
+				if (argv["logpush-public-key"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["logpush_public_key"],
+						resolveFileToken(
+							argv["logpush-public-key"] as string | undefined,
+							"logpush-public-key",
+							"text"
+						)
+					);
+				if (argv["otel"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["otel"],
+						parseObjectArray(argv["otel"], "otel")
+					);
+				if (argv["rate-limiting-interval"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["rate_limiting_interval"],
+						argv["rate-limiting-interval"]
+					);
+				if (argv["rate-limiting-limit"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["rate_limiting_limit"],
+						argv["rate-limiting-limit"]
+					);
+				if (argv["rate-limiting-technique"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["rate_limiting_technique"],
+						argv["rate-limiting-technique"]
+					);
+				if (argv["retry-backoff"] !== undefined)
+					setNestedValue(bodyData, ["retry_backoff"], argv["retry-backoff"]);
+				if (argv["retry-delay"] !== undefined)
+					setNestedValue(bodyData, ["retry_delay"], argv["retry-delay"]);
+				if (argv["retry-max-attempts"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["retry_max_attempts"],
+						argv["retry-max-attempts"]
+					);
+				if (argv["spend-limits-enabled"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["spend_limits", "enabled"],
+						argv["spend-limits-enabled"]
+					);
+				if (argv["store-id"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["store_id"],
+						resolveFileToken(
+							argv["store-id"] as string | undefined,
+							"store-id",
+							"text"
+						)
+					);
+				if (argv["stripe-authorization"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["stripe", "authorization"],
+						resolveFileToken(
 							argv["stripe-authorization"] as string | undefined,
 							"stripe-authorization",
 							"text"
-						),
-					},
-					workers_ai_billing_mode: argv["workers-ai-billing-mode"],
-					zdr: argv["zdr"],
-				});
+						)
+					);
+				if (argv["workers-ai-billing-mode"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["workers_ai_billing_mode"],
+						argv["workers-ai-billing-mode"]
+					);
+				if (argv["zdr"] !== undefined)
+					setNestedValue(bodyData, ["zdr"], argv["zdr"]);
 				const result = await withProgress(`Updating`, async () =>
-					client.aiGateway.gateways.update({
-						...bodyData,
-						account_id: accountId,
-						"gateway-id": argv["gateway-id"],
-					} satisfies Request)
+					requestApi<unknown>(
+						client,
+						"PUT",
+						`/accounts/${accountId}/ai-gateway/gateways/${encodeURIComponent(String(argv["gateway-id"]))}`,
+						{ body: bodyData }
+					)
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

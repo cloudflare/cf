@@ -1,6 +1,6 @@
+import operation from "../../_operations/workers/secrets/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/workers.ts
@@ -47,9 +47,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"worker-get-script-secret">;
-type Query = SdkQuery<"worker-get-script-secret">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <secret-name>",
 	describe: "Get a secret binding",
@@ -64,7 +61,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					url_encoded: argv["url-encoded"],
 				};
 				if (argv.dryRun) {
@@ -89,12 +86,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv["worker"] = scriptName;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.workers.secrets.get({
+					client.send(operation, {
 						account_id: accountId,
 						script_name: scriptName,
 						secret_name: argv["secret-name"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

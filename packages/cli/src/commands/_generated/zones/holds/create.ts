@@ -1,6 +1,6 @@
+import operation from "../../_operations/zones/holds/create.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * create command
  * @generated from apis/overlays/zones.ts
@@ -31,9 +31,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"zones-0-hold-post">;
-type Query = SdkQuery<"zones-0-hold-post">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "create",
 	describe: "Create Zone Hold",
@@ -48,7 +45,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					include_subdomains: argv["include-subdomains"],
 				};
 				if (argv.dryRun) {
@@ -71,10 +68,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				const result = await withProgress(`Creating`, async () =>
-					client.zones.holds.create({
-						zone_id: zoneId,
-						...queryParams,
-					} satisfies Request)
+					client.send(operation, { zone_id: zoneId, ...queryParams })
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

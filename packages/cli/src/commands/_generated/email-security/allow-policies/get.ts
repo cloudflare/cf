@@ -1,6 +1,6 @@
+import operation from "../../_operations/email-security/allow-policies/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/email-security.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"email_security_get_allow_policy">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <policy-id>",
 	describe: "Get an email allow policy",
@@ -68,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.emailSecurity.allowPolicies.get({
+					client.send(operation, {
 						account_id: accountId,
 						policy_id: argv["policy-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

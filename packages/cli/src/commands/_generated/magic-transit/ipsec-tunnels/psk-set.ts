@@ -1,6 +1,6 @@
+import operation from "../../_operations/magic-transit/ipsec-tunnels/psk-set.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * psk-set command
  * @generated from apis/overlays/magic-transit.ts
@@ -45,12 +45,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"magic-ipsec-tunnels-set-pre-shared-keys-for-ipsec-tunnels">;
-type Body = Request;
-type Query =
-	SdkQuery<"magic-ipsec-tunnels-set-pre-shared-keys-for-ipsec-tunnels">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "psk-set",
 	describe: "Set Pre-Shared Keys (PSK) for IPsec tunnels",
@@ -65,7 +59,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					validate_only: argv["validate-only"],
 				};
 				if (argv.dryRun) {
@@ -91,18 +85,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const qs = new URLSearchParams(
 						Object.entries(queryParams)
 							.filter(([, v]) => v !== undefined)
 							.map(([k, v]) => [k, String(v)])
 					).toString();
 					const result = await withProgress(`Creating`, async () =>
-						client.magicTransit.ipsecTunnels.pskSet({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							account_id: accountId,
 							...queryParams,
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
@@ -114,7 +108,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					psks: parseObjectArray(argv["psks"], "psks"),
 				});
 				const qs = new URLSearchParams(
@@ -123,11 +117,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						.map(([k, v]) => [k, String(v)])
 				).toString();
 				const result = await withProgress(`Creating`, async () =>
-					client.magicTransit.ipsecTunnels.pskSet({
-						...bodyData,
+					client.send(operation, {
+						body: bodyData,
 						account_id: accountId,
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

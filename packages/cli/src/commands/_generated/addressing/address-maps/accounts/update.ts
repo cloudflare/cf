@@ -1,6 +1,6 @@
+import operation from "../../../_operations/addressing/address-maps/accounts/update.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * update command
  * @generated from apis/overlays/addressing.ts
@@ -41,9 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"ip-address-management-address-maps-add-an-account-membership-to-an-address-map">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update <member-account-id>",
 	describe: "Add an account membership to an Address Map",
@@ -77,11 +74,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Updating`, async () =>
-					client.addressing.addressMaps.accounts.update({
+					client.send(operation, {
 						account_id: accountId,
 						address_map_id: argv["address-map-id"],
 						member_account_id: argv["member-account-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

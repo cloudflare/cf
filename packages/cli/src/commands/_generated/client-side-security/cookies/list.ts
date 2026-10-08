@@ -1,13 +1,12 @@
+import operation from "../../_operations/client-side-security/cookies/list.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * list command
  * @generated from apis/overlays/client-side-security.ts
  */
 import type { Argv, CommandModule } from "yargs";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { withArgTypes } from "#lib/cli-types.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
@@ -95,25 +94,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		});
 }
 
-type Request = SdkRequest<"page-shield-list-cookies">;
-type Query = SdkQuery<"page-shield-list-cookies">;
+type Args = InferArgs<typeof builder>;
 
-const typedBuilder = withArgTypes<
-	{
-		"order-by": Query["order_by"];
-		direction: Query["direction"];
-		export: Query["export"];
-		"same-site": Query["same_site"];
-		type: Query["type"];
-	},
-	typeof builder
->(builder);
-
-type Args = InferArgs<typeof typedBuilder>;
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "list",
 	describe: "List detected cookies",
-	builder: typedBuilder,
+	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -133,7 +119,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					hosts: argv["hosts"],
 					page: argv["page"],
 					per_page: argv["per-page"],
@@ -169,10 +155,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.clientSideSecurity.cookies.list({
-						zone_id: zoneId,
-						...queryParams,
-					} satisfies Request)
+					client.send(operation, { zone_id: zoneId, ...queryParams })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

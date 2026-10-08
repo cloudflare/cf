@@ -1,6 +1,6 @@
+import operation from "../../../_operations/zero-trust/risk-scoring/integrations/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/zero-trust.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"dlp-zt-risk-score-integration-delete">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <integration-id>",
 	describe: "Delete a risk score integration.",
@@ -83,10 +81,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.zeroTrust.riskScoring.integrations.delete({
+					client.send(operation, {
 						account_id: accountId,
 						integration_id: argv["integration-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

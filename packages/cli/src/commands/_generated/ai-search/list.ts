@@ -1,6 +1,5 @@
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * list command
  * @generated from apis/overlays/ai-search.ts
@@ -9,9 +8,9 @@ import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
+	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { withArgTypes } from "#lib/cli-types.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
@@ -58,22 +57,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		});
 }
 
-type Request = SdkRequest<"ai-search-namespace-list-instances">;
-type Query = SdkQuery<"ai-search-namespace-list-instances">;
+type Args = InferArgs<typeof builder>;
 
-const typedBuilder = withArgTypes<
-	{
-		"order-by": Query["order_by"];
-		"order-by-direction": Query["order_by_direction"];
-	},
-	typeof builder
->(builder);
-
-type Args = InferArgs<typeof typedBuilder>;
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "list",
 	describe: "List AI Search instances.",
-	builder: typedBuilder,
+	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -84,7 +73,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					page: argv["page"],
 					per_page: argv["per-page"],
 					search: argv["search"],
@@ -109,11 +98,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.aiSearch.list({
-						account_id: accountId,
-						namespace: argv["namespace"],
-						...queryParams,
-					} satisfies Request)
+					requestApi<unknown>(
+						client,
+						"GET",
+						`/accounts/${accountId}/ai-search/namespaces/${encodeURIComponent(String(argv["namespace"]))}/instances`,
+						{ query: queryParams }
+					)
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

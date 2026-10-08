@@ -1,6 +1,6 @@
+import operation from "../../../_operations/zero-trust/gateway/locations/create.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * create command
  * @generated from apis/overlays/zero-trust.ts
@@ -121,10 +121,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"zero-trust-gateway-locations-create-zero-trust-gateway-location">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "create",
 	describe: "Create a Zero Trust Gateway location",
@@ -204,12 +200,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
-						client.zeroTrust.gateway.locations.create({
-							...bodyData,
-							account_id: accountId,
-						} satisfies Request)
+						client.send(operation, { body: bodyData, account_id: accountId })
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
@@ -222,7 +215,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					client_default: argv["client-default"],
 					dns64_enabled: argv["dns64-enabled"],
 					dns_destination_ips_id: resolveFileToken(
@@ -258,10 +251,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					networks: parseObjectArray(argv["networks"], "networks"),
 				});
 				const result = await withProgress(`Creating`, async () =>
-					client.zeroTrust.gateway.locations.create({
-						...bodyData,
-						account_id: accountId,
-					} satisfies Request)
+					client.send(operation, { body: bodyData, account_id: accountId })
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

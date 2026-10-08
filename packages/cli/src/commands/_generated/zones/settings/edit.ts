@@ -1,6 +1,6 @@
+import operation from "../../_operations/zones/settings/edit.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * edit command
  * @generated from apis/overlays/zones.ts
@@ -110,11 +110,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"value-strict-transport-security-preload",
 		])
 		.implies("value-cache-by-device-type", [
-			"value-strict-transport-security-enabled",
 			"value-cf",
+			"value-strict-transport-security-enabled",
+			"value-hostnames",
 			"value-wordpress",
 			"value-wp-plugin",
-			"value-hostnames",
 		])
 		.conflicts("value-cf", [
 			"value-pool-id",
@@ -124,11 +124,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"value-strict-transport-security-preload",
 		])
 		.implies("value-cf", [
+			"value-cache-by-device-type",
 			"value-strict-transport-security-enabled",
+			"value-hostnames",
 			"value-wordpress",
 			"value-wp-plugin",
-			"value-hostnames",
-			"value-cache-by-device-type",
 		])
 		.conflicts("value-hostnames", [
 			"value-pool-id",
@@ -138,11 +138,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"value-strict-transport-security-preload",
 		])
 		.implies("value-hostnames", [
-			"value-strict-transport-security-enabled",
+			"value-cache-by-device-type",
 			"value-cf",
+			"value-strict-transport-security-enabled",
 			"value-wordpress",
 			"value-wp-plugin",
-			"value-cache-by-device-type",
 		])
 		.conflicts("value-wordpress", [
 			"value-pool-id",
@@ -152,11 +152,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"value-strict-transport-security-preload",
 		])
 		.implies("value-wordpress", [
-			"value-strict-transport-security-enabled",
-			"value-cf",
-			"value-wp-plugin",
-			"value-hostnames",
 			"value-cache-by-device-type",
+			"value-cf",
+			"value-strict-transport-security-enabled",
+			"value-hostnames",
+			"value-wp-plugin",
 		])
 		.conflicts("value-wp-plugin", [
 			"value-pool-id",
@@ -166,18 +166,18 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"value-strict-transport-security-preload",
 		])
 		.implies("value-wp-plugin", [
-			"value-strict-transport-security-enabled",
-			"value-cf",
-			"value-wordpress",
-			"value-hostnames",
 			"value-cache-by-device-type",
+			"value-cf",
+			"value-strict-transport-security-enabled",
+			"value-hostnames",
+			"value-wordpress",
 		])
 		.implies("value-strict-transport-security-enabled", [
+			"value-cache-by-device-type",
 			"value-cf",
+			"value-hostnames",
 			"value-wordpress",
 			"value-wp-plugin",
-			"value-hostnames",
-			"value-cache-by-device-type",
 		])
 		.conflicts("value-strict-transport-security-include-subdomains", [
 			"value-pool-id",
@@ -214,9 +214,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"zone-settings-edit-single-setting">;
-type Body = Request["body"];
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "edit <setting-id>",
@@ -297,20 +294,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.zones.settings.edit({
+						client.send(operation, {
 							body: bodyData,
 							zone_id: zoneId,
 							setting_id: argv["setting-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					enabled: argv["enabled"],
 					value: {
 						enabled: argv["value-enabled"],
@@ -335,11 +332,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					},
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.zones.settings.edit({
+					client.send(operation, {
 						body: bodyData,
 						zone_id: zoneId,
 						setting_id: argv["setting-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

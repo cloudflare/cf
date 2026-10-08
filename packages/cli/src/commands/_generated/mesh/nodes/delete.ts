@@ -1,6 +1,5 @@
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/mesh.ts
@@ -9,6 +8,7 @@ import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
+	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -42,8 +42,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"cloudflare-tunnel-delete-a-warp-connector-tunnel">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <node-id>",
@@ -86,10 +84,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.mesh.nodes.delete({
-						account_id: accountId,
-						"node-id": argv["node-id"],
-					} satisfies Request)
+					requestApi<unknown>(
+						client,
+						"DELETE",
+						`/accounts/${accountId}/warp_connector/${encodeURIComponent(String(argv["node-id"]))}`
+					)
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

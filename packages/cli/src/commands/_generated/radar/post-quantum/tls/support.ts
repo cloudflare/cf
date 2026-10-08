@@ -1,6 +1,6 @@
+import operation from "../../../_operations/radar/post-quantum/tls/support.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery } from "#sdk";
 /**
  * support command
  * @generated from apis/overlays/radar.ts
@@ -32,8 +32,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Query = SdkQuery<"radar-get-post-quantum-tls-support">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "support",
 	describe: "Check Post-Quantum TLS support",
@@ -48,7 +46,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					host: argv["host"],
 				};
 				if (argv.dryRun) {
@@ -65,7 +63,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const client = await createCommandClient(argv);
 
 				const result = await withProgress(`Loading`, async () =>
-					client.radar.postQuantum.tls.support(queryParams)
+					client.send(operation, queryParams)
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

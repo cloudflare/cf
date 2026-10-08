@@ -1,6 +1,6 @@
+import operation from "../../_operations/email-security/bulk-actions/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/email-security.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"email_security_get_bulk_job">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <job-id>",
 	describe: "Get bulk action job details",
@@ -68,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.emailSecurity.bulkActions.get({
+					client.send(operation, {
 						account_id: accountId,
 						job_id: argv["job-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

@@ -1,6 +1,6 @@
+import operation from "../../../_operations/workers-builds/workers/previews/list.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * list command
  * @generated from apis/overlays/workers-builds.ts
@@ -44,9 +44,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"listWorkerPreviews">;
-type Query = SdkQuery<"listWorkerPreviews">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "list",
 	describe: "List previews",
@@ -61,7 +58,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					page: argv["page"],
 					per_page: argv["per-page"],
 				};
@@ -82,11 +79,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.workersBuilds.workers.previews.list({
+					client.send(operation, {
 						account_id: accountId,
 						script_tag: argv["script-tag"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

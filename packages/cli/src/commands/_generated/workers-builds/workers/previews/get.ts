@@ -1,6 +1,6 @@
+import operation from "../../../_operations/workers-builds/workers/previews/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/workers-builds.ts
@@ -42,8 +42,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"getWorkerPreview">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <preview-id>",
 	describe: "Get preview",
@@ -77,11 +75,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.workersBuilds.workers.previews.get({
+					client.send(operation, {
 						account_id: accountId,
 						script_tag: argv["script-tag"],
 						preview_id: argv["preview-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

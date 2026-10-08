@@ -1,6 +1,6 @@
+import operation from "../../_operations/o11y/destinations/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/o11y.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"destinations.delete">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <slug>",
 	describe: "Delete Destination",
@@ -81,10 +79,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.observability.destinations.delete({
-						account_id: accountId,
-						slug: argv["slug"],
-					} satisfies Request)
+					client.send(operation, { account_id: accountId, slug: argv["slug"] })
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

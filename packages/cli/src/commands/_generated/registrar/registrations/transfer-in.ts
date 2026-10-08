@@ -658,7 +658,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"POST",
 						`/accounts/${accountId}/registrar/registrations/${encodeURIComponent(String(argv["domain-name"]))}/transfer-in`,
 						{
-							body: Object.keys(bodyData).length > 0 ? bodyData : undefined,
+							body: bodyData,
 							headers: Object.keys(headers).length > 0 ? headers : undefined,
 						}
 					)

@@ -1,6 +1,6 @@
+import operation from "../../_operations/pay-per-crawl/terms/send-signature-event.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * send-signature-event command
  * @generated from apis/overlays/pay-per-crawl.ts
@@ -11,7 +11,6 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { withArgTypes } from "#lib/cli-types.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
@@ -41,21 +40,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		});
 }
 
-type Request = SdkRequest<"pay-per-crawl.sendTermsSignatureEvent">;
-type Query = SdkQuery<"pay-per-crawl.sendTermsSignatureEvent">;
+type Args = InferArgs<typeof builder>;
 
-const typedBuilder = withArgTypes<
-	{
-		"event-type": Query["event_type"];
-	},
-	typeof builder
->(builder);
-
-type Args = InferArgs<typeof typedBuilder>;
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "send-signature-event",
 	describe: "Record pay-per-crawl terms activity",
-	builder: typedBuilder,
+	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -66,7 +56,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					event_type: argv["event-type"],
 					vid: argv["vid"],
 				};
@@ -87,10 +77,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Creating`, async () =>
-					client.payPerCrawl.terms.sendSignatureEvent({
-						account_id: accountId,
-						...queryParams,
-					} satisfies Request)
+					client.send(operation, { account_id: accountId, ...queryParams })
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

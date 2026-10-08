@@ -1,6 +1,6 @@
+import operation from "../../_operations/magic-network-monitoring/rules/create.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * create command
  * @generated from apis/overlays/magic-network-monitoring.ts
@@ -105,9 +105,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"magic-network-monitoring-rules-create-rules">;
-type Body = Request["body"];
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "create",
 	describe: "Create rules",
@@ -165,12 +162,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
-						client.magicNetworkMonitoring.rules.create({
-							body: bodyData,
-							account_id: accountId,
-						} satisfies Request)
+						client.send(operation, { body: bodyData, account_id: accountId })
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
@@ -200,7 +194,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					automatic_advertisement: argv["automatic-advertisement"],
 					bandwidth_threshold: argv["bandwidth-threshold"],
 					duration: argv["duration"],
@@ -217,10 +211,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					zscore_target: argv["zscore-target"],
 				});
 				const result = await withProgress(`Creating`, async () =>
-					client.magicNetworkMonitoring.rules.create({
-						body: bodyData,
-						account_id: accountId,
-					} satisfies Request)
+					client.send(operation, { body: bodyData, account_id: accountId })
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

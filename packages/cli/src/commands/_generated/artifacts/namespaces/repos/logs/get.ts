@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/artifacts/namespaces/repos/logs/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/artifacts.ts
@@ -47,9 +47,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"artifacts_repos_log_get">;
-type Query = SdkQuery<"artifacts_repos_log_get">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <name>",
 	describe: "Read commit history",
@@ -64,7 +61,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					ref: argv["ref"],
 					limit: argv["limit"],
 					offset: argv["offset"],
@@ -89,12 +86,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.artifacts.namespaces.repos.logs.get({
+					client.send(operation, {
 						account_id: accountId,
 						namespace: argv["namespace"],
 						name: argv["name"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

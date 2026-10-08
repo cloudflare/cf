@@ -1,6 +1,6 @@
+import operation from "../../../_operations/zero-trust/gateway/proxy-endpoints/create.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * create command
  * @generated from apis/overlays/zero-trust.ts
@@ -17,7 +17,6 @@ import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
-import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
@@ -44,10 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request =
-	SdkRequest<"zero-trust-gateway-proxy-endpoints-create-proxy-endpoint">;
-type Body = Request["body"];
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "create",
@@ -85,39 +80,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
-						client.zeroTrust.gateway.proxyEndpoints.create({
-							body: bodyData,
-							account_id: accountId,
-						} satisfies Request)
+						client.send(operation, { body: bodyData, account_id: accountId })
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
 
-				if (argv["kind"] === "ip") {
-					throw new Error(
-						"The ip variant requires ips, which cannot be supplied as flags. Pass --body with a complete request body."
-					);
-				}
-				if (argv["kind"] === "identity" && argv["kind"] === undefined) {
-					argv["kind"] = await promptForRequiredField(
-						"kind",
-						"The proxy endpoint kind.",
-						{ question: "Enter value for --kind" }
-					);
-				}
-
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					kind: argv["kind"],
 				});
 				const result = await withProgress(`Creating`, async () =>
-					client.zeroTrust.gateway.proxyEndpoints.create({
-						body: bodyData,
-						account_id: accountId,
-					} satisfies Request)
+					client.send(operation, { body: bodyData, account_id: accountId })
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

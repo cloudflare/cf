@@ -1,6 +1,6 @@
+import operation from "../../../_operations/zero-trust/dlp/sensitivity-groups/update-level-order.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * update-level-order command
  * @generated from apis/overlays/zero-trust.ts
@@ -46,9 +46,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"dlp-sensitivity-groups-put-level-order">;
-type Body = Request["body"];
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update-level-order <sensitivity-group-id>",
 	describe: "Set the ordering of levels within a sensitivity group.",
@@ -89,13 +86,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.zeroTrust.dlp.sensitivityGroups.updateLevelOrder({
+						client.send(operation, {
 							body: bodyData,
 							account_id: accountId,
 							sensitivity_group_id: argv["sensitivity-group-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
@@ -107,15 +104,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					level_ids: argv["level-ids"],
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.zeroTrust.dlp.sensitivityGroups.updateLevelOrder({
+					client.send(operation, {
 						body: bodyData,
 						account_id: accountId,
 						sensitivity_group_id: argv["sensitivity-group-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

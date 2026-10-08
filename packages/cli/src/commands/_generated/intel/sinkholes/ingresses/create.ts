@@ -1,6 +1,6 @@
+import operation from "../../../_operations/intel/sinkholes/ingresses/create.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * create command
  * @generated from apis/overlays/intel.ts
@@ -42,9 +42,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"sinkhole-config-create-ingress">;
-type Body = Request["body"];
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "create <sinkhole-id>",
@@ -90,13 +87,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
-						client.intel.sinkholes.ingresses.create({
+						client.send(operation, {
 							body: bodyData,
 							zone_id: zoneId,
 							sinkhole_id: argv["sinkhole-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
@@ -109,7 +106,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					cidr: resolveFileToken(
 						argv["cidr"] as string | undefined,
 						"cidr",
@@ -117,11 +114,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					),
 				});
 				const result = await withProgress(`Creating`, async () =>
-					client.intel.sinkholes.ingresses.create({
+					client.send(operation, {
 						body: bodyData,
 						zone_id: zoneId,
 						sinkhole_id: argv["sinkhole-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

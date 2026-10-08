@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/zero-trust/access/applications/short-lived-certificates/create.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * create command
  * @generated from apis/overlays/zero-trust.ts
@@ -37,9 +37,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"generated:post:/{account_or_zone}/{account_or_zone_id}/access/apps/{app_id}/ca">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "create <app-id>",
 	describe: "Create a short-lived certificate CA",
@@ -70,8 +67,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						url: `https://api.cloudflare.com/client/v4/${accountOrZone}/${accountOrZoneId}/access/apps/${argv["app-id"] == null ? "<app-id>" : encodeURIComponent(String(argv["app-id"]))}/ca`,
 						pathParams: {
 							"account-or-zone": String(accountOrZone),
-							"app-id": String(argv["app-id"] ?? ""),
 							"account-or-zone-id": String(accountOrZoneId),
+							"app-id": String(argv["app-id"] ?? ""),
 						},
 						bodyKind: "none",
 					});
@@ -94,11 +91,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Creating`, async () =>
-					client.zeroTrust.access.applications.shortLivedCertificates.create({
+					client.send(operation, {
 						account_or_zone: accountOrZone,
 						account_or_zone_id: accountOrZoneId,
 						app_id: argv["app-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

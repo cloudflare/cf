@@ -1,6 +1,6 @@
+import operation from "../../../../../_operations/zero-trust/dex/overview/tests/unique-devices/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/zero-trust.ts
@@ -40,9 +40,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"dex-endpoints-tests-unique-devices">;
-type Query = SdkQuery<"dex-endpoints-tests-unique-devices">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get",
 	describe: "Get count of devices targeted",
@@ -57,7 +54,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					testName: argv["test-name"],
 					deviceId: argv["device-id"],
 				};
@@ -78,10 +75,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.zeroTrust.dex.overview.tests.uniqueDevices.get({
-						account_id: accountId,
-						...queryParams,
-					} satisfies Request)
+					client.send(operation, { account_id: accountId, ...queryParams })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

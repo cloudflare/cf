@@ -1,0 +1,25 @@
+/** @generated from email-security.investigate.list */
+export default {
+	method: "GET",
+	path: "/accounts/{account_id}/email-security/investigate",
+	query: [
+		"start",
+		"end",
+		"query",
+		"detections_only",
+		"final_disposition",
+		"metric",
+		"message_action",
+		"recipient",
+		"sender",
+		"smtp_helo_ip",
+		"alert_id",
+		"domain",
+		"message_id",
+		"subject",
+		"delivery_status",
+		"cursor",
+		"per_page",
+		"page",
+	],
+} as const;

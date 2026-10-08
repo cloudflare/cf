@@ -1,6 +1,6 @@
+import operation from "../_operations/images/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/images.ts
@@ -34,8 +34,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"cloudflare-images-image-details">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <image-id>",
 	describe: "Image details",
@@ -66,10 +64,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.images.get({
+					client.send(operation, {
 						account_id: accountId,
 						image_id: argv["image-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

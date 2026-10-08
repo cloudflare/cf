@@ -7,6 +7,7 @@ import {
 	readCachedSchema,
 	writeCachedSchema,
 } from "#lib/schema-cache.js";
+import getRegistrarExtension from "#operations/registrar/extensions/get.js";
 
 const CACHE_NAMESPACE = "registrar-extension-schema";
 
@@ -40,11 +41,12 @@ async function fetchExtensionSchema(
 	try {
 		result =
 			timeout === undefined
-				? await client.registrar.extensions.get({
+				? await client.send(getRegistrarExtension, {
 						account_id: accountId,
 						extension,
 					})
-				: await client.registrar.extensions.get(
+				: await client.send(
+						getRegistrarExtension,
 						{ account_id: accountId, extension },
 						{ timeoutInSeconds: timeout / 1000, maxRetries: 0 }
 					);

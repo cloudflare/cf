@@ -1,6 +1,6 @@
+import operation from "../../../_operations/zero-trust/access/saml-encryption-certificates/rotate.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * rotate command
  * @generated from apis/overlays/zero-trust.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"access-saml-certificates-rotate-certificate">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "rotate <saml-cert-set-id>",
 	describe: "Rotate SAML certificate",
@@ -70,10 +68,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Creating`, async () =>
-					client.zeroTrust.access.samlEncryptionCertificates.rotate({
+					client.send(operation, {
 						account_id: accountId,
 						saml_cert_set_id: argv["saml-cert-set-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

@@ -1,6 +1,6 @@
+import operation from "../../_operations/mcp/portals/account-tool-call-analytics.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * account-tool-call-analytics command
  * @generated from apis/overlays/mcp.ts
@@ -11,7 +11,6 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { withArgTypes } from "#lib/cli-types.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
@@ -46,22 +45,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		});
 }
 
-type Request = SdkRequest<"mcp-portals-api-account-tool-call-timeseries">;
-type Query = SdkQuery<"mcp-portals-api-account-tool-call-timeseries">;
+type Args = InferArgs<typeof builder>;
 
-const typedBuilder = withArgTypes<
-	{
-		granularity: Query["granularity"];
-		aggregate: Query["aggregate"];
-	},
-	typeof builder
->(builder);
-
-type Args = InferArgs<typeof typedBuilder>;
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "account-tool-call-analytics",
 	describe: "Account-global MCP tool-call timeseries",
-	builder: typedBuilder,
+	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -72,7 +61,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					granularity: argv["granularity"],
 					aggregate: argv["aggregate"],
 					tz: argv["tz"],
@@ -95,10 +84,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.mcp.portals.accountToolCallAnalytics({
-						account_id: accountId,
-						...queryParams,
-					} satisfies Request)
+					client.send(operation, { account_id: accountId, ...queryParams })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

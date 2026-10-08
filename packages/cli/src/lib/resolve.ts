@@ -1,9 +1,10 @@
+import type { Cloudflare } from "./auth.js";
 /**
  * Resource name resolution utilities
  *
  * Allows users to use friendly names instead of UUIDs
  */
-import type { Cloudflare } from "./auth.js";
+import listZones from "#operations/zones/list.js";
 
 /**
  * Small in-memory TTL cache for resolver lookups (e.g. zone names).
@@ -139,9 +140,11 @@ export async function resolveZoneId(
 	const zoneName = zoneIdOrName.toLowerCase();
 	const cacheKey = `zones:${accountId}:${zoneName}`;
 	const zones = await getCached<Zone[]>(cacheKey, async () => {
-		return (
-			await client.zones.list({ "account.id": accountId, name: zoneName })
-		).result;
+		const response = (await client.send(listZones, {
+			"account.id": accountId,
+			name: zoneName,
+		})) as { result: Zone[] };
+		return response.result;
 	});
 
 	const zone = zones.find((z) => z.name.toLowerCase() === zoneName);

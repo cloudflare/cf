@@ -1,6 +1,6 @@
+import operation from "../../_operations/builds/workers/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/builds.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"getWorkerBuild">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <script-tag>",
 	describe: "Get Worker build configuration",
@@ -68,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.builds.workers.get({
+					client.send(operation, {
 						account_id: accountId,
 						script_tag: argv["script-tag"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

@@ -1,6 +1,6 @@
+import operation from "../../_operations/leaked-credential-checks/detections/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/leaked-credential-checks.ts
@@ -37,9 +37,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request =
-	SdkRequest<"waf-product-api-leaked-credentials-delete-detection">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <detection-id>",
@@ -86,10 +83,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.leakedCredentialChecks.detections.delete({
+					client.send(operation, {
 						zone_id: zoneId,
 						detection_id: argv["detection-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

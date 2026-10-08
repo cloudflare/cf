@@ -1,0 +1,13 @@
+/** @generated from email-sending.send */
+export default {
+	method: "POST",
+	path: "/accounts/{account_id}/email/sending/send",
+	body: "json",
+	errors: {
+		400: "BadRequestError",
+		403: "ForbiddenError",
+		409: "ConflictError",
+		429: "TooManyRequestsError",
+		500: "InternalServerError",
+	},
+} as const;

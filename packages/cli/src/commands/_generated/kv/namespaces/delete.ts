@@ -1,6 +1,6 @@
+import operation from "../../_operations/kv/namespaces/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/kv.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"workers-kv-namespace-remove-a-namespace">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <namespace-id>",
 	describe: "Delete a namespace",
@@ -86,10 +84,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.kv.namespaces.delete({
+					client.send(operation, {
 						account_id: accountId,
 						namespace_id: argv["namespace-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/dns/settings/account/views/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/dns.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"dns-views-for-an-account-get-internal-dns-view">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <view-id>",
 	describe: "DNS Internal View Details",
@@ -68,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.dns.settings.account.views.get({
+					client.send(operation, {
 						account_id: accountId,
 						view_id: argv["view-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

@@ -1,13 +1,12 @@
+import operation from "../../_operations/radar/as112/summary-v2.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * summary-v2 command
  * @generated from apis/overlays/radar.ts
  */
 import type { Argv, CommandModule } from "yargs";
 import { createCommandClient } from "#lib/auth.js";
-import { withArgTypes } from "#lib/cli-types.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
@@ -81,25 +80,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		});
 }
 
-type Request = SdkRequest<"radar-get-dns-as112-summary">;
-type Query = SdkQuery<"radar-get-dns-as112-summary">;
+type Args = InferArgs<typeof builder>;
 
-const typedBuilder = withArgTypes<
-	{
-		"query-type": Query["queryType"];
-		protocol: Query["protocol"];
-		"response-code": Query["responseCode"];
-		format: Query["format"];
-		dimension: Request["dimension"];
-	},
-	typeof builder
->(builder);
-
-type Args = InferArgs<typeof typedBuilder>;
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "summary-v2 <dimension>",
 	describe: "Get AS112 summary by dimension",
-	builder: typedBuilder,
+	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -110,7 +96,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					name: argv["name"],
 					dateRange: argv["date-range"],
 					dateStart: argv["date-start"],
@@ -137,10 +123,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const client = await createCommandClient(argv);
 
 				const result = await withProgress(`Loading`, async () =>
-					client.radar.as112.summaryV2({
+					client.send(operation, {
 						dimension: argv["dimension"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

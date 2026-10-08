@@ -1,6 +1,6 @@
+import operation from "../../_operations/waiting-rooms/statuses/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/waiting-rooms.ts
@@ -31,8 +31,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"waiting-room-get-waiting-room-status">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <waiting-room-id>",
 	describe: "Get waiting room status",
@@ -53,8 +51,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "GET",
 						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/waiting_rooms/${argv["waiting-room-id"] == null ? "<waiting-room-id>" : encodeURIComponent(String(argv["waiting-room-id"]))}/status`,
 						pathParams: {
-							"waiting-room-id": String(argv["waiting-room-id"] ?? ""),
 							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
+							"waiting-room-id": String(argv["waiting-room-id"] ?? ""),
 						},
 						bodyKind: "none",
 					});
@@ -67,10 +65,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.waitingRooms.statuses.get({
+					client.send(operation, {
 						zone_id: zoneId,
 						waiting_room_id: argv["waiting-room-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

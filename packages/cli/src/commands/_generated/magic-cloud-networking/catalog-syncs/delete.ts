@@ -1,6 +1,6 @@
+import operation from "../../_operations/magic-cloud-networking/catalog-syncs/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/magic-cloud-networking.ts
@@ -47,9 +47,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"catalog-syncs-delete">;
-type Query = SdkQuery<"catalog-syncs-delete">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <sync-id>",
 	describe: "Delete Catalog Sync",
@@ -65,7 +62,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					delete_destination: argv["delete-destination"],
 				};
 				if (argv.dryRun) {
@@ -90,11 +87,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.magicCloudNetworking.catalogSyncs.delete({
+					client.send(operation, {
 						account_id: accountId,
 						sync_id: argv["sync-id"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

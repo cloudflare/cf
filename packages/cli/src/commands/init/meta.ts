@@ -1,0 +1,92 @@
+import type { CommandMeta } from "../../lib/command-meta.js";
+
+export default [
+	{
+		command: "cf init",
+		name: "init",
+		fullPath: ["init"],
+		category: "create",
+		description: "Create a new Cloudflare project or set up an existing one",
+		usage: "cf init [directory] [options]",
+		arguments: [
+			{
+				name: "directory",
+				position: 0,
+				type: "string",
+				required: false,
+				description:
+					"Directory to initialize; created when missing (prompts when omitted; use . for the current directory)",
+			},
+		],
+		options: [
+			{
+				name: "install",
+				type: "boolean",
+				required: false,
+				description:
+					"Install dependencies after creating a new project (use --no-install to skip)",
+				default: true,
+			},
+			{
+				name: "package-manager",
+				type: "string",
+				required: false,
+				description:
+					"Package manager for a new project (prompts when interactive)",
+				enum: ["npm", "pnpm", "yarn", "bun"],
+			},
+			{
+				name: "dry-run",
+				type: "boolean",
+				required: false,
+				description:
+					"Parse arguments and show the command without executing it",
+				default: false,
+			},
+		],
+	},
+	{
+		command: "cf init workers",
+		name: "workers",
+		fullPath: ["init", "workers"],
+		category: "create",
+		description: "Create a new Workers project or set up an existing one",
+		usage: "cf init workers [directory] [options]",
+		arguments: [
+			{
+				name: "directory",
+				position: 0,
+				type: "string",
+				required: false,
+				description:
+					"Directory to initialize; created when missing (prompts when omitted; use . for the current directory)",
+			},
+		],
+		options: [
+			{
+				name: "install",
+				type: "boolean",
+				required: false,
+				description:
+					"Install dependencies after creating a new project (use --no-install to skip)",
+				default: true,
+			},
+			{
+				name: "package-manager",
+				type: "string",
+				required: false,
+				description:
+					"Package manager for a new project (prompts when interactive)",
+				enum: ["npm", "pnpm", "yarn", "bun"],
+			},
+			{
+				name: "dry-run",
+				type: "boolean",
+				required: false,
+				description:
+					"Parse arguments and show the command without executing it",
+				default: false,
+			},
+		],
+	},
+] satisfies CommandMeta[];

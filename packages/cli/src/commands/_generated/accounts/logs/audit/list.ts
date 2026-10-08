@@ -1,6 +1,6 @@
+import operation from "../../../_operations/accounts/logs/audit/list.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * list command
  * @generated from apis/overlays/accounts.ts
@@ -11,7 +11,6 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { withArgTypes } from "#lib/cli-types.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
@@ -257,33 +256,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		});
 }
 
-type Request = SdkRequest<"audit-logs-v2-get-account-audit-logs">;
-type Query = SdkQuery<"audit-logs-v2-get-account-audit-logs">;
+type Args = InferArgs<typeof builder>;
 
-const typedBuilder = withArgTypes<
-	{
-		"action-result": Query["action_result"];
-		"action-type": Query["action_type"];
-		"actor-context": Query["actor_context"];
-		"actor-type": Query["actor_type"];
-		"raw-status-code": Query["raw_status_code"];
-		"resource-scope": Query["resource_scope"];
-		"action-result-not": Query["action_result.not"];
-		"action-type-not": Query["action_type.not"];
-		"actor-context-not": Query["actor_context.not"];
-		"actor-type-not": Query["actor_type.not"];
-		"raw-status-code-not": Query["raw_status_code.not"];
-		"resource-scope-not": Query["resource_scope.not"];
-		direction: Query["direction"];
-	},
-	typeof builder
->(builder);
-
-type Args = InferArgs<typeof typedBuilder>;
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "list",
 	describe: "Get account audit logs (Version 2)",
-	builder: typedBuilder,
+	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -294,7 +272,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					account_name: argv["account-name"],
 					action_result: argv["action-result"],
 					action_type: argv["action-type"],
@@ -363,10 +341,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.accounts.logs.audit.list({
-						account_id: accountId,
-						...queryParams,
-					} satisfies Request)
+					client.send(operation, { account_id: accountId, ...queryParams })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

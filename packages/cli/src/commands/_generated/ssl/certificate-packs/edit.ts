@@ -1,6 +1,6 @@
+import operation from "../../_operations/ssl/certificate-packs/edit.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * edit command
  * @generated from apis/overlays/ssl.ts
@@ -41,10 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"certificate-packs-restart-validation-for-advanced-certificate-manager-certificate-pack">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "edit <certificate-pack-id>",
 	describe:
@@ -66,8 +62,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "PATCH",
 						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/ssl/certificate_packs/${argv["certificate-pack-id"] == null ? "<certificate-pack-id>" : encodeURIComponent(String(argv["certificate-pack-id"]))}`,
 						pathParams: {
-							"certificate-pack-id": String(argv["certificate-pack-id"] ?? ""),
 							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
+							"certificate-pack-id": String(argv["certificate-pack-id"] ?? ""),
 						},
 						bodyKind: "json",
 						body:
@@ -86,28 +82,28 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.ssl.certificatePacks.edit({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							zone_id: zoneId,
 							certificate_pack_id: argv["certificate-pack-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					cloudflare_branding: argv["cloudflare-branding"],
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.ssl.certificatePacks.edit({
-						...bodyData,
+					client.send(operation, {
+						body: bodyData,
 						zone_id: zoneId,
 						certificate_pack_id: argv["certificate-pack-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

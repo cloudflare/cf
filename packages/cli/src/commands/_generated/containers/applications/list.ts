@@ -1,6 +1,6 @@
+import operation from "../../_operations/containers/applications/list.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * list command
  * @generated from apis/overlays/containers.ts
@@ -49,9 +49,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"listApplications">;
-type Query = SdkQuery<"listApplications">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "list",
 	describe: "List Applications associated with your account",
@@ -66,7 +63,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					per_page: argv["per-page"],
 					page_token: argv["page-token"],
 					name: argv["name"],
@@ -89,10 +86,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.containers.applications.list({
-						account_id: accountId,
-						...queryParams,
-					} satisfies Request)
+					client.send(operation, { account_id: accountId, ...queryParams })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

@@ -1,6 +1,6 @@
+import operation from "../../../../../_operations/cloudforce-one/events/dataset/indicators/relationships/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/cloudforce-one.ts
@@ -53,8 +53,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"delete_IndicatorRelationshipDelete">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <rel-uuid>",
 	describe: "Delete a relationship",
@@ -97,12 +95,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.cloudforceOne.events.dataset.indicators.relationships.delete({
+					client.send(operation, {
 						account_id: accountId,
 						dataset_id: argv["dataset-id"],
 						indicator_id: argv["indicator-id"],
 						rel_uuid: argv["rel-uuid"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

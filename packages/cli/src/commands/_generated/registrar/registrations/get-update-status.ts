@@ -1,6 +1,6 @@
+import operation from "../../_operations/registrar/registrations/get-update-status.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get-update-status command
  * @generated from apis/overlays/registrar.ts
@@ -37,8 +37,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"registrar-domain-registration-get-update-status">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get-update-status <domain-name>",
 	describe: "Get Update Status",
@@ -69,10 +67,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.registrar.registrations.getUpdateStatus({
+					client.send(operation, {
 						account_id: accountId,
 						domain_name: argv["domain-name"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

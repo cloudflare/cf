@@ -1,6 +1,6 @@
+import operation from "../_operations/queries/create.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * create command
  * @generated from apis/overlays/queries.ts
@@ -42,10 +42,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"postAccountsAccountIdBrandProtectionQueries">;
-type Body = Request;
-type Query = SdkQuery<"postAccountsAccountIdBrandProtectionQueries">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "create",
 	describe: "Create new saved string queries",
@@ -60,7 +56,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					id: argv["id"],
 				};
 				if (argv.dryRun) {
@@ -101,25 +97,25 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const qs = new URLSearchParams(
 						Object.entries(queryParams)
 							.filter(([, v]) => v !== undefined)
 							.map(([k, v]) => [k, String(v)])
 					).toString();
 					const result = await withProgress(`Creating`, async () =>
-						client.queries.create({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							account_id: accountId,
 							...queryParams,
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					max_time: resolveFileToken(
 						argv["max-time"] as string | undefined,
 						"max-time",
@@ -143,11 +139,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						.map(([k, v]) => [k, String(v)])
 				).toString();
 				const result = await withProgress(`Creating`, async () =>
-					client.queries.create({
-						...bodyData,
+					client.send(operation, {
+						body: bodyData,
 						account_id: accountId,
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

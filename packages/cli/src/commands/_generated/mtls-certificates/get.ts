@@ -1,6 +1,6 @@
+import operation from "../_operations/mtls-certificates/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/mtls-certificates.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"m-tls-certificate-management-get-m-tls-certificate">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <mtls-certificate-id>",
 	describe: "Get mTLS certificate",
@@ -70,10 +68,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.mtlsCertificates.get({
+					client.send(operation, {
 						account_id: accountId,
 						mtls_certificate_id: argv["mtls-certificate-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

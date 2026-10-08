@@ -1,6 +1,6 @@
+import operation from "../../_operations/waiting-rooms/rules/create.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * create command
  * @generated from apis/overlays/waiting-rooms.ts
@@ -62,9 +62,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"waiting-room-create-waiting-room-rule">;
-type Body = Request["body"];
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "create <waiting-room-id>",
 	describe: "Create Waiting Room Rule",
@@ -85,8 +82,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "POST",
 						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/waiting_rooms/${argv["waiting-room-id"] == null ? "<waiting-room-id>" : encodeURIComponent(String(argv["waiting-room-id"]))}/rules`,
 						pathParams: {
-							"waiting-room-id": String(argv["waiting-room-id"] ?? ""),
 							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
+							"waiting-room-id": String(argv["waiting-room-id"] ?? ""),
 						},
 						bodyKind: "json",
 						body:
@@ -116,13 +113,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
-						client.waitingRooms.rules.create({
+						client.send(operation, {
 							body: bodyData,
 							zone_id: zoneId,
 							waiting_room_id: argv["waiting-room-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
@@ -142,7 +139,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					action: argv["action"],
 					description: resolveFileToken(
 						argv["description"] as string | undefined,
@@ -157,11 +154,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					),
 				});
 				const result = await withProgress(`Creating`, async () =>
-					client.waitingRooms.rules.create({
+					client.send(operation, {
 						body: bodyData,
 						zone_id: zoneId,
 						waiting_room_id: argv["waiting-room-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

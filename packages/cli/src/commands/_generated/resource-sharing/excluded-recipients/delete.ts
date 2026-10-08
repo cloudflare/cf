@@ -1,6 +1,6 @@
+import operation from "../../_operations/resource-sharing/excluded-recipients/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/resource-sharing.ts
@@ -48,8 +48,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"share-excluded-recipient-delete">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <excluded-recipient-id>",
 	describe: "Trigger an account un-exclusion from a share",
@@ -91,11 +89,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.resourceSharing.excludedRecipients.delete({
+					client.send(operation, {
 						account_id: accountId,
 						share_id: argv["share-id"],
 						excluded_recipient_id: argv["excluded-recipient-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

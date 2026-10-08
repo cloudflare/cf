@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/cloudforce-one/threat-signals/articles/tags/generate.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * generate command
  * @generated from apis/overlays/cloudforce-one.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"rssArticleTagGenerate">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "generate <article-id>",
 	describe: "Generate Threat Signals article AI tags",
@@ -68,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Creating`, async () =>
-					client.cloudforceOne.threatSignals.articles.tags.generate({
+					client.send(operation, {
 						account_id: accountId,
 						article_id: argv["article-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

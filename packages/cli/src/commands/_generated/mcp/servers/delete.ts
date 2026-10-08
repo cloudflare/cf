@@ -1,6 +1,6 @@
+import operation from "../../_operations/mcp/servers/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/mcp.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"mcp-portals-api-delete-servers">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <id>",
 	describe: "Delete an MCP Server",
@@ -86,10 +84,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.mcp.servers.delete({
-						account_id: accountId,
-						id: argv["id"],
-					} satisfies Request)
+					client.send(operation, { account_id: accountId, id: argv["id"] })
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

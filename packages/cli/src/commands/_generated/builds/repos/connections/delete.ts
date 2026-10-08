@@ -1,6 +1,6 @@
+import operation from "../../../_operations/builds/repos/connections/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/builds.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"deleteRepoConnection">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <repo-connection-uuid>",
 	describe: "Delete a repository connection",
@@ -85,10 +83,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.builds.repos.connections.delete({
+					client.send(operation, {
 						account_id: accountId,
 						repo_connection_uuid: argv["repo-connection-uuid"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

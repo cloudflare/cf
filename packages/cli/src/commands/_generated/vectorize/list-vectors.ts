@@ -1,6 +1,6 @@
+import operation from "../_operations/vectorize/list-vectors.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * list-vectors command
  * @generated from apis/overlays/vectorize.ts
@@ -44,9 +44,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"vectorize-list-vectors">;
-type Query = SdkQuery<"vectorize-list-vectors">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "list-vectors <index-name>",
 	describe: "List Vectors",
@@ -61,7 +58,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					count: argv["count"],
 					cursor: argv["cursor"],
 				};
@@ -82,11 +79,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.vectorize.listVectors({
+					client.send(operation, {
 						account_id: accountId,
 						index_name: argv["index-name"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

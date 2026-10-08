@@ -1,6 +1,6 @@
+import operation from "../../../_operations/addressing/prefixes/advertisement-status/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/addressing.ts
@@ -36,9 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"ip-address-management-dynamic-advertisement-get-advertisement-status">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <prefix-id>",
 	describe: "Get Advertisement Status",
@@ -69,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.addressing.prefixes.advertisementStatus.get({
+					client.send(operation, {
 						account_id: accountId,
 						prefix_id: argv["prefix-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

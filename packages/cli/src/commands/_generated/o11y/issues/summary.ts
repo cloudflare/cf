@@ -1,6 +1,6 @@
+import operation from "../../_operations/o11y/issues/summary.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * summary command
  * @generated from apis/overlays/o11y.ts
@@ -32,9 +32,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"issues.summary">;
-type Query = SdkQuery<"issues.summary">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "summary",
 	describe: "Summarize detected issues",
@@ -49,7 +46,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					service: argv["service"],
 				};
 				if (argv.dryRun) {
@@ -69,10 +66,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.observability.issues.summary({
-						account_id: accountId,
-						...queryParams,
-					} satisfies Request)
+					client.send(operation, { account_id: accountId, ...queryParams })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

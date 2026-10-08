@@ -1,6 +1,6 @@
+import operation from "../../_operations/dns/dnssec/edit.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * edit command
  * @generated from apis/overlays/dns.ts
@@ -52,9 +52,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"dnssec-edit-dnssec-status">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "edit",
 	describe: "Edit DNSSEC Status",
@@ -103,29 +100,23 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.dns.dnssec.edit({
-							...bodyData,
-							zone_id: zoneId,
-						} satisfies Request)
+						client.send(operation, { body: bodyData, zone_id: zoneId })
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					dnssec_multi_signer: argv["dnssec-multi-signer"],
 					dnssec_presigned: argv["dnssec-presigned"],
 					dnssec_use_nsec3: argv["dnssec-use-nsec3"],
 					status: argv["status"],
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.dns.dnssec.edit({
-						...bodyData,
-						zone_id: zoneId,
-					} satisfies Request)
+					client.send(operation, { body: bodyData, zone_id: zoneId })
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

@@ -1,6 +1,6 @@
+import operation from "../../../_operations/magic-transit/sites/app-configuration/update.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * update command
  * @generated from apis/overlays/magic-transit.ts
@@ -71,9 +71,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"magic-site-app-configs-update-app-config">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update <app-config-id>",
 	describe: "Update an App Config",
@@ -125,21 +122,21 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.magicTransit.sites.appConfiguration.update({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							account_id: accountId,
 							site_id: argv["site-id"],
 							app_config_id: argv["app-config-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					account_app_id: resolveFileToken(
 						argv["account-app-id"] as string | undefined,
 						"account-app-id",
@@ -155,12 +152,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					priority: argv["priority"],
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.magicTransit.sites.appConfiguration.update({
-						...bodyData,
+					client.send(operation, {
+						body: bodyData,
 						account_id: accountId,
 						site_id: argv["site-id"],
 						app_config_id: argv["app-config-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

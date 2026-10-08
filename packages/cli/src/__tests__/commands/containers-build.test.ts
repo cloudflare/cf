@@ -9,11 +9,11 @@ import {
 	runInTempDir,
 } from "@cloudflare/workers-utils/test-helpers";
 import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
-import { generateResourceIndexFile } from "../../../generator/emit/index-files.js";
+import { generateResourceIndexFile } from "../helpers/forge-cli.js";
 import {
 	handWrittenLeafCommands,
 	readHandWrittenLeafCommandMeta,
-} from "../../../generator/hand-written-overrides.js";
+} from "../helpers/forge-cli.js";
 import { runCf } from "../helpers/run-cf.js";
 
 vi.mock("@cloudflare/containers-shared", async (importOriginal) => {

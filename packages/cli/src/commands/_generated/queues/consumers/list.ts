@@ -1,6 +1,6 @@
+import operation from "../../_operations/queues/consumers/list.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * list command
  * @generated from apis/overlays/queues.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"queues-list-consumers">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "list",
 	describe: "List Queue Consumers",
@@ -68,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.queues.consumers.list({
+					client.send(operation, {
 						account_id: accountId,
 						queue_id: argv["queue-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

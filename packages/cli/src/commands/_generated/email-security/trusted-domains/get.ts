@@ -1,6 +1,6 @@
+import operation from "../../_operations/email-security/trusted-domains/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/email-security.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"email_security_get_trusted_domain">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <trusted-domain-id>",
 	describe: "Get a trusted email domain",
@@ -70,10 +68,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.emailSecurity.trustedDomains.get({
+					client.send(operation, {
 						account_id: accountId,
 						trusted_domain_id: argv["trusted-domain-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

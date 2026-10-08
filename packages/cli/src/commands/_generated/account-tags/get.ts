@@ -1,6 +1,6 @@
+import operation from "../_operations/account-tags/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/account-tags.ts
@@ -12,7 +12,6 @@ import {
 	getZoneId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { withArgTypes } from "#lib/cli-types.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
@@ -79,23 +78,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		});
 }
 
-type Request =
-	SdkRequest<"generated:get:/{account_or_zone}/{account_or_zone_id}/tags">;
-type Query =
-	SdkQuery<"generated:get:/{account_or_zone}/{account_or_zone_id}/tags">;
+type Args = InferArgs<typeof builder>;
 
-const typedBuilder = withArgTypes<
-	{
-		"resource-type": Query["resource_type"];
-	},
-	typeof builder
->(builder);
-
-type Args = InferArgs<typeof typedBuilder>;
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get",
 	describe: "Get tags for an account or zone-level resource",
-	builder: typedBuilder,
+	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -106,7 +94,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					resource_id: argv["resource-id"],
 					resource_type: argv["resource-type"],
 					worker_id: argv["worker-id"],
@@ -149,11 +137,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Loading`, async () =>
-					client.accountTags.get({
+					client.send(operation, {
 						account_or_zone: accountOrZone,
 						account_or_zone_id: accountOrZoneId,
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

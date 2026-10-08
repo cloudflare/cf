@@ -1,6 +1,6 @@
+import operation from "../_operations/dns-firewall/edit.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * edit command
  * @generated from apis/overlays/dns-firewall.ts
@@ -94,9 +94,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"dns-firewall-update-dns-firewall-cluster">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "edit <dns-firewall-id>",
 	describe: "Update DNS Firewall Cluster",
@@ -158,20 +155,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.dnsFirewall.edit({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							account_id: accountId,
 							dns_firewall_id: argv["dns-firewall-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					attack_mitigation: {
 						enabled: argv["attack-mitigation-enabled"],
 						only_when_upstream_unhealthy:
@@ -192,11 +189,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					upstream_ips: argv["upstream-ips"],
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.dnsFirewall.edit({
-						...bodyData,
+					client.send(operation, {
+						body: bodyData,
 						account_id: accountId,
 						dns_firewall_id: argv["dns-firewall-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

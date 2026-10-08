@@ -1,6 +1,6 @@
+import operation from "../../_operations/images/keys/create.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * create command
  * @generated from apis/overlays/images.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"cloudflare-images-keys-add-signing-key">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "create <signing-key-name>",
 	describe: "Create a new Signing Key",
@@ -70,10 +68,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Updating`, async () =>
-					client.images.keys.create({
+					client.send(operation, {
 						account_id: accountId,
 						signing_key_name: argv["signing-key-name"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

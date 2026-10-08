@@ -1,6 +1,6 @@
+import operation from "../../../_operations/zero-trust/dlp/sensitivity-groups/get-level-order.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get-level-order command
  * @generated from apis/overlays/zero-trust.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"dlp-sensitivity-groups-get-level-order">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get-level-order <sensitivity-group-id>",
 	describe: "Retrieve the ordered list of level IDs for a sensitivity group.",
@@ -72,10 +70,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.zeroTrust.dlp.sensitivityGroups.getLevelOrder({
+					client.send(operation, {
 						account_id: accountId,
 						sensitivity_group_id: argv["sensitivity-group-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

@@ -1,6 +1,6 @@
+import operation from "../../../_operations/images/import/sources/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/images.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"cloudflare-images-sourcingkit-get-source">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <source-id>",
 	describe: "Get sourcing kit source",
@@ -68,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.images.import.sources.get({
+					client.send(operation, {
 						account_id: accountId,
 						source_id: argv["source-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

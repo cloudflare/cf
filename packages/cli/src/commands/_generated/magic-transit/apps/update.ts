@@ -1,6 +1,6 @@
+import operation from "../../_operations/magic-transit/apps/update.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * update command
  * @generated from apis/overlays/magic-transit.ts
@@ -52,9 +52,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"magic-account-apps-update-app">;
-type Body = Request["body"];
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update <account-app-id>",
 	describe: "Update an App",
@@ -103,20 +100,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.magicTransit.apps.update({
+						client.send(operation, {
 							body: bodyData,
 							account_id: accountId,
 							account_app_id: argv["account-app-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					hostnames: argv["hostnames"],
 					name: resolveFileToken(
 						argv["name"] as string | undefined,
@@ -130,11 +127,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					),
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.magicTransit.apps.update({
+					client.send(operation, {
 						body: bodyData,
 						account_id: accountId,
 						account_app_id: argv["account-app-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

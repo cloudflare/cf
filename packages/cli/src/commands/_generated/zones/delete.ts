@@ -1,6 +1,6 @@
+import operation from "../_operations/zones/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/zones.ts
@@ -30,8 +30,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"zones-0-delete">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete",
@@ -72,7 +70,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.zones.delete({ zone_id: zoneId } satisfies Request)
+					client.send(operation, { zone_id: zoneId })
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

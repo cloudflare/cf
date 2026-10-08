@@ -1,6 +1,6 @@
+import operation from "../../_operations/d1/time-travel/restore.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * restore command
  * @generated from apis/overlays/d1.ts
@@ -53,9 +53,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"d1-time-travel-restore">;
-type Query = SdkQuery<"d1-time-travel-restore">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "restore <database-id>",
 	describe: "Restore D1 Database to a bookmark or point in time",
@@ -71,7 +68,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					bookmark: argv["bookmark"],
 					timestamp: argv["timestamp"],
 				};
@@ -102,11 +99,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.d1.timeTravel.restore({
+					client.send(operation, {
 						account_id: accountId,
 						database_id: argv["database-id"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

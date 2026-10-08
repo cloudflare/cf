@@ -1,6 +1,6 @@
+import operation from "../../_operations/registrar/registrations/search.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * search command
  * @generated from apis/overlays/registrar.ts
@@ -47,9 +47,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"registrar-domain-discovery-search">;
-type Query = SdkQuery<"registrar-domain-discovery-search">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "search",
 	describe: "Search for available domains",
@@ -64,7 +61,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					q: argv["query"],
 					extensions: argv["extensions"],
 					limit: argv["limit"],
@@ -86,10 +83,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.registrar.registrations.search({
-						account_id: accountId,
-						...queryParams,
-					} satisfies Request)
+					client.send(operation, { account_id: accountId, ...queryParams })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

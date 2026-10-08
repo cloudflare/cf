@@ -1,13 +1,12 @@
+import operation from "../../../_operations/radar/attacks/layer7/timeseries.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery } from "#sdk";
 /**
  * timeseries command
  * @generated from apis/overlays/radar.ts
  */
 import type { Argv, CommandModule } from "yargs";
 import { createCommandClient } from "#lib/auth.js";
-import { withArgTypes } from "#lib/cli-types.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
@@ -92,26 +91,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		});
 }
 
-type Query = SdkQuery<"radar-get-attacks-layer7-timeseries">;
+type Args = InferArgs<typeof builder>;
 
-const typedBuilder = withArgTypes<
-	{
-		"agg-interval": Query["aggInterval"];
-		normalization: Query["normalization"];
-		"ip-version": Query["ipVersion"];
-		"http-version": Query["httpVersion"];
-		"http-method": Query["httpMethod"];
-		"mitigation-product": Query["mitigationProduct"];
-		format: Query["format"];
-	},
-	typeof builder
->(builder);
-
-type Args = InferArgs<typeof typedBuilder>;
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "timeseries",
 	describe: "Get layer 7 attacks time series",
-	builder: typedBuilder,
+	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -122,7 +107,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					aggInterval: argv["agg-interval"],
 					name: argv["name"],
 					dateRange: argv["date-range"],
@@ -152,7 +137,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const client = await createCommandClient(argv);
 
 				const result = await withProgress(`Loading`, async () =>
-					client.radar.attacks.layer7.timeseries(queryParams)
+					client.send(operation, queryParams)
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

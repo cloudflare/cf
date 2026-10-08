@@ -27,10 +27,10 @@ import { getDefaultHeaders } from "./request-headers.js";
  * resolution is skipped in local mode so users without a Cloudflare
  * API token can still exercise local commands.
  *
- * Throws a `CloudflareApiError` on non-2xx responses so the existing
+ * Throws a `ApiError` on non-2xx responses so the existing
  * `handleError` rendering still applies.
  */
-import { CloudflareApiError } from "#sdk/errors";
+import { ApiError } from "#api";
 
 /**
  * Request body for a raw-output call. Mirrors the shapes the generated
@@ -181,7 +181,7 @@ export async function fetchRawBytes(
 		} catch {
 			errorData = null;
 		}
-		throw new CloudflareApiError({
+		throw new ApiError({
 			statusCode: response.status,
 			body: errorData,
 			rawResponse: {

@@ -1,0 +1,89 @@
+import type { CommandMeta } from "../../lib/command-meta.js";
+
+export default [
+	{
+		command: "cf cli search",
+		name: "search",
+		fullPath: ["cli", "search"],
+		category: "read",
+		description: "Search all CLI commands by intent",
+		summary: "Search all CLI commands by intent",
+		usage: "cf cli search <query>",
+		arguments: [
+			{
+				name: "query",
+				position: 0,
+				type: "string",
+				required: true,
+				description: "Search terms or a description of what you want to do",
+			},
+		],
+		options: [
+			{
+				name: "dry-run",
+				type: "boolean",
+				required: false,
+				description:
+					"Parse arguments and show the command without executing it",
+				default: false,
+			},
+		],
+	},
+	{
+		command: "cf cli telemetry status",
+		name: "status",
+		fullPath: ["cli", "telemetry", "status"],
+		category: "read",
+		description: "Check whether cf telemetry collection is enabled",
+		usage: "cf cli telemetry status",
+		arguments: [],
+		options: [
+			{
+				name: "dry-run",
+				type: "boolean",
+				required: false,
+				description:
+					"Parse arguments and show the command without executing it",
+				default: false,
+			},
+		],
+	},
+	{
+		command: "cf cli telemetry enable",
+		name: "enable",
+		fullPath: ["cli", "telemetry", "enable"],
+		category: "action",
+		description: "Enable cf telemetry collection",
+		usage: "cf cli telemetry enable",
+		arguments: [],
+		options: [
+			{
+				name: "dry-run",
+				type: "boolean",
+				required: false,
+				description:
+					"Parse arguments and show the command without executing it",
+				default: false,
+			},
+		],
+	},
+	{
+		command: "cf cli telemetry disable",
+		name: "disable",
+		fullPath: ["cli", "telemetry", "disable"],
+		category: "action",
+		description: "Disable cf telemetry collection",
+		usage: "cf cli telemetry disable",
+		arguments: [],
+		options: [
+			{
+				name: "dry-run",
+				type: "boolean",
+				required: false,
+				description:
+					"Parse arguments and show the command without executing it",
+				default: false,
+			},
+		],
+	},
+] satisfies CommandMeta[];

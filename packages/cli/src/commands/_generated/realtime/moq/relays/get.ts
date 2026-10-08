@@ -1,6 +1,6 @@
+import operation from "../../../_operations/realtime/moq/relays/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/realtime.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"moq-relays-get">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <relay-id>",
 	describe: "Get a relay",
@@ -68,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.realtime.moq.relays.get({
+					client.send(operation, {
 						account_id: accountId,
 						relay_id: argv["relay-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

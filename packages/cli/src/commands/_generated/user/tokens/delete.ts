@@ -1,6 +1,6 @@
+import operation from "../../_operations/user/tokens/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/user.ts
@@ -35,8 +35,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"user-api-tokens-delete-token">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <token-id>",
@@ -76,9 +74,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.user.tokens.delete({
-						token_id: argv["token-id"],
-					} satisfies Request)
+					client.send(operation, { token_id: argv["token-id"] })
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

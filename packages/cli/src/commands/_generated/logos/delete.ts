@@ -1,6 +1,6 @@
+import operation from "../_operations/logos/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/logos.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"deleteAccountsAccountIdBrandProtectionLogosLogoId">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <logo-id>",
 	describe: "Delete saved logo queries by ID",
@@ -81,10 +79,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.logos.delete({
+					client.send(operation, {
 						account_id: accountId,
 						logo_id: argv["logo-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

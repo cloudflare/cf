@@ -1,6 +1,6 @@
+import operation from "../../_operations/leaked-credential-checks/detections/update.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * update command
  * @generated from apis/overlays/leaked-credential-checks.ts
@@ -23,6 +23,10 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "Defines the unique ID for this custom detection.",
 			demandOption: true,
+		})
+		.option("id", {
+			type: "string",
+			description: "Defines the unique ID for this custom detection.",
 		})
 		.option("password", {
 			type: "string",
@@ -47,10 +51,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request =
-	SdkRequest<"waf-product-api-leaked-credentials-update-detection">;
-type Body = Request["body"];
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update <detection-id>",
@@ -80,6 +80,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
+										id: resolveFileToken(
+											argv["id"] as string | undefined,
+											"id",
+											"text"
+										),
 										password: resolveFileToken(
 											argv["password"] as string | undefined,
 											"password",
@@ -101,20 +106,21 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.leakedCredentialChecks.detections.update({
+						client.send(operation, {
 							body: bodyData,
 							zone_id: zoneId,
 							detection_id: argv["detection-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
+					id: resolveFileToken(argv["id"] as string | undefined, "id", "text"),
 					password: resolveFileToken(
 						argv["password"] as string | undefined,
 						"password",
@@ -127,11 +133,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					),
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.leakedCredentialChecks.detections.update({
+					client.send(operation, {
 						body: bodyData,
 						zone_id: zoneId,
 						detection_id: argv["detection-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

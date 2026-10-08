@@ -1,6 +1,6 @@
+import operation from "../../../_operations/zero-trust/devices/networks/update.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * update command
  * @generated from apis/overlays/zero-trust.ts
@@ -79,10 +79,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"device-managed-networks-update-device-managed-network">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update <network-id>",
 	describe: "Update a device managed network",
@@ -136,20 +132,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.zeroTrust.devices.networks.update({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							account_id: accountId,
 							network_id: argv["network-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					config: {
 						sha256: resolveFileToken(
 							argv["config-sha256"] as string | undefined,
@@ -170,11 +166,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					type: argv["type"],
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.zeroTrust.devices.networks.update({
-						...bodyData,
+					client.send(operation, {
+						body: bodyData,
 						account_id: accountId,
 						network_id: argv["network-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

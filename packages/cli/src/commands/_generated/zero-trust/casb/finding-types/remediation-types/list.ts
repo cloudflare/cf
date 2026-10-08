@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/zero-trust/casb/finding-types/remediation-types/list.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * list command
  * @generated from apis/overlays/zero-trust.ts
@@ -52,9 +52,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"GetRemediationTypesForFindingType">;
-type Query = SdkQuery<"GetRemediationTypesForFindingType">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "list",
 	describe: "List remediation types for a finding type",
@@ -69,7 +66,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					integration_id: argv["integration-id"],
 					cursor: argv["cursor"],
 					page: argv["page"],
@@ -94,11 +91,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.zeroTrust.casb.findingTypes.remediationTypes.list({
+					client.send(operation, {
 						account_id: accountId,
 						finding_type_id: argv["finding-type-id"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

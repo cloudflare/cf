@@ -5,8 +5,8 @@ import $get from "./get.js";
 import $list from "./list.js";
 import $schema from "./schema/index.js";
 import $test from "./test.js";
+import $updatependingapproval from "./update-pending-approval.js";
 import $update from "./update.js";
-import $updatePendingApproval from "./updatePendingApproval.js";
 import $validate from "./validate.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
@@ -27,7 +27,7 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($list)
 			.command($test)
 			.command($update)
-			.command($updatePendingApproval)
+			.command($updatependingapproval)
 			.command($validate)
 			.command($approvals)
 			.command($schema)

@@ -1,6 +1,6 @@
+import operation from "../../_operations/monetization/rules/edit.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * edit command
  * @generated from apis/overlays/monetization.ts
@@ -65,9 +65,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"monetization-patch-rule">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "edit <rule-id>",
 	describe: "Update a payment rule",
@@ -129,20 +126,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.monetization.rules.edit({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							zone_id: zoneId,
 							rule_id: argv["rule-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					address: resolveFileToken(
 						argv["address"] as string | undefined,
 						"address",
@@ -167,11 +164,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					scheme: argv["scheme"],
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.monetization.rules.edit({
-						...bodyData,
+					client.send(operation, {
+						body: bodyData,
 						zone_id: zoneId,
 						rule_id: argv["rule-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

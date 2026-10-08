@@ -2,7 +2,7 @@ import $addressmaps from "./address-maps/index.js";
 import $leases from "./leases/index.js";
 import $loadocuments from "./loa-documents/index.js";
 import $prefixes from "./prefixes/index.js";
-import $regional_hostnames from "./regional_hostnames/index.js";
+import $regionalhostnames from "./regional-hostnames/index.js";
 import $services from "./services/index.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
@@ -21,7 +21,7 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($leases)
 			.command($loadocuments)
 			.command($prefixes)
-			.command($regional_hostnames)
+			.command($regionalhostnames)
 			.command($services)
 			.demandCommand(1, "Please specify a subcommand");
 	},

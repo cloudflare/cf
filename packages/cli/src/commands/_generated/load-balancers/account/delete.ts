@@ -1,6 +1,6 @@
+import operation from "../../_operations/load-balancers/account/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/load-balancers.ts
@@ -43,9 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request =
-	SdkRequest<"generated:delete:/{account_or_zone}/{account_or_zone_id}/load_balancers/{load_balancer_id}">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <load-balancer-id>",
@@ -105,11 +102,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.loadBalancers.account.delete({
+					client.send(operation, {
 						account_or_zone: accountOrZone,
 						account_or_zone_id: accountOrZoneId,
 						load_balancer_id: argv["load-balancer-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

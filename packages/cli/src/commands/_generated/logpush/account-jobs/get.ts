@@ -1,6 +1,6 @@
+import operation from "../../_operations/logpush/account-jobs/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/logpush.ts
@@ -37,9 +37,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"generated:get:/{account_or_zone}/{account_or_zone_id}/logpush/jobs/{job_id}">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <job-id>",
 	describe: "Get Logpush job details",
@@ -68,8 +65,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						url: `https://api.cloudflare.com/client/v4/${accountOrZone}/${accountOrZoneId}/logpush/jobs/${argv["job-id"] == null ? "<job-id>" : encodeURIComponent(String(argv["job-id"]))}`,
 						pathParams: {
 							"account-or-zone": String(accountOrZone),
-							"job-id": String(argv["job-id"] ?? ""),
 							"account-or-zone-id": String(accountOrZoneId),
+							"job-id": String(argv["job-id"] ?? ""),
 						},
 						bodyKind: "none",
 					});
@@ -92,11 +89,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Loading`, async () =>
-					client.logpush.accountJobs.get({
+					client.send(operation, {
 						account_or_zone: accountOrZone,
 						account_or_zone_id: accountOrZoneId,
 						job_id: argv["job-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

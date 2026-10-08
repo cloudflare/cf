@@ -1,6 +1,5 @@
 node_modules/
 dist/
-packages/cli/src/sdk/openapi*.json
 .DS_Store
 *.log
 *.tsbuildinfo
@@ -9,6 +8,9 @@ packages/cli/src/sdk/openapi*.json
 
 # Legacy Turbo cache
 .turbo/
+
+# Generator plugin, built by cf#task:generate:plugin
+packages/cli/generator/cli.wasm
 
 # Package tarballs
 packages/cli/*.tgz

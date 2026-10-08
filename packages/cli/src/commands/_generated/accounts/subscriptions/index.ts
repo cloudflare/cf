@@ -1,10 +1,10 @@
-import $cancelDelayedDowngrade from "./cancelDelayedDowngrade.js";
+import $canceldelayeddowngrade from "./cancel-delayed-downgrade.js";
+import $createcancelreason from "./create-cancel-reason.js";
 import $create from "./create.js";
-import $createCancelReason from "./createCancelReason.js";
 import $delete from "./delete.js";
+import $getbyidentifier from "./get-by-identifier.js";
+import $getcancelreason from "./get-cancel-reason.js";
 import $get from "./get.js";
-import $getByIdentifier from "./getByIdentifier.js";
-import $getCancelReason from "./getCancelReason.js";
 import $update from "./update.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
@@ -19,13 +19,13 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
-			.command($cancelDelayedDowngrade)
+			.command($canceldelayeddowngrade)
 			.command($create)
-			.command($createCancelReason)
+			.command($createcancelreason)
 			.command($delete)
 			.command($get)
-			.command($getByIdentifier)
-			.command($getCancelReason)
+			.command($getbyidentifier)
+			.command($getcancelreason)
 			.command($update)
 			.demandCommand(1, "Please specify a subcommand");
 	},

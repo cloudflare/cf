@@ -1,0 +1,31 @@
+/** @generated from radar.dns.summary-v2 */
+export default {
+	method: "GET",
+	path: "/radar/dns/summary/{dimension}",
+	query: [
+		"name",
+		"dateRange",
+		"dateStart",
+		"dateEnd",
+		"asn",
+		"location",
+		"continent",
+		"cacheHit",
+		"nodata",
+		"protocol",
+		"queryType",
+		"responseCode",
+		"responseTtl",
+		"dnssec",
+		"dnssecAware",
+		"dnssecE2e",
+		"ipVersion",
+		"limitPerGroup",
+		"matchingAnswer",
+		"tld",
+		"format",
+	],
+	errors: {
+		400: "BadRequestError",
+	},
+} as const;

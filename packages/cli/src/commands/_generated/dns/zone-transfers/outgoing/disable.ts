@@ -1,6 +1,6 @@
+import operation from "../../../_operations/dns/zone-transfers/outgoing/disable.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * disable command
  * @generated from apis/overlays/dns.ts
@@ -32,9 +32,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request =
-	SdkRequest<"secondary-dns-(-primary-zone)-disable-outgoing-zone-transfers">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "disable",
@@ -80,9 +77,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.dns.zoneTransfers.outgoing.disable({
-						zone_id: zoneId,
-					} satisfies Request)
+					client.send(operation, { zone_id: zoneId })
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

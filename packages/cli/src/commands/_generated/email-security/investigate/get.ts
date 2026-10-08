@@ -1,6 +1,6 @@
+import operation from "../../_operations/email-security/investigate/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/email-security.ts
@@ -42,9 +42,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"email_security_get_message">;
-type Query = SdkQuery<"email_security_get_message">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <investigate-id>",
 	describe: "Get message details",
@@ -59,7 +56,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					submission: argv["submission"],
 				};
 				if (argv.dryRun) {
@@ -81,11 +78,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.emailSecurity.investigate.get({
+					client.send(operation, {
 						account_id: accountId,
 						investigate_id: argv["investigate-id"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

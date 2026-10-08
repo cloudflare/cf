@@ -1,4 +1,4 @@
-import $regional_services from "./regional_services/index.js";
+import $regionalservices from "./regional-services/index.js";
 import $regions from "./regions/index.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
@@ -13,7 +13,7 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
-			.command($regional_services)
+			.command($regionalservices)
 			.command($regions)
 			.demandCommand(1, "Please specify a subcommand");
 	},

@@ -1,6 +1,6 @@
+import operation from "../../_operations/scim/users/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/scim.ts
@@ -44,8 +44,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"scim-users-delete">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <user-id>",
 	describe: "Delete SCIM User",
@@ -87,10 +85,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.scim.users.delete({
+					client.send(operation, {
 						account_id: accountId,
 						user_id: argv["user-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

@@ -283,7 +283,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"DELETE",
 						`/${accountOrZone}/${accountOrZoneId}/tags`,
 						{
-							body: Object.keys(bodyData).length > 0 ? bodyData : undefined,
+							body: bodyData,
 							headers: Object.keys(headers).length > 0 ? headers : undefined,
 						}
 					)

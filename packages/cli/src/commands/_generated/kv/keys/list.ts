@@ -1,6 +1,6 @@
+import operation from "../../_operations/kv/keys/list.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * list command
  * @generated from apis/overlays/kv.ts
@@ -51,9 +51,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"workers-kv-namespace-list-a-namespace'-s-keys">;
-type Query = SdkQuery<"workers-kv-namespace-list-a-namespace'-s-keys">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "list",
 	describe: "List keys in a namespace",
@@ -68,7 +65,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					limit: argv["limit"],
 					prefix: argv["prefix"],
 					cursor: argv["cursor"],
@@ -90,11 +87,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.kv.keys.list({
+					client.send(operation, {
 						account_id: accountId,
 						namespace_id: argv["namespace-id"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

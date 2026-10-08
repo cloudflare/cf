@@ -1,8 +1,5 @@
 import { describe, expect, it } from "vite-plus/test";
-import {
-	accountOrZonePathParamLocal,
-	hasAccountOrZoneScope,
-} from "../../../generator/util.js";
+import { hasAccountOrZoneScope } from "../../../generator/util.js";
 
 describe("account-or-zone path classification", () => {
 	it("recognizes only the adjacent placeholder pair", () => {
@@ -26,24 +23,5 @@ describe("account-or-zone path classification", () => {
 			)
 		).toBe(false);
 		expect(hasAccountOrZoneScope("/things/{account_or_zone}")).toBe(false);
-	});
-
-	it("maps only the paired placeholders to generated locals", () => {
-		const path = "/{account_or_zone}/{account_or_zone_id}/load_balancers";
-		expect(accountOrZonePathParamLocal(path, "account_or_zone")).toBe(
-			"accountOrZone"
-		);
-		expect(accountOrZonePathParamLocal(path, "account_or_zone_id")).toBe(
-			"accountOrZoneId"
-		);
-		expect(accountOrZonePathParamLocal(path, "load_balancer_id")).toBe(
-			undefined
-		);
-		expect(
-			accountOrZonePathParamLocal(
-				"/things/{account_or_zone}",
-				"account_or_zone"
-			)
-		).toBe(undefined);
 	});
 });

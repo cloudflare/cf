@@ -1,6 +1,6 @@
+import operation from "../../_operations/email-sending/suppressions/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/email-sending.ts
@@ -42,8 +42,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"delete_publicDeleteSendingSuppression">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <suppression-id>",
@@ -88,10 +86,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.emailSending.suppressions.delete({
+					client.send(operation, {
 						account_id: accountId,
 						suppression_id: argv["suppression-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

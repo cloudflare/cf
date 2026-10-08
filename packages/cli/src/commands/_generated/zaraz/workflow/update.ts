@@ -1,6 +1,6 @@
+import operation from "../../_operations/zaraz/workflow/update.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * update command
  * @generated from apis/overlays/zaraz.ts
@@ -28,9 +28,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"put-zones-zone_identifier-zaraz-workflow">;
-type Body = Request["body"];
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update",
@@ -66,12 +63,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.zaraz.workflow.update({
-							body: bodyData,
-							zone_id: zoneId,
-						} satisfies Request)
+						client.send(operation, { body: bodyData, zone_id: zoneId })
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;

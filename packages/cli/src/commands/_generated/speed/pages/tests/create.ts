@@ -1,6 +1,6 @@
+import operation from "../../../_operations/speed/pages/tests/create.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * create command
  * @generated from apis/overlays/speed.ts
@@ -35,9 +35,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"speed-create-test">;
-type Body = Request;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "create <url>",
@@ -74,23 +71,24 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
-						client.speed.pages.tests.create({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							zone_id: zoneId,
 							url: argv["url"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
 
 				const result = await withProgress(`Creating`, async () =>
-					client.speed.pages.tests.create({
+					client.send(operation, {
+						body: {},
 						zone_id: zoneId,
 						url: argv["url"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

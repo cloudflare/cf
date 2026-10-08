@@ -1,6 +1,6 @@
+import operation from "../../_operations/accounts/tokens/verify.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * verify command
  * @generated from apis/overlays/accounts.ts
@@ -28,8 +28,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"account-api-tokens-verify-token">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "verify",
@@ -61,9 +59,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.accounts.tokens.verify({
-						account_id: accountId,
-					} satisfies Request)
+					client.send(operation, { account_id: accountId })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

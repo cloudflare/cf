@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/realtime/kit/sessions/summaries/export.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * export command
  * @generated from apis/overlays/realtime.ts
@@ -41,8 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"GetSessionSummary">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "export <session-id>",
 	describe: "Fetch summary of transcripts for a session",
@@ -76,11 +74,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.realtime.kit.sessions.summaries.export({
+					client.send(operation, {
 						account_id: accountId,
 						app_id: argv["app-id"],
 						session_id: argv["session-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

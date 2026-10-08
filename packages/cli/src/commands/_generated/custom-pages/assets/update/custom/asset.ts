@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/custom-pages/assets/update/custom/asset.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * asset command
  * @generated from apis/overlays/custom-pages.ts
@@ -53,10 +53,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"generated:put:/{account_or_zone}/{account_or_zone_id}/custom_pages/assets/{asset_name}">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "asset <asset-name>",
 	describe: "Update a custom asset",
@@ -85,8 +81,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						url: `https://api.cloudflare.com/client/v4/${accountOrZone}/${accountOrZoneId}/custom_pages/assets/${argv["asset-name"] == null ? "<asset-name>" : encodeURIComponent(String(argv["asset-name"]))}`,
 						pathParams: {
 							"account-or-zone": String(accountOrZone),
-							"asset-name": String(argv["asset-name"] ?? ""),
 							"account-or-zone-id": String(accountOrZoneId),
+							"asset-name": String(argv["asset-name"] ?? ""),
 						},
 						bodyKind: "json",
 						body:
@@ -124,14 +120,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.customPages.assets.update.custom.asset({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							account_or_zone: accountOrZone,
 							account_or_zone_id: accountOrZoneId,
 							asset_name: argv["asset-name"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
@@ -150,7 +146,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					description: resolveFileToken(
 						argv["description"] as string | undefined,
 						"description",
@@ -163,12 +159,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					),
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.customPages.assets.update.custom.asset({
-						...bodyData,
+					client.send(operation, {
+						body: bodyData,
 						account_or_zone: accountOrZone,
 						account_or_zone_id: accountOrZoneId,
 						asset_name: argv["asset-name"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

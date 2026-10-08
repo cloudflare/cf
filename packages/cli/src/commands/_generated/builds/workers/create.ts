@@ -1,6 +1,6 @@
+import operation from "../../_operations/builds/workers/create.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * create command
  * @generated from apis/overlays/builds.ts
@@ -64,8 +64,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("previews-base-config-build-caching-enabled", {
 			type: "boolean",
-			description:
-				"Whether builds reuse cached dependencies and build artifacts.",
+			description: "The previews_base_config.build_caching_enabled field",
 			default: true,
 		})
 		.option("previews-base-config-build-command", {
@@ -92,8 +91,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("previews-base-config-root-directory", {
 			type: "string",
-			description:
-				"Repository directory in which build and deploy commands run.",
+			description: "The previews_base_config.root_directory field",
 			default: "/",
 		})
 		.option("previews-enabled", {
@@ -102,8 +100,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("production-settings-build-caching-enabled", {
 			type: "boolean",
-			description:
-				"Whether builds reuse cached dependencies and build artifacts.",
+			description: "The production_settings.build_caching_enabled field",
 			default: true,
 		})
 		.option("production-settings-build-command", {
@@ -130,8 +127,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("production-settings-root-directory", {
 			type: "string",
-			description:
-				"Repository directory in which build and deploy commands run.",
+			description: "The production_settings.root_directory field",
 			default: "/",
 		})
 		.option("script-tag", {
@@ -151,9 +147,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"createWorkerBuild">;
-type Body = Request;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "create",
@@ -307,12 +300,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
-						client.builds.workers.create({
-							...bodyData,
-							account_id: accountId,
-						} satisfies Request)
+						client.send(operation, { body: bodyData, account_id: accountId })
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
@@ -412,7 +402,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					git_repository: {
 						branch: resolveFileToken(
 							argv["git-repository-branch"] as string | undefined,
@@ -512,10 +502,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					),
 				});
 				const result = await withProgress(`Creating`, async () =>
-					client.builds.workers.create({
-						...bodyData,
-						account_id: accountId,
-					} satisfies Request)
+					client.send(operation, { body: bodyData, account_id: accountId })
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

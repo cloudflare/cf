@@ -1,0 +1,62 @@
+packages/cli/src/commands/_generated/_meta/hand-written-commands.json
+  s_22c15c79e66d32::t_667ae06445bc4c 1690,1699
+  s_22c15c79e66d32::t_927d783100499c 1144,1146-1147
+.changeset/previews-command-group.md
+  s_22c15c79e66d32::t_9c6c30116cd868 1-5
+packages/cli/generator/generator.ts
+  s_22c15c79e66d32::t_7b2614202be122 12
+packages/cli/generator/command-roots.ts
+  s_22c15c79e66d32::t_e5cfab7af9a9d5 1-25
+packages/cli/src/commands/previews/deploy/index.ts
+  s_22c15c79e66d32::t_2bb95c816fabef 1-7
+packages/cli/src/__tests__/generator/command-roots.test.ts
+  s_22c15c79e66d32::t_298106de9b0d94 2-60
+  s_22c15c79e66d32::t_b3d0c39d46a3dc 1
+packages/cli/src/commands/_generated/previews/index.ts
+  s_22c15c79e66d32::t_650fac0ab0aa2d 1-18
+packages/cli/src/commands/previews/deploy/meta.json
+  s_22c15c79e66d32::t_446338bad06039 1-32
+packages/cli/src/commands/hand-written.ts
+  s_22c15c79e66d32::t_43ec1312aeab5d 140-143
+  s_22c15c79e66d32::t_daebf68ba984f5 33-34,147,149-150
+  s_22c15c79e66d32::t_46dcae4b5f132c 144-146
+packages/cli/src/commands/_generated/_meta/commands.json
+  s_22c15c79e66d32::t_496d4478b7e5c4 157457
+packages/cli/src/__tests__/generator/hand-written-leaf-commands.test.ts
+  s_22c15c79e66d32::t_13a0a486001f93 256
+  s_22c15c79e66d32::t_def29ea4b2f11e 27-42,44
+  s_22c15c79e66d32::t_ab0af182f65e32 1,43,45,219-255,257-259
+packages/cli/src/commands/previews/deploy.ts
+  s_22c15c79e66d32::t_934087b14b7fe1 205-207
+packages/cli/src/commands/_generated/index.ts
+  s_22c15c79e66d32::t_fc5b50d257c87e 1059-1067
+packages/cli/src/__tests__/commands/hand-written-metadata.test.ts
+  s_22c15c79e66d32::t_15520e312d43ba 272,274-275
+packages/cli/AGENTS.md
+  s_22c15c79e66d32::t_b911930af7d8ec 44-54,82-84
+  s_22c15c79e66d32::t_632e34ca00a3c6 40-43
+packages/cli/src/__tests__/commands/previews-root.test.ts
+  s_22c15c79e66d32::t_feeb95d19f8917 9-36
+  s_22c15c79e66d32::t_1084bc27d0e995 1-8
+packages/cli/src/__tests__/generator/parent-overrides.test.ts
+  s_22c15c79e66d32::t_8330abd81fe162 1-63
+packages/cli/generator/index.ts
+  s_22c15c79e66d32::t_14103c3b28048e 4,9,288-291
+  s_22c15c79e66d32::t_120b0622fd4b8a 15,32,521
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "4edfc8881ae094c9781cf261af7b3ca9bd93e329",
+  "prompts": {},
+  "sessions": {
+    "s_22c15c79e66d32": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0f3b7-5e69-7b03-93cc-5bed297ee91e",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Greg Brimble <gbrimble@cloudflare.com>"
+    }
+  }
+}

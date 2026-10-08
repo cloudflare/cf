@@ -2,16 +2,18 @@ import {
 	handWrittenCommands,
 	leafOverrideHandWrittenCommands,
 	leafHandWrittenCommands,
+	parentOverrideHandWrittenCommands,
 	rootCommandName,
 	rootHandWrittenCommands,
 	subGroupHandWrittenCommands,
 } from "../src/commands/hand-written.js";
+import { withHandWrittenCommandRoots } from "./command-roots.js";
 import {
 	generateCommandFile,
 	generateGroupIndexFile,
 	generateResourceIndexFile,
 	isMethodGroup,
-} from "./generator";
+} from "./generator.js";
 import {
 	handWrittenLeafCommands,
 	handWrittenLeafOverrideDir,
@@ -29,7 +31,7 @@ import {
 	validateHandWrittenDryRunMetadata,
 	type HandWrittenCommandMeta,
 	type SchemaInfo,
-} from "./metadata";
+} from "./metadata.js";
 import { errorMessage, escapeForSingleQuote } from "./util.js";
 /**
  * CLI Transformer
@@ -285,7 +287,10 @@ export const transformer: TransformerFn = async (forge: Forge) => {
 		hideCommand: false,
 	};
 	const commandSchemas: Array<[string, Schema.command]> = [
-		...forge.commands,
+		...withHandWrittenCommandRoots(
+			forge.commands,
+			parentOverrideHandWrittenCommands()
+		),
 		["access", accessSchema],
 	];
 
@@ -515,7 +520,7 @@ ${entries}
 		}
 	}
 	for (const command of rootHandWrittenCommands()) {
-		const name = command.command.split(/\s+/)[0];
+		const name = rootCommandName(command);
 		descriptions[name] = command.describe === false ? "" : command.describe;
 	}
 

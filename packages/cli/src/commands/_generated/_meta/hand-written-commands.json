@@ -1388,9 +1388,10 @@
 				}
 			],
 			"handWritten": {
-				"kind": "root",
+				"kind": "leaf",
 				"overrides": false,
-				"dir": "previews"
+				"dir": "previews/deploy",
+				"parent": "previews"
 			}
 		},
 		{
@@ -2005,6 +2006,7 @@
 		"d1": "D1 is Cloudflare's managed, serverless database with SQLite's SQL semantics, built-in disaster recovery, and Worker and HTTP API access.",
 		"d1 migrations": "Create, list, and apply D1 database migrations",
 		"pages": "Full-stack application hosting with Git-integrated builds, preview deployments, and custom domains",
+		"previews": "Manage Worker Previews",
 		"registrar": "registrar",
 		"registrar registrations": "Operations for registrations",
 		"tunnels": "tunnels",
@@ -2013,7 +2015,6 @@
 		"workers triggers": "Manage triggers (Routes, Workflows, Cron triggers etc.)",
 		"auth": "Manage authentication and profiles",
 		"init": "Create a new Cloudflare project or set up an existing one",
-		"cli": "Discover commands and configure the cf CLI",
-		"previews": "Manage Worker Previews"
+		"cli": "Discover commands and configure the cf CLI"
 	}
 }

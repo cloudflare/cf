@@ -1,5 +1,5 @@
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { dirname, join } from "node:path";
 import { getCfConfigPath } from "@cloudflare/workers-auth/cf";
 import { API_TIMEOUT_MS } from "./api-constants.js";
 
@@ -146,6 +146,8 @@ interface TokenResponse {
 export interface HarnessToken {
 	id: string;
 	value: string;
+	/** UTC timestamp the token stops working, as returned to the cache. */
+	expiresOn: string;
 }
 
 const AI_GATEWAY_RUN_PERMISSION = "644535f4ed854494a59cb289d634b257";
@@ -159,13 +161,28 @@ async function tokenResponse(response: Response): Promise<TokenResponse> {
 	}
 }
 
+/**
+ * Lifetime of a minted harness token.
+ *
+ * Neither the parent OAuth credential nor the token itself can revoke a
+ * user-owned token (both receive 403), so a short lifetime would not shrink
+ * the exposure window — the record persists until it expires either way. It
+ * would only burn through the 50-token account quota, one record per launch.
+ * A long lifetime plus the on-disk cache below keeps that to a single record.
+ * Least privilege comes from the two permissions, not from the expiry.
+ */
+const TOKEN_LIFETIME_MS = 365 * 24 * 60 * 60 * 1000;
+
+/** Re-mint this long before expiry so a launch never races the deadline. */
+const TOKEN_RENEWAL_MARGIN_MS = 24 * 60 * 60 * 1000;
+
 export async function createHarnessToken(
 	parentToken: string,
 	accountId: string,
 	apiBaseUrl: string
 ): Promise<HarnessToken> {
 	// The API rejects fractional seconds, so emit "2005-12-30T01:02:03Z".
-	const expiresOn = new Date(Date.now() + 60 * 60 * 1000)
+	const expiresOn = new Date(Date.now() + TOKEN_LIFETIME_MS)
 		.toISOString()
 		.replace(/\.\d{3}Z$/, "Z");
 	const signal = AbortSignal.timeout(API_TIMEOUT_MS);
@@ -201,5 +218,94 @@ export async function createHarnessToken(
 		const message = payload.errors?.[0]?.message ?? response.statusText;
 		throw new Error(`Unable to create a scoped AI harness token: ${message}`);
 	}
-	return { id: payload.result.id, value: payload.result.value };
+	return {
+		id: payload.result.id,
+		value: payload.result.value,
+		expiresOn,
+	};
+}
+
+interface CachedToken {
+	id: string;
+	value: string;
+	expiresOn: string;
+}
+
+type TokenCache = Record<string, CachedToken>;
+
+function tokenCachePath(): string {
+	return (
+		process.env.CF_AGENTS_TOKEN_CACHE_PATH ??
+		join(getCfConfigPath(), "agents-tokens.json")
+	);
+}
+
+function readTokenCache(): TokenCache {
+	try {
+		const parsed: unknown = JSON.parse(readFileSync(tokenCachePath(), "utf8"));
+		if (
+			parsed === null ||
+			typeof parsed !== "object" ||
+			Array.isArray(parsed)
+		) {
+			return {};
+		}
+		return parsed as TokenCache;
+	} catch {
+		// A missing cache is the normal first run; a corrupt one is replaced
+		// rather than failing the launch, because re-minting always recovers.
+		return {};
+	}
+}
+
+function usableToken(entry: unknown): CachedToken | undefined {
+	if (entry === null || typeof entry !== "object") {
+		return undefined;
+	}
+	const { id, value, expiresOn } = entry as Partial<CachedToken>;
+	if (
+		typeof id !== "string" ||
+		typeof value !== "string" ||
+		typeof expiresOn !== "string"
+	) {
+		return undefined;
+	}
+	const expiry = Date.parse(expiresOn);
+	if (Number.isNaN(expiry) || expiry - Date.now() <= TOKEN_RENEWAL_MARGIN_MS) {
+		return undefined;
+	}
+	return { id, value, expiresOn };
+}
+
+function writeTokenCache(cache: TokenCache): void {
+	const path = tokenCachePath();
+	try {
+		mkdirSync(dirname(path), { recursive: true, mode: 0o700 });
+		writeFileSync(path, `${JSON.stringify(cache, null, 2)}\n`, { mode: 0o600 });
+	} catch {
+		// A read-only home or sandboxed CI must not fail the launch; the token
+		// still works for this run and the next one simply mints again.
+	}
+}
+
+/**
+ * Return a reusable scoped token for `accountId`, minting one when the cache
+ * has no usable entry.
+ *
+ * The credential is cached because the mint endpoint is quota-limited to 50
+ * live tokens per user and cf cannot delete the ones it creates.
+ */
+export async function resolveHarnessToken(
+	parentToken: string,
+	accountId: string,
+	apiBaseUrl: string
+): Promise<HarnessToken> {
+	const cache = readTokenCache();
+	const cached = usableToken(cache[accountId]);
+	if (cached) {
+		return cached;
+	}
+	const minted = await createHarnessToken(parentToken, accountId, apiBaseUrl);
+	writeTokenCache({ ...cache, [accountId]: minted });
+	return minted;
 }

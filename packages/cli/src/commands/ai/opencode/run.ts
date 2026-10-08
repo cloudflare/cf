@@ -11,8 +11,8 @@ import {
 	detectAccessProtection,
 } from "#lib/access-credentials.js";
 import {
-	createHarnessToken,
 	resolveHarnessSettings,
+	resolveHarnessToken,
 } from "#lib/ai-harnesses.js";
 import { getAuthToken } from "#lib/auth-token.js";
 import { getAccountId, getComplianceRegion } from "#lib/auth.js";
@@ -202,7 +202,7 @@ const command: CommandModule<CommonYargsOptions, OpenCodeRunArgs> = {
 					parentToken: await getAuthToken(),
 				})
 			);
-			const childToken = await createHarnessToken(
+			const childToken = await resolveHarnessToken(
 				parentToken,
 				accountId,
 				apiBaseUrl

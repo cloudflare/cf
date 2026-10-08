@@ -4,8 +4,8 @@ import { x } from "tinyexec";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 import type { ArgumentsCamelCase, Argv, CommandModule } from "yargs";
 import {
-	createHarnessToken,
 	resolveHarnessSettings,
+	resolveHarnessToken,
 } from "#lib/ai-harnesses.js";
 import { getAuthToken } from "#lib/auth-token.js";
 import { getAccountId, getComplianceRegion } from "#lib/auth.js";
@@ -104,7 +104,7 @@ const command: CommandModule<CommonYargsOptions, PiArgs> = {
 				parentToken: await getAuthToken(),
 			})
 		);
-		const childToken = await createHarnessToken(
+		const childToken = await resolveHarnessToken(
 			parentToken,
 			accountId,
 			apiBaseUrl

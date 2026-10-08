@@ -1,3 +1,4 @@
+import { readFileSync, statSync } from "node:fs";
 import { writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { runInTempDir } from "@cloudflare/workers-utils/test-helpers";
@@ -5,6 +6,7 @@ import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import {
 	createHarnessToken,
 	resolveHarnessSettings,
+	resolveHarnessToken,
 } from "../../lib/ai-harnesses.js";
 
 describe("resolveHarnessSettings", () => {
@@ -140,7 +142,7 @@ describe("resolveHarnessSettings", () => {
 });
 
 describe("createHarnessToken", () => {
-	it("creates a one-hour account-scoped AI Gateway token", async () => {
+	it("creates a one-year account-scoped AI Gateway token", async () => {
 		const fetchMock = vi.fn<typeof fetch>().mockResolvedValue(
 			new Response(
 				JSON.stringify({
@@ -158,7 +160,10 @@ describe("createHarnessToken", () => {
 				"account-id",
 				"https://api.cloudflare.com/client/v4"
 			)
-		).resolves.toEqual({ id: "child-token-id", value: "child-token-value" });
+		).resolves.toMatchObject({
+			id: "child-token-id",
+			value: "child-token-value",
+		});
 
 		const [call] = fetchMock.mock.calls;
 		if (!call) {
@@ -191,12 +196,11 @@ describe("createHarnessToken", () => {
 		]);
 		// The API rejects fractional seconds in expires_on.
 		expect(body.expires_on).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/);
+		const year = 365 * 24 * 60 * 60 * 1000;
 		expect(Date.parse(body.expires_on) - Date.now()).toBeGreaterThan(
-			59 * 60 * 1000
+			year - 60_000
 		);
-		expect(Date.parse(body.expires_on) - Date.now()).toBeLessThanOrEqual(
-			60 * 60 * 1000
-		);
+		expect(Date.parse(body.expires_on) - Date.now()).toBeLessThanOrEqual(year);
 	});
 
 	it("surfaces token creation failures", async () => {
@@ -222,5 +226,115 @@ describe("createHarnessToken", () => {
 		).rejects.toThrow(
 			"Unable to create a scoped AI harness token: not allowed"
 		);
+	});
+});
+
+describe("resolveHarnessToken", () => {
+	runInTempDir();
+
+	let cachePath: string;
+
+	beforeEach(() => {
+		cachePath = join(process.cwd(), "agents-tokens.json");
+		vi.stubEnv("CF_AGENTS_TOKEN_CACHE_PATH", cachePath);
+	});
+
+	function mintResponse(id: string, value: string): typeof fetch {
+		return vi.fn<typeof fetch>().mockResolvedValue(
+			new Response(JSON.stringify({ success: true, result: { id, value } }), {
+				status: 200,
+			})
+		) as unknown as typeof fetch;
+	}
+
+	it("mints once and reuses the cached token for later launches", async () => {
+		const fetchMock = mintResponse("token-id", "token-value");
+		vi.stubGlobal("fetch", fetchMock);
+
+		const first = await resolveHarnessToken(
+			"parent-token",
+			"account-id",
+			"https://api.cloudflare.com/client/v4"
+		);
+		const second = await resolveHarnessToken(
+			"parent-token",
+			"account-id",
+			"https://api.cloudflare.com/client/v4"
+		);
+
+		expect(second).toEqual(first);
+		// The mint endpoint is quota-limited, so a second launch must not call it.
+		expect(fetchMock).toHaveBeenCalledTimes(1);
+	});
+
+	it("writes the cache so only the owner can read the credential", async () => {
+		vi.stubGlobal("fetch", mintResponse("token-id", "token-value"));
+
+		await resolveHarnessToken(
+			"parent-token",
+			"account-id",
+			"https://api.cloudflare.com/client/v4"
+		);
+
+		expect(statSync(cachePath).mode & 0o777).toBe(0o600);
+	});
+
+	it("keeps separate tokens per account", async () => {
+		vi.stubGlobal("fetch", mintResponse("first-id", "first-value"));
+		await resolveHarnessToken(
+			"parent-token",
+			"account-one",
+			"https://api.cloudflare.com/client/v4"
+		);
+
+		vi.stubGlobal("fetch", mintResponse("second-id", "second-value"));
+		await resolveHarnessToken(
+			"parent-token",
+			"account-two",
+			"https://api.cloudflare.com/client/v4"
+		);
+
+		const cache = JSON.parse(readFileSync(cachePath, "utf8"));
+		expect(cache["account-one"].value).toBe("first-value");
+		expect(cache["account-two"].value).toBe("second-value");
+	});
+
+	it("re-mints when the cached token is close to expiry", async () => {
+		const nearlyExpired = new Date(Date.now() + 60_000).toISOString();
+		await writeFile(
+			cachePath,
+			JSON.stringify({
+				"account-id": {
+					id: "stale-id",
+					value: "stale-value",
+					expiresOn: nearlyExpired,
+				},
+			})
+		);
+		const fetchMock = mintResponse("fresh-id", "fresh-value");
+		vi.stubGlobal("fetch", fetchMock);
+
+		const token = await resolveHarnessToken(
+			"parent-token",
+			"account-id",
+			"https://api.cloudflare.com/client/v4"
+		);
+
+		expect(token.value).toBe("fresh-value");
+		expect(fetchMock).toHaveBeenCalledTimes(1);
+	});
+
+	it("re-mints when the cache file is corrupt", async () => {
+		await writeFile(cachePath, "not json");
+		const fetchMock = mintResponse("fresh-id", "fresh-value");
+		vi.stubGlobal("fetch", fetchMock);
+
+		await expect(
+			resolveHarnessToken(
+				"parent-token",
+				"account-id",
+				"https://api.cloudflare.com/client/v4"
+			)
+		).resolves.toMatchObject({ value: "fresh-value" });
 	});
 });

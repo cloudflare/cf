@@ -35,7 +35,7 @@ export class AccountEligibilityClient {
      * @example
      *     await client.monetization.accountEligibility.get({
      *         account_or_zone: "account_or_zone",
-     *         account_or_zone_id: "abf9b32d38c5f572afde3336ec0ce302"
+     *         account_or_zone_id: "account_or_zone_id"
      *     })
      */
     public get(
@@ -109,7 +109,7 @@ export class AccountEligibilityClient {
      * @example
      *     await client.monetization.accountEligibility.check({
      *         account_or_zone: "account_or_zone",
-     *         account_or_zone_id: "abf9b32d38c5f572afde3336ec0ce302"
+     *         account_or_zone_id: "account_or_zone_id"
      *     })
      */
     public check(

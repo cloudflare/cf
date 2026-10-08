@@ -1,5 +1,6 @@
+import $bulkdelete from "./bulk-delete.js";
 import $create from "./create.js";
-import $delete from "./delete/index.js";
+import $delete from "./delete.js";
 import $get from "./get.js";
 import $list from "./list.js";
 import $update from "./update.js";
@@ -17,11 +18,12 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
+			.command($bulkdelete)
 			.command($create)
+			.command($delete)
 			.command($get)
 			.command($list)
 			.command($update)
-			.command($delete)
 			.demandCommand(1, "Please specify a subcommand");
 	},
 

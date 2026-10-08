@@ -450,6 +450,7 @@ export class ItemsClient {
      *
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link CloudflareApi.ConflictError}
      * @throws {@link CloudflareApi.TooManyRequestsError}
      *
      * @example
@@ -507,6 +508,8 @@ export class ItemsClient {
                     throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
                     throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 409:
+                    throw new CloudflareApiErrors.ConflictError(_response.error.body as unknown, _response.rawResponse);
                 case 429:
                     throw new CloudflareApiErrors.TooManyRequestsError(
                         _response.error.body as unknown,
@@ -729,6 +732,7 @@ export class ItemsClient {
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link CloudflareApi.ConflictError}
      * @throws {@link CloudflareApi.ServiceUnavailableError}
      */
     public download(
@@ -778,6 +782,8 @@ export class ItemsClient {
                     throw new CloudflareApiErrors.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
                     throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 409:
+                    throw new CloudflareApiErrors.ConflictError(_response.error.body as unknown, _response.rawResponse);
                 case 503:
                     throw new CloudflareApiErrors.ServiceUnavailableError(
                         _response.error.body as unknown,

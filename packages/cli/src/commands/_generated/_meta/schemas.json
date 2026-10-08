@@ -14176,7 +14176,7 @@
 					"name": "metric",
 					"type": "string",
 					"required": false,
-					"description": "Type of cost/usage records to retrieve. `usage` returns unrated usage quantities. Unrelated to `FilterBy.BillableMetricIds`. Defaults to `usage` when omitted."
+					"description": "Type of cost/usage records to retrieve. `usage` returns unrated usage quantities. `cost` returns rated usage with cost and pricing fields; it is available only on `POST` account usage and only when the underlying usage data source is ClickHouse (other sources return an empty result set). Requests that combine `cost` with `GroupBy` or `FilterBy.Tags` return HTTP 400. Unrelated to `FilterBy.BillableMetricIds`. Defaults to `usage` when omitted."
 				},
 				{
 					"name": "time-period-from",
@@ -22852,84 +22852,6 @@
 				}
 			]
 		},
-		"cloudforce-one requests asset-new create": {
-			"operationId": "cloudforce-one-request-asset-new",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/cloudforce-one/requests/{request_id}/asset/new",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "request_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": []
-		},
-		"cloudforce-one requests assets create": {
-			"operationId": "cloudforce-one-request-asset-list",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/cloudforce-one/requests/{request_id}/asset",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "request_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "page",
-					"type": "number",
-					"required": true,
-					"description": "Page number of results."
-				},
-				{
-					"name": "per-page",
-					"type": "number",
-					"required": true,
-					"description": "Number of results per page."
-				}
-			]
-		},
-		"cloudforce-one requests assets delete": {
-			"operationId": "cloudforce-one-request-asset-delete",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/cloudforce-one/requests/{request_id}/asset/{asset_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "request_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "asset_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
 		"cloudforce-one requests assets download": {
 			"operationId": "get_DashboardAssetDownload",
 			"httpMethod": "GET",
@@ -22942,31 +22864,6 @@
 				},
 				{
 					"name": "project_type",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "request_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "asset_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one requests assets get": {
-			"operationId": "cloudforce-one-request-asset-get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/cloudforce-one/requests/{request_id}/asset/{asset_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
 					"type": "string",
 					"required": true
 				},
@@ -23010,38 +22907,6 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"cloudforce-one requests assets update": {
-			"operationId": "cloudforce-one-request-asset-update",
-			"httpMethod": "PUT",
-			"path": "/accounts/{account_id}/cloudforce-one/requests/{request_id}/asset/{asset_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "request_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "asset_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "source",
-					"type": "string",
-					"required": false,
-					"description": "Asset file to upload."
-				}
-			]
-		},
 		"cloudforce-one requests assets upload": {
 			"operationId": "post_DashboardAssetUpload",
 			"httpMethod": "POST",
@@ -23067,10 +22932,10 @@
 			"hasRequestBody": true,
 			"requestBodyFields": []
 		},
-		"cloudforce-one requests cloudforceOneRequestGet": {
-			"operationId": "cloudforce-one-request-get",
+		"cloudforce-one requests constants get": {
+			"operationId": "get_RequestConstants",
 			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/cloudforce-one/requests/{request_id}",
+			"path": "/accounts/{account_id}/cloudforce-one/v2/requests/{project_type}/constants",
 			"pathParams": [
 				{
 					"name": "account_id",
@@ -23078,215 +22943,7 @@
 					"required": true
 				},
 				{
-					"name": "request_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one requests cloudforceOneRequestList": {
-			"operationId": "cloudforce-one-request-list",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/cloudforce-one/requests",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "completed-after",
-					"type": "string",
-					"required": false,
-					"description": "Retrieve requests completed after this time."
-				},
-				{
-					"name": "completed-before",
-					"type": "string",
-					"required": false,
-					"description": "Retrieve requests completed before this time."
-				},
-				{
-					"name": "created-after",
-					"type": "string",
-					"required": false,
-					"description": "Retrieve requests created after this time."
-				},
-				{
-					"name": "created-before",
-					"type": "string",
-					"required": false,
-					"description": "Retrieve requests created before this time."
-				},
-				{
-					"name": "page",
-					"type": "number",
-					"required": true,
-					"description": "Page number of results."
-				},
-				{
-					"name": "per-page",
-					"type": "number",
-					"required": true,
-					"description": "Number of results per page."
-				},
-				{
-					"name": "request-type",
-					"type": "string",
-					"required": false,
-					"description": "Requested information from request."
-				},
-				{
-					"name": "sort-by",
-					"type": "string",
-					"required": false,
-					"description": "Field to sort results by."
-				},
-				{
-					"name": "sort-order",
-					"type": "string",
-					"required": false,
-					"description": "Sort order (asc or desc)."
-				},
-				{
-					"name": "status",
-					"type": "string",
-					"required": false,
-					"description": "Request Status."
-				}
-			]
-		},
-		"cloudforce-one requests cloudforceOneRequestNew": {
-			"operationId": "cloudforce-one-request-new",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/cloudforce-one/requests/new",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "content",
-					"type": "string",
-					"required": false,
-					"description": "Request content."
-				},
-				{
-					"name": "priority",
-					"type": "string",
-					"required": false,
-					"description": "Priority for analyzing the request."
-				},
-				{
-					"name": "request-type",
-					"type": "string",
-					"required": false,
-					"description": "Requested information from request."
-				},
-				{
-					"name": "summary",
-					"type": "string",
-					"required": false,
-					"description": "Brief description of the request."
-				},
-				{
-					"name": "tlp",
-					"type": "string",
-					"required": false,
-					"description": "The CISA defined Traffic Light Protocol (TLP)."
-				}
-			]
-		},
-		"cloudforce-one requests cloudforceOneRequestUpdate": {
-			"operationId": "cloudforce-one-request-update",
-			"httpMethod": "PUT",
-			"path": "/accounts/{account_id}/cloudforce-one/requests/{request_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "request_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "content",
-					"type": "string",
-					"required": false,
-					"description": "Request content."
-				},
-				{
-					"name": "priority",
-					"type": "string",
-					"required": false,
-					"description": "Priority for analyzing the request."
-				},
-				{
-					"name": "request-type",
-					"type": "string",
-					"required": false,
-					"description": "Requested information from request."
-				},
-				{
-					"name": "summary",
-					"type": "string",
-					"required": false,
-					"description": "Brief description of the request."
-				},
-				{
-					"name": "tlp",
-					"type": "string",
-					"required": false,
-					"description": "The CISA defined Traffic Light Protocol (TLP)."
-				}
-			]
-		},
-		"cloudforce-one requests constants": {
-			"operationId": "cloudforce-one-request-constants",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/cloudforce-one/requests/constants",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one requests delete": {
-			"operationId": "cloudforce-one-request-delete",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/cloudforce-one/requests/{request_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "request_id",
+					"name": "project_type",
 					"type": "string",
 					"required": true
 				}
@@ -23435,147 +23092,6 @@
 			"queryParams": [],
 			"hasRequestBody": false,
 			"requestBodyFields": []
-		},
-		"cloudforce-one requests message create": {
-			"operationId": "cloudforce-one-request-message-new",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/cloudforce-one/requests/{request_id}/message/new",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "request_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "content",
-					"type": "string",
-					"required": false,
-					"description": "Content of message."
-				}
-			]
-		},
-		"cloudforce-one requests message delete": {
-			"operationId": "cloudforce-one-request-message-delete",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/cloudforce-one/requests/{request_id}/message/{message_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "request_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "message_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one requests message get": {
-			"operationId": "cloudforce-one-request-message-list",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/cloudforce-one/requests/{request_id}/message",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "request_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "after",
-					"type": "string",
-					"required": false,
-					"description": "Retrieve mes  ges created after this time."
-				},
-				{
-					"name": "before",
-					"type": "string",
-					"required": false,
-					"description": "Retrieve messages created before this time."
-				},
-				{
-					"name": "page",
-					"type": "number",
-					"required": true,
-					"description": "Page number of results."
-				},
-				{
-					"name": "per-page",
-					"type": "number",
-					"required": true,
-					"description": "Number of results per page."
-				},
-				{
-					"name": "sort-by",
-					"type": "string",
-					"required": false,
-					"description": "Field to sort results by."
-				},
-				{
-					"name": "sort-order",
-					"type": "string",
-					"required": false,
-					"description": "Sort order (asc or desc)."
-				}
-			]
-		},
-		"cloudforce-one requests message update": {
-			"operationId": "cloudforce-one-request-message-update",
-			"httpMethod": "PUT",
-			"path": "/accounts/{account_id}/cloudforce-one/requests/{request_id}/message/{message_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "request_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "message_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "content",
-					"type": "string",
-					"required": false,
-					"description": "Content of message."
-				}
-			]
 		},
 		"cloudforce-one requests messages create": {
 			"operationId": "post_MessageCreate",
@@ -23854,174 +23370,6 @@
 				}
 			]
 		},
-		"cloudforce-one requests priority create": {
-			"operationId": "cloudforce-one-priority-new",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/cloudforce-one/requests/priority/new",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "labels",
-					"type": "string",
-					"required": true,
-					"description": "List of labels."
-				},
-				{
-					"name": "priority",
-					"type": "number",
-					"required": true,
-					"description": "Priority."
-				},
-				{
-					"name": "requirement",
-					"type": "string",
-					"required": true,
-					"description": "Requirement."
-				},
-				{
-					"name": "tlp",
-					"type": "string",
-					"required": true,
-					"description": "The CISA defined Traffic Light Protocol (TLP)."
-				}
-			]
-		},
-		"cloudforce-one requests priority delete": {
-			"operationId": "cloudforce-one-priority-delete",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/cloudforce-one/requests/priority/{priority_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "priority_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one requests priority get": {
-			"operationId": "cloudforce-one-priority-get",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/cloudforce-one/requests/priority/{priority_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "priority_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one requests priority list": {
-			"operationId": "cloudforce-one-priority-list",
-			"httpMethod": "POST",
-			"path": "/accounts/{account_id}/cloudforce-one/requests/priority",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "page",
-					"type": "number",
-					"required": true,
-					"description": "Page number of results."
-				},
-				{
-					"name": "per-page",
-					"type": "number",
-					"required": true,
-					"description": "Number of results per page."
-				}
-			]
-		},
-		"cloudforce-one requests priority quota": {
-			"operationId": "cloudforce-one-priority-quota",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/cloudforce-one/requests/priority/quota",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"cloudforce-one requests priority update": {
-			"operationId": "cloudforce-one-priority-update",
-			"httpMethod": "PUT",
-			"path": "/accounts/{account_id}/cloudforce-one/requests/priority/{priority_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "priority_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": true,
-			"requestBodyFields": [
-				{
-					"name": "labels",
-					"type": "string",
-					"required": true,
-					"description": "List of labels."
-				},
-				{
-					"name": "priority",
-					"type": "number",
-					"required": true,
-					"description": "Priority."
-				},
-				{
-					"name": "requirement",
-					"type": "string",
-					"required": true,
-					"description": "Requirement."
-				},
-				{
-					"name": "tlp",
-					"type": "string",
-					"required": true,
-					"description": "The CISA defined Traffic Light Protocol (TLP)."
-				}
-			]
-		},
 		"cloudforce-one requests putRequestUpdate": {
 			"operationId": "put_RequestUpdate",
 			"httpMethod": "PUT",
@@ -24096,13 +23444,18 @@
 				}
 			]
 		},
-		"cloudforce-one requests quota": {
-			"operationId": "cloudforce-one-request-quota",
+		"cloudforce-one requests quota get": {
+			"operationId": "get_RequestQuota",
 			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/cloudforce-one/requests/quota",
+			"path": "/accounts/{account_id}/cloudforce-one/v2/requests/{project_type}/quota",
 			"pathParams": [
 				{
 					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "project_type",
 					"type": "string",
 					"required": true
 				}
@@ -24111,13 +23464,18 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"cloudforce-one requests types": {
-			"operationId": "cloudforce-one-request-types",
+		"cloudforce-one requests types list": {
+			"operationId": "get_DashboardRequestTypesList",
 			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/cloudforce-one/requests/types",
+			"path": "/accounts/{account_id}/cloudforce-one/v2/requests/{project_type}/types",
 			"pathParams": [
 				{
 					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "project_type",
 					"type": "string",
 					"required": true
 				}
@@ -24145,6 +23503,708 @@
 			"queryParams": [],
 			"hasRequestBody": false,
 			"requestBodyFields": []
+		},
+		"cloudforce-one requests v1 asset-new create": {
+			"operationId": "cloudforce-one-request-asset-new",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/cloudforce-one/requests/{request_id}/asset/new",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "request_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": []
+		},
+		"cloudforce-one requests v1 assets create": {
+			"operationId": "cloudforce-one-request-asset-list",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/cloudforce-one/requests/{request_id}/asset",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "request_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "page",
+					"type": "number",
+					"required": true,
+					"description": "Page number of results."
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": true,
+					"description": "Number of results per page."
+				}
+			]
+		},
+		"cloudforce-one requests v1 assets delete": {
+			"operationId": "cloudforce-one-request-asset-delete",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/cloudforce-one/requests/{request_id}/asset/{asset_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "request_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "asset_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one requests v1 assets get": {
+			"operationId": "cloudforce-one-request-asset-get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/requests/{request_id}/asset/{asset_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "request_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "asset_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one requests v1 assets update": {
+			"operationId": "cloudforce-one-request-asset-update",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/cloudforce-one/requests/{request_id}/asset/{asset_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "request_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "asset_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "source",
+					"type": "string",
+					"required": false,
+					"description": "Asset file to upload."
+				}
+			]
+		},
+		"cloudforce-one requests v1 constants": {
+			"operationId": "cloudforce-one-request-constants",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/requests/constants",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one requests v1 create": {
+			"operationId": "cloudforce-one-request-new",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/cloudforce-one/requests/new",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "content",
+					"type": "string",
+					"required": false,
+					"description": "Request content."
+				},
+				{
+					"name": "priority",
+					"type": "string",
+					"required": false,
+					"description": "Priority for analyzing the request."
+				},
+				{
+					"name": "request-type",
+					"type": "string",
+					"required": false,
+					"description": "Requested information from request."
+				},
+				{
+					"name": "summary",
+					"type": "string",
+					"required": false,
+					"description": "Brief description of the request."
+				},
+				{
+					"name": "tlp",
+					"type": "string",
+					"required": false,
+					"description": "The CISA defined Traffic Light Protocol (TLP)."
+				}
+			]
+		},
+		"cloudforce-one requests v1 delete": {
+			"operationId": "cloudforce-one-request-delete",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/cloudforce-one/requests/{request_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "request_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one requests v1 get": {
+			"operationId": "cloudforce-one-request-get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/requests/{request_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "request_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one requests v1 list": {
+			"operationId": "cloudforce-one-request-list",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/cloudforce-one/requests",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "completed-after",
+					"type": "string",
+					"required": false,
+					"description": "Retrieve requests completed after this time."
+				},
+				{
+					"name": "completed-before",
+					"type": "string",
+					"required": false,
+					"description": "Retrieve requests completed before this time."
+				},
+				{
+					"name": "created-after",
+					"type": "string",
+					"required": false,
+					"description": "Retrieve requests created after this time."
+				},
+				{
+					"name": "created-before",
+					"type": "string",
+					"required": false,
+					"description": "Retrieve requests created before this time."
+				},
+				{
+					"name": "page",
+					"type": "number",
+					"required": true,
+					"description": "Page number of results."
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": true,
+					"description": "Number of results per page."
+				},
+				{
+					"name": "request-type",
+					"type": "string",
+					"required": false,
+					"description": "Requested information from request."
+				},
+				{
+					"name": "sort-by",
+					"type": "string",
+					"required": false,
+					"description": "Field to sort results by."
+				},
+				{
+					"name": "sort-order",
+					"type": "string",
+					"required": false,
+					"description": "Sort order (asc or desc)."
+				},
+				{
+					"name": "status",
+					"type": "string",
+					"required": false,
+					"description": "Request Status."
+				}
+			]
+		},
+		"cloudforce-one requests v1 message create": {
+			"operationId": "cloudforce-one-request-message-new",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/cloudforce-one/requests/{request_id}/message/new",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "request_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "content",
+					"type": "string",
+					"required": false,
+					"description": "Content of message."
+				}
+			]
+		},
+		"cloudforce-one requests v1 message delete": {
+			"operationId": "cloudforce-one-request-message-delete",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/cloudforce-one/requests/{request_id}/message/{message_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "request_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "message_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one requests v1 message get": {
+			"operationId": "cloudforce-one-request-message-list",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/cloudforce-one/requests/{request_id}/message",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "request_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "after",
+					"type": "string",
+					"required": false,
+					"description": "Retrieve mes  ges created after this time."
+				},
+				{
+					"name": "before",
+					"type": "string",
+					"required": false,
+					"description": "Retrieve messages created before this time."
+				},
+				{
+					"name": "page",
+					"type": "number",
+					"required": true,
+					"description": "Page number of results."
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": true,
+					"description": "Number of results per page."
+				},
+				{
+					"name": "sort-by",
+					"type": "string",
+					"required": false,
+					"description": "Field to sort results by."
+				},
+				{
+					"name": "sort-order",
+					"type": "string",
+					"required": false,
+					"description": "Sort order (asc or desc)."
+				}
+			]
+		},
+		"cloudforce-one requests v1 message update": {
+			"operationId": "cloudforce-one-request-message-update",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/cloudforce-one/requests/{request_id}/message/{message_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "request_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "message_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "content",
+					"type": "string",
+					"required": false,
+					"description": "Content of message."
+				}
+			]
+		},
+		"cloudforce-one requests v1 priority create": {
+			"operationId": "cloudforce-one-priority-new",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/cloudforce-one/requests/priority/new",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "labels",
+					"type": "string",
+					"required": true,
+					"description": "List of labels."
+				},
+				{
+					"name": "priority",
+					"type": "number",
+					"required": true,
+					"description": "Priority."
+				},
+				{
+					"name": "requirement",
+					"type": "string",
+					"required": true,
+					"description": "Requirement."
+				},
+				{
+					"name": "tlp",
+					"type": "string",
+					"required": true,
+					"description": "The CISA defined Traffic Light Protocol (TLP)."
+				}
+			]
+		},
+		"cloudforce-one requests v1 priority legacy delete": {
+			"operationId": "cloudforce-one-priority-delete",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/cloudforce-one/requests/priority/{priority_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "priority_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one requests v1 priority legacy get": {
+			"operationId": "cloudforce-one-priority-get",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/requests/priority/{priority_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "priority_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one requests v1 priority legacy update": {
+			"operationId": "cloudforce-one-priority-update",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/cloudforce-one/requests/priority/{priority_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "priority_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "labels",
+					"type": "string",
+					"required": true,
+					"description": "List of labels."
+				},
+				{
+					"name": "priority",
+					"type": "number",
+					"required": true,
+					"description": "Priority."
+				},
+				{
+					"name": "requirement",
+					"type": "string",
+					"required": true,
+					"description": "Requirement."
+				},
+				{
+					"name": "tlp",
+					"type": "string",
+					"required": true,
+					"description": "The CISA defined Traffic Light Protocol (TLP)."
+				}
+			]
+		},
+		"cloudforce-one requests v1 priority list": {
+			"operationId": "cloudforce-one-priority-list",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/cloudforce-one/requests/priority",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "page",
+					"type": "number",
+					"required": true,
+					"description": "Page number of results."
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": true,
+					"description": "Number of results per page."
+				}
+			]
+		},
+		"cloudforce-one requests v1 priority quota": {
+			"operationId": "cloudforce-one-priority-quota",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/requests/priority/quota",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one requests v1 quota": {
+			"operationId": "cloudforce-one-request-quota",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/requests/quota",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one requests v1 types": {
+			"operationId": "cloudforce-one-request-types",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cloudforce-one/requests/types",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"cloudforce-one requests v1 update": {
+			"operationId": "cloudforce-one-request-update",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/cloudforce-one/requests/{request_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "request_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "content",
+					"type": "string",
+					"required": false,
+					"description": "Request content."
+				},
+				{
+					"name": "priority",
+					"type": "string",
+					"required": false,
+					"description": "Priority for analyzing the request."
+				},
+				{
+					"name": "request-type",
+					"type": "string",
+					"required": false,
+					"description": "Requested information from request."
+				},
+				{
+					"name": "summary",
+					"type": "string",
+					"required": false,
+					"description": "Brief description of the request."
+				},
+				{
+					"name": "tlp",
+					"type": "string",
+					"required": false,
+					"description": "The CISA defined Traffic Light Protocol (TLP)."
+				}
+			]
 		},
 		"cloudforce-one rules approvals cancel": {
 			"operationId": "cloudforce-one-cancel-rule-approval",
@@ -47642,6 +47702,21 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"magic-transit advanced-dns-protection configs dns protection rules bulk-delete": {
+			"operationId": "deleteDnsProtectionRulesForAccount",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/magic/advanced_dns_protection/configs/dns_protection/rules",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
 		"magic-transit advanced-dns-protection configs dns protection rules create": {
 			"operationId": "createDnsProtectionRule",
 			"httpMethod": "POST",
@@ -47694,22 +47769,7 @@
 				}
 			]
 		},
-		"magic-transit advanced-dns-protection configs dns protection rules delete for account": {
-			"operationId": "deleteDnsProtectionRulesForAccount",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/magic/advanced_dns_protection/configs/dns_protection/rules",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"magic-transit advanced-dns-protection configs dns protection rules delete protection rule": {
+		"magic-transit advanced-dns-protection configs dns protection rules delete": {
 			"operationId": "deleteDnsProtectionRule",
 			"httpMethod": "DELETE",
 			"path": "/accounts/{account_id}/magic/advanced_dns_protection/configs/dns_protection/rules/{rule_id}",
@@ -47830,6 +47890,21 @@
 				}
 			]
 		},
+		"magic-transit advanced-tcp-protection configs allowlist bulk-delete": {
+			"operationId": "deleteAllowlistPrefixesForAccount",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/allowlist",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
 		"magic-transit advanced-tcp-protection configs allowlist create": {
 			"operationId": "createAllowlistedPrefix",
 			"httpMethod": "POST",
@@ -47863,61 +47938,6 @@
 					"description": "The allowlist prefix to add in CIDR format."
 				}
 			]
-		},
-		"magic-transit advanced-tcp-protection configs allowlist delete allowlist prefix": {
-			"operationId": "deleteAllowlistPrefix",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/allowlist/{prefix_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "prefix_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"magic-transit advanced-tcp-protection configs allowlist delete for account": {
-			"operationId": "deleteAllowlistPrefixesForAccount",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/allowlist",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"magic-transit advanced-tcp-protection configs allowlist get": {
-			"operationId": "getAllowlistPrefix",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/allowlist/{prefix_id}",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "prefix_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
 		},
 		"magic-transit advanced-tcp-protection configs allowlist list": {
 			"operationId": "listAllowlistPrefixesForAccount",
@@ -47955,7 +47975,47 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
-		"magic-transit advanced-tcp-protection configs allowlist update": {
+		"magic-transit advanced-tcp-protection configs allowlist prefix delete": {
+			"operationId": "deleteAllowlistPrefix",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/allowlist/{prefix_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "prefix_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"magic-transit advanced-tcp-protection configs allowlist prefix get": {
+			"operationId": "getAllowlistPrefix",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/allowlist/{prefix_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "prefix_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"magic-transit advanced-tcp-protection configs allowlist prefix update": {
 			"operationId": "updateAllowlistPrefix",
 			"httpMethod": "PATCH",
 			"path": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/allowlist/{prefix_id}",
@@ -48001,6 +48061,21 @@
 			],
 			"queryParams": [],
 			"hasRequestBody": true,
+			"requestBodyFields": []
+		},
+		"magic-transit advanced-tcp-protection configs prefixes bulk-delete": {
+			"operationId": "deletePrefixesForAccount",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/prefixes",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
 		"magic-transit advanced-tcp-protection configs prefixes create": {
@@ -48146,6 +48221,21 @@
 				}
 			]
 		},
+		"magic-transit advanced-tcp-protection configs syn protection filters bulk-delete": {
+			"operationId": "deleteSynProtectionFiltersForAccount",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/syn_protection/filters",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
 		"magic-transit advanced-tcp-protection configs syn protection filters create": {
 			"operationId": "createSynProtectionFilter",
 			"httpMethod": "POST",
@@ -48168,22 +48258,7 @@
 				}
 			]
 		},
-		"magic-transit advanced-tcp-protection configs syn protection filters delete for account": {
-			"operationId": "deleteSynProtectionFiltersForAccount",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/syn_protection/filters",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"magic-transit advanced-tcp-protection configs syn protection filters delete protection filter": {
+		"magic-transit advanced-tcp-protection configs syn protection filters delete": {
 			"operationId": "deleteSynProtectionFilter",
 			"httpMethod": "DELETE",
 			"path": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/syn_protection/filters/{filter_id}",
@@ -48291,6 +48366,21 @@
 				}
 			]
 		},
+		"magic-transit advanced-tcp-protection configs syn protection rules bulk-delete": {
+			"operationId": "deleteSynProtectionRulesForAccount",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/syn_protection/rules",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
 		"magic-transit advanced-tcp-protection configs syn protection rules create": {
 			"operationId": "createSynProtectionRule",
 			"httpMethod": "POST",
@@ -48337,22 +48427,7 @@
 				}
 			]
 		},
-		"magic-transit advanced-tcp-protection configs syn protection rules delete for account": {
-			"operationId": "deleteSynProtectionRulesForAccount",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/syn_protection/rules",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"magic-transit advanced-tcp-protection configs syn protection rules delete protection rule": {
+		"magic-transit advanced-tcp-protection configs syn protection rules delete": {
 			"operationId": "deleteSynProtectionRule",
 			"httpMethod": "DELETE",
 			"path": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/syn_protection/rules/{rule_id}",
@@ -48467,6 +48542,21 @@
 				}
 			]
 		},
+		"magic-transit advanced-tcp-protection configs tcp flow protection filters bulk-delete": {
+			"operationId": "deleteTcpFlowProtectionFiltersForAccount",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_flow_protection/filters",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
 		"magic-transit advanced-tcp-protection configs tcp flow protection filters create": {
 			"operationId": "createTcpFlowProtectionFilter",
 			"httpMethod": "POST",
@@ -48489,22 +48579,7 @@
 				}
 			]
 		},
-		"magic-transit advanced-tcp-protection configs tcp flow protection filters delete for account": {
-			"operationId": "deleteTcpFlowProtectionFiltersForAccount",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_flow_protection/filters",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"magic-transit advanced-tcp-protection configs tcp flow protection filters delete protection filter": {
+		"magic-transit advanced-tcp-protection configs tcp flow protection filters delete": {
 			"operationId": "deleteTcpFlowProtectionFilter",
 			"httpMethod": "DELETE",
 			"path": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_flow_protection/filters/{filter_id}",
@@ -48612,6 +48687,21 @@
 				}
 			]
 		},
+		"magic-transit advanced-tcp-protection configs tcp flow protection rules bulk-delete": {
+			"operationId": "deleteTcpFlowProtectionRulesForAccount",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_flow_protection/rules",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
 		"magic-transit advanced-tcp-protection configs tcp flow protection rules create": {
 			"operationId": "createTcpFlowProtectionRule",
 			"httpMethod": "POST",
@@ -48652,22 +48742,7 @@
 				}
 			]
 		},
-		"magic-transit advanced-tcp-protection configs tcp flow protection rules delete for account": {
-			"operationId": "deleteTcpFlowProtectionRulesForAccount",
-			"httpMethod": "DELETE",
-			"path": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_flow_protection/rules",
-			"pathParams": [
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"magic-transit advanced-tcp-protection configs tcp flow protection rules delete protection rule": {
+		"magic-transit advanced-tcp-protection configs tcp flow protection rules delete": {
 			"operationId": "deleteTcpFlowProtectionRule",
 			"httpMethod": "DELETE",
 			"path": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_flow_protection/rules/{rule_id}",
@@ -86687,6 +86762,12 @@
 					"description": "Return the Ephemeral ID in /siteverify (ENT only).\n"
 				},
 				{
+					"name": "widget-mode",
+					"type": "string",
+					"required": true,
+					"description": "Widget Mode"
+				},
+				{
 					"name": "name",
 					"type": "string",
 					"required": true,
@@ -86856,6 +86937,12 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Return the Ephemeral ID in /siteverify (ENT only).\n"
+				},
+				{
+					"name": "widget-mode",
+					"type": "string",
+					"required": true,
+					"description": "Widget Mode"
 				},
 				{
 					"name": "name",

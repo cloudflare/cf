@@ -9282,12 +9282,14 @@
     "accessor": [
       "cloudforceOne",
       "requests",
-      "priority"
+      "v1",
+      "priority",
+      "legacy"
     ],
     "method": "delete",
     "httpMethod": "DELETE",
     "path": "/accounts/{account_id}/cloudforce-one/requests/priority/{priority_id}",
-    "requestType": "DeletePriorityRequest",
+    "requestType": "DeleteLegacyRequest",
     "responseType": "CloudforceOneRequestsApiResponseCommon",
     "requiredRequestProperties": [
       "account_id",
@@ -9298,12 +9300,14 @@
     "accessor": [
       "cloudforceOne",
       "requests",
-      "priority"
+      "v1",
+      "priority",
+      "legacy"
     ],
     "method": "get",
     "httpMethod": "GET",
     "path": "/accounts/{account_id}/cloudforce-one/requests/priority/{priority_id}",
-    "requestType": "GetPriorityRequest",
+    "requestType": "GetLegacyRequest",
     "responseType": "CloudforceOneRequestsRequestItem",
     "requiredRequestProperties": [
       "account_id",
@@ -9314,6 +9318,7 @@
     "accessor": [
       "cloudforceOne",
       "requests",
+      "v1",
       "priority"
     ],
     "method": "list",
@@ -9335,6 +9340,7 @@
     "accessor": [
       "cloudforceOne",
       "requests",
+      "v1",
       "priority"
     ],
     "method": "create",
@@ -9352,6 +9358,7 @@
     "accessor": [
       "cloudforceOne",
       "requests",
+      "v1",
       "priority"
     ],
     "method": "quota",
@@ -9367,12 +9374,14 @@
     "accessor": [
       "cloudforceOne",
       "requests",
-      "priority"
+      "v1",
+      "priority",
+      "legacy"
     ],
     "method": "update",
     "httpMethod": "PUT",
     "path": "/accounts/{account_id}/cloudforce-one/requests/priority/{priority_id}",
-    "requestType": "UpdatePriorityRequest",
+    "requestType": "UpdateLegacyRequest",
     "responseType": "CloudforceOneRequestsRequestItem",
     "requestBodyProperty": "body",
     "requiredRequestProperties": [
@@ -9402,6 +9411,7 @@
     "accessor": [
       "cloudforceOne",
       "requests",
+      "v1",
       "assets"
     ],
     "method": "delete",
@@ -9419,6 +9429,7 @@
     "accessor": [
       "cloudforceOne",
       "requests",
+      "v1",
       "assets"
     ],
     "method": "get",
@@ -9436,6 +9447,7 @@
     "accessor": [
       "cloudforceOne",
       "requests",
+      "v1",
       "assets"
     ],
     "method": "create",
@@ -9458,6 +9470,7 @@
     "accessor": [
       "cloudforceOne",
       "requests",
+      "v1",
       "assetNew"
     ],
     "method": "create",
@@ -9474,6 +9487,7 @@
     "accessor": [
       "cloudforceOne",
       "requests",
+      "v1",
       "assets"
     ],
     "method": "update",
@@ -9490,12 +9504,13 @@
   "cloudforce-one-request-constants": {
     "accessor": [
       "cloudforceOne",
-      "requests"
+      "requests",
+      "v1"
     ],
     "method": "constants",
     "httpMethod": "GET",
     "path": "/accounts/{account_id}/cloudforce-one/requests/constants",
-    "requestType": "ConstantsRequestsRequest",
+    "requestType": "ConstantsV1Request",
     "responseType": "CloudforceOneRequestsRequestConstants",
     "requiredRequestProperties": [
       "account_id"
@@ -9504,12 +9519,13 @@
   "cloudforce-one-request-delete": {
     "accessor": [
       "cloudforceOne",
-      "requests"
+      "requests",
+      "v1"
     ],
     "method": "delete",
     "httpMethod": "DELETE",
     "path": "/accounts/{account_id}/cloudforce-one/requests/{request_id}",
-    "requestType": "DeleteRequestsRequest",
+    "requestType": "DeleteV1Request",
     "responseType": "CloudforceOneRequestsApiResponseCommon",
     "requiredRequestProperties": [
       "account_id",
@@ -9519,12 +9535,13 @@
   "cloudforce-one-request-get": {
     "accessor": [
       "cloudforceOne",
-      "requests"
+      "requests",
+      "v1"
     ],
-    "method": "cloudforceOneRequestGet",
+    "method": "get",
     "httpMethod": "GET",
     "path": "/accounts/{account_id}/cloudforce-one/requests/{request_id}",
-    "requestType": "CloudforceOneRequestGetRequestsRequest",
+    "requestType": "GetV1Request",
     "responseType": "CloudforceOneRequestsRequestItem",
     "requiredRequestProperties": [
       "account_id",
@@ -9534,13 +9551,14 @@
   "cloudforce-one-request-list": {
     "accessor": [
       "cloudforceOne",
-      "requests"
+      "requests",
+      "v1"
     ],
-    "method": "cloudforceOneRequestList",
+    "method": "list",
     "httpMethod": "POST",
     "path": "/accounts/{account_id}/cloudforce-one/requests",
     "requestType": "CloudforceOneRequestsRequestList",
-    "responseType": "CloudforceOneRequestListRequestsResponse",
+    "responseType": "ListV1Response",
     "requiredRequestProperties": [
       "account_id",
       "page",
@@ -9555,6 +9573,7 @@
     "accessor": [
       "cloudforceOne",
       "requests",
+      "v1",
       "message"
     ],
     "method": "delete",
@@ -9572,6 +9591,7 @@
     "accessor": [
       "cloudforceOne",
       "requests",
+      "v1",
       "message"
     ],
     "method": "get",
@@ -9594,6 +9614,7 @@
     "accessor": [
       "cloudforceOne",
       "requests",
+      "v1",
       "message"
     ],
     "method": "create",
@@ -9612,6 +9633,7 @@
     "accessor": [
       "cloudforceOne",
       "requests",
+      "v1",
       "message"
     ],
     "method": "update",
@@ -9630,12 +9652,13 @@
   "cloudforce-one-request-new": {
     "accessor": [
       "cloudforceOne",
-      "requests"
+      "requests",
+      "v1"
     ],
-    "method": "cloudforceOneRequestNew",
+    "method": "create",
     "httpMethod": "POST",
     "path": "/accounts/{account_id}/cloudforce-one/requests/new",
-    "requestType": "CloudforceOneRequestNewRequestsRequest",
+    "requestType": "CreateV1Request",
     "responseType": "CloudforceOneRequestsRequestItem",
     "requestBodyProperty": "body",
     "requiredRequestProperties": [
@@ -9646,12 +9669,13 @@
   "cloudforce-one-request-quota": {
     "accessor": [
       "cloudforceOne",
-      "requests"
+      "requests",
+      "v1"
     ],
     "method": "quota",
     "httpMethod": "GET",
     "path": "/accounts/{account_id}/cloudforce-one/requests/quota",
-    "requestType": "QuotaRequestsRequest",
+    "requestType": "QuotaV1Request",
     "responseType": "CloudforceOneRequestsQuota",
     "requiredRequestProperties": [
       "account_id"
@@ -9660,13 +9684,14 @@
   "cloudforce-one-request-types": {
     "accessor": [
       "cloudforceOne",
-      "requests"
+      "requests",
+      "v1"
     ],
     "method": "types",
     "httpMethod": "GET",
     "path": "/accounts/{account_id}/cloudforce-one/requests/types",
-    "requestType": "TypesRequestsRequest",
-    "responseType": "TypesRequestsResponse",
+    "requestType": "TypesV1Request",
+    "responseType": "TypesV1Response",
     "requiredRequestProperties": [
       "account_id"
     ]
@@ -9674,12 +9699,13 @@
   "cloudforce-one-request-update": {
     "accessor": [
       "cloudforceOne",
-      "requests"
+      "requests",
+      "v1"
     ],
-    "method": "cloudforceOneRequestUpdate",
+    "method": "update",
     "httpMethod": "PUT",
     "path": "/accounts/{account_id}/cloudforce-one/requests/{request_id}",
-    "requestType": "CloudforceOneRequestUpdateRequestsRequest",
+    "requestType": "UpdateV1Request",
     "responseType": "CloudforceOneRequestsRequestItem",
     "requestBodyProperty": "body",
     "requiredRequestProperties": [
@@ -11665,13 +11691,12 @@
       "advancedTcpProtection",
       "configs",
       "allowlist",
-      "delete",
-      "allowlist"
+      "prefix"
     ],
-    "method": "prefix",
+    "method": "delete",
     "httpMethod": "DELETE",
     "path": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/allowlist/{prefix_id}",
-    "requestType": "PrefixAllowlistRequest",
+    "requestType": "DeletePrefixRequest",
     "responseType": "DosApiResponseCommon",
     "requiredRequestProperties": [
       "account_id",
@@ -11683,14 +11708,12 @@
       "magicTransit",
       "advancedTcpProtection",
       "configs",
-      "allowlist",
-      "delete",
-      "for"
+      "allowlist"
     ],
-    "method": "account",
+    "method": "bulkDelete",
     "httpMethod": "DELETE",
     "path": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/allowlist",
-    "requestType": "AccountForRequest",
+    "requestType": "BulkDeleteAllowlistRequest",
     "responseType": "DosApiResponseCommon",
     "requiredRequestProperties": [
       "account_id"
@@ -11749,14 +11772,12 @@
       "configs",
       "dns",
       "protection",
-      "rules",
-      "delete",
-      "protection"
+      "rules"
     ],
-    "method": "rule",
+    "method": "delete",
     "httpMethod": "DELETE",
     "path": "/accounts/{account_id}/magic/advanced_dns_protection/configs/dns_protection/rules/{rule_id}",
-    "requestType": "RuleProtectionRequest",
+    "requestType": "DeleteRulesRequest",
     "responseType": "DosApiResponseCommon",
     "requiredRequestProperties": [
       "account_id",
@@ -11770,14 +11791,12 @@
       "configs",
       "dns",
       "protection",
-      "rules",
-      "delete",
-      "for"
+      "rules"
     ],
-    "method": "account",
+    "method": "bulkDelete",
     "httpMethod": "DELETE",
     "path": "/accounts/{account_id}/magic/advanced_dns_protection/configs/dns_protection/rules",
-    "requestType": "AccountForRequest",
+    "requestType": "BulkDeleteRulesRequest",
     "responseType": "DosApiResponseCommon",
     "requiredRequestProperties": [
       "account_id"
@@ -11857,6 +11876,22 @@
       "prefix_id"
     ]
   },
+  "deletePrefixesForAccount": {
+    "accessor": [
+      "magicTransit",
+      "advancedTcpProtection",
+      "configs",
+      "prefixes"
+    ],
+    "method": "bulkDelete",
+    "httpMethod": "DELETE",
+    "path": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/prefixes",
+    "requestType": "BulkDeletePrefixesRequest",
+    "responseType": "DosApiResponseCommon",
+    "requiredRequestProperties": [
+      "account_id"
+    ]
+  },
   "deleteRepoConnection": {
     "accessor": [
       "builds",
@@ -11894,14 +11929,12 @@
       "configs",
       "syn",
       "protection",
-      "filters",
-      "delete",
-      "protection"
+      "filters"
     ],
-    "method": "filter",
+    "method": "delete",
     "httpMethod": "DELETE",
     "path": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/syn_protection/filters/{filter_id}",
-    "requestType": "FilterProtectionRequest",
+    "requestType": "DeleteFiltersRequest",
     "responseType": "DosApiResponseCommon",
     "requiredRequestProperties": [
       "account_id",
@@ -11915,14 +11948,12 @@
       "configs",
       "syn",
       "protection",
-      "filters",
-      "delete",
-      "for"
+      "filters"
     ],
-    "method": "account",
+    "method": "bulkDelete",
     "httpMethod": "DELETE",
     "path": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/syn_protection/filters",
-    "requestType": "AccountForRequest",
+    "requestType": "BulkDeleteFiltersRequest",
     "responseType": "DosApiResponseCommon",
     "requiredRequestProperties": [
       "account_id"
@@ -11935,14 +11966,12 @@
       "configs",
       "syn",
       "protection",
-      "rules",
-      "delete",
-      "protection"
+      "rules"
     ],
-    "method": "rule",
+    "method": "delete",
     "httpMethod": "DELETE",
     "path": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/syn_protection/rules/{rule_id}",
-    "requestType": "RuleProtectionRequest",
+    "requestType": "DeleteRulesRequest",
     "responseType": "DosApiResponseCommon",
     "requiredRequestProperties": [
       "account_id",
@@ -11956,14 +11985,12 @@
       "configs",
       "syn",
       "protection",
-      "rules",
-      "delete",
-      "for"
+      "rules"
     ],
-    "method": "account",
+    "method": "bulkDelete",
     "httpMethod": "DELETE",
     "path": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/syn_protection/rules",
-    "requestType": "AccountForRequest",
+    "requestType": "BulkDeleteRulesRequest",
     "responseType": "DosApiResponseCommon",
     "requiredRequestProperties": [
       "account_id"
@@ -11977,14 +12004,12 @@
       "tcp",
       "flow",
       "protection",
-      "filters",
-      "delete",
-      "protection"
+      "filters"
     ],
-    "method": "filter",
+    "method": "delete",
     "httpMethod": "DELETE",
     "path": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_flow_protection/filters/{filter_id}",
-    "requestType": "FilterProtectionRequest",
+    "requestType": "DeleteFiltersRequest",
     "responseType": "DosApiResponseCommon",
     "requiredRequestProperties": [
       "account_id",
@@ -11999,14 +12024,12 @@
       "tcp",
       "flow",
       "protection",
-      "filters",
-      "delete",
-      "for"
+      "filters"
     ],
-    "method": "account",
+    "method": "bulkDelete",
     "httpMethod": "DELETE",
     "path": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_flow_protection/filters",
-    "requestType": "AccountForRequest",
+    "requestType": "BulkDeleteFiltersRequest",
     "responseType": "DosApiResponseCommon",
     "requiredRequestProperties": [
       "account_id"
@@ -12020,14 +12043,12 @@
       "tcp",
       "flow",
       "protection",
-      "rules",
-      "delete",
-      "protection"
+      "rules"
     ],
-    "method": "rule",
+    "method": "delete",
     "httpMethod": "DELETE",
     "path": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_flow_protection/rules/{rule_id}",
-    "requestType": "RuleProtectionRequest",
+    "requestType": "DeleteRulesRequest",
     "responseType": "DosApiResponseCommon",
     "requiredRequestProperties": [
       "account_id",
@@ -12042,14 +12063,12 @@
       "tcp",
       "flow",
       "protection",
-      "rules",
-      "delete",
-      "for"
+      "rules"
     ],
-    "method": "account",
+    "method": "bulkDelete",
     "httpMethod": "DELETE",
     "path": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_flow_protection/rules",
-    "requestType": "AccountForRequest",
+    "requestType": "BulkDeleteRulesRequest",
     "responseType": "DosApiResponseCommon",
     "requiredRequestProperties": [
       "account_id"
@@ -21002,12 +21021,13 @@
       "magicTransit",
       "advancedTcpProtection",
       "configs",
-      "allowlist"
+      "allowlist",
+      "prefix"
     ],
     "method": "get",
     "httpMethod": "GET",
     "path": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/allowlist/{prefix_id}",
-    "requestType": "GetAllowlistRequest",
+    "requestType": "GetPrefixRequest",
     "responseType": "DosInfraPrefix",
     "requiredRequestProperties": [
       "account_id",
@@ -21760,6 +21780,22 @@
       "project_type"
     ]
   },
+  "get_DashboardRequestTypesList": {
+    "accessor": [
+      "cloudforceOne",
+      "requests",
+      "types"
+    ],
+    "method": "list",
+    "httpMethod": "GET",
+    "path": "/accounts/{account_id}/cloudforce-one/v2/requests/{project_type}/types",
+    "requestType": "ListTypesRequest",
+    "responseType": "ListTypesResponse",
+    "requiredRequestProperties": [
+      "account_id",
+      "project_type"
+    ]
+  },
   "get_DatasetList": {
     "accessor": [
       "cloudforceOne",
@@ -22458,6 +22494,22 @@
       "account_id"
     ]
   },
+  "get_RequestConstants": {
+    "accessor": [
+      "cloudforceOne",
+      "requests",
+      "constants"
+    ],
+    "method": "get",
+    "httpMethod": "GET",
+    "path": "/accounts/{account_id}/cloudforce-one/v2/requests/{project_type}/constants",
+    "requestType": "GetConstantsRequest",
+    "responseType": "GetConstantsResponse",
+    "requiredRequestProperties": [
+      "account_id",
+      "project_type"
+    ]
+  },
   "get_RequestList": {
     "accessor": [
       "cloudforceOne",
@@ -22468,6 +22520,21 @@
     "path": "/accounts/{account_id}/cloudforce-one/v2/requests/{project_type}",
     "requestType": "GetRequestListRequestsRequest",
     "responseType": "GetRequestListRequestsResponse",
+    "requiredRequestProperties": [
+      "account_id",
+      "project_type"
+    ]
+  },
+  "get_RequestQuota": {
+    "accessor": [
+      "cloudforceOne",
+      "requests",
+      "quota"
+    ],
+    "method": "get",
+    "httpMethod": "GET",
+    "path": "/accounts/{account_id}/cloudforce-one/v2/requests/{project_type}/quota",
+    "requestType": "GetQuotaRequest",
     "requiredRequestProperties": [
       "account_id",
       "project_type"
@@ -25478,7 +25545,7 @@
     "path": "/user/load_balancers/pools",
     "responseType": "PoolsPoolsResponse",
     "requiredRequestProperties": [
-      "__@iterator@7066",
+      "__@iterator@7065",
       "anchor",
       "at",
       "big",
@@ -43029,7 +43096,8 @@
       "magicTransit",
       "advancedTcpProtection",
       "configs",
-      "allowlist"
+      "allowlist",
+      "prefix"
     ],
     "method": "update",
     "httpMethod": "PATCH",
@@ -46941,23 +47009,6 @@
     "httpMethod": "POST",
     "path": "/accounts/{account_id}/storage/kv/namespaces/{namespace_id}/bulk/delete",
     "requestType": "DeleteBulkRequest",
-    "responseType": "WorkersKvBulkResult",
-    "requestBodyProperty": "body",
-    "requiredRequestProperties": [
-      "account_id",
-      "body",
-      "namespace_id"
-    ]
-  },
-  "workers-kv-namespace-delete-multiple-key-value-pairs-deprecated": {
-    "accessor": [
-      "kv",
-      "bulkDeprecated"
-    ],
-    "method": "delete",
-    "httpMethod": "DELETE",
-    "path": "/accounts/{account_id}/storage/kv/namespaces/{namespace_id}/bulk",
-    "requestType": "DeleteBulkDeprecatedRequest",
     "responseType": "WorkersKvBulkResult",
     "requestBodyProperty": "body",
     "requiredRequestProperties": [

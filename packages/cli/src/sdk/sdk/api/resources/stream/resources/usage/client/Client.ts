@@ -38,7 +38,7 @@ export class UsageClient {
      * @example
      *     await client.stream.usage.get({
      *         account_or_zone: "account_or_zone",
-     *         account_or_zone_id: "023e105f4ecef8ad9ca31a8372d0c353",
+     *         account_or_zone_id: "account_or_zone_id",
      *         metrics: "streamMinutesViewed",
      *         since: "2023-09-01T00:00:00Z",
      *         until: "2023-09-01T06:00:00Z",

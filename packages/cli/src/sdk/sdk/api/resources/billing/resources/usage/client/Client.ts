@@ -182,8 +182,9 @@ export class UsageClient {
      * This includes all metered usage, including usage that falls within
      * free-tier allowances and may result in zero cost.
      *
-     * **Note:** Cost and pricing fields are not yet populated and
-     * will be absent from responses until billing integration is complete.
+     * **Note:** This endpoint serves `usage` records only; cost and pricing
+     * fields are absent from responses. To retrieve rated costs, use `POST`
+     * on the same path with `Metric: cost`.
      *
      * When `from` and `to` are omitted, defaults to the start of the current
      * month through today. The maximum date range is 31 days.
@@ -277,8 +278,8 @@ export class UsageClient {
      * This includes all metered usage, including usage that falls within
      * free-tier allowances and may result in zero cost.
      *
-     * **Note:** Cost and pricing fields are not yet populated and
-     * will be absent from responses until billing integration is complete.
+     * **Note:** Cost and pricing fields are populated only when `Metric`
+     * is `cost`; otherwise they are absent from responses.
      *
      * The request body is optional. When it is omitted, or when `TimePeriod`
      * is omitted, the range defaults to the start of the current month through

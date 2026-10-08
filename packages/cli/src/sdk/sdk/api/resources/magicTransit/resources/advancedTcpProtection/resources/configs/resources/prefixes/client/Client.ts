@@ -188,6 +188,71 @@ export class PrefixesClient {
     }
 
     /**
+     * Delete all prefixes for an account.
+     *
+     * @param {CloudflareApi.magicTransit.advancedTcpProtection.configs.BulkDeletePrefixesRequest} request
+     * @param {PrefixesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @example
+     *     await client.magicTransit.advancedTcpProtection.configs.prefixes.bulkDelete({
+     *         account_id: "account_id"
+     *     })
+     */
+    public bulkDelete(
+        request: CloudflareApi.magicTransit.advancedTcpProtection.configs.BulkDeletePrefixesRequest,
+        requestOptions?: PrefixesClient.RequestOptions,
+    ): core.HttpResponsePromise<CloudflareApi.DosApiResponseCommon> {
+        return core.HttpResponsePromise.fromPromise(this.__bulkDelete(request, requestOptions));
+    }
+
+    private async __bulkDelete(
+        request: CloudflareApi.magicTransit.advancedTcpProtection.configs.BulkDeletePrefixesRequest,
+        requestOptions?: PrefixesClient.RequestOptions,
+    ): Promise<core.WithRawResponse<CloudflareApi.DosApiResponseCommon>> {
+        const { account_id: accountId } = request;
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.CloudflareApiEnvironment.Default,
+                `accounts/${core.url.encodePathParam(accountId)}/magic/advanced_tcp_protection/configs/prefixes`,
+            ),
+            method: "DELETE",
+            headers: _headers,
+            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return { data: _response.body as CloudflareApi.DosApiResponseCommon, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            throw new errors.CloudflareApiError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
+        }
+
+        return handleNonStatusCodeError(
+            _response.error,
+            _response.rawResponse,
+            "DELETE",
+            "/accounts/{account_id}/magic/advanced_tcp_protection/configs/prefixes",
+        );
+    }
+
+    /**
      * Get a prefix specified by the given UUID.
      *
      * @param {CloudflareApi.magicTransit.advancedTcpProtection.configs.GetPrefixesRequest} request

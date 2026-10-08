@@ -20263,7 +20263,7 @@
 			"command": "cf billing usage get-account-usage-v2",
 			"name": "get-account-usage-v2",
 			"fullPath": ["billing", "usage", "get-account-usage-v2"],
-			"description": "Returns cost and usage data for a single Cloudflare account, aligned with the [FinOps FOCUS v1.3](https://focus.finops.org/focus-specification/v1-3/) Cost and Usage dataset specification. Each record represents one billable metric for one account on one day. This includes all metered usage, including usage that falls within free-tier allowances and may result in zero cost. **Note:** Cost and pricing fields are not yet populated and will be absent from responses until billing integration is complete. When `from` and `to` are omitted, defaults to the start of the current month through today. The maximum date range is 31 days.",
+			"description": "Returns cost and usage data for a single Cloudflare account, aligned with the [FinOps FOCUS v1.3](https://focus.finops.org/focus-specification/v1-3/) Cost and Usage dataset specification. Each record represents one billable metric for one account on one day. This includes all metered usage, including usage that falls within free-tier allowances and may result in zero cost. **Note:** This endpoint serves `usage` records only; cost and pricing fields are absent from responses. To retrieve rated costs, use `POST` on the same path with `Metric: cost`. When `from` and `to` are omitted, defaults to the start of the current month through today. The maximum date range is 31 days.",
 			"summary": "Get Account Usage (Version 2, Alpha, Restricted)",
 			"usage": "cf billing usage get-account-usage-v2 [options]",
 			"arguments": [],
@@ -20359,7 +20359,7 @@
 			"command": "cf billing usage query",
 			"name": "query",
 			"fullPath": ["billing", "usage", "query"],
-			"description": "Returns cost and usage data for a single Cloudflare account, aligned with the [FinOps FOCUS v1.3](https://focus.finops.org/focus-specification/v1-3/) Cost and Usage dataset specification. This is the filterable counterpart to `GET` on the same path. It is a read-only operation and requires only the `#billing:read` permission; `POST` is used so that filter criteria can be supplied in a request body rather than in the query string. Each record represents one billable metric for one account on one day. This includes all metered usage, including usage that falls within free-tier allowances and may result in zero cost. **Note:** Cost and pricing fields are not yet populated and will be absent from responses until billing integration is complete. The request body is optional. When it is omitted, or when `TimePeriod` is omitted, the range defaults to the start of the current month through today. The maximum date range is 31 days. Filters of different kinds are combined with AND. Values within one tag filter are combined with OR. Filter values that do not match usage produce an empty result set. Results can be grouped by up to two groups, in any combination of dimension keys and resource-tag keys. Tag groups are returned in the `Tags` field. Usage without a requested tag remains in an untagged group, with that key omitted from `Tags`. Requests that use tag filtering or tag grouping return HTTP 400 when the underlying usage data source does not support tags. Requests that use dimension grouping return HTTP 400 when the underlying usage data source does not support dimensions.",
+			"description": "Returns cost and usage data for a single Cloudflare account, aligned with the [FinOps FOCUS v1.3](https://focus.finops.org/focus-specification/v1-3/) Cost and Usage dataset specification. This is the filterable counterpart to `GET` on the same path. It is a read-only operation and requires only the `#billing:read` permission; `POST` is used so that filter criteria can be supplied in a request body rather than in the query string. Each record represents one billable metric for one account on one day. This includes all metered usage, including usage that falls within free-tier allowances and may result in zero cost. **Note:** Cost and pricing fields are populated only when `Metric` is `cost`; otherwise they are absent from responses. The request body is optional. When it is omitted, or when `TimePeriod` is omitted, the range defaults to the start of the current month through today. The maximum date range is 31 days. Filters of different kinds are combined with AND. Values within one tag filter are combined with OR. Filter values that do not match usage produce an empty result set. Results can be grouped by up to two groups, in any combination of dimension keys and resource-tag keys. Tag groups are returned in the `Tags` field. Usage without a requested tag remains in an untagged group, with that key omitted from `Tags`. Requests that use tag filtering or tag grouping return HTTP 400 when the underlying usage data source does not support tags. Requests that use dimension grouping return HTTP 400 when the underlying usage data source does not support dimensions.",
 			"summary": "Query Account Usage (Version 2, Alpha, Restricted)",
 			"usage": "cf billing usage query [options]",
 			"arguments": [],
@@ -20386,9 +20386,9 @@
 					"name": "metric",
 					"type": "string",
 					"required": false,
-					"description": "Type of cost/usage records to retrieve. `usage` returns unrated usage quantities. Unrelated to `FilterBy.BillableMetricIds`. Defaults to `usage` when omitted.",
+					"description": "Type of cost/usage records to retrieve. `usage` returns unrated usage quantities. `cost` returns rated usage with cost and pricing fields; it is available only on `POST` account usage and only when the underlying usage data source is ClickHouse (other sources return an empty result set). Requests that combine `cost` with `GroupBy` or `FilterBy.Tags` return HTTP 400. Unrelated to `FilterBy.BillableMetricIds`. Defaults to `usage` when omitted.",
 					"default": "usage",
-					"enum": ["usage"]
+					"enum": ["usage", "cost"]
 				},
 				{
 					"name": "time-period-from",
@@ -32443,138 +32443,6 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf cloudforce-one requests asset-new create",
-			"name": "create",
-			"fullPath": ["cloudforce-one", "requests", "asset-new", "create"],
-			"description": "Uploads a new asset to a Cloudforce One intelligence request.",
-			"summary": "Create a New Request Asset",
-			"usage": "cf cloudforce-one requests asset-new create <request-id>",
-			"arguments": [
-				{
-					"name": "request-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "UUID."
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				},
-				{
-					"name": "file",
-					"type": "string",
-					"required": false,
-					"description": "Path to a file to upload as the request body"
-				}
-			],
-			"category": "create",
-			"hasRequestBody": true,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/{request_id}/asset/new",
-			"operationId": "cloudforce-one-request-asset-new",
-			"hideCommand": false
-		},
-		{
-			"command": "cf cloudforce-one requests assets create",
-			"name": "create",
-			"fullPath": ["cloudforce-one", "requests", "assets", "create"],
-			"description": "Lists assets attached to a Cloudforce One intelligence request.",
-			"summary": "List Request Assets",
-			"usage": "cf cloudforce-one requests assets create <request-id> [options]",
-			"arguments": [
-				{
-					"name": "request-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "UUID."
-				}
-			],
-			"options": [
-				{
-					"name": "page",
-					"type": "number",
-					"required": true,
-					"description": "Page number of results."
-				},
-				{
-					"name": "per-page",
-					"type": "number",
-					"required": true,
-					"description": "Number of results per page."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "create",
-			"hasRequestBody": true,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/{request_id}/asset",
-			"operationId": "cloudforce-one-request-asset-list",
-			"hideCommand": false
-		},
-		{
-			"command": "cf cloudforce-one requests assets delete",
-			"name": "delete",
-			"fullPath": ["cloudforce-one", "requests", "assets", "delete"],
-			"description": "Removes an asset from a Cloudforce One intelligence request.",
-			"summary": "Delete a Request Asset",
-			"usage": "cf cloudforce-one requests assets delete <asset-id> [options]",
-			"arguments": [
-				{
-					"name": "asset-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "UUID."
-				}
-			],
-			"options": [
-				{
-					"name": "request-id",
-					"type": "string",
-					"required": true,
-					"description": "UUID."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "delete",
-			"hasRequestBody": false,
-			"httpMethod": "DELETE",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/{request_id}/asset/{asset_id}",
-			"operationId": "cloudforce-one-request-asset-delete",
-			"hideCommand": false
-		},
-		{
 			"command": "cf cloudforce-one requests assets download",
 			"name": "download",
 			"fullPath": ["cloudforce-one", "requests", "assets", "download"],
@@ -32619,44 +32487,6 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf cloudforce-one requests assets get",
-			"name": "get",
-			"fullPath": ["cloudforce-one", "requests", "assets", "get"],
-			"description": "Retrieves an asset attached to a Cloudforce One intelligence request.",
-			"summary": "Get a Request Asset",
-			"usage": "cf cloudforce-one requests assets get <asset-id> [options]",
-			"arguments": [
-				{
-					"name": "asset-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "UUID."
-				}
-			],
-			"options": [
-				{
-					"name": "request-id",
-					"type": "string",
-					"required": true,
-					"description": "UUID."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/{request_id}/asset/{asset_id}",
-			"operationId": "cloudforce-one-request-asset-get",
-			"hideCommand": false
-		},
-		{
 			"command": "cf cloudforce-one requests assets list",
 			"name": "list",
 			"fullPath": ["cloudforce-one", "requests", "assets", "list"],
@@ -32690,56 +32520,6 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/cloudforce-one/v2/requests/{project_type}/{request_id}/assets/list",
 			"operationId": "get_DashboardAssetList",
-			"hideCommand": false
-		},
-		{
-			"command": "cf cloudforce-one requests assets update",
-			"name": "update",
-			"fullPath": ["cloudforce-one", "requests", "assets", "update"],
-			"description": "Updates an asset in a Cloudforce One intelligence request.",
-			"summary": "Update a Request Asset",
-			"usage": "cf cloudforce-one requests assets update <asset-id> [options]",
-			"arguments": [
-				{
-					"name": "asset-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "UUID."
-				}
-			],
-			"options": [
-				{
-					"name": "request-id",
-					"type": "string",
-					"required": true,
-					"description": "UUID."
-				},
-				{
-					"name": "source",
-					"type": "string",
-					"required": false,
-					"description": "Asset file to upload."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "update",
-			"hasRequestBody": true,
-			"httpMethod": "PUT",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/{request_id}/asset/{asset_id}",
-			"operationId": "cloudforce-one-request-asset-update",
 			"hideCommand": false
 		},
 		{
@@ -32793,19 +32573,19 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf cloudforce-one requests cloudforceOneRequestGet",
-			"name": "cloudforceOneRequestGet",
-			"fullPath": ["cloudforce-one", "requests", "cloudforceOneRequestGet"],
-			"description": "Retrieves details for a specific Cloudforce One intelligence request.",
-			"summary": "Get a Request",
-			"usage": "cf cloudforce-one requests cloudforceOneRequestGet <request-id>",
+			"command": "cf cloudforce-one requests constants get",
+			"name": "get",
+			"fullPath": ["cloudforce-one", "requests", "constants", "get"],
+			"description": "Returns available priorities, statuses, and TLP levels for request workflows",
+			"summary": "Get request constants",
+			"usage": "cf cloudforce-one requests constants get <project-type>",
 			"arguments": [
 				{
-					"name": "request-id",
+					"name": "project-type",
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "UUID."
+					"description": "Project type"
 				}
 			],
 			"options": [
@@ -32817,296 +32597,11 @@
 					"default": false
 				}
 			],
-			"category": "action",
+			"category": "read",
 			"hasRequestBody": false,
 			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/{request_id}",
-			"operationId": "cloudforce-one-request-get",
-			"hideCommand": false
-		},
-		{
-			"command": "cf cloudforce-one requests cloudforceOneRequestList",
-			"name": "cloudforceOneRequestList",
-			"fullPath": ["cloudforce-one", "requests", "cloudforceOneRequestList"],
-			"description": "Lists Cloudforce One intelligence requests with filtering and pagination.",
-			"summary": "List Requests",
-			"usage": "cf cloudforce-one requests cloudforceOneRequestList [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "completed-after",
-					"type": "string",
-					"required": false,
-					"description": "Retrieve requests completed after this time."
-				},
-				{
-					"name": "completed-before",
-					"type": "string",
-					"required": false,
-					"description": "Retrieve requests completed before this time."
-				},
-				{
-					"name": "created-after",
-					"type": "string",
-					"required": false,
-					"description": "Retrieve requests created after this time."
-				},
-				{
-					"name": "created-before",
-					"type": "string",
-					"required": false,
-					"description": "Retrieve requests created before this time."
-				},
-				{
-					"name": "page",
-					"type": "number",
-					"required": true,
-					"description": "Page number of results."
-				},
-				{
-					"name": "per-page",
-					"type": "number",
-					"required": true,
-					"description": "Number of results per page."
-				},
-				{
-					"name": "request-type",
-					"type": "string",
-					"required": false,
-					"description": "Requested information from request."
-				},
-				{
-					"name": "sort-by",
-					"type": "string",
-					"required": false,
-					"description": "Field to sort results by."
-				},
-				{
-					"name": "sort-order",
-					"type": "string",
-					"required": false,
-					"description": "Sort order (asc or desc).",
-					"enum": ["asc", "desc"]
-				},
-				{
-					"name": "status",
-					"type": "string",
-					"required": false,
-					"description": "Request Status.",
-					"enum": [
-						"open",
-						"accepted",
-						"reported",
-						"approved",
-						"completed",
-						"declined"
-					]
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "action",
-			"hasRequestBody": true,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/requests",
-			"operationId": "cloudforce-one-request-list",
-			"hideCommand": false
-		},
-		{
-			"command": "cf cloudforce-one requests cloudforceOneRequestNew",
-			"name": "cloudforceOneRequestNew",
-			"fullPath": ["cloudforce-one", "requests", "cloudforceOneRequestNew"],
-			"description": "Creating a request adds the request into the Cloudforce One queue for analysis. In addition to the content, a short title, type, priority, and releasability should be provided. If one is not provided, a default will be assigned.",
-			"summary": "Create a New Request.",
-			"usage": "cf cloudforce-one requests cloudforceOneRequestNew [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "content",
-					"type": "string",
-					"required": false,
-					"description": "Request content."
-				},
-				{
-					"name": "priority",
-					"type": "string",
-					"required": false,
-					"description": "Priority for analyzing the request."
-				},
-				{
-					"name": "request-type",
-					"type": "string",
-					"required": false,
-					"description": "Requested information from request."
-				},
-				{
-					"name": "summary",
-					"type": "string",
-					"required": false,
-					"description": "Brief description of the request."
-				},
-				{
-					"name": "tlp",
-					"type": "string",
-					"required": false,
-					"description": "The CISA defined Traffic Light Protocol (TLP).",
-					"enum": ["clear", "amber", "amber-strict", "green", "red"]
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "action",
-			"hasRequestBody": true,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/new",
-			"operationId": "cloudforce-one-request-new",
-			"hideCommand": false
-		},
-		{
-			"command": "cf cloudforce-one requests cloudforceOneRequestUpdate",
-			"name": "cloudforceOneRequestUpdate",
-			"fullPath": ["cloudforce-one", "requests", "cloudforceOneRequestUpdate"],
-			"description": "Updating a request alters the request in the Cloudforce One queue. This API may be used to update any attributes of the request after the initial submission. Only fields that you choose to update need to be add to the request body.",
-			"summary": "Update a Request",
-			"usage": "cf cloudforce-one requests cloudforceOneRequestUpdate <request-id> [options]",
-			"arguments": [
-				{
-					"name": "request-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "UUID."
-				}
-			],
-			"options": [
-				{
-					"name": "content",
-					"type": "string",
-					"required": false,
-					"description": "Request content."
-				},
-				{
-					"name": "priority",
-					"type": "string",
-					"required": false,
-					"description": "Priority for analyzing the request."
-				},
-				{
-					"name": "request-type",
-					"type": "string",
-					"required": false,
-					"description": "Requested information from request."
-				},
-				{
-					"name": "summary",
-					"type": "string",
-					"required": false,
-					"description": "Brief description of the request."
-				},
-				{
-					"name": "tlp",
-					"type": "string",
-					"required": false,
-					"description": "The CISA defined Traffic Light Protocol (TLP).",
-					"enum": ["clear", "amber", "amber-strict", "green", "red"]
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "action",
-			"hasRequestBody": true,
-			"httpMethod": "PUT",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/{request_id}",
-			"operationId": "cloudforce-one-request-update",
-			"hideCommand": false
-		},
-		{
-			"command": "cf cloudforce-one requests constants",
-			"name": "constants",
-			"fullPath": ["cloudforce-one", "requests", "constants"],
-			"description": "Retrieves constant values used in Cloudforce One requests, including valid statuses and types.",
-			"summary": "Get Request Priority, Status, and TLP constants",
-			"usage": "cf cloudforce-one requests constants",
-			"arguments": [],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/constants",
-			"operationId": "cloudforce-one-request-constants",
-			"hideCommand": false
-		},
-		{
-			"command": "cf cloudforce-one requests delete",
-			"name": "delete",
-			"fullPath": ["cloudforce-one", "requests", "delete"],
-			"description": "Deletes a Cloudforce One intelligence request and all associated data.",
-			"summary": "Delete a Request",
-			"usage": "cf cloudforce-one requests delete <request-id>",
-			"arguments": [
-				{
-					"name": "request-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "UUID."
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "delete",
-			"hasRequestBody": false,
-			"httpMethod": "DELETE",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/{request_id}",
-			"operationId": "cloudforce-one-request-delete",
+			"apiPath": "/accounts/{account_id}/cloudforce-one/v2/requests/{project_type}/constants",
+			"operationId": "get_RequestConstants",
 			"hideCommand": false
 		},
 		{
@@ -33302,213 +32797,6 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/cloudforce-one/v2/requests/legal-response/access-check",
 			"operationId": "get_LegalResponseAccessCheck",
-			"hideCommand": false
-		},
-		{
-			"command": "cf cloudforce-one requests message create",
-			"name": "create",
-			"fullPath": ["cloudforce-one", "requests", "message", "create"],
-			"description": "Adds a message to a Cloudforce One intelligence request conversation.",
-			"summary": "Create a New Request Message",
-			"usage": "cf cloudforce-one requests message create <request-id> [options]",
-			"arguments": [
-				{
-					"name": "request-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "UUID."
-				}
-			],
-			"options": [
-				{
-					"name": "content",
-					"type": "string",
-					"required": false,
-					"description": "Content of message."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "create",
-			"hasRequestBody": true,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/{request_id}/message/new",
-			"operationId": "cloudforce-one-request-message-new",
-			"hideCommand": false
-		},
-		{
-			"command": "cf cloudforce-one requests message delete",
-			"name": "delete",
-			"fullPath": ["cloudforce-one", "requests", "message", "delete"],
-			"description": "Removes a message from a Cloudforce One intelligence request thread.",
-			"summary": "Delete a Request Message",
-			"usage": "cf cloudforce-one requests message delete <message-id> [options]",
-			"arguments": [
-				{
-					"name": "message-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Message ID"
-				}
-			],
-			"options": [
-				{
-					"name": "request-id",
-					"type": "string",
-					"required": true,
-					"description": "UUID."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "delete",
-			"hasRequestBody": false,
-			"httpMethod": "DELETE",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/{request_id}/message/{message_id}",
-			"operationId": "cloudforce-one-request-message-delete",
-			"hideCommand": false
-		},
-		{
-			"command": "cf cloudforce-one requests message get",
-			"name": "get",
-			"fullPath": ["cloudforce-one", "requests", "message", "get"],
-			"description": "Lists messages in a Cloudforce One intelligence request conversation.",
-			"summary": "List Request Messages",
-			"usage": "cf cloudforce-one requests message get <request-id> [options]",
-			"arguments": [
-				{
-					"name": "request-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "UUID."
-				}
-			],
-			"options": [
-				{
-					"name": "after",
-					"type": "string",
-					"required": false,
-					"description": "Retrieve mes  ges created after this time."
-				},
-				{
-					"name": "before",
-					"type": "string",
-					"required": false,
-					"description": "Retrieve messages created before this time."
-				},
-				{
-					"name": "page",
-					"type": "number",
-					"required": true,
-					"description": "Page number of results."
-				},
-				{
-					"name": "per-page",
-					"type": "number",
-					"required": true,
-					"description": "Number of results per page."
-				},
-				{
-					"name": "sort-by",
-					"type": "string",
-					"required": false,
-					"description": "Field to sort results by."
-				},
-				{
-					"name": "sort-order",
-					"type": "string",
-					"required": false,
-					"description": "Sort order (asc or desc).",
-					"enum": ["asc", "desc"]
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "read",
-			"hasRequestBody": true,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/{request_id}/message",
-			"operationId": "cloudforce-one-request-message-list",
-			"hideCommand": false
-		},
-		{
-			"command": "cf cloudforce-one requests message update",
-			"name": "update",
-			"fullPath": ["cloudforce-one", "requests", "message", "update"],
-			"description": "Updates a message in a Cloudforce One intelligence request thread.",
-			"summary": "Update a Request Message",
-			"usage": "cf cloudforce-one requests message update <message-id> [options]",
-			"arguments": [
-				{
-					"name": "message-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Message ID"
-				}
-			],
-			"options": [
-				{
-					"name": "request-id",
-					"type": "string",
-					"required": true,
-					"description": "UUID."
-				},
-				{
-					"name": "content",
-					"type": "string",
-					"required": false,
-					"description": "Content of message."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "update",
-			"hasRequestBody": true,
-			"httpMethod": "PUT",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/{request_id}/message/{message_id}",
-			"operationId": "cloudforce-one-request-message-update",
 			"hideCommand": false
 		},
 		{
@@ -33915,254 +33203,6 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf cloudforce-one requests priority create",
-			"name": "create",
-			"fullPath": ["cloudforce-one", "requests", "priority", "create"],
-			"description": "Creates a new priority intelligence request in Cloudforce One.",
-			"summary": "Create a New Priority Intelligence Requirement",
-			"usage": "cf cloudforce-one requests priority create [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "labels",
-					"type": "string",
-					"required": true,
-					"description": "List of labels."
-				},
-				{
-					"name": "priority",
-					"type": "number",
-					"required": true,
-					"description": "Priority."
-				},
-				{
-					"name": "requirement",
-					"type": "string",
-					"required": true,
-					"description": "Requirement."
-				},
-				{
-					"name": "tlp",
-					"type": "string",
-					"required": true,
-					"description": "The CISA defined Traffic Light Protocol (TLP).",
-					"enum": ["clear", "amber", "amber-strict", "green", "red"]
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "create",
-			"hasRequestBody": true,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/priority/new",
-			"operationId": "cloudforce-one-priority-new",
-			"hideCommand": false
-		},
-		{
-			"command": "cf cloudforce-one requests priority delete",
-			"name": "delete",
-			"fullPath": ["cloudforce-one", "requests", "priority", "delete"],
-			"description": "Deletes a priority intelligence request from Cloudforce One.",
-			"summary": "Delete a Priority Intelligence Requirement",
-			"usage": "cf cloudforce-one requests priority delete <priority-id>",
-			"arguments": [
-				{
-					"name": "priority-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "UUID."
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "delete",
-			"hasRequestBody": false,
-			"httpMethod": "DELETE",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/priority/{priority_id}",
-			"operationId": "cloudforce-one-priority-delete",
-			"hideCommand": false
-		},
-		{
-			"command": "cf cloudforce-one requests priority get",
-			"name": "get",
-			"fullPath": ["cloudforce-one", "requests", "priority", "get"],
-			"description": "Retrieves a specific priority intelligence request from Cloudforce One.",
-			"summary": "Get a Priority Intelligence Requirement",
-			"usage": "cf cloudforce-one requests priority get <priority-id>",
-			"arguments": [
-				{
-					"name": "priority-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "UUID."
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/priority/{priority_id}",
-			"operationId": "cloudforce-one-priority-get",
-			"hideCommand": false
-		},
-		{
-			"command": "cf cloudforce-one requests priority list",
-			"name": "list",
-			"fullPath": ["cloudforce-one", "requests", "priority", "list"],
-			"description": "Lists priority intelligence requests in Cloudforce One.",
-			"summary": "List Priority Intelligence Requirements",
-			"usage": "cf cloudforce-one requests priority list [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "page",
-					"type": "number",
-					"required": true,
-					"description": "Page number of results."
-				},
-				{
-					"name": "per-page",
-					"type": "number",
-					"required": true,
-					"description": "Number of results per page."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "read",
-			"hasRequestBody": true,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/priority",
-			"operationId": "cloudforce-one-priority-list",
-			"hideCommand": false
-		},
-		{
-			"command": "cf cloudforce-one requests priority quota",
-			"name": "quota",
-			"fullPath": ["cloudforce-one", "requests", "priority", "quota"],
-			"description": "Retrieves quota usage for Cloudforce One priority requests.",
-			"summary": "Get Priority Intelligence Requirement Quota",
-			"usage": "cf cloudforce-one requests priority quota",
-			"arguments": [],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/priority/quota",
-			"operationId": "cloudforce-one-priority-quota",
-			"hideCommand": false
-		},
-		{
-			"command": "cf cloudforce-one requests priority update",
-			"name": "update",
-			"fullPath": ["cloudforce-one", "requests", "priority", "update"],
-			"description": "Updates a priority intelligence request in Cloudforce One.",
-			"summary": "Update a Priority Intelligence Requirement",
-			"usage": "cf cloudforce-one requests priority update <priority-id> [options]",
-			"arguments": [
-				{
-					"name": "priority-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "UUID."
-				}
-			],
-			"options": [
-				{
-					"name": "labels",
-					"type": "string",
-					"required": true,
-					"description": "List of labels."
-				},
-				{
-					"name": "priority",
-					"type": "number",
-					"required": true,
-					"description": "Priority."
-				},
-				{
-					"name": "requirement",
-					"type": "string",
-					"required": true,
-					"description": "Requirement."
-				},
-				{
-					"name": "tlp",
-					"type": "string",
-					"required": true,
-					"description": "The CISA defined Traffic Light Protocol (TLP).",
-					"enum": ["clear", "amber", "amber-strict", "green", "red"]
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "update",
-			"hasRequestBody": true,
-			"httpMethod": "PUT",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/priority/{priority_id}",
-			"operationId": "cloudforce-one-priority-update",
-			"hideCommand": false
-		},
-		{
 			"command": "cf cloudforce-one requests putRequestUpdate",
 			"name": "putRequestUpdate",
 			"fullPath": ["cloudforce-one", "requests", "putRequestUpdate"],
@@ -34274,13 +33314,21 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf cloudforce-one requests quota",
-			"name": "quota",
-			"fullPath": ["cloudforce-one", "requests", "quota"],
-			"description": "Retrieves quota usage for Cloudforce One standard requests.",
-			"summary": "Get Request Quota",
-			"usage": "cf cloudforce-one requests quota",
-			"arguments": [],
+			"command": "cf cloudforce-one requests quota get",
+			"name": "get",
+			"fullPath": ["cloudforce-one", "requests", "quota", "get"],
+			"description": "Returns the account's token quota for the current anniversary quarter: total granted, used, remaining, and the quarter/anniversary boundaries.",
+			"summary": "Get request token quota",
+			"usage": "cf cloudforce-one requests quota get <project-type>",
+			"arguments": [
+				{
+					"name": "project-type",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "RFI project type"
+				}
+			],
 			"options": [
 				{
 					"name": "dry-run",
@@ -34290,22 +33338,28 @@
 					"default": false
 				}
 			],
-			"category": "action",
+			"category": "read",
 			"hasRequestBody": false,
 			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/quota",
-			"operationId": "cloudforce-one-request-quota",
+			"apiPath": "/accounts/{account_id}/cloudforce-one/v2/requests/{project_type}/quota",
+			"operationId": "get_RequestQuota",
 			"hideCommand": false
 		},
 		{
-			"command": "cf cloudforce-one requests types",
-			"name": "types",
-			"fullPath": ["cloudforce-one", "requests", "types"],
-			"description": "Lists available request types for Cloudforce One intelligence requests.",
-			"summary": "Get Request Types",
-			"usage": "cf cloudforce-one requests types",
+			"command": "cf cloudforce-one requests types list",
+			"name": "list",
+			"fullPath": ["cloudforce-one", "requests", "types", "list"],
+			"description": "Returns request types available to dashboard (external) callers. For restricted project types (e.g. legal-response), only the allowlisted subset is returned.",
+			"summary": "List visible request types for a project (dashboard)",
+			"usage": "cf cloudforce-one requests types list [options]",
 			"arguments": [],
 			"options": [
+				{
+					"name": "project-type",
+					"type": "string",
+					"required": true,
+					"description": "Project type"
+				},
 				{
 					"name": "dry-run",
 					"type": "boolean",
@@ -34314,11 +33368,11 @@
 					"default": false
 				}
 			],
-			"category": "action",
+			"category": "read",
 			"hasRequestBody": false,
 			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/types",
-			"operationId": "cloudforce-one-request-types",
+			"apiPath": "/accounts/{account_id}/cloudforce-one/v2/requests/{project_type}/types",
+			"operationId": "get_DashboardRequestTypesList",
 			"hideCommand": false
 		},
 		{
@@ -34351,6 +33405,1067 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/cloudforce-one/v2/requests/{project_type}/user/me",
 			"operationId": "get_UserGetSelf",
+			"hideCommand": false
+		},
+		{
+			"command": "cf cloudforce-one requests v1 asset-new create",
+			"name": "create",
+			"fullPath": ["cloudforce-one", "requests", "v1", "asset-new", "create"],
+			"description": "Uploads a new asset to a Cloudforce One intelligence request.",
+			"summary": "Create a New Request Asset",
+			"usage": "cf cloudforce-one requests v1 asset-new create <request-id>",
+			"arguments": [
+				{
+					"name": "request-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "UUID."
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				},
+				{
+					"name": "file",
+					"type": "string",
+					"required": false,
+					"description": "Path to a file to upload as the request body"
+				}
+			],
+			"category": "create",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/{request_id}/asset/new",
+			"operationId": "cloudforce-one-request-asset-new",
+			"hideCommand": false
+		},
+		{
+			"command": "cf cloudforce-one requests v1 assets create",
+			"name": "create",
+			"fullPath": ["cloudforce-one", "requests", "v1", "assets", "create"],
+			"description": "Lists assets attached to a Cloudforce One intelligence request.",
+			"summary": "List Request Assets",
+			"usage": "cf cloudforce-one requests v1 assets create <request-id> [options]",
+			"arguments": [
+				{
+					"name": "request-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "UUID."
+				}
+			],
+			"options": [
+				{
+					"name": "page",
+					"type": "number",
+					"required": true,
+					"description": "Page number of results."
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": true,
+					"description": "Number of results per page."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "create",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/{request_id}/asset",
+			"operationId": "cloudforce-one-request-asset-list",
+			"hideCommand": false
+		},
+		{
+			"command": "cf cloudforce-one requests v1 assets delete",
+			"name": "delete",
+			"fullPath": ["cloudforce-one", "requests", "v1", "assets", "delete"],
+			"description": "Removes an asset from a Cloudforce One intelligence request.",
+			"summary": "Delete a Request Asset",
+			"usage": "cf cloudforce-one requests v1 assets delete <asset-id> [options]",
+			"arguments": [
+				{
+					"name": "asset-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "UUID."
+				}
+			],
+			"options": [
+				{
+					"name": "request-id",
+					"type": "string",
+					"required": true,
+					"description": "UUID."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "delete",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/{request_id}/asset/{asset_id}",
+			"operationId": "cloudforce-one-request-asset-delete",
+			"hideCommand": false
+		},
+		{
+			"command": "cf cloudforce-one requests v1 assets get",
+			"name": "get",
+			"fullPath": ["cloudforce-one", "requests", "v1", "assets", "get"],
+			"description": "Retrieves an asset attached to a Cloudforce One intelligence request.",
+			"summary": "Get a Request Asset",
+			"usage": "cf cloudforce-one requests v1 assets get <asset-id> [options]",
+			"arguments": [
+				{
+					"name": "asset-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "UUID."
+				}
+			],
+			"options": [
+				{
+					"name": "request-id",
+					"type": "string",
+					"required": true,
+					"description": "UUID."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/{request_id}/asset/{asset_id}",
+			"operationId": "cloudforce-one-request-asset-get",
+			"hideCommand": false
+		},
+		{
+			"command": "cf cloudforce-one requests v1 assets update",
+			"name": "update",
+			"fullPath": ["cloudforce-one", "requests", "v1", "assets", "update"],
+			"description": "Updates an asset in a Cloudforce One intelligence request.",
+			"summary": "Update a Request Asset",
+			"usage": "cf cloudforce-one requests v1 assets update <asset-id> [options]",
+			"arguments": [
+				{
+					"name": "asset-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "UUID."
+				}
+			],
+			"options": [
+				{
+					"name": "request-id",
+					"type": "string",
+					"required": true,
+					"description": "UUID."
+				},
+				{
+					"name": "source",
+					"type": "string",
+					"required": false,
+					"description": "Asset file to upload."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PUT",
+			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/{request_id}/asset/{asset_id}",
+			"operationId": "cloudforce-one-request-asset-update",
+			"hideCommand": false
+		},
+		{
+			"command": "cf cloudforce-one requests v1 constants",
+			"name": "constants",
+			"fullPath": ["cloudforce-one", "requests", "v1", "constants"],
+			"description": "Retrieves constant values used in Cloudforce One requests, including valid statuses and types.",
+			"summary": "Get Request Priority, Status, and TLP constants",
+			"usage": "cf cloudforce-one requests v1 constants",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/constants",
+			"operationId": "cloudforce-one-request-constants",
+			"hideCommand": false
+		},
+		{
+			"command": "cf cloudforce-one requests v1 create",
+			"name": "create",
+			"fullPath": ["cloudforce-one", "requests", "v1", "create"],
+			"description": "Creating a request adds the request into the Cloudforce One queue for analysis. In addition to the content, a short title, type, priority, and releasability should be provided. If one is not provided, a default will be assigned.",
+			"summary": "Create a New Request.",
+			"usage": "cf cloudforce-one requests v1 create [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "content",
+					"type": "string",
+					"required": false,
+					"description": "Request content."
+				},
+				{
+					"name": "priority",
+					"type": "string",
+					"required": false,
+					"description": "Priority for analyzing the request."
+				},
+				{
+					"name": "request-type",
+					"type": "string",
+					"required": false,
+					"description": "Requested information from request."
+				},
+				{
+					"name": "summary",
+					"type": "string",
+					"required": false,
+					"description": "Brief description of the request."
+				},
+				{
+					"name": "tlp",
+					"type": "string",
+					"required": false,
+					"description": "The CISA defined Traffic Light Protocol (TLP).",
+					"enum": ["clear", "amber", "amber-strict", "green", "red"]
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "create",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/new",
+			"operationId": "cloudforce-one-request-new",
+			"hideCommand": false
+		},
+		{
+			"command": "cf cloudforce-one requests v1 delete",
+			"name": "delete",
+			"fullPath": ["cloudforce-one", "requests", "v1", "delete"],
+			"description": "Deletes a Cloudforce One intelligence request and all associated data.",
+			"summary": "Delete a Request",
+			"usage": "cf cloudforce-one requests v1 delete <request-id>",
+			"arguments": [
+				{
+					"name": "request-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "UUID."
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "delete",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/{request_id}",
+			"operationId": "cloudforce-one-request-delete",
+			"hideCommand": false
+		},
+		{
+			"command": "cf cloudforce-one requests v1 get",
+			"name": "get",
+			"fullPath": ["cloudforce-one", "requests", "v1", "get"],
+			"description": "Retrieves details for a specific Cloudforce One intelligence request.",
+			"summary": "Get a Request",
+			"usage": "cf cloudforce-one requests v1 get <request-id>",
+			"arguments": [
+				{
+					"name": "request-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "UUID."
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/{request_id}",
+			"operationId": "cloudforce-one-request-get",
+			"hideCommand": false
+		},
+		{
+			"command": "cf cloudforce-one requests v1 list",
+			"name": "list",
+			"fullPath": ["cloudforce-one", "requests", "v1", "list"],
+			"description": "Lists Cloudforce One intelligence requests with filtering and pagination.",
+			"summary": "List Requests",
+			"usage": "cf cloudforce-one requests v1 list [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "completed-after",
+					"type": "string",
+					"required": false,
+					"description": "Retrieve requests completed after this time."
+				},
+				{
+					"name": "completed-before",
+					"type": "string",
+					"required": false,
+					"description": "Retrieve requests completed before this time."
+				},
+				{
+					"name": "created-after",
+					"type": "string",
+					"required": false,
+					"description": "Retrieve requests created after this time."
+				},
+				{
+					"name": "created-before",
+					"type": "string",
+					"required": false,
+					"description": "Retrieve requests created before this time."
+				},
+				{
+					"name": "page",
+					"type": "number",
+					"required": true,
+					"description": "Page number of results."
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": true,
+					"description": "Number of results per page."
+				},
+				{
+					"name": "request-type",
+					"type": "string",
+					"required": false,
+					"description": "Requested information from request."
+				},
+				{
+					"name": "sort-by",
+					"type": "string",
+					"required": false,
+					"description": "Field to sort results by."
+				},
+				{
+					"name": "sort-order",
+					"type": "string",
+					"required": false,
+					"description": "Sort order (asc or desc).",
+					"enum": ["asc", "desc"]
+				},
+				{
+					"name": "status",
+					"type": "string",
+					"required": false,
+					"description": "Request Status.",
+					"enum": [
+						"open",
+						"accepted",
+						"reported",
+						"approved",
+						"completed",
+						"declined"
+					]
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "read",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/cloudforce-one/requests",
+			"operationId": "cloudforce-one-request-list",
+			"hideCommand": false
+		},
+		{
+			"command": "cf cloudforce-one requests v1 message create",
+			"name": "create",
+			"fullPath": ["cloudforce-one", "requests", "v1", "message", "create"],
+			"description": "Adds a message to a Cloudforce One intelligence request conversation.",
+			"summary": "Create a New Request Message",
+			"usage": "cf cloudforce-one requests v1 message create <request-id> [options]",
+			"arguments": [
+				{
+					"name": "request-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "UUID."
+				}
+			],
+			"options": [
+				{
+					"name": "content",
+					"type": "string",
+					"required": false,
+					"description": "Content of message."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "create",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/{request_id}/message/new",
+			"operationId": "cloudforce-one-request-message-new",
+			"hideCommand": false
+		},
+		{
+			"command": "cf cloudforce-one requests v1 message delete",
+			"name": "delete",
+			"fullPath": ["cloudforce-one", "requests", "v1", "message", "delete"],
+			"description": "Removes a message from a Cloudforce One intelligence request thread.",
+			"summary": "Delete a Request Message",
+			"usage": "cf cloudforce-one requests v1 message delete <message-id> [options]",
+			"arguments": [
+				{
+					"name": "message-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Message ID"
+				}
+			],
+			"options": [
+				{
+					"name": "request-id",
+					"type": "string",
+					"required": true,
+					"description": "UUID."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "delete",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/{request_id}/message/{message_id}",
+			"operationId": "cloudforce-one-request-message-delete",
+			"hideCommand": false
+		},
+		{
+			"command": "cf cloudforce-one requests v1 message get",
+			"name": "get",
+			"fullPath": ["cloudforce-one", "requests", "v1", "message", "get"],
+			"description": "Lists messages in a Cloudforce One intelligence request conversation.",
+			"summary": "List Request Messages",
+			"usage": "cf cloudforce-one requests v1 message get <request-id> [options]",
+			"arguments": [
+				{
+					"name": "request-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "UUID."
+				}
+			],
+			"options": [
+				{
+					"name": "after",
+					"type": "string",
+					"required": false,
+					"description": "Retrieve mes  ges created after this time."
+				},
+				{
+					"name": "before",
+					"type": "string",
+					"required": false,
+					"description": "Retrieve messages created before this time."
+				},
+				{
+					"name": "page",
+					"type": "number",
+					"required": true,
+					"description": "Page number of results."
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": true,
+					"description": "Number of results per page."
+				},
+				{
+					"name": "sort-by",
+					"type": "string",
+					"required": false,
+					"description": "Field to sort results by."
+				},
+				{
+					"name": "sort-order",
+					"type": "string",
+					"required": false,
+					"description": "Sort order (asc or desc).",
+					"enum": ["asc", "desc"]
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "read",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/{request_id}/message",
+			"operationId": "cloudforce-one-request-message-list",
+			"hideCommand": false
+		},
+		{
+			"command": "cf cloudforce-one requests v1 message update",
+			"name": "update",
+			"fullPath": ["cloudforce-one", "requests", "v1", "message", "update"],
+			"description": "Updates a message in a Cloudforce One intelligence request thread.",
+			"summary": "Update a Request Message",
+			"usage": "cf cloudforce-one requests v1 message update <message-id> [options]",
+			"arguments": [
+				{
+					"name": "message-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Message ID"
+				}
+			],
+			"options": [
+				{
+					"name": "request-id",
+					"type": "string",
+					"required": true,
+					"description": "UUID."
+				},
+				{
+					"name": "content",
+					"type": "string",
+					"required": false,
+					"description": "Content of message."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PUT",
+			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/{request_id}/message/{message_id}",
+			"operationId": "cloudforce-one-request-message-update",
+			"hideCommand": false
+		},
+		{
+			"command": "cf cloudforce-one requests v1 priority create",
+			"name": "create",
+			"fullPath": ["cloudforce-one", "requests", "v1", "priority", "create"],
+			"description": "Creates a new priority intelligence request in Cloudforce One.",
+			"summary": "Create a New Priority Intelligence Requirement",
+			"usage": "cf cloudforce-one requests v1 priority create [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "labels",
+					"type": "string",
+					"required": true,
+					"description": "List of labels."
+				},
+				{
+					"name": "priority",
+					"type": "number",
+					"required": true,
+					"description": "Priority."
+				},
+				{
+					"name": "requirement",
+					"type": "string",
+					"required": true,
+					"description": "Requirement."
+				},
+				{
+					"name": "tlp",
+					"type": "string",
+					"required": true,
+					"description": "The CISA defined Traffic Light Protocol (TLP).",
+					"enum": ["clear", "amber", "amber-strict", "green", "red"]
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "create",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/priority/new",
+			"operationId": "cloudforce-one-priority-new",
+			"hideCommand": false
+		},
+		{
+			"command": "cf cloudforce-one requests v1 priority legacy delete",
+			"name": "delete",
+			"fullPath": [
+				"cloudforce-one",
+				"requests",
+				"v1",
+				"priority",
+				"legacy",
+				"delete"
+			],
+			"description": "Deletes a priority intelligence request from Cloudforce One.",
+			"summary": "Delete a Priority Intelligence Requirement",
+			"usage": "cf cloudforce-one requests v1 priority legacy delete <priority-id>",
+			"arguments": [
+				{
+					"name": "priority-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "UUID."
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "delete",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/priority/{priority_id}",
+			"operationId": "cloudforce-one-priority-delete",
+			"hideCommand": false
+		},
+		{
+			"command": "cf cloudforce-one requests v1 priority legacy get",
+			"name": "get",
+			"fullPath": [
+				"cloudforce-one",
+				"requests",
+				"v1",
+				"priority",
+				"legacy",
+				"get"
+			],
+			"description": "Retrieves a specific priority intelligence request from Cloudforce One.",
+			"summary": "Get a Priority Intelligence Requirement",
+			"usage": "cf cloudforce-one requests v1 priority legacy get <priority-id>",
+			"arguments": [
+				{
+					"name": "priority-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "UUID."
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/priority/{priority_id}",
+			"operationId": "cloudforce-one-priority-get",
+			"hideCommand": false
+		},
+		{
+			"command": "cf cloudforce-one requests v1 priority legacy update",
+			"name": "update",
+			"fullPath": [
+				"cloudforce-one",
+				"requests",
+				"v1",
+				"priority",
+				"legacy",
+				"update"
+			],
+			"description": "Updates a priority intelligence request in Cloudforce One.",
+			"summary": "Update a Priority Intelligence Requirement",
+			"usage": "cf cloudforce-one requests v1 priority legacy update <priority-id> [options]",
+			"arguments": [
+				{
+					"name": "priority-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "UUID."
+				}
+			],
+			"options": [
+				{
+					"name": "labels",
+					"type": "string",
+					"required": true,
+					"description": "List of labels."
+				},
+				{
+					"name": "priority",
+					"type": "number",
+					"required": true,
+					"description": "Priority."
+				},
+				{
+					"name": "requirement",
+					"type": "string",
+					"required": true,
+					"description": "Requirement."
+				},
+				{
+					"name": "tlp",
+					"type": "string",
+					"required": true,
+					"description": "The CISA defined Traffic Light Protocol (TLP).",
+					"enum": ["clear", "amber", "amber-strict", "green", "red"]
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PUT",
+			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/priority/{priority_id}",
+			"operationId": "cloudforce-one-priority-update",
+			"hideCommand": false
+		},
+		{
+			"command": "cf cloudforce-one requests v1 priority list",
+			"name": "list",
+			"fullPath": ["cloudforce-one", "requests", "v1", "priority", "list"],
+			"description": "Lists priority intelligence requests in Cloudforce One.",
+			"summary": "List Priority Intelligence Requirements",
+			"usage": "cf cloudforce-one requests v1 priority list [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "page",
+					"type": "number",
+					"required": true,
+					"description": "Page number of results."
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": true,
+					"description": "Number of results per page."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "read",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/priority",
+			"operationId": "cloudforce-one-priority-list",
+			"hideCommand": false
+		},
+		{
+			"command": "cf cloudforce-one requests v1 priority quota",
+			"name": "quota",
+			"fullPath": ["cloudforce-one", "requests", "v1", "priority", "quota"],
+			"description": "Retrieves quota usage for Cloudforce One priority requests.",
+			"summary": "Get Priority Intelligence Requirement Quota",
+			"usage": "cf cloudforce-one requests v1 priority quota",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/priority/quota",
+			"operationId": "cloudforce-one-priority-quota",
+			"hideCommand": false
+		},
+		{
+			"command": "cf cloudforce-one requests v1 quota",
+			"name": "quota",
+			"fullPath": ["cloudforce-one", "requests", "v1", "quota"],
+			"description": "Retrieves quota usage for Cloudforce One standard requests.",
+			"summary": "Get Request Quota",
+			"usage": "cf cloudforce-one requests v1 quota",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/quota",
+			"operationId": "cloudforce-one-request-quota",
+			"hideCommand": false
+		},
+		{
+			"command": "cf cloudforce-one requests v1 types",
+			"name": "types",
+			"fullPath": ["cloudforce-one", "requests", "v1", "types"],
+			"description": "Lists available request types for Cloudforce One intelligence requests.",
+			"summary": "Get Request Types",
+			"usage": "cf cloudforce-one requests v1 types",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/types",
+			"operationId": "cloudforce-one-request-types",
+			"hideCommand": false
+		},
+		{
+			"command": "cf cloudforce-one requests v1 update",
+			"name": "update",
+			"fullPath": ["cloudforce-one", "requests", "v1", "update"],
+			"description": "Updating a request alters the request in the Cloudforce One queue. This API may be used to update any attributes of the request after the initial submission. Only fields that you choose to update need to be add to the request body.",
+			"summary": "Update a Request",
+			"usage": "cf cloudforce-one requests v1 update <request-id> [options]",
+			"arguments": [
+				{
+					"name": "request-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "UUID."
+				}
+			],
+			"options": [
+				{
+					"name": "content",
+					"type": "string",
+					"required": false,
+					"description": "Request content."
+				},
+				{
+					"name": "priority",
+					"type": "string",
+					"required": false,
+					"description": "Priority for analyzing the request."
+				},
+				{
+					"name": "request-type",
+					"type": "string",
+					"required": false,
+					"description": "Requested information from request."
+				},
+				{
+					"name": "summary",
+					"type": "string",
+					"required": false,
+					"description": "Brief description of the request."
+				},
+				{
+					"name": "tlp",
+					"type": "string",
+					"required": false,
+					"description": "The CISA defined Traffic Light Protocol (TLP).",
+					"enum": ["clear", "amber", "amber-strict", "green", "red"]
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PUT",
+			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/{request_id}",
+			"operationId": "cloudforce-one-request-update",
 			"hideCommand": false
 		},
 		{
@@ -67932,6 +68047,38 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf magic-transit advanced-dns-protection configs dns protection rules bulk-delete",
+			"name": "bulk-delete",
+			"fullPath": [
+				"magic-transit",
+				"advanced-dns-protection",
+				"configs",
+				"dns",
+				"protection",
+				"rules",
+				"bulk-delete"
+			],
+			"description": "Delete all DNS Protection rules for an account.",
+			"summary": "Delete all DNS Protection rules.",
+			"usage": "cf magic-transit advanced-dns-protection configs dns protection rules bulk-delete",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/magic/advanced_dns_protection/configs/dns_protection/rules",
+			"operationId": "deleteDnsProtectionRulesForAccount",
+			"hideCommand": true
+		},
+		{
 			"command": "cf magic-transit advanced-dns-protection configs dns protection rules create",
 			"name": "create",
 			"fullPath": [
@@ -68006,8 +68153,8 @@
 			"hideCommand": true
 		},
 		{
-			"command": "cf magic-transit advanced-dns-protection configs dns protection rules delete for account",
-			"name": "account",
+			"command": "cf magic-transit advanced-dns-protection configs dns protection rules delete",
+			"name": "delete",
 			"fullPath": [
 				"magic-transit",
 				"advanced-dns-protection",
@@ -68015,47 +68162,11 @@
 				"dns",
 				"protection",
 				"rules",
-				"delete",
-				"for",
-				"account"
-			],
-			"description": "Delete all DNS Protection rules for an account.",
-			"summary": "Delete all DNS Protection rules.",
-			"usage": "cf magic-transit advanced-dns-protection configs dns protection rules delete for account",
-			"arguments": [],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "DELETE",
-			"apiPath": "/accounts/{account_id}/magic/advanced_dns_protection/configs/dns_protection/rules",
-			"operationId": "deleteDnsProtectionRulesForAccount",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-transit advanced-dns-protection configs dns protection rules delete protection rule",
-			"name": "rule",
-			"fullPath": [
-				"magic-transit",
-				"advanced-dns-protection",
-				"configs",
-				"dns",
-				"protection",
-				"rules",
-				"delete",
-				"protection",
-				"rule"
+				"delete"
 			],
 			"description": "Delete a DNS Protection rule specified by the given UUID.",
 			"summary": "Delete DNS Protection rule.",
-			"usage": "cf magic-transit advanced-dns-protection configs dns protection rules delete protection rule <rule-id>",
+			"usage": "cf magic-transit advanced-dns-protection configs dns protection rules delete <rule-id>",
 			"arguments": [
 				{
 					"name": "rule-id",
@@ -68074,7 +68185,7 @@
 					"default": false
 				}
 			],
-			"category": "action",
+			"category": "delete",
 			"hasRequestBody": false,
 			"httpMethod": "DELETE",
 			"apiPath": "/accounts/{account_id}/magic/advanced_dns_protection/configs/dns_protection/rules/{rule_id}",
@@ -68248,6 +68359,36 @@
 			"hideCommand": true
 		},
 		{
+			"command": "cf magic-transit advanced-tcp-protection configs allowlist bulk-delete",
+			"name": "bulk-delete",
+			"fullPath": [
+				"magic-transit",
+				"advanced-tcp-protection",
+				"configs",
+				"allowlist",
+				"bulk-delete"
+			],
+			"description": "Delete all allowlist prefixes for an account.",
+			"summary": "Delete all allowlist prefixes.",
+			"usage": "cf magic-transit advanced-tcp-protection configs allowlist bulk-delete",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/allowlist",
+			"operationId": "deleteAllowlistPrefixesForAccount",
+			"hideCommand": true
+		},
+		{
 			"command": "cf magic-transit advanced-tcp-protection configs allowlist create",
 			"name": "create",
 			"fullPath": [
@@ -68299,116 +68440,6 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/allowlist",
 			"operationId": "createAllowlistedPrefix",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-transit advanced-tcp-protection configs allowlist delete allowlist prefix",
-			"name": "prefix",
-			"fullPath": [
-				"magic-transit",
-				"advanced-tcp-protection",
-				"configs",
-				"allowlist",
-				"delete",
-				"allowlist",
-				"prefix"
-			],
-			"description": "Delete the allowlist prefix for an account given a UUID.",
-			"summary": "Delete allowlist prefix.",
-			"usage": "cf magic-transit advanced-tcp-protection configs allowlist delete allowlist prefix <prefix-id>",
-			"arguments": [
-				{
-					"name": "prefix-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "The UUID of the allowlist prefix to delete."
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "DELETE",
-			"apiPath": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/allowlist/{prefix_id}",
-			"operationId": "deleteAllowlistPrefix",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-transit advanced-tcp-protection configs allowlist delete for account",
-			"name": "account",
-			"fullPath": [
-				"magic-transit",
-				"advanced-tcp-protection",
-				"configs",
-				"allowlist",
-				"delete",
-				"for",
-				"account"
-			],
-			"description": "Delete all allowlist prefixes for an account.",
-			"summary": "Delete all allowlist prefixes.",
-			"usage": "cf magic-transit advanced-tcp-protection configs allowlist delete for account",
-			"arguments": [],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "DELETE",
-			"apiPath": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/allowlist",
-			"operationId": "deleteAllowlistPrefixesForAccount",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-transit advanced-tcp-protection configs allowlist get",
-			"name": "get",
-			"fullPath": [
-				"magic-transit",
-				"advanced-tcp-protection",
-				"configs",
-				"allowlist",
-				"get"
-			],
-			"description": "Get an allowlist prefix specified by the given UUID.",
-			"summary": "Get allowlist prefix.",
-			"usage": "cf magic-transit advanced-tcp-protection configs allowlist get <prefix-id>",
-			"arguments": [
-				{
-					"name": "prefix-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "The UUID of the allowlist prefix."
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/allowlist/{prefix_id}",
-			"operationId": "getAllowlistPrefix",
 			"hideCommand": true
 		},
 		{
@@ -68466,18 +68497,97 @@
 			"hideCommand": true
 		},
 		{
-			"command": "cf magic-transit advanced-tcp-protection configs allowlist update",
+			"command": "cf magic-transit advanced-tcp-protection configs allowlist prefix delete",
+			"name": "delete",
+			"fullPath": [
+				"magic-transit",
+				"advanced-tcp-protection",
+				"configs",
+				"allowlist",
+				"prefix",
+				"delete"
+			],
+			"description": "Delete the allowlist prefix for an account given a UUID.",
+			"summary": "Delete allowlist prefix.",
+			"usage": "cf magic-transit advanced-tcp-protection configs allowlist prefix delete <prefix-id>",
+			"arguments": [
+				{
+					"name": "prefix-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "The UUID of the allowlist prefix to delete."
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "delete",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/allowlist/{prefix_id}",
+			"operationId": "deleteAllowlistPrefix",
+			"hideCommand": true
+		},
+		{
+			"command": "cf magic-transit advanced-tcp-protection configs allowlist prefix get",
+			"name": "get",
+			"fullPath": [
+				"magic-transit",
+				"advanced-tcp-protection",
+				"configs",
+				"allowlist",
+				"prefix",
+				"get"
+			],
+			"description": "Get an allowlist prefix specified by the given UUID.",
+			"summary": "Get allowlist prefix.",
+			"usage": "cf magic-transit advanced-tcp-protection configs allowlist prefix get <prefix-id>",
+			"arguments": [
+				{
+					"name": "prefix-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "The UUID of the allowlist prefix."
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/allowlist/{prefix_id}",
+			"operationId": "getAllowlistPrefix",
+			"hideCommand": true
+		},
+		{
+			"command": "cf magic-transit advanced-tcp-protection configs allowlist prefix update",
 			"name": "update",
 			"fullPath": [
 				"magic-transit",
 				"advanced-tcp-protection",
 				"configs",
 				"allowlist",
+				"prefix",
 				"update"
 			],
 			"description": "Update an allowlist prefix specified by the given UUID.",
 			"summary": "Update allowlist prefix.",
-			"usage": "cf magic-transit advanced-tcp-protection configs allowlist update <prefix-id> [options]",
+			"usage": "cf magic-transit advanced-tcp-protection configs allowlist prefix update <prefix-id> [options]",
 			"arguments": [
 				{
 					"name": "prefix-id",
@@ -68556,6 +68666,36 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/prefixes/bulk",
 			"operationId": "bulkCreatePrefixes",
+			"hideCommand": true
+		},
+		{
+			"command": "cf magic-transit advanced-tcp-protection configs prefixes bulk-delete",
+			"name": "bulk-delete",
+			"fullPath": [
+				"magic-transit",
+				"advanced-tcp-protection",
+				"configs",
+				"prefixes",
+				"bulk-delete"
+			],
+			"description": "Delete all prefixes for an account.",
+			"summary": "Delete all prefixes.",
+			"usage": "cf magic-transit advanced-tcp-protection configs prefixes bulk-delete",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/prefixes",
+			"operationId": "deletePrefixesForAccount",
 			"hideCommand": true
 		},
 		{
@@ -68799,6 +68939,38 @@
 			"hideCommand": true
 		},
 		{
+			"command": "cf magic-transit advanced-tcp-protection configs syn protection filters bulk-delete",
+			"name": "bulk-delete",
+			"fullPath": [
+				"magic-transit",
+				"advanced-tcp-protection",
+				"configs",
+				"syn",
+				"protection",
+				"filters",
+				"bulk-delete"
+			],
+			"description": "Delete all SYN Protection filters for an account.",
+			"summary": "Delete all SYN Protection filters.",
+			"usage": "cf magic-transit advanced-tcp-protection configs syn protection filters bulk-delete",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/syn_protection/filters",
+			"operationId": "deleteSynProtectionFiltersForAccount",
+			"hideCommand": true
+		},
+		{
 			"command": "cf magic-transit advanced-tcp-protection configs syn protection filters create",
 			"name": "create",
 			"fullPath": [
@@ -68843,8 +69015,8 @@
 			"hideCommand": true
 		},
 		{
-			"command": "cf magic-transit advanced-tcp-protection configs syn protection filters delete for account",
-			"name": "account",
+			"command": "cf magic-transit advanced-tcp-protection configs syn protection filters delete",
+			"name": "delete",
 			"fullPath": [
 				"magic-transit",
 				"advanced-tcp-protection",
@@ -68852,47 +69024,11 @@
 				"syn",
 				"protection",
 				"filters",
-				"delete",
-				"for",
-				"account"
-			],
-			"description": "Delete all SYN Protection filters for an account.",
-			"summary": "Delete all SYN Protection filters.",
-			"usage": "cf magic-transit advanced-tcp-protection configs syn protection filters delete for account",
-			"arguments": [],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "DELETE",
-			"apiPath": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/syn_protection/filters",
-			"operationId": "deleteSynProtectionFiltersForAccount",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-transit advanced-tcp-protection configs syn protection filters delete protection filter",
-			"name": "filter",
-			"fullPath": [
-				"magic-transit",
-				"advanced-tcp-protection",
-				"configs",
-				"syn",
-				"protection",
-				"filters",
-				"delete",
-				"protection",
-				"filter"
+				"delete"
 			],
 			"description": "Delete a SYN Protection filter specified by the given UUID.",
 			"summary": "Delete SYN Protection filter.",
-			"usage": "cf magic-transit advanced-tcp-protection configs syn protection filters delete protection filter <filter-id>",
+			"usage": "cf magic-transit advanced-tcp-protection configs syn protection filters delete <filter-id>",
 			"arguments": [
 				{
 					"name": "filter-id",
@@ -68911,7 +69047,7 @@
 					"default": false
 				}
 			],
-			"category": "action",
+			"category": "delete",
 			"hasRequestBody": false,
 			"httpMethod": "DELETE",
 			"apiPath": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/syn_protection/filters/{filter_id}",
@@ -69073,6 +69209,38 @@
 			"hideCommand": true
 		},
 		{
+			"command": "cf magic-transit advanced-tcp-protection configs syn protection rules bulk-delete",
+			"name": "bulk-delete",
+			"fullPath": [
+				"magic-transit",
+				"advanced-tcp-protection",
+				"configs",
+				"syn",
+				"protection",
+				"rules",
+				"bulk-delete"
+			],
+			"description": "Delete all SYN Protection rules for an account.",
+			"summary": "Delete all SYN Protection rules.",
+			"usage": "cf magic-transit advanced-tcp-protection configs syn protection rules bulk-delete",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/syn_protection/rules",
+			"operationId": "deleteSynProtectionRulesForAccount",
+			"hideCommand": true
+		},
+		{
 			"command": "cf magic-transit advanced-tcp-protection configs syn protection rules create",
 			"name": "create",
 			"fullPath": [
@@ -69141,8 +69309,8 @@
 			"hideCommand": true
 		},
 		{
-			"command": "cf magic-transit advanced-tcp-protection configs syn protection rules delete for account",
-			"name": "account",
+			"command": "cf magic-transit advanced-tcp-protection configs syn protection rules delete",
+			"name": "delete",
 			"fullPath": [
 				"magic-transit",
 				"advanced-tcp-protection",
@@ -69150,47 +69318,11 @@
 				"syn",
 				"protection",
 				"rules",
-				"delete",
-				"for",
-				"account"
-			],
-			"description": "Delete all SYN Protection rules for an account.",
-			"summary": "Delete all SYN Protection rules.",
-			"usage": "cf magic-transit advanced-tcp-protection configs syn protection rules delete for account",
-			"arguments": [],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "DELETE",
-			"apiPath": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/syn_protection/rules",
-			"operationId": "deleteSynProtectionRulesForAccount",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-transit advanced-tcp-protection configs syn protection rules delete protection rule",
-			"name": "rule",
-			"fullPath": [
-				"magic-transit",
-				"advanced-tcp-protection",
-				"configs",
-				"syn",
-				"protection",
-				"rules",
-				"delete",
-				"protection",
-				"rule"
+				"delete"
 			],
 			"description": "Delete a SYN Protection rule specified by the given UUID.",
 			"summary": "Delete SYN Protection rule.",
-			"usage": "cf magic-transit advanced-tcp-protection configs syn protection rules delete protection rule <rule-id>",
+			"usage": "cf magic-transit advanced-tcp-protection configs syn protection rules delete <rule-id>",
 			"arguments": [
 				{
 					"name": "rule-id",
@@ -69209,7 +69341,7 @@
 					"default": false
 				}
 			],
-			"category": "action",
+			"category": "delete",
 			"hasRequestBody": false,
 			"httpMethod": "DELETE",
 			"apiPath": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/syn_protection/rules/{rule_id}",
@@ -69377,6 +69509,39 @@
 			"hideCommand": true
 		},
 		{
+			"command": "cf magic-transit advanced-tcp-protection configs tcp flow protection filters bulk-delete",
+			"name": "bulk-delete",
+			"fullPath": [
+				"magic-transit",
+				"advanced-tcp-protection",
+				"configs",
+				"tcp",
+				"flow",
+				"protection",
+				"filters",
+				"bulk-delete"
+			],
+			"description": "Delete all TCP Flow Protection filters for an account.",
+			"summary": "Delete all TCP Flow Protection filters.",
+			"usage": "cf magic-transit advanced-tcp-protection configs tcp flow protection filters bulk-delete",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_flow_protection/filters",
+			"operationId": "deleteTcpFlowProtectionFiltersForAccount",
+			"hideCommand": true
+		},
+		{
 			"command": "cf magic-transit advanced-tcp-protection configs tcp flow protection filters create",
 			"name": "create",
 			"fullPath": [
@@ -69422,8 +69587,8 @@
 			"hideCommand": true
 		},
 		{
-			"command": "cf magic-transit advanced-tcp-protection configs tcp flow protection filters delete for account",
-			"name": "account",
+			"command": "cf magic-transit advanced-tcp-protection configs tcp flow protection filters delete",
+			"name": "delete",
 			"fullPath": [
 				"magic-transit",
 				"advanced-tcp-protection",
@@ -69432,48 +69597,11 @@
 				"flow",
 				"protection",
 				"filters",
-				"delete",
-				"for",
-				"account"
-			],
-			"description": "Delete all TCP Flow Protection filters for an account.",
-			"summary": "Delete all TCP Flow Protection filters.",
-			"usage": "cf magic-transit advanced-tcp-protection configs tcp flow protection filters delete for account",
-			"arguments": [],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "DELETE",
-			"apiPath": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_flow_protection/filters",
-			"operationId": "deleteTcpFlowProtectionFiltersForAccount",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-transit advanced-tcp-protection configs tcp flow protection filters delete protection filter",
-			"name": "filter",
-			"fullPath": [
-				"magic-transit",
-				"advanced-tcp-protection",
-				"configs",
-				"tcp",
-				"flow",
-				"protection",
-				"filters",
-				"delete",
-				"protection",
-				"filter"
+				"delete"
 			],
 			"description": "Delete a TCP Flow Protection filter specified by the given UUID.",
 			"summary": "Delete TCP Flow Protection filter.",
-			"usage": "cf magic-transit advanced-tcp-protection configs tcp flow protection filters delete protection filter <filter-id>",
+			"usage": "cf magic-transit advanced-tcp-protection configs tcp flow protection filters delete <filter-id>",
 			"arguments": [
 				{
 					"name": "filter-id",
@@ -69492,7 +69620,7 @@
 					"default": false
 				}
 			],
-			"category": "action",
+			"category": "delete",
 			"hasRequestBody": false,
 			"httpMethod": "DELETE",
 			"apiPath": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_flow_protection/filters/{filter_id}",
@@ -69657,6 +69785,39 @@
 			"hideCommand": true
 		},
 		{
+			"command": "cf magic-transit advanced-tcp-protection configs tcp flow protection rules bulk-delete",
+			"name": "bulk-delete",
+			"fullPath": [
+				"magic-transit",
+				"advanced-tcp-protection",
+				"configs",
+				"tcp",
+				"flow",
+				"protection",
+				"rules",
+				"bulk-delete"
+			],
+			"description": "Delete all TCP Flow Protection rules for an account.",
+			"summary": "Delete all TCP Flow Protection rules.",
+			"usage": "cf magic-transit advanced-tcp-protection configs tcp flow protection rules bulk-delete",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_flow_protection/rules",
+			"operationId": "deleteTcpFlowProtectionRulesForAccount",
+			"hideCommand": true
+		},
+		{
 			"command": "cf magic-transit advanced-tcp-protection configs tcp flow protection rules create",
 			"name": "create",
 			"fullPath": [
@@ -69720,8 +69881,8 @@
 			"hideCommand": true
 		},
 		{
-			"command": "cf magic-transit advanced-tcp-protection configs tcp flow protection rules delete for account",
-			"name": "account",
+			"command": "cf magic-transit advanced-tcp-protection configs tcp flow protection rules delete",
+			"name": "delete",
 			"fullPath": [
 				"magic-transit",
 				"advanced-tcp-protection",
@@ -69730,48 +69891,11 @@
 				"flow",
 				"protection",
 				"rules",
-				"delete",
-				"for",
-				"account"
-			],
-			"description": "Delete all TCP Flow Protection rules for an account.",
-			"summary": "Delete all TCP Flow Protection rules.",
-			"usage": "cf magic-transit advanced-tcp-protection configs tcp flow protection rules delete for account",
-			"arguments": [],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "DELETE",
-			"apiPath": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_flow_protection/rules",
-			"operationId": "deleteTcpFlowProtectionRulesForAccount",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-transit advanced-tcp-protection configs tcp flow protection rules delete protection rule",
-			"name": "rule",
-			"fullPath": [
-				"magic-transit",
-				"advanced-tcp-protection",
-				"configs",
-				"tcp",
-				"flow",
-				"protection",
-				"rules",
-				"delete",
-				"protection",
-				"rule"
+				"delete"
 			],
 			"description": "Delete a TCP Flow Protection rule specified by the given UUID.",
 			"summary": "Delete TCP Flow Protection rule.",
-			"usage": "cf magic-transit advanced-tcp-protection configs tcp flow protection rules delete protection rule <rule-id>",
+			"usage": "cf magic-transit advanced-tcp-protection configs tcp flow protection rules delete <rule-id>",
 			"arguments": [
 				{
 					"name": "rule-id",
@@ -69790,7 +69914,7 @@
 					"default": false
 				}
 			],
-			"category": "action",
+			"category": "delete",
 			"hasRequestBody": false,
 			"httpMethod": "DELETE",
 			"apiPath": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_flow_protection/rules/{rule_id}",
@@ -82888,7 +83012,7 @@
 			"command": "cf organizations billing usage get",
 			"name": "get",
 			"fullPath": ["organizations", "billing", "usage", "get"],
-			"description": "Returns cost and usage data for all accounts within an organization, aligned with the [FinOps FOCUS v1.3](https://focus.finops.org/focus-specification/v1-3/) Cost and Usage dataset specification. Each record represents one billable metric for one account on one day. This includes all metered usage, including usage that falls within free-tier allowances and may result in zero cost. The response includes usage for every account belonging to the specified organization. **Note:** Cost and pricing fields are not yet populated and will be absent from responses until billing integration is complete. When `from` and `to` are omitted, defaults to the start of the current month through today. The maximum date range is 31 days. An organization with no accounts, or an organization ID that does not exist, returns a successful response with an empty result set rather than an error.",
+			"description": "Returns cost and usage data for all accounts within an organization, aligned with the [FinOps FOCUS v1.3](https://focus.finops.org/focus-specification/v1-3/) Cost and Usage dataset specification. Each record represents one billable metric for one account on one day. This includes all metered usage, including usage that falls within free-tier allowances and may result in zero cost. The response includes usage for every account belonging to the specified organization. **Note:** This endpoint serves `usage` records only; cost and pricing fields are absent from responses. Rated costs are available per account via `POST /accounts/{account_id}/billable/usage` with `Metric: cost`. When `from` and `to` are omitted, defaults to the start of the current month through today. The maximum date range is 31 days. An organization with no accounts, or an organization ID that does not exist, returns a successful response with an empty result set rather than an error.",
 			"summary": "Get Organization Usage (Version 2, Alpha, Restricted)",
 			"usage": "cf organizations billing usage get <organization-id> [options]",
 			"arguments": [
@@ -124171,6 +124295,13 @@
 					"description": "Return the Ephemeral ID in /siteverify (ENT only).\n"
 				},
 				{
+					"name": "widget-mode",
+					"type": "string",
+					"required": true,
+					"description": "Widget Mode",
+					"enum": ["non-interactive", "invisible", "managed"]
+				},
+				{
 					"name": "name",
 					"type": "string",
 					"required": true,
@@ -124209,7 +124340,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/challenges/widgets",
 			"operationId": "accounts-turnstile-widget-create",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf turnstile widgets delete",
@@ -124241,7 +124372,7 @@
 			"httpMethod": "DELETE",
 			"apiPath": "/accounts/{account_id}/challenges/widgets/{sitekey}",
 			"operationId": "accounts-turnstile-widget-delete",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf turnstile widgets get",
@@ -124273,7 +124404,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/challenges/widgets/{sitekey}",
 			"operationId": "accounts-turnstile-widget-get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf turnstile widgets list",
@@ -124329,7 +124460,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/challenges/widgets",
 			"operationId": "accounts-turnstile-widgets-list",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf turnstile widgets rotate-secret",
@@ -124374,7 +124505,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/challenges/widgets/{sitekey}/rotate_secret",
 			"operationId": "accounts-turnstile-widget-rotate-secret",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf turnstile widgets update",
@@ -124419,6 +124550,13 @@
 					"description": "Return the Ephemeral ID in /siteverify (ENT only).\n"
 				},
 				{
+					"name": "widget-mode",
+					"type": "string",
+					"required": true,
+					"description": "Widget Mode",
+					"enum": ["non-interactive", "invisible", "managed"]
+				},
+				{
 					"name": "name",
 					"type": "string",
 					"required": true,
@@ -124457,7 +124595,7 @@
 			"httpMethod": "PUT",
 			"apiPath": "/accounts/{account_id}/challenges/widgets/{sitekey}",
 			"operationId": "accounts-turnstile-widget-update",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf url-info get",
@@ -158499,17 +158637,20 @@
 		"cloudforce-one priority-intelligence interests evaluations": "Operations for priority-intelligence.interests.evaluations",
 		"cloudforce-one priority-intelligence quota": "Operations for priority-intelligence.quota",
 		"cloudforce-one requests": "Additional request operations — priority listing and asset creation",
-		"cloudforce-one requests asset-new": "Operations for requests.asset-new",
 		"cloudforce-one requests assets": "Operations for requests.assets",
 		"cloudforce-one requests constants": "Operations for requests.constants",
 		"cloudforce-one requests legal-response": "Operations for requests.legal-response",
-		"cloudforce-one requests message": "Operations for requests.message",
 		"cloudforce-one requests messages": "Operations for requests.messages",
 		"cloudforce-one requests metadata": "Operations for requests.metadata",
-		"cloudforce-one requests priority": "Operations for requests.priority",
 		"cloudforce-one requests quota": "Operations for requests.quota",
 		"cloudforce-one requests types": "Operations for requests.types",
 		"cloudforce-one requests user": "Operations for requests.user",
+		"cloudforce-one requests v1": "Operations for requests.v1",
+		"cloudforce-one requests v1 asset-new": "Operations for requests.v1.asset-new",
+		"cloudforce-one requests v1 assets": "Operations for requests.v1.assets",
+		"cloudforce-one requests v1 message": "Operations for requests.v1.message",
+		"cloudforce-one requests v1 priority": "Operations for requests.v1.priority",
+		"cloudforce-one requests v1 priority legacy": "Operations for requests.v1.priority.legacy",
 		"cloudforce-one rules": "Rule management operations",
 		"cloudforce-one rules approvals": "Approval workflow operations",
 		"cloudforce-one rules email": "Email rule operations",
@@ -158731,7 +158872,6 @@
 		"keys": "keys",
 		"kv": "kv",
 		"kv bulk": "Operations for bulk",
-		"kv bulk-deprecated": "Operations for bulk-deprecated",
 		"kv keys": "Operations for keys",
 		"kv metadata": "Operations for metadata",
 		"kv namespaces": "Operations for namespaces",
@@ -158801,40 +158941,21 @@
 		"magic-transit advanced-dns-protection configs dns": "Operations for advanced-dns-protection.configs.dns",
 		"magic-transit advanced-dns-protection configs dns protection": "Operations for advanced-dns-protection.configs.dns.protection",
 		"magic-transit advanced-dns-protection configs dns protection rules": "Operations for advanced-dns-protection.configs.dns.protection.rules",
-		"magic-transit advanced-dns-protection configs dns protection rules delete": "Operations for advanced-dns-protection.configs.dns.protection.rules.delete",
-		"magic-transit advanced-dns-protection configs dns protection rules delete for": "Operations for advanced-dns-protection.configs.dns.protection.rules.delete.for",
-		"magic-transit advanced-dns-protection configs dns protection rules delete protection": "Operations for advanced-dns-protection.configs.dns.protection.rules.delete.protection",
 		"magic-transit advanced-tcp-protection": "Advanced Tcp Protection operations",
 		"magic-transit advanced-tcp-protection configs": "Operations for advanced-tcp-protection.configs",
 		"magic-transit advanced-tcp-protection configs allowlist": "Operations for advanced-tcp-protection.configs.allowlist",
-		"magic-transit advanced-tcp-protection configs allowlist delete": "Operations for advanced-tcp-protection.configs.allowlist.delete",
-		"magic-transit advanced-tcp-protection configs allowlist delete allowlist": "Operations for advanced-tcp-protection.configs.allowlist.delete.allowlist",
-		"magic-transit advanced-tcp-protection configs allowlist delete for": "Operations for advanced-tcp-protection.configs.allowlist.delete.for",
+		"magic-transit advanced-tcp-protection configs allowlist prefix": "Operations for advanced-tcp-protection.configs.allowlist.prefix",
 		"magic-transit advanced-tcp-protection configs prefixes": "Operations for advanced-tcp-protection.configs.prefixes",
 		"magic-transit advanced-tcp-protection configs prefixes bulk": "Operations for advanced-tcp-protection.configs.prefixes.bulk",
-		"magic-transit advanced-tcp-protection configs prefixes delete": "Operations for advanced-tcp-protection.configs.prefixes.delete",
-		"magic-transit advanced-tcp-protection configs prefixes delete for": "Operations for advanced-tcp-protection.configs.prefixes.delete.for",
 		"magic-transit advanced-tcp-protection configs syn": "Operations for advanced-tcp-protection.configs.syn",
 		"magic-transit advanced-tcp-protection configs syn protection": "Operations for advanced-tcp-protection.configs.syn.protection",
 		"magic-transit advanced-tcp-protection configs syn protection filters": "Operations for advanced-tcp-protection.configs.syn.protection.filters",
-		"magic-transit advanced-tcp-protection configs syn protection filters delete": "Operations for advanced-tcp-protection.configs.syn.protection.filters.delete",
-		"magic-transit advanced-tcp-protection configs syn protection filters delete for": "Operations for advanced-tcp-protection.configs.syn.protection.filters.delete.for",
-		"magic-transit advanced-tcp-protection configs syn protection filters delete protection": "Operations for advanced-tcp-protection.configs.syn.protection.filters.delete.protection",
 		"magic-transit advanced-tcp-protection configs syn protection rules": "Operations for advanced-tcp-protection.configs.syn.protection.rules",
-		"magic-transit advanced-tcp-protection configs syn protection rules delete": "Operations for advanced-tcp-protection.configs.syn.protection.rules.delete",
-		"magic-transit advanced-tcp-protection configs syn protection rules delete for": "Operations for advanced-tcp-protection.configs.syn.protection.rules.delete.for",
-		"magic-transit advanced-tcp-protection configs syn protection rules delete protection": "Operations for advanced-tcp-protection.configs.syn.protection.rules.delete.protection",
 		"magic-transit advanced-tcp-protection configs tcp": "Operations for advanced-tcp-protection.configs.tcp",
 		"magic-transit advanced-tcp-protection configs tcp flow": "Operations for advanced-tcp-protection.configs.tcp.flow",
 		"magic-transit advanced-tcp-protection configs tcp flow protection": "Operations for advanced-tcp-protection.configs.tcp.flow.protection",
 		"magic-transit advanced-tcp-protection configs tcp flow protection filters": "Operations for advanced-tcp-protection.configs.tcp.flow.protection.filters",
-		"magic-transit advanced-tcp-protection configs tcp flow protection filters delete": "Operations for advanced-tcp-protection.configs.tcp.flow.protection.filters.delete",
-		"magic-transit advanced-tcp-protection configs tcp flow protection filters delete for": "Operations for advanced-tcp-protection.configs.tcp.flow.protection.filters.delete.for",
-		"magic-transit advanced-tcp-protection configs tcp flow protection filters delete protection": "Operations for advanced-tcp-protection.configs.tcp.flow.protection.filters.delete.protection",
 		"magic-transit advanced-tcp-protection configs tcp flow protection rules": "Operations for advanced-tcp-protection.configs.tcp.flow.protection.rules",
-		"magic-transit advanced-tcp-protection configs tcp flow protection rules delete": "Operations for advanced-tcp-protection.configs.tcp.flow.protection.rules.delete",
-		"magic-transit advanced-tcp-protection configs tcp flow protection rules delete for": "Operations for advanced-tcp-protection.configs.tcp.flow.protection.rules.delete.for",
-		"magic-transit advanced-tcp-protection configs tcp flow protection rules delete protection": "Operations for advanced-tcp-protection.configs.tcp.flow.protection.rules.delete.protection",
 		"magic-transit advanced-tcp-protection configs tcp protection": "Operations for advanced-tcp-protection.configs.tcp.protection",
 		"magic-transit advanced-tcp-protection configs tcp protection status": "Operations for advanced-tcp-protection.configs.tcp.protection.status",
 		"magic-transit apps": "Application-aware traffic policies for Magic WAN that steer traffic by app type",

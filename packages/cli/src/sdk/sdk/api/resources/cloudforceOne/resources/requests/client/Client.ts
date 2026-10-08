@@ -10,14 +10,15 @@ import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStat
 import * as errors from "../../../../../../errors/index.js";
 import type * as CloudflareApi from "../../../../../index.js";
 import * as CloudflareApiErrors from "../../../../../errors/index.js";
-import { AssetNewClient } from "../resources/assetNew/client/Client.js";
 import { AssetsClient } from "../resources/assets/client/Client.js";
+import { ConstantsClient } from "../resources/constants/client/Client.js";
 import { LegalResponseClient } from "../resources/legalResponse/client/Client.js";
-import { MessageClient } from "../resources/message/client/Client.js";
 import { MessagesClient } from "../resources/messages/client/Client.js";
 import { MetadataClient } from "../resources/metadata/client/Client.js";
-import { PriorityClient } from "../resources/priority/client/Client.js";
+import { QuotaClient } from "../resources/quota/client/Client.js";
+import { TypesClient } from "../resources/types/client/Client.js";
 import { UserClient } from "../resources/user/client/Client.js";
+import { V1Client } from "../resources/v1/client/Client.js";
 
 export declare namespace RequestsClient {
     export type Options = BaseClientOptions;
@@ -27,609 +28,54 @@ export declare namespace RequestsClient {
 
 export class RequestsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<RequestsClient.Options>;
-    protected _priority: PriorityClient | undefined;
-    protected _assets: AssetsClient | undefined;
-    protected _assetNew: AssetNewClient | undefined;
-    protected _message: MessageClient | undefined;
+    protected _v1: V1Client | undefined;
     protected _legalResponse: LegalResponseClient | undefined;
+    protected _constants: ConstantsClient | undefined;
     protected _metadata: MetadataClient | undefined;
+    protected _quota: QuotaClient | undefined;
+    protected _types: TypesClient | undefined;
     protected _user: UserClient | undefined;
+    protected _assets: AssetsClient | undefined;
     protected _messages: MessagesClient | undefined;
 
     constructor(options: RequestsClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 
-    public get priority(): PriorityClient {
-        return (this._priority ??= new PriorityClient(this._options));
-    }
-
-    public get assets(): AssetsClient {
-        return (this._assets ??= new AssetsClient(this._options));
-    }
-
-    public get assetNew(): AssetNewClient {
-        return (this._assetNew ??= new AssetNewClient(this._options));
-    }
-
-    public get message(): MessageClient {
-        return (this._message ??= new MessageClient(this._options));
+    public get v1(): V1Client {
+        return (this._v1 ??= new V1Client(this._options));
     }
 
     public get legalResponse(): LegalResponseClient {
         return (this._legalResponse ??= new LegalResponseClient(this._options));
     }
 
+    public get constants(): ConstantsClient {
+        return (this._constants ??= new ConstantsClient(this._options));
+    }
+
     public get metadata(): MetadataClient {
         return (this._metadata ??= new MetadataClient(this._options));
+    }
+
+    public get quota(): QuotaClient {
+        return (this._quota ??= new QuotaClient(this._options));
+    }
+
+    public get types(): TypesClient {
+        return (this._types ??= new TypesClient(this._options));
     }
 
     public get user(): UserClient {
         return (this._user ??= new UserClient(this._options));
     }
 
+    public get assets(): AssetsClient {
+        return (this._assets ??= new AssetsClient(this._options));
+    }
+
     public get messages(): MessagesClient {
         return (this._messages ??= new MessagesClient(this._options));
-    }
-
-    /**
-     * Lists Cloudforce One intelligence requests with filtering and pagination.
-     *
-     * @param {CloudflareApi.cloudforceOne.CloudforceOneRequestsRequestList} request
-     * @param {RequestsClient.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @example
-     *     await client.cloudforceOne.requests.cloudforceOneRequestList({
-     *         account_id: "account_id",
-     *         page: 1,
-     *         per_page: 10
-     *     })
-     */
-    public cloudforceOneRequestList(
-        request: CloudflareApi.cloudforceOne.CloudforceOneRequestsRequestList,
-        requestOptions?: RequestsClient.RequestOptions,
-    ): core.HttpResponsePromise<CloudflareApi.cloudforceOne.CloudforceOneRequestListRequestsResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__cloudforceOneRequestList(request, requestOptions));
-    }
-
-    private async __cloudforceOneRequestList(
-        request: CloudflareApi.cloudforceOne.CloudforceOneRequestsRequestList,
-        requestOptions?: RequestsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<CloudflareApi.cloudforceOne.CloudforceOneRequestListRequestsResponse>> {
-        const { account_id: accountId, ..._body } = request;
-        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
-        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
-            _authRequest.headers,
-            this._options?.headers,
-            requestOptions?.headers,
-        );
-        const _response = await (this._options.fetcher ?? core.fetcher)({
-            url: core.url.join(
-                (await core.Supplier.get(this._options.baseUrl)) ??
-                    (await core.Supplier.get(this._options.environment)) ??
-                    environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/cloudforce-one/requests`,
-            ),
-            method: "POST",
-            headers: _headers,
-            contentType: "application/json",
-            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
-            requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
-            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
-            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
-            abortSignal: requestOptions?.abortSignal,
-            fetchFn: this._options?.fetch,
-            logging: this._options.logging,
-        });
-        if (_response.ok) {
-            return {
-                data: _response.body as CloudflareApi.cloudforceOne.CloudforceOneRequestListRequestsResponse,
-                rawResponse: _response.rawResponse,
-            };
-        }
-
-        if (_response.error.reason === "status-code") {
-            throw new errors.CloudflareApiError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-                rawResponse: _response.rawResponse,
-            });
-        }
-
-        return handleNonStatusCodeError(
-            _response.error,
-            _response.rawResponse,
-            "POST",
-            "/accounts/{account_id}/cloudforce-one/requests",
-        );
-    }
-
-    /**
-     * Retrieves constant values used in Cloudforce One requests, including valid statuses and types.
-     *
-     * @param {CloudflareApi.cloudforceOne.ConstantsRequestsRequest} request
-     * @param {RequestsClient.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @example
-     *     await client.cloudforceOne.requests.constants({
-     *         account_id: "account_id"
-     *     })
-     */
-    public constants(
-        request: CloudflareApi.cloudforceOne.ConstantsRequestsRequest,
-        requestOptions?: RequestsClient.RequestOptions,
-    ): core.HttpResponsePromise<CloudflareApi.CloudforceOneRequestsRequestConstants> {
-        return core.HttpResponsePromise.fromPromise(this.__constants(request, requestOptions));
-    }
-
-    private async __constants(
-        request: CloudflareApi.cloudforceOne.ConstantsRequestsRequest,
-        requestOptions?: RequestsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<CloudflareApi.CloudforceOneRequestsRequestConstants>> {
-        const { account_id: accountId } = request;
-        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
-        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
-            _authRequest.headers,
-            this._options?.headers,
-            requestOptions?.headers,
-        );
-        const _response = await (this._options.fetcher ?? core.fetcher)({
-            url: core.url.join(
-                (await core.Supplier.get(this._options.baseUrl)) ??
-                    (await core.Supplier.get(this._options.environment)) ??
-                    environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/cloudforce-one/requests/constants`,
-            ),
-            method: "GET",
-            headers: _headers,
-            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
-            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
-            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
-            abortSignal: requestOptions?.abortSignal,
-            fetchFn: this._options?.fetch,
-            logging: this._options.logging,
-        });
-        if (_response.ok) {
-            return {
-                data: _response.body as CloudflareApi.CloudforceOneRequestsRequestConstants,
-                rawResponse: _response.rawResponse,
-            };
-        }
-
-        if (_response.error.reason === "status-code") {
-            throw new errors.CloudflareApiError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-                rawResponse: _response.rawResponse,
-            });
-        }
-
-        return handleNonStatusCodeError(
-            _response.error,
-            _response.rawResponse,
-            "GET",
-            "/accounts/{account_id}/cloudforce-one/requests/constants",
-        );
-    }
-
-    /**
-     * Creating a request adds the request into the Cloudforce One queue for analysis. In addition to the content, a short title, type, priority, and releasability should be provided. If one is not provided, a default will be assigned.
-     *
-     * @param {CloudflareApi.cloudforceOne.CloudforceOneRequestNewRequestsRequest} request
-     * @param {RequestsClient.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @example
-     *     await client.cloudforceOne.requests.cloudforceOneRequestNew({
-     *         account_id: "account_id",
-     *         body: {}
-     *     })
-     */
-    public cloudforceOneRequestNew(
-        request: CloudflareApi.cloudforceOne.CloudforceOneRequestNewRequestsRequest,
-        requestOptions?: RequestsClient.RequestOptions,
-    ): core.HttpResponsePromise<CloudflareApi.CloudforceOneRequestsRequestItem> {
-        return core.HttpResponsePromise.fromPromise(this.__cloudforceOneRequestNew(request, requestOptions));
-    }
-
-    private async __cloudforceOneRequestNew(
-        request: CloudflareApi.cloudforceOne.CloudforceOneRequestNewRequestsRequest,
-        requestOptions?: RequestsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<CloudflareApi.CloudforceOneRequestsRequestItem>> {
-        const { account_id: accountId, body: _body } = request;
-        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
-        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
-            _authRequest.headers,
-            this._options?.headers,
-            requestOptions?.headers,
-        );
-        const _response = await (this._options.fetcher ?? core.fetcher)({
-            url: core.url.join(
-                (await core.Supplier.get(this._options.baseUrl)) ??
-                    (await core.Supplier.get(this._options.environment)) ??
-                    environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/cloudforce-one/requests/new`,
-            ),
-            method: "POST",
-            headers: _headers,
-            contentType: "application/json",
-            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
-            requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
-            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
-            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
-            abortSignal: requestOptions?.abortSignal,
-            fetchFn: this._options?.fetch,
-            logging: this._options.logging,
-        });
-        if (_response.ok) {
-            return {
-                data: _response.body as CloudflareApi.CloudforceOneRequestsRequestItem,
-                rawResponse: _response.rawResponse,
-            };
-        }
-
-        if (_response.error.reason === "status-code") {
-            throw new errors.CloudflareApiError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-                rawResponse: _response.rawResponse,
-            });
-        }
-
-        return handleNonStatusCodeError(
-            _response.error,
-            _response.rawResponse,
-            "POST",
-            "/accounts/{account_id}/cloudforce-one/requests/new",
-        );
-    }
-
-    /**
-     * Retrieves quota usage for Cloudforce One standard requests.
-     *
-     * @param {CloudflareApi.cloudforceOne.QuotaRequestsRequest} request
-     * @param {RequestsClient.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @example
-     *     await client.cloudforceOne.requests.quota({
-     *         account_id: "account_id"
-     *     })
-     */
-    public quota(
-        request: CloudflareApi.cloudforceOne.QuotaRequestsRequest,
-        requestOptions?: RequestsClient.RequestOptions,
-    ): core.HttpResponsePromise<CloudflareApi.CloudforceOneRequestsQuota> {
-        return core.HttpResponsePromise.fromPromise(this.__quota(request, requestOptions));
-    }
-
-    private async __quota(
-        request: CloudflareApi.cloudforceOne.QuotaRequestsRequest,
-        requestOptions?: RequestsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<CloudflareApi.CloudforceOneRequestsQuota>> {
-        const { account_id: accountId } = request;
-        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
-        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
-            _authRequest.headers,
-            this._options?.headers,
-            requestOptions?.headers,
-        );
-        const _response = await (this._options.fetcher ?? core.fetcher)({
-            url: core.url.join(
-                (await core.Supplier.get(this._options.baseUrl)) ??
-                    (await core.Supplier.get(this._options.environment)) ??
-                    environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/cloudforce-one/requests/quota`,
-            ),
-            method: "GET",
-            headers: _headers,
-            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
-            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
-            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
-            abortSignal: requestOptions?.abortSignal,
-            fetchFn: this._options?.fetch,
-            logging: this._options.logging,
-        });
-        if (_response.ok) {
-            return {
-                data: _response.body as CloudflareApi.CloudforceOneRequestsQuota,
-                rawResponse: _response.rawResponse,
-            };
-        }
-
-        if (_response.error.reason === "status-code") {
-            throw new errors.CloudflareApiError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-                rawResponse: _response.rawResponse,
-            });
-        }
-
-        return handleNonStatusCodeError(
-            _response.error,
-            _response.rawResponse,
-            "GET",
-            "/accounts/{account_id}/cloudforce-one/requests/quota",
-        );
-    }
-
-    /**
-     * Lists available request types for Cloudforce One intelligence requests.
-     *
-     * @param {CloudflareApi.cloudforceOne.TypesRequestsRequest} request
-     * @param {RequestsClient.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @example
-     *     await client.cloudforceOne.requests.types({
-     *         account_id: "account_id"
-     *     })
-     */
-    public types(
-        request: CloudflareApi.cloudforceOne.TypesRequestsRequest,
-        requestOptions?: RequestsClient.RequestOptions,
-    ): core.HttpResponsePromise<CloudflareApi.cloudforceOne.TypesRequestsResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__types(request, requestOptions));
-    }
-
-    private async __types(
-        request: CloudflareApi.cloudforceOne.TypesRequestsRequest,
-        requestOptions?: RequestsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<CloudflareApi.cloudforceOne.TypesRequestsResponse>> {
-        const { account_id: accountId } = request;
-        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
-        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
-            _authRequest.headers,
-            this._options?.headers,
-            requestOptions?.headers,
-        );
-        const _response = await (this._options.fetcher ?? core.fetcher)({
-            url: core.url.join(
-                (await core.Supplier.get(this._options.baseUrl)) ??
-                    (await core.Supplier.get(this._options.environment)) ??
-                    environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/cloudforce-one/requests/types`,
-            ),
-            method: "GET",
-            headers: _headers,
-            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
-            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
-            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
-            abortSignal: requestOptions?.abortSignal,
-            fetchFn: this._options?.fetch,
-            logging: this._options.logging,
-        });
-        if (_response.ok) {
-            return {
-                data: _response.body as CloudflareApi.cloudforceOne.TypesRequestsResponse,
-                rawResponse: _response.rawResponse,
-            };
-        }
-
-        if (_response.error.reason === "status-code") {
-            throw new errors.CloudflareApiError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-                rawResponse: _response.rawResponse,
-            });
-        }
-
-        return handleNonStatusCodeError(
-            _response.error,
-            _response.rawResponse,
-            "GET",
-            "/accounts/{account_id}/cloudforce-one/requests/types",
-        );
-    }
-
-    /**
-     * Retrieves details for a specific Cloudforce One intelligence request.
-     *
-     * @param {CloudflareApi.cloudforceOne.CloudforceOneRequestGetRequestsRequest} request
-     * @param {RequestsClient.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @example
-     *     await client.cloudforceOne.requests.cloudforceOneRequestGet({
-     *         account_id: "account_id",
-     *         request_id: "request_id"
-     *     })
-     */
-    public cloudforceOneRequestGet(
-        request: CloudflareApi.cloudforceOne.CloudforceOneRequestGetRequestsRequest,
-        requestOptions?: RequestsClient.RequestOptions,
-    ): core.HttpResponsePromise<CloudflareApi.CloudforceOneRequestsRequestItem> {
-        return core.HttpResponsePromise.fromPromise(this.__cloudforceOneRequestGet(request, requestOptions));
-    }
-
-    private async __cloudforceOneRequestGet(
-        request: CloudflareApi.cloudforceOne.CloudforceOneRequestGetRequestsRequest,
-        requestOptions?: RequestsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<CloudflareApi.CloudforceOneRequestsRequestItem>> {
-        const { account_id: accountId, request_id: requestId } = request;
-        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
-        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
-            _authRequest.headers,
-            this._options?.headers,
-            requestOptions?.headers,
-        );
-        const _response = await (this._options.fetcher ?? core.fetcher)({
-            url: core.url.join(
-                (await core.Supplier.get(this._options.baseUrl)) ??
-                    (await core.Supplier.get(this._options.environment)) ??
-                    environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/cloudforce-one/requests/${core.url.encodePathParam(requestId)}`,
-            ),
-            method: "GET",
-            headers: _headers,
-            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
-            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
-            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
-            abortSignal: requestOptions?.abortSignal,
-            fetchFn: this._options?.fetch,
-            logging: this._options.logging,
-        });
-        if (_response.ok) {
-            return {
-                data: _response.body as CloudflareApi.CloudforceOneRequestsRequestItem,
-                rawResponse: _response.rawResponse,
-            };
-        }
-
-        if (_response.error.reason === "status-code") {
-            throw new errors.CloudflareApiError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-                rawResponse: _response.rawResponse,
-            });
-        }
-
-        return handleNonStatusCodeError(
-            _response.error,
-            _response.rawResponse,
-            "GET",
-            "/accounts/{account_id}/cloudforce-one/requests/{request_id}",
-        );
-    }
-
-    /**
-     * Updating a request alters the request in the Cloudforce One queue. This API may be used to update any attributes of the request after the initial submission. Only fields that you choose to update need to be add to the request body.
-     *
-     * @param {CloudflareApi.cloudforceOne.CloudforceOneRequestUpdateRequestsRequest} request
-     * @param {RequestsClient.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @example
-     *     await client.cloudforceOne.requests.cloudforceOneRequestUpdate({
-     *         account_id: "account_id",
-     *         request_id: "request_id",
-     *         body: {}
-     *     })
-     */
-    public cloudforceOneRequestUpdate(
-        request: CloudflareApi.cloudforceOne.CloudforceOneRequestUpdateRequestsRequest,
-        requestOptions?: RequestsClient.RequestOptions,
-    ): core.HttpResponsePromise<CloudflareApi.CloudforceOneRequestsRequestItem> {
-        return core.HttpResponsePromise.fromPromise(this.__cloudforceOneRequestUpdate(request, requestOptions));
-    }
-
-    private async __cloudforceOneRequestUpdate(
-        request: CloudflareApi.cloudforceOne.CloudforceOneRequestUpdateRequestsRequest,
-        requestOptions?: RequestsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<CloudflareApi.CloudforceOneRequestsRequestItem>> {
-        const { account_id: accountId, request_id: requestId, body: _body } = request;
-        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
-        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
-            _authRequest.headers,
-            this._options?.headers,
-            requestOptions?.headers,
-        );
-        const _response = await (this._options.fetcher ?? core.fetcher)({
-            url: core.url.join(
-                (await core.Supplier.get(this._options.baseUrl)) ??
-                    (await core.Supplier.get(this._options.environment)) ??
-                    environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/cloudforce-one/requests/${core.url.encodePathParam(requestId)}`,
-            ),
-            method: "PUT",
-            headers: _headers,
-            contentType: "application/json",
-            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
-            requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
-            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
-            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
-            abortSignal: requestOptions?.abortSignal,
-            fetchFn: this._options?.fetch,
-            logging: this._options.logging,
-        });
-        if (_response.ok) {
-            return {
-                data: _response.body as CloudflareApi.CloudforceOneRequestsRequestItem,
-                rawResponse: _response.rawResponse,
-            };
-        }
-
-        if (_response.error.reason === "status-code") {
-            throw new errors.CloudflareApiError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-                rawResponse: _response.rawResponse,
-            });
-        }
-
-        return handleNonStatusCodeError(
-            _response.error,
-            _response.rawResponse,
-            "PUT",
-            "/accounts/{account_id}/cloudforce-one/requests/{request_id}",
-        );
-    }
-
-    /**
-     * Deletes a Cloudforce One intelligence request and all associated data.
-     *
-     * @param {CloudflareApi.cloudforceOne.DeleteRequestsRequest} request
-     * @param {RequestsClient.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @example
-     *     await client.cloudforceOne.requests.delete({
-     *         account_id: "account_id",
-     *         request_id: "request_id"
-     *     })
-     */
-    public delete(
-        request: CloudflareApi.cloudforceOne.DeleteRequestsRequest,
-        requestOptions?: RequestsClient.RequestOptions,
-    ): core.HttpResponsePromise<CloudflareApi.CloudforceOneRequestsApiResponseCommon> {
-        return core.HttpResponsePromise.fromPromise(this.__delete(request, requestOptions));
-    }
-
-    private async __delete(
-        request: CloudflareApi.cloudforceOne.DeleteRequestsRequest,
-        requestOptions?: RequestsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<CloudflareApi.CloudforceOneRequestsApiResponseCommon>> {
-        const { account_id: accountId, request_id: requestId } = request;
-        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
-        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
-            _authRequest.headers,
-            this._options?.headers,
-            requestOptions?.headers,
-        );
-        const _response = await (this._options.fetcher ?? core.fetcher)({
-            url: core.url.join(
-                (await core.Supplier.get(this._options.baseUrl)) ??
-                    (await core.Supplier.get(this._options.environment)) ??
-                    environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/cloudforce-one/requests/${core.url.encodePathParam(requestId)}`,
-            ),
-            method: "DELETE",
-            headers: _headers,
-            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
-            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
-            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
-            abortSignal: requestOptions?.abortSignal,
-            fetchFn: this._options?.fetch,
-            logging: this._options.logging,
-        });
-        if (_response.ok) {
-            return {
-                data: _response.body as CloudflareApi.CloudforceOneRequestsApiResponseCommon,
-                rawResponse: _response.rawResponse,
-            };
-        }
-
-        if (_response.error.reason === "status-code") {
-            throw new errors.CloudflareApiError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-                rawResponse: _response.rawResponse,
-            });
-        }
-
-        return handleNonStatusCodeError(
-            _response.error,
-            _response.rawResponse,
-            "DELETE",
-            "/accounts/{account_id}/cloudforce-one/requests/{request_id}",
-        );
     }
 
     /**

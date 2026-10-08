@@ -320,7 +320,7 @@ export class IngressesClient {
      * @example
      *     await client.intel.sinkholes.ingresses.list({
      *         account_or_zone: "account_or_zone",
-     *         account_or_zone_id: "023e105f4ecef8ad9ca31a8372d0c353",
+     *         account_or_zone_id: "account_or_zone_id",
      *         sinkhole_id: "93defa6e909e464e8c89a85859f36d3c"
      *     })
      */

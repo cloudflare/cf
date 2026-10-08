@@ -29,7 +29,7 @@ export interface BillableUsageApiCostAndUsageData {
     /** Inclusive start of the time interval during which the usage was consumed. */
     ChargePeriodStart: string;
     /** Measured usage amount within the charge period. Reflects raw metered consumption before pricing transformations. */
-    ConsumedQuantity: number;
+    ConsumedQuantity?: number | undefined;
     /** Unit of measure for the consumed quantity (e.g., "GB", "Requests", "vCPU-Hours"). */
     ConsumedUnit: string;
     /** Cost calculated by multiplying ContractedUnitPrice and the corresponding PricingQuantity. */

@@ -1450,7 +1450,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./turnstile/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(

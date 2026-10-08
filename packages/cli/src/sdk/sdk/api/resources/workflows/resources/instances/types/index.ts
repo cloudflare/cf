@@ -6,4 +6,3 @@ export * from "./GetInstancesResponse.js";
 export * from "./ListInstancesRequestDirection.js";
 export * from "./ListInstancesRequestStatus.js";
 export * from "./ListInstancesResponse.js";
-export * from "./SubscribeInstancesRequestFilterItem.js";

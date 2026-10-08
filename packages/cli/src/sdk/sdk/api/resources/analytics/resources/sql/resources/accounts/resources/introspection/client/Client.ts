@@ -59,6 +59,7 @@ export class IntrospectionClient {
             account_tag: accountTag,
             include_columns: includeColumns,
             include_custom_attributes: includeCustomAttributes,
+            include_attributes: includeAttributes,
             include_wae: includeWae,
             include_lex: includeLex,
             dataset_name: datasetName,
@@ -66,6 +67,7 @@ export class IntrospectionClient {
         const _queryParams: Record<string, unknown> = {
             include_columns: includeColumns,
             include_custom_attributes: includeCustomAttributes,
+            include_attributes: includeAttributes,
             include_wae: includeWae,
             include_lex: includeLex,
             dataset_name: datasetName,

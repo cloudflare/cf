@@ -36,6 +36,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"A property to sort by, followed by the order (id, cdate, domain, type, status)",
 		})
+		.option("search", {
+			type: "string",
+			description:
+				"Free-text search. Returns reports whose report ID starts with the term or whose domain contains the term, both case-insensitively. Surrounding whitespace is ignored, and an empty value is treated as absent. Combined with the other filters using AND.",
+		})
 		.option("domain", {
 			type: "string",
 			description: "Filter by domain name related to the abuse report",
@@ -112,6 +117,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					page: argv["page"],
 					per_page: argv["per-page"],
 					sort: argv["sort"],
+					search: argv["search"],
 					domain: argv["domain"],
 					created_before: argv["created-before"],
 					created_after: argv["created-after"],

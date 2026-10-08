@@ -395,6 +395,11 @@
 					"required": false
 				},
 				{
+					"name": "search",
+					"type": "string",
+					"required": false
+				},
+				{
 					"name": "domain",
 					"type": "string",
 					"required": false
@@ -74302,7 +74307,7 @@
 					"name": "ai-config-transcription-language",
 					"type": "string",
 					"required": false,
-					"description": "Specifies the language code for transcription to ensure accurate results."
+					"description": "Specifies the language code for transcription to ensure accurate results. If omitted, the language is auto-detected for post-meeting (Whisper) transcription."
 				},
 				{
 					"name": "ai-config-transcription-profanity-filter",
@@ -74907,7 +74912,7 @@
 					"name": "ai-config-transcription-language",
 					"type": "string",
 					"required": false,
-					"description": "Specifies the language code for transcription to ensure accurate results."
+					"description": "Specifies the language code for transcription to ensure accurate results. If omitted, the language is auto-detected for post-meeting (Whisper) transcription."
 				},
 				{
 					"name": "ai-config-transcription-profanity-filter",
@@ -75089,7 +75094,7 @@
 					"name": "ai-config-transcription-language",
 					"type": "string",
 					"required": false,
-					"description": "Specifies the language code for transcription to ensure accurate results."
+					"description": "Specifies the language code for transcription to ensure accurate results. If omitted, the language is auto-detected for post-meeting (Whisper) transcription."
 				},
 				{
 					"name": "ai-config-transcription-profanity-filter",
@@ -84097,6 +84102,11 @@
 				},
 				{
 					"name": "include_custom_attributes",
+					"type": "boolean",
+					"required": false
+				},
+				{
+					"name": "include_attributes",
 					"type": "boolean",
 					"required": false
 				},
@@ -93444,6 +93454,127 @@
 				}
 			]
 		},
+		"workflows concurrency create": {
+			"operationId": "wor-create-concurrency-key",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/workflows/concurrency",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "limit",
+					"type": "number",
+					"required": true,
+					"description": "Maximum number of steps that may concurrently hold this key."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Unique (per account) name of the concurrency key. Referenced by workflow steps via step config."
+				}
+			]
+		},
+		"workflows concurrency delete": {
+			"operationId": "wor-delete-concurrency-key",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/workflows/concurrency/{key_id}",
+			"pathParams": [
+				{
+					"name": "key_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"workflows concurrency edit": {
+			"operationId": "wor-update-concurrency-key",
+			"httpMethod": "PATCH",
+			"path": "/accounts/{account_id}/workflows/concurrency/{key_id}",
+			"pathParams": [
+				{
+					"name": "key_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "limit",
+					"type": "number",
+					"required": true,
+					"description": "Maximum number of steps that may concurrently hold this key."
+				}
+			]
+		},
+		"workflows concurrency get": {
+			"operationId": "wor-get-concurrency-key",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/workflows/concurrency/{key_id}",
+			"pathParams": [
+				{
+					"name": "key_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"workflows concurrency list": {
+			"operationId": "wor-list-concurrency-keys",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/workflows/concurrency",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "per_page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "page",
+					"type": "number",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
 		"workflows delete": {
 			"operationId": "wor-delete-workflow",
 			"httpMethod": "DELETE",
@@ -93893,42 +94024,6 @@
 				{
 					"name": "attempt",
 					"type": "number",
-					"required": false
-				}
-			],
-			"hasRequestBody": false,
-			"requestBodyFields": []
-		},
-		"workflows instances subscribe": {
-			"operationId": "wor-subscribe-workflow-instance-events",
-			"httpMethod": "GET",
-			"path": "/accounts/{account_id}/workflows/{workflow_name}/instances/{instance_id}/subscribe",
-			"pathParams": [
-				{
-					"name": "workflow_name",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "instance_id",
-					"type": "string",
-					"required": true
-				},
-				{
-					"name": "account_id",
-					"type": "string",
-					"required": true
-				}
-			],
-			"queryParams": [
-				{
-					"name": "cursor",
-					"type": "number",
-					"required": false
-				},
-				{
-					"name": "filter",
-					"type": "array",
 					"required": false
 				}
 			],

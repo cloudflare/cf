@@ -9,6 +9,7 @@ import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCode
 import * as errors from "../../../../errors/index.js";
 import type * as CloudflareApi from "../../../index.js";
 import * as CloudflareApiErrors from "../../../errors/index.js";
+import { ConcurrencyClient } from "../resources/concurrency/client/Client.js";
 import { InstancesClient } from "../resources/instances/client/Client.js";
 import { SettingsClient } from "../resources/settings/client/Client.js";
 import { VersionsClient } from "../resources/versions/client/Client.js";
@@ -21,12 +22,17 @@ export declare namespace WorkflowsClient {
 
 export class WorkflowsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<WorkflowsClient.Options>;
+    protected _concurrency: ConcurrencyClient | undefined;
     protected _settings: SettingsClient | undefined;
     protected _instances: InstancesClient | undefined;
     protected _versions: VersionsClient | undefined;
 
     constructor(options: WorkflowsClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
+    }
+
+    public get concurrency(): ConcurrencyClient {
+        return (this._concurrency ??= new ConcurrencyClient(this._options));
     }
 
     public get settings(): SettingsClient {

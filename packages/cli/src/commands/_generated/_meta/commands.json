@@ -487,6 +487,12 @@
 					"description": "A property to sort by, followed by the order (id, cdate, domain, type, status)"
 				},
 				{
+					"name": "search",
+					"type": "string",
+					"required": false,
+					"description": "Free-text search. Returns reports whose report ID starts with the term or whose domain contains the term, both case-insensitively. Surrounding whitespace is ignored, and an empty value is treated as absent. Combined with the other filters using AND."
+				},
+				{
 					"name": "domain",
 					"type": "string",
 					"required": false,
@@ -81538,7 +81544,7 @@
 			"command": "cf o11y usage",
 			"name": "usage",
 			"fullPath": ["o11y", "usage"],
-			"description": "Event counts broken down by dataset and service, bucketed by day, for up to 90 days. The top-level events field is the sum of all breakdown counts.",
+			"description": "Event counts and sizes broken down by dataset and service, bucketed by day, for up to 90 days. The top-level events field is the sum of all breakdown counts.",
 			"summary": "Get event count",
 			"usage": "cf o11y usage [options]",
 			"arguments": [],
@@ -106740,7 +106746,7 @@
 					"name": "ai-config-transcription-language",
 					"type": "string",
 					"required": false,
-					"description": "Specifies the language code for transcription to ensure accurate results.",
+					"description": "Specifies the language code for transcription to ensure accurate results. If omitted, the language is auto-detected for post-meeting (Whisper) transcription.",
 					"enum": [
 						"en-US",
 						"en-IN",
@@ -107571,7 +107577,7 @@
 					"name": "ai-config-transcription-language",
 					"type": "string",
 					"required": false,
-					"description": "Specifies the language code for transcription to ensure accurate results.",
+					"description": "Specifies the language code for transcription to ensure accurate results. If omitted, the language is auto-detected for post-meeting (Whisper) transcription.",
 					"enum": [
 						"en-US",
 						"en-IN",
@@ -107805,7 +107811,7 @@
 					"name": "ai-config-transcription-language",
 					"type": "string",
 					"required": false,
-					"description": "Specifies the language code for transcription to ensure accurate results.",
+					"description": "Specifies the language code for transcription to ensure accurate results. If omitted, the language is auto-detected for post-meeting (Whisper) transcription.",
 					"enum": [
 						"en-US",
 						"en-IN",
@@ -120059,7 +120065,7 @@
 			"command": "cf sql datasets",
 			"name": "datasets",
 			"fullPath": ["sql", "datasets"],
-			"description": "Returns the analytics dataset catalogue. By default, the response contains dataset names, titles, categories, descriptions, kinds, and hidden flags. Set `include_columns` to include each dataset's column names, descriptions, data types, and hidden flags. The caller must have Account Analytics Read permission on the account identified by `account_tag`. Dataset names, descriptions, and columns are the same for every authorized account. When `include_custom_attributes` is set, the response also includes custom attribute names and types discovered from that account's own data, which legitimately differs per caller. `hidden` marks catalogue entries a client should de-emphasise. It has no effect on access: hidden datasets and columns are returned here and remain fully queryable. The catalogue lists the datasets this deployment is able to describe, which is not a fixed list. Some datasets are described by the service that owns them and are listed only where that service is available, so the same account may see a different catalogue in different environments, and datasets may appear or disappear without a change to this API. Clients should query the catalogue rather than hard-coding it, and should not treat a dataset's absence as proof that it does not exist. Workers Analytics Engine datasets are named by the account that writes them, so they are discovered from that account's own data rather than from a fixed list. They appear as `events.analyticsEngine.<dataset_name>` and differ per account. A dataset is listed for as long as any of its data is retained, so it does not disappear from the catalogue merely because writes have stopped. An account with a very large number of datasets may receive a truncated list. Set `include_wae=false` to omit them. Log Explorer datasets are listed only where the account has them, so they differ per account and are not part of the static catalogue. Set `include_lex=false` to omit them.",
+			"description": "Returns the analytics dataset catalogue. By default, the response contains dataset names, titles, categories, descriptions, kinds, and hidden flags. Set `include_columns` to include each dataset's column names, descriptions, data types, and hidden flags. The caller must have Account Analytics Read permission on the account identified by `account_tag`. Dataset names, descriptions, and columns are the same for every authorized account. When `include_custom_attributes` or `include_attributes` is set, the response also includes attribute names and types discovered from that account's own data, which legitimately differs per caller. `attributes` is a replacement for `custom_attributes` that will eventually be removed; until then, set either flag independently to receive the corresponding field. `hidden` marks catalogue entries a client should de-emphasise. It has no effect on access: hidden datasets and columns are returned here and remain fully queryable. The catalogue lists the datasets this deployment is able to describe, which is not a fixed list. Some datasets are described by the service that owns them and are listed only where that service is available, so the same account may see a different catalogue in different environments, and datasets may appear or disappear without a change to this API. Clients should query the catalogue rather than hard-coding it, and should not treat a dataset's absence as proof that it does not exist. Workers Analytics Engine datasets are named by the account that writes them, so they are discovered from that account's own data rather than from a fixed list. They appear as `events.analyticsEngine.<dataset_name>` and differ per account. A dataset is listed for as long as any of its data is retained, so it does not disappear from the catalogue merely because writes have stopped. An account with a very large number of datasets may receive a truncated list. Set `include_wae=false` to omit them. Log Explorer datasets are listed only where the account has them, so they differ per account and are not part of the static catalogue. Set `include_lex=false` to omit them.",
 			"summary": "List available analytics datasets",
 			"usage": "cf sql datasets [options]",
 			"arguments": [],
@@ -120080,7 +120086,13 @@
 					"name": "include-custom-attributes",
 					"type": "boolean",
 					"required": false,
-					"description": "Include a capped set of custom attribute names and types observed during the preceding seven days. Requires a nonempty dataset_name."
+					"description": "Include a capped set of custom attribute names and types observed during the preceding seven days, as `custom_attributes`. Requires a nonempty dataset_name. Deprecated in favor of `include_attributes`."
+				},
+				{
+					"name": "include-attributes",
+					"type": "boolean",
+					"required": false,
+					"description": "Include a capped set of attribute names and types observed during the preceding seven days, as `attributes`. Requires a nonempty dataset_name. Replaces `include_custom_attributes`, which is deprecated."
 				},
 				{
 					"name": "include-wae",
@@ -134830,6 +134842,192 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf workflows concurrency create",
+			"name": "create",
+			"fullPath": ["workflows", "concurrency", "create"],
+			"description": "Creates an account-scoped concurrency key. Limits count steps still in flight from a previously deleted key of the same name.",
+			"summary": "Create a concurrency key",
+			"usage": "cf workflows concurrency create [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "limit",
+					"type": "number",
+					"required": true,
+					"description": "Maximum number of steps that may concurrently hold this key."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Unique (per account) name of the concurrency key. Referenced by workflow steps via step config."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "create",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/workflows/concurrency",
+			"operationId": "wor-create-concurrency-key",
+			"hideCommand": false
+		},
+		{
+			"command": "cf workflows concurrency delete",
+			"name": "delete",
+			"fullPath": ["workflows", "concurrency", "delete"],
+			"description": "Deletes a concurrency key. Fails while any workflow’s latest version references the key. The key disappears immediately, but steps already holding it keep their slots until they finish and still count against a key re-created with the same name.",
+			"summary": "Delete a concurrency key",
+			"usage": "cf workflows concurrency delete <key-id>",
+			"arguments": [
+				{
+					"name": "key-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Identifier of the concurrency key."
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "delete",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/workflows/concurrency/{key_id}",
+			"operationId": "wor-delete-concurrency-key",
+			"hideCommand": false
+		},
+		{
+			"command": "cf workflows concurrency edit",
+			"name": "edit",
+			"fullPath": ["workflows", "concurrency", "edit"],
+			"description": "Updates the limit of a concurrency key. Applies to instances that start after the change.",
+			"summary": "Update a concurrency key",
+			"usage": "cf workflows concurrency edit <key-id> [options]",
+			"arguments": [
+				{
+					"name": "key-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Identifier of the concurrency key."
+				}
+			],
+			"options": [
+				{
+					"name": "limit",
+					"type": "number",
+					"required": true,
+					"description": "Maximum number of steps that may concurrently hold this key."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PATCH",
+			"apiPath": "/accounts/{account_id}/workflows/concurrency/{key_id}",
+			"operationId": "wor-update-concurrency-key",
+			"hideCommand": false
+		},
+		{
+			"command": "cf workflows concurrency get",
+			"name": "get",
+			"fullPath": ["workflows", "concurrency", "get"],
+			"description": "Retrieves a concurrency key and the workflows whose latest version references it.",
+			"summary": "Get concurrency key details",
+			"usage": "cf workflows concurrency get <key-id>",
+			"arguments": [
+				{
+					"name": "key-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Identifier of the concurrency key."
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/workflows/concurrency/{key_id}",
+			"operationId": "wor-get-concurrency-key",
+			"hideCommand": false
+		},
+		{
+			"command": "cf workflows concurrency list",
+			"name": "list",
+			"fullPath": ["workflows", "concurrency", "list"],
+			"description": "Lists the account-scoped concurrency keys.",
+			"summary": "List concurrency keys",
+			"usage": "cf workflows concurrency list [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": false,
+					"description": "Per page"
+				},
+				{
+					"name": "page",
+					"type": "number",
+					"required": false,
+					"description": "Page"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/workflows/concurrency",
+			"operationId": "wor-list-concurrency-keys",
+			"hideCommand": false
+		},
+		{
 			"command": "cf workflows delete",
 			"name": "delete",
 			"fullPath": ["workflows", "delete"],
@@ -135504,56 +135702,6 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/workflows/{workflow_name}/instances/{instance_id}/step",
 			"operationId": "wor-get-workflow-instance-step",
-			"hideCommand": false
-		},
-		{
-			"command": "cf workflows instances subscribe",
-			"name": "subscribe",
-			"fullPath": ["workflows", "instances", "subscribe"],
-			"description": "Opens a WebSocket that streams workflow instance events.",
-			"summary": "Subscribe to workflow instance events",
-			"usage": "cf workflows instances subscribe <instance-id> [options]",
-			"arguments": [
-				{
-					"name": "instance-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Instance identifier. User-created instances match `^[a-zA-Z0-9_][a-zA-Z0-9-_]*$` (max 100 characters); cron-triggered instances can use a longer, system-generated id derived from the cron expression."
-				}
-			],
-			"options": [
-				{
-					"name": "workflow-name",
-					"type": "string",
-					"required": true,
-					"description": "Workflow name"
-				},
-				{
-					"name": "cursor",
-					"type": "number",
-					"required": false,
-					"description": "Last event ID already received."
-				},
-				{
-					"name": "filter",
-					"type": "string",
-					"required": false,
-					"description": "Workflow event types to include. Send multiple event types by repeating the filter query parameter."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/workflows/{workflow_name}/instances/{instance_id}/subscribe",
-			"operationId": "wor-subscribe-workflow-instance-events",
 			"hideCommand": false
 		},
 		{
@@ -159223,6 +159371,7 @@
 		"workers-vpc": "workers-vpc",
 		"workers-vpc services": "Operations for services",
 		"workflows": "Durable, multi-step workflows that run on Workers with automatic retries and state persistence",
+		"workflows concurrency": "Operations for concurrency",
 		"workflows instances": "Workflow instance operations",
 		"workflows instances batch": "Operations for instances.batch",
 		"workflows instances events": "Operations for instances.events",

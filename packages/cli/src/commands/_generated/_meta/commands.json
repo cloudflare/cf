@@ -4762,6 +4762,50 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf addressing address-maps ips delete-bulk",
+			"name": "delete-bulk",
+			"fullPath": ["addressing", "address-maps", "ips", "delete-bulk"],
+			"description": "Remove multiple IPs from a particular address map.",
+			"summary": "Remove Multiple IPs from an Address Map",
+			"usage": "cf addressing address-maps ips delete-bulk <address-map-id> [options]",
+			"arguments": [
+				{
+					"name": "address-map-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Identifier of an Address Map."
+				}
+			],
+			"options": [
+				{
+					"name": "ips",
+					"type": "string",
+					"required": true,
+					"description": "The ips field"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "action",
+			"hasRequestBody": true,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/addressing/address_maps/{address_map_id}/ips",
+			"operationId": "ip-address-management-address-maps-remove-multiple-ips-from-an-address-map",
+			"hideCommand": false
+		},
+		{
 			"command": "cf addressing address-maps ips update",
 			"name": "update",
 			"fullPath": ["addressing", "address-maps", "ips", "update"],
@@ -4797,6 +4841,50 @@
 			"httpMethod": "PUT",
 			"apiPath": "/accounts/{account_id}/addressing/address_maps/{address_map_id}/ips/{ip_address}",
 			"operationId": "ip-address-management-address-maps-add-an-ip-to-an-address-map",
+			"hideCommand": false
+		},
+		{
+			"command": "cf addressing address-maps ips update-bulk",
+			"name": "update-bulk",
+			"fullPath": ["addressing", "address-maps", "ips", "update-bulk"],
+			"description": "Add multiple IPs to a particular address map.",
+			"summary": "Add Multiple IPs to an Address Map",
+			"usage": "cf addressing address-maps ips update-bulk <address-map-id> [options]",
+			"arguments": [
+				{
+					"name": "address-map-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Identifier of an Address Map."
+				}
+			],
+			"options": [
+				{
+					"name": "ips",
+					"type": "string",
+					"required": true,
+					"description": "The ips field"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "action",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/addressing/address_maps/{address_map_id}/ips",
+			"operationId": "ip-address-management-address-maps-add-multiple-ips-to-an-address-map",
 			"hideCommand": false
 		},
 		{
@@ -4862,6 +4950,50 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf addressing address-maps zones delete-bulk",
+			"name": "delete-bulk",
+			"fullPath": ["addressing", "address-maps", "zones", "delete-bulk"],
+			"description": "Remove multiple zones as members of a particular address map.",
+			"summary": "Remove Multiple Zones from an Address Map",
+			"usage": "cf addressing address-maps zones delete-bulk <address-map-id> [options]",
+			"arguments": [
+				{
+					"name": "address-map-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Identifier of an Address Map."
+				}
+			],
+			"options": [
+				{
+					"name": "zones",
+					"type": "string",
+					"required": true,
+					"description": "The zones field"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "action",
+			"hasRequestBody": true,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/addressing/address_maps/{address_map_id}/zones",
+			"operationId": "ip-address-management-address-maps-remove-multiple-zones-from-an-address-map",
+			"hideCommand": false
+		},
+		{
 			"command": "cf addressing address-maps zones update",
 			"name": "update",
 			"fullPath": ["addressing", "address-maps", "zones", "update"],
@@ -4897,6 +5029,50 @@
 			"httpMethod": "PUT",
 			"apiPath": "/accounts/{account_id}/addressing/address_maps/{address_map_id}/zones/{member_zone_id}",
 			"operationId": "ip-address-management-address-maps-add-a-zone-membership-to-an-address-map",
+			"hideCommand": false
+		},
+		{
+			"command": "cf addressing address-maps zones update-bulk",
+			"name": "update-bulk",
+			"fullPath": ["addressing", "address-maps", "zones", "update-bulk"],
+			"description": "Add multiple zones as members of a particular address map.",
+			"summary": "Add Multiple Zones to an Address Map",
+			"usage": "cf addressing address-maps zones update-bulk <address-map-id> [options]",
+			"arguments": [
+				{
+					"name": "address-map-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Identifier of an Address Map."
+				}
+			],
+			"options": [
+				{
+					"name": "zones",
+					"type": "string",
+					"required": true,
+					"description": "The zones field"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "action",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/addressing/address_maps/{address_map_id}/zones",
+			"operationId": "ip-address-management-address-maps-add-multiple-zones-to-an-address-map",
 			"hideCommand": false
 		},
 		{
@@ -4989,6 +5165,30 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/addressing/loa_documents/{loa_document_id}/download",
 			"operationId": "ip-address-management-prefixes-download-loa-document",
+			"hideCommand": false
+		},
+		{
+			"command": "cf addressing loa-documents list",
+			"name": "list",
+			"fullPath": ["addressing", "loa-documents", "list"],
+			"description": "List all LOA documents uploaded under the account.",
+			"summary": "List LOA Documents",
+			"usage": "cf addressing loa-documents list",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/addressing/loa_documents",
+			"operationId": "ip-address-management-prefixes-list-loa-documents",
 			"hideCommand": false
 		},
 		{
@@ -12901,7 +13101,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/zones/{zone_id}/ai-security/custom-topics",
 			"operationId": "ai-security-custom-topics-get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf ai-security custom-topics update",
@@ -12937,7 +13137,7 @@
 			"httpMethod": "PUT",
 			"apiPath": "/zones/{zone_id}/ai-security/custom-topics",
 			"operationId": "ai-security-custom-topics-put",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf ai-security get",
@@ -12961,7 +13161,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/zones/{zone_id}/ai-security/settings",
 			"operationId": "ai-security-settings-get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf ai-security update",
@@ -12997,7 +13197,7 @@
 			"httpMethod": "PUT",
 			"apiPath": "/zones/{zone_id}/ai-security/settings",
 			"operationId": "ai-security-settings-put",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf alerting available-alerts list",
@@ -20263,7 +20463,7 @@
 			"command": "cf billing usage get-account-usage-v2",
 			"name": "get-account-usage-v2",
 			"fullPath": ["billing", "usage", "get-account-usage-v2"],
-			"description": "Returns cost and usage data for a single Cloudflare account, aligned with the [FinOps FOCUS v1.3](https://focus.finops.org/focus-specification/v1-3/) Cost and Usage dataset specification. Each record represents one billable metric for one account on one day. This includes all metered usage, including usage that falls within free-tier allowances and may result in zero cost. **Note:** Cost and pricing fields are not yet populated and will be absent from responses until billing integration is complete. When `from` and `to` are omitted, defaults to the start of the current month through today. The maximum date range is 31 days.",
+			"description": "Returns cost and usage data for a single Cloudflare account, aligned with the [FinOps FOCUS v1.3](https://focus.finops.org/focus-specification/v1-3/) Cost and Usage dataset specification. Each record represents one billable metric for one account on one day. This includes all metered usage, including usage that falls within free-tier allowances and may result in zero cost. **Note:** This endpoint serves `usage` records only; cost and pricing fields are absent from responses. To retrieve rated costs, use `POST` on the same path with `Metric: cost`. When `from` and `to` are omitted, defaults to the start of the current month through today. The maximum date range is 31 days.",
 			"summary": "Get Account Usage (Version 2, Alpha, Restricted)",
 			"usage": "cf billing usage get-account-usage-v2 [options]",
 			"arguments": [],
@@ -20359,7 +20559,7 @@
 			"command": "cf billing usage query",
 			"name": "query",
 			"fullPath": ["billing", "usage", "query"],
-			"description": "Returns cost and usage data for a single Cloudflare account, aligned with the [FinOps FOCUS v1.3](https://focus.finops.org/focus-specification/v1-3/) Cost and Usage dataset specification. This is the filterable counterpart to `GET` on the same path. It is a read-only operation and requires only the `#billing:read` permission; `POST` is used so that filter criteria can be supplied in a request body rather than in the query string. Each record represents one billable metric for one account on one day. This includes all metered usage, including usage that falls within free-tier allowances and may result in zero cost. **Note:** Cost and pricing fields are not yet populated and will be absent from responses until billing integration is complete. The request body is optional. When it is omitted, or when `TimePeriod` is omitted, the range defaults to the start of the current month through today. The maximum date range is 31 days. Filters of different kinds are combined with AND. Values within one tag filter are combined with OR. Filter values that do not match usage produce an empty result set. Results can be grouped by up to two groups, in any combination of dimension keys and resource-tag keys. Tag groups are returned in the `Tags` field. Usage without a requested tag remains in an untagged group, with that key omitted from `Tags`. Requests that use tag filtering or tag grouping return HTTP 400 when the underlying usage data source does not support tags. Requests that use dimension grouping return HTTP 400 when the underlying usage data source does not support dimensions.",
+			"description": "Returns cost and usage data for a single Cloudflare account, aligned with the [FinOps FOCUS v1.3](https://focus.finops.org/focus-specification/v1-3/) Cost and Usage dataset specification. This is the filterable counterpart to `GET` on the same path. It is a read-only operation and requires only the `#billing:read` permission; `POST` is used so that filter criteria can be supplied in a request body rather than in the query string. Each record represents one billable metric for one account on one day. This includes all metered usage, including usage that falls within free-tier allowances and may result in zero cost. **Note:** Cost and pricing fields are populated only when `Metric` is `cost`; otherwise they are absent from responses. The request body is optional. When it is omitted, or when `TimePeriod` is omitted, the range defaults to the start of the current month through today. The maximum date range is 31 days. Filters of different kinds are combined with AND. Values within one tag filter are combined with OR. Filter values that do not match usage produce an empty result set. Results can be grouped by up to two groups, in any combination of dimension keys and resource-tag keys. Tag groups are returned in the `Tags` field. Usage without a requested tag remains in an untagged group, with that key omitted from `Tags`. Requests that use tag filtering or tag grouping return HTTP 400 when the underlying usage data source does not support tags. Requests that use dimension grouping return HTTP 400 when the underlying usage data source does not support dimensions.",
 			"summary": "Query Account Usage (Version 2, Alpha, Restricted)",
 			"usage": "cf billing usage query [options]",
 			"arguments": [],
@@ -20386,9 +20586,9 @@
 					"name": "metric",
 					"type": "string",
 					"required": false,
-					"description": "Type of cost/usage records to retrieve. `usage` returns unrated usage quantities. Unrelated to `FilterBy.BillableMetricIds`. Defaults to `usage` when omitted.",
+					"description": "Type of cost/usage records to retrieve. `usage` returns unrated usage quantities. `cost` returns rated usage with cost and pricing fields; it is available only on `POST` account usage and only when the underlying usage data source is ClickHouse (other sources return an empty result set). Requests that combine `cost` with `GroupBy` or `FilterBy.Tags` return HTTP 400. Unrelated to `FilterBy.BillableMetricIds`. Defaults to `usage` when omitted.",
 					"default": "usage",
-					"enum": ["usage"]
+					"enum": ["usage", "cost"]
 				},
 				{
 					"name": "time-period-from",
@@ -32443,138 +32643,6 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf cloudforce-one requests asset-new create",
-			"name": "create",
-			"fullPath": ["cloudforce-one", "requests", "asset-new", "create"],
-			"description": "Uploads a new asset to a Cloudforce One intelligence request.",
-			"summary": "Create a New Request Asset",
-			"usage": "cf cloudforce-one requests asset-new create <request-id>",
-			"arguments": [
-				{
-					"name": "request-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "UUID."
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				},
-				{
-					"name": "file",
-					"type": "string",
-					"required": false,
-					"description": "Path to a file to upload as the request body"
-				}
-			],
-			"category": "create",
-			"hasRequestBody": true,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/{request_id}/asset/new",
-			"operationId": "cloudforce-one-request-asset-new",
-			"hideCommand": false
-		},
-		{
-			"command": "cf cloudforce-one requests assets create",
-			"name": "create",
-			"fullPath": ["cloudforce-one", "requests", "assets", "create"],
-			"description": "Lists assets attached to a Cloudforce One intelligence request.",
-			"summary": "List Request Assets",
-			"usage": "cf cloudforce-one requests assets create <request-id> [options]",
-			"arguments": [
-				{
-					"name": "request-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "UUID."
-				}
-			],
-			"options": [
-				{
-					"name": "page",
-					"type": "number",
-					"required": true,
-					"description": "Page number of results."
-				},
-				{
-					"name": "per-page",
-					"type": "number",
-					"required": true,
-					"description": "Number of results per page."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "create",
-			"hasRequestBody": true,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/{request_id}/asset",
-			"operationId": "cloudforce-one-request-asset-list",
-			"hideCommand": false
-		},
-		{
-			"command": "cf cloudforce-one requests assets delete",
-			"name": "delete",
-			"fullPath": ["cloudforce-one", "requests", "assets", "delete"],
-			"description": "Removes an asset from a Cloudforce One intelligence request.",
-			"summary": "Delete a Request Asset",
-			"usage": "cf cloudforce-one requests assets delete <asset-id> [options]",
-			"arguments": [
-				{
-					"name": "asset-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "UUID."
-				}
-			],
-			"options": [
-				{
-					"name": "request-id",
-					"type": "string",
-					"required": true,
-					"description": "UUID."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "delete",
-			"hasRequestBody": false,
-			"httpMethod": "DELETE",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/{request_id}/asset/{asset_id}",
-			"operationId": "cloudforce-one-request-asset-delete",
-			"hideCommand": false
-		},
-		{
 			"command": "cf cloudforce-one requests assets download",
 			"name": "download",
 			"fullPath": ["cloudforce-one", "requests", "assets", "download"],
@@ -32619,44 +32687,6 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf cloudforce-one requests assets get",
-			"name": "get",
-			"fullPath": ["cloudforce-one", "requests", "assets", "get"],
-			"description": "Retrieves an asset attached to a Cloudforce One intelligence request.",
-			"summary": "Get a Request Asset",
-			"usage": "cf cloudforce-one requests assets get <asset-id> [options]",
-			"arguments": [
-				{
-					"name": "asset-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "UUID."
-				}
-			],
-			"options": [
-				{
-					"name": "request-id",
-					"type": "string",
-					"required": true,
-					"description": "UUID."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/{request_id}/asset/{asset_id}",
-			"operationId": "cloudforce-one-request-asset-get",
-			"hideCommand": false
-		},
-		{
 			"command": "cf cloudforce-one requests assets list",
 			"name": "list",
 			"fullPath": ["cloudforce-one", "requests", "assets", "list"],
@@ -32690,56 +32720,6 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/cloudforce-one/v2/requests/{project_type}/{request_id}/assets/list",
 			"operationId": "get_DashboardAssetList",
-			"hideCommand": false
-		},
-		{
-			"command": "cf cloudforce-one requests assets update",
-			"name": "update",
-			"fullPath": ["cloudforce-one", "requests", "assets", "update"],
-			"description": "Updates an asset in a Cloudforce One intelligence request.",
-			"summary": "Update a Request Asset",
-			"usage": "cf cloudforce-one requests assets update <asset-id> [options]",
-			"arguments": [
-				{
-					"name": "asset-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "UUID."
-				}
-			],
-			"options": [
-				{
-					"name": "request-id",
-					"type": "string",
-					"required": true,
-					"description": "UUID."
-				},
-				{
-					"name": "source",
-					"type": "string",
-					"required": false,
-					"description": "Asset file to upload."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "update",
-			"hasRequestBody": true,
-			"httpMethod": "PUT",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/{request_id}/asset/{asset_id}",
-			"operationId": "cloudforce-one-request-asset-update",
 			"hideCommand": false
 		},
 		{
@@ -32793,19 +32773,19 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf cloudforce-one requests cloudforceOneRequestGet",
-			"name": "cloudforceOneRequestGet",
-			"fullPath": ["cloudforce-one", "requests", "cloudforceOneRequestGet"],
-			"description": "Retrieves details for a specific Cloudforce One intelligence request.",
-			"summary": "Get a Request",
-			"usage": "cf cloudforce-one requests cloudforceOneRequestGet <request-id>",
+			"command": "cf cloudforce-one requests constants get",
+			"name": "get",
+			"fullPath": ["cloudforce-one", "requests", "constants", "get"],
+			"description": "Returns available priorities, statuses, and TLP levels for request workflows",
+			"summary": "Get request constants",
+			"usage": "cf cloudforce-one requests constants get <project-type>",
 			"arguments": [
 				{
-					"name": "request-id",
+					"name": "project-type",
 					"position": 0,
 					"type": "string",
 					"required": true,
-					"description": "UUID."
+					"description": "Project type"
 				}
 			],
 			"options": [
@@ -32817,296 +32797,11 @@
 					"default": false
 				}
 			],
-			"category": "action",
+			"category": "read",
 			"hasRequestBody": false,
 			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/{request_id}",
-			"operationId": "cloudforce-one-request-get",
-			"hideCommand": false
-		},
-		{
-			"command": "cf cloudforce-one requests cloudforceOneRequestList",
-			"name": "cloudforceOneRequestList",
-			"fullPath": ["cloudforce-one", "requests", "cloudforceOneRequestList"],
-			"description": "Lists Cloudforce One intelligence requests with filtering and pagination.",
-			"summary": "List Requests",
-			"usage": "cf cloudforce-one requests cloudforceOneRequestList [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "completed-after",
-					"type": "string",
-					"required": false,
-					"description": "Retrieve requests completed after this time."
-				},
-				{
-					"name": "completed-before",
-					"type": "string",
-					"required": false,
-					"description": "Retrieve requests completed before this time."
-				},
-				{
-					"name": "created-after",
-					"type": "string",
-					"required": false,
-					"description": "Retrieve requests created after this time."
-				},
-				{
-					"name": "created-before",
-					"type": "string",
-					"required": false,
-					"description": "Retrieve requests created before this time."
-				},
-				{
-					"name": "page",
-					"type": "number",
-					"required": true,
-					"description": "Page number of results."
-				},
-				{
-					"name": "per-page",
-					"type": "number",
-					"required": true,
-					"description": "Number of results per page."
-				},
-				{
-					"name": "request-type",
-					"type": "string",
-					"required": false,
-					"description": "Requested information from request."
-				},
-				{
-					"name": "sort-by",
-					"type": "string",
-					"required": false,
-					"description": "Field to sort results by."
-				},
-				{
-					"name": "sort-order",
-					"type": "string",
-					"required": false,
-					"description": "Sort order (asc or desc).",
-					"enum": ["asc", "desc"]
-				},
-				{
-					"name": "status",
-					"type": "string",
-					"required": false,
-					"description": "Request Status.",
-					"enum": [
-						"open",
-						"accepted",
-						"reported",
-						"approved",
-						"completed",
-						"declined"
-					]
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "action",
-			"hasRequestBody": true,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/requests",
-			"operationId": "cloudforce-one-request-list",
-			"hideCommand": false
-		},
-		{
-			"command": "cf cloudforce-one requests cloudforceOneRequestNew",
-			"name": "cloudforceOneRequestNew",
-			"fullPath": ["cloudforce-one", "requests", "cloudforceOneRequestNew"],
-			"description": "Creating a request adds the request into the Cloudforce One queue for analysis. In addition to the content, a short title, type, priority, and releasability should be provided. If one is not provided, a default will be assigned.",
-			"summary": "Create a New Request.",
-			"usage": "cf cloudforce-one requests cloudforceOneRequestNew [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "content",
-					"type": "string",
-					"required": false,
-					"description": "Request content."
-				},
-				{
-					"name": "priority",
-					"type": "string",
-					"required": false,
-					"description": "Priority for analyzing the request."
-				},
-				{
-					"name": "request-type",
-					"type": "string",
-					"required": false,
-					"description": "Requested information from request."
-				},
-				{
-					"name": "summary",
-					"type": "string",
-					"required": false,
-					"description": "Brief description of the request."
-				},
-				{
-					"name": "tlp",
-					"type": "string",
-					"required": false,
-					"description": "The CISA defined Traffic Light Protocol (TLP).",
-					"enum": ["clear", "amber", "amber-strict", "green", "red"]
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "action",
-			"hasRequestBody": true,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/new",
-			"operationId": "cloudforce-one-request-new",
-			"hideCommand": false
-		},
-		{
-			"command": "cf cloudforce-one requests cloudforceOneRequestUpdate",
-			"name": "cloudforceOneRequestUpdate",
-			"fullPath": ["cloudforce-one", "requests", "cloudforceOneRequestUpdate"],
-			"description": "Updating a request alters the request in the Cloudforce One queue. This API may be used to update any attributes of the request after the initial submission. Only fields that you choose to update need to be add to the request body.",
-			"summary": "Update a Request",
-			"usage": "cf cloudforce-one requests cloudforceOneRequestUpdate <request-id> [options]",
-			"arguments": [
-				{
-					"name": "request-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "UUID."
-				}
-			],
-			"options": [
-				{
-					"name": "content",
-					"type": "string",
-					"required": false,
-					"description": "Request content."
-				},
-				{
-					"name": "priority",
-					"type": "string",
-					"required": false,
-					"description": "Priority for analyzing the request."
-				},
-				{
-					"name": "request-type",
-					"type": "string",
-					"required": false,
-					"description": "Requested information from request."
-				},
-				{
-					"name": "summary",
-					"type": "string",
-					"required": false,
-					"description": "Brief description of the request."
-				},
-				{
-					"name": "tlp",
-					"type": "string",
-					"required": false,
-					"description": "The CISA defined Traffic Light Protocol (TLP).",
-					"enum": ["clear", "amber", "amber-strict", "green", "red"]
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "action",
-			"hasRequestBody": true,
-			"httpMethod": "PUT",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/{request_id}",
-			"operationId": "cloudforce-one-request-update",
-			"hideCommand": false
-		},
-		{
-			"command": "cf cloudforce-one requests constants",
-			"name": "constants",
-			"fullPath": ["cloudforce-one", "requests", "constants"],
-			"description": "Retrieves constant values used in Cloudforce One requests, including valid statuses and types.",
-			"summary": "Get Request Priority, Status, and TLP constants",
-			"usage": "cf cloudforce-one requests constants",
-			"arguments": [],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/constants",
-			"operationId": "cloudforce-one-request-constants",
-			"hideCommand": false
-		},
-		{
-			"command": "cf cloudforce-one requests delete",
-			"name": "delete",
-			"fullPath": ["cloudforce-one", "requests", "delete"],
-			"description": "Deletes a Cloudforce One intelligence request and all associated data.",
-			"summary": "Delete a Request",
-			"usage": "cf cloudforce-one requests delete <request-id>",
-			"arguments": [
-				{
-					"name": "request-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "UUID."
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "delete",
-			"hasRequestBody": false,
-			"httpMethod": "DELETE",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/{request_id}",
-			"operationId": "cloudforce-one-request-delete",
+			"apiPath": "/accounts/{account_id}/cloudforce-one/v2/requests/{project_type}/constants",
+			"operationId": "get_RequestConstants",
 			"hideCommand": false
 		},
 		{
@@ -33302,213 +32997,6 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/cloudforce-one/v2/requests/legal-response/access-check",
 			"operationId": "get_LegalResponseAccessCheck",
-			"hideCommand": false
-		},
-		{
-			"command": "cf cloudforce-one requests message create",
-			"name": "create",
-			"fullPath": ["cloudforce-one", "requests", "message", "create"],
-			"description": "Adds a message to a Cloudforce One intelligence request conversation.",
-			"summary": "Create a New Request Message",
-			"usage": "cf cloudforce-one requests message create <request-id> [options]",
-			"arguments": [
-				{
-					"name": "request-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "UUID."
-				}
-			],
-			"options": [
-				{
-					"name": "content",
-					"type": "string",
-					"required": false,
-					"description": "Content of message."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "create",
-			"hasRequestBody": true,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/{request_id}/message/new",
-			"operationId": "cloudforce-one-request-message-new",
-			"hideCommand": false
-		},
-		{
-			"command": "cf cloudforce-one requests message delete",
-			"name": "delete",
-			"fullPath": ["cloudforce-one", "requests", "message", "delete"],
-			"description": "Removes a message from a Cloudforce One intelligence request thread.",
-			"summary": "Delete a Request Message",
-			"usage": "cf cloudforce-one requests message delete <message-id> [options]",
-			"arguments": [
-				{
-					"name": "message-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Message ID"
-				}
-			],
-			"options": [
-				{
-					"name": "request-id",
-					"type": "string",
-					"required": true,
-					"description": "UUID."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "delete",
-			"hasRequestBody": false,
-			"httpMethod": "DELETE",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/{request_id}/message/{message_id}",
-			"operationId": "cloudforce-one-request-message-delete",
-			"hideCommand": false
-		},
-		{
-			"command": "cf cloudforce-one requests message get",
-			"name": "get",
-			"fullPath": ["cloudforce-one", "requests", "message", "get"],
-			"description": "Lists messages in a Cloudforce One intelligence request conversation.",
-			"summary": "List Request Messages",
-			"usage": "cf cloudforce-one requests message get <request-id> [options]",
-			"arguments": [
-				{
-					"name": "request-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "UUID."
-				}
-			],
-			"options": [
-				{
-					"name": "after",
-					"type": "string",
-					"required": false,
-					"description": "Retrieve mes  ges created after this time."
-				},
-				{
-					"name": "before",
-					"type": "string",
-					"required": false,
-					"description": "Retrieve messages created before this time."
-				},
-				{
-					"name": "page",
-					"type": "number",
-					"required": true,
-					"description": "Page number of results."
-				},
-				{
-					"name": "per-page",
-					"type": "number",
-					"required": true,
-					"description": "Number of results per page."
-				},
-				{
-					"name": "sort-by",
-					"type": "string",
-					"required": false,
-					"description": "Field to sort results by."
-				},
-				{
-					"name": "sort-order",
-					"type": "string",
-					"required": false,
-					"description": "Sort order (asc or desc).",
-					"enum": ["asc", "desc"]
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "read",
-			"hasRequestBody": true,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/{request_id}/message",
-			"operationId": "cloudforce-one-request-message-list",
-			"hideCommand": false
-		},
-		{
-			"command": "cf cloudforce-one requests message update",
-			"name": "update",
-			"fullPath": ["cloudforce-one", "requests", "message", "update"],
-			"description": "Updates a message in a Cloudforce One intelligence request thread.",
-			"summary": "Update a Request Message",
-			"usage": "cf cloudforce-one requests message update <message-id> [options]",
-			"arguments": [
-				{
-					"name": "message-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "Message ID"
-				}
-			],
-			"options": [
-				{
-					"name": "request-id",
-					"type": "string",
-					"required": true,
-					"description": "UUID."
-				},
-				{
-					"name": "content",
-					"type": "string",
-					"required": false,
-					"description": "Content of message."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "update",
-			"hasRequestBody": true,
-			"httpMethod": "PUT",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/{request_id}/message/{message_id}",
-			"operationId": "cloudforce-one-request-message-update",
 			"hideCommand": false
 		},
 		{
@@ -33915,254 +33403,6 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf cloudforce-one requests priority create",
-			"name": "create",
-			"fullPath": ["cloudforce-one", "requests", "priority", "create"],
-			"description": "Creates a new priority intelligence request in Cloudforce One.",
-			"summary": "Create a New Priority Intelligence Requirement",
-			"usage": "cf cloudforce-one requests priority create [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "labels",
-					"type": "string",
-					"required": true,
-					"description": "List of labels."
-				},
-				{
-					"name": "priority",
-					"type": "number",
-					"required": true,
-					"description": "Priority."
-				},
-				{
-					"name": "requirement",
-					"type": "string",
-					"required": true,
-					"description": "Requirement."
-				},
-				{
-					"name": "tlp",
-					"type": "string",
-					"required": true,
-					"description": "The CISA defined Traffic Light Protocol (TLP).",
-					"enum": ["clear", "amber", "amber-strict", "green", "red"]
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "create",
-			"hasRequestBody": true,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/priority/new",
-			"operationId": "cloudforce-one-priority-new",
-			"hideCommand": false
-		},
-		{
-			"command": "cf cloudforce-one requests priority delete",
-			"name": "delete",
-			"fullPath": ["cloudforce-one", "requests", "priority", "delete"],
-			"description": "Deletes a priority intelligence request from Cloudforce One.",
-			"summary": "Delete a Priority Intelligence Requirement",
-			"usage": "cf cloudforce-one requests priority delete <priority-id>",
-			"arguments": [
-				{
-					"name": "priority-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "UUID."
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "delete",
-			"hasRequestBody": false,
-			"httpMethod": "DELETE",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/priority/{priority_id}",
-			"operationId": "cloudforce-one-priority-delete",
-			"hideCommand": false
-		},
-		{
-			"command": "cf cloudforce-one requests priority get",
-			"name": "get",
-			"fullPath": ["cloudforce-one", "requests", "priority", "get"],
-			"description": "Retrieves a specific priority intelligence request from Cloudforce One.",
-			"summary": "Get a Priority Intelligence Requirement",
-			"usage": "cf cloudforce-one requests priority get <priority-id>",
-			"arguments": [
-				{
-					"name": "priority-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "UUID."
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/priority/{priority_id}",
-			"operationId": "cloudforce-one-priority-get",
-			"hideCommand": false
-		},
-		{
-			"command": "cf cloudforce-one requests priority list",
-			"name": "list",
-			"fullPath": ["cloudforce-one", "requests", "priority", "list"],
-			"description": "Lists priority intelligence requests in Cloudforce One.",
-			"summary": "List Priority Intelligence Requirements",
-			"usage": "cf cloudforce-one requests priority list [options]",
-			"arguments": [],
-			"options": [
-				{
-					"name": "page",
-					"type": "number",
-					"required": true,
-					"description": "Page number of results."
-				},
-				{
-					"name": "per-page",
-					"type": "number",
-					"required": true,
-					"description": "Number of results per page."
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "read",
-			"hasRequestBody": true,
-			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/priority",
-			"operationId": "cloudforce-one-priority-list",
-			"hideCommand": false
-		},
-		{
-			"command": "cf cloudforce-one requests priority quota",
-			"name": "quota",
-			"fullPath": ["cloudforce-one", "requests", "priority", "quota"],
-			"description": "Retrieves quota usage for Cloudforce One priority requests.",
-			"summary": "Get Priority Intelligence Requirement Quota",
-			"usage": "cf cloudforce-one requests priority quota",
-			"arguments": [],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/priority/quota",
-			"operationId": "cloudforce-one-priority-quota",
-			"hideCommand": false
-		},
-		{
-			"command": "cf cloudforce-one requests priority update",
-			"name": "update",
-			"fullPath": ["cloudforce-one", "requests", "priority", "update"],
-			"description": "Updates a priority intelligence request in Cloudforce One.",
-			"summary": "Update a Priority Intelligence Requirement",
-			"usage": "cf cloudforce-one requests priority update <priority-id> [options]",
-			"arguments": [
-				{
-					"name": "priority-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "UUID."
-				}
-			],
-			"options": [
-				{
-					"name": "labels",
-					"type": "string",
-					"required": true,
-					"description": "List of labels."
-				},
-				{
-					"name": "priority",
-					"type": "number",
-					"required": true,
-					"description": "Priority."
-				},
-				{
-					"name": "requirement",
-					"type": "string",
-					"required": true,
-					"description": "Requirement."
-				},
-				{
-					"name": "tlp",
-					"type": "string",
-					"required": true,
-					"description": "The CISA defined Traffic Light Protocol (TLP).",
-					"enum": ["clear", "amber", "amber-strict", "green", "red"]
-				},
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"required": false,
-					"description": "Raw JSON request body (bypasses individual flags)"
-				}
-			],
-			"category": "update",
-			"hasRequestBody": true,
-			"httpMethod": "PUT",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/priority/{priority_id}",
-			"operationId": "cloudforce-one-priority-update",
-			"hideCommand": false
-		},
-		{
 			"command": "cf cloudforce-one requests putRequestUpdate",
 			"name": "putRequestUpdate",
 			"fullPath": ["cloudforce-one", "requests", "putRequestUpdate"],
@@ -34274,13 +33514,21 @@
 			"hideCommand": false
 		},
 		{
-			"command": "cf cloudforce-one requests quota",
-			"name": "quota",
-			"fullPath": ["cloudforce-one", "requests", "quota"],
-			"description": "Retrieves quota usage for Cloudforce One standard requests.",
-			"summary": "Get Request Quota",
-			"usage": "cf cloudforce-one requests quota",
-			"arguments": [],
+			"command": "cf cloudforce-one requests quota get",
+			"name": "get",
+			"fullPath": ["cloudforce-one", "requests", "quota", "get"],
+			"description": "Returns the account's token quota for the current anniversary quarter: total granted, used, remaining, and the quarter/anniversary boundaries.",
+			"summary": "Get request token quota",
+			"usage": "cf cloudforce-one requests quota get <project-type>",
+			"arguments": [
+				{
+					"name": "project-type",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "RFI project type"
+				}
+			],
 			"options": [
 				{
 					"name": "dry-run",
@@ -34290,22 +33538,28 @@
 					"default": false
 				}
 			],
-			"category": "action",
+			"category": "read",
 			"hasRequestBody": false,
 			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/quota",
-			"operationId": "cloudforce-one-request-quota",
+			"apiPath": "/accounts/{account_id}/cloudforce-one/v2/requests/{project_type}/quota",
+			"operationId": "get_RequestQuota",
 			"hideCommand": false
 		},
 		{
-			"command": "cf cloudforce-one requests types",
-			"name": "types",
-			"fullPath": ["cloudforce-one", "requests", "types"],
-			"description": "Lists available request types for Cloudforce One intelligence requests.",
-			"summary": "Get Request Types",
-			"usage": "cf cloudforce-one requests types",
+			"command": "cf cloudforce-one requests types list",
+			"name": "list",
+			"fullPath": ["cloudforce-one", "requests", "types", "list"],
+			"description": "Returns request types available to dashboard (external) callers. For restricted project types (e.g. legal-response), only the allowlisted subset is returned.",
+			"summary": "List visible request types for a project (dashboard)",
+			"usage": "cf cloudforce-one requests types list [options]",
 			"arguments": [],
 			"options": [
+				{
+					"name": "project-type",
+					"type": "string",
+					"required": true,
+					"description": "Project type"
+				},
 				{
 					"name": "dry-run",
 					"type": "boolean",
@@ -34314,11 +33568,11 @@
 					"default": false
 				}
 			],
-			"category": "action",
+			"category": "read",
 			"hasRequestBody": false,
 			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/cloudforce-one/requests/types",
-			"operationId": "cloudforce-one-request-types",
+			"apiPath": "/accounts/{account_id}/cloudforce-one/v2/requests/{project_type}/types",
+			"operationId": "get_DashboardRequestTypesList",
 			"hideCommand": false
 		},
 		{
@@ -37949,6 +37203,42 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf cloudforce-one threat-signals articles skills list",
+			"name": "list",
+			"fullPath": [
+				"cloudforce-one",
+				"threat-signals",
+				"articles",
+				"skills",
+				"list"
+			],
+			"description": "Lists active custom skills currently assigned to the article's feed and whether each has a stored output. Output content and skill configuration are retrieved separately.",
+			"summary": "List Threat Signals article custom skills",
+			"usage": "cf cloudforce-one threat-signals articles skills list [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "article-id",
+					"type": "string",
+					"required": true,
+					"description": "Article ID"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/articles/{article_id}/skills",
+			"operationId": "rssArticleCustomSkillsList",
+			"hideCommand": false
+		},
+		{
 			"command": "cf cloudforce-one threat-signals articles skills run",
 			"name": "run",
 			"fullPath": [
@@ -38817,8 +38107,9 @@
 				{
 					"name": "type",
 					"type": "string",
-					"required": true,
-					"description": "The type field",
+					"required": false,
+					"description": "Optional label; does not affect execution. Defaults to \"summary\".",
+					"default": "summary",
 					"enum": ["summary", "tags"]
 				},
 				{
@@ -40720,7 +40011,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/zones/{zone_id}/content-upload-scan/payloads",
 			"operationId": "waf-content-scanning-add-custom-scan-expressions",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf content-scan expressions delete",
@@ -40752,7 +40043,7 @@
 			"httpMethod": "DELETE",
 			"apiPath": "/zones/{zone_id}/content-upload-scan/payloads/{expression_id}",
 			"operationId": "waf-content-scanning-delete-custom-scan-expressions",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf content-scan expressions list",
@@ -40776,7 +40067,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/zones/{zone_id}/content-upload-scan/payloads",
 			"operationId": "waf-content-scanning-list-custom-scan-expressions",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf content-scan expressions update",
@@ -40820,7 +40111,7 @@
 			"httpMethod": "PATCH",
 			"apiPath": "/zones/{zone_id}/content-upload-scan/payloads/{expression_id}",
 			"operationId": "waf-content-scanning-update-custom-scan-expression",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf content-scan get",
@@ -40844,7 +40135,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/zones/{zone_id}/content-upload-scan/settings",
 			"operationId": "waf-content-scanning-get-status",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf content-scan update",
@@ -40881,7 +40172,7 @@
 			"httpMethod": "PUT",
 			"apiPath": "/zones/{zone_id}/content-upload-scan/settings",
 			"operationId": "waf-content-scanning-update-settings",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf cps get",
@@ -43345,6 +42636,50 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/d1/database/{database_id}/time_travel/restore",
 			"operationId": "d1-time-travel-restore",
+			"hideCommand": false
+		},
+		{
+			"command": "cf d1 undelete",
+			"name": "undelete",
+			"fullPath": ["d1", "undelete"],
+			"description": "Restore a deleted D1 database. The database is restored with the name it had when it was deleted, unless `new_name` is provided. The restored database counts against the account's limits. Undeleting a database that is not deleted succeeds without changes, unless `new_name` differs from its current name which errors. Once a database is undeleted, Time Travel (point-in-time recovery) cannot restore it to a bookmark or timestamp at or before the undeletion. Only states after the undeletion can be restored.",
+			"summary": "Undelete D1 Database",
+			"usage": "cf d1 undelete <database-id> [options]",
+			"arguments": [
+				{
+					"name": "database-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "D1 database identifier (UUID)."
+				}
+			],
+			"options": [
+				{
+					"name": "new-name",
+					"type": "string",
+					"required": false,
+					"description": "Restore the database with this name instead of the name it had when it was deleted. Required if another database in the account already uses that name."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "action",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/d1/database/{database_id}/undelete",
+			"operationId": "d1-undelete-database",
 			"hideCommand": false
 		},
 		{
@@ -55552,7 +54887,7 @@
 			"command": "cf hyperdrive replace",
 			"name": "replace",
 			"fullPath": ["hyperdrive", "replace"],
-			"description": "Replaces and returns the specified Hyperdrive configuration. The request must include the name and complete origin connection details. Omitted caching settings are reset to their defaults, while omitted mTLS settings and origin connection limits are preserved. Use the update operation to modify only selected fields.",
+			"description": "Replaces and returns the specified Hyperdrive configuration. The request must include the name and complete origin connection details. Omitted caching settings are reset to their defaults, while omitted mTLS settings and origin connection limits are preserved. The integration association is set only during creation and cannot be changed; omit the integration field even when replacing an integration-backed configuration. Use the update operation to modify only selected fields.",
 			"summary": "Replace Hyperdrive",
 			"usage": "cf hyperdrive replace <hyperdrive-id> [options]",
 			"arguments": [
@@ -55733,7 +55068,7 @@
 			"command": "cf hyperdrive update",
 			"name": "update",
 			"fullPath": ["hyperdrive", "update"],
-			"description": "Updates and returns the specified fields of the Hyperdrive configuration. Custom caching settings are not kept if caching is disabled.",
+			"description": "Updates and returns the specified fields of the Hyperdrive configuration. Custom caching settings are not kept if caching is disabled. For an integration-backed configuration, the integration association is preserved but cannot be changed; omit the integration field.",
 			"summary": "Update Hyperdrive",
 			"usage": "cf hyperdrive update <hyperdrive-id> [options]",
 			"arguments": [
@@ -60868,7 +60203,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/zones/{zone_id}/leaked-credential-checks/detections",
 			"operationId": "waf-product-api-leaked-credentials-create-detection",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf leaked-credential-checks detections delete",
@@ -60900,7 +60235,7 @@
 			"httpMethod": "DELETE",
 			"apiPath": "/zones/{zone_id}/leaked-credential-checks/detections/{detection_id}",
 			"operationId": "waf-product-api-leaked-credentials-delete-detection",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf leaked-credential-checks detections get",
@@ -60932,7 +60267,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/zones/{zone_id}/leaked-credential-checks/detections/{detection_id}",
 			"operationId": "waf-product-api-leaked-credentials-get-detection",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf leaked-credential-checks detections list",
@@ -60956,7 +60291,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/zones/{zone_id}/leaked-credential-checks/detections",
 			"operationId": "waf-product-api-leaked-credentials-list-detections",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf leaked-credential-checks detections update",
@@ -61006,7 +60341,7 @@
 			"httpMethod": "PUT",
 			"apiPath": "/zones/{zone_id}/leaked-credential-checks/detections/{detection_id}",
 			"operationId": "waf-product-api-leaked-credentials-update-detection",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf leaked-credential-checks get",
@@ -61030,7 +60365,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/zones/{zone_id}/leaked-credential-checks",
 			"operationId": "waf-product-api-leaked-credentials-get-status",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf leaked-credential-checks update",
@@ -61066,7 +60401,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/zones/{zone_id}/leaked-credential-checks",
 			"operationId": "waf-product-api-leaked-credentials-set-status",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf load-balancers account create",
@@ -67932,6 +67267,38 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf magic-transit advanced-dns-protection configs dns protection rules bulk-delete",
+			"name": "bulk-delete",
+			"fullPath": [
+				"magic-transit",
+				"advanced-dns-protection",
+				"configs",
+				"dns",
+				"protection",
+				"rules",
+				"bulk-delete"
+			],
+			"description": "Delete all DNS Protection rules for an account.",
+			"summary": "Delete all DNS Protection rules.",
+			"usage": "cf magic-transit advanced-dns-protection configs dns protection rules bulk-delete",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/magic/advanced_dns_protection/configs/dns_protection/rules",
+			"operationId": "deleteDnsProtectionRulesForAccount",
+			"hideCommand": true
+		},
+		{
 			"command": "cf magic-transit advanced-dns-protection configs dns protection rules create",
 			"name": "create",
 			"fullPath": [
@@ -68006,8 +67373,8 @@
 			"hideCommand": true
 		},
 		{
-			"command": "cf magic-transit advanced-dns-protection configs dns protection rules delete for account",
-			"name": "account",
+			"command": "cf magic-transit advanced-dns-protection configs dns protection rules delete",
+			"name": "delete",
 			"fullPath": [
 				"magic-transit",
 				"advanced-dns-protection",
@@ -68015,47 +67382,11 @@
 				"dns",
 				"protection",
 				"rules",
-				"delete",
-				"for",
-				"account"
-			],
-			"description": "Delete all DNS Protection rules for an account.",
-			"summary": "Delete all DNS Protection rules.",
-			"usage": "cf magic-transit advanced-dns-protection configs dns protection rules delete for account",
-			"arguments": [],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "DELETE",
-			"apiPath": "/accounts/{account_id}/magic/advanced_dns_protection/configs/dns_protection/rules",
-			"operationId": "deleteDnsProtectionRulesForAccount",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-transit advanced-dns-protection configs dns protection rules delete protection rule",
-			"name": "rule",
-			"fullPath": [
-				"magic-transit",
-				"advanced-dns-protection",
-				"configs",
-				"dns",
-				"protection",
-				"rules",
-				"delete",
-				"protection",
-				"rule"
+				"delete"
 			],
 			"description": "Delete a DNS Protection rule specified by the given UUID.",
 			"summary": "Delete DNS Protection rule.",
-			"usage": "cf magic-transit advanced-dns-protection configs dns protection rules delete protection rule <rule-id>",
+			"usage": "cf magic-transit advanced-dns-protection configs dns protection rules delete <rule-id>",
 			"arguments": [
 				{
 					"name": "rule-id",
@@ -68074,7 +67405,7 @@
 					"default": false
 				}
 			],
-			"category": "action",
+			"category": "delete",
 			"hasRequestBody": false,
 			"httpMethod": "DELETE",
 			"apiPath": "/accounts/{account_id}/magic/advanced_dns_protection/configs/dns_protection/rules/{rule_id}",
@@ -68248,6 +67579,36 @@
 			"hideCommand": true
 		},
 		{
+			"command": "cf magic-transit advanced-tcp-protection configs allowlist bulk-delete",
+			"name": "bulk-delete",
+			"fullPath": [
+				"magic-transit",
+				"advanced-tcp-protection",
+				"configs",
+				"allowlist",
+				"bulk-delete"
+			],
+			"description": "Delete all allowlist prefixes for an account.",
+			"summary": "Delete all allowlist prefixes.",
+			"usage": "cf magic-transit advanced-tcp-protection configs allowlist bulk-delete",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/allowlist",
+			"operationId": "deleteAllowlistPrefixesForAccount",
+			"hideCommand": true
+		},
+		{
 			"command": "cf magic-transit advanced-tcp-protection configs allowlist create",
 			"name": "create",
 			"fullPath": [
@@ -68299,116 +67660,6 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/allowlist",
 			"operationId": "createAllowlistedPrefix",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-transit advanced-tcp-protection configs allowlist delete allowlist prefix",
-			"name": "prefix",
-			"fullPath": [
-				"magic-transit",
-				"advanced-tcp-protection",
-				"configs",
-				"allowlist",
-				"delete",
-				"allowlist",
-				"prefix"
-			],
-			"description": "Delete the allowlist prefix for an account given a UUID.",
-			"summary": "Delete allowlist prefix.",
-			"usage": "cf magic-transit advanced-tcp-protection configs allowlist delete allowlist prefix <prefix-id>",
-			"arguments": [
-				{
-					"name": "prefix-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "The UUID of the allowlist prefix to delete."
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "DELETE",
-			"apiPath": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/allowlist/{prefix_id}",
-			"operationId": "deleteAllowlistPrefix",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-transit advanced-tcp-protection configs allowlist delete for account",
-			"name": "account",
-			"fullPath": [
-				"magic-transit",
-				"advanced-tcp-protection",
-				"configs",
-				"allowlist",
-				"delete",
-				"for",
-				"account"
-			],
-			"description": "Delete all allowlist prefixes for an account.",
-			"summary": "Delete all allowlist prefixes.",
-			"usage": "cf magic-transit advanced-tcp-protection configs allowlist delete for account",
-			"arguments": [],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "DELETE",
-			"apiPath": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/allowlist",
-			"operationId": "deleteAllowlistPrefixesForAccount",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-transit advanced-tcp-protection configs allowlist get",
-			"name": "get",
-			"fullPath": [
-				"magic-transit",
-				"advanced-tcp-protection",
-				"configs",
-				"allowlist",
-				"get"
-			],
-			"description": "Get an allowlist prefix specified by the given UUID.",
-			"summary": "Get allowlist prefix.",
-			"usage": "cf magic-transit advanced-tcp-protection configs allowlist get <prefix-id>",
-			"arguments": [
-				{
-					"name": "prefix-id",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "The UUID of the allowlist prefix."
-				}
-			],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "read",
-			"hasRequestBody": false,
-			"httpMethod": "GET",
-			"apiPath": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/allowlist/{prefix_id}",
-			"operationId": "getAllowlistPrefix",
 			"hideCommand": true
 		},
 		{
@@ -68466,18 +67717,97 @@
 			"hideCommand": true
 		},
 		{
-			"command": "cf magic-transit advanced-tcp-protection configs allowlist update",
+			"command": "cf magic-transit advanced-tcp-protection configs allowlist prefix delete",
+			"name": "delete",
+			"fullPath": [
+				"magic-transit",
+				"advanced-tcp-protection",
+				"configs",
+				"allowlist",
+				"prefix",
+				"delete"
+			],
+			"description": "Delete the allowlist prefix for an account given a UUID.",
+			"summary": "Delete allowlist prefix.",
+			"usage": "cf magic-transit advanced-tcp-protection configs allowlist prefix delete <prefix-id>",
+			"arguments": [
+				{
+					"name": "prefix-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "The UUID of the allowlist prefix to delete."
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "delete",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/allowlist/{prefix_id}",
+			"operationId": "deleteAllowlistPrefix",
+			"hideCommand": true
+		},
+		{
+			"command": "cf magic-transit advanced-tcp-protection configs allowlist prefix get",
+			"name": "get",
+			"fullPath": [
+				"magic-transit",
+				"advanced-tcp-protection",
+				"configs",
+				"allowlist",
+				"prefix",
+				"get"
+			],
+			"description": "Get an allowlist prefix specified by the given UUID.",
+			"summary": "Get allowlist prefix.",
+			"usage": "cf magic-transit advanced-tcp-protection configs allowlist prefix get <prefix-id>",
+			"arguments": [
+				{
+					"name": "prefix-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "The UUID of the allowlist prefix."
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/allowlist/{prefix_id}",
+			"operationId": "getAllowlistPrefix",
+			"hideCommand": true
+		},
+		{
+			"command": "cf magic-transit advanced-tcp-protection configs allowlist prefix update",
 			"name": "update",
 			"fullPath": [
 				"magic-transit",
 				"advanced-tcp-protection",
 				"configs",
 				"allowlist",
+				"prefix",
 				"update"
 			],
 			"description": "Update an allowlist prefix specified by the given UUID.",
 			"summary": "Update allowlist prefix.",
-			"usage": "cf magic-transit advanced-tcp-protection configs allowlist update <prefix-id> [options]",
+			"usage": "cf magic-transit advanced-tcp-protection configs allowlist prefix update <prefix-id> [options]",
 			"arguments": [
 				{
 					"name": "prefix-id",
@@ -68556,6 +67886,36 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/prefixes/bulk",
 			"operationId": "bulkCreatePrefixes",
+			"hideCommand": true
+		},
+		{
+			"command": "cf magic-transit advanced-tcp-protection configs prefixes bulk-delete",
+			"name": "bulk-delete",
+			"fullPath": [
+				"magic-transit",
+				"advanced-tcp-protection",
+				"configs",
+				"prefixes",
+				"bulk-delete"
+			],
+			"description": "Delete all prefixes for an account.",
+			"summary": "Delete all prefixes.",
+			"usage": "cf magic-transit advanced-tcp-protection configs prefixes bulk-delete",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/prefixes",
+			"operationId": "deletePrefixesForAccount",
 			"hideCommand": true
 		},
 		{
@@ -68799,6 +68159,38 @@
 			"hideCommand": true
 		},
 		{
+			"command": "cf magic-transit advanced-tcp-protection configs syn protection filters bulk-delete",
+			"name": "bulk-delete",
+			"fullPath": [
+				"magic-transit",
+				"advanced-tcp-protection",
+				"configs",
+				"syn",
+				"protection",
+				"filters",
+				"bulk-delete"
+			],
+			"description": "Delete all SYN Protection filters for an account.",
+			"summary": "Delete all SYN Protection filters.",
+			"usage": "cf magic-transit advanced-tcp-protection configs syn protection filters bulk-delete",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/syn_protection/filters",
+			"operationId": "deleteSynProtectionFiltersForAccount",
+			"hideCommand": true
+		},
+		{
 			"command": "cf magic-transit advanced-tcp-protection configs syn protection filters create",
 			"name": "create",
 			"fullPath": [
@@ -68843,8 +68235,8 @@
 			"hideCommand": true
 		},
 		{
-			"command": "cf magic-transit advanced-tcp-protection configs syn protection filters delete for account",
-			"name": "account",
+			"command": "cf magic-transit advanced-tcp-protection configs syn protection filters delete",
+			"name": "delete",
 			"fullPath": [
 				"magic-transit",
 				"advanced-tcp-protection",
@@ -68852,47 +68244,11 @@
 				"syn",
 				"protection",
 				"filters",
-				"delete",
-				"for",
-				"account"
-			],
-			"description": "Delete all SYN Protection filters for an account.",
-			"summary": "Delete all SYN Protection filters.",
-			"usage": "cf magic-transit advanced-tcp-protection configs syn protection filters delete for account",
-			"arguments": [],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "DELETE",
-			"apiPath": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/syn_protection/filters",
-			"operationId": "deleteSynProtectionFiltersForAccount",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-transit advanced-tcp-protection configs syn protection filters delete protection filter",
-			"name": "filter",
-			"fullPath": [
-				"magic-transit",
-				"advanced-tcp-protection",
-				"configs",
-				"syn",
-				"protection",
-				"filters",
-				"delete",
-				"protection",
-				"filter"
+				"delete"
 			],
 			"description": "Delete a SYN Protection filter specified by the given UUID.",
 			"summary": "Delete SYN Protection filter.",
-			"usage": "cf magic-transit advanced-tcp-protection configs syn protection filters delete protection filter <filter-id>",
+			"usage": "cf magic-transit advanced-tcp-protection configs syn protection filters delete <filter-id>",
 			"arguments": [
 				{
 					"name": "filter-id",
@@ -68911,7 +68267,7 @@
 					"default": false
 				}
 			],
-			"category": "action",
+			"category": "delete",
 			"hasRequestBody": false,
 			"httpMethod": "DELETE",
 			"apiPath": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/syn_protection/filters/{filter_id}",
@@ -69073,6 +68429,38 @@
 			"hideCommand": true
 		},
 		{
+			"command": "cf magic-transit advanced-tcp-protection configs syn protection rules bulk-delete",
+			"name": "bulk-delete",
+			"fullPath": [
+				"magic-transit",
+				"advanced-tcp-protection",
+				"configs",
+				"syn",
+				"protection",
+				"rules",
+				"bulk-delete"
+			],
+			"description": "Delete all SYN Protection rules for an account.",
+			"summary": "Delete all SYN Protection rules.",
+			"usage": "cf magic-transit advanced-tcp-protection configs syn protection rules bulk-delete",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/syn_protection/rules",
+			"operationId": "deleteSynProtectionRulesForAccount",
+			"hideCommand": true
+		},
+		{
 			"command": "cf magic-transit advanced-tcp-protection configs syn protection rules create",
 			"name": "create",
 			"fullPath": [
@@ -69141,8 +68529,8 @@
 			"hideCommand": true
 		},
 		{
-			"command": "cf magic-transit advanced-tcp-protection configs syn protection rules delete for account",
-			"name": "account",
+			"command": "cf magic-transit advanced-tcp-protection configs syn protection rules delete",
+			"name": "delete",
 			"fullPath": [
 				"magic-transit",
 				"advanced-tcp-protection",
@@ -69150,47 +68538,11 @@
 				"syn",
 				"protection",
 				"rules",
-				"delete",
-				"for",
-				"account"
-			],
-			"description": "Delete all SYN Protection rules for an account.",
-			"summary": "Delete all SYN Protection rules.",
-			"usage": "cf magic-transit advanced-tcp-protection configs syn protection rules delete for account",
-			"arguments": [],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "DELETE",
-			"apiPath": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/syn_protection/rules",
-			"operationId": "deleteSynProtectionRulesForAccount",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-transit advanced-tcp-protection configs syn protection rules delete protection rule",
-			"name": "rule",
-			"fullPath": [
-				"magic-transit",
-				"advanced-tcp-protection",
-				"configs",
-				"syn",
-				"protection",
-				"rules",
-				"delete",
-				"protection",
-				"rule"
+				"delete"
 			],
 			"description": "Delete a SYN Protection rule specified by the given UUID.",
 			"summary": "Delete SYN Protection rule.",
-			"usage": "cf magic-transit advanced-tcp-protection configs syn protection rules delete protection rule <rule-id>",
+			"usage": "cf magic-transit advanced-tcp-protection configs syn protection rules delete <rule-id>",
 			"arguments": [
 				{
 					"name": "rule-id",
@@ -69209,7 +68561,7 @@
 					"default": false
 				}
 			],
-			"category": "action",
+			"category": "delete",
 			"hasRequestBody": false,
 			"httpMethod": "DELETE",
 			"apiPath": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/syn_protection/rules/{rule_id}",
@@ -69377,6 +68729,39 @@
 			"hideCommand": true
 		},
 		{
+			"command": "cf magic-transit advanced-tcp-protection configs tcp flow protection filters bulk-delete",
+			"name": "bulk-delete",
+			"fullPath": [
+				"magic-transit",
+				"advanced-tcp-protection",
+				"configs",
+				"tcp",
+				"flow",
+				"protection",
+				"filters",
+				"bulk-delete"
+			],
+			"description": "Delete all TCP Flow Protection filters for an account.",
+			"summary": "Delete all TCP Flow Protection filters.",
+			"usage": "cf magic-transit advanced-tcp-protection configs tcp flow protection filters bulk-delete",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_flow_protection/filters",
+			"operationId": "deleteTcpFlowProtectionFiltersForAccount",
+			"hideCommand": true
+		},
+		{
 			"command": "cf magic-transit advanced-tcp-protection configs tcp flow protection filters create",
 			"name": "create",
 			"fullPath": [
@@ -69422,8 +68807,8 @@
 			"hideCommand": true
 		},
 		{
-			"command": "cf magic-transit advanced-tcp-protection configs tcp flow protection filters delete for account",
-			"name": "account",
+			"command": "cf magic-transit advanced-tcp-protection configs tcp flow protection filters delete",
+			"name": "delete",
 			"fullPath": [
 				"magic-transit",
 				"advanced-tcp-protection",
@@ -69432,48 +68817,11 @@
 				"flow",
 				"protection",
 				"filters",
-				"delete",
-				"for",
-				"account"
-			],
-			"description": "Delete all TCP Flow Protection filters for an account.",
-			"summary": "Delete all TCP Flow Protection filters.",
-			"usage": "cf magic-transit advanced-tcp-protection configs tcp flow protection filters delete for account",
-			"arguments": [],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "DELETE",
-			"apiPath": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_flow_protection/filters",
-			"operationId": "deleteTcpFlowProtectionFiltersForAccount",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-transit advanced-tcp-protection configs tcp flow protection filters delete protection filter",
-			"name": "filter",
-			"fullPath": [
-				"magic-transit",
-				"advanced-tcp-protection",
-				"configs",
-				"tcp",
-				"flow",
-				"protection",
-				"filters",
-				"delete",
-				"protection",
-				"filter"
+				"delete"
 			],
 			"description": "Delete a TCP Flow Protection filter specified by the given UUID.",
 			"summary": "Delete TCP Flow Protection filter.",
-			"usage": "cf magic-transit advanced-tcp-protection configs tcp flow protection filters delete protection filter <filter-id>",
+			"usage": "cf magic-transit advanced-tcp-protection configs tcp flow protection filters delete <filter-id>",
 			"arguments": [
 				{
 					"name": "filter-id",
@@ -69492,7 +68840,7 @@
 					"default": false
 				}
 			],
-			"category": "action",
+			"category": "delete",
 			"hasRequestBody": false,
 			"httpMethod": "DELETE",
 			"apiPath": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_flow_protection/filters/{filter_id}",
@@ -69657,6 +69005,39 @@
 			"hideCommand": true
 		},
 		{
+			"command": "cf magic-transit advanced-tcp-protection configs tcp flow protection rules bulk-delete",
+			"name": "bulk-delete",
+			"fullPath": [
+				"magic-transit",
+				"advanced-tcp-protection",
+				"configs",
+				"tcp",
+				"flow",
+				"protection",
+				"rules",
+				"bulk-delete"
+			],
+			"description": "Delete all TCP Flow Protection rules for an account.",
+			"summary": "Delete all TCP Flow Protection rules.",
+			"usage": "cf magic-transit advanced-tcp-protection configs tcp flow protection rules bulk-delete",
+			"arguments": [],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "action",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_flow_protection/rules",
+			"operationId": "deleteTcpFlowProtectionRulesForAccount",
+			"hideCommand": true
+		},
+		{
 			"command": "cf magic-transit advanced-tcp-protection configs tcp flow protection rules create",
 			"name": "create",
 			"fullPath": [
@@ -69720,8 +69101,8 @@
 			"hideCommand": true
 		},
 		{
-			"command": "cf magic-transit advanced-tcp-protection configs tcp flow protection rules delete for account",
-			"name": "account",
+			"command": "cf magic-transit advanced-tcp-protection configs tcp flow protection rules delete",
+			"name": "delete",
 			"fullPath": [
 				"magic-transit",
 				"advanced-tcp-protection",
@@ -69730,48 +69111,11 @@
 				"flow",
 				"protection",
 				"rules",
-				"delete",
-				"for",
-				"account"
-			],
-			"description": "Delete all TCP Flow Protection rules for an account.",
-			"summary": "Delete all TCP Flow Protection rules.",
-			"usage": "cf magic-transit advanced-tcp-protection configs tcp flow protection rules delete for account",
-			"arguments": [],
-			"options": [
-				{
-					"name": "dry-run",
-					"type": "boolean",
-					"required": false,
-					"description": "Validate and show what would happen without executing",
-					"default": false
-				}
-			],
-			"category": "action",
-			"hasRequestBody": false,
-			"httpMethod": "DELETE",
-			"apiPath": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_flow_protection/rules",
-			"operationId": "deleteTcpFlowProtectionRulesForAccount",
-			"hideCommand": true
-		},
-		{
-			"command": "cf magic-transit advanced-tcp-protection configs tcp flow protection rules delete protection rule",
-			"name": "rule",
-			"fullPath": [
-				"magic-transit",
-				"advanced-tcp-protection",
-				"configs",
-				"tcp",
-				"flow",
-				"protection",
-				"rules",
-				"delete",
-				"protection",
-				"rule"
+				"delete"
 			],
 			"description": "Delete a TCP Flow Protection rule specified by the given UUID.",
 			"summary": "Delete TCP Flow Protection rule.",
-			"usage": "cf magic-transit advanced-tcp-protection configs tcp flow protection rules delete protection rule <rule-id>",
+			"usage": "cf magic-transit advanced-tcp-protection configs tcp flow protection rules delete <rule-id>",
 			"arguments": [
 				{
 					"name": "rule-id",
@@ -69790,7 +69134,7 @@
 					"default": false
 				}
 			],
-			"category": "action",
+			"category": "delete",
 			"hasRequestBody": false,
 			"httpMethod": "DELETE",
 			"apiPath": "/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_flow_protection/rules/{rule_id}",
@@ -78595,7 +77939,7 @@
 					"name": "bgp-extra-prefixes",
 					"type": "string",
 					"required": false,
-					"description": "Extra set of static prefixes to advertise to the customer's end of the session"
+					"description": "Extra set of static prefixes to advertise to the customer's end of the session\nPrefixes containing host bits will be normalized to contain network bits only.\nDuplicates are not allowed."
 				},
 				{
 					"name": "bgp-md5-key",
@@ -78793,7 +78137,7 @@
 					"name": "bgp-extra-prefixes",
 					"type": "string",
 					"required": false,
-					"description": "Extra set of static prefixes to advertise to the customer's end of the session"
+					"description": "Extra set of static prefixes to advertise to the customer's end of the session\nPrefixes containing host bits will be normalized to contain network bits only.\nDuplicates are not allowed."
 				},
 				{
 					"name": "bgp-md5-key",
@@ -81562,6 +80906,12 @@
 					"description": "Unix timestamp in milliseconds for the end of the range."
 				},
 				{
+					"name": "tz",
+					"type": "string",
+					"required": false,
+					"description": "IANA timezone used to align daily bins to local midnight (e.g. 'America/Chicago'). Defaults to UTC."
+				},
+				{
 					"name": "dry-run",
 					"type": "boolean",
 					"required": false,
@@ -82888,7 +82238,7 @@
 			"command": "cf organizations billing usage get",
 			"name": "get",
 			"fullPath": ["organizations", "billing", "usage", "get"],
-			"description": "Returns cost and usage data for all accounts within an organization, aligned with the [FinOps FOCUS v1.3](https://focus.finops.org/focus-specification/v1-3/) Cost and Usage dataset specification. Each record represents one billable metric for one account on one day. This includes all metered usage, including usage that falls within free-tier allowances and may result in zero cost. The response includes usage for every account belonging to the specified organization. **Note:** Cost and pricing fields are not yet populated and will be absent from responses until billing integration is complete. When `from` and `to` are omitted, defaults to the start of the current month through today. The maximum date range is 31 days. An organization with no accounts, or an organization ID that does not exist, returns a successful response with an empty result set rather than an error.",
+			"description": "Returns cost and usage data for all accounts within an organization, aligned with the [FinOps FOCUS v1.3](https://focus.finops.org/focus-specification/v1-3/) Cost and Usage dataset specification. Each record represents one billable metric for one account on one day. This includes all metered usage, including usage that falls within free-tier allowances and may result in zero cost. The response includes usage for every account belonging to the specified organization. **Note:** This endpoint serves `usage` records only; cost and pricing fields are absent from responses. Rated costs are available per account via `POST /accounts/{account_id}/billable/usage` with `Metric: cost`. When `from` and `to` are omitted, defaults to the start of the current month through today. The maximum date range is 31 days. An organization with no accounts, or an organization ID that does not exist, returns a successful response with an empty result set rather than an error.",
 			"summary": "Get Organization Usage (Version 2, Alpha, Restricted)",
 			"usage": "cf organizations billing usage get <organization-id> [options]",
 			"arguments": [
@@ -91915,7 +91265,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/agent_readiness/summary/{dimension}",
 			"operationId": "radar-get-agent-readiness-summary",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar ai bots timeseries",
@@ -92043,7 +91393,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/ai/bots/timeseries",
 			"operationId": "radar-get-ai-bots-timeseries",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar ai bots timeseries-groups",
@@ -92186,7 +91536,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/ai/bots/timeseries_groups/{dimension}",
 			"operationId": "radar-get-ai-bots-timeseries-group",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar ai inference summary-v2",
@@ -92273,7 +91623,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/ai/inference/summary/{dimension}",
 			"operationId": "radar-get-ai-inference-summary",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar ai inference timeseries-groups-v2",
@@ -92374,7 +91724,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/ai/inference/timeseries_groups/{dimension}",
 			"operationId": "radar-get-ai-inference-timeseries-group",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar ai markdown-for-agents summary",
@@ -92429,7 +91779,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/ai/markdown_for_agents/summary",
 			"operationId": "radar-get-ai-markdown-for-agents-summary",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar ai markdown-for-agents timeseries",
@@ -92491,7 +91841,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/ai/markdown_for_agents/timeseries",
 			"operationId": "radar-get-ai-markdown-for-agents-timeseries",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar ai timeseries-groups summary",
@@ -92620,7 +91970,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/ai/bots/summary/{dimension}",
 			"operationId": "radar-get-ai-bots-summary",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar annotations get",
@@ -92659,7 +92009,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/annotations/{id}",
 			"operationId": "radar-get-annotation-by-id",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar annotations list",
@@ -92859,7 +92209,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/annotations",
 			"operationId": "radar-get-annotations",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar annotations outages get",
@@ -93045,7 +92395,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/annotations/outages",
 			"operationId": "radar-get-annotations-outages",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar annotations outages locations",
@@ -93100,7 +92450,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/annotations/outages/locations",
 			"operationId": "radar-get-annotations-outages-top",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar as112 summary-v2",
@@ -93199,7 +92549,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/as112/summary/{dimension}",
 			"operationId": "radar-get-dns-as112-summary",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar as112 timeseries",
@@ -93291,7 +92641,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/as112/timeseries",
 			"operationId": "radar-get-dns-as112-timeseries",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar as112 timeseries-groups-v2",
@@ -93397,7 +92747,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/as112/timeseries_groups/{dimension}",
 			"operationId": "radar-get-dns-as112-timeseries-group",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar as112 top dnssec",
@@ -93478,7 +92828,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/as112/top/locations/dnssec/{dnssec}",
 			"operationId": "radar-get-dns-as112-top-locations-by-dnssec",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar as112 top edns",
@@ -93559,7 +92909,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/as112/top/locations/edns/{edns}",
 			"operationId": "radar-get-dns-as112-top-locations-by-edns",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar as112 top ip-version",
@@ -93640,7 +92990,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/as112/top/locations/ip_version/{ip_version}",
 			"operationId": "radar-get-dns-as112-top-locations-by-ip-version",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar as112 top locations",
@@ -93713,7 +93063,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/as112/top/locations",
 			"operationId": "radar-get-dns-as112-top-locations",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar attacks layer3 summary-v2",
@@ -93813,7 +93163,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/attacks/layer3/summary/{dimension}",
 			"operationId": "radar-get-attacks-layer3-summary",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar attacks layer3 timeseries",
@@ -93926,7 +93276,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/attacks/layer3/timeseries",
 			"operationId": "radar-get-attacks-layer3-timeseries-by-bytes",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar attacks layer3 timeseries-groups-v2",
@@ -94040,7 +93390,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/attacks/layer3/timeseries_groups/{dimension}",
 			"operationId": "radar-get-attacks-layer3-timeseries-group",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar attacks layer3 top attacks",
@@ -94152,7 +93502,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/attacks/layer3/top/attacks",
 			"operationId": "radar-get-attacks-layer3-top-attacks",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar attacks layer3 top locations origin",
@@ -94237,7 +93587,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/attacks/layer3/top/locations/origin",
 			"operationId": "radar-get-attacks-layer3-top-origin-locations",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar attacks layer3 top locations target",
@@ -94322,7 +93672,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/attacks/layer3/top/locations/target",
 			"operationId": "radar-get-attacks-layer3-top-target-locations",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar attacks layer7 summary-v2",
@@ -94433,7 +93783,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/attacks/layer7/summary/{dimension}",
 			"operationId": "radar-get-attacks-layer7-summary",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar attacks layer7 timeseries",
@@ -94544,7 +93894,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/attacks/layer7/timeseries",
 			"operationId": "radar-get-attacks-layer7-timeseries",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar attacks layer7 timeseries-groups-v2",
@@ -94669,7 +94019,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/attacks/layer7/timeseries_groups/{dimension}",
 			"operationId": "radar-get-attacks-layer7-timeseries-group",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar attacks layer7 top ases origin",
@@ -94766,7 +94116,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/attacks/layer7/top/ases/origin",
 			"operationId": "radar-get-attacks-layer7-top-origin-as",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar attacks layer7 top attacks",
@@ -94871,7 +94221,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/attacks/layer7/top/attacks",
 			"operationId": "radar-get-attacks-layer7-top-attacks",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar attacks layer7 top locations origin",
@@ -94968,7 +94318,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/attacks/layer7/top/locations/origin",
 			"operationId": "radar-get-attacks-layer7-top-origin-location",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar attacks layer7 top locations target",
@@ -95041,7 +94391,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/attacks/layer7/top/locations/target",
 			"operationId": "radar-get-attacks-layer7-top-target-location",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar bgp hijacks events list",
@@ -95164,7 +94514,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/bgp/hijacks/events",
 			"operationId": "radar-get-bgp-hijacks-events",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar bgp ips timeseries",
@@ -95243,7 +94593,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/bgp/ips/timeseries",
 			"operationId": "radar-get-bgp-ips-timeseries",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar bgp ips top ases",
@@ -95299,7 +94649,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/bgp/ips/top/ases",
 			"operationId": "radar-get-bgp-ips-top-ases",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar bgp leaks events list",
@@ -95398,7 +94748,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/bgp/leaks/events",
 			"operationId": "radar-get-bgp-route-leak-events",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar bgp routes ases",
@@ -95463,7 +94813,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/bgp/routes/ases",
 			"operationId": "radar-get-bgp-routes-asns",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar bgp routes moas",
@@ -95512,7 +94862,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/bgp/routes/moas",
 			"operationId": "radar-get-bgp-pfx2as-moas",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar bgp routes paths list",
@@ -95562,7 +94912,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/bgp/routes/paths/{asn}",
 			"operationId": "radar-get-bgp-routes-paths",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar bgp routes pfx2as",
@@ -95618,7 +94968,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/bgp/routes/pfx2as",
 			"operationId": "radar-get-bgp-pfx2as",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar bgp routes realtime",
@@ -95655,7 +95005,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/bgp/routes/realtime",
 			"operationId": "radar-get-bgp-routes-realtime",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar bgp routes stats",
@@ -95698,7 +95048,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/bgp/routes/stats",
 			"operationId": "radar-get-bgp-routes-stats",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar bgp routes upstreams timeseries",
@@ -95762,7 +95112,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/bgp/routes/upstreams/{asn}/timeseries",
 			"operationId": "radar-get-bgp-routes-upstreams-timeseries",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar bgp rpki aspa changes",
@@ -95817,7 +95167,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/bgp/rpki/aspa/changes",
 			"operationId": "radar-get-bgp-rpki-aspa-changes",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar bgp rpki aspa snapshot",
@@ -95872,7 +95222,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/bgp/rpki/aspa/snapshot",
 			"operationId": "radar-get-bgp-rpki-aspa-snapshot",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar bgp rpki aspa timeseries",
@@ -95933,7 +95283,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/bgp/rpki/aspa/timeseries",
 			"operationId": "radar-get-bgp-rpki-aspa-timeseries",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar bgp rpki roas timeseries",
@@ -96008,7 +95358,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/bgp/rpki/roas/timeseries",
 			"operationId": "radar-get-bgp-rpki-roas-timeseries",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar bgp timeseries",
@@ -96088,7 +95438,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/bgp/timeseries",
 			"operationId": "radar-get-bgp-timeseries",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar bgp top ases get",
@@ -96167,7 +95517,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/bgp/top/ases",
 			"operationId": "radar-get-bgp-top-ases",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar bgp top ases prefixes",
@@ -96210,7 +95560,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/bgp/top/ases/prefixes",
 			"operationId": "radar-get-bgp-top-asns-by-prefixes",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar bgp top prefixes",
@@ -96283,7 +95633,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/bgp/top/prefixes",
 			"operationId": "radar-get-bgp-top-prefixes",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar bots get",
@@ -96322,7 +95672,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/bots/{bot_slug}",
 			"operationId": "radar-get-bot-details",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar bots list",
@@ -96409,7 +95759,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/bots",
 			"operationId": "radar-get-bots",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar bots summary",
@@ -96526,7 +95876,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/bots/summary/{dimension}",
 			"operationId": "radar-get-bots-summary",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar bots timeseries",
@@ -96636,7 +95986,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/bots/timeseries",
 			"operationId": "radar-get-bots-timeseries",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar bots timeseries-groups",
@@ -96760,7 +96110,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/bots/timeseries_groups/{dimension}",
 			"operationId": "radar-get-bots-timeseries-group",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar bots web-crawlers summary",
@@ -96865,7 +96215,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/bots/crawlers/summary/{dimension}",
 			"operationId": "radar-get-crawlers-summary",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar bots web-crawlers timeseries-groups",
@@ -96984,7 +96334,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/bots/crawlers/timeseries_groups/{dimension}",
 			"operationId": "radar-get-crawlers-timeseries-group",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar ct authorities get",
@@ -97023,7 +96373,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/ct/authorities/{ca_slug}",
 			"operationId": "radar-get-certificate-authority-details",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar ct authorities list",
@@ -97066,7 +96416,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/ct/authorities",
 			"operationId": "radar-get-certificate-authorities",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar ct logs get",
@@ -97105,7 +96455,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/ct/logs/{log_slug}",
 			"operationId": "radar-get-certificate-log-details",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar ct logs list",
@@ -97148,7 +96498,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/ct/logs",
 			"operationId": "radar-get-certificate-logs",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar ct summary",
@@ -97314,7 +96664,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/ct/summary/{dimension}",
 			"operationId": "radar-get-ct-summary",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar ct timeseries",
@@ -97466,7 +96816,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/ct/timeseries",
 			"operationId": "radar-get-ct-timeseries",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar ct timeseries-groups",
@@ -97639,7 +96989,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/ct/timeseries_groups/{dimension}",
 			"operationId": "radar-get-ct-timeseries-group",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar datasets download",
@@ -97682,7 +97032,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/radar/datasets/download",
 			"operationId": "radar-post-reports-dataset-download-url",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar datasets get",
@@ -97714,7 +97064,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/datasets/{alias}",
 			"operationId": "radar-get-reports-dataset-download",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar datasets list",
@@ -97770,7 +97120,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/datasets",
 			"operationId": "radar-get-reports-datasets",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar dns summary-v2",
@@ -97929,7 +97279,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/dns/summary/{dimension}",
 			"operationId": "radar-get-dns-summary",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar dns timeseries",
@@ -98081,7 +97431,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/dns/timeseries",
 			"operationId": "radar-get-dns-timeseries",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar dns timeseries-groups-v2",
@@ -98254,7 +97604,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/dns/timeseries_groups/{dimension}",
 			"operationId": "radar-get-dns-timeseries-group",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar dns top ases",
@@ -98405,7 +97755,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/dns/top/ases",
 			"operationId": "radar-get-dns-top-ases",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar dns top locations",
@@ -98562,7 +97912,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/dns/top/locations",
 			"operationId": "radar-get-dns-top-locations",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar email routing summary-v2",
@@ -98667,7 +98017,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/email/routing/summary/{dimension}",
 			"operationId": "radar-get-email-routing-summary",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar email routing timeseries-groups-v2",
@@ -98779,7 +98129,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/email/routing/timeseries_groups/{dimension}",
 			"operationId": "radar-get-email-routing-timeseries-group",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar email security summary-v2",
@@ -98878,7 +98228,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/email/security/summary/{dimension}",
 			"operationId": "radar-get-email-security-summary",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar email security timeseries-groups-v2",
@@ -98984,7 +98334,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/email/security/timeseries_groups/{dimension}",
 			"operationId": "radar-get-email-security-timeseries-group",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar email security top tlds get",
@@ -99082,7 +98432,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/email/security/top/tlds",
 			"operationId": "radar-get-email-security-top-tlds-by-messages",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar email security top tlds malicious get",
@@ -99196,7 +98546,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/email/security/top/tlds/malicious/{malicious}",
 			"operationId": "radar-get-email-security-top-tlds-by-malicious",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar email security top tlds spam get",
@@ -99302,7 +98652,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/email/security/top/tlds/spam/{spam}",
 			"operationId": "radar-get-email-security-top-tlds-by-spam",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar email security top tlds spoof get",
@@ -99408,7 +98758,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/email/security/top/tlds/spoof/{spoof}",
 			"operationId": "radar-get-email-security-top-tlds-by-spoof",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar entities asns as-set",
@@ -99447,7 +98797,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/entities/asns/{asn}/as_set",
 			"operationId": "radar-get-asns-as-set",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar entities asns botnet-threat-feed",
@@ -99528,7 +98878,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/entities/asns/botnet_threat_feed",
 			"operationId": "radar-get-as-botnet-threat-feed",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar entities asns get",
@@ -99567,7 +98917,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/entities/asns/{asn}",
 			"operationId": "radar-get-entities-asn-by-id",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar entities asns ip",
@@ -99604,7 +98954,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/entities/asns/ip",
 			"operationId": "radar-get-entities-asn-by-ip",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar entities asns list",
@@ -99666,7 +99016,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/entities/asns",
 			"operationId": "radar-get-entities-asn-list",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar entities asns rel",
@@ -99711,7 +99061,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/entities/asns/{asn}/rel",
 			"operationId": "radar-get-asns-rel",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar entities get",
@@ -99748,7 +99098,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/entities/ip",
 			"operationId": "radar-get-entities-ip",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar entities locations get",
@@ -99787,7 +99137,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/entities/locations/{location}",
 			"operationId": "radar-get-entities-location-by-alpha2",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar entities locations list",
@@ -99855,7 +99205,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/entities/locations",
 			"operationId": "radar-get-entities-locations",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar geolocations get",
@@ -99894,7 +99244,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/geolocations/{geo_id}",
 			"operationId": "radar-get-geolocation-details",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar geolocations list",
@@ -99949,7 +99299,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/geolocations",
 			"operationId": "radar-get-geolocations",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar http ases bot-class get",
@@ -100084,7 +99434,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/http/top/ases/bot_class/{bot_class}",
 			"operationId": "radar-get-http-top-ases-by-bot-class",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar http ases browser-family get",
@@ -100219,7 +99569,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/http/top/ases/browser_family/{browser_family}",
 			"operationId": "radar-get-http-top-ases-by-browser-family",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar http ases device-type get",
@@ -100354,7 +99704,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/http/top/ases/device_type/{device_type}",
 			"operationId": "radar-get-http-top-ases-by-device-type",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar http ases get",
@@ -100487,7 +99837,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/http/top/ases",
 			"operationId": "radar-get-http-top-ases-by-http-requests",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar http ases http-method get",
@@ -100622,7 +99972,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/http/top/ases/http_version/{http_version}",
 			"operationId": "radar-get-http-top-ases-by-http-version",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar http ases http-protocol get",
@@ -100757,7 +100107,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/http/top/ases/http_protocol/{http_protocol}",
 			"operationId": "radar-get-http-top-ases-by-http-protocol",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar http ases ip-version get",
@@ -100892,7 +100242,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/http/top/ases/ip_version/{ip_version}",
 			"operationId": "radar-get-http-top-ases-by-ip-version",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar http ases os get",
@@ -101027,7 +100377,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/http/top/ases/os/{os}",
 			"operationId": "radar-get-http-top-ases-by-operating-system",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar http ases tls-version get",
@@ -101162,7 +100512,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/http/top/ases/tls_version/{tls_version}",
 			"operationId": "radar-get-http-top-ases-by-tls-version",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar http locations bot-class get",
@@ -101297,7 +100647,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/http/top/locations/bot_class/{bot_class}",
 			"operationId": "radar-get-http-top-locations-by-bot-class",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar http locations browser-family get",
@@ -101432,7 +100782,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/http/top/locations/browser_family/{browser_family}",
 			"operationId": "radar-get-http-top-locations-by-browser-family",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar http locations device-type get",
@@ -101567,7 +100917,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/http/top/locations/device_type/{device_type}",
 			"operationId": "radar-get-http-top-locations-by-device-type",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar http locations get",
@@ -101700,7 +101050,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/http/top/locations",
 			"operationId": "radar-get-http-top-locations-by-http-requests",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar http locations http-method get",
@@ -101835,7 +101185,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/http/top/locations/http_version/{http_version}",
 			"operationId": "radar-get-http-top-locations-by-http-version",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar http locations http-protocol get",
@@ -101970,7 +101320,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/http/top/locations/http_protocol/{http_protocol}",
 			"operationId": "radar-get-http-top-locations-by-http-protocol",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar http locations ip-version get",
@@ -102105,7 +101455,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/http/top/locations/ip_version/{ip_version}",
 			"operationId": "radar-get-http-top-locations-by-ip-version",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar http locations os get",
@@ -102240,7 +101590,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/http/top/locations/os/{os}",
 			"operationId": "radar-get-http-top-locations-by-operating-system",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar http locations tls-version get",
@@ -102375,7 +101725,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/http/top/locations/tls_version/{tls_version}",
 			"operationId": "radar-get-http-top-locations-by-tls-version",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar http summary-v2",
@@ -102522,7 +101872,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/http/summary/{dimension}",
 			"operationId": "radar-get-http-summary",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar http timeseries",
@@ -102675,7 +102025,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/http/timeseries",
 			"operationId": "radar-get-http-timeseries",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar http timeseries-groups-v2",
@@ -102836,7 +102186,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/http/timeseries_groups/{dimension}",
 			"operationId": "radar-get-http-timeseries-group",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar leaked-credentials summary-v2",
@@ -102935,7 +102285,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/leaked_credential_checks/summary/{dimension}",
 			"operationId": "radar-get-leaked-credential-checks-summary",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar leaked-credentials timeseries-groups-v2",
@@ -103054,7 +102404,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/leaked_credential_checks/timeseries_groups/{dimension}",
 			"operationId": "radar-get-leaked-credential-checks-timeseries-group",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar netflows summary-v2",
@@ -103153,7 +102503,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/netflows/summary/{dimension}",
 			"operationId": "radar-get-netflows-summary",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar netflows timeseries",
@@ -103252,7 +102602,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/netflows/timeseries",
 			"operationId": "radar-get-netflows-timeseries",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar netflows timeseries-groups",
@@ -103365,7 +102715,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/netflows/timeseries_groups/{dimension}",
 			"operationId": "radar-get-netflows-timeseries-group",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar netflows top ases",
@@ -103450,7 +102800,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/netflows/top/ases",
 			"operationId": "radar-get-netflows-top-ases",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar netflows top locations",
@@ -103535,7 +102885,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/netflows/top/locations",
 			"operationId": "radar-get-netflows-top-locations",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar origins get",
@@ -103574,7 +102924,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/origins/{slug}",
 			"operationId": "radar-get-origin-details",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar origins list",
@@ -103617,7 +102967,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/origins",
 			"operationId": "radar-get-origins",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar origins summary",
@@ -103712,7 +103062,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/origins/summary/{dimension}",
 			"operationId": "radar-get-origins-summary",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar origins timeseries",
@@ -103800,7 +103150,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/origins/timeseries",
 			"operationId": "radar-get-origins-timeseries",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar origins timeseries-groups",
@@ -103909,7 +103259,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/origins/timeseries_groups/{dimension}",
 			"operationId": "radar-get-origins-timeseries-group",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar post-quantum origin summary",
@@ -103972,7 +103322,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/post_quantum/origin/summary/{dimension}",
 			"operationId": "radar-get-origin-post-quantum-summary",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar post-quantum origin timeseries-groups",
@@ -104035,7 +103385,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/post_quantum/origin/timeseries_groups/{dimension}",
 			"operationId": "radar-get-origin-post-quantum-timeseries-groups",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar post-quantum tls support",
@@ -104065,7 +103415,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/post_quantum/tls/support",
 			"operationId": "radar-get-post-quantum-tls-support",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar quality iqi summary",
@@ -104145,7 +103495,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/quality/iqi/summary",
 			"operationId": "radar-get-quality-index-summary",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar quality iqi timeseries-groups",
@@ -104238,7 +103588,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/quality/iqi/timeseries_groups",
 			"operationId": "radar-get-quality-index-timeseries-group",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar quality speed histogram",
@@ -104312,7 +103662,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/quality/speed/histogram",
 			"operationId": "radar-get-quality-speed-histogram",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar quality speed summary",
@@ -104373,7 +103723,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/quality/speed/summary",
 			"operationId": "radar-get-quality-speed-summary",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar quality speed top ases",
@@ -104460,7 +103810,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/quality/speed/top/ases",
 			"operationId": "radar-get-quality-speed-top-ases",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar quality speed top locations",
@@ -104547,7 +103897,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/quality/speed/top/locations",
 			"operationId": "radar-get-quality-speed-top-locations",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar ranking domain get",
@@ -104617,7 +103967,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/ranking/domain/{domain}",
 			"operationId": "radar-get-ranking-domain-details",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar ranking internet-services categories",
@@ -104666,7 +104016,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/ranking/internet_services/categories",
 			"operationId": "radar-get-ranking-internet-services-categories",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar ranking internet-services timeseries-groups",
@@ -104738,7 +104088,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/ranking/internet_services/timeseries_groups",
 			"operationId": "radar-get-ranking-internet-services-timeseries",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar ranking internet-services top",
@@ -104793,7 +104143,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/ranking/internet_services/top",
 			"operationId": "radar-get-ranking-top-internet-services",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar ranking timeseries-groups",
@@ -104879,7 +104229,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/ranking/timeseries_groups",
 			"operationId": "radar-get-ranking-domain-timeseries",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar ranking top",
@@ -104947,7 +104297,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/ranking/top",
 			"operationId": "radar-get-ranking-top-domains",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar robots-txt top domain-categories",
@@ -105003,7 +104353,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/robots_txt/top/domain_categories",
 			"operationId": "radar-get-robots-txt-top-domain-categories-by-files-parsed",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar robots-txt top user-agents directive",
@@ -105072,7 +104422,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/robots_txt/top/user_agents/directive",
 			"operationId": "radar-get-robots-txt-top-user-agents-by-directive",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar search global",
@@ -105133,7 +104483,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/search/global",
 			"operationId": "radar-get-search-global",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar tcp-resets-timeouts summary",
@@ -105206,7 +104556,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/tcp_resets_timeouts/summary",
 			"operationId": "radar-get-tcp-resets-timeouts-summary",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar tcp-resets-timeouts timeseries-groups",
@@ -105286,7 +104636,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/tcp_resets_timeouts/timeseries_groups",
 			"operationId": "radar-get-tcp-resets-timeouts-timeseries-group",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar tlds get",
@@ -105325,7 +104675,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/tlds/{tld}",
 			"operationId": "radar-get-tld-details",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar tlds list",
@@ -105393,7 +104743,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/tlds",
 			"operationId": "radar-get-tlds",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar tlds performance summary",
@@ -105486,7 +104836,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/tlds/performance/summary/{dimension}",
 			"operationId": "radar-get-tlds-performance-summary",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar tlds performance timeseries-groups",
@@ -105586,7 +104936,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/tlds/performance/timeseries_groups/{dimension}",
 			"operationId": "radar-get-tlds-performance-timeseries-groups",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar traffic-anomalies get",
@@ -105711,7 +105061,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/traffic_anomalies",
 			"operationId": "radar-get-traffic-anomalies",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar traffic-anomalies get-by-id",
@@ -105750,7 +105100,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/traffic_anomalies/{uuid}",
 			"operationId": "radar-get-traffic-anomaly-by-uuid",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf radar traffic-anomalies locations get",
@@ -105812,7 +105162,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/radar/traffic_anomalies/locations",
 			"operationId": "radar-get-traffic-anomalies-top",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf realtime kit analytics livestreams daily get",
@@ -124171,6 +123521,13 @@
 					"description": "Return the Ephemeral ID in /siteverify (ENT only).\n"
 				},
 				{
+					"name": "widget-mode",
+					"type": "string",
+					"required": true,
+					"description": "Widget Mode",
+					"enum": ["non-interactive", "invisible", "managed"]
+				},
+				{
 					"name": "name",
 					"type": "string",
 					"required": true,
@@ -124209,7 +123566,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/challenges/widgets",
 			"operationId": "accounts-turnstile-widget-create",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf turnstile widgets delete",
@@ -124241,7 +123598,7 @@
 			"httpMethod": "DELETE",
 			"apiPath": "/accounts/{account_id}/challenges/widgets/{sitekey}",
 			"operationId": "accounts-turnstile-widget-delete",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf turnstile widgets get",
@@ -124273,7 +123630,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/challenges/widgets/{sitekey}",
 			"operationId": "accounts-turnstile-widget-get",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf turnstile widgets list",
@@ -124329,7 +123686,7 @@
 			"httpMethod": "GET",
 			"apiPath": "/accounts/{account_id}/challenges/widgets",
 			"operationId": "accounts-turnstile-widgets-list",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf turnstile widgets rotate-secret",
@@ -124374,7 +123731,7 @@
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/challenges/widgets/{sitekey}/rotate_secret",
 			"operationId": "accounts-turnstile-widget-rotate-secret",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf turnstile widgets update",
@@ -124419,6 +123776,13 @@
 					"description": "Return the Ephemeral ID in /siteverify (ENT only).\n"
 				},
 				{
+					"name": "widget-mode",
+					"type": "string",
+					"required": true,
+					"description": "Widget Mode",
+					"enum": ["non-interactive", "invisible", "managed"]
+				},
+				{
 					"name": "name",
 					"type": "string",
 					"required": true,
@@ -124457,7 +123821,7 @@
 			"httpMethod": "PUT",
 			"apiPath": "/accounts/{account_id}/challenges/widgets/{sitekey}",
 			"operationId": "accounts-turnstile-widget-update",
-			"hideCommand": true
+			"hideCommand": false
 		},
 		{
 			"command": "cf url-info get",
@@ -158499,14 +157863,11 @@
 		"cloudforce-one priority-intelligence interests evaluations": "Operations for priority-intelligence.interests.evaluations",
 		"cloudforce-one priority-intelligence quota": "Operations for priority-intelligence.quota",
 		"cloudforce-one requests": "Additional request operations — priority listing and asset creation",
-		"cloudforce-one requests asset-new": "Operations for requests.asset-new",
 		"cloudforce-one requests assets": "Operations for requests.assets",
 		"cloudforce-one requests constants": "Operations for requests.constants",
 		"cloudforce-one requests legal-response": "Operations for requests.legal-response",
-		"cloudforce-one requests message": "Operations for requests.message",
 		"cloudforce-one requests messages": "Operations for requests.messages",
 		"cloudforce-one requests metadata": "Operations for requests.metadata",
-		"cloudforce-one requests priority": "Operations for requests.priority",
 		"cloudforce-one requests quota": "Operations for requests.quota",
 		"cloudforce-one requests types": "Operations for requests.types",
 		"cloudforce-one requests user": "Operations for requests.user",
@@ -158731,7 +158092,6 @@
 		"keys": "keys",
 		"kv": "kv",
 		"kv bulk": "Operations for bulk",
-		"kv bulk-deprecated": "Operations for bulk-deprecated",
 		"kv keys": "Operations for keys",
 		"kv metadata": "Operations for metadata",
 		"kv namespaces": "Operations for namespaces",
@@ -158801,40 +158161,21 @@
 		"magic-transit advanced-dns-protection configs dns": "Operations for advanced-dns-protection.configs.dns",
 		"magic-transit advanced-dns-protection configs dns protection": "Operations for advanced-dns-protection.configs.dns.protection",
 		"magic-transit advanced-dns-protection configs dns protection rules": "Operations for advanced-dns-protection.configs.dns.protection.rules",
-		"magic-transit advanced-dns-protection configs dns protection rules delete": "Operations for advanced-dns-protection.configs.dns.protection.rules.delete",
-		"magic-transit advanced-dns-protection configs dns protection rules delete for": "Operations for advanced-dns-protection.configs.dns.protection.rules.delete.for",
-		"magic-transit advanced-dns-protection configs dns protection rules delete protection": "Operations for advanced-dns-protection.configs.dns.protection.rules.delete.protection",
 		"magic-transit advanced-tcp-protection": "Advanced Tcp Protection operations",
 		"magic-transit advanced-tcp-protection configs": "Operations for advanced-tcp-protection.configs",
 		"magic-transit advanced-tcp-protection configs allowlist": "Operations for advanced-tcp-protection.configs.allowlist",
-		"magic-transit advanced-tcp-protection configs allowlist delete": "Operations for advanced-tcp-protection.configs.allowlist.delete",
-		"magic-transit advanced-tcp-protection configs allowlist delete allowlist": "Operations for advanced-tcp-protection.configs.allowlist.delete.allowlist",
-		"magic-transit advanced-tcp-protection configs allowlist delete for": "Operations for advanced-tcp-protection.configs.allowlist.delete.for",
+		"magic-transit advanced-tcp-protection configs allowlist prefix": "Operations for advanced-tcp-protection.configs.allowlist.prefix",
 		"magic-transit advanced-tcp-protection configs prefixes": "Operations for advanced-tcp-protection.configs.prefixes",
 		"magic-transit advanced-tcp-protection configs prefixes bulk": "Operations for advanced-tcp-protection.configs.prefixes.bulk",
-		"magic-transit advanced-tcp-protection configs prefixes delete": "Operations for advanced-tcp-protection.configs.prefixes.delete",
-		"magic-transit advanced-tcp-protection configs prefixes delete for": "Operations for advanced-tcp-protection.configs.prefixes.delete.for",
 		"magic-transit advanced-tcp-protection configs syn": "Operations for advanced-tcp-protection.configs.syn",
 		"magic-transit advanced-tcp-protection configs syn protection": "Operations for advanced-tcp-protection.configs.syn.protection",
 		"magic-transit advanced-tcp-protection configs syn protection filters": "Operations for advanced-tcp-protection.configs.syn.protection.filters",
-		"magic-transit advanced-tcp-protection configs syn protection filters delete": "Operations for advanced-tcp-protection.configs.syn.protection.filters.delete",
-		"magic-transit advanced-tcp-protection configs syn protection filters delete for": "Operations for advanced-tcp-protection.configs.syn.protection.filters.delete.for",
-		"magic-transit advanced-tcp-protection configs syn protection filters delete protection": "Operations for advanced-tcp-protection.configs.syn.protection.filters.delete.protection",
 		"magic-transit advanced-tcp-protection configs syn protection rules": "Operations for advanced-tcp-protection.configs.syn.protection.rules",
-		"magic-transit advanced-tcp-protection configs syn protection rules delete": "Operations for advanced-tcp-protection.configs.syn.protection.rules.delete",
-		"magic-transit advanced-tcp-protection configs syn protection rules delete for": "Operations for advanced-tcp-protection.configs.syn.protection.rules.delete.for",
-		"magic-transit advanced-tcp-protection configs syn protection rules delete protection": "Operations for advanced-tcp-protection.configs.syn.protection.rules.delete.protection",
 		"magic-transit advanced-tcp-protection configs tcp": "Operations for advanced-tcp-protection.configs.tcp",
 		"magic-transit advanced-tcp-protection configs tcp flow": "Operations for advanced-tcp-protection.configs.tcp.flow",
 		"magic-transit advanced-tcp-protection configs tcp flow protection": "Operations for advanced-tcp-protection.configs.tcp.flow.protection",
 		"magic-transit advanced-tcp-protection configs tcp flow protection filters": "Operations for advanced-tcp-protection.configs.tcp.flow.protection.filters",
-		"magic-transit advanced-tcp-protection configs tcp flow protection filters delete": "Operations for advanced-tcp-protection.configs.tcp.flow.protection.filters.delete",
-		"magic-transit advanced-tcp-protection configs tcp flow protection filters delete for": "Operations for advanced-tcp-protection.configs.tcp.flow.protection.filters.delete.for",
-		"magic-transit advanced-tcp-protection configs tcp flow protection filters delete protection": "Operations for advanced-tcp-protection.configs.tcp.flow.protection.filters.delete.protection",
 		"magic-transit advanced-tcp-protection configs tcp flow protection rules": "Operations for advanced-tcp-protection.configs.tcp.flow.protection.rules",
-		"magic-transit advanced-tcp-protection configs tcp flow protection rules delete": "Operations for advanced-tcp-protection.configs.tcp.flow.protection.rules.delete",
-		"magic-transit advanced-tcp-protection configs tcp flow protection rules delete for": "Operations for advanced-tcp-protection.configs.tcp.flow.protection.rules.delete.for",
-		"magic-transit advanced-tcp-protection configs tcp flow protection rules delete protection": "Operations for advanced-tcp-protection.configs.tcp.flow.protection.rules.delete.protection",
 		"magic-transit advanced-tcp-protection configs tcp protection": "Operations for advanced-tcp-protection.configs.tcp.protection",
 		"magic-transit advanced-tcp-protection configs tcp protection status": "Operations for advanced-tcp-protection.configs.tcp.protection.status",
 		"magic-transit apps": "Application-aware traffic policies for Magic WAN that steer traffic by app type",
@@ -158996,28 +158337,18 @@
 		"radar agent-readiness": "Agent readiness summary statistics across the Cloudflare network",
 		"radar ai": "AI inference trends and model usage statistics across the Cloudflare network",
 		"radar ai bots": "Operations for ai.bots",
-		"radar ai bots summary": "Operations for ai.bots.summary",
 		"radar ai inference": "Operations for ai.inference",
-		"radar ai inference summary": "Operations for ai.inference.summary",
-		"radar ai inference timeseries-groups": "Operations for ai.inference.timeseries-groups",
-		"radar ai inference timeseries-groups summary": "Operations for ai.inference.timeseries-groups.summary",
 		"radar ai markdown-for-agents": "Operations for ai.markdown-for-agents",
 		"radar ai timeseries-groups": "Operations for ai.timeseries-groups",
 		"radar annotations": "Radar annotations marking significant Internet events (outages, cable cuts, etc.)",
 		"radar annotations outages": "Operations for annotations.outages",
 		"radar as112": "AS112 DNS sinkhole statistics — reverse DNS query volumes for private address space",
-		"radar as112 summary": "Operations for as112.summary",
-		"radar as112 timeseries-groups": "Operations for as112.timeseries-groups",
 		"radar as112 top": "Operations for as112.top",
 		"radar attacks": "DDoS and application-layer attack trends, vectors, and target analysis",
 		"radar attacks layer3": "Operations for attacks.layer3",
-		"radar attacks layer3 summary": "Operations for attacks.layer3.summary",
-		"radar attacks layer3 timeseries-groups": "Operations for attacks.layer3.timeseries-groups",
 		"radar attacks layer3 top": "Operations for attacks.layer3.top",
 		"radar attacks layer3 top locations": "Operations for attacks.layer3.top.locations",
 		"radar attacks layer7": "Operations for attacks.layer7",
-		"radar attacks layer7 summary": "Operations for attacks.layer7.summary",
-		"radar attacks layer7 timeseries-groups": "Operations for attacks.layer7.timeseries-groups",
 		"radar attacks layer7 top": "Operations for attacks.layer7.top",
 		"radar attacks layer7 top ases": "Operations for attacks.layer7.top.ases",
 		"radar attacks layer7 top locations": "Operations for attacks.layer7.top.locations",
@@ -159043,16 +158374,10 @@
 		"radar ct logs": "Operations for ct.logs",
 		"radar datasets": "Downloadable Radar datasets for offline analysis and research",
 		"radar dns": "Global DNS query trends — top domains, resolver stats, and DNSSEC adoption",
-		"radar dns summary": "Operations for dns.summary",
-		"radar dns timeseries-groups": "Operations for dns.timeseries-groups",
 		"radar dns top": "Operations for dns.top",
 		"radar email": "Email security trends — DMARC/SPF/DKIM adoption, spam, and phishing statistics",
 		"radar email routing": "Operations for email.routing",
-		"radar email routing summary": "Operations for email.routing.summary",
-		"radar email routing timeseries-groups": "Operations for email.routing.timeseries-groups",
 		"radar email security": "Operations for email.security",
-		"radar email security summary": "Operations for email.security.summary",
-		"radar email security timeseries-groups": "Operations for email.security.timeseries-groups",
 		"radar email security top": "Operations for email.security.top",
 		"radar email security top tlds": "Operations for email.security.top.tlds",
 		"radar email security top tlds malicious": "Operations for email.security.top.tlds.malicious",
@@ -159081,12 +158406,7 @@
 		"radar http locations ip-version": "Operations for http.locations.ip-version",
 		"radar http locations os": "Operations for http.locations.os",
 		"radar http locations tls-version": "Operations for http.locations.tls-version",
-		"radar http summary": "Operations for http.summary",
-		"radar http timeseries-groups": "Operations for http.timeseries-groups",
-		"radar http top": "Operations for http.top",
 		"radar leaked-credentials": "Leaked credential detection trends and exposure statistics",
-		"radar leaked-credentials summary": "Operations for leaked-credentials.summary",
-		"radar leaked-credentials timeseries-groups": "Operations for leaked-credentials.timeseries-groups",
 		"radar netflows": "Network-layer traffic flow data and volumetric trend analysis",
 		"radar netflows top": "Operations for netflows.top",
 		"radar origins": "Cloud and hosting origin providers (e.g. Amazon, by region) and their traffic metrics",
@@ -159109,8 +158429,6 @@
 		"radar tlds performance": "Operations for tlds.performance",
 		"radar traffic-anomalies": "Detected traffic anomalies and unusual patterns in Internet traffic flows",
 		"radar traffic-anomalies locations": "Operations for traffic-anomalies.locations",
-		"radar verified-bots": "Catalog of known good bots (Googlebot, Bingbot, etc.) and their traffic patterns",
-		"radar verified-bots top": "Operations for verified-bots.top",
 		"rate-limit-analytics": "rate-limit-analytics",
 		"rate-limits": "Legacy per-zone rate limiting rules — prefer Advanced Rate Limiting in Rulesets for new configurations",
 		"ready": "ready",

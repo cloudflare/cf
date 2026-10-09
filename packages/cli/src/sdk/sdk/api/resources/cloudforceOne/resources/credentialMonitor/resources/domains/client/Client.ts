@@ -34,6 +34,8 @@ export class DomainsClient {
      * @param {DomainsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.credentialMonitor.domains.list({
@@ -118,6 +120,8 @@ export class DomainsClient {
      *
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.ConflictError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.credentialMonitor.domains.create({
@@ -199,6 +203,8 @@ export class DomainsClient {
      * @param {DomainsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.credentialMonitor.domains.delete({

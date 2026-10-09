@@ -30,6 +30,9 @@ export class FontsClient {
      * @param {CloudflareApi.zones.GetFontsRequest} request
      * @param {FontsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zones.fonts.get({
      *         zone_id: "zone_id"
@@ -95,6 +98,9 @@ export class FontsClient {
      *
      * @param {CloudflareApi.zones.EditFontsRequest} request
      * @param {FontsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zones.fonts.edit({

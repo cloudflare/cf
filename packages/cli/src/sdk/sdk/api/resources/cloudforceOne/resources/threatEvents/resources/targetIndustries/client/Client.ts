@@ -33,6 +33,8 @@ export class TargetIndustriesClient {
      * @param {TargetIndustriesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.threatEvents.targetIndustries.list({

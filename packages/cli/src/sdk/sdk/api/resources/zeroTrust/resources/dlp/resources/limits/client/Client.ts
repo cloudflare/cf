@@ -33,6 +33,9 @@ export class LimitsClient {
      * @param {CloudflareApi.zeroTrust.dlp.ListLimitsRequest} request
      * @param {LimitsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.dlp.limits.list({
      *         account_id: "account_id"

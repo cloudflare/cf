@@ -29,6 +29,9 @@ export class ReverseDnsClient {
      * @param {CloudflareApi.dnsFirewall.GetReverseDnsRequest} request
      * @param {ReverseDnsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.dnsFirewall.reverseDns.get({
      *         account_id: "account_id",
@@ -97,6 +100,9 @@ export class ReverseDnsClient {
      *
      * @param {CloudflareApi.dnsFirewall.DnsFirewallDnsFirewallReverseDns} request
      * @param {ReverseDnsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.dnsFirewall.reverseDns.edit({

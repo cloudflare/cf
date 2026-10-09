@@ -7,6 +7,7 @@ import {
 } from "../../../../../../../../BaseClient.js";
 import * as core from "../../../../../../../../core/index.js";
 import { mergeHeaders } from "../../../../../../../../core/headers.js";
+import { toJson } from "../../../../../../../../core/json.js";
 import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requestBody.js";
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
@@ -40,6 +41,8 @@ export class FeedsClient {
      * @param {FeedsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.ServiceUnavailableError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.threatSignals.feeds.list({
@@ -143,6 +146,8 @@ export class FeedsClient {
      *
      * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.ServiceUnavailableError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.threatSignals.feeds.create({
@@ -225,6 +230,9 @@ export class FeedsClient {
      * @param {CloudflareApi.cloudforceOne.threatSignals.PollFeedsRequest} request
      * @param {FeedsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.cloudforceOne.threatSignals.feeds.poll({
      *         account_id: "account_id"
@@ -243,7 +251,13 @@ export class FeedsClient {
     ): Promise<core.WithRawResponse<CloudflareApi.cloudforceOne.threatSignals.PollFeedsResponse>> {
         const { account_id: accountId, feed_id: feedId } = request;
         const _queryParams: Record<string, unknown> = {
-            feed_id: feedId != null ? feedId : undefined,
+            feed_id: Array.isArray(feedId)
+                ? feedId.map((item) => (typeof item === "string" ? item : toJson(item)))
+                : feedId != null
+                  ? typeof feedId === "string"
+                      ? feedId
+                      : toJson(feedId)
+                  : undefined,
         };
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -299,6 +313,9 @@ export class FeedsClient {
      *
      * @param {CloudflareApi.cloudforceOne.threatSignals.DeleteFeedsRequest} request
      * @param {FeedsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.threatSignals.feeds.delete({
@@ -368,6 +385,9 @@ export class FeedsClient {
      *
      * @param {CloudflareApi.cloudforceOne.threatSignals.UpdateFeedsRequest} request
      * @param {FeedsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.threatSignals.feeds.update({
@@ -440,6 +460,9 @@ export class FeedsClient {
      *
      * @param {CloudflareApi.cloudforceOne.threatSignals.GetRawFeedsRequest} request
      * @param {FeedsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.threatSignals.feeds.getRaw({

@@ -31,6 +31,9 @@ export class ReferencesClient {
      * @param {CloudflareApi.loadBalancers.pools.GetReferencesRequest} request
      * @param {ReferencesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.loadBalancers.pools.references.get({
      *         account_id: "account_id",

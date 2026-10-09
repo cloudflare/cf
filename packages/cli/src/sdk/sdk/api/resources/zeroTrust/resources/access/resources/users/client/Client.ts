@@ -50,6 +50,9 @@ export class UsersClient {
      * @param {CloudflareApi.zeroTrust.access.ListUsersRequest} request
      * @param {UsersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.users.list({
      *         account_id: "account_id"
@@ -129,6 +132,9 @@ export class UsersClient {
      * @param {CloudflareApi.zeroTrust.access.CreateUsersRequest} request
      * @param {UsersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.users.create({
      *         account_id: "account_id",
@@ -198,6 +204,9 @@ export class UsersClient {
      * @param {CloudflareApi.zeroTrust.access.GetUsersRequest} request
      * @param {UsersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.users.get({
      *         account_id: "account_id",
@@ -263,6 +272,9 @@ export class UsersClient {
      *
      * @param {CloudflareApi.zeroTrust.access.UpdateUsersRequest} request
      * @param {UsersClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.users.update({
@@ -335,6 +347,9 @@ export class UsersClient {
      * @param {CloudflareApi.zeroTrust.access.DeleteUsersRequest} request
      * @param {UsersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.users.delete({
      *         account_id: "account_id",
@@ -400,6 +415,9 @@ export class UsersClient {
      *
      * @param {CloudflareApi.zeroTrust.access.RevokeUsersRequest} request
      * @param {UsersClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.users.revoke({

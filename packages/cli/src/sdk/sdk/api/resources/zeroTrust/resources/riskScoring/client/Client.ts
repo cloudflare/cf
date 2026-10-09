@@ -46,6 +46,9 @@ export class RiskScoringClient {
      * @param {CloudflareApi.zeroTrust.GetRiskScoringRequest} request
      * @param {RiskScoringClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.riskScoring.get({
      *         account_id: "account_id",
@@ -111,6 +114,9 @@ export class RiskScoringClient {
      *
      * @param {CloudflareApi.zeroTrust.ResetRiskScoringRequest} request
      * @param {RiskScoringClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.riskScoring.reset({

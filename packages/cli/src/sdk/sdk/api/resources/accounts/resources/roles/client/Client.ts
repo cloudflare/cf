@@ -30,6 +30,9 @@ export class RolesClient {
      * @param {CloudflareApi.accounts.ListRolesRequest} request
      * @param {RolesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.accounts.roles.list({
      *         account_id: "account_id"
@@ -102,6 +105,9 @@ export class RolesClient {
      *
      * @param {CloudflareApi.accounts.GetRolesRequest} request
      * @param {RolesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.accounts.roles.get({

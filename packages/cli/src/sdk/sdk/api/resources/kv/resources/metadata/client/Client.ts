@@ -28,6 +28,9 @@ export class MetadataClient {
      * @param {CloudflareApi.kv.GetMetadataRequest} request
      * @param {MetadataClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.kv.metadata.get({
      *         account_id: "account_id",

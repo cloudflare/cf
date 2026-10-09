@@ -28,6 +28,9 @@ export class DnsClient {
      * @param {CloudflareApi.intel.ListDnsRequest} request
      * @param {DnsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.intel.dns.list({
      *         account_id: "account_id",

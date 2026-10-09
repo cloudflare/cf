@@ -59,6 +59,9 @@ export class InvestigateClient {
      * @param {CloudflareApi.emailSecurity.ListInvestigateRequest} request
      * @param {InvestigateClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.emailSecurity.investigate.list({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -179,6 +182,9 @@ export class InvestigateClient {
      * @param {CloudflareApi.emailSecurity.MoveInvestigateRequest} request
      * @param {InvestigateClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.emailSecurity.investigate.move({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -252,6 +258,9 @@ export class InvestigateClient {
      * @param {CloudflareApi.emailSecurity.ReleaseInvestigateRequest} request
      * @param {InvestigateClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.emailSecurity.investigate.release({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -323,6 +332,9 @@ export class InvestigateClient {
      *
      * @param {CloudflareApi.emailSecurity.GetInvestigateRequest} request
      * @param {InvestigateClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailSecurity.investigate.get({

@@ -31,6 +31,9 @@ export class PoliciesClient {
      * @param {CloudflareApi.zeroTrust.access.applications.MakeReusablePoliciesRequest} request
      * @param {PoliciesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.applications.policies.makeReusable({
      *         account_id: "account_id",
@@ -102,6 +105,9 @@ export class PoliciesClient {
      *
      * @param {CloudflareApi.zeroTrust.access.applications.ListPoliciesRequest} request
      * @param {PoliciesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.applications.policies.list({
@@ -188,6 +194,9 @@ export class PoliciesClient {
      *
      * @param {CloudflareApi.zeroTrust.access.applications.GetPoliciesRequest} request
      * @param {PoliciesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.applications.policies.get({

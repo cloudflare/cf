@@ -44,6 +44,9 @@ export class RecordingsClient {
      * @param {CloudflareApi.realtime.kit.ListRecordingsRequest} request
      * @param {RecordingsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.realtime.kit.recordings.list({
      *         account_id: "account_id",
@@ -142,6 +145,9 @@ export class RecordingsClient {
      *
      * @param {CloudflareApi.realtime.kit.StartRecordingsRequest} request
      * @param {RecordingsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.realtime.kit.recordings.start({
@@ -244,6 +250,9 @@ export class RecordingsClient {
      * @param {CloudflareApi.realtime.kit.GetRecordingsRequest} request
      * @param {RecordingsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.realtime.kit.recordings.get({
      *         account_id: "account_id",
@@ -313,6 +322,9 @@ export class RecordingsClient {
      *
      * @param {CloudflareApi.realtime.kit.ControlRecordingsRequest} request
      * @param {RecordingsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.realtime.kit.recordings.control({

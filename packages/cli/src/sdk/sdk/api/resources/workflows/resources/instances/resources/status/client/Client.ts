@@ -36,6 +36,8 @@ export class StatusClient {
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.ConflictError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workflows.instances.status.edit({

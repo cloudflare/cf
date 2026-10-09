@@ -28,6 +28,9 @@ export class EmailClient {
      * @param {CloudflareApi.alerting.policies.DetailsEmailRequest} request
      * @param {EmailClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.alerting.policies.email.details({
      *         account_id: "account_id",
@@ -98,6 +101,9 @@ export class EmailClient {
      *
      * @param {CloudflareApi.alerting.policies.UnsubscribeEmailRequest} request
      * @param {EmailClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.alerting.policies.email.unsubscribe({

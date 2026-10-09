@@ -29,6 +29,9 @@ export class SilencesClient {
      * @param {CloudflareApi.alerting.ListSilencesRequest} request
      * @param {SilencesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.alerting.silences.list({
      *         account_id: "account_id"
@@ -96,6 +99,9 @@ export class SilencesClient {
      *
      * @param {CloudflareApi.alerting.CreateSilencesRequest} request
      * @param {SilencesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.alerting.silences.create({
@@ -165,6 +171,9 @@ export class SilencesClient {
      *
      * @param {CloudflareApi.alerting.UpdateSilencesRequest} request
      * @param {SilencesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.alerting.silences.update({
@@ -238,6 +247,9 @@ export class SilencesClient {
      * @param {CloudflareApi.alerting.GetSilencesRequest} request
      * @param {SilencesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.alerting.silences.get({
      *         account_id: "account_id",
@@ -303,6 +315,9 @@ export class SilencesClient {
      *
      * @param {CloudflareApi.alerting.DeleteSilencesRequest} request
      * @param {SilencesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.alerting.silences.delete({

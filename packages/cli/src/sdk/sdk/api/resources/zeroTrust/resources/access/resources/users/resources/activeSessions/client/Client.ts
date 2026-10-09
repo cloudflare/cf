@@ -31,6 +31,9 @@ export class ActiveSessionsClient {
      * @param {CloudflareApi.zeroTrust.access.users.ListActiveSessionsRequest} request
      * @param {ActiveSessionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.users.activeSessions.list({
      *         account_id: "account_id",
@@ -99,6 +102,9 @@ export class ActiveSessionsClient {
      *
      * @param {CloudflareApi.zeroTrust.access.users.GetActiveSessionsRequest} request
      * @param {ActiveSessionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.users.activeSessions.get({

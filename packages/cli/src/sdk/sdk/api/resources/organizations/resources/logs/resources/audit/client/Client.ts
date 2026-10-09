@@ -32,6 +32,9 @@ export class AuditClient {
      * @param {CloudflareApi.organizations.logs.GetAuditRequest} request
      * @param {AuditClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.organizations.logs.audit.get({
      *         organization_id: "a67e14daa5f8dceeb91fe5449ba496ef",
@@ -264,6 +267,8 @@ export class AuditClient {
      * @param {AuditClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.organizations.logs.audit.history({

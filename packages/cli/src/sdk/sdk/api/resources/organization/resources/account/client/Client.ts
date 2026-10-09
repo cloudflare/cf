@@ -33,6 +33,9 @@ export class AccountClient {
      * @param {CloudflareApi.organization.ListAccountRequest} request
      * @param {AccountClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.organization.account.list({
      *         organization_id: "organization_id"

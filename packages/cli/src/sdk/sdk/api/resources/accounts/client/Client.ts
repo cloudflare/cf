@@ -101,6 +101,9 @@ export class AccountsClient {
      * @param {CloudflareApi.ListAccountsRequest} request
      * @param {AccountsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.accounts.list({
      *         name: "example.com"
@@ -171,6 +174,9 @@ export class AccountsClient {
      * @param {CloudflareApi.IamCreateAccount} request
      * @param {AccountsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.accounts.create({
      *         name: "name"
@@ -235,6 +241,9 @@ export class AccountsClient {
      * @param {CloudflareApi.GetAccountsRequest} request
      * @param {AccountsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.accounts.get({
      *         account_id: "account_id"
@@ -294,6 +303,9 @@ export class AccountsClient {
      *
      * @param {CloudflareApi.UpdateAccountsRequest} request
      * @param {AccountsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.accounts.update({
@@ -363,6 +375,9 @@ export class AccountsClient {
      * @param {CloudflareApi.DeleteAccountsRequest} request
      * @param {AccountsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.accounts.delete({
      *         account_id: "account_id"
@@ -430,6 +445,9 @@ export class AccountsClient {
      *
      * @param {CloudflareApi.MoveAccountsRequest} request
      * @param {AccountsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.accounts.move({

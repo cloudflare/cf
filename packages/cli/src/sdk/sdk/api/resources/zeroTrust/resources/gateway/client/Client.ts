@@ -106,6 +106,9 @@ export class GatewayClient {
      * @param {CloudflareApi.zeroTrust.ListGatewayRequest} request
      * @param {GatewayClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.gateway.list({
      *         account_id: "account_id"
@@ -173,6 +176,9 @@ export class GatewayClient {
      *
      * @param {CloudflareApi.zeroTrust.CreateGatewayRequest} request
      * @param {GatewayClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.gateway.create({

@@ -31,6 +31,9 @@ export class HistoryClient {
      * @param {CloudflareApi.user.billing.ListHistoryRequest} request
      * @param {HistoryClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.user.billing.history.list({
      *         occurred_at: "2014-03-01T12:21:59Z",

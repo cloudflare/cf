@@ -39,6 +39,8 @@ export class RulesClient {
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.UnprocessableEntityError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailRouting.rules.plan({
@@ -166,6 +168,8 @@ export class RulesClient {
      *
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.UnprocessableEntityError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailRouting.rules.create({
@@ -255,6 +259,8 @@ export class RulesClient {
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailRouting.rules.get({
@@ -332,6 +338,8 @@ export class RulesClient {
      *
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.UnprocessableEntityError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailRouting.rules.update({
@@ -422,6 +430,8 @@ export class RulesClient {
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailRouting.rules.delete({
@@ -498,6 +508,8 @@ export class RulesClient {
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.ForbiddenError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailRouting.rules.listAccount({

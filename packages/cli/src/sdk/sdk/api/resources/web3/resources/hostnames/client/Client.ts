@@ -33,6 +33,9 @@ export class HostnamesClient {
      * @param {CloudflareApi.web3.ListHostnamesRequest} request
      * @param {HostnamesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.web3.hostnames.list({
      *         zone_id: "zone_id"
@@ -98,6 +101,9 @@ export class HostnamesClient {
     /**
      * @param {CloudflareApi.web3.Web3CreateRequest} request
      * @param {HostnamesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.web3.hostnames.create({
@@ -167,6 +173,9 @@ export class HostnamesClient {
      * @param {CloudflareApi.web3.GetHostnamesRequest} request
      * @param {HostnamesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.web3.hostnames.get({
      *         zone_id: "zone_id",
@@ -230,6 +239,9 @@ export class HostnamesClient {
     /**
      * @param {CloudflareApi.web3.DeleteHostnamesRequest} request
      * @param {HostnamesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.web3.hostnames.delete({
@@ -297,6 +309,9 @@ export class HostnamesClient {
     /**
      * @param {CloudflareApi.web3.Web3ModifyRequest} request
      * @param {HostnamesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.web3.hostnames.edit({

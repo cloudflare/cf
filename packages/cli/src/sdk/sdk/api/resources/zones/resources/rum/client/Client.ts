@@ -29,6 +29,9 @@ export class RumClient {
      * @param {CloudflareApi.zones.GetRumRequest} request
      * @param {RumClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zones.rum.get({
      *         zone_id: "zone_id"
@@ -88,6 +91,9 @@ export class RumClient {
      *
      * @param {CloudflareApi.zones.RumToggleRumRequest} request
      * @param {RumClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zones.rum.edit({

@@ -33,6 +33,9 @@ export class BookmarksClient {
      * @param {CloudflareApi.zeroTrust.access.ListBookmarksRequest} request
      * @param {BookmarksClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.bookmarks.list({
      *         account_id: "account_id"
@@ -103,6 +106,9 @@ export class BookmarksClient {
      * @param {CloudflareApi.zeroTrust.access.GetBookmarksRequest} request
      * @param {BookmarksClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.bookmarks.get({
      *         account_id: "account_id",
@@ -170,6 +176,9 @@ export class BookmarksClient {
      *
      * @param {CloudflareApi.zeroTrust.access.CreateBookmarksRequest} request
      * @param {BookmarksClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.bookmarks.create({
@@ -239,6 +248,9 @@ export class BookmarksClient {
      * @param {CloudflareApi.zeroTrust.access.UpdateBookmarksRequest} request
      * @param {BookmarksClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.bookmarks.update({
      *         account_id: "account_id",
@@ -306,6 +318,9 @@ export class BookmarksClient {
      *
      * @param {CloudflareApi.zeroTrust.access.DeleteBookmarksRequest} request
      * @param {BookmarksClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.bookmarks.delete({

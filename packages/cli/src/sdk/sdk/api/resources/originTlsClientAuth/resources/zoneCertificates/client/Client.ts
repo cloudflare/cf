@@ -29,6 +29,9 @@ export class ZoneCertificatesClient {
      * @param {CloudflareApi.originTlsClientAuth.ListZoneCertificatesRequest} request
      * @param {ZoneCertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.originTlsClientAuth.zoneCertificates.list({
      *         zone_id: "zone_id"
@@ -96,6 +99,9 @@ export class ZoneCertificatesClient {
      *
      * @param {CloudflareApi.originTlsClientAuth.CreateZoneCertificatesRequest} request
      * @param {ZoneCertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.originTlsClientAuth.zoneCertificates.create({
@@ -170,6 +176,9 @@ export class ZoneCertificatesClient {
      * @param {CloudflareApi.originTlsClientAuth.GetZoneCertificatesRequest} request
      * @param {ZoneCertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.originTlsClientAuth.zoneCertificates.get({
      *         zone_id: "zone_id",
@@ -238,6 +247,9 @@ export class ZoneCertificatesClient {
      *
      * @param {CloudflareApi.originTlsClientAuth.DeleteZoneCertificatesRequest} request
      * @param {ZoneCertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.originTlsClientAuth.zoneCertificates.delete({

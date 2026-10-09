@@ -34,6 +34,9 @@ export class ContentClient {
      * @param {CloudflareApi.workers.legacy.scripts.UpdateContentRequest} request
      * @param {ContentClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     import { createReadStream } from "fs";
      *     await client.workers.legacy.scripts.content.update({
@@ -119,6 +122,9 @@ export class ContentClient {
      *
      * @param {CloudflareApi.workers.legacy.scripts.GetContentRequest} request
      * @param {ContentClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workers.legacy.scripts.content.get({

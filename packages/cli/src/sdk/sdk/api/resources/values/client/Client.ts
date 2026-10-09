@@ -28,6 +28,9 @@ export class ValuesClient {
      * @param {CloudflareApi.ListValuesRequest} request
      * @param {ValuesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.values.list({
      *         account_id: "account_id",

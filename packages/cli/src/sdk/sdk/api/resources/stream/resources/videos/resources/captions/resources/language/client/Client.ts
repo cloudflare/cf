@@ -37,6 +37,9 @@ export class LanguageClient {
      * @param {CloudflareApi.stream.videos.captions.GetLanguageRequest} request
      * @param {LanguageClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.stream.videos.captions.language.get({
      *         account_id: "account_id",
@@ -103,6 +106,9 @@ export class LanguageClient {
      *
      * @param {CloudflareApi.stream.videos.captions.StreamCaptionBasicUpload} request
      * @param {LanguageClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";
@@ -179,6 +185,9 @@ export class LanguageClient {
      * @param {CloudflareApi.stream.videos.captions.DeleteLanguageRequest} request
      * @param {LanguageClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.stream.videos.captions.language.delete({
      *         account_id: "account_id",
@@ -245,6 +254,9 @@ export class LanguageClient {
      *
      * @param {CloudflareApi.stream.videos.captions.GenerateLanguageRequest} request
      * @param {LanguageClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.stream.videos.captions.language.generate({

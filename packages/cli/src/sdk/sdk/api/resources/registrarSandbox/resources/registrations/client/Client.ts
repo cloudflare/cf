@@ -74,6 +74,8 @@ export class RegistrationsClient {
      * @param {RegistrationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.registrarSandbox.registrations.check({
@@ -187,6 +189,8 @@ export class RegistrationsClient {
      * @param {RegistrationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.registrarSandbox.registrations.search({
@@ -277,6 +281,9 @@ export class RegistrationsClient {
      *
      * @param {CloudflareApi.registrarSandbox.ListRegistrationsRequest} request
      * @param {RegistrationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.registrarSandbox.registrations.list({
@@ -387,6 +394,9 @@ export class RegistrationsClient {
      *
      * @param {CloudflareApi.registrarSandbox.RegistrarApiSandboxRegistrationCreateRequest} request
      * @param {RegistrationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.registrarSandbox.registrations.create({
@@ -654,6 +664,9 @@ export class RegistrationsClient {
      * @param {CloudflareApi.registrarSandbox.GetRegistrationsRequest} request
      * @param {RegistrationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.registrarSandbox.registrations.get({
      *         account_id: "account_id",
@@ -733,6 +746,9 @@ export class RegistrationsClient {
      *
      * @param {CloudflareApi.registrarSandbox.RegistrarApiSandboxRegistrationUpdateRequest} request
      * @param {RegistrationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.registrarSandbox.registrations.update({
@@ -857,6 +873,9 @@ export class RegistrationsClient {
      * @param {CloudflareApi.registrarSandbox.GetRegistrationStatusRegistrationsRequest} request
      * @param {RegistrationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.registrarSandbox.registrations.getRegistrationStatus({
      *         account_id: "account_id",
@@ -935,6 +954,9 @@ export class RegistrationsClient {
      *
      * @param {CloudflareApi.registrarSandbox.GetUpdateStatusRegistrationsRequest} request
      * @param {RegistrationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.registrarSandbox.registrations.getUpdateStatus({

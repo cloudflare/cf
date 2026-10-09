@@ -31,6 +31,9 @@ export class FieldsClient {
      * @param {CloudflareApi.logpush.accountDatasets.GetFieldsRequest} request
      * @param {FieldsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.logpush.accountDatasets.fields.get({
      *         account_or_zone: "account_or_zone",

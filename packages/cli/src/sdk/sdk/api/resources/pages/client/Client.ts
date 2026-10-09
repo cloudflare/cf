@@ -53,6 +53,9 @@ export class PagesClient {
      * @param {CloudflareApi.ListPagesRequest} request
      * @param {PagesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.pages.list({
      *         account_id: "account_id",
@@ -128,6 +131,9 @@ export class PagesClient {
      * @param {CloudflareApi.CreatePagesRequest} request
      * @param {PagesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.pages.create({
      *         account_id: "account_id",
@@ -198,6 +204,9 @@ export class PagesClient {
      * @param {CloudflareApi.GetPagesRequest} request
      * @param {PagesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.pages.get({
      *         account_id: "account_id",
@@ -264,6 +273,9 @@ export class PagesClient {
      * @param {CloudflareApi.DeletePagesRequest} request
      * @param {PagesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.pages.delete({
      *         account_id: "account_id",
@@ -329,6 +341,9 @@ export class PagesClient {
      *
      * @param {CloudflareApi.EditPagesRequest} request
      * @param {PagesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.pages.edit({

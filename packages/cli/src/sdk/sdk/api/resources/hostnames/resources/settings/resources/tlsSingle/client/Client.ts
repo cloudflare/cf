@@ -31,6 +31,9 @@ export class TlsSingleClient {
      * @param {CloudflareApi.hostnames.settings.GetTlsSingleRequest} request
      * @param {TlsSingleClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.hostnames.settings.tlsSingle.get({
      *         zone_id: "zone_id",

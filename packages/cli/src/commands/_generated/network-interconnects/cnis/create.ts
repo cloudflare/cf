@@ -34,7 +34,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			array: true,
 			description:
-				"Extra set of static prefixes to advertise to the customer's end of the session",
+				"Extra set of static prefixes to advertise to the customer's end of the session\nPrefixes containing host bits will be normalized to contain network bits only.\nDuplicates are not allowed.",
 		})
 		.option("bgp-md5-key", {
 			type: "string",

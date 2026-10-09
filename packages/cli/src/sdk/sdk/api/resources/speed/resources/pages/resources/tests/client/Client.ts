@@ -32,6 +32,9 @@ export class TestsClient {
      * @param {CloudflareApi.speed.pages.ListTestsRequest} request
      * @param {TestsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.speed.pages.tests.list({
      *         zone_id: "zone_id",
@@ -110,6 +113,9 @@ export class TestsClient {
      * @param {CloudflareApi.speed.pages.CreateTestsRequest} request
      * @param {TestsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.speed.pages.tests.create({
      *         zone_id: "zone_id",
@@ -178,6 +184,9 @@ export class TestsClient {
      *
      * @param {CloudflareApi.speed.pages.DeleteTestsRequest} request
      * @param {TestsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.speed.pages.tests.delete({
@@ -254,6 +263,9 @@ export class TestsClient {
      *
      * @param {CloudflareApi.speed.pages.GetTestsRequest} request
      * @param {TestsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.speed.pages.tests.get({

@@ -32,6 +32,9 @@ export class AuditSshSettingsClient {
      * @param {CloudflareApi.zeroTrust.access.infrastructure.GetAuditSshSettingsRequest} request
      * @param {AuditSshSettingsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.infrastructure.auditSshSettings.get({
      *         account_id: "account_id"
@@ -99,6 +102,9 @@ export class AuditSshSettingsClient {
      *
      * @param {CloudflareApi.zeroTrust.access.infrastructure.UpdateAuditSshSettingsRequest} request
      * @param {AuditSshSettingsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.infrastructure.auditSshSettings.update({
@@ -171,6 +177,9 @@ export class AuditSshSettingsClient {
      *
      * @param {CloudflareApi.zeroTrust.access.infrastructure.RotateSeedAuditSshSettingsRequest} request
      * @param {AuditSshSettingsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.infrastructure.auditSshSettings.rotateSeed({

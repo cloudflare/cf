@@ -52,6 +52,8 @@ export class AbuseReportsClient {
      * @throws {@link CloudflareApi.UnauthorizedError}
      * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.abuseReports.list({
@@ -169,6 +171,8 @@ export class AbuseReportsClient {
      * @throws {@link CloudflareApi.UnauthorizedError}
      * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.abuseReports.listSubmitted({
@@ -281,6 +285,8 @@ export class AbuseReportsClient {
      * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.abuseReports.getSubmitted({
@@ -368,6 +374,8 @@ export class AbuseReportsClient {
      * @throws {@link CloudflareApi.UnauthorizedError}
      * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.abuseReports.get({
@@ -459,6 +467,8 @@ export class AbuseReportsClient {
      * @throws {@link CloudflareApi.UnauthorizedError}
      * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.abuseReports.create({

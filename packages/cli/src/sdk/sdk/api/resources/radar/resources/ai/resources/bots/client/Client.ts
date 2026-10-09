@@ -12,7 +12,6 @@ import { handleNonStatusCodeError } from "../../../../../../../../errors/handleN
 import * as errors from "../../../../../../../../errors/index.js";
 import type * as CloudflareApi from "../../../../../../../index.js";
 import * as CloudflareApiErrors from "../../../../../../../errors/index.js";
-import { SummaryClient } from "../resources/summary/client/Client.js";
 
 export declare namespace BotsClient {
     export type Options = BaseClientOptions;
@@ -22,14 +21,9 @@ export declare namespace BotsClient {
 
 export class BotsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<BotsClient.Options>;
-    protected _summary: SummaryClient | undefined;
 
     constructor(options: BotsClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
-    }
-
-    public get summary(): SummaryClient {
-        return (this._summary ??= new SummaryClient(this._options));
     }
 
     /**
@@ -39,6 +33,8 @@ export class BotsClient {
      * @param {BotsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.radar.ai.bots.timeseries({
@@ -164,6 +160,8 @@ export class BotsClient {
      * @param {BotsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.radar.ai.bots.timeseriesGroups({

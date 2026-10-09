@@ -31,6 +31,9 @@ export class DetailsClient {
      * @param {CloudflareApi.waitingRooms.events.GetDetailsRequest} request
      * @param {DetailsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.waitingRooms.events.details.get({
      *         zone_id: "zone_id",

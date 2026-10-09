@@ -32,6 +32,9 @@ export class PoolsClient {
      * @param {string} request
      * @param {PoolsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.user.loadBalancers.pools.edit.pools.pools("string")
      */
@@ -94,6 +97,9 @@ export class PoolsClient {
      *
      * @param {CloudflareApi.user.loadBalancers.pools.edit.PoolPoolsRequest} request
      * @param {PoolsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.user.loadBalancers.pools.edit.pools.pool({

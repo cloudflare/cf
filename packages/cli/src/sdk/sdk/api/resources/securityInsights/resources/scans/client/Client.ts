@@ -29,6 +29,9 @@ export class ScansClient {
      * @param {CloudflareApi.securityInsights.ListScansRequest} request
      * @param {ScansClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.securityInsights.scans.list({
      *         account_or_zone: "account_or_zone",
@@ -97,6 +100,9 @@ export class ScansClient {
      *
      * @param {CloudflareApi.securityInsights.StartScansRequest} request
      * @param {ScansClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.securityInsights.scans.start({

@@ -38,6 +38,8 @@ export class RegistriesClient {
      *
      * @throws {@link CloudflareApi.UnauthorizedError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.containers.registries.list({
@@ -124,6 +126,8 @@ export class RegistriesClient {
      * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.ConflictError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.containers.registries.create({
@@ -220,6 +224,8 @@ export class RegistriesClient {
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.ConflictError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.containers.registries.delete({

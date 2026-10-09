@@ -38,6 +38,9 @@ export class ConfigurationsClient {
      * @param {CloudflareApi.zeroTrust.gateway.GetConfigurationsRequest} request
      * @param {ConfigurationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.gateway.configurations.get({
      *         account_id: "account_id"
@@ -105,6 +108,9 @@ export class ConfigurationsClient {
      *
      * @param {CloudflareApi.zeroTrust.gateway.UpdateConfigurationsRequest} request
      * @param {ConfigurationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.gateway.configurations.update({
@@ -177,6 +183,9 @@ export class ConfigurationsClient {
      *
      * @param {CloudflareApi.zeroTrust.gateway.EditConfigurationsRequest} request
      * @param {ConfigurationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.gateway.configurations.edit({

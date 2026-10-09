@@ -44,6 +44,9 @@ export class ArticlesClient {
      * @param {CloudflareApi.cloudforceOne.threatSignals.ListArticlesRequest} request
      * @param {ArticlesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.cloudforceOne.threatSignals.articles.list({
      *         account_id: "account_id"
@@ -158,6 +161,9 @@ export class ArticlesClient {
      * @param {CloudflareApi.cloudforceOne.threatSignals.BulkMarkReadArticlesRequest} request
      * @param {ArticlesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.cloudforceOne.threatSignals.articles.bulkMarkRead({
      *         account_id: "account_id",
@@ -231,6 +237,9 @@ export class ArticlesClient {
      * @param {CloudflareApi.cloudforceOne.threatSignals.GetArticlesRequest} request
      * @param {ArticlesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.cloudforceOne.threatSignals.articles.get({
      *         account_id: "account_id",
@@ -299,6 +308,9 @@ export class ArticlesClient {
      *
      * @param {CloudflareApi.cloudforceOne.threatSignals.MarkReadArticlesRequest} request
      * @param {ArticlesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.threatSignals.articles.markRead({
@@ -372,6 +384,9 @@ export class ArticlesClient {
      *
      * @param {CloudflareApi.cloudforceOne.threatSignals.GetContentArticlesRequest} request
      * @param {ArticlesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.threatSignals.articles.getContent({

@@ -46,6 +46,9 @@ export class TenantClient {
      * @param {CloudflareApi.GetTenantRequest} request
      * @param {TenantClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.tenant.get({
      *         tenant_id: "tenant_id"

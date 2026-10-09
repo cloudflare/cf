@@ -31,6 +31,9 @@ export class TypesClient {
      * @param {CloudflareApi.cloudforceOne.requests.ListTypesRequest} request
      * @param {TypesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.cloudforceOne.requests.types.list({
      *         account_id: "account_id",

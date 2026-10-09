@@ -35,6 +35,9 @@ export class DispatchNamespacesClient {
      * @param {CloudflareApi.workersForPlatforms.ListDispatchNamespacesRequest} request
      * @param {DispatchNamespacesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workersForPlatforms.dispatchNamespaces.list({
      *         account_id: "account_id"
@@ -102,6 +105,9 @@ export class DispatchNamespacesClient {
      *
      * @param {CloudflareApi.workersForPlatforms.CreateDispatchNamespacesRequest} request
      * @param {DispatchNamespacesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workersForPlatforms.dispatchNamespaces.create({
@@ -174,6 +180,9 @@ export class DispatchNamespacesClient {
      * @param {CloudflareApi.workersForPlatforms.GetDispatchNamespacesRequest} request
      * @param {DispatchNamespacesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workersForPlatforms.dispatchNamespaces.get({
      *         account_id: "account_id",
@@ -242,6 +251,9 @@ export class DispatchNamespacesClient {
      *
      * @param {CloudflareApi.workersForPlatforms.UpdateDispatchNamespacesRequest} request
      * @param {DispatchNamespacesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workersForPlatforms.dispatchNamespaces.update({
@@ -315,6 +327,9 @@ export class DispatchNamespacesClient {
      * @param {CloudflareApi.workersForPlatforms.DeleteDispatchNamespacesRequest} request
      * @param {DispatchNamespacesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workersForPlatforms.dispatchNamespaces.delete({
      *         account_id: "account_id",
@@ -380,6 +395,9 @@ export class DispatchNamespacesClient {
      *
      * @param {CloudflareApi.workersForPlatforms.EditDispatchNamespacesRequest} request
      * @param {DispatchNamespacesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workersForPlatforms.dispatchNamespaces.edit({

@@ -40,6 +40,9 @@ export class CustomPagesClient {
      * @param {CloudflareApi.ListCustomPagesRequest} request
      * @param {CustomPagesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.customPages.list({
      *         account_or_zone: "account_or_zone",
@@ -108,6 +111,9 @@ export class CustomPagesClient {
      *
      * @param {CloudflareApi.GetCustomPagesRequest} request
      * @param {CustomPagesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.customPages.get({

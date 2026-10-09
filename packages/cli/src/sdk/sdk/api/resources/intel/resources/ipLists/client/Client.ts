@@ -28,6 +28,9 @@ export class IpListsClient {
      * @param {CloudflareApi.intel.GetIpListsRequest} request
      * @param {IpListsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.intel.ipLists.get({
      *         account_id: "account_id"

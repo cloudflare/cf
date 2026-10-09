@@ -35,6 +35,9 @@ export class DomainsClient {
      * @param {CloudflareApi.pages.ListDomainsRequest} request
      * @param {DomainsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.pages.domains.list({
      *         account_id: "account_id",
@@ -103,6 +106,9 @@ export class DomainsClient {
      *
      * @param {CloudflareApi.pages.CreateDomainsRequest} request
      * @param {DomainsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.pages.domains.create({
@@ -174,6 +180,9 @@ export class DomainsClient {
      * @param {CloudflareApi.pages.GetDomainsRequest} request
      * @param {DomainsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.pages.domains.get({
      *         account_id: "account_id",
@@ -240,6 +249,9 @@ export class DomainsClient {
      *
      * @param {CloudflareApi.pages.DeleteDomainsRequest} request
      * @param {DomainsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.pages.domains.delete({

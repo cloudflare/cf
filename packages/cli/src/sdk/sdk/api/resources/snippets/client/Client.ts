@@ -41,6 +41,9 @@ export class SnippetsClient {
      * @param {CloudflareApi.ListSnippetsRequest} request
      * @param {SnippetsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.snippets.list({
      *         zone_id: "zone_id",
@@ -111,6 +114,9 @@ export class SnippetsClient {
      * @param {CloudflareApi.GetSnippetsRequest} request
      * @param {SnippetsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.snippets.get({
      *         zone_id: "zone_id",
@@ -176,6 +182,9 @@ export class SnippetsClient {
      *
      * @param {CloudflareApi.UpdateSnippetsRequest} request
      * @param {SnippetsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";
@@ -252,6 +261,9 @@ export class SnippetsClient {
      *
      * @param {CloudflareApi.DeleteSnippetsRequest} request
      * @param {SnippetsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.snippets.delete({

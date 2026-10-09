@@ -34,6 +34,8 @@ export class ConnectorsClient {
      * @throws {@link CloudflareApi.UnauthorizedError}
      * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.connectors.list({
@@ -124,6 +126,8 @@ export class ConnectorsClient {
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.ConflictError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.connectors.create({
@@ -214,6 +218,8 @@ export class ConnectorsClient {
      * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.connectors.get({
@@ -299,6 +305,8 @@ export class ConnectorsClient {
      * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.connectors.update({
@@ -387,6 +395,8 @@ export class ConnectorsClient {
      * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.connectors.delete({
@@ -472,6 +482,8 @@ export class ConnectorsClient {
      * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.connectors.edit({

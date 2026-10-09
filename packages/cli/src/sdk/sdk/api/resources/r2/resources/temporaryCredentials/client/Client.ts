@@ -29,6 +29,9 @@ export class TemporaryCredentialsClient {
      * @param {CloudflareApi.r2.R2TempAccessCredsRequest} request
      * @param {TemporaryCredentialsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.r2.temporaryCredentials.create({
      *         account_id: "account_id",

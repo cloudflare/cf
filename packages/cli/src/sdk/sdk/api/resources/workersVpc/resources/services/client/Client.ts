@@ -29,6 +29,9 @@ export class ServicesClient {
      * @param {CloudflareApi.workersVpc.ListServicesRequest} request
      * @param {ServicesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workersVpc.services.list({
      *         account_id: "account_id"
@@ -105,6 +108,9 @@ export class ServicesClient {
      *
      * @param {CloudflareApi.workersVpc.CreateServicesRequest} request
      * @param {ServicesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workersVpc.services.create({
@@ -202,6 +208,9 @@ export class ServicesClient {
      * @param {CloudflareApi.workersVpc.GetServicesRequest} request
      * @param {ServicesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workersVpc.services.get({
      *         account_id: "account_id",
@@ -267,6 +276,9 @@ export class ServicesClient {
      *
      * @param {CloudflareApi.workersVpc.UpdateServicesRequest} request
      * @param {ServicesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workersVpc.services.update({
@@ -348,6 +360,9 @@ export class ServicesClient {
      *
      * @param {CloudflareApi.workersVpc.DeleteServicesRequest} request
      * @param {ServicesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workersVpc.services.delete({

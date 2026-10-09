@@ -31,6 +31,9 @@ export class UsersClient {
      * @param {CloudflareApi.zeroTrust.identityProviders.scim.ListUsersRequest} request
      * @param {UsersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.identityProviders.scim.users.list({
      *         account_id: "account_id",
@@ -126,6 +129,9 @@ export class UsersClient {
      * @param {CloudflareApi.zeroTrust.identityProviders.scim.GetUsersRequest} request
      * @param {UsersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.identityProviders.scim.users.get({
      *         account_id: "account_id",
@@ -192,6 +198,9 @@ export class UsersClient {
      *
      * @param {CloudflareApi.zeroTrust.identityProviders.scim.DeleteUsersRequest} request
      * @param {UsersClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.identityProviders.scim.users.delete({

@@ -83,6 +83,9 @@ export class BucketsClient {
      * @param {CloudflareApi.r2.ListBucketsRequest} request
      * @param {BucketsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.r2.buckets.list({
      *         account_id: "account_id",
@@ -172,6 +175,9 @@ export class BucketsClient {
      * @param {CloudflareApi.r2.CreateBucketsRequest} request
      * @param {BucketsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.r2.buckets.create({
      *         account_id: "account_id",
@@ -242,6 +248,9 @@ export class BucketsClient {
      * @param {CloudflareApi.r2.GetBucketsRequest} request
      * @param {BucketsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.r2.buckets.get({
      *         account_id: "account_id",
@@ -308,6 +317,9 @@ export class BucketsClient {
      *
      * @param {CloudflareApi.r2.CreateByNameBucketsRequest} request
      * @param {BucketsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.r2.buckets.createByName({
@@ -384,6 +396,9 @@ export class BucketsClient {
      * @param {CloudflareApi.r2.DeleteBucketsRequest} request
      * @param {BucketsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.r2.buckets.delete({
      *         account_id: "account_id",
@@ -450,6 +465,9 @@ export class BucketsClient {
      *
      * @param {CloudflareApi.r2.EditBucketsRequest} request
      * @param {BucketsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.r2.buckets.edit({

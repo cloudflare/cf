@@ -32,6 +32,9 @@ export class LoggingClient {
      * @param {CloudflareApi.zeroTrust.gateway.GetLoggingRequest} request
      * @param {LoggingClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.gateway.logging.get({
      *         account_id: "account_id"
@@ -99,6 +102,9 @@ export class LoggingClient {
      *
      * @param {CloudflareApi.zeroTrust.gateway.UpdateLoggingRequest} request
      * @param {LoggingClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.gateway.logging.update({

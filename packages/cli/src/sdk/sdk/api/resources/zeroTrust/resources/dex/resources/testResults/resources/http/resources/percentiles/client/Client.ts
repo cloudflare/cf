@@ -31,6 +31,9 @@ export class PercentilesClient {
      * @param {CloudflareApi.zeroTrust.dex.testResults.http.GetPercentilesRequest} request
      * @param {PercentilesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.dex.testResults.http.percentiles.get({
      *         account_id: "account_id",

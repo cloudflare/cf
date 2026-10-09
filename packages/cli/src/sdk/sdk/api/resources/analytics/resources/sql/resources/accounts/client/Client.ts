@@ -47,6 +47,8 @@ export class AccountsClient {
      * @throws {@link CloudflareApi.NotImplementedError}
      * @throws {@link CloudflareApi.ServiceUnavailableError}
      * @throws {@link CloudflareApi.InsufficientStorageError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.analytics.sql.accounts.get({
@@ -163,6 +165,8 @@ export class AccountsClient {
      * @throws {@link CloudflareApi.NotImplementedError}
      * @throws {@link CloudflareApi.ServiceUnavailableError}
      * @throws {@link CloudflareApi.InsufficientStorageError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.analytics.sql.accounts.post({

@@ -1,3 +1,4 @@
+export type { BulkDeletePrefixesRequest } from "./BulkDeletePrefixesRequest.js";
 export type { CreatePrefixesRequest } from "./CreatePrefixesRequest.js";
 export type { DeletePrefixesRequest } from "./DeletePrefixesRequest.js";
 export type { DosPrefixUpdate } from "./DosPrefixUpdate.js";

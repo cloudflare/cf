@@ -33,6 +33,8 @@ export class HttpProtocolClient {
      * @param {HttpProtocolClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.radar.http.locations.httpProtocol.get({

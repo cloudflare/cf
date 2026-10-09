@@ -33,6 +33,8 @@ export class AuthMethodsClient {
      * @param {AuthMethodsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.casb.applications.authMethods.list({

@@ -30,6 +30,9 @@ export class SecretsClient {
      * @param {CloudflareApi.workers.ListSecretsRequest} request
      * @param {SecretsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workers.secrets.list({
      *         account_id: "account_id",
@@ -103,6 +106,8 @@ export class SecretsClient {
      * @param {SecretsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.TooManyRequestsError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workers.secrets.update({
@@ -199,6 +204,8 @@ export class SecretsClient {
      * @param {SecretsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.TooManyRequestsError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workers.secrets.bulk({
@@ -280,6 +287,9 @@ export class SecretsClient {
      *
      * @param {CloudflareApi.workers.GetSecretsRequest} request
      * @param {SecretsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workers.secrets.get({
@@ -364,6 +374,9 @@ export class SecretsClient {
      *
      * @param {CloudflareApi.workers.DeleteSecretsRequest} request
      * @param {SecretsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workers.secrets.delete({

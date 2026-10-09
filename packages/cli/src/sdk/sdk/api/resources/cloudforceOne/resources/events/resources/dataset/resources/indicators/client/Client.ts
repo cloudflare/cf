@@ -64,6 +64,8 @@ export class IndicatorsClient {
      * @param {IndicatorsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.events.dataset.indicators.delete({
@@ -143,6 +145,8 @@ export class IndicatorsClient {
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.ConflictError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.events.dataset.indicators.patch({

@@ -34,6 +34,9 @@ export class VersionsClient {
      * @param {CloudflareApi.rulesets.ListVersionsRequest} request
      * @param {VersionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.rulesets.versions.list({
      *         account_or_zone: "account_or_zone",
@@ -103,6 +106,9 @@ export class VersionsClient {
      *
      * @param {CloudflareApi.rulesets.GetVersionsRequest} request
      * @param {VersionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.rulesets.versions.get({
@@ -179,6 +185,9 @@ export class VersionsClient {
      *
      * @param {CloudflareApi.rulesets.DeleteVersionsRequest} request
      * @param {VersionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.rulesets.versions.delete({

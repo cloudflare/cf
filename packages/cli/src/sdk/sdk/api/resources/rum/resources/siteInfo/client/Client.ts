@@ -29,6 +29,9 @@ export class SiteInfoClient {
      * @param {CloudflareApi.rum.RumCreateSiteRequest} request
      * @param {SiteInfoClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.rum.siteInfo.create({
      *         account_id: "account_id"
@@ -96,6 +99,9 @@ export class SiteInfoClient {
      *
      * @param {CloudflareApi.rum.ListSiteInfoRequest} request
      * @param {SiteInfoClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.rum.siteInfo.list({
@@ -176,6 +182,9 @@ export class SiteInfoClient {
      * @param {CloudflareApi.rum.ListSiteTagsSiteInfoRequest} request
      * @param {SiteInfoClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.rum.siteInfo.listSiteTags({
      *         account_id: "account_id",
@@ -252,6 +261,9 @@ export class SiteInfoClient {
      * @param {CloudflareApi.rum.ValidateHostnameSiteInfoRequest} request
      * @param {SiteInfoClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.rum.siteInfo.validateHostname({
      *         account_id: "account_id",
@@ -317,6 +329,9 @@ export class SiteInfoClient {
      *
      * @param {CloudflareApi.rum.ListZoneTagsSiteInfoRequest} request
      * @param {SiteInfoClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.rum.siteInfo.listZoneTags({
@@ -386,6 +401,9 @@ export class SiteInfoClient {
      * @param {CloudflareApi.rum.GetSiteInfoRequest} request
      * @param {SiteInfoClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.rum.siteInfo.get({
      *         account_id: "account_id",
@@ -451,6 +469,9 @@ export class SiteInfoClient {
      *
      * @param {CloudflareApi.rum.RumUpdateSiteRequest} request
      * @param {SiteInfoClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.rum.siteInfo.update({
@@ -520,6 +541,9 @@ export class SiteInfoClient {
      *
      * @param {CloudflareApi.rum.DeleteSiteInfoRequest} request
      * @param {SiteInfoClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.rum.siteInfo.delete({

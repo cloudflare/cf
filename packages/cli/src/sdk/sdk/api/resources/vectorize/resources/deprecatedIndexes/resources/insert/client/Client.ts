@@ -34,6 +34,9 @@ export class InsertClient {
      * @param {CloudflareApi.vectorize.deprecatedIndexes.CreateInsertRequest} request
      * @param {InsertClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.vectorize.deprecatedIndexes.insert.create({
      *         account_id: "account_id",

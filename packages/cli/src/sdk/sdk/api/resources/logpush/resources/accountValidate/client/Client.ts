@@ -41,6 +41,9 @@ export class AccountValidateClient {
      * @param {CloudflareApi.logpush.DestinationExistsDeleteAccountValidateRequest} request
      * @param {AccountValidateClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.logpush.accountValidate.destinationExistsDelete({
      *         account_or_zone: "account_or_zone",

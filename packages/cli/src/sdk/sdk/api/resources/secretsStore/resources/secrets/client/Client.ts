@@ -29,6 +29,9 @@ export class SecretsClient {
      * @param {CloudflareApi.secretsStore.ListSecretsRequest} request
      * @param {SecretsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.secretsStore.secrets.list({
      *         account_id: "985e105f4ecef8ad9ca31a8372d0c353",
@@ -122,6 +125,9 @@ export class SecretsClient {
      * @param {CloudflareApi.secretsStore.CreateSecretsRequest} request
      * @param {SecretsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.secretsStore.secrets.create({
      *         account_id: "985e105f4ecef8ad9ca31a8372d0c353",
@@ -199,6 +205,9 @@ export class SecretsClient {
      * @param {CloudflareApi.secretsStore.SecretsStoreDeleteSecretsRequest} request
      * @param {SecretsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.secretsStore.secrets.bulkDelete({
      *         account_id: "985e105f4ecef8ad9ca31a8372d0c353",
@@ -268,6 +277,9 @@ export class SecretsClient {
      *
      * @param {CloudflareApi.secretsStore.GetSecretsRequest} request
      * @param {SecretsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.secretsStore.secrets.get({
@@ -339,6 +351,9 @@ export class SecretsClient {
      * @param {CloudflareApi.secretsStore.DeleteSecretsRequest} request
      * @param {SecretsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.secretsStore.secrets.delete({
      *         account_id: "985e105f4ecef8ad9ca31a8372d0c353",
@@ -405,6 +420,9 @@ export class SecretsClient {
      *
      * @param {CloudflareApi.secretsStore.SecretsStorePatchSecretObject} request
      * @param {SecretsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.secretsStore.secrets.edit({
@@ -478,6 +496,9 @@ export class SecretsClient {
      *
      * @param {CloudflareApi.secretsStore.SecretsStoreDuplicateSecretObject} request
      * @param {SecretsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.secretsStore.secrets.duplicate({

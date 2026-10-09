@@ -39,6 +39,9 @@ export class DashboardClient {
      * @param {CloudflareApi.user.analytics.GetDashboardRequest} request
      * @param {DashboardClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.user.analytics.dashboard.get()
      */

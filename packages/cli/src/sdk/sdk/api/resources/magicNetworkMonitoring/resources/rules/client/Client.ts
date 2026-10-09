@@ -41,6 +41,9 @@ export class RulesClient {
      * @param {CloudflareApi.magicNetworkMonitoring.ListRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicNetworkMonitoring.rules.list({
      *         account_id: "account_id"
@@ -108,6 +111,9 @@ export class RulesClient {
      *
      * @param {CloudflareApi.magicNetworkMonitoring.CreateRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicNetworkMonitoring.rules.create({
@@ -185,6 +191,9 @@ export class RulesClient {
      * @param {CloudflareApi.magicNetworkMonitoring.UpdateRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicNetworkMonitoring.rules.update({
      *         account_id: "account_id",
@@ -261,6 +270,9 @@ export class RulesClient {
      * @param {CloudflareApi.magicNetworkMonitoring.GetRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicNetworkMonitoring.rules.get({
      *         account_id: "account_id",
@@ -330,6 +342,9 @@ export class RulesClient {
      * @param {CloudflareApi.magicNetworkMonitoring.DeleteRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicNetworkMonitoring.rules.delete({
      *         account_id: "account_id",
@@ -398,6 +413,9 @@ export class RulesClient {
      *
      * @param {CloudflareApi.magicNetworkMonitoring.EditRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicNetworkMonitoring.rules.edit({

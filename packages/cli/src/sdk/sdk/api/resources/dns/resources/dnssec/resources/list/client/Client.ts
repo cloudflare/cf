@@ -31,6 +31,9 @@ export class ListClient {
      * @param {CloudflareApi.dns.dnssec.ZsksListRequest} request
      * @param {ListClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.dns.dnssec.list.zsks({
      *         zone_id: "zone_id"

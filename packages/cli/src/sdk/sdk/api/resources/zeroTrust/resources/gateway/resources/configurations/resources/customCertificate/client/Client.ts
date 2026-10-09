@@ -33,6 +33,9 @@ export class CustomCertificateClient {
      * @param {CloudflareApi.zeroTrust.gateway.configurations.GetCustomCertificateRequest} request
      * @param {CustomCertificateClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.gateway.configurations.customCertificate.get({
      *         account_id: "account_id"

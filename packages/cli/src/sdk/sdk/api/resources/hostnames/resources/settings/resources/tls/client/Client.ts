@@ -32,6 +32,9 @@ export class TlsClient {
      * @param {CloudflareApi.hostnames.settings.GetTlsRequest} request
      * @param {TlsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.hostnames.settings.tls.get({
      *         zone_id: "zone_id",
@@ -100,6 +103,9 @@ export class TlsClient {
      *
      * @param {CloudflareApi.hostnames.settings.UpdateTlsRequest} request
      * @param {TlsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.hostnames.settings.tls.update({
@@ -174,6 +180,9 @@ export class TlsClient {
      *
      * @param {CloudflareApi.hostnames.settings.DeleteTlsRequest} request
      * @param {TlsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.hostnames.settings.tls.delete({

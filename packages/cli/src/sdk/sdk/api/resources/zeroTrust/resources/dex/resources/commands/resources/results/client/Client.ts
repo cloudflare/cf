@@ -27,6 +27,9 @@ export class ResultsClient {
 
     /**
      * Downloads artifacts for an executed command. Bulk downloads are not supported
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      */
     public get(
         request: CloudflareApi.zeroTrust.dex.commands.GetResultsRequest,

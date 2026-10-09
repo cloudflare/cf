@@ -34,6 +34,9 @@ export class UsageModelClient {
      * @param {CloudflareApi.workers.legacy.scripts.GetUsageModelRequest} request
      * @param {UsageModelClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workers.legacy.scripts.usageModel.get({
      *         account_id: "account_id",
@@ -104,6 +107,9 @@ export class UsageModelClient {
      *
      * @param {CloudflareApi.workers.legacy.scripts.UpdateUsageModelRequest} request
      * @param {UsageModelClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workers.legacy.scripts.usageModel.update({

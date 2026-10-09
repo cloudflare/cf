@@ -47,6 +47,9 @@ export class IdentityProvidersClient {
      * @param {CloudflareApi.zeroTrust.ListIdentityProvidersRequest} request
      * @param {IdentityProvidersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.identityProviders.list({
      *         account_or_zone: "account_or_zone",
@@ -131,6 +134,9 @@ export class IdentityProvidersClient {
      * @param {CloudflareApi.zeroTrust.CreateIdentityProvidersRequest} request
      * @param {IdentityProvidersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.identityProviders.create({
      *         account_or_zone: "account_or_zone",
@@ -208,6 +214,9 @@ export class IdentityProvidersClient {
      * @param {CloudflareApi.zeroTrust.GetIdentityProvidersRequest} request
      * @param {IdentityProvidersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.identityProviders.get({
      *         account_or_zone: "account_or_zone",
@@ -281,6 +290,9 @@ export class IdentityProvidersClient {
      *
      * @param {CloudflareApi.zeroTrust.UpdateIdentityProvidersRequest} request
      * @param {IdentityProvidersClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.identityProviders.update({
@@ -364,6 +376,9 @@ export class IdentityProvidersClient {
      *
      * @param {CloudflareApi.zeroTrust.DeleteIdentityProvidersRequest} request
      * @param {IdentityProvidersClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.identityProviders.delete({

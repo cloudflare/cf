@@ -31,6 +31,8 @@ export class LogosClient {
      * @param {LogosClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.UnprocessableEntityError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.logos.create({
@@ -117,6 +119,9 @@ export class LogosClient {
      *
      * @param {CloudflareApi.DeleteLogosRequest} request
      * @param {LogosClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.logos.delete({

@@ -32,6 +32,9 @@ export class JitRequestsClient {
      * @param {CloudflareApi.zeroTrust.access.logs.ListJitRequestsRequest} request
      * @param {JitRequestsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.logs.jitRequests.list({
      *         account_id: "account_id"
@@ -113,6 +116,8 @@ export class JitRequestsClient {
      * @param {JitRequestsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.logs.jitRequests.get({

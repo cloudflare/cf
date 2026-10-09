@@ -17,10 +17,7 @@ import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
-import {
-	promptForRequiredEnumField,
-	promptForRequiredField,
-} from "#lib/prompt.js";
+import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
@@ -36,8 +33,10 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("prompt", { type: "string", description: "The prompt field" })
 		.option("type", {
 			type: "string",
-			description: "The type field",
+			description:
+				'Optional label; does not affect execution. Defaults to "summary".',
 			choices: ["summary", "tags"],
+			default: "summary",
 		})
 		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
 		.option("dry-run", {
@@ -130,13 +129,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					argv["prompt"] = await promptForRequiredField(
 						"prompt",
 						"The prompt field"
-					);
-				}
-				if (argv["type"] === undefined) {
-					argv["type"] = await promptForRequiredEnumField(
-						"type",
-						"The type field",
-						["summary", "tags"] as const
 					);
 				}
 

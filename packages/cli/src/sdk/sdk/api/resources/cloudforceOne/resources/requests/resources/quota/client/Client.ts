@@ -34,6 +34,8 @@ export class QuotaClient {
      *
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.UnprocessableEntityError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.requests.quota.get({

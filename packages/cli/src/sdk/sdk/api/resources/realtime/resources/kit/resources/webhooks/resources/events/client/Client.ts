@@ -31,6 +31,9 @@ export class EventsClient {
      * @param {CloudflareApi.realtime.kit.webhooks.ListEventsRequest} request
      * @param {EventsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.realtime.kit.webhooks.events.list({
      *         account_id: "account_id",

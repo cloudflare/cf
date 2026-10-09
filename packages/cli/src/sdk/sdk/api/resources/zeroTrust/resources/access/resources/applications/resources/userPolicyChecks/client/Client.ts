@@ -31,6 +31,9 @@ export class UserPolicyChecksClient {
      * @param {CloudflareApi.zeroTrust.access.applications.ListUserPolicyChecksRequest} request
      * @param {UserPolicyChecksClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.applications.userPolicyChecks.list({
      *         account_or_zone: "account_or_zone",

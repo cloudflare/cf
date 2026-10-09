@@ -33,6 +33,8 @@ export class StripeClient {
      * @param {StripeClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.payPerCrawl.publisher.stripe.get({
@@ -108,6 +110,8 @@ export class StripeClient {
      * @param {StripeClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.payPerCrawl.publisher.stripe.create({
@@ -183,6 +187,8 @@ export class StripeClient {
      * @param {StripeClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.payPerCrawl.publisher.stripe.delete({

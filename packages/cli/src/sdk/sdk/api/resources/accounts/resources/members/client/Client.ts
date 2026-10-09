@@ -29,6 +29,9 @@ export class MembersClient {
      * @param {CloudflareApi.accounts.ListMembersRequest} request
      * @param {MembersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.accounts.members.list({
      *         account_id: "account_id"
@@ -108,6 +111,9 @@ export class MembersClient {
      * @param {CloudflareApi.accounts.CreateMembersRequest} request
      * @param {MembersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.accounts.members.create({
      *         account_id: "account_id",
@@ -180,6 +186,9 @@ export class MembersClient {
      * @param {CloudflareApi.accounts.GetMembersRequest} request
      * @param {MembersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.accounts.members.get({
      *         account_id: "account_id",
@@ -245,6 +254,9 @@ export class MembersClient {
      *
      * @param {CloudflareApi.accounts.UpdateMembersRequest} request
      * @param {MembersClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.accounts.members.update({
@@ -315,6 +327,9 @@ export class MembersClient {
      *
      * @param {CloudflareApi.accounts.DeleteMembersRequest} request
      * @param {MembersClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.accounts.members.delete({

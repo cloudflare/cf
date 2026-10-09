@@ -32,6 +32,9 @@ export class PreviewClient {
      * @param {CloudflareApi.user.loadBalancers.pools.CreatePreviewRequest} request
      * @param {PreviewClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.user.loadBalancers.pools.preview.create({
      *         pool_id: "pool_id",

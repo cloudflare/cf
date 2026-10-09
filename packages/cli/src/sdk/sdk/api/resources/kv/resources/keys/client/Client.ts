@@ -28,6 +28,9 @@ export class KeysClient {
      * @param {CloudflareApi.kv.ListKeysRequest} request
      * @param {KeysClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.kv.keys.list({
      *         account_id: "account_id",
@@ -113,6 +116,9 @@ export class KeysClient {
 
     /**
      * Returns the value stored under the specified key in the Workers KV namespace as raw bytes. Use URL-encoding for special characters (for example, `:`, `!`, `%`) in the key name when constructing the request URL. If the key-value pair expires, the `expiration` response header contains its expiration time in seconds since the UNIX epoch.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      */
     public get(
         request: CloudflareApi.kv.GetKeysRequest,
@@ -178,6 +184,9 @@ export class KeysClient {
      * @param {string} key_name
      * @param {CloudflareApi.kv.PutKeysRequest} request
      * @param {KeysClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      */
     public put(
         uploadable: core.file.Uploadable,
@@ -261,6 +270,9 @@ export class KeysClient {
      *
      * @param {CloudflareApi.kv.DeleteKeysRequest} request
      * @param {KeysClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.kv.keys.delete({

@@ -32,6 +32,9 @@ export class AppsClient {
      * @param {CloudflareApi.realtime.sfu.ListAppsRequest} request
      * @param {AppsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.realtime.sfu.apps.list({
      *         account_id: "account_id"
@@ -99,6 +102,9 @@ export class AppsClient {
      *
      * @param {CloudflareApi.realtime.sfu.CreateAppsRequest} request
      * @param {AppsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.realtime.sfu.apps.create({
@@ -169,6 +175,9 @@ export class AppsClient {
      * @param {CloudflareApi.realtime.sfu.GetAppsRequest} request
      * @param {AppsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.realtime.sfu.apps.get({
      *         account_id: "account_id",
@@ -234,6 +243,9 @@ export class AppsClient {
      *
      * @param {CloudflareApi.realtime.sfu.UpdateAppsRequest} request
      * @param {AppsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.realtime.sfu.apps.update({
@@ -304,6 +316,9 @@ export class AppsClient {
      *
      * @param {CloudflareApi.realtime.sfu.DeleteAppsRequest} request
      * @param {AppsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.realtime.sfu.apps.delete({

@@ -32,6 +32,9 @@ export class DestinationClient {
      * @param {CloudflareApi.logpush.accountValidate.DeleteDestinationRequest} request
      * @param {DestinationClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.logpush.accountValidate.destination.delete({
      *         account_or_zone: "account_or_zone",

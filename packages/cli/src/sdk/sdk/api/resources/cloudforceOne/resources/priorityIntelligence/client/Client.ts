@@ -54,6 +54,9 @@ export class PriorityIntelligenceClient {
      * @param {CloudflareApi.cloudforceOne.ListPriorityIntelligenceRequest} request
      * @param {PriorityIntelligenceClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.cloudforceOne.priorityIntelligence.list({
      *         account_id: "account_id"
@@ -129,6 +132,8 @@ export class PriorityIntelligenceClient {
      *
      * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.TooManyRequestsError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.priorityIntelligence.create({
@@ -210,6 +215,8 @@ export class PriorityIntelligenceClient {
      * @param {PriorityIntelligenceClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.priorityIntelligence.get({
@@ -283,6 +290,8 @@ export class PriorityIntelligenceClient {
      * @param {PriorityIntelligenceClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.priorityIntelligence.update({
@@ -359,6 +368,8 @@ export class PriorityIntelligenceClient {
      * @param {PriorityIntelligenceClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.priorityIntelligence.delete({

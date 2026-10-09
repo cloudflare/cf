@@ -40,6 +40,9 @@ export class RoutesClient {
      * @param {CloudflareApi.network.ResolveRoutesRequest} request
      * @param {RoutesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.network.routes.resolve({
      *         account_id: "account_id",

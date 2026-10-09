@@ -4,6 +4,8 @@ import * as core from "../../core/index.js";
 import * as errors from "../../errors/index.js";
 
 export class NotImplementedError extends errors.CloudflareApiError {
+    declare public readonly body: string;
+
     constructor(body: string, rawResponse?: core.RawResponse) {
         super({
             message: "NotImplementedError",

@@ -29,6 +29,9 @@ export class HealthChecksClient {
      * @param {CloudflareApi.smartShield.ListHealthChecksRequest} request
      * @param {HealthChecksClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.smartShield.healthChecks.list({
      *         zone_id: "zone_id"
@@ -105,6 +108,9 @@ export class HealthChecksClient {
      * @param {CloudflareApi.smartShield.CreateHealthChecksRequest} request
      * @param {HealthChecksClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.smartShield.healthChecks.create({
      *         zone_id: "zone_id",
@@ -180,6 +186,9 @@ export class HealthChecksClient {
      * @param {CloudflareApi.smartShield.GetHealthChecksRequest} request
      * @param {HealthChecksClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.smartShield.healthChecks.get({
      *         zone_id: "zone_id",
@@ -249,18 +258,15 @@ export class HealthChecksClient {
      * @param {CloudflareApi.smartShield.SmartshieldSingleHcResponse} request
      * @param {HealthChecksClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.smartShield.healthChecks.update({
      *         zone_id: "zone_id",
      *         healthcheck_id: "healthcheck_id",
-     *         errors: [{
-     *                 code: 1,
-     *                 message: "message"
-     *             }],
-     *         messages: [{
-     *                 code: 1,
-     *                 message: "message"
-     *             }],
+     *         errors: [],
+     *         messages: [],
      *         result: {}
      *     })
      */
@@ -330,6 +336,9 @@ export class HealthChecksClient {
      * @param {CloudflareApi.smartShield.DeleteHealthChecksRequest} request
      * @param {HealthChecksClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.smartShield.healthChecks.delete({
      *         zone_id: "zone_id",
@@ -398,6 +407,9 @@ export class HealthChecksClient {
      *
      * @param {CloudflareApi.smartShield.EditHealthChecksRequest} request
      * @param {HealthChecksClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.smartShield.healthChecks.edit({

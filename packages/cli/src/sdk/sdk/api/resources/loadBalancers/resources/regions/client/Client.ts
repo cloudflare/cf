@@ -28,6 +28,9 @@ export class RegionsClient {
      * @param {CloudflareApi.loadBalancers.ListRegionsRequest} request
      * @param {RegionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.loadBalancers.regions.list({
      *         account_id: "account_id",
@@ -109,6 +112,9 @@ export class RegionsClient {
      *
      * @param {CloudflareApi.loadBalancers.GetRegionsRequest} request
      * @param {RegionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.loadBalancers.regions.get({

@@ -32,6 +32,9 @@ export class OverrideCodesClient {
      * @param {CloudflareApi.zeroTrust.devices.TeamsDevicesOverrideCodeCreateRequest} request
      * @param {OverrideCodesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.devices.overrideCodes.create({
      *         account_id: "account_id",
@@ -110,6 +113,9 @@ export class OverrideCodesClient {
      *
      * @param {CloudflareApi.zeroTrust.devices.ListOverrideCodesRequest} request
      * @param {OverrideCodesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.devices.overrideCodes.list({

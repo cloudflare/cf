@@ -29,6 +29,9 @@ export class OriginH2MaxStreamsClient {
      * @param {CloudflareApi.zones.GetOriginH2MaxStreamsRequest} request
      * @param {OriginH2MaxStreamsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zones.originH2MaxStreams.get({
      *         zone_id: "zone_id"
@@ -96,6 +99,9 @@ export class OriginH2MaxStreamsClient {
      *
      * @param {CloudflareApi.zones.EditOriginH2MaxStreamsRequest} request
      * @param {OriginH2MaxStreamsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zones.originH2MaxStreams.edit({

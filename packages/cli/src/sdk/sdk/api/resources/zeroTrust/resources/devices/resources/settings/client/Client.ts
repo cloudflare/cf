@@ -32,6 +32,9 @@ export class SettingsClient {
      * @param {CloudflareApi.zeroTrust.devices.GetSettingsRequest} request
      * @param {SettingsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.devices.settings.get({
      *         account_id: "account_id"
@@ -100,6 +103,9 @@ export class SettingsClient {
      * @param {CloudflareApi.zeroTrust.devices.DeleteSettingsRequest} request
      * @param {SettingsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.devices.settings.delete({
      *         account_id: "account_id"
@@ -167,6 +173,9 @@ export class SettingsClient {
      *
      * @param {CloudflareApi.zeroTrust.devices.UpdateSettingsRequest} request
      * @param {SettingsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.devices.settings.update({

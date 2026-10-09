@@ -29,6 +29,9 @@ export class RulesClient {
      * @param {CloudflareApi.cloudConnector.ListRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.cloudConnector.rules.list({
      *         zone_id: "zone_id"
@@ -96,6 +99,9 @@ export class RulesClient {
      *
      * @param {CloudflareApi.cloudConnector.UpdateRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudConnector.rules.update({

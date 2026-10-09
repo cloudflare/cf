@@ -50,6 +50,9 @@ export class CommandsClient {
      * @param {CloudflareApi.zeroTrust.dex.ListCommandsRequest} request
      * @param {CommandsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.dex.commands.list({
      *         account_id: "account_id",
@@ -145,6 +148,9 @@ export class CommandsClient {
      *
      * @param {CloudflareApi.zeroTrust.dex.CreateCommandsRequest} request
      * @param {CommandsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dex.commands.create({

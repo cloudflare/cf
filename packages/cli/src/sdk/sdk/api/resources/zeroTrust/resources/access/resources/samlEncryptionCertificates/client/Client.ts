@@ -33,6 +33,9 @@ export class SamlEncryptionCertificatesClient {
      * @param {CloudflareApi.zeroTrust.access.ListSamlEncryptionCertificatesRequest} request
      * @param {SamlEncryptionCertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.samlEncryptionCertificates.list({
      *         account_id: "account_id",
@@ -112,6 +115,8 @@ export class SamlEncryptionCertificatesClient {
      * @param {SamlEncryptionCertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.samlEncryptionCertificates.get({
@@ -188,6 +193,8 @@ export class SamlEncryptionCertificatesClient {
      * @param {SamlEncryptionCertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.samlEncryptionCertificates.getPem({
@@ -267,6 +274,8 @@ export class SamlEncryptionCertificatesClient {
      * @param {SamlEncryptionCertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.samlEncryptionCertificates.rotate({

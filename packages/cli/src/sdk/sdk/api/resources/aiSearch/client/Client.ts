@@ -59,6 +59,8 @@ export class AiSearchClient {
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.TooManyRequestsError}
      * @throws {@link CloudflareApi.BadGatewayError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiSearch.multiChatCompletions({
@@ -156,6 +158,8 @@ export class AiSearchClient {
      * @param {AiSearchClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiSearch.list({
@@ -254,6 +258,8 @@ export class AiSearchClient {
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.ConflictError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiSearch.create({
@@ -335,6 +341,8 @@ export class AiSearchClient {
      * @param {AiSearchClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiSearch.get({
@@ -411,6 +419,8 @@ export class AiSearchClient {
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.ConflictError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiSearch.update({
@@ -493,6 +503,8 @@ export class AiSearchClient {
      *
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.ConflictError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiSearch.delete({
@@ -571,6 +583,8 @@ export class AiSearchClient {
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.ConflictError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiSearch.move({
@@ -662,6 +676,8 @@ export class AiSearchClient {
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.TooManyRequestsError}
      * @throws {@link CloudflareApi.BadGatewayError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiSearch.chatCompletions({
@@ -757,6 +773,8 @@ export class AiSearchClient {
      * @param {AiSearchClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiSearch.purgeCache({
@@ -837,6 +855,8 @@ export class AiSearchClient {
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.TooManyRequestsError}
      * @throws {@link CloudflareApi.BadGatewayError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiSearch.search({
@@ -923,6 +943,8 @@ export class AiSearchClient {
      * @param {AiSearchClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiSearch.stats({
@@ -1000,6 +1022,8 @@ export class AiSearchClient {
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.TooManyRequestsError}
      * @throws {@link CloudflareApi.BadGatewayError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiSearch.multiSearch({

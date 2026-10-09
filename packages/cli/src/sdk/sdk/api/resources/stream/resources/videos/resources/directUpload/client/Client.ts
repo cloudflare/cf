@@ -32,6 +32,9 @@ export class DirectUploadClient {
      * @param {CloudflareApi.stream.videos.StreamDirectUploadRequest} request
      * @param {DirectUploadClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.stream.videos.directUpload.create({
      *         "Upload-Creator": "creator-id_abcde12345",

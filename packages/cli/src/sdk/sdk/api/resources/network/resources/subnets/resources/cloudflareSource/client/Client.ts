@@ -32,6 +32,9 @@ export class CloudflareSourceClient {
      * @param {CloudflareApi.network.subnets.EditCloudflareSourceRequest} request
      * @param {CloudflareSourceClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.network.subnets.cloudflareSource.edit({
      *         account_id: "account_id",

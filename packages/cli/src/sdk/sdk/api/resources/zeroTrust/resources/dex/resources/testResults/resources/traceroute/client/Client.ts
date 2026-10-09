@@ -43,6 +43,9 @@ export class TracerouteClient {
      * @param {CloudflareApi.zeroTrust.dex.testResults.GetTracerouteRequest} request
      * @param {TracerouteClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.dex.testResults.traceroute.get({
      *         account_id: "account_id",

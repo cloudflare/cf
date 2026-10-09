@@ -32,6 +32,9 @@ export class NameserverSetsClient {
      * @param {CloudflareApi.dns.settings.account.ListNameserverSetsRequest} request
      * @param {NameserverSetsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.dns.settings.account.nameserverSets.list({
      *         account_id: "account_id",
@@ -109,6 +112,9 @@ export class NameserverSetsClient {
      * @param {CloudflareApi.dns.settings.account.DnsSettingsNameserverSetCreate} request
      * @param {NameserverSetsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.dns.settings.account.nameserverSets.create({
      *         account_id: "account_id",
@@ -183,6 +189,9 @@ export class NameserverSetsClient {
      * @param {CloudflareApi.dns.settings.account.GetNameserverSetsRequest} request
      * @param {NameserverSetsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.dns.settings.account.nameserverSets.get({
      *         account_id: "account_id",
@@ -251,6 +260,9 @@ export class NameserverSetsClient {
      *
      * @param {CloudflareApi.dns.settings.account.DeleteNameserverSetsRequest} request
      * @param {NameserverSetsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.dns.settings.account.nameserverSets.delete({

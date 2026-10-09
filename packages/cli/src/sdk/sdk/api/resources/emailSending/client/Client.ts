@@ -53,6 +53,8 @@ export class EmailSendingClient {
      *
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      */
     public get(
         request: CloudflareApi.GetEmailSendingRequest,
@@ -127,6 +129,8 @@ export class EmailSendingClient {
      * @throws {@link CloudflareApi.ConflictError}
      * @throws {@link CloudflareApi.TooManyRequestsError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailSending.send({
@@ -231,6 +235,8 @@ export class EmailSendingClient {
      * @throws {@link CloudflareApi.ConflictError}
      * @throws {@link CloudflareApi.TooManyRequestsError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailSending.sendRaw({

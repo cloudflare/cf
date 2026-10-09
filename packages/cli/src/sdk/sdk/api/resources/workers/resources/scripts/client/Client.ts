@@ -34,6 +34,9 @@ export class ScriptsClient {
      * @param {CloudflareApi.workers.SearchScriptsRequest} request
      * @param {ScriptsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workers.scripts.search({
      *         account_id: "account_id",

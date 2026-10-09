@@ -32,6 +32,9 @@ export class WebhooksClient {
      * @param {CloudflareApi.alerting.destinations.ListWebhooksRequest} request
      * @param {WebhooksClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.alerting.destinations.webhooks.list({
      *         account_id: "account_id"
@@ -99,6 +102,9 @@ export class WebhooksClient {
      *
      * @param {CloudflareApi.alerting.destinations.CreateWebhooksRequest} request
      * @param {WebhooksClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.alerting.destinations.webhooks.create({
@@ -173,6 +179,9 @@ export class WebhooksClient {
      * @param {CloudflareApi.alerting.destinations.GetWebhooksRequest} request
      * @param {WebhooksClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.alerting.destinations.webhooks.get({
      *         account_id: "account_id",
@@ -238,6 +247,9 @@ export class WebhooksClient {
      *
      * @param {CloudflareApi.alerting.destinations.UpdateWebhooksRequest} request
      * @param {WebhooksClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.alerting.destinations.webhooks.update({
@@ -312,6 +324,9 @@ export class WebhooksClient {
      *
      * @param {CloudflareApi.alerting.destinations.DeleteWebhooksRequest} request
      * @param {WebhooksClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.alerting.destinations.webhooks.delete({

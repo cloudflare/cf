@@ -29,6 +29,9 @@ export class MatchesClient {
      * @param {CloudflareApi.brandProtection.GetMatchesRequest} request
      * @param {MatchesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.brandProtection.matches.get({
      *         account_id: "account_id",
@@ -121,6 +124,9 @@ export class MatchesClient {
      *
      * @param {CloudflareApi.brandProtection.BulkDismissMatchesRequest} request
      * @param {MatchesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.brandProtection.matches.bulkDismiss({

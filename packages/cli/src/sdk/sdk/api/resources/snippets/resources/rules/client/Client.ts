@@ -29,6 +29,9 @@ export class RulesClient {
      * @param {CloudflareApi.snippets.ListRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.snippets.rules.list({
      *         zone_id: "zone_id"
@@ -96,6 +99,9 @@ export class RulesClient {
      *
      * @param {CloudflareApi.snippets.UpdateRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.snippets.rules.update({
@@ -171,6 +177,9 @@ export class RulesClient {
      *
      * @param {CloudflareApi.snippets.DeleteRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.snippets.rules.delete({

@@ -34,6 +34,9 @@ export class ConfigClient {
      * @param {CloudflareApi.logs.control.cmb.GetConfigRequest} request
      * @param {ConfigClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.logs.control.cmb.config.get({
      *         account_id: "account_id"
@@ -103,6 +106,9 @@ export class ConfigClient {
      *
      * @param {CloudflareApi.logs.control.cmb.CreateConfigRequest} request
      * @param {ConfigClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.logs.control.cmb.config.create({
@@ -177,6 +183,9 @@ export class ConfigClient {
      *
      * @param {CloudflareApi.logs.control.cmb.DeleteConfigRequest} request
      * @param {ConfigClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.logs.control.cmb.config.delete({

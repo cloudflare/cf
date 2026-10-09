@@ -32,6 +32,9 @@ export class EntriesClient {
      * @param {CloudflareApi.zeroTrust.dlp.ListEntriesRequest} request
      * @param {EntriesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.dlp.entries.list({
      *         account_id: "account_id"
@@ -99,6 +102,9 @@ export class EntriesClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.DlpNewEntry} request
      * @param {EntriesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.entries.create({
@@ -173,6 +179,9 @@ export class EntriesClient {
      * @param {CloudflareApi.zeroTrust.dlp.GetEntriesRequest} request
      * @param {EntriesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.dlp.entries.get({
      *         account_id: "account_id",
@@ -241,6 +250,9 @@ export class EntriesClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.UpdateEntriesRequest} request
      * @param {EntriesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.entries.update({
@@ -314,6 +326,9 @@ export class EntriesClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.DeleteEntriesRequest} request
      * @param {EntriesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.entries.delete({

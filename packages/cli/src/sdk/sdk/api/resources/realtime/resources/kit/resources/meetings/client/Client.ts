@@ -51,6 +51,9 @@ export class MeetingsClient {
      * @param {CloudflareApi.realtime.kit.ListMeetingsRequest} request
      * @param {MeetingsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.realtime.kit.meetings.list({
      *         account_id: "account_id",
@@ -141,6 +144,9 @@ export class MeetingsClient {
      * @param {CloudflareApi.realtime.kit.CreateMeetingsRequest} request
      * @param {MeetingsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.realtime.kit.meetings.create({
      *         account_id: "account_id",
@@ -214,6 +220,8 @@ export class MeetingsClient {
      * @param {MeetingsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.realtime.kit.meetings.get({
@@ -297,6 +305,9 @@ export class MeetingsClient {
      * @param {CloudflareApi.realtime.kit.ReplaceMeetingsRequest} request
      * @param {MeetingsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.realtime.kit.meetings.replace({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -371,6 +382,8 @@ export class MeetingsClient {
      * @param {MeetingsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.realtime.kit.meetings.update({

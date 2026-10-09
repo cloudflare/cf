@@ -36,6 +36,9 @@ export class ContentListsClient {
      * @param {CloudflareApi.web3.hostnames.ipfsUniversalPaths.GetContentListsRequest} request
      * @param {ContentListsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.web3.hostnames.ipfsUniversalPaths.contentLists.get({
      *         zone_id: "zone_id",
@@ -99,6 +102,9 @@ export class ContentListsClient {
     /**
      * @param {CloudflareApi.web3.hostnames.ipfsUniversalPaths.Web3ContentListUpdateRequest} request
      * @param {ContentListsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.web3.hostnames.ipfsUniversalPaths.contentLists.update({

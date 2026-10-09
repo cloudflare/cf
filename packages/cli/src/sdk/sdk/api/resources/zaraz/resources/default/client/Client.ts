@@ -28,6 +28,9 @@ export class DefaultClient {
      * @param {CloudflareApi.zaraz.GetDefaultRequest} request
      * @param {DefaultClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zaraz.default.get({
      *         zone_id: "zone_id"

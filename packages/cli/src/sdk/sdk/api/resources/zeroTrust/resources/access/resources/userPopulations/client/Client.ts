@@ -32,6 +32,9 @@ export class UserPopulationsClient {
      * @param {CloudflareApi.zeroTrust.access.ListUserPopulationsRequest} request
      * @param {UserPopulationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.userPopulations.list({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353"
@@ -108,6 +111,9 @@ export class UserPopulationsClient {
      * @param {CloudflareApi.zeroTrust.access.CreateUserPopulationsRequest} request
      * @param {UserPopulationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.userPopulations.create({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -179,6 +185,9 @@ export class UserPopulationsClient {
      * @param {CloudflareApi.zeroTrust.access.GetUserPopulationsRequest} request
      * @param {UserPopulationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.userPopulations.get({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -244,6 +253,9 @@ export class UserPopulationsClient {
      *
      * @param {CloudflareApi.zeroTrust.access.UpdateUserPopulationsRequest} request
      * @param {UserPopulationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.userPopulations.update({
@@ -316,6 +328,9 @@ export class UserPopulationsClient {
      *
      * @param {CloudflareApi.zeroTrust.access.DeleteUserPopulationsRequest} request
      * @param {UserPopulationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.userPopulations.delete({

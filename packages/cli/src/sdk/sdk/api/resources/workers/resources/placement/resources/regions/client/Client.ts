@@ -31,6 +31,9 @@ export class RegionsClient {
      * @param {CloudflareApi.workers.placement.ListRegionsRequest} request
      * @param {RegionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workers.placement.regions.list({
      *         account_id: "account_id"

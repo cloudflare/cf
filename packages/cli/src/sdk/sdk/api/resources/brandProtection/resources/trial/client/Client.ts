@@ -33,6 +33,8 @@ export class TrialClient {
      * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.BadGatewayError}
      * @throws {@link CloudflareApi.ServiceUnavailableError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.brandProtection.trial.create({

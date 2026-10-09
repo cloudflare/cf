@@ -39,6 +39,9 @@ export class BulksClient {
      * @param {CloudflareApi.intel.domains.GetBulksRequest} request
      * @param {BulksClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.intel.domains.bulks.get({
      *         account_id: "account_id"

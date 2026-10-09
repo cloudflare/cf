@@ -4,6 +4,7 @@ import type { BaseClientOptions, BaseRequestOptions } from "../../../../BaseClie
 import { normalizeClientOptionsWithAuth, type NormalizedClientOptionsWithAuth } from "../../../../BaseClient.js";
 import * as core from "../../../../core/index.js";
 import { mergeHeaders } from "../../../../core/headers.js";
+import { toJson } from "../../../../core/json.js";
 import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
@@ -62,6 +63,9 @@ export class OrganizationClient {
      * @param {CloudflareApi.ListOrganizationRequest} request
      * @param {OrganizationClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.organization.list()
      */
@@ -98,7 +102,13 @@ export class OrganizationClient {
             "containing.account": containingAccount,
             "containing.user": containingUser,
             "containing.organization": containingOrganization,
-            "parent.id": parentId != null ? parentId : undefined,
+            "parent.id": Array.isArray(parentId)
+                ? parentId.map((item) => (typeof item === "string" ? item : toJson(item)))
+                : parentId != null
+                  ? typeof parentId === "string"
+                      ? parentId
+                      : toJson(parentId)
+                  : undefined,
             page_token: pageToken,
             page_size: pageSize,
         };
@@ -166,6 +176,9 @@ export class OrganizationClient {
      *
      * @param {CloudflareApi.OrganizationsApiOrganization} request
      * @param {OrganizationClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.organization.create({
@@ -235,6 +248,9 @@ export class OrganizationClient {
      *
      * @param {CloudflareApi.GetOrganizationRequest} request
      * @param {OrganizationClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.organization.get({
@@ -307,6 +323,9 @@ export class OrganizationClient {
      *
      * @param {CloudflareApi.UpdateOrganizationRequest} request
      * @param {OrganizationClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.organization.update({
@@ -389,6 +408,9 @@ export class OrganizationClient {
      *
      * @param {CloudflareApi.DeleteOrganizationRequest} request
      * @param {OrganizationClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.organization.delete({

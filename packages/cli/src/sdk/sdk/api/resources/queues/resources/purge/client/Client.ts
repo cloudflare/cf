@@ -29,6 +29,9 @@ export class PurgeClient {
      * @param {CloudflareApi.queues.StatusPurgeRequest} request
      * @param {PurgeClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.queues.purge.status({
      *         account_id: "account_id",
@@ -97,6 +100,9 @@ export class PurgeClient {
      *
      * @param {CloudflareApi.queues.StartPurgeRequest} request
      * @param {PurgeClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.queues.purge.start({

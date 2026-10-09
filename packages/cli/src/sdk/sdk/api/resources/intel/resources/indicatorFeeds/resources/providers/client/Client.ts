@@ -32,6 +32,9 @@ export class ProvidersClient {
      * @param {CloudflareApi.intel.indicatorFeeds.CustomIndicatorFeedsCreateProviderRequest} request
      * @param {ProvidersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.intel.indicatorFeeds.providers.create({
      *         account_id_path: "account_id_path",

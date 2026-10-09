@@ -30,6 +30,9 @@ export class AccountTagsClient {
      * @param {CloudflareApi.GetAccountTagsRequest} request
      * @param {AccountTagsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.accountTags.get({
      *         account_or_zone: "account_or_zone",
@@ -118,6 +121,8 @@ export class AccountTagsClient {
      * @param {AccountTagsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.PreconditionFailedError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.accountTags.update({
@@ -211,6 +216,8 @@ export class AccountTagsClient {
      * @param {AccountTagsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.PreconditionFailedError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.accountTags.delete({

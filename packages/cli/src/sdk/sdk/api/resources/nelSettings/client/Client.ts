@@ -33,6 +33,8 @@ export class NelSettingsClient {
      * @throws {@link CloudflareApi.UnauthorizedError}
      * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.nelSettings.get({
@@ -107,6 +109,8 @@ export class NelSettingsClient {
      * @throws {@link CloudflareApi.UnauthorizedError}
      * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.nelSettings.edit({

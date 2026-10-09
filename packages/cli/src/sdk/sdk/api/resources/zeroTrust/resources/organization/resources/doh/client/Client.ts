@@ -32,6 +32,9 @@ export class DohClient {
      * @param {CloudflareApi.zeroTrust.organization.GetDohRequest} request
      * @param {DohClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.organization.doh.get({
      *         account_id: "account_id"
@@ -99,6 +102,9 @@ export class DohClient {
      *
      * @param {CloudflareApi.zeroTrust.organization.UpdateDohRequest} request
      * @param {DohClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.organization.doh.update({

@@ -35,6 +35,9 @@ export class OperationsClient {
      * @param {CloudflareApi.webAssets.ListOperationsRequest} request
      * @param {OperationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.webAssets.operations.list({
      *         zone_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -120,6 +123,9 @@ export class OperationsClient {
      * @param {CloudflareApi.webAssets.BulkCreateOperationsRequest} request
      * @param {OperationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.webAssets.operations.bulkCreate({
      *         zone_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -195,6 +201,9 @@ export class OperationsClient {
      *
      * @param {CloudflareApi.webAssets.BulkDeleteOperationsRequest} request
      * @param {OperationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.webAssets.operations.bulkDelete({
@@ -272,6 +281,9 @@ export class OperationsClient {
      * @param {CloudflareApi.webAssets.CreateOperationsRequest} request
      * @param {OperationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.webAssets.operations.create({
      *         zone_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -347,6 +359,9 @@ export class OperationsClient {
      *
      * @param {CloudflareApi.webAssets.GetOperationsRequest} request
      * @param {OperationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.webAssets.operations.get({
@@ -424,6 +439,9 @@ export class OperationsClient {
      *
      * @param {CloudflareApi.webAssets.DeleteOperationsRequest} request
      * @param {OperationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.webAssets.operations.delete({

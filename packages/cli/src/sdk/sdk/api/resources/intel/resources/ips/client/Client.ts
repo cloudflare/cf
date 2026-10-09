@@ -28,6 +28,9 @@ export class IpsClient {
      * @param {CloudflareApi.intel.GetIpsRequest} request
      * @param {IpsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.intel.ips.get({
      *         account_id: "account_id"

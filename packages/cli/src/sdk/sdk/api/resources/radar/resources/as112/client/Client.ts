@@ -9,8 +9,6 @@ import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStat
 import * as errors from "../../../../../../errors/index.js";
 import type * as CloudflareApi from "../../../../../index.js";
 import * as CloudflareApiErrors from "../../../../../errors/index.js";
-import { SummaryClient } from "../resources/summary/client/Client.js";
-import { TimeseriesGroupsClient } from "../resources/timeseriesGroups/client/Client.js";
 import { TopClient } from "../resources/top/client/Client.js";
 
 export declare namespace As112Client {
@@ -21,20 +19,10 @@ export declare namespace As112Client {
 
 export class As112Client {
     protected readonly _options: NormalizedClientOptionsWithAuth<As112Client.Options>;
-    protected _summary: SummaryClient | undefined;
-    protected _timeseriesGroups: TimeseriesGroupsClient | undefined;
     protected _top: TopClient | undefined;
 
     constructor(options: As112Client.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
-    }
-
-    public get summary(): SummaryClient {
-        return (this._summary ??= new SummaryClient(this._options));
-    }
-
-    public get timeseriesGroups(): TimeseriesGroupsClient {
-        return (this._timeseriesGroups ??= new TimeseriesGroupsClient(this._options));
     }
 
     public get top(): TopClient {
@@ -48,6 +36,8 @@ export class As112Client {
      * @param {As112Client.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.radar.as112.summaryV2({
@@ -168,6 +158,8 @@ export class As112Client {
      * @param {As112Client.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.radar.as112.timeseries({
@@ -280,6 +272,8 @@ export class As112Client {
      * @param {As112Client.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.radar.as112.timeseriesGroupsV2({

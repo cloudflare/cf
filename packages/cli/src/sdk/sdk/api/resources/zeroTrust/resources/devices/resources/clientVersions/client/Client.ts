@@ -37,6 +37,9 @@ export class ClientVersionsClient {
      * @param {CloudflareApi.zeroTrust.devices.ListClientVersionsRequest} request
      * @param {ClientVersionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.devices.clientVersions.list({
      *         account_id: "account_id",

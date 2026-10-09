@@ -31,6 +31,9 @@ export class PeersClient {
      * @param {CloudflareApi.realtime.kit.sessions.GetPeersRequest} request
      * @param {PeersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.realtime.kit.sessions.peers.get({
      *         account_id: "account_id",

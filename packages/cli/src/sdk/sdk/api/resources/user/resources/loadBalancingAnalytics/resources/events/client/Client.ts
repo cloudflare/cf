@@ -31,6 +31,9 @@ export class EventsClient {
      * @param {CloudflareApi.user.loadBalancingAnalytics.ListEventsRequest} request
      * @param {EventsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.user.loadBalancingAnalytics.events.list({
      *         until: "2016-11-11T13:00:00Z",

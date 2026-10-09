@@ -29,6 +29,9 @@ export class FeedbackClient {
      * @param {CloudflareApi.botManagement.ListFeedbackRequest} request
      * @param {FeedbackClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.botManagement.feedback.list({
      *         zone_id: "zone_id"
@@ -98,6 +101,9 @@ export class FeedbackClient {
      *
      * @param {CloudflareApi.botManagement.CreateFeedbackRequest} request
      * @param {FeedbackClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.botManagement.feedback.create({

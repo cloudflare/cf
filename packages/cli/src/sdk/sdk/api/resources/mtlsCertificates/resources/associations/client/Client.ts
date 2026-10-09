@@ -28,6 +28,9 @@ export class AssociationsClient {
      * @param {CloudflareApi.mtlsCertificates.GetAssociationsRequest} request
      * @param {AssociationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.mtlsCertificates.associations.get({
      *         account_id: "account_id",

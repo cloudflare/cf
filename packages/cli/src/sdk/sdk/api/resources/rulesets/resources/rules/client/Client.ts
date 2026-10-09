@@ -29,6 +29,9 @@ export class RulesClient {
      * @param {CloudflareApi.rulesets.CreateRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.rulesets.rules.create({
      *         account_or_zone: "account_or_zone",
@@ -115,6 +118,9 @@ export class RulesClient {
      * @param {CloudflareApi.rulesets.DeleteRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.rulesets.rules.delete({
      *         account_or_zone: "account_or_zone",
@@ -198,6 +204,9 @@ export class RulesClient {
      *
      * @param {CloudflareApi.rulesets.UpdateRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.rulesets.rules.update({

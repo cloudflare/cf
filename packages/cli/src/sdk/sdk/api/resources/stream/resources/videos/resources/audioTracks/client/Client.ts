@@ -32,6 +32,9 @@ export class AudioTracksClient {
      * @param {CloudflareApi.stream.videos.ListAudioTracksRequest} request
      * @param {AudioTracksClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.stream.videos.audioTracks.list({
      *         account_id: "account_id",
@@ -100,6 +103,9 @@ export class AudioTracksClient {
      *
      * @param {CloudflareApi.stream.videos.StreamCopyAudioTrack} request
      * @param {AudioTracksClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.stream.videos.audioTracks.copy({
@@ -171,6 +177,9 @@ export class AudioTracksClient {
      * @param {CloudflareApi.stream.videos.DeleteAudioTracksRequest} request
      * @param {AudioTracksClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.stream.videos.audioTracks.delete({
      *         account_id: "account_id",
@@ -237,6 +246,9 @@ export class AudioTracksClient {
      *
      * @param {CloudflareApi.stream.videos.StreamEditAudioTrack} request
      * @param {AudioTracksClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.stream.videos.audioTracks.edit({

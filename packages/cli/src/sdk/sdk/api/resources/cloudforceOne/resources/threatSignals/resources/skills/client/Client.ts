@@ -38,6 +38,9 @@ export class SkillsClient {
      * @param {CloudflareApi.cloudforceOne.threatSignals.ListSkillsRequest} request
      * @param {SkillsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.cloudforceOne.threatSignals.skills.list({
      *         account_id: "account_id"
@@ -114,13 +117,15 @@ export class SkillsClient {
      * @param {CloudflareApi.cloudforceOne.threatSignals.CreateSkillsRequest} request
      * @param {SkillsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.cloudforceOne.threatSignals.skills.create({
      *         account_id: "account_id",
      *         name: "name",
      *         output_schema: "output_schema",
-     *         prompt: "prompt",
-     *         type: "summary"
+     *         prompt: "prompt"
      *     })
      */
     public create(
@@ -188,6 +193,9 @@ export class SkillsClient {
      *
      * @param {CloudflareApi.cloudforceOne.threatSignals.GetSkillsRequest} request
      * @param {SkillsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.threatSignals.skills.get({
@@ -258,6 +266,9 @@ export class SkillsClient {
      * @param {CloudflareApi.cloudforceOne.threatSignals.DeleteSkillsRequest} request
      * @param {SkillsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.cloudforceOne.threatSignals.skills.delete({
      *         account_id: "account_id",
@@ -326,6 +337,9 @@ export class SkillsClient {
      *
      * @param {CloudflareApi.cloudforceOne.threatSignals.UpdateSkillsRequest} request
      * @param {SkillsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.threatSignals.skills.update({

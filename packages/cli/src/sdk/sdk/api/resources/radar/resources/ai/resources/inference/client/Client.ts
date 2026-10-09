@@ -12,8 +12,6 @@ import { handleNonStatusCodeError } from "../../../../../../../../errors/handleN
 import * as errors from "../../../../../../../../errors/index.js";
 import type * as CloudflareApi from "../../../../../../../index.js";
 import * as CloudflareApiErrors from "../../../../../../../errors/index.js";
-import { SummaryClient } from "../resources/summary/client/Client.js";
-import { TimeseriesGroupsClient } from "../resources/timeseriesGroups/client/Client.js";
 
 export declare namespace InferenceClient {
     export type Options = BaseClientOptions;
@@ -23,19 +21,9 @@ export declare namespace InferenceClient {
 
 export class InferenceClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<InferenceClient.Options>;
-    protected _summary: SummaryClient | undefined;
-    protected _timeseriesGroups: TimeseriesGroupsClient | undefined;
 
     constructor(options: InferenceClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
-    }
-
-    public get summary(): SummaryClient {
-        return (this._summary ??= new SummaryClient(this._options));
-    }
-
-    public get timeseriesGroups(): TimeseriesGroupsClient {
-        return (this._timeseriesGroups ??= new TimeseriesGroupsClient(this._options));
     }
 
     /**
@@ -45,6 +33,8 @@ export class InferenceClient {
      * @param {InferenceClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.radar.ai.inference.summaryV2({
@@ -143,6 +133,8 @@ export class InferenceClient {
      * @param {InferenceClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.radar.ai.inference.timeseriesGroupsV2({

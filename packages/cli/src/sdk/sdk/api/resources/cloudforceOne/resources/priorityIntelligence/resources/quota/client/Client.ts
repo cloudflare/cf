@@ -31,6 +31,9 @@ export class QuotaClient {
      * @param {CloudflareApi.cloudforceOne.priorityIntelligence.CreateQuotaRequest} request
      * @param {QuotaClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.cloudforceOne.priorityIntelligence.quota.create({
      *         account_id: "account_id"

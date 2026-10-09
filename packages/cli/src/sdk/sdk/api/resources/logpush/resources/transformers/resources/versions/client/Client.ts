@@ -31,6 +31,9 @@ export class VersionsClient {
      * @param {CloudflareApi.logpush.transformers.ListVersionsRequest} request
      * @param {VersionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.logpush.transformers.versions.list({
      *         account_id: "account_id",

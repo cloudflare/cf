@@ -28,6 +28,9 @@ export class ProtocolsClient {
      * @param {CloudflareApi.spectrum.ListProtocolsRequest} request
      * @param {ProtocolsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.spectrum.protocols.list({
      *         zone_id: "zone_id"

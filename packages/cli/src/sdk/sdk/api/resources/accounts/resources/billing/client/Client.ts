@@ -41,6 +41,9 @@ export class BillingClient {
      * @param {CloudflareApi.accounts.GetBadDebtBillingRequest} request
      * @param {BillingClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.accounts.billing.getBadDebt({
      *         account_id: "account_id"
@@ -105,6 +108,9 @@ export class BillingClient {
      *
      * @param {CloudflareApi.accounts.GetCreditsBillingRequest} request
      * @param {BillingClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.accounts.billing.getCredits({
@@ -174,6 +180,9 @@ export class BillingClient {
      * @param {CloudflareApi.accounts.GetUnpaidInvoicesBillingRequest} request
      * @param {BillingClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.accounts.billing.getUnpaidInvoices({
      *         account_id: "account_id"
@@ -242,6 +251,9 @@ export class BillingClient {
      * @param {CloudflareApi.accounts.CreateSetupIntentBillingRequest} request
      * @param {BillingClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.accounts.billing.createSetupIntent({
      *         account_id: "account_id"
@@ -309,6 +321,9 @@ export class BillingClient {
      *
      * @param {CloudflareApi.accounts.TogglePdfInvoicesBillingRequest} request
      * @param {BillingClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.accounts.billing.togglePdfInvoices({
@@ -381,6 +396,9 @@ export class BillingClient {
      * @param {CloudflareApi.accounts.PayBadDebtBillingRequest} request
      * @param {BillingClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.accounts.billing.payBadDebt({
      *         account_id: "account_id"
@@ -452,6 +470,9 @@ export class BillingClient {
      * @param {CloudflareApi.accounts.PayInvoiceBillingRequest} request
      * @param {BillingClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.accounts.billing.payInvoice({
      *         account_id: "account_id"
@@ -519,6 +540,9 @@ export class BillingClient {
 
     /**
      * Downloads a receipt as a PDF document.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      */
     public getReceiptPdf(
         request: CloudflareApi.accounts.GetReceiptPdfBillingRequest,

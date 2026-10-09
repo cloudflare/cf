@@ -30,6 +30,9 @@ export class DmarcReportsClient {
      * @param {CloudflareApi.emailAuth.GetDmarcReportsRequest} request
      * @param {DmarcReportsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.emailAuth.dmarcReports.get({
      *         zone_id: "023e105f4ecef8ad9ca31a8372d0c353"
@@ -99,6 +102,9 @@ export class DmarcReportsClient {
      *
      * @param {CloudflareApi.emailAuth.EmailAuthConfigureDmarcReportsRequest} request
      * @param {DmarcReportsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailAuth.dmarcReports.edit({

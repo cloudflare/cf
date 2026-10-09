@@ -35,6 +35,9 @@ export class BotManagementClient {
      * @param {CloudflareApi.GetBotManagementRequest} request
      * @param {BotManagementClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.botManagement.get({
      *         zone_id: "zone_id"
@@ -148,6 +151,9 @@ export class BotManagementClient {
      *
      * @param {CloudflareApi.UpdateBotManagementRequest} request
      * @param {BotManagementClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.botManagement.update({

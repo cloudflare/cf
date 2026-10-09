@@ -35,6 +35,9 @@ export class LiveInputsClient {
      * @param {CloudflareApi.stream.ListLiveInputsRequest} request
      * @param {LiveInputsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.stream.liveInputs.list({
      *         account_id: "account_id",
@@ -111,6 +114,9 @@ export class LiveInputsClient {
      * @param {CloudflareApi.stream.StreamCreateInputRequest} request
      * @param {LiveInputsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.stream.liveInputs.create({
      *         account_id: "account_id"
@@ -180,6 +186,9 @@ export class LiveInputsClient {
      * @param {CloudflareApi.stream.GetLiveInputsRequest} request
      * @param {LiveInputsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.stream.liveInputs.get({
      *         account_id: "account_id",
@@ -245,6 +254,9 @@ export class LiveInputsClient {
      *
      * @param {CloudflareApi.stream.StreamUpdateInputRequest} request
      * @param {LiveInputsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.stream.liveInputs.update({
@@ -315,6 +327,9 @@ export class LiveInputsClient {
      * @param {CloudflareApi.stream.DeleteLiveInputsRequest} request
      * @param {LiveInputsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.stream.liveInputs.delete({
      *         account_id: "account_id",
@@ -380,6 +395,9 @@ export class LiveInputsClient {
      *
      * @param {CloudflareApi.stream.DisableLiveInputsRequest} request
      * @param {LiveInputsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.stream.liveInputs.disable({
@@ -447,6 +465,9 @@ export class LiveInputsClient {
      * @param {CloudflareApi.stream.EnableLiveInputsRequest} request
      * @param {LiveInputsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.stream.liveInputs.enable({
      *         account_id: "account_id",
@@ -512,6 +533,9 @@ export class LiveInputsClient {
      *
      * @param {CloudflareApi.stream.RotateKeysLiveInputsRequest} request
      * @param {LiveInputsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.stream.liveInputs.rotateKeys({

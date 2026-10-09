@@ -29,6 +29,9 @@ export class NamespacesClient {
      * @param {CloudflareApi.kv.ListNamespacesRequest} request
      * @param {NamespacesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.kv.namespaces.list({
      *         account_id: "account_id"
@@ -107,6 +110,9 @@ export class NamespacesClient {
      * @param {CloudflareApi.kv.WorkersKvCreateNamespaceBody} request
      * @param {NamespacesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.kv.namespaces.create({
      *         account_id: "account_id",
@@ -176,6 +182,9 @@ export class NamespacesClient {
      * @param {CloudflareApi.kv.GetNamespacesRequest} request
      * @param {NamespacesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.kv.namespaces.get({
      *         account_id: "account_id",
@@ -241,6 +250,9 @@ export class NamespacesClient {
      *
      * @param {CloudflareApi.kv.WorkersKvCreateRenameNamespaceBody} request
      * @param {NamespacesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.kv.namespaces.update({
@@ -311,6 +323,9 @@ export class NamespacesClient {
      *
      * @param {CloudflareApi.kv.DeleteNamespacesRequest} request
      * @param {NamespacesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.kv.namespaces.delete({

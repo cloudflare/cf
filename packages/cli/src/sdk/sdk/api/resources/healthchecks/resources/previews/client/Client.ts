@@ -29,6 +29,9 @@ export class PreviewsClient {
      * @param {CloudflareApi.healthchecks.CreatePreviewsRequest} request
      * @param {PreviewsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.healthchecks.previews.create({
      *         zone_id: "zone_id",
@@ -104,6 +107,9 @@ export class PreviewsClient {
      * @param {CloudflareApi.healthchecks.GetPreviewsRequest} request
      * @param {PreviewsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.healthchecks.previews.get({
      *         zone_id: "zone_id",
@@ -172,6 +178,9 @@ export class PreviewsClient {
      *
      * @param {CloudflareApi.healthchecks.DeletePreviewsRequest} request
      * @param {PreviewsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.healthchecks.previews.delete({

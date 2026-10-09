@@ -31,6 +31,9 @@ export class CustomClient {
      * @param {CloudflareApi.customPages.assets.list.AssetsCustomRequest} request
      * @param {CustomClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.customPages.assets.list.custom.assets({
      *         account_or_zone: "account_or_zone",

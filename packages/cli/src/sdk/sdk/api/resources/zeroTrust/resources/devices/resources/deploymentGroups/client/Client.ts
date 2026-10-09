@@ -32,6 +32,9 @@ export class DeploymentGroupsClient {
      * @param {CloudflareApi.zeroTrust.devices.ListDeploymentGroupsRequest} request
      * @param {DeploymentGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.devices.deploymentGroups.list({
      *         account_id: "account_id"
@@ -108,6 +111,9 @@ export class DeploymentGroupsClient {
      * @param {CloudflareApi.zeroTrust.devices.TeamsDevicesDeploymentGroupCreateRequest} request
      * @param {DeploymentGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.devices.deploymentGroups.create({
      *         account_id: "account_id",
@@ -183,6 +189,9 @@ export class DeploymentGroupsClient {
      * @param {CloudflareApi.zeroTrust.devices.GetDeploymentGroupsRequest} request
      * @param {DeploymentGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.devices.deploymentGroups.get({
      *         account_id: "account_id",
@@ -252,6 +261,9 @@ export class DeploymentGroupsClient {
      * @param {CloudflareApi.zeroTrust.devices.DeleteDeploymentGroupsRequest} request
      * @param {DeploymentGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.devices.deploymentGroups.delete({
      *         account_id: "account_id",
@@ -320,6 +332,9 @@ export class DeploymentGroupsClient {
      *
      * @param {CloudflareApi.zeroTrust.devices.TeamsDevicesDeploymentGroupUpdateRequest} request
      * @param {DeploymentGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.devices.deploymentGroups.update({

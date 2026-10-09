@@ -29,6 +29,9 @@ export class EndpointHealthchecksClient {
      * @param {CloudflareApi.diagnostics.ListEndpointHealthchecksRequest} request
      * @param {EndpointHealthchecksClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.diagnostics.endpointHealthchecks.list({
      *         account_id: "account_id"
@@ -96,6 +99,9 @@ export class EndpointHealthchecksClient {
      *
      * @param {CloudflareApi.diagnostics.CreateEndpointHealthchecksRequest} request
      * @param {EndpointHealthchecksClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.diagnostics.endpointHealthchecks.create({
@@ -172,6 +178,9 @@ export class EndpointHealthchecksClient {
      * @param {CloudflareApi.diagnostics.GetEndpointHealthchecksRequest} request
      * @param {EndpointHealthchecksClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.diagnostics.endpointHealthchecks.get({
      *         account_id: "account_id",
@@ -240,6 +249,9 @@ export class EndpointHealthchecksClient {
      *
      * @param {CloudflareApi.diagnostics.UpdateEndpointHealthchecksRequest} request
      * @param {EndpointHealthchecksClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.diagnostics.endpointHealthchecks.update({
@@ -316,6 +328,9 @@ export class EndpointHealthchecksClient {
      *
      * @param {CloudflareApi.diagnostics.DeleteEndpointHealthchecksRequest} request
      * @param {EndpointHealthchecksClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.diagnostics.endpointHealthchecks.delete({

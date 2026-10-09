@@ -34,6 +34,8 @@ export class QuickActionClient {
      * @throws {@link CloudflareApi.UnprocessableEntityError}
      * @throws {@link CloudflareApi.TooManyRequestsError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.browserRun.quickAction.accessibilityTree({
@@ -138,6 +140,8 @@ export class QuickActionClient {
      * @throws {@link CloudflareApi.UnprocessableEntityError}
      * @throws {@link CloudflareApi.TooManyRequestsError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.browserRun.quickAction.content({
@@ -239,6 +243,8 @@ export class QuickActionClient {
      * @throws {@link CloudflareApi.UnprocessableEntityError}
      * @throws {@link CloudflareApi.TooManyRequestsError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.browserRun.quickAction.json({
@@ -343,6 +349,8 @@ export class QuickActionClient {
      * @throws {@link CloudflareApi.UnprocessableEntityError}
      * @throws {@link CloudflareApi.TooManyRequestsError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.browserRun.quickAction.links({
@@ -447,6 +455,8 @@ export class QuickActionClient {
      * @throws {@link CloudflareApi.UnprocessableEntityError}
      * @throws {@link CloudflareApi.TooManyRequestsError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.browserRun.quickAction.markdown({
@@ -545,6 +555,8 @@ export class QuickActionClient {
      * @throws {@link CloudflareApi.UnprocessableEntityError}
      * @throws {@link CloudflareApi.TooManyRequestsError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      */
     public pdf(
         request: CloudflareApi.browserRun.PdfQuickActionRequest,
@@ -639,6 +651,8 @@ export class QuickActionClient {
      * @throws {@link CloudflareApi.UnprocessableEntityError}
      * @throws {@link CloudflareApi.TooManyRequestsError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.browserRun.quickAction.scrape({
@@ -746,6 +760,8 @@ export class QuickActionClient {
      * @throws {@link CloudflareApi.UnprocessableEntityError}
      * @throws {@link CloudflareApi.TooManyRequestsError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.browserRun.quickAction.screenshot({
@@ -850,6 +866,8 @@ export class QuickActionClient {
      * @throws {@link CloudflareApi.UnprocessableEntityError}
      * @throws {@link CloudflareApi.TooManyRequestsError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.browserRun.quickAction.snapshot({

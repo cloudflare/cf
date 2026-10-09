@@ -37,6 +37,8 @@ export class IntrospectionClient {
      * @throws {@link CloudflareApi.UnprocessableEntityError}
      * @throws {@link CloudflareApi.InternalServerError}
      * @throws {@link CloudflareApi.ServiceUnavailableError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.analytics.sql.accounts.introspection.get({

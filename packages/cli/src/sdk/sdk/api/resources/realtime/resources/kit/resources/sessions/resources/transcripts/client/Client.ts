@@ -31,6 +31,9 @@ export class TranscriptsClient {
      * @param {CloudflareApi.realtime.kit.sessions.ExportTranscriptsRequest} request
      * @param {TranscriptsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.realtime.kit.sessions.transcripts.export({
      *         account_id: "account_id",

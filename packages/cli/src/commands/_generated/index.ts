@@ -118,7 +118,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./ai-security/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -415,7 +415,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./content-scan/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -766,7 +766,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./leaked-credential-checks/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -1099,7 +1099,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./radar/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(
@@ -1450,7 +1450,7 @@ export const generatedCommands: GeneratedCommand[] = [
 			() => import("./turnstile/index.js"),
 			null
 		),
-		hideCommand: true,
+		hideCommand: false,
 	},
 	{
 		command: lazyCommand<CommonYargsOptions>(

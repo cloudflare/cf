@@ -38,6 +38,9 @@ export class IntegrationsClient {
      * @param {CloudflareApi.zeroTrust.riskScoring.ListIntegrationsRequest} request
      * @param {IntegrationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.riskScoring.integrations.list({
      *         account_id: "account_id"
@@ -105,6 +108,9 @@ export class IntegrationsClient {
      *
      * @param {CloudflareApi.zeroTrust.riskScoring.DlpCreateIntegrationBody} request
      * @param {IntegrationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.riskScoring.integrations.create({
@@ -181,6 +187,9 @@ export class IntegrationsClient {
      * @param {CloudflareApi.zeroTrust.riskScoring.GetIntegrationsRequest} request
      * @param {IntegrationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.riskScoring.integrations.get({
      *         account_id: "account_id",
@@ -249,6 +258,9 @@ export class IntegrationsClient {
      *
      * @param {CloudflareApi.zeroTrust.riskScoring.DlpUpdateIntegrationBody} request
      * @param {IntegrationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.riskScoring.integrations.update({
@@ -323,6 +335,9 @@ export class IntegrationsClient {
      *
      * @param {CloudflareApi.zeroTrust.riskScoring.DeleteIntegrationsRequest} request
      * @param {IntegrationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.riskScoring.integrations.delete({

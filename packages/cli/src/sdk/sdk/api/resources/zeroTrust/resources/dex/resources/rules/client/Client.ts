@@ -32,6 +32,9 @@ export class RulesClient {
      * @param {CloudflareApi.zeroTrust.dex.ListRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.dex.rules.list({
      *         account_id: "account_id",
@@ -120,6 +123,9 @@ export class RulesClient {
      * @param {CloudflareApi.zeroTrust.dex.DigitalExperienceMonitoringCreateRuleBody} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.dex.rules.create({
      *         account_id: "account_id",
@@ -193,6 +199,9 @@ export class RulesClient {
      * @param {CloudflareApi.zeroTrust.dex.GetRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.dex.rules.get({
      *         account_id: "account_id",
@@ -262,6 +271,9 @@ export class RulesClient {
      * @param {CloudflareApi.zeroTrust.dex.DeleteRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.dex.rules.delete({
      *         account_id: "account_id",
@@ -327,6 +339,9 @@ export class RulesClient {
      *
      * @param {CloudflareApi.zeroTrust.dex.DigitalExperienceMonitoringPatchRuleBody} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dex.rules.update({

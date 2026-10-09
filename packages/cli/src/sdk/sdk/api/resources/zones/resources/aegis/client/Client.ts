@@ -29,6 +29,9 @@ export class AegisClient {
      * @param {CloudflareApi.zones.GetAegisRequest} request
      * @param {AegisClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zones.aegis.get({
      *         zone_id: "zone_id"
@@ -93,6 +96,9 @@ export class AegisClient {
      *
      * @param {CloudflareApi.zones.EditAegisRequest} request
      * @param {AegisClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zones.aegis.edit({

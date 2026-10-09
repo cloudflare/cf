@@ -34,6 +34,8 @@ export class CacheClient {
      *
      * @throws {@link CloudflareApi.UnauthorizedError}
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.builds.triggers.cache.purge({

@@ -32,6 +32,9 @@ export class ProxyEndpointsClient {
      * @param {CloudflareApi.zeroTrust.gateway.ListProxyEndpointsRequest} request
      * @param {ProxyEndpointsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.gateway.proxyEndpoints.list({
      *         account_id: "account_id"
@@ -110,6 +113,9 @@ export class ProxyEndpointsClient {
      * @param {CloudflareApi.zeroTrust.gateway.CreateProxyEndpointsRequest} request
      * @param {ProxyEndpointsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.gateway.proxyEndpoints.create({
      *         account_id: "account_id",
@@ -185,6 +191,9 @@ export class ProxyEndpointsClient {
      * @param {CloudflareApi.zeroTrust.gateway.GetProxyEndpointsRequest} request
      * @param {ProxyEndpointsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.gateway.proxyEndpoints.get({
      *         account_id: "account_id",
@@ -254,6 +263,9 @@ export class ProxyEndpointsClient {
      * @param {CloudflareApi.zeroTrust.gateway.DeleteProxyEndpointsRequest} request
      * @param {ProxyEndpointsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.gateway.proxyEndpoints.delete({
      *         account_id: "account_id",
@@ -319,6 +331,9 @@ export class ProxyEndpointsClient {
      *
      * @param {CloudflareApi.zeroTrust.gateway.EditProxyEndpointsRequest} request
      * @param {ProxyEndpointsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.gateway.proxyEndpoints.edit({

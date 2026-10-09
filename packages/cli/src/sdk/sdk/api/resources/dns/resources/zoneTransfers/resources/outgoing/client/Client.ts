@@ -38,6 +38,9 @@ export class OutgoingClient {
      * @param {CloudflareApi.dns.zoneTransfers.GetOutgoingRequest} request
      * @param {OutgoingClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.dns.zoneTransfers.outgoing.get({
      *         zone_id: "zone_id"
@@ -105,6 +108,9 @@ export class OutgoingClient {
      *
      * @param {CloudflareApi.dns.zoneTransfers.CreateOutgoingRequest} request
      * @param {OutgoingClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.dns.zoneTransfers.outgoing.create({
@@ -181,6 +187,9 @@ export class OutgoingClient {
      * @param {CloudflareApi.dns.zoneTransfers.UpdateOutgoingRequest} request
      * @param {OutgoingClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.dns.zoneTransfers.outgoing.update({
      *         zone_id: "zone_id",
@@ -256,6 +265,9 @@ export class OutgoingClient {
      * @param {CloudflareApi.dns.zoneTransfers.DeleteOutgoingRequest} request
      * @param {OutgoingClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.dns.zoneTransfers.outgoing.delete({
      *         zone_id: "zone_id"
@@ -323,6 +335,9 @@ export class OutgoingClient {
      *
      * @param {CloudflareApi.dns.zoneTransfers.DisableOutgoingRequest} request
      * @param {OutgoingClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.dns.zoneTransfers.outgoing.disable({
@@ -392,6 +407,9 @@ export class OutgoingClient {
      * @param {CloudflareApi.dns.zoneTransfers.EnableOutgoingRequest} request
      * @param {OutgoingClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.dns.zoneTransfers.outgoing.enable({
      *         zone_id: "zone_id"
@@ -459,6 +477,9 @@ export class OutgoingClient {
      *
      * @param {CloudflareApi.dns.zoneTransfers.ForceNotifyOutgoingRequest} request
      * @param {OutgoingClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.dns.zoneTransfers.outgoing.forceNotify({

@@ -29,6 +29,9 @@ export class AccountSettingsClient {
      * @param {CloudflareApi.workers.GetAccountSettingsRequest} request
      * @param {AccountSettingsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workers.accountSettings.get({
      *         account_id: "account_id"
@@ -93,6 +96,9 @@ export class AccountSettingsClient {
      *
      * @param {CloudflareApi.workers.UpdateAccountSettingsRequest} request
      * @param {AccountSettingsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workers.accountSettings.update({

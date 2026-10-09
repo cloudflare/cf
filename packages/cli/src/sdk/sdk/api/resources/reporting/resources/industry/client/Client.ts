@@ -30,6 +30,9 @@ export class IndustryClient {
      * @param {CloudflareApi.reporting.GetIndustryRequest} request
      * @param {IndustryClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.reporting.industry.get({
      *         account_id: "account_id"
@@ -101,6 +104,8 @@ export class IndustryClient {
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.LockedError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.reporting.industry.update({

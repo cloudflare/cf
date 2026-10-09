@@ -38,6 +38,9 @@ export class TokensClient {
      * @param {CloudflareApi.accounts.ListTokensRequest} request
      * @param {TokensClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.accounts.tokens.list({
      *         account_id: "account_id"
@@ -110,6 +113,9 @@ export class TokensClient {
      *
      * @param {CloudflareApi.accounts.CreateTokensRequest} request
      * @param {TokensClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.accounts.tokens.create({
@@ -203,6 +209,9 @@ export class TokensClient {
      * @param {CloudflareApi.accounts.VerifyTokensRequest} request
      * @param {TokensClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.accounts.tokens.verify({
      *         account_id: "account_id"
@@ -271,6 +280,9 @@ export class TokensClient {
      * @param {CloudflareApi.accounts.GetTokensRequest} request
      * @param {TokensClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.accounts.tokens.get({
      *         account_id: "account_id",
@@ -336,6 +348,9 @@ export class TokensClient {
      *
      * @param {CloudflareApi.accounts.UpdateTokensRequest} request
      * @param {TokensClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.accounts.tokens.update({
@@ -407,6 +422,9 @@ export class TokensClient {
      * @param {CloudflareApi.accounts.DeleteTokensRequest} request
      * @param {TokensClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.accounts.tokens.delete({
      *         account_id: "account_id",
@@ -475,6 +493,9 @@ export class TokensClient {
      *
      * @param {CloudflareApi.accounts.RollTokensRequest} request
      * @param {TokensClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.accounts.tokens.roll({

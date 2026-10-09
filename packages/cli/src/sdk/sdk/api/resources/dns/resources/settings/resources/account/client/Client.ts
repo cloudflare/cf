@@ -44,6 +44,9 @@ export class AccountClient {
      * @param {CloudflareApi.dns.settings.GetAccountRequest} request
      * @param {AccountClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.dns.settings.account.get({
      *         account_or_zone: "account_or_zone",
@@ -112,6 +115,9 @@ export class AccountClient {
      *
      * @param {CloudflareApi.dns.settings.DnsSettingsAccountSettingsPatch} request
      * @param {AccountClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.dns.settings.account.edit({

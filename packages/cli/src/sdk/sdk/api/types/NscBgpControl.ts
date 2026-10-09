@@ -3,7 +3,11 @@
 export interface NscBgpControl {
     /** ASN used on the customer end of the BGP session */
     customer_asn: number;
-    /** Extra set of static prefixes to advertise to the customer's end of the session */
+    /**
+     * Extra set of static prefixes to advertise to the customer's end of the session
+     * Prefixes containing host bits will be normalized to contain network bits only.
+     * Duplicates are not allowed.
+     */
     extra_prefixes: string[];
     /**
      * MD5 key to use for session authentication.

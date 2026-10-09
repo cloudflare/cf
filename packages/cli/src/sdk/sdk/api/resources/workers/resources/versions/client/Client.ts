@@ -36,6 +36,9 @@ export class VersionsClient {
      * @param {CloudflareApi.workers.ListVersionsRequest} request
      * @param {VersionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workers.versions.list({
      *         account_id: "account_id",
@@ -112,6 +115,9 @@ export class VersionsClient {
      *
      * @param {CloudflareApi.workers.CreateVersionsRequest} request
      * @param {VersionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workers.versions.create({
@@ -190,6 +196,9 @@ export class VersionsClient {
      * @param {CloudflareApi.workers.GetVersionsRequest} request
      * @param {VersionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workers.versions.get({
      *         account_id: "account_id",
@@ -263,6 +272,9 @@ export class VersionsClient {
      *
      * @param {CloudflareApi.workers.DeleteVersionsRequest} request
      * @param {VersionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workers.versions.delete({
@@ -338,6 +350,8 @@ export class VersionsClient {
      * @throws {@link CloudflareApi.TooManyRequestsError}
      * @throws {@link CloudflareApi.InternalServerError}
      * @throws {@link CloudflareApi.ServiceUnavailableError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      */
     public profile(
         request: CloudflareApi.workers.ProfileVersionsRequest,

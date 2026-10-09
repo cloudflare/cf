@@ -33,6 +33,8 @@ export class WebCrawlersClient {
      * @param {WebCrawlersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.radar.bots.webCrawlers.summary({
@@ -155,6 +157,8 @@ export class WebCrawlersClient {
      * @param {WebCrawlersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.radar.bots.webCrawlers.timeseriesGroups({

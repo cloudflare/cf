@@ -31,6 +31,9 @@ export class AppTypesClient {
      * @param {CloudflareApi.zeroTrust.gateway.ListAppTypesRequest} request
      * @param {AppTypesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.gateway.appTypes.list({
      *         account_id: "account_id"

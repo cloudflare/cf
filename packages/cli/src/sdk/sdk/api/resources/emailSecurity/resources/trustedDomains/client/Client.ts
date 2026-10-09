@@ -29,6 +29,9 @@ export class TrustedDomainsClient {
      * @param {CloudflareApi.emailSecurity.ListTrustedDomainsRequest} request
      * @param {TrustedDomainsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.emailSecurity.trustedDomains.list({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -123,6 +126,9 @@ export class TrustedDomainsClient {
      * @param {CloudflareApi.emailSecurity.CreateTrustedDomainsRequest} request
      * @param {TrustedDomainsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.emailSecurity.trustedDomains.create({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -202,6 +208,9 @@ export class TrustedDomainsClient {
      *
      * @param {CloudflareApi.emailSecurity.BatchTrustedDomainsRequest} request
      * @param {TrustedDomainsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailSecurity.trustedDomains.batch({
@@ -293,6 +302,9 @@ export class TrustedDomainsClient {
      * @param {CloudflareApi.emailSecurity.GetTrustedDomainsRequest} request
      * @param {TrustedDomainsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.emailSecurity.trustedDomains.get({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -361,6 +373,9 @@ export class TrustedDomainsClient {
      *
      * @param {CloudflareApi.emailSecurity.UpdateTrustedDomainsRequest} request
      * @param {TrustedDomainsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailSecurity.trustedDomains.update({
@@ -440,6 +455,9 @@ export class TrustedDomainsClient {
      * @param {CloudflareApi.emailSecurity.DeleteTrustedDomainsRequest} request
      * @param {TrustedDomainsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.emailSecurity.trustedDomains.delete({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -508,6 +526,9 @@ export class TrustedDomainsClient {
      *
      * @param {CloudflareApi.emailSecurity.EditTrustedDomainsRequest} request
      * @param {TrustedDomainsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailSecurity.trustedDomains.edit({

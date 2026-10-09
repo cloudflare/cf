@@ -32,6 +32,9 @@ export class AppsClient {
      * @param {CloudflareApi.realtime.kit.ListAppsRequest} request
      * @param {AppsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.realtime.kit.apps.list({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353"
@@ -110,6 +113,9 @@ export class AppsClient {
      * @param {CloudflareApi.realtime.kit.CreateAppsRequest} request
      * @param {AppsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.realtime.kit.apps.create({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -181,6 +187,9 @@ export class AppsClient {
      *
      * @param {CloudflareApi.realtime.kit.GetAppsRequest} request
      * @param {AppsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.realtime.kit.apps.get({

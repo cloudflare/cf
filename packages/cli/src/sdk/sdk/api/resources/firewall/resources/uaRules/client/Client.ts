@@ -29,6 +29,9 @@ export class UaRulesClient {
      * @param {CloudflareApi.firewall.ListUaRulesRequest} request
      * @param {UaRulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.firewall.uaRules.list({
      *         zone_id: "zone_id",
@@ -111,6 +114,9 @@ export class UaRulesClient {
      * @param {CloudflareApi.firewall.CreateUaRulesRequest} request
      * @param {UaRulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.firewall.uaRules.create({
      *         zone_id: "zone_id",
@@ -184,6 +190,9 @@ export class UaRulesClient {
      * @param {CloudflareApi.firewall.GetUaRulesRequest} request
      * @param {UaRulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.firewall.uaRules.get({
      *         zone_id: "zone_id",
@@ -252,6 +261,9 @@ export class UaRulesClient {
      *
      * @param {CloudflareApi.firewall.UpdateUaRulesRequest} request
      * @param {UaRulesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.firewall.uaRules.update({
@@ -328,6 +340,9 @@ export class UaRulesClient {
      *
      * @param {CloudflareApi.firewall.DeleteUaRulesRequest} request
      * @param {UaRulesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.firewall.uaRules.delete({

@@ -35,6 +35,9 @@ export class PoliciesClient {
      * @param {CloudflareApi.alerting.ListPoliciesRequest} request
      * @param {PoliciesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.alerting.policies.list({
      *         account_id: "account_id"
@@ -102,6 +105,9 @@ export class PoliciesClient {
      *
      * @param {CloudflareApi.alerting.CreatePoliciesRequest} request
      * @param {PoliciesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.alerting.policies.create({
@@ -188,6 +194,9 @@ export class PoliciesClient {
      * @param {CloudflareApi.alerting.GetPoliciesRequest} request
      * @param {PoliciesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.alerting.policies.get({
      *         account_id: "account_id",
@@ -253,6 +262,9 @@ export class PoliciesClient {
      *
      * @param {CloudflareApi.alerting.UpdatePoliciesRequest} request
      * @param {PoliciesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.alerting.policies.update({
@@ -326,6 +338,9 @@ export class PoliciesClient {
      * @param {CloudflareApi.alerting.DeletePoliciesRequest} request
      * @param {PoliciesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.alerting.policies.delete({
      *         account_id: "account_id",
@@ -394,6 +409,9 @@ export class PoliciesClient {
      *
      * @param {CloudflareApi.alerting.TestPoliciesRequest} request
      * @param {PoliciesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.alerting.policies.test({

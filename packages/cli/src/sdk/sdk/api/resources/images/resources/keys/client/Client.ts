@@ -28,6 +28,9 @@ export class KeysClient {
      * @param {CloudflareApi.images.ListKeysRequest} request
      * @param {KeysClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.images.keys.list({
      *         account_id: "account_id"
@@ -95,6 +98,9 @@ export class KeysClient {
      *
      * @param {CloudflareApi.images.CreateKeysRequest} request
      * @param {KeysClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.images.keys.create({
@@ -165,6 +171,9 @@ export class KeysClient {
      *
      * @param {CloudflareApi.images.DeleteKeysRequest} request
      * @param {KeysClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.images.keys.delete({

@@ -54,6 +54,8 @@ export class AppsClient {
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.TooManyRequestsError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.flagship.apps.list({
@@ -147,6 +149,8 @@ export class AppsClient {
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.TooManyRequestsError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.flagship.apps.create({
@@ -241,6 +245,8 @@ export class AppsClient {
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.TooManyRequestsError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.flagship.apps.get({
@@ -332,6 +338,8 @@ export class AppsClient {
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.TooManyRequestsError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.flagship.apps.update({
@@ -427,6 +435,8 @@ export class AppsClient {
      * @throws {@link CloudflareApi.ConflictError}
      * @throws {@link CloudflareApi.TooManyRequestsError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.flagship.apps.delete({

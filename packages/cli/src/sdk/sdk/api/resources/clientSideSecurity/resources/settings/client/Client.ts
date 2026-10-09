@@ -29,6 +29,9 @@ export class SettingsClient {
      * @param {CloudflareApi.clientSideSecurity.GetSettingsRequest} request
      * @param {SettingsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.clientSideSecurity.settings.get({
      *         zone_id: "zone_id"
@@ -91,6 +94,9 @@ export class SettingsClient {
      *
      * @param {CloudflareApi.clientSideSecurity.UpdateSettingsRequest} request
      * @param {SettingsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.clientSideSecurity.settings.update({

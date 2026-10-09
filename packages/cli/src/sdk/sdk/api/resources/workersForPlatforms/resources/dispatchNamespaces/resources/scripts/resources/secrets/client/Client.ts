@@ -33,6 +33,9 @@ export class SecretsClient {
      * @param {CloudflareApi.workersForPlatforms.dispatchNamespaces.scripts.ListSecretsRequest} request
      * @param {SecretsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workersForPlatforms.dispatchNamespaces.scripts.secrets.list({
      *         account_id: "account_id",
@@ -107,6 +110,8 @@ export class SecretsClient {
      * @param {SecretsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.TooManyRequestsError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workersForPlatforms.dispatchNamespaces.scripts.secrets.update({
@@ -209,6 +214,8 @@ export class SecretsClient {
      * @param {SecretsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.TooManyRequestsError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workersForPlatforms.dispatchNamespaces.scripts.secrets.bulk({
@@ -297,6 +304,9 @@ export class SecretsClient {
      * @param {CloudflareApi.workersForPlatforms.dispatchNamespaces.scripts.GetSecretsRequest} request
      * @param {SecretsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workersForPlatforms.dispatchNamespaces.scripts.secrets.get({
      *         account_id: "account_id",
@@ -382,6 +392,9 @@ export class SecretsClient {
      *
      * @param {CloudflareApi.workersForPlatforms.dispatchNamespaces.scripts.DeleteSecretsRequest} request
      * @param {SecretsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workersForPlatforms.dispatchNamespaces.scripts.secrets.delete({

@@ -29,6 +29,9 @@ export class ManagedTransformsClient {
      * @param {CloudflareApi.ListManagedTransformsRequest} request
      * @param {ManagedTransformsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.managedTransforms.list({
      *         zone_id: "zone_id"
@@ -97,6 +100,9 @@ export class ManagedTransformsClient {
      * @param {CloudflareApi.DeleteManagedTransformsRequest} request
      * @param {ManagedTransformsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.managedTransforms.delete({
      *         zone_id: "zone_id"
@@ -161,6 +167,9 @@ export class ManagedTransformsClient {
      *
      * @param {CloudflareApi.RulesetsManagedTransformsPatch} request
      * @param {ManagedTransformsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.managedTransforms.update({

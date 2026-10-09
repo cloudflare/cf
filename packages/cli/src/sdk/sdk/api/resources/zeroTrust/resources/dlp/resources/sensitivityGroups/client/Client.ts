@@ -32,6 +32,9 @@ export class SensitivityGroupsClient {
      * @param {CloudflareApi.zeroTrust.dlp.ListSensitivityGroupsRequest} request
      * @param {SensitivityGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.dlp.sensitivityGroups.list({
      *         account_id: "account_id"
@@ -99,6 +102,9 @@ export class SensitivityGroupsClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.DlpNewSensitivityGroup} request
      * @param {SensitivityGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.sensitivityGroups.create({
@@ -169,6 +175,9 @@ export class SensitivityGroupsClient {
      * @param {CloudflareApi.zeroTrust.dlp.GetSensitivityGroupsRequest} request
      * @param {SensitivityGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.dlp.sensitivityGroups.get({
      *         account_id: "account_id",
@@ -234,6 +243,9 @@ export class SensitivityGroupsClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.DlpSensitivityGroupUpdate} request
      * @param {SensitivityGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.sensitivityGroups.update({
@@ -304,6 +316,9 @@ export class SensitivityGroupsClient {
      * @param {CloudflareApi.zeroTrust.dlp.DeleteSensitivityGroupsRequest} request
      * @param {SensitivityGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.dlp.sensitivityGroups.delete({
      *         account_id: "account_id",
@@ -369,6 +384,9 @@ export class SensitivityGroupsClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.GetLevelOrderSensitivityGroupsRequest} request
      * @param {SensitivityGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.sensitivityGroups.getLevelOrder({
@@ -438,6 +456,9 @@ export class SensitivityGroupsClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.UpdateLevelOrderSensitivityGroupsRequest} request
      * @param {SensitivityGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.sensitivityGroups.updateLevelOrder({

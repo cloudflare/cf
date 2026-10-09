@@ -10,28 +10,28 @@ import * as CloudflareApi from "../index.js";
  */
 export type RegistrarApiDomainTransferCheckResult =
     | ({
-          name: string;
-          pricing: CloudflareApi.RegistrarApiPricingTransfer | undefined;
-          reasons: CloudflareApi.RegistrarApiDomainTransferCheckResultReasonsItem[];
-          transferable: boolean;
-      } & {
           reasons?:
               | {
                     code: CloudflareApi.RegistrarApiDomainTransferCheckReason;
                 }[]
               | undefined;
           transferable: true;
-      })
-    | ({
+      } & {
           name: string;
-          pricing: CloudflareApi.RegistrarApiPricingTransfer | undefined;
+          pricing?: CloudflareApi.RegistrarApiPricingTransfer | undefined;
           reasons: CloudflareApi.RegistrarApiDomainTransferCheckResultReasonsItem[];
           transferable: boolean;
-      } & {
+      })
+    | ({
           reasons?:
               | {
                     code: CloudflareApi.RegistrarApiDomainTransferCheckReason;
                 }[]
               | undefined;
           transferable: false;
+      } & {
+          name: string;
+          pricing?: CloudflareApi.RegistrarApiPricingTransfer | undefined;
+          reasons: CloudflareApi.RegistrarApiDomainTransferCheckResultReasonsItem[];
+          transferable: boolean;
       });

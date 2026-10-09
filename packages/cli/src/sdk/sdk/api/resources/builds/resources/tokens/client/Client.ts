@@ -31,6 +31,8 @@ export class TokensClient {
      * @param {TokensClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.UnauthorizedError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.builds.tokens.list({
@@ -114,6 +116,8 @@ export class TokensClient {
      * @param {TokensClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.UnauthorizedError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.builds.tokens.create({
@@ -196,6 +200,8 @@ export class TokensClient {
      *
      * @throws {@link CloudflareApi.UnauthorizedError}
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.builds.tokens.delete({

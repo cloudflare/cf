@@ -32,6 +32,9 @@ export class BulkClient {
      * @param {CloudflareApi.magicNetworkMonitoring.rules.CreateBulkRequest} request
      * @param {BulkClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicNetworkMonitoring.rules.bulk.create({
      *         account_id: "account_id",
@@ -107,6 +110,9 @@ export class BulkClient {
      *
      * @param {CloudflareApi.magicNetworkMonitoring.rules.UpdateBulkRequest} request
      * @param {BulkClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicNetworkMonitoring.rules.bulk.update({

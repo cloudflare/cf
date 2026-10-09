@@ -5,15 +5,15 @@ import * as CloudflareApi from "../index.js";
 /**
  * Copy upload request. Provide `input` (preferred) or `url` (deprecated).
  */
-export type StreamVideoCopyRequest = {
-    allowedOrigins: CloudflareApi.StreamAllowedOrigins | undefined;
-    creator: CloudflareApi.StreamCreator | undefined;
-    input: string | undefined;
-    meta: CloudflareApi.StreamMediaMetadata | undefined;
-    name: string | undefined;
-    requireSignedURLs: CloudflareApi.StreamRequireSignedUrLs | undefined;
-    scheduledDeletion: CloudflareApi.StreamScheduledDeletion | undefined;
-    thumbnailTimestampPct: CloudflareApi.StreamThumbnailTimestampPct | undefined;
-    url: string | undefined;
-    watermark: CloudflareApi.StreamWatermarkAtUploadAlt | undefined;
-} & Record<string, unknown>;
+export type StreamVideoCopyRequest = Record<string, unknown> & {
+    allowedOrigins?: CloudflareApi.StreamAllowedOrigins | undefined;
+    creator?: CloudflareApi.StreamCreator | undefined;
+    input?: string | undefined;
+    meta?: CloudflareApi.StreamMediaMetadata | undefined;
+    name?: string | undefined;
+    requireSignedURLs?: CloudflareApi.StreamRequireSignedUrLs | undefined;
+    scheduledDeletion?: CloudflareApi.StreamScheduledDeletion | undefined;
+    thumbnailTimestampPct?: CloudflareApi.StreamThumbnailTimestampPct | undefined;
+    url?: string | undefined;
+    watermark?: CloudflareApi.StreamWatermarkAtUploadAlt | undefined;
+};

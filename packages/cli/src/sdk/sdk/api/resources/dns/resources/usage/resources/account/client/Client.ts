@@ -31,6 +31,9 @@ export class AccountClient {
      * @param {CloudflareApi.dns.usage.GetAccountRequest} request
      * @param {AccountClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.dns.usage.account.get({
      *         account_or_zone: "account_or_zone",

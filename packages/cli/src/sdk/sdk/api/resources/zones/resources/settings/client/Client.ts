@@ -31,6 +31,9 @@ export class SettingsClient {
      * @param {CloudflareApi.zones.ListSettingsRequest} request
      * @param {SettingsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zones.settings.list({
      *         zone_id: "zone_id"
@@ -95,6 +98,9 @@ export class SettingsClient {
      *
      * @param {CloudflareApi.zones.BulkEditSettingsRequest} request
      * @param {SettingsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zones.settings.bulkEdit({
@@ -166,6 +172,9 @@ export class SettingsClient {
      * @param {CloudflareApi.zones.GetSettingsRequest} request
      * @param {SettingsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zones.settings.get({
      *         zone_id: "zone_id",
@@ -231,6 +240,9 @@ export class SettingsClient {
      *
      * @param {CloudflareApi.zones.EditSettingsRequest} request
      * @param {SettingsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zones.settings.edit({

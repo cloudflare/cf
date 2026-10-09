@@ -29,6 +29,9 @@ export class RecordsClient {
      * @param {CloudflareApi.dns.ListRecordsRequest} request
      * @param {RecordsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.dns.records.list({
      *         zone_id: "zone_id",
@@ -206,6 +209,9 @@ export class RecordsClient {
      * @param {CloudflareApi.dns.CreateRecordsRequest} request
      * @param {RecordsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.dns.records.create({
      *         zone_id: "zone_id",
@@ -292,6 +298,9 @@ export class RecordsClient {
      * @param {CloudflareApi.dns.DnsRecordsDnsRequestBatchObject} request
      * @param {RecordsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.dns.records.batch({
      *         zone_id: "zone_id",
@@ -373,6 +382,9 @@ export class RecordsClient {
      * @param {CloudflareApi.dns.ExportRecordsRequest} request
      * @param {RecordsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.dns.records.export({
      *         zone_id: "zone_id"
@@ -440,6 +452,9 @@ export class RecordsClient {
      *
      * @param {CloudflareApi.dns.ImportRecordsRequest} request
      * @param {RecordsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";
@@ -521,6 +536,9 @@ export class RecordsClient {
      * @param {CloudflareApi.dns.ScanRecordsRequest} request
      * @param {RecordsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.dns.records.scan({
      *         zone_id: "zone_id"
@@ -589,6 +607,9 @@ export class RecordsClient {
      * @param {CloudflareApi.dns.ScanListRecordsRequest} request
      * @param {RecordsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.dns.records.scanList({
      *         zone_id: "zone_id"
@@ -656,6 +677,9 @@ export class RecordsClient {
      *
      * @param {CloudflareApi.dns.DnsRecordsDnsRequestReviewScanObject} request
      * @param {RecordsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.dns.records.scanReview({
@@ -728,6 +752,9 @@ export class RecordsClient {
      * @param {CloudflareApi.dns.ScanTriggerRecordsRequest} request
      * @param {RecordsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.dns.records.scanTrigger({
      *         zone_id: "zone_id"
@@ -795,6 +822,9 @@ export class RecordsClient {
      *
      * @param {CloudflareApi.dns.GetRecordsRequest} request
      * @param {RecordsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.dns.records.get({
@@ -878,6 +908,9 @@ export class RecordsClient {
      *
      * @param {CloudflareApi.dns.UpdateRecordsRequest} request
      * @param {RecordsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.dns.records.update({
@@ -967,6 +1000,9 @@ export class RecordsClient {
      * @param {CloudflareApi.dns.DeleteRecordsRequest} request
      * @param {RecordsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.dns.records.delete({
      *         zone_id: "zone_id",
@@ -1041,6 +1077,9 @@ export class RecordsClient {
      *
      * @param {CloudflareApi.dns.EditRecordsRequest} request
      * @param {RecordsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.dns.records.edit({

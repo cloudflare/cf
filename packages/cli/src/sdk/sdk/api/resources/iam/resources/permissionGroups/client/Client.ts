@@ -28,6 +28,9 @@ export class PermissionGroupsClient {
      * @param {CloudflareApi.iam.ListPermissionGroupsRequest} request
      * @param {PermissionGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.iam.permissionGroups.list({
      *         account_id: "account_id",
@@ -109,6 +112,9 @@ export class PermissionGroupsClient {
      *
      * @param {CloudflareApi.iam.GetPermissionGroupsRequest} request
      * @param {PermissionGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.iam.permissionGroups.get({

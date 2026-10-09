@@ -29,6 +29,9 @@ export class WebhooksClient {
      * @param {CloudflareApi.stream.GetWebhooksRequest} request
      * @param {WebhooksClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.stream.webhooks.get({
      *         account_id: "account_id"
@@ -96,6 +99,9 @@ export class WebhooksClient {
      *
      * @param {CloudflareApi.stream.UpdateWebhooksRequest} request
      * @param {WebhooksClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.stream.webhooks.update({
@@ -170,6 +176,9 @@ export class WebhooksClient {
      *
      * @param {CloudflareApi.stream.DeleteWebhooksRequest} request
      * @param {WebhooksClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.stream.webhooks.delete({

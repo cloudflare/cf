@@ -29,6 +29,9 @@ export class GroupsClient {
      * @param {CloudflareApi.scim.ListGroupsRequest} request
      * @param {GroupsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.scim.groups.list({
      *         account_id: "account_id",
@@ -107,6 +110,9 @@ export class GroupsClient {
      * @param {CloudflareApi.scim.IamScimGroupCreateRequest} request
      * @param {GroupsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.scim.groups.create({
      *         account_id: "account_id",
@@ -176,6 +182,9 @@ export class GroupsClient {
      * @param {CloudflareApi.scim.GetGroupsRequest} request
      * @param {GroupsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.scim.groups.get({
      *         account_id: "account_id",
@@ -241,6 +250,9 @@ export class GroupsClient {
      *
      * @param {CloudflareApi.scim.IamScimGroupReplaceRequest} request
      * @param {GroupsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.scim.groups.update({
@@ -313,6 +325,9 @@ export class GroupsClient {
      * @param {CloudflareApi.scim.DeleteGroupsRequest} request
      * @param {GroupsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.scim.groups.delete({
      *         account_id: "account_id",
@@ -378,6 +393,9 @@ export class GroupsClient {
      *
      * @param {CloudflareApi.scim.IamScimGroupPatchOpRequest} request
      * @param {GroupsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.scim.groups.edit({

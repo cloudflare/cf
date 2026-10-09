@@ -32,6 +32,9 @@ export class RuleGroupsClient {
      * @param {CloudflareApi.zeroTrust.access.ListRuleGroupsRequest} request
      * @param {RuleGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.ruleGroups.list({
      *         account_or_zone: "account_or_zone",
@@ -118,6 +121,9 @@ export class RuleGroupsClient {
      * @param {CloudflareApi.zeroTrust.access.CreateRuleGroupsRequest} request
      * @param {RuleGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.ruleGroups.create({
      *         account_or_zone: "account_or_zone",
@@ -193,6 +199,9 @@ export class RuleGroupsClient {
      * @param {CloudflareApi.zeroTrust.access.GetRuleGroupsRequest} request
      * @param {RuleGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.ruleGroups.get({
      *         account_or_zone: "account_or_zone",
@@ -259,6 +268,9 @@ export class RuleGroupsClient {
      *
      * @param {CloudflareApi.zeroTrust.access.UpdateRuleGroupsRequest} request
      * @param {RuleGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.ruleGroups.update({
@@ -340,6 +352,9 @@ export class RuleGroupsClient {
      *
      * @param {CloudflareApi.zeroTrust.access.DeleteRuleGroupsRequest} request
      * @param {RuleGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.ruleGroups.delete({

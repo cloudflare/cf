@@ -15,7 +15,6 @@ import * as environments from "../../../../../../../../../../../../../../../../e
 import { handleNonStatusCodeError } from "../../../../../../../../../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../../../../../../../../../errors/index.js";
 import type * as CloudflareApi from "../../../../../../../../../../../../../../../index.js";
-import { DeleteClient } from "../resources/delete/client/Client.js";
 
 export declare namespace FiltersClient {
     export type Options = BaseClientOptions;
@@ -25,14 +24,9 @@ export declare namespace FiltersClient {
 
 export class FiltersClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<FiltersClient.Options>;
-    protected _delete: DeleteClient | undefined;
 
     constructor(options: FiltersClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
-    }
-
-    public get delete(): DeleteClient {
-        return (this._delete ??= new DeleteClient(this._options));
     }
 
     /**
@@ -40,6 +34,9 @@ export class FiltersClient {
      *
      * @param {CloudflareApi.magicTransit.advancedTcpProtection.configs.tcp.flow.protection.ListFiltersRequest} request
      * @param {FiltersClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.advancedTcpProtection.configs.tcp.flow.protection.filters.list({
@@ -127,6 +124,9 @@ export class FiltersClient {
      * @param {CloudflareApi.magicTransit.advancedTcpProtection.configs.tcp.flow.protection.CreateFiltersRequest} request
      * @param {FiltersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.advancedTcpProtection.configs.tcp.flow.protection.filters.create({
      *         account_id: "account_id",
@@ -194,10 +194,81 @@ export class FiltersClient {
     }
 
     /**
+     * Delete all TCP Flow Protection filters for an account.
+     *
+     * @param {CloudflareApi.magicTransit.advancedTcpProtection.configs.tcp.flow.protection.BulkDeleteFiltersRequest} request
+     * @param {FiltersClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
+     * @example
+     *     await client.magicTransit.advancedTcpProtection.configs.tcp.flow.protection.filters.bulkDelete({
+     *         account_id: "account_id"
+     *     })
+     */
+    public bulkDelete(
+        request: CloudflareApi.magicTransit.advancedTcpProtection.configs.tcp.flow.protection.BulkDeleteFiltersRequest,
+        requestOptions?: FiltersClient.RequestOptions,
+    ): core.HttpResponsePromise<CloudflareApi.DosApiResponseCommon> {
+        return core.HttpResponsePromise.fromPromise(this.__bulkDelete(request, requestOptions));
+    }
+
+    private async __bulkDelete(
+        request: CloudflareApi.magicTransit.advancedTcpProtection.configs.tcp.flow.protection.BulkDeleteFiltersRequest,
+        requestOptions?: FiltersClient.RequestOptions,
+    ): Promise<core.WithRawResponse<CloudflareApi.DosApiResponseCommon>> {
+        const { account_id: accountId } = request;
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.CloudflareApiEnvironment.Default,
+                `accounts/${core.url.encodePathParam(accountId)}/magic/advanced_tcp_protection/configs/tcp_flow_protection/filters`,
+            ),
+            method: "DELETE",
+            headers: _headers,
+            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return { data: _response.body as CloudflareApi.DosApiResponseCommon, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            throw new errors.CloudflareApiError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
+        }
+
+        return handleNonStatusCodeError(
+            _response.error,
+            _response.rawResponse,
+            "DELETE",
+            "/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_flow_protection/filters",
+        );
+    }
+
+    /**
      * Get a TCP Flow Protection filter specified by the given UUID.
      *
      * @param {CloudflareApi.magicTransit.advancedTcpProtection.configs.tcp.flow.protection.GetFiltersRequest} request
      * @param {FiltersClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.advancedTcpProtection.configs.tcp.flow.protection.filters.get({
@@ -260,10 +331,82 @@ export class FiltersClient {
     }
 
     /**
+     * Delete a TCP Flow Protection filter specified by the given UUID.
+     *
+     * @param {CloudflareApi.magicTransit.advancedTcpProtection.configs.tcp.flow.protection.DeleteFiltersRequest} request
+     * @param {FiltersClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
+     * @example
+     *     await client.magicTransit.advancedTcpProtection.configs.tcp.flow.protection.filters.delete({
+     *         account_id: "account_id",
+     *         filter_id: "filter_id"
+     *     })
+     */
+    public delete(
+        request: CloudflareApi.magicTransit.advancedTcpProtection.configs.tcp.flow.protection.DeleteFiltersRequest,
+        requestOptions?: FiltersClient.RequestOptions,
+    ): core.HttpResponsePromise<CloudflareApi.DosApiResponseCommon> {
+        return core.HttpResponsePromise.fromPromise(this.__delete(request, requestOptions));
+    }
+
+    private async __delete(
+        request: CloudflareApi.magicTransit.advancedTcpProtection.configs.tcp.flow.protection.DeleteFiltersRequest,
+        requestOptions?: FiltersClient.RequestOptions,
+    ): Promise<core.WithRawResponse<CloudflareApi.DosApiResponseCommon>> {
+        const { account_id: accountId, filter_id: filterId } = request;
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.CloudflareApiEnvironment.Default,
+                `accounts/${core.url.encodePathParam(accountId)}/magic/advanced_tcp_protection/configs/tcp_flow_protection/filters/${core.url.encodePathParam(filterId)}`,
+            ),
+            method: "DELETE",
+            headers: _headers,
+            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return { data: _response.body as CloudflareApi.DosApiResponseCommon, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            throw new errors.CloudflareApiError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
+        }
+
+        return handleNonStatusCodeError(
+            _response.error,
+            _response.rawResponse,
+            "DELETE",
+            "/accounts/{account_id}/magic/advanced_tcp_protection/configs/tcp_flow_protection/filters/{filter_id}",
+        );
+    }
+
+    /**
      * Update a TCP Flow Protection filter specified by the given UUID.
      *
      * @param {CloudflareApi.magicTransit.advancedTcpProtection.configs.tcp.flow.protection.UpdateFiltersRequest} request
      * @param {FiltersClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.advancedTcpProtection.configs.tcp.flow.protection.filters.update({

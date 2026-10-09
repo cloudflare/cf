@@ -31,6 +31,9 @@ export class FullClient {
      * @param {CloudflareApi.magicNetworkMonitoring.configs.GetFullRequest} request
      * @param {FullClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicNetworkMonitoring.configs.full.get({
      *         account_id: "account_id"

@@ -29,6 +29,9 @@ export class VirtualNetworksClient {
      * @param {CloudflareApi.network.ListVirtualNetworksRequest} request
      * @param {VirtualNetworksClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.network.virtualNetworks.list({
      *         account_id: "account_id",
@@ -117,6 +120,9 @@ export class VirtualNetworksClient {
      * @param {CloudflareApi.network.CreateVirtualNetworksRequest} request
      * @param {VirtualNetworksClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.network.virtualNetworks.create({
      *         account_id: "account_id",
@@ -186,6 +192,9 @@ export class VirtualNetworksClient {
      * @param {CloudflareApi.network.GetVirtualNetworksRequest} request
      * @param {VirtualNetworksClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.network.virtualNetworks.get({
      *         account_id: "account_id",
@@ -252,6 +261,9 @@ export class VirtualNetworksClient {
      * @param {CloudflareApi.network.DeleteVirtualNetworksRequest} request
      * @param {VirtualNetworksClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.network.virtualNetworks.delete({
      *         account_id: "account_id",
@@ -317,6 +329,9 @@ export class VirtualNetworksClient {
      *
      * @param {CloudflareApi.network.EditVirtualNetworksRequest} request
      * @param {VirtualNetworksClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.network.virtualNetworks.edit({

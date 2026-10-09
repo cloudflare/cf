@@ -35,6 +35,9 @@ export class AccountCustomPagesClient {
      * @param {CloudflareApi.customPages.UpdateAccountCustomPagesRequest} request
      * @param {AccountCustomPagesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.customPages.accountCustomPages.update({
      *         account_or_zone: "account_or_zone",

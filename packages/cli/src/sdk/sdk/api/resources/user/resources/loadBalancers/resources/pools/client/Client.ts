@@ -56,6 +56,9 @@ export class PoolsClient {
      * @param {CloudflareApi.user.loadBalancers.ListPoolsRequest} request
      * @param {PoolsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.user.loadBalancers.pools.list()
      */
@@ -124,6 +127,9 @@ export class PoolsClient {
      * @param {CloudflareApi.user.loadBalancers.CreatePoolsRequest} request
      * @param {PoolsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.user.loadBalancers.pools.create({
      *         name: "primary-dc-1",
@@ -186,6 +192,9 @@ export class PoolsClient {
      *
      * @param {CloudflareApi.user.loadBalancers.GetPoolsRequest} request
      * @param {PoolsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.user.loadBalancers.pools.get({
@@ -251,6 +260,9 @@ export class PoolsClient {
      *
      * @param {CloudflareApi.user.loadBalancers.UpdatePoolsRequest} request
      * @param {PoolsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.user.loadBalancers.pools.update({
@@ -321,6 +333,9 @@ export class PoolsClient {
      *
      * @param {CloudflareApi.user.loadBalancers.DeletePoolsRequest} request
      * @param {PoolsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.user.loadBalancers.pools.delete({

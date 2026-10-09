@@ -31,6 +31,9 @@ export class OverrideCodesClient {
      * @param {CloudflareApi.zeroTrust.devices.registrations.GetOverrideCodesRequest} request
      * @param {OverrideCodesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.devices.registrations.overrideCodes.get({
      *         account_id: "account_id",

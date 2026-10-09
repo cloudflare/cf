@@ -28,6 +28,9 @@ export class QuotaClient {
      * @param {CloudflareApi.secretsStore.GetQuotaRequest} request
      * @param {QuotaClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.secretsStore.quota.get({
      *         account_id: "985e105f4ecef8ad9ca31a8372d0c353"

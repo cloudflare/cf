@@ -70,6 +70,9 @@ export class ScriptsClient {
      * @param {CloudflareApi.workers.legacy.ListScriptsRequest} request
      * @param {ScriptsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workers.legacy.scripts.list({
      *         account_id: "account_id",
@@ -148,6 +151,9 @@ export class ScriptsClient {
      * @param {CloudflareApi.workers.legacy.GetScriptsRequest} request
      * @param {ScriptsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workers.legacy.scripts.get({
      *         account_id: "account_id",
@@ -215,6 +221,9 @@ export class ScriptsClient {
      *
      * @param {CloudflareApi.workers.legacy.UpdateScriptsRequest} request
      * @param {ScriptsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";
@@ -303,6 +312,9 @@ export class ScriptsClient {
      *
      * @param {CloudflareApi.workers.legacy.DeleteScriptsRequest} request
      * @param {ScriptsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workers.legacy.scripts.delete({

@@ -30,6 +30,9 @@ export class ZoneClient {
      * @param {CloudflareApi.ActivateZoneRequest} request
      * @param {ZoneClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zone.activate({
      *         zone_id: "zone_id"

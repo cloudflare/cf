@@ -38,6 +38,8 @@ export class MaintenanceRunsClient {
      * @throws {@link CloudflareApi.UnauthorizedError}
      * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.r2DataCatalog.namespaces.tables.maintenanceRuns.list({

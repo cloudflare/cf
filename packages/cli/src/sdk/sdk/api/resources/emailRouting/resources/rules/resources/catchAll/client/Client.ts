@@ -34,6 +34,8 @@ export class CatchAllClient {
      * @param {CatchAllClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.ForbiddenError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailRouting.rules.catchAll.get({
@@ -107,6 +109,8 @@ export class CatchAllClient {
      *
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.UnprocessableEntityError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailRouting.rules.catchAll.update({

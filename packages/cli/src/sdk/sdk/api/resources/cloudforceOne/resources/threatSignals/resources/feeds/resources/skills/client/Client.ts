@@ -32,6 +32,9 @@ export class SkillsClient {
      * @param {CloudflareApi.cloudforceOne.threatSignals.feeds.GetSkillsRequest} request
      * @param {SkillsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.cloudforceOne.threatSignals.feeds.skills.get({
      *         account_id: "account_id",
@@ -100,6 +103,9 @@ export class SkillsClient {
      *
      * @param {CloudflareApi.cloudforceOne.threatSignals.feeds.UpdateSkillsRequest} request
      * @param {SkillsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.threatSignals.feeds.skills.update({

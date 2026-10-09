@@ -65,6 +65,9 @@ export class SecurityInsightsClient {
      * @param {CloudflareApi.ListSecurityInsightsRequest} request
      * @param {SecurityInsightsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.securityInsights.list({
      *         account_or_zone: "account_or_zone",
@@ -190,6 +193,9 @@ export class SecurityInsightsClient {
      * @param {CloudflareApi.SecurityCenterUserClassificationUpdate} request
      * @param {SecurityInsightsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.securityInsights.classify({
      *         account_or_zone: "account_or_zone",
@@ -267,6 +273,9 @@ export class SecurityInsightsClient {
      *
      * @param {CloudflareApi.DismissSecurityInsightsRequest} request
      * @param {SecurityInsightsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.securityInsights.dismiss({

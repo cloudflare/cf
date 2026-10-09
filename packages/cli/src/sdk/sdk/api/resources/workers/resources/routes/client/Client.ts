@@ -29,6 +29,9 @@ export class RoutesClient {
      * @param {CloudflareApi.workers.ListRoutesRequest} request
      * @param {RoutesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workers.routes.list({
      *         zone_id: "zone_id"
@@ -96,6 +99,9 @@ export class RoutesClient {
      *
      * @param {CloudflareApi.workers.CreateRoutesRequest} request
      * @param {RoutesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workers.routes.create({
@@ -168,6 +174,9 @@ export class RoutesClient {
      * @param {CloudflareApi.workers.GetRoutesRequest} request
      * @param {RoutesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workers.routes.get({
      *         zone_id: "zone_id",
@@ -233,6 +242,9 @@ export class RoutesClient {
      *
      * @param {CloudflareApi.workers.UpdateRoutesRequest} request
      * @param {RoutesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workers.routes.update({
@@ -305,6 +317,9 @@ export class RoutesClient {
      *
      * @param {CloudflareApi.workers.DeleteRoutesRequest} request
      * @param {RoutesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workers.routes.delete({

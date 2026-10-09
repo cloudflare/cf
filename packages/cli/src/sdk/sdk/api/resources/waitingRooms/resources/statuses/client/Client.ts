@@ -37,6 +37,9 @@ export class StatusesClient {
      * @param {CloudflareApi.waitingRooms.GetStatusesRequest} request
      * @param {StatusesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.waitingRooms.statuses.get({
      *         zone_id: "zone_id",

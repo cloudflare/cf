@@ -32,6 +32,8 @@ export class ConcurrencyClient {
      *
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.ForbiddenError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workflows.concurrency.list({
@@ -119,6 +121,8 @@ export class ConcurrencyClient {
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.ConflictError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workflows.concurrency.create({
@@ -205,6 +209,8 @@ export class ConcurrencyClient {
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workflows.concurrency.get({
@@ -288,6 +294,8 @@ export class ConcurrencyClient {
      * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.ConflictError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workflows.concurrency.delete({
@@ -372,6 +380,8 @@ export class ConcurrencyClient {
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workflows.concurrency.edit({

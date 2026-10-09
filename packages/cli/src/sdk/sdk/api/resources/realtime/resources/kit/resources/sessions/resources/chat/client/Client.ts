@@ -31,6 +31,9 @@ export class ChatClient {
      * @param {CloudflareApi.realtime.kit.sessions.ExportChatRequest} request
      * @param {ChatClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.realtime.kit.sessions.chat.export({
      *         account_id: "account_id",

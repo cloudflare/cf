@@ -31,6 +31,9 @@ export class QuotaClient {
      * @param {CloudflareApi.zeroTrust.dex.commands.GetQuotaRequest} request
      * @param {QuotaClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.dex.commands.quota.get({
      *         account_id: "account_id"

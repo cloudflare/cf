@@ -28,6 +28,9 @@ export class SearchesClient {
      * @param {CloudflareApi.loadBalancers.ListSearchesRequest} request
      * @param {SearchesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.loadBalancers.searches.list({
      *         account_id: "account_id",

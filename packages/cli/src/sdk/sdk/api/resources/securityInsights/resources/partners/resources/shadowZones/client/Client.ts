@@ -31,6 +31,9 @@ export class ShadowZonesClient {
      * @param {CloudflareApi.securityInsights.partners.ListShadowZonesRequest} request
      * @param {ShadowZonesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.securityInsights.partners.shadowZones.list({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",

@@ -31,6 +31,9 @@ export class ShadowHostsClient {
      * @param {CloudflareApi.securityInsights.partners.ListShadowHostsRequest} request
      * @param {ShadowHostsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.securityInsights.partners.shadowHosts.list({
      *         zone_id: "023e105f4ecef8ad9ca31a8372d0c353",

@@ -29,6 +29,9 @@ export class FraudClient {
      * @param {CloudflareApi.GetFraudRequest} request
      * @param {FraudClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.fraud.get({
      *         zone_id: "zone_id"
@@ -98,11 +101,14 @@ export class FraudClient {
      * @param {CloudflareApi.UpdateFraudRequest} request
      * @param {FraudClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.fraud.update({
      *         zone_id: "zone_id",
      *         body: {
-     *             username_expressions: ["http.request.body.form[\"username\"][0]", "lookup_json_string(http.request.body.raw, \"username\")"]
+     *             username_expressions: []
      *         }
      *     })
      *

@@ -17,7 +17,10 @@ import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
-import { promptForRequiredField } from "#lib/prompt.js";
+import {
+	promptForRequiredEnumField,
+	promptForRequiredField,
+} from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
@@ -53,6 +56,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "boolean",
 			description: "Return the Ephemeral ID in /siteverify (ENT only).\n",
 		})
+		.option("widget-mode", {
+			type: "string",
+			description: "Widget Mode",
+			choices: ["non-interactive", "invisible", "managed"],
+		})
+		.coerce("widget-mode", (value) =>
+			resolveFileToken(value, "widget-mode", "text")
+		)
 		.option("name", {
 			type: "string",
 			description:
@@ -99,6 +110,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"bot-fight-mode",
 						"clearance-level",
 						"ephemeral-id",
+						"widget-mode",
 						"offlabel",
 						"region",
 						"dry-run",
@@ -123,6 +135,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										clearance_level: argv["clearance-level"],
 										domains: argv["domains"],
 										ephemeral_id: argv["ephemeral-id"],
+										mode: argv["widget-mode"],
 										name: resolveFileToken(
 											argv["name"] as string | undefined,
 											"name",
@@ -155,6 +168,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"--domains is required (or pass --body with this field set)."
 					);
 				}
+				if (argv["widget-mode"] === undefined) {
+					argv["widget-mode"] = await promptForRequiredEnumField(
+						"widget-mode",
+						"Widget Mode",
+						["non-interactive", "invisible", "managed"] as const
+					);
+				}
 				if (argv["name"] === undefined) {
 					argv["name"] = await promptForRequiredField(
 						"name",
@@ -168,6 +188,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					clearance_level: argv["clearance-level"],
 					domains: argv["domains"],
 					ephemeral_id: argv["ephemeral-id"],
+					mode: argv["widget-mode"],
 					name: resolveFileToken(
 						argv["name"] as string | undefined,
 						"name",

@@ -31,6 +31,9 @@ export class WarpChangeEventsClient {
      * @param {CloudflareApi.zeroTrust.dex.ListWarpChangeEventsRequest} request
      * @param {WarpChangeEventsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.dex.warpChangeEvents.list({
      *         account_id: "account_id",

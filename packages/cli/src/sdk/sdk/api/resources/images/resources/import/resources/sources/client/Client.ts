@@ -32,6 +32,9 @@ export class SourcesClient {
      * @param {CloudflareApi.images.import_.ListSourcesRequest} request
      * @param {SourcesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.images.import.sources.list({
      *         account_id: "account_id"
@@ -108,6 +111,9 @@ export class SourcesClient {
      *
      * @param {CloudflareApi.images.import_.ImagesSourcingkitSourceCreateRequest} request
      * @param {SourcesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.images.import.sources.create({
@@ -186,6 +192,9 @@ export class SourcesClient {
      * @param {CloudflareApi.images.import_.ImagesSourcingkitConnectivityPrecheckRequest} request
      * @param {SourcesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.images.import.sources.preCheck({
      *         account_id: "account_id",
@@ -262,6 +271,9 @@ export class SourcesClient {
      * @param {CloudflareApi.images.import_.GetSourcesRequest} request
      * @param {SourcesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.images.import.sources.get({
      *         account_id: "account_id",
@@ -331,6 +343,9 @@ export class SourcesClient {
      * @param {CloudflareApi.images.import_.DeleteSourcesRequest} request
      * @param {SourcesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.images.import.sources.delete({
      *         account_id: "account_id",
@@ -396,6 +411,9 @@ export class SourcesClient {
      *
      * @param {CloudflareApi.images.import_.ImagesSourcingkitSourceUpdateRequest} request
      * @param {SourcesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.images.import.sources.update({
@@ -469,6 +487,9 @@ export class SourcesClient {
      *
      * @param {CloudflareApi.images.import_.CheckSourcesRequest} request
      * @param {SourcesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.images.import.sources.check({

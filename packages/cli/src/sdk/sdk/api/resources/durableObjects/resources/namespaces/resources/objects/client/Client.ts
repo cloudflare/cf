@@ -31,6 +31,9 @@ export class ObjectsClient {
      * @param {CloudflareApi.durableObjects.namespaces.ListObjectsRequest} request
      * @param {ObjectsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.durableObjects.namespaces.objects.list({
      *         account_id: "account_id",

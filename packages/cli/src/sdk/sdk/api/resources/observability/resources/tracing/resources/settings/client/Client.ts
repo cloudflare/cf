@@ -37,6 +37,8 @@ export class SettingsClient {
      * @throws {@link CloudflareApi.UnauthorizedError}
      * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.observability.tracing.settings.get({
@@ -121,6 +123,8 @@ export class SettingsClient {
      * @throws {@link CloudflareApi.UnauthorizedError}
      * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.observability.tracing.settings.delete({
@@ -205,6 +209,8 @@ export class SettingsClient {
      * @throws {@link CloudflareApi.UnauthorizedError}
      * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.observability.tracing.settings.update({

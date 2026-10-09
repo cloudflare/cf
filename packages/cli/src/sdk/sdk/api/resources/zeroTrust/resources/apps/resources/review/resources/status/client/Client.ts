@@ -32,6 +32,9 @@ export class StatusClient {
      * @param {CloudflareApi.zeroTrust.apps.review.ListStatusRequest} request
      * @param {StatusClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.apps.review.status.list({
      *         account_id: "account_id"
@@ -99,6 +102,9 @@ export class StatusClient {
      *
      * @param {CloudflareApi.zeroTrust.apps.review.UpdateStatusRequest} request
      * @param {StatusClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.apps.review.status.update({

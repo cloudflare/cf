@@ -31,6 +31,9 @@ export class BytimesClient {
      * @param {CloudflareApi.spectrum.analytics.events.GetBytimesRequest} request
      * @param {BytimesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.spectrum.analytics.events.bytimes.get({
      *         zone_id: "zone_id",

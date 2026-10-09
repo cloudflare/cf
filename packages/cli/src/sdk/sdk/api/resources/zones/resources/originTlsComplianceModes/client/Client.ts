@@ -29,6 +29,9 @@ export class OriginTlsComplianceModesClient {
      * @param {CloudflareApi.zones.GetOriginTlsComplianceModesRequest} request
      * @param {OriginTlsComplianceModesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zones.originTlsComplianceModes.get({
      *         zone_id: "zone_id"
@@ -96,6 +99,9 @@ export class OriginTlsComplianceModesClient {
      *
      * @param {CloudflareApi.zones.UpdateOriginTlsComplianceModesRequest} request
      * @param {OriginTlsComplianceModesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zones.originTlsComplianceModes.update({
@@ -169,6 +175,9 @@ export class OriginTlsComplianceModesClient {
      * @param {CloudflareApi.zones.DeleteOriginTlsComplianceModesRequest} request
      * @param {OriginTlsComplianceModesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zones.originTlsComplianceModes.delete({
      *         zone_id: "zone_id"
@@ -236,6 +245,9 @@ export class OriginTlsComplianceModesClient {
      *
      * @param {CloudflareApi.zones.EditOriginTlsComplianceModesRequest} request
      * @param {OriginTlsComplianceModesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zones.originTlsComplianceModes.edit({

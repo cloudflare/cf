@@ -29,6 +29,9 @@ export class BulkClient {
      * @param {CloudflareApi.kv.PutBulkRequest} request
      * @param {BulkClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.kv.bulk.put({
      *         account_id: "account_id",
@@ -102,6 +105,9 @@ export class BulkClient {
      * @param {CloudflareApi.kv.DeleteBulkRequest} request
      * @param {BulkClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.kv.bulk.delete({
      *         account_id: "account_id",
@@ -171,6 +177,9 @@ export class BulkClient {
      *
      * @param {CloudflareApi.kv.GetBulkRequest} request
      * @param {BulkClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.kv.bulk.get({

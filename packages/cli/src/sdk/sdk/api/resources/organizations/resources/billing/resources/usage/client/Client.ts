@@ -36,8 +36,10 @@ export class UsageClient {
      * includes usage for every account belonging to the specified
      * organization.
      *
-     * **Note:** Cost and pricing fields are not yet populated and
-     * will be absent from responses until billing integration is complete.
+     * **Note:** This endpoint serves `usage` records only; cost and pricing
+     * fields are absent from responses. Rated costs are available per
+     * account via `POST /accounts/{account_id}/billable/usage` with
+     * `Metric: cost`.
      *
      * When `from` and `to` are omitted, defaults to the start of the current
      * month through today. The maximum date range is 31 days.
@@ -48,6 +50,9 @@ export class UsageClient {
      *
      * @param {CloudflareApi.organizations.billing.GetUsageRequest} request
      * @param {UsageClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.organizations.billing.usage.get({

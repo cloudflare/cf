@@ -31,6 +31,9 @@ export class IspsClient {
      * @param {CloudflareApi.zeroTrust.dex.ListIspsRequest} request
      * @param {IspsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.dex.isps.list({
      *         account_id: "account_id",

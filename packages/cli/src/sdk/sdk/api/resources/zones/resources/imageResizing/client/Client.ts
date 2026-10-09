@@ -29,6 +29,9 @@ export class ImageResizingClient {
      * @param {CloudflareApi.zones.GetImageResizingRequest} request
      * @param {ImageResizingClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zones.imageResizing.get({
      *         zone_id: "zone_id"
@@ -96,6 +99,9 @@ export class ImageResizingClient {
      *
      * @param {CloudflareApi.zones.EditImageResizingRequest} request
      * @param {ImageResizingClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zones.imageResizing.edit({

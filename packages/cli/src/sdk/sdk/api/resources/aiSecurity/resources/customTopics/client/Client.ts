@@ -29,6 +29,9 @@ export class CustomTopicsClient {
      * @param {CloudflareApi.aiSecurity.GetCustomTopicsRequest} request
      * @param {CustomTopicsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.aiSecurity.customTopics.get({
      *         zone_id: "zone_id"
@@ -106,6 +109,9 @@ export class CustomTopicsClient {
      *
      * @param {CloudflareApi.aiSecurity.UpdateCustomTopicsRequest} request
      * @param {CustomTopicsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiSecurity.customTopics.update({

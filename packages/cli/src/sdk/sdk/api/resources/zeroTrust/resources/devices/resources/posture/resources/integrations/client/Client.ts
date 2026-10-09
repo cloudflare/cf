@@ -32,6 +32,9 @@ export class IntegrationsClient {
      * @param {CloudflareApi.zeroTrust.devices.posture.ListIntegrationsRequest} request
      * @param {IntegrationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.devices.posture.integrations.list({
      *         account_id: "account_id"
@@ -99,6 +102,9 @@ export class IntegrationsClient {
      *
      * @param {CloudflareApi.zeroTrust.devices.posture.CreateIntegrationsRequest} request
      * @param {IntegrationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.devices.posture.integrations.create({
@@ -180,6 +186,9 @@ export class IntegrationsClient {
      * @param {CloudflareApi.zeroTrust.devices.posture.GetIntegrationsRequest} request
      * @param {IntegrationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.devices.posture.integrations.get({
      *         account_id: "account_id",
@@ -249,6 +258,9 @@ export class IntegrationsClient {
      * @param {CloudflareApi.zeroTrust.devices.posture.DeleteIntegrationsRequest} request
      * @param {IntegrationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.devices.posture.integrations.delete({
      *         account_id: "account_id",
@@ -314,6 +326,9 @@ export class IntegrationsClient {
      *
      * @param {CloudflareApi.zeroTrust.devices.posture.UpdateIntegrationsRequest} request
      * @param {IntegrationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.devices.posture.integrations.update({

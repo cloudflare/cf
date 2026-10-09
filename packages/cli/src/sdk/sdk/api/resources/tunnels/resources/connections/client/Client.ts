@@ -28,6 +28,9 @@ export class ConnectionsClient {
      * @param {CloudflareApi.tunnels.ListConnectionsRequest} request
      * @param {ConnectionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.tunnels.connections.list({
      *         account_id: "account_id",
@@ -96,6 +99,9 @@ export class ConnectionsClient {
      *
      * @param {CloudflareApi.tunnels.CleanupConnectionsRequest} request
      * @param {ConnectionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.tunnels.connections.cleanup({

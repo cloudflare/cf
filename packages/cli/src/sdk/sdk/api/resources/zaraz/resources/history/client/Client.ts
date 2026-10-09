@@ -35,6 +35,9 @@ export class HistoryClient {
      * @param {CloudflareApi.zaraz.ListHistoryRequest} request
      * @param {HistoryClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zaraz.history.list({
      *         zone_id: "zone_id"
@@ -112,6 +115,9 @@ export class HistoryClient {
      *
      * @param {CloudflareApi.zaraz.UpdateHistoryRequest} request
      * @param {HistoryClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zaraz.history.update({

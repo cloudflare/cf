@@ -32,6 +32,9 @@ export class PreviewClient {
      * @param {CloudflareApi.emailSecurity.investigate.GeneratePreviewRequest} request
      * @param {PreviewClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.emailSecurity.investigate.preview.generate({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -103,6 +106,9 @@ export class PreviewClient {
      *
      * @param {CloudflareApi.emailSecurity.investigate.GetPreviewRequest} request
      * @param {PreviewClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailSecurity.investigate.preview.get({

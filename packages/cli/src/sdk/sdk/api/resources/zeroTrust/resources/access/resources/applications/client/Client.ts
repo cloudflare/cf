@@ -62,6 +62,9 @@ export class ApplicationsClient {
      * @param {CloudflareApi.zeroTrust.access.ListApplicationsRequest} request
      * @param {ApplicationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.applications.list({
      *         account_or_zone: "account_or_zone",
@@ -156,6 +159,9 @@ export class ApplicationsClient {
      * @param {CloudflareApi.zeroTrust.access.CreateApplicationsRequest} request
      * @param {ApplicationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.applications.create({
      *         account_or_zone: "account_or_zone",
@@ -230,6 +236,9 @@ export class ApplicationsClient {
      * @param {CloudflareApi.zeroTrust.access.GetApplicationsRequest} request
      * @param {ApplicationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.applications.get({
      *         account_or_zone: "account_or_zone",
@@ -296,6 +305,9 @@ export class ApplicationsClient {
      *
      * @param {CloudflareApi.zeroTrust.access.UpdateApplicationsRequest} request
      * @param {ApplicationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.applications.update({
@@ -377,6 +389,9 @@ export class ApplicationsClient {
      * @param {CloudflareApi.zeroTrust.access.DeleteApplicationsRequest} request
      * @param {ApplicationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.applications.delete({
      *         account_or_zone: "account_or_zone",
@@ -446,6 +461,9 @@ export class ApplicationsClient {
      *
      * @param {CloudflareApi.zeroTrust.access.RevokeTokensApplicationsRequest} request
      * @param {ApplicationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.applications.revokeTokens({

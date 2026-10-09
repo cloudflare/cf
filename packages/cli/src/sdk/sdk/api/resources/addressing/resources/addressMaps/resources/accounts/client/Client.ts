@@ -31,6 +31,9 @@ export class AccountsClient {
      * @param {CloudflareApi.addressing.addressMaps.UpdateAccountsRequest} request
      * @param {AccountsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.addressing.addressMaps.accounts.update({
      *         account_id: "account_id",
@@ -100,6 +103,9 @@ export class AccountsClient {
      *
      * @param {CloudflareApi.addressing.addressMaps.DeleteAccountsRequest} request
      * @param {AccountsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.addressing.addressMaps.accounts.delete({

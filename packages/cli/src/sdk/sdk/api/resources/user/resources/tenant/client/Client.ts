@@ -27,6 +27,9 @@ export class TenantClient {
      *
      * @param {TenantClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.user.tenant.list()
      */

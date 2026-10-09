@@ -39,6 +39,9 @@ export class MemberClient {
      * @param {CloudflareApi.organization.ListMemberRequest} request
      * @param {MemberClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.organization.member.list({
      *         organization_id: "organization_id"
@@ -139,6 +142,9 @@ export class MemberClient {
      * @param {CloudflareApi.organization.OrganizationsApiCreateMemberRequest} request
      * @param {MemberClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.organization.member.create({
      *         organization_id: "organization_id",
@@ -216,6 +222,9 @@ export class MemberClient {
      * @param {CloudflareApi.organization.GetMemberRequest} request
      * @param {MemberClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.organization.member.get({
      *         organization_id: "organization_id",
@@ -285,6 +294,9 @@ export class MemberClient {
      *
      * @param {CloudflareApi.organization.DeleteMemberRequest} request
      * @param {MemberClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.organization.member.delete({

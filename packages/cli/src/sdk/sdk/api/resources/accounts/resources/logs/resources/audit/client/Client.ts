@@ -32,6 +32,9 @@ export class AuditClient {
      * @param {CloudflareApi.accounts.logs.ListAuditRequest} request
      * @param {AuditClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.accounts.logs.audit.list({
      *         account_id: "a67e14daa5f8dceeb91fe5449ba496ef",
@@ -279,6 +282,9 @@ export class AuditClient {
      * @param {CloudflareApi.accounts.logs.ProductCategoriesAuditRequest} request
      * @param {AuditClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.accounts.logs.audit.productCategories({
      *         account_id: "a67e14daa5f8dceeb91fe5449ba496ef"
@@ -355,6 +361,8 @@ export class AuditClient {
      * @param {AuditClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.accounts.logs.audit.history({

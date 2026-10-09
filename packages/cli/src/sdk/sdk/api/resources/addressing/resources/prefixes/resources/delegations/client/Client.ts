@@ -32,6 +32,9 @@ export class DelegationsClient {
      * @param {CloudflareApi.addressing.prefixes.ListDelegationsRequest} request
      * @param {DelegationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.addressing.prefixes.delegations.list({
      *         account_id: "account_id",
@@ -100,6 +103,9 @@ export class DelegationsClient {
      *
      * @param {CloudflareApi.addressing.prefixes.CreateDelegationsRequest} request
      * @param {DelegationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.addressing.prefixes.delegations.create({
@@ -174,6 +180,9 @@ export class DelegationsClient {
      *
      * @param {CloudflareApi.addressing.prefixes.DeleteDelegationsRequest} request
      * @param {DelegationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.addressing.prefixes.delegations.delete({

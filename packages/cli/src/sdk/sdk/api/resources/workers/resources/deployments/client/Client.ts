@@ -29,6 +29,9 @@ export class DeploymentsClient {
      * @param {CloudflareApi.workers.ListDeploymentsRequest} request
      * @param {DeploymentsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workers.deployments.list({
      *         account_id: "account_id",
@@ -107,6 +110,9 @@ export class DeploymentsClient {
      *
      * @param {CloudflareApi.workers.CreateDeploymentsRequest} request
      * @param {DeploymentsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workers.deployments.create({
@@ -191,6 +197,9 @@ export class DeploymentsClient {
      * @param {CloudflareApi.workers.GetDeploymentsRequest} request
      * @param {DeploymentsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workers.deployments.get({
      *         account_id: "account_id",
@@ -257,6 +266,9 @@ export class DeploymentsClient {
      *
      * @param {CloudflareApi.workers.DeleteDeploymentsRequest} request
      * @param {DeploymentsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workers.deployments.delete({

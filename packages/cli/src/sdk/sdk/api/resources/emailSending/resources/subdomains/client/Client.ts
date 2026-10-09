@@ -43,6 +43,8 @@ export class SubdomainsClient {
      * @param {SubdomainsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.ForbiddenError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailSending.subdomains.list({
@@ -118,6 +120,8 @@ export class SubdomainsClient {
      * @param {SubdomainsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.ForbiddenError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailSending.subdomains.create({
@@ -197,6 +201,8 @@ export class SubdomainsClient {
      * @param {SubdomainsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.ForbiddenError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailSending.subdomains.preview({
@@ -276,6 +282,8 @@ export class SubdomainsClient {
      * @param {SubdomainsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailSending.subdomains.get({
@@ -352,6 +360,8 @@ export class SubdomainsClient {
      * @param {SubdomainsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailSending.subdomains.delete({
@@ -425,6 +435,8 @@ export class SubdomainsClient {
      * @param {SubdomainsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailSending.subdomains.update({

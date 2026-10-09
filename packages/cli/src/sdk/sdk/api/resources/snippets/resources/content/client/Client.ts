@@ -28,6 +28,9 @@ export class ContentClient {
      * @param {CloudflareApi.snippets.GetContentRequest} request
      * @param {ContentClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.snippets.content.get({
      *         zone_id: "zone_id",

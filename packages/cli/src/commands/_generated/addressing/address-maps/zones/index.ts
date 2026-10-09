@@ -1,4 +1,6 @@
+import $deletebulk from "./delete-bulk.js";
 import $delete from "./delete.js";
+import $updatebulk from "./update-bulk.js";
 import $update from "./update.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
@@ -14,7 +16,9 @@ const command: CommandModule<CommonYargsOptions> = {
 	builder: (yargs) => {
 		return yargs
 			.command($delete)
+			.command($deletebulk)
 			.command($update)
+			.command($updatebulk)
 			.demandCommand(1, "Please specify a subcommand");
 	},
 

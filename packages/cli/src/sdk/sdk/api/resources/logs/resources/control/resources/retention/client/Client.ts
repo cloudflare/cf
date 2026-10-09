@@ -34,6 +34,9 @@ export class RetentionClient {
      * @param {CloudflareApi.logs.control.GetRetentionRequest} request
      * @param {RetentionClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.logs.control.retention.get({
      *         zone_id: "zone_id"
@@ -103,6 +106,9 @@ export class RetentionClient {
      *
      * @param {CloudflareApi.logs.control.CreateRetentionRequest} request
      * @param {RetentionClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.logs.control.retention.create({

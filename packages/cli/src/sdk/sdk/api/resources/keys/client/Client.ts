@@ -28,6 +28,9 @@ export class KeysClient {
      * @param {CloudflareApi.ListKeysRequest} request
      * @param {KeysClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.keys.list({
      *         account_id: "account_id",

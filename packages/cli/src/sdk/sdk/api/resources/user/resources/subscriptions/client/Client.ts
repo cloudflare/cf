@@ -28,6 +28,9 @@ export class SubscriptionsClient {
      *
      * @param {SubscriptionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.user.subscriptions.get()
      */
@@ -85,6 +88,9 @@ export class SubscriptionsClient {
      *
      * @param {CloudflareApi.user.UpdateSubscriptionsRequest} request
      * @param {SubscriptionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.user.subscriptions.update({
@@ -154,6 +160,9 @@ export class SubscriptionsClient {
      *
      * @param {CloudflareApi.user.DeleteSubscriptionsRequest} request
      * @param {SubscriptionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.user.subscriptions.delete({

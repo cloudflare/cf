@@ -32,6 +32,9 @@ export class OperationsClient {
      * @param {CloudflareApi.webAssets.labels.user.UpdateOperationsRequest} request
      * @param {OperationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.webAssets.labels.user.operations.update({
      *         zone_id: "023e105f4ecef8ad9ca31a8372d0c353",

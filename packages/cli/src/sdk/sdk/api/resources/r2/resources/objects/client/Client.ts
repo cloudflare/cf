@@ -31,6 +31,9 @@ export class ObjectsClient {
      * @param {CloudflareApi.r2.ListObjectsRequest} request
      * @param {ObjectsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.r2.objects.list({
      *         account_id: "account_id",
@@ -131,6 +134,9 @@ export class ObjectsClient {
      * @param {CloudflareApi.r2.BulkDeleteObjectsRequest} request
      * @param {ObjectsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.r2.objects.bulkDelete({
      *         account_id: "account_id",
@@ -220,6 +226,9 @@ export class ObjectsClient {
      * Retrieves an object from an R2 bucket. Returns the object body along with metadata headers.
      *
      * For most workloads, we recommend using R2's [S3-compatible API](https://developers.cloudflare.com/r2/api/s3/api/) or a [Worker with an R2 binding](https://developers.cloudflare.com/r2/api/workers/workers-api-reference/) instead.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      */
     public get(
         request: CloudflareApi.r2.GetObjectsRequest,
@@ -298,6 +307,9 @@ export class ObjectsClient {
      * @param {string} bucket_name
      * @param {string} object_key
      * @param {ObjectsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      */
     public put(
         uploadable: core.file.Uploadable,
@@ -373,6 +385,9 @@ export class ObjectsClient {
      *
      * @param {CloudflareApi.r2.DeleteObjectsRequest} request
      * @param {ObjectsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.r2.objects.delete({

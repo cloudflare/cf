@@ -31,6 +31,9 @@ export class IssueTypesClient {
      * @param {CloudflareApi.intel.attackSurfaceReport.GetIssueTypesRequest} request
      * @param {IssueTypesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.intel.attackSurfaceReport.issueTypes.get({
      *         account_id: "account_id"

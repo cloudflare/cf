@@ -31,6 +31,9 @@ export class AuthenticatorCatalogClient {
      * @param {CloudflareApi.zeroTrust.access.mfa.ListAuthenticatorCatalogRequest} request
      * @param {AuthenticatorCatalogClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.mfa.authenticatorCatalog.list({
      *         account_id: "account_id"

@@ -32,6 +32,9 @@ export class ConfigClient {
      * @param {CloudflareApi.cloudforceOne.scans.ListConfigRequest} request
      * @param {ConfigClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.cloudforceOne.scans.config.list({
      *         account_id: "account_id"
@@ -99,6 +102,9 @@ export class ConfigClient {
      *
      * @param {CloudflareApi.cloudforceOne.scans.CreateConfigRequest} request
      * @param {ConfigClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.scans.config.create({
@@ -172,6 +178,9 @@ export class ConfigClient {
      * @param {CloudflareApi.cloudforceOne.scans.DeleteConfigRequest} request
      * @param {ConfigClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.cloudforceOne.scans.config.delete({
      *         account_id: "account_id",
@@ -237,6 +246,9 @@ export class ConfigClient {
      *
      * @param {CloudflareApi.cloudforceOne.scans.EditConfigRequest} request
      * @param {ConfigClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.scans.config.edit({

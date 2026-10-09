@@ -31,6 +31,9 @@ export class DailyClient {
      * @param {CloudflareApi.realtime.kit.analytics.livestreams.GetDailyRequest} request
      * @param {DailyClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.realtime.kit.analytics.livestreams.daily.get({
      *         account_id: "account_id",

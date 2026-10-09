@@ -29,6 +29,9 @@ export class AnalyzeClient {
      * @param {CloudflareApi.ssl.CreateAnalyzeRequest} request
      * @param {AnalyzeClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.ssl.analyze.create({
      *         zone_id: "zone_id"

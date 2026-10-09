@@ -29,6 +29,9 @@ export class AccountJobsClient {
      * @param {CloudflareApi.logpush.ListAccountJobsRequest} request
      * @param {AccountJobsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.logpush.accountJobs.list({
      *         account_or_zone: "account_or_zone",
@@ -97,6 +100,9 @@ export class AccountJobsClient {
      *
      * @param {CloudflareApi.logpush.CreateAccountJobsRequest} request
      * @param {AccountJobsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.logpush.accountJobs.create({
@@ -193,6 +199,9 @@ export class AccountJobsClient {
      * @param {CloudflareApi.logpush.GetAccountJobsRequest} request
      * @param {AccountJobsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.logpush.accountJobs.get({
      *         account_or_zone: "account_or_zone",
@@ -262,6 +271,9 @@ export class AccountJobsClient {
      *
      * @param {CloudflareApi.logpush.UpdateAccountJobsRequest} request
      * @param {AccountJobsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.logpush.accountJobs.update({
@@ -361,6 +373,9 @@ export class AccountJobsClient {
      *
      * @param {CloudflareApi.logpush.DeleteAccountJobsRequest} request
      * @param {AccountJobsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.logpush.accountJobs.delete({

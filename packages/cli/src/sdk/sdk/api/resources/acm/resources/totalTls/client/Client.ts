@@ -29,6 +29,9 @@ export class TotalTlsClient {
      * @param {CloudflareApi.acm.GetTotalTlsRequest} request
      * @param {TotalTlsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.acm.totalTls.get({
      *         zone_id: "zone_id"
@@ -96,6 +99,9 @@ export class TotalTlsClient {
      *
      * @param {CloudflareApi.acm.EditTotalTlsRequest} request
      * @param {TotalTlsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.acm.totalTls.edit({

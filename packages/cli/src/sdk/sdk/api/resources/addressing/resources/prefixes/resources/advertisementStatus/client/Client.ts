@@ -35,6 +35,9 @@ export class AdvertisementStatusClient {
      * @param {CloudflareApi.addressing.prefixes.GetAdvertisementStatusRequest} request
      * @param {AdvertisementStatusClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.addressing.prefixes.advertisementStatus.get({
      *         account_id: "account_id",
@@ -106,6 +109,9 @@ export class AdvertisementStatusClient {
      *
      * @param {CloudflareApi.addressing.prefixes.EditAdvertisementStatusRequest} request
      * @param {AdvertisementStatusClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.addressing.prefixes.advertisementStatus.edit({

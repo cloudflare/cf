@@ -32,6 +32,9 @@ export class SettingsClient {
      * @param {CloudflareApi.securityInsights.partners.GetSettingsRequest} request
      * @param {SettingsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.securityInsights.partners.settings.get({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -100,6 +103,9 @@ export class SettingsClient {
      *
      * @param {CloudflareApi.securityInsights.partners.UpdateSettingsRequest} request
      * @param {SettingsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.securityInsights.partners.settings.update({

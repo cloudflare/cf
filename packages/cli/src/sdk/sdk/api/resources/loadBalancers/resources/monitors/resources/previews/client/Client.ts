@@ -32,6 +32,9 @@ export class PreviewsClient {
      * @param {CloudflareApi.loadBalancers.monitors.CreatePreviewsRequest} request
      * @param {PreviewsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.loadBalancers.monitors.previews.create({
      *         account_id: "account_id",

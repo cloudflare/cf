@@ -34,6 +34,8 @@ export class ProvidersClient {
      * @param {ProvidersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiGateway.gateways.providers.list({
@@ -118,6 +120,8 @@ export class ProvidersClient {
      * @param {ProvidersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiGateway.gateways.providers.create({
@@ -200,6 +204,8 @@ export class ProvidersClient {
      * @param {ProvidersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiGateway.gateways.providers.get({
@@ -278,6 +284,8 @@ export class ProvidersClient {
      *
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiGateway.gateways.providers.update({
@@ -361,6 +369,8 @@ export class ProvidersClient {
      * @param {ProvidersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiGateway.gateways.providers.delete({

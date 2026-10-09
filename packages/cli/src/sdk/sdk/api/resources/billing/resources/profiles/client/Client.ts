@@ -29,6 +29,9 @@ export class ProfilesClient {
      * @param {CloudflareApi.billing.GetProfilesRequest} request
      * @param {ProfilesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.billing.profiles.get({
      *         account_id: "account_id"
@@ -96,6 +99,9 @@ export class ProfilesClient {
      *
      * @param {CloudflareApi.billing.CreateProfilesRequest} request
      * @param {ProfilesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.billing.profiles.create({
@@ -169,6 +175,9 @@ export class ProfilesClient {
      * @param {CloudflareApi.billing.UpdateProfilesRequest} request
      * @param {ProfilesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.billing.profiles.update({
      *         account_id: "account_id",
@@ -241,6 +250,9 @@ export class ProfilesClient {
      * @param {CloudflareApi.billing.DeleteProfilesRequest} request
      * @param {ProfilesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.billing.profiles.delete({
      *         account_id: "account_id"
@@ -305,6 +317,9 @@ export class ProfilesClient {
      *
      * @param {CloudflareApi.billing.UpdateEmailProfilesRequest} request
      * @param {ProfilesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.billing.profiles.updateEmail({
@@ -376,6 +391,9 @@ export class ProfilesClient {
      *
      * @param {CloudflareApi.billing.CreatePaymentIntentProfilesRequest} request
      * @param {ProfilesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.billing.profiles.createPaymentIntent({

@@ -65,6 +65,9 @@ export class VideosClient {
      * @param {CloudflareApi.stream.ListVideosRequest} request
      * @param {VideosClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.stream.videos.list({
      *         account_id: "account_id",
@@ -175,6 +178,9 @@ export class VideosClient {
      * @param {CloudflareApi.stream.CreateVideosRequest} request
      * @param {VideosClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.stream.videos.create({
      *         "Tus-Resumable": "1.0.0",
@@ -265,6 +271,9 @@ export class VideosClient {
      * @param {CloudflareApi.stream.StreamVideoClipStandard} request
      * @param {VideosClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.stream.videos.clip({
      *         account_id: "account_id",
@@ -335,6 +344,9 @@ export class VideosClient {
      *
      * @param {CloudflareApi.stream.CopyVideosRequest} request
      * @param {VideosClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.stream.videos.copy({
@@ -409,6 +421,9 @@ export class VideosClient {
      * @param {CloudflareApi.stream.GetVideosRequest} request
      * @param {VideosClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.stream.videos.get({
      *         account_id: "account_id",
@@ -474,6 +489,9 @@ export class VideosClient {
      *
      * @param {CloudflareApi.stream.StreamVideoUpdate} request
      * @param {VideosClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.stream.videos.edit({
@@ -544,6 +562,9 @@ export class VideosClient {
      * @param {CloudflareApi.stream.DeleteVideosRequest} request
      * @param {VideosClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.stream.videos.delete({
      *         account_id: "account_id",
@@ -611,6 +632,9 @@ export class VideosClient {
      *
      * @param {CloudflareApi.stream.EmbedVideosRequest} request
      * @param {VideosClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.stream.videos.embed({

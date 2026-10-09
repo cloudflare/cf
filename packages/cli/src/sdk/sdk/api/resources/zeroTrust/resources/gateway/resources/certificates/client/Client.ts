@@ -32,6 +32,9 @@ export class CertificatesClient {
      * @param {CloudflareApi.zeroTrust.gateway.ListCertificatesRequest} request
      * @param {CertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.gateway.certificates.list({
      *         account_id: "account_id"
@@ -99,6 +102,9 @@ export class CertificatesClient {
      *
      * @param {CloudflareApi.zeroTrust.gateway.ZeroTrustGatewayGenerateCertRequest} request
      * @param {CertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.gateway.certificates.create({
@@ -171,6 +177,9 @@ export class CertificatesClient {
      * @param {CloudflareApi.zeroTrust.gateway.GetCertificatesRequest} request
      * @param {CertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.gateway.certificates.get({
      *         account_id: "account_id",
@@ -239,6 +248,9 @@ export class CertificatesClient {
      *
      * @param {CloudflareApi.zeroTrust.gateway.DeleteCertificatesRequest} request
      * @param {CertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.gateway.certificates.delete({
@@ -309,6 +321,9 @@ export class CertificatesClient {
      * @param {CloudflareApi.zeroTrust.gateway.ActivateCertificatesRequest} request
      * @param {CertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.gateway.certificates.activate({
      *         account_id: "account_id",
@@ -377,6 +392,9 @@ export class CertificatesClient {
      *
      * @param {CloudflareApi.zeroTrust.gateway.DeactivateCertificatesRequest} request
      * @param {CertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.gateway.certificates.deactivate({

@@ -32,6 +32,9 @@ export class CuratedFeedsClient {
      * @param {CloudflareApi.cloudforceOne.threatSignals.ListCuratedFeedsRequest} request
      * @param {CuratedFeedsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.cloudforceOne.threatSignals.curatedFeeds.list({
      *         account_id: "account_id"
@@ -107,6 +110,9 @@ export class CuratedFeedsClient {
      *
      * @param {CloudflareApi.cloudforceOne.threatSignals.OptOutCuratedFeedsRequest} request
      * @param {CuratedFeedsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.threatSignals.curatedFeeds.optOut({

@@ -59,6 +59,9 @@ export class QueuesClient {
      * @param {CloudflareApi.ListQueuesRequest} request
      * @param {QueuesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.queues.list({
      *         account_id: "account_id"
@@ -118,6 +121,9 @@ export class QueuesClient {
      *
      * @param {CloudflareApi.CreateQueuesRequest} request
      * @param {QueuesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.queues.create({
@@ -188,6 +194,9 @@ export class QueuesClient {
      * @param {CloudflareApi.GetQueuesRequest} request
      * @param {QueuesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.queues.get({
      *         account_id: "account_id",
@@ -254,6 +263,9 @@ export class QueuesClient {
      * @param {CloudflareApi.DeleteQueuesRequest} request
      * @param {QueuesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.queues.delete({
      *         account_id: "account_id",
@@ -319,6 +331,9 @@ export class QueuesClient {
      *
      * @param {CloudflareApi.EditQueuesRequest} request
      * @param {QueuesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.queues.edit({

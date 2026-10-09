@@ -29,6 +29,9 @@ export class SinksClient {
      * @param {CloudflareApi.pipelines.ListSinksRequest} request
      * @param {SinksClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.pipelines.sinks.list({
      *         account_id: "account_id"
@@ -107,6 +110,9 @@ export class SinksClient {
      * @param {CloudflareApi.pipelines.CreateSinksRequest} request
      * @param {SinksClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.pipelines.sinks.create({
      *         account_id: "account_id",
@@ -180,6 +186,9 @@ export class SinksClient {
      * @param {CloudflareApi.pipelines.GetSinksRequest} request
      * @param {SinksClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.pipelines.sinks.get({
      *         account_id: "account_id",
@@ -248,6 +257,9 @@ export class SinksClient {
      *
      * @param {CloudflareApi.pipelines.DeleteSinksRequest} request
      * @param {SinksClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.pipelines.sinks.delete({

@@ -31,6 +31,9 @@ export class PasskeysClient {
      * @param {CloudflareApi.zeroTrust.users.DeletePasskeysRequest} request
      * @param {PasskeysClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.users.passkeys.delete({
      *         account_id: "account_id",

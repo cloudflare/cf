@@ -32,6 +32,9 @@ export class TsigsClient {
      * @param {CloudflareApi.dns.zoneTransfers.ListTsigsRequest} request
      * @param {TsigsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.dns.zoneTransfers.tsigs.list({
      *         account_id: "account_id"
@@ -99,6 +102,9 @@ export class TsigsClient {
      *
      * @param {CloudflareApi.dns.zoneTransfers.CreateTsigsRequest} request
      * @param {TsigsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.dns.zoneTransfers.tsigs.create({
@@ -173,6 +179,9 @@ export class TsigsClient {
      * @param {CloudflareApi.dns.zoneTransfers.GetTsigsRequest} request
      * @param {TsigsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.dns.zoneTransfers.tsigs.get({
      *         account_id: "account_id",
@@ -238,6 +247,9 @@ export class TsigsClient {
      *
      * @param {CloudflareApi.dns.zoneTransfers.UpdateTsigsRequest} request
      * @param {TsigsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.dns.zoneTransfers.tsigs.update({
@@ -312,6 +324,9 @@ export class TsigsClient {
      *
      * @param {CloudflareApi.dns.zoneTransfers.DeleteTsigsRequest} request
      * @param {TsigsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.dns.zoneTransfers.tsigs.delete({

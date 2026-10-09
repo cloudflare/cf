@@ -31,6 +31,9 @@ export class AuthenticatorsClient {
      * @param {CloudflareApi.zeroTrust.users.mfa.DeleteAuthenticatorsRequest} request
      * @param {AuthenticatorsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.users.mfa.authenticators.delete({
      *         account_id: "account_id",

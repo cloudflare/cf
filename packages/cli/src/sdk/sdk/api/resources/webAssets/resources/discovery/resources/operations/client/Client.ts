@@ -32,6 +32,9 @@ export class OperationsClient {
      * @param {CloudflareApi.webAssets.discovery.ListOperationsRequest} request
      * @param {OperationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.webAssets.discovery.operations.list({
      *         zone_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -131,6 +134,9 @@ export class OperationsClient {
      * @param {CloudflareApi.webAssets.discovery.BulkEditOperationsRequest} request
      * @param {OperationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.webAssets.discovery.operations.bulkEdit({
      *         zone_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -210,6 +216,9 @@ export class OperationsClient {
      * @param {CloudflareApi.webAssets.discovery.GetOperationsRequest} request
      * @param {OperationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.webAssets.discovery.operations.get({
      *         zone_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -278,6 +287,9 @@ export class OperationsClient {
      *
      * @param {CloudflareApi.webAssets.discovery.EditOperationsRequest} request
      * @param {OperationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.webAssets.discovery.operations.edit({

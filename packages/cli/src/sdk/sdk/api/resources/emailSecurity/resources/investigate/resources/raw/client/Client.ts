@@ -31,6 +31,9 @@ export class RawClient {
      * @param {CloudflareApi.emailSecurity.investigate.GetRawRequest} request
      * @param {RawClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.emailSecurity.investigate.raw.get({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",

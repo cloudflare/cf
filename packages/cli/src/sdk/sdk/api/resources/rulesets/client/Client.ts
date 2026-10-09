@@ -47,6 +47,9 @@ export class RulesetsClient {
      * @param {CloudflareApi.ListRulesetsRequest} request
      * @param {RulesetsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.rulesets.list({
      *         account_or_zone: "account_or_zone",
@@ -127,6 +130,9 @@ export class RulesetsClient {
      *
      * @param {CloudflareApi.CreateRulesetsRequest} request
      * @param {RulesetsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.rulesets.create({
@@ -212,6 +218,9 @@ export class RulesetsClient {
      * @param {CloudflareApi.GetRulesetsRequest} request
      * @param {RulesetsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.rulesets.get({
      *         account_or_zone: "account_or_zone",
@@ -278,6 +287,9 @@ export class RulesetsClient {
      *
      * @param {CloudflareApi.UpdateRulesetsRequest} request
      * @param {RulesetsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.rulesets.update({
@@ -362,6 +374,9 @@ export class RulesetsClient {
      *
      * @param {CloudflareApi.DeleteRulesetsRequest} request
      * @param {RulesetsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.rulesets.delete({

@@ -29,6 +29,9 @@ export class AppsClient {
      * @param {CloudflareApi.magicTransit.ListAppsRequest} request
      * @param {AppsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.apps.list({
      *         account_id: "account_id"
@@ -96,6 +99,9 @@ export class AppsClient {
      *
      * @param {CloudflareApi.magicTransit.CreateAppsRequest} request
      * @param {AppsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.apps.create({
@@ -168,6 +174,9 @@ export class AppsClient {
      * @param {CloudflareApi.magicTransit.UpdateAppsRequest} request
      * @param {AppsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.apps.update({
      *         account_id: "account_id",
@@ -239,6 +248,9 @@ export class AppsClient {
      *
      * @param {CloudflareApi.magicTransit.DeleteAppsRequest} request
      * @param {AppsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.apps.delete({

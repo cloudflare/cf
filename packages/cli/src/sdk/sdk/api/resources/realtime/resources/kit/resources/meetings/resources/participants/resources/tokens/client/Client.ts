@@ -33,6 +33,8 @@ export class TokensClient {
      * @param {TokensClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.realtime.kit.meetings.participants.tokens.refresh({

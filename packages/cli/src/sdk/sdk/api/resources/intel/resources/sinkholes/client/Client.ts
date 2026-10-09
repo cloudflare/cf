@@ -36,6 +36,9 @@ export class SinkholesClient {
      * @param {CloudflareApi.intel.ListSinkholesRequest} request
      * @param {SinkholesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.intel.sinkholes.list({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353"
@@ -103,6 +106,9 @@ export class SinkholesClient {
      *
      * @param {CloudflareApi.intel.CreateSinkholesRequest} request
      * @param {SinkholesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.intel.sinkholes.create({
@@ -178,6 +184,9 @@ export class SinkholesClient {
      * @param {CloudflareApi.intel.GetSinkholesRequest} request
      * @param {SinkholesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.intel.sinkholes.get({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -246,6 +255,9 @@ export class SinkholesClient {
      *
      * @param {CloudflareApi.intel.UpdateSinkholesRequest} request
      * @param {SinkholesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.intel.sinkholes.update({
@@ -320,6 +332,8 @@ export class SinkholesClient {
      * @param {SinkholesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.ConflictError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.intel.sinkholes.delete({

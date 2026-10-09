@@ -40,6 +40,8 @@ export class OnRampsClient {
      * @throws {@link CloudflareApi.UnauthorizedError}
      * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicCloudNetworking.onRamps.list({
@@ -136,6 +138,8 @@ export class OnRampsClient {
      * @throws {@link CloudflareApi.ConflictError}
      * @throws {@link CloudflareApi.UnprocessableEntityError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicCloudNetworking.onRamps.create({
@@ -235,6 +239,8 @@ export class OnRampsClient {
      * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicCloudNetworking.onRamps.get({
@@ -339,6 +345,8 @@ export class OnRampsClient {
      * @throws {@link CloudflareApi.ConflictError}
      * @throws {@link CloudflareApi.UnprocessableEntityError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicCloudNetworking.onRamps.update({
@@ -436,6 +444,8 @@ export class OnRampsClient {
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.ConflictError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicCloudNetworking.onRamps.delete({
@@ -533,6 +543,8 @@ export class OnRampsClient {
      * @throws {@link CloudflareApi.ConflictError}
      * @throws {@link CloudflareApi.UnprocessableEntityError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicCloudNetworking.onRamps.edit({
@@ -630,6 +642,8 @@ export class OnRampsClient {
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.ConflictError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicCloudNetworking.onRamps.apply({
@@ -715,6 +729,8 @@ export class OnRampsClient {
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.ConflictError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      */
     public export(
         request: CloudflareApi.magicCloudNetworking.ExportOnRampsRequest,
@@ -798,6 +814,8 @@ export class OnRampsClient {
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.ConflictError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicCloudNetworking.onRamps.plan({

@@ -31,6 +31,9 @@ export class ReferencesClient {
      * @param {CloudflareApi.loadBalancers.monitorGroups.ListReferencesRequest} request
      * @param {ReferencesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.loadBalancers.monitorGroups.references.list({
      *         account_id: "account_id",

@@ -30,6 +30,9 @@ export class OrganizationsClient {
      * @param {CloudflareApi.user.ListOrganizationsRequest} request
      * @param {OrganizationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.user.organizations.list({
      *         name: "Cloudflare, Inc."
@@ -108,6 +111,9 @@ export class OrganizationsClient {
      * @param {CloudflareApi.user.GetOrganizationsRequest} request
      * @param {OrganizationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.user.organizations.get({
      *         organization_id: "organization_id"
@@ -174,6 +180,9 @@ export class OrganizationsClient {
      *
      * @param {CloudflareApi.user.DeleteOrganizationsRequest} request
      * @param {OrganizationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.user.organizations.delete({

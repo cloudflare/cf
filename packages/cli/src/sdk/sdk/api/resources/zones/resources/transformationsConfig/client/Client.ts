@@ -30,6 +30,9 @@ export class TransformationsConfigClient {
      * @param {CloudflareApi.zones.GetTransformationsConfigRequest} request
      * @param {TransformationsConfigClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zones.transformationsConfig.get({
      *         zone_id: "zone_id"
@@ -99,6 +102,9 @@ export class TransformationsConfigClient {
      *
      * @param {CloudflareApi.zones.EditTransformationsConfigRequest} request
      * @param {TransformationsConfigClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zones.transformationsConfig.edit({

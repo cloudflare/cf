@@ -31,6 +31,9 @@ export class DetectionsClient {
      * @param {CloudflareApi.emailSecurity.investigate.GetDetectionsRequest} request
      * @param {DetectionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.emailSecurity.investigate.detections.get({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",

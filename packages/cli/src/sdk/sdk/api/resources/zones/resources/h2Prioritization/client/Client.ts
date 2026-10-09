@@ -31,6 +31,9 @@ export class H2PrioritizationClient {
      * @param {CloudflareApi.zones.GetH2PrioritizationRequest} request
      * @param {H2PrioritizationClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zones.h2Prioritization.get({
      *         zone_id: "zone_id"
@@ -100,6 +103,9 @@ export class H2PrioritizationClient {
      *
      * @param {CloudflareApi.zones.EditH2PrioritizationRequest} request
      * @param {H2PrioritizationClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zones.h2Prioritization.edit({

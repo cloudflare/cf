@@ -31,6 +31,9 @@ export class ConstantsClient {
      * @param {CloudflareApi.cloudforceOne.priorityIntelligence.GetConstantsRequest} request
      * @param {ConstantsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.cloudforceOne.priorityIntelligence.constants.get({
      *         account_id: "account_id"

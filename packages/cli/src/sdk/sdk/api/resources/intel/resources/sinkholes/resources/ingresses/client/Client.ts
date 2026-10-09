@@ -32,6 +32,9 @@ export class IngressesClient {
      * @param {CloudflareApi.intel.sinkholes.CreateIngressesRequest} request
      * @param {IngressesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.intel.sinkholes.ingresses.create({
      *         zone_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -107,6 +110,9 @@ export class IngressesClient {
      * @param {CloudflareApi.intel.sinkholes.GetIngressesRequest} request
      * @param {IngressesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.intel.sinkholes.ingresses.get({
      *         zone_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -176,6 +182,9 @@ export class IngressesClient {
      *
      * @param {CloudflareApi.intel.sinkholes.UpdateIngressesRequest} request
      * @param {IngressesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.intel.sinkholes.ingresses.update({
@@ -250,6 +259,9 @@ export class IngressesClient {
      * @param {CloudflareApi.intel.sinkholes.DeleteIngressesRequest} request
      * @param {IngressesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.intel.sinkholes.ingresses.delete({
      *         zone_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -317,10 +329,13 @@ export class IngressesClient {
      * @param {CloudflareApi.intel.sinkholes.ListIngressesRequest} request
      * @param {IngressesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.intel.sinkholes.ingresses.list({
      *         account_or_zone: "account_or_zone",
-     *         account_or_zone_id: "023e105f4ecef8ad9ca31a8372d0c353",
+     *         account_or_zone_id: "account_or_zone_id",
      *         sinkhole_id: "93defa6e909e464e8c89a85859f36d3c"
      *     })
      */

@@ -36,6 +36,8 @@ export class SqlClient {
      * @throws {@link CloudflareApi.InternalServerError}
      * @throws {@link CloudflareApi.ServiceUnavailableError}
      * @throws {@link CloudflareApi.GatewayTimeoutError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.analyticsEngine.sql.query({

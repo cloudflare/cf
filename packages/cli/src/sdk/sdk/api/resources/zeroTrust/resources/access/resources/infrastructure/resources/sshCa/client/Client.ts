@@ -31,6 +31,9 @@ export class SshCaClient {
      * @param {CloudflareApi.zeroTrust.access.infrastructure.ListSshCaRequest} request
      * @param {SshCaClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.infrastructure.sshCa.list({
      *         account_id: "account_id"
@@ -99,6 +102,9 @@ export class SshCaClient {
      * @param {CloudflareApi.zeroTrust.access.infrastructure.CreateSshCaRequest} request
      * @param {SshCaClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.infrastructure.sshCa.create({
      *         account_id: "account_id"
@@ -163,6 +169,9 @@ export class SshCaClient {
      *
      * @param {CloudflareApi.zeroTrust.access.infrastructure.DeleteSshCaRequest} request
      * @param {SshCaClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.infrastructure.sshCa.delete({

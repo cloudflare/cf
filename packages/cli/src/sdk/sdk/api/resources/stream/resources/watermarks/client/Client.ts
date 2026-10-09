@@ -29,6 +29,9 @@ export class WatermarksClient {
      * @param {CloudflareApi.stream.ListWatermarksRequest} request
      * @param {WatermarksClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.stream.watermarks.list({
      *         account_id: "account_id"
@@ -96,6 +99,9 @@ export class WatermarksClient {
      *
      * @param {CloudflareApi.stream.CreateWatermarksRequest} request
      * @param {WatermarksClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.stream.watermarks.create({
@@ -165,6 +171,9 @@ export class WatermarksClient {
      * @param {CloudflareApi.stream.GetWatermarksRequest} request
      * @param {WatermarksClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.stream.watermarks.get({
      *         account_id: "account_id",
@@ -230,6 +239,9 @@ export class WatermarksClient {
      *
      * @param {CloudflareApi.stream.DeleteWatermarksRequest} request
      * @param {WatermarksClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.stream.watermarks.delete({

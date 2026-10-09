@@ -32,6 +32,9 @@ export class AccountMappingClient {
      * @param {CloudflareApi.zeroTrust.dlp.email.GetAccountMappingRequest} request
      * @param {AccountMappingClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.dlp.email.accountMapping.get({
      *         account_id: "account_id"
@@ -96,6 +99,9 @@ export class AccountMappingClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.email.DlpUpdateAddinAccountMapping} request
      * @param {AccountMappingClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.email.accountMapping.create({

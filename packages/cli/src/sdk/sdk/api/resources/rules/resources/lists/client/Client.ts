@@ -41,6 +41,9 @@ export class ListsClient {
      * @param {CloudflareApi.rules.ListListsRequest} request
      * @param {ListsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.rules.lists.list({
      *         account_id: "account_id"
@@ -108,6 +111,9 @@ export class ListsClient {
      *
      * @param {CloudflareApi.rules.CreateListsRequest} request
      * @param {ListsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.rules.lists.create({
@@ -182,6 +188,9 @@ export class ListsClient {
      * @param {CloudflareApi.rules.GetListsRequest} request
      * @param {ListsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.rules.lists.get({
      *         account_id: "account_id",
@@ -247,6 +256,9 @@ export class ListsClient {
      *
      * @param {CloudflareApi.rules.UpdateListsRequest} request
      * @param {ListsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.rules.lists.update({
@@ -319,6 +331,9 @@ export class ListsClient {
      *
      * @param {CloudflareApi.rules.DeleteListsRequest} request
      * @param {ListsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.rules.lists.delete({

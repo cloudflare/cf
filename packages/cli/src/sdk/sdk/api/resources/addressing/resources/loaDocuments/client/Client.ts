@@ -23,10 +23,84 @@ export class LoaDocumentsClient {
     }
 
     /**
+     * List all LOA documents uploaded under the account.
+     *
+     * @param {CloudflareApi.addressing.ListLoaDocumentsRequest} request
+     * @param {LoaDocumentsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
+     * @example
+     *     await client.addressing.loaDocuments.list({
+     *         account_id: "account_id"
+     *     })
+     */
+    public list(
+        request: CloudflareApi.addressing.ListLoaDocumentsRequest,
+        requestOptions?: LoaDocumentsClient.RequestOptions,
+    ): core.HttpResponsePromise<CloudflareApi.addressing.ListLoaDocumentsResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__list(request, requestOptions));
+    }
+
+    private async __list(
+        request: CloudflareApi.addressing.ListLoaDocumentsRequest,
+        requestOptions?: LoaDocumentsClient.RequestOptions,
+    ): Promise<core.WithRawResponse<CloudflareApi.addressing.ListLoaDocumentsResponse>> {
+        const { account_id: accountId } = request;
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.CloudflareApiEnvironment.Default,
+                `accounts/${core.url.encodePathParam(accountId)}/addressing/loa_documents`,
+            ),
+            method: "GET",
+            headers: _headers,
+            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return {
+                data: _response.body as CloudflareApi.addressing.ListLoaDocumentsResponse,
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            throw new errors.CloudflareApiError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
+        }
+
+        return handleNonStatusCodeError(
+            _response.error,
+            _response.rawResponse,
+            "GET",
+            "/accounts/{account_id}/addressing/loa_documents",
+        );
+    }
+
+    /**
      * Submit LOA document (pdf format) under the account.
      *
      * @param {CloudflareApi.addressing.CreateLoaDocumentsRequest} request
      * @param {LoaDocumentsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";
@@ -100,6 +174,9 @@ export class LoaDocumentsClient {
 
     /**
      * Download specified LOA document under the account.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      */
     public get(
         request: CloudflareApi.addressing.GetLoaDocumentsRequest,

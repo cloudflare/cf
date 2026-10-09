@@ -28,6 +28,9 @@ export class HistoryClient {
      * @param {CloudflareApi.alerting.ListHistoryRequest} request
      * @param {HistoryClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.alerting.history.list({
      *         account_id: "account_id",

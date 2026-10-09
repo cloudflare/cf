@@ -29,6 +29,9 @@ export class BgpSettingsClient {
      * @param {CloudflareApi.magicTransit.GetBgpSettingsRequest} request
      * @param {BgpSettingsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.bgpSettings.get({
      *         account_id: "account_id"
@@ -93,6 +96,9 @@ export class BgpSettingsClient {
      *
      * @param {CloudflareApi.magicTransit.MagicUpdateBgpSettingsRequest} request
      * @param {BgpSettingsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.bgpSettings.update({

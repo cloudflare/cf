@@ -32,6 +32,9 @@ export class CorsClient {
      * @param {CloudflareApi.r2.buckets.GetCorsRequest} request
      * @param {CorsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.r2.buckets.cors.get({
      *         account_id: "account_id",
@@ -101,6 +104,9 @@ export class CorsClient {
      *
      * @param {CloudflareApi.r2.buckets.UpdateCorsRequest} request
      * @param {CorsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.r2.buckets.cors.update({
@@ -176,6 +182,9 @@ export class CorsClient {
      *
      * @param {CloudflareApi.r2.buckets.DeleteCorsRequest} request
      * @param {CorsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.r2.buckets.cors.delete({

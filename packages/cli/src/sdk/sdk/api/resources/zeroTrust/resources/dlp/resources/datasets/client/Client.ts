@@ -32,6 +32,9 @@ export class DatasetsClient {
      * @param {CloudflareApi.zeroTrust.dlp.ListDatasetsRequest} request
      * @param {DatasetsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.dlp.datasets.list({
      *         account_id: "account_id"
@@ -99,6 +102,9 @@ export class DatasetsClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.DlpNewDataset} request
      * @param {DatasetsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.datasets.create({
@@ -169,6 +175,9 @@ export class DatasetsClient {
      * @param {CloudflareApi.zeroTrust.dlp.GetDatasetsRequest} request
      * @param {DatasetsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.dlp.datasets.get({
      *         account_id: "account_id",
@@ -234,6 +243,9 @@ export class DatasetsClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.DlpDatasetUpdate} request
      * @param {DatasetsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.datasets.update({
@@ -304,6 +316,9 @@ export class DatasetsClient {
      * @param {CloudflareApi.zeroTrust.dlp.DeleteDatasetsRequest} request
      * @param {DatasetsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.dlp.datasets.delete({
      *         account_id: "account_id",
@@ -369,6 +384,9 @@ export class DatasetsClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.PrepareUploadDatasetsRequest} request
      * @param {DatasetsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.datasets.prepareUpload({
@@ -441,6 +459,9 @@ export class DatasetsClient {
      * @param {string} dataset_id
      * @param {string} version
      * @param {DatasetsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      */
     public upload(
         uploadable: core.file.Uploadable,

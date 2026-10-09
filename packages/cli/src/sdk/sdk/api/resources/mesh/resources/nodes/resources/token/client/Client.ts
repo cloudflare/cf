@@ -31,6 +31,9 @@ export class TokenClient {
      * @param {CloudflareApi.mesh.nodes.GetTokenRequest} request
      * @param {TokenClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.mesh.nodes.token.get({
      *         account_id: "account_id",

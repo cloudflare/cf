@@ -29,6 +29,9 @@ export class OriginMaxHttpVersionClient {
      * @param {CloudflareApi.zones.GetOriginMaxHttpVersionRequest} request
      * @param {OriginMaxHttpVersionClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zones.originMaxHttpVersion.get({
      *         zone_id: "zone_id"
@@ -96,6 +99,9 @@ export class OriginMaxHttpVersionClient {
      *
      * @param {CloudflareApi.zones.EditOriginMaxHttpVersionRequest} request
      * @param {OriginMaxHttpVersionClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zones.originMaxHttpVersion.edit({

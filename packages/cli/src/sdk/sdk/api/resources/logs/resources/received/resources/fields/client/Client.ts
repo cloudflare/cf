@@ -31,6 +31,9 @@ export class FieldsClient {
      * @param {CloudflareApi.logs.received.GetFieldsRequest} request
      * @param {FieldsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.logs.received.fields.get({
      *         zone_id: "zone_id"

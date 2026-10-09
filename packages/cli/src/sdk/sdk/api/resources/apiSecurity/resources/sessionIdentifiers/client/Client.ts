@@ -29,6 +29,9 @@ export class SessionIdentifiersClient {
      * @param {CloudflareApi.apiSecurity.GetSessionIdentifiersRequest} request
      * @param {SessionIdentifiersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.apiSecurity.sessionIdentifiers.get({
      *         zone_id: "023e105f4ecef8ad9ca31a8372d0c353"
@@ -103,6 +106,9 @@ export class SessionIdentifiersClient {
      *
      * @param {CloudflareApi.apiSecurity.UpdateSessionIdentifiersRequest} request
      * @param {SessionIdentifiersClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.apiSecurity.sessionIdentifiers.update({

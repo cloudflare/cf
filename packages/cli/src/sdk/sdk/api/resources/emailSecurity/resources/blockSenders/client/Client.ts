@@ -29,6 +29,9 @@ export class BlockSendersClient {
      * @param {CloudflareApi.emailSecurity.ListBlockSendersRequest} request
      * @param {BlockSendersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.emailSecurity.blockSenders.list({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -121,6 +124,9 @@ export class BlockSendersClient {
      * @param {CloudflareApi.emailSecurity.CreateBlockSendersRequest} request
      * @param {BlockSendersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.emailSecurity.blockSenders.create({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -199,6 +205,9 @@ export class BlockSendersClient {
      *
      * @param {CloudflareApi.emailSecurity.BatchBlockSendersRequest} request
      * @param {BlockSendersClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailSecurity.blockSenders.batch({
@@ -288,6 +297,9 @@ export class BlockSendersClient {
      * @param {CloudflareApi.emailSecurity.GetBlockSendersRequest} request
      * @param {BlockSendersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.emailSecurity.blockSenders.get({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -356,6 +368,9 @@ export class BlockSendersClient {
      *
      * @param {CloudflareApi.emailSecurity.UpdateBlockSendersRequest} request
      * @param {BlockSendersClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailSecurity.blockSenders.update({
@@ -434,6 +449,9 @@ export class BlockSendersClient {
      * @param {CloudflareApi.emailSecurity.DeleteBlockSendersRequest} request
      * @param {BlockSendersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.emailSecurity.blockSenders.delete({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -502,6 +520,9 @@ export class BlockSendersClient {
      *
      * @param {CloudflareApi.emailSecurity.EditBlockSendersRequest} request
      * @param {BlockSendersClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailSecurity.blockSenders.edit({

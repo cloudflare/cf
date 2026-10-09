@@ -33,6 +33,8 @@ export class MarkdownForAgentsClient {
      * @param {MarkdownForAgentsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.radar.ai.markdownForAgents.summary({
@@ -124,6 +126,8 @@ export class MarkdownForAgentsClient {
      * @param {MarkdownForAgentsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.radar.ai.markdownForAgents.timeseries({

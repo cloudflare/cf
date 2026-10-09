@@ -29,6 +29,9 @@ export class CustomTrustStoreClient {
      * @param {CloudflareApi.acm.ListCustomTrustStoreRequest} request
      * @param {CustomTrustStoreClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.acm.customTrustStore.list({
      *         zone_id: "zone_id",
@@ -109,6 +112,9 @@ export class CustomTrustStoreClient {
      * @param {CloudflareApi.acm.CreateCustomTrustStoreRequest} request
      * @param {CustomTrustStoreClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.acm.customTrustStore.create({
      *         zone_id: "zone_id",
@@ -181,6 +187,9 @@ export class CustomTrustStoreClient {
      * @param {CloudflareApi.acm.GetCustomTrustStoreRequest} request
      * @param {CustomTrustStoreClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.acm.customTrustStore.get({
      *         zone_id: "zone_id",
@@ -249,6 +258,9 @@ export class CustomTrustStoreClient {
      *
      * @param {CloudflareApi.acm.DeleteCustomTrustStoreRequest} request
      * @param {CustomTrustStoreClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.acm.customTrustStore.delete({

@@ -28,6 +28,9 @@ export class ServiceProviderConfigClient {
      * @param {CloudflareApi.scim.GetServiceProviderConfigRequest} request
      * @param {ServiceProviderConfigClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.scim.serviceProviderConfig.get({
      *         account_id: "account_id"

@@ -31,6 +31,9 @@ export class CategoriesClient {
      * @param {CloudflareApi.zeroTrust.gateway.ListCategoriesRequest} request
      * @param {CategoriesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.gateway.categories.list({
      *         account_id: "account_id"

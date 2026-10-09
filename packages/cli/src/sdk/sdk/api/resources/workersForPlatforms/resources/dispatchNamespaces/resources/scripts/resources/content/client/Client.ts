@@ -32,6 +32,9 @@ export class ContentClient {
      * @param {CloudflareApi.workersForPlatforms.dispatchNamespaces.scripts.GetContentRequest} request
      * @param {ContentClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workersForPlatforms.dispatchNamespaces.scripts.content.get({
      *         account_id: "account_id",
@@ -98,6 +101,9 @@ export class ContentClient {
      *
      * @param {CloudflareApi.workersForPlatforms.dispatchNamespaces.scripts.UpdateContentRequest} request
      * @param {ContentClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";

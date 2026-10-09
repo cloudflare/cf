@@ -32,6 +32,9 @@ export class PredefinedClient {
      * @param {CloudflareApi.zeroTrust.dlp.profiles.DlpPredefinedProfileUpdate} request
      * @param {PredefinedClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.dlp.profiles.predefined.update({
      *         account_id: "account_id",

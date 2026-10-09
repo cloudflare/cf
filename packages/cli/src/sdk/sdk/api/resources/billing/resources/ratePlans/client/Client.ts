@@ -28,6 +28,9 @@ export class RatePlansClient {
      * @param {CloudflareApi.billing.GetRatePlansRequest} request
      * @param {RatePlansClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.billing.ratePlans.get({
      *         public_key: "teams_free"

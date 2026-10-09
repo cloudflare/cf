@@ -33,6 +33,8 @@ export class TimeseriesGroupsClient {
      * @param {TimeseriesGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.radar.ai.timeseriesGroups.summary({
@@ -153,106 +155,6 @@ export class TimeseriesGroupsClient {
             _response.rawResponse,
             "GET",
             "/radar/ai/bots/summary/{dimension}",
-        );
-    }
-
-    /**
-     * @deprecated
-     *
-     * Retrieves the distribution of traffic by AI user agent over time.
-     *
-     * @param {CloudflareApi.radar.ai.UserAgentTimeseriesGroupsRequest} request
-     * @param {TimeseriesGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @throws {@link CloudflareApi.BadRequestError}
-     *
-     * @example
-     *     await client.radar.ai.timeseriesGroups.userAgent({
-     *         name: ["main_series"],
-     *         dateRange: ["7d"],
-     *         limitPerGroup: 10
-     *     })
-     */
-    public userAgent(
-        request: CloudflareApi.radar.ai.UserAgentTimeseriesGroupsRequest = {},
-        requestOptions?: TimeseriesGroupsClient.RequestOptions,
-    ): core.HttpResponsePromise<CloudflareApi.radar.ai.UserAgentTimeseriesGroupsResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__userAgent(request, requestOptions));
-    }
-
-    private async __userAgent(
-        request: CloudflareApi.radar.ai.UserAgentTimeseriesGroupsRequest = {},
-        requestOptions?: TimeseriesGroupsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<CloudflareApi.radar.ai.UserAgentTimeseriesGroupsResponse>> {
-        const { aggInterval, name, dateRange, dateStart, dateEnd, asn, location, continent, limitPerGroup, format } =
-            request;
-        const _queryParams: Record<string, unknown> = {
-            aggInterval: aggInterval != null ? aggInterval : undefined,
-            name,
-            dateRange,
-            dateStart: Array.isArray(dateStart)
-                ? dateStart.map((item) => item)
-                : dateStart != null
-                  ? dateStart
-                  : undefined,
-            dateEnd: Array.isArray(dateEnd) ? dateEnd.map((item) => item) : dateEnd != null ? dateEnd : undefined,
-            asn,
-            location,
-            continent,
-            limitPerGroup,
-            format: format != null ? format : undefined,
-        };
-        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
-        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
-            _authRequest.headers,
-            this._options?.headers,
-            requestOptions?.headers,
-        );
-        const _response = await (this._options.fetcher ?? core.fetcher)({
-            url: core.url.join(
-                (await core.Supplier.get(this._options.baseUrl)) ??
-                    (await core.Supplier.get(this._options.environment)) ??
-                    environments.CloudflareApiEnvironment.Default,
-                "radar/ai/bots/timeseries_groups/user_agent",
-            ),
-            method: "GET",
-            headers: _headers,
-            queryString: core.url
-                .queryBuilder()
-                .addMany(_queryParams)
-                .mergeAdditional(requestOptions?.queryParams)
-                .build(),
-            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
-            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
-            abortSignal: requestOptions?.abortSignal,
-            fetchFn: this._options?.fetch,
-            logging: this._options.logging,
-        });
-        if (_response.ok) {
-            return {
-                data: _response.body as CloudflareApi.radar.ai.UserAgentTimeseriesGroupsResponse,
-                rawResponse: _response.rawResponse,
-            };
-        }
-
-        if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 400:
-                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
-                default:
-                    throw new errors.CloudflareApiError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
-                        rawResponse: _response.rawResponse,
-                    });
-            }
-        }
-
-        return handleNonStatusCodeError(
-            _response.error,
-            _response.rawResponse,
-            "GET",
-            "/radar/ai/bots/timeseries_groups/user_agent",
         );
     }
 }

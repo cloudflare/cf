@@ -36,6 +36,8 @@ export class ReputationClient {
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.UnprocessableEntityError}
      * @throws {@link CloudflareApi.BadGatewayError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailSending.subdomains.reputation.getComplaints({

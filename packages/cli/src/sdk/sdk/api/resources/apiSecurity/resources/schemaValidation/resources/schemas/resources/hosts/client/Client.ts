@@ -31,6 +31,9 @@ export class HostsClient {
      * @param {CloudflareApi.apiSecurity.schemaValidation.schemas.ListHostsRequest} request
      * @param {HostsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.apiSecurity.schemaValidation.schemas.hosts.list({
      *         zone_id: "023e105f4ecef8ad9ca31a8372d0c353"

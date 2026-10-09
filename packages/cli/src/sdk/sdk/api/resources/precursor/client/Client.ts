@@ -30,6 +30,9 @@ export class PrecursorClient {
      * @param {CloudflareApi.GetPrecursorRequest} request
      * @param {PrecursorClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.precursor.get({
      *         zone_id: "zone_id"
@@ -108,6 +111,9 @@ export class PrecursorClient {
      *
      * @param {CloudflareApi.UpdatePrecursorRequest} request
      * @param {PrecursorClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.precursor.update({

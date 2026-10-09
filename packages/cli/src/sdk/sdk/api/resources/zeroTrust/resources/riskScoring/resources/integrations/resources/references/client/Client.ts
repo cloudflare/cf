@@ -31,6 +31,9 @@ export class ReferencesClient {
      * @param {CloudflareApi.zeroTrust.riskScoring.integrations.GetReferencesRequest} request
      * @param {ReferencesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.riskScoring.integrations.references.get({
      *         account_id: "account_id",

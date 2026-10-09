@@ -29,6 +29,9 @@ export class CustomNameserversClient {
      * @param {CloudflareApi.DeleteCustomNameserversRequest} request
      * @param {CustomNameserversClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.customNameservers.delete({
      *         account_id: "account_id",
@@ -98,6 +101,9 @@ export class CustomNameserversClient {
      * @param {CloudflareApi.GetCustomNameserversRequest} request
      * @param {CustomNameserversClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.customNameservers.get({
      *         account_or_zone: "account_or_zone",
@@ -166,6 +172,9 @@ export class CustomNameserversClient {
      *
      * @param {CloudflareApi.CreateCustomNameserversRequest} request
      * @param {CustomNameserversClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.customNameservers.create({

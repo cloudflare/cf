@@ -30,6 +30,9 @@ export class BinaryAstClient {
      * @param {CloudflareApi.zones.GetBinaryAstRequest} request
      * @param {BinaryAstClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zones.binaryAst.get({
      *         zone_id: "zone_id"
@@ -95,6 +98,9 @@ export class BinaryAstClient {
      *
      * @param {CloudflareApi.zones.EditBinaryAstRequest} request
      * @param {BinaryAstClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zones.binaryAst.edit({

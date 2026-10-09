@@ -31,6 +31,9 @@ export class MetricsClient {
      * @param {CloudflareApi.r2.buckets.ListMetricsRequest} request
      * @param {MetricsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.r2.buckets.metrics.list({
      *         account_id: "account_id"

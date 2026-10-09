@@ -29,6 +29,9 @@ export class AppsClient {
      * @param {CloudflareApi.spectrum.ListAppsRequest} request
      * @param {AppsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.spectrum.apps.list({
      *         zone_id: "zone_id",
@@ -108,6 +111,9 @@ export class AppsClient {
      * @param {CloudflareApi.spectrum.CreateAppsRequest} request
      * @param {AppsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.spectrum.apps.create({
      *         zone_id: "zone_id",
@@ -184,6 +190,9 @@ export class AppsClient {
      * @param {CloudflareApi.spectrum.GetAppsRequest} request
      * @param {AppsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.spectrum.apps.get({
      *         zone_id: "zone_id",
@@ -252,6 +261,9 @@ export class AppsClient {
      *
      * @param {CloudflareApi.spectrum.UpdateAppsRequest} request
      * @param {AppsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.spectrum.apps.update({
@@ -329,6 +341,9 @@ export class AppsClient {
      *
      * @param {CloudflareApi.spectrum.DeleteAppsRequest} request
      * @param {AppsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.spectrum.apps.delete({

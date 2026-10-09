@@ -29,6 +29,9 @@ export class RedundancyGroupsClient {
      * @param {CloudflareApi.magicTransit.ListRedundancyGroupsRequest} request
      * @param {RedundancyGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.redundancyGroups.list({
      *         account_id: "account_id"
@@ -96,6 +99,9 @@ export class RedundancyGroupsClient {
      *
      * @param {CloudflareApi.magicTransit.CreateRedundancyGroupsRequest} request
      * @param {RedundancyGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.redundancyGroups.create({
@@ -168,6 +174,9 @@ export class RedundancyGroupsClient {
      * @param {CloudflareApi.magicTransit.GetRedundancyGroupsRequest} request
      * @param {RedundancyGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.redundancyGroups.get({
      *         account_id: "account_id",
@@ -236,6 +245,9 @@ export class RedundancyGroupsClient {
      *
      * @param {CloudflareApi.magicTransit.UpdateRedundancyGroupsRequest} request
      * @param {RedundancyGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.redundancyGroups.update({
@@ -308,6 +320,9 @@ export class RedundancyGroupsClient {
      *
      * @param {CloudflareApi.magicTransit.DeleteRedundancyGroupsRequest} request
      * @param {RedundancyGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.redundancyGroups.delete({

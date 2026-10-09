@@ -29,6 +29,9 @@ export class ConfigClient {
      * @param {CloudflareApi.zaraz.GetConfigRequest} request
      * @param {ConfigClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zaraz.config.get({
      *         zone_id: "zone_id"
@@ -93,6 +96,9 @@ export class ConfigClient {
      *
      * @param {CloudflareApi.zaraz.ZarazZarazConfigBody} request
      * @param {ConfigClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zaraz.config.update({

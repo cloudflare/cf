@@ -36,15 +36,13 @@ export class ContentFindingsClient {
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.UnauthorizedError}
      * @throws {@link CloudflareApi.ForbiddenError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.analytics.query.dataSecurity.contentFindings.topN({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
-     *         filters: [{
-     *                 name: "country",
-     *                 op: "in",
-     *                 values: ["US", "CA", "GB"]
-     *             }],
+     *         filters: [],
      *         from: "2024-11-01T00:00:00Z",
      *         n: 10,
      *         to: "2024-11-08T00:00:00Z"

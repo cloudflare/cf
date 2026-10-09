@@ -29,6 +29,9 @@ export class SubscriptionsClient {
      * @param {CloudflareApi.zones.GetSubscriptionsRequest} request
      * @param {SubscriptionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zones.subscriptions.get({
      *         zone_id: "zone_id"
@@ -91,6 +94,9 @@ export class SubscriptionsClient {
      *
      * @param {CloudflareApi.zones.CreateSubscriptionsRequest} request
      * @param {SubscriptionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zones.subscriptions.create({
@@ -164,6 +170,9 @@ export class SubscriptionsClient {
      * @param {CloudflareApi.zones.UpdateSubscriptionsRequest} request
      * @param {SubscriptionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zones.subscriptions.update({
      *         zone_id: "zone_id",
@@ -230,6 +239,9 @@ export class SubscriptionsClient {
      *
      * @param {CloudflareApi.zones.DeleteSubscriptionsRequest} request
      * @param {SubscriptionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zones.subscriptions.delete({

@@ -30,6 +30,9 @@ export class TransformationsClient {
      * @param {CloudflareApi.accounts.ListTransformationsRequest} request
      * @param {TransformationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.accounts.transformations.list({
      *         account_id: "account_id"

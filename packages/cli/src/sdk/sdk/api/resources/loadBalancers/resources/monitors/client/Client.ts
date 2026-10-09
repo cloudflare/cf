@@ -41,6 +41,9 @@ export class MonitorsClient {
      * @param {CloudflareApi.loadBalancers.ListMonitorsRequest} request
      * @param {MonitorsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.loadBalancers.monitors.list({
      *         account_id: "account_id"
@@ -108,6 +111,9 @@ export class MonitorsClient {
      *
      * @param {CloudflareApi.loadBalancers.CreateMonitorsRequest} request
      * @param {MonitorsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.loadBalancers.monitors.create({
@@ -178,6 +184,9 @@ export class MonitorsClient {
      * @param {CloudflareApi.loadBalancers.GetMonitorsRequest} request
      * @param {MonitorsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.loadBalancers.monitors.get({
      *         account_id: "account_id",
@@ -243,6 +252,9 @@ export class MonitorsClient {
      *
      * @param {CloudflareApi.loadBalancers.UpdateMonitorsRequest} request
      * @param {MonitorsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.loadBalancers.monitors.update({
@@ -314,6 +326,9 @@ export class MonitorsClient {
      * @param {CloudflareApi.loadBalancers.DeleteMonitorsRequest} request
      * @param {MonitorsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.loadBalancers.monitors.delete({
      *         account_id: "account_id",
@@ -382,6 +397,9 @@ export class MonitorsClient {
      *
      * @param {CloudflareApi.loadBalancers.EditMonitorsRequest} request
      * @param {MonitorsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.loadBalancers.monitors.edit({

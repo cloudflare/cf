@@ -39,6 +39,9 @@ export class JobsClient {
      * @param {CloudflareApi.r2.superSlurper.ListJobsRequest} request
      * @param {JobsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.r2.superSlurper.jobs.list({
      *         account_id: "account_id"
@@ -116,6 +119,8 @@ export class JobsClient {
      * @param {JobsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.ConflictError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.r2.superSlurper.jobs.create({
@@ -193,6 +198,9 @@ export class JobsClient {
      * @param {CloudflareApi.r2.superSlurper.AbortAllJobsRequest} request
      * @param {JobsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.r2.superSlurper.jobs.abortAll({
      *         account_id: "account_id"
@@ -257,6 +265,9 @@ export class JobsClient {
      *
      * @param {CloudflareApi.r2.superSlurper.GetJobsRequest} request
      * @param {JobsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.r2.superSlurper.jobs.get({
@@ -325,6 +336,8 @@ export class JobsClient {
      * @param {JobsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.ConflictError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.r2.superSlurper.jobs.delete({
@@ -397,6 +410,9 @@ export class JobsClient {
      * @param {CloudflareApi.r2.superSlurper.AbortJobsRequest} request
      * @param {JobsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.r2.superSlurper.jobs.abort({
      *         account_id: "account_id",
@@ -464,6 +480,8 @@ export class JobsClient {
      * @param {JobsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.ConflictError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.r2.superSlurper.jobs.pause({
@@ -536,6 +554,9 @@ export class JobsClient {
      * @param {CloudflareApi.r2.superSlurper.ProgressJobsRequest} request
      * @param {JobsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.r2.superSlurper.jobs.progress({
      *         account_id: "account_id",
@@ -604,6 +625,9 @@ export class JobsClient {
      *
      * @param {CloudflareApi.r2.superSlurper.ResumeJobsRequest} request
      * @param {JobsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.r2.superSlurper.jobs.resume({

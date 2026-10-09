@@ -32,6 +32,9 @@ export class VariantsClient {
      * @param {CloudflareApi.cache.settings.GetVariantsRequest} request
      * @param {VariantsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.cache.settings.variants.get({
      *         zone_id: "zone_id"
@@ -100,6 +103,9 @@ export class VariantsClient {
      * @param {CloudflareApi.cache.settings.DeleteVariantsRequest} request
      * @param {VariantsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.cache.settings.variants.delete({
      *         zone_id: "zone_id"
@@ -164,6 +170,9 @@ export class VariantsClient {
      *
      * @param {CloudflareApi.cache.settings.EditVariantsRequest} request
      * @param {VariantsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cache.settings.variants.edit({

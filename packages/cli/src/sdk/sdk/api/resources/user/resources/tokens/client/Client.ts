@@ -35,6 +35,9 @@ export class TokensClient {
      * @param {CloudflareApi.user.ListTokensRequest} request
      * @param {TokensClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.user.tokens.list()
      */
@@ -105,6 +108,9 @@ export class TokensClient {
      *
      * @param {CloudflareApi.IamCreatePayload} request
      * @param {TokensClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.user.tokens.create({
@@ -188,6 +194,9 @@ export class TokensClient {
      *
      * @param {TokensClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.user.tokens.verify()
      */
@@ -245,6 +254,9 @@ export class TokensClient {
      *
      * @param {CloudflareApi.user.GetTokensRequest} request
      * @param {TokensClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.user.tokens.get({
@@ -305,6 +317,9 @@ export class TokensClient {
      *
      * @param {CloudflareApi.user.UpdateTokensRequest} request
      * @param {TokensClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.user.tokens.update({
@@ -370,6 +385,9 @@ export class TokensClient {
      * @param {CloudflareApi.user.DeleteTokensRequest} request
      * @param {TokensClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.user.tokens.delete({
      *         token_id: "token_id"
@@ -432,6 +450,9 @@ export class TokensClient {
      *
      * @param {CloudflareApi.user.RollTokensRequest} request
      * @param {TokensClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.user.tokens.roll({

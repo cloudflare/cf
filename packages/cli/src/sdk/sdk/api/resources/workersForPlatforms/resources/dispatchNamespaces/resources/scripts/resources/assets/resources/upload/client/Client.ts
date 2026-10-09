@@ -32,6 +32,9 @@ export class UploadClient {
      * @param {CloudflareApi.workersForPlatforms.dispatchNamespaces.scripts.assets.CreateSessionUploadRequest} request
      * @param {UploadClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workersForPlatforms.dispatchNamespaces.scripts.assets.upload.createSession({
      *         account_id: "account_id",

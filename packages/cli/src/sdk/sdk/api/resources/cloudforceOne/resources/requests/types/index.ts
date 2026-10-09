@@ -1,4 +1,3 @@
-export * from "./CloudforceOneRequestListRequestsResponse.js";
 export * from "./GetRequestListRequestsRequestProjectType.js";
 export * from "./GetRequestListRequestsResponse.js";
 export * from "./GetRequestReadRequestsRequestProjectType.js";
@@ -7,4 +6,3 @@ export * from "./PostRequestCreateRequestsRequestProjectType.js";
 export * from "./PostRequestCreateRequestsResponse.js";
 export * from "./PutRequestUpdateRequestsRequestProjectType.js";
 export * from "./PutRequestUpdateRequestsResponse.js";
-export * from "./TypesRequestsResponse.js";

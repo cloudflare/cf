@@ -31,6 +31,9 @@ export class AsnClient {
      * @param {CloudflareApi.botnetFeed.configs.GetAsnRequest} request
      * @param {AsnClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.botnetFeed.configs.asn.get({
      *         account_id: "account_id"
@@ -98,6 +101,9 @@ export class AsnClient {
      *
      * @param {CloudflareApi.botnetFeed.configs.DeleteAsnRequest} request
      * @param {AsnClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.botnetFeed.configs.asn.delete({

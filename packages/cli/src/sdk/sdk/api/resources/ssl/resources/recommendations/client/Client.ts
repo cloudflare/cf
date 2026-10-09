@@ -28,6 +28,9 @@ export class RecommendationsClient {
      * @param {CloudflareApi.ssl.GetRecommendationsRequest} request
      * @param {RecommendationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.ssl.recommendations.get({
      *         zone_id: "zone_id"

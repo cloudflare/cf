@@ -34,6 +34,9 @@ export class PermissionGroupsClient {
      * @param {CloudflareApi.accounts.tokens.ListPermissionGroupsRequest} request
      * @param {PermissionGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.accounts.tokens.permissionGroups.list({
      *         account_id: "account_id",

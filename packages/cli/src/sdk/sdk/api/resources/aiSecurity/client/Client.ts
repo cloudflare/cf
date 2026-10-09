@@ -35,6 +35,9 @@ export class AiSecurityClient {
      * @param {CloudflareApi.GetAiSecurityRequest} request
      * @param {AiSecurityClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.aiSecurity.get({
      *         zone_id: "zone_id"
@@ -102,6 +105,9 @@ export class AiSecurityClient {
      *
      * @param {CloudflareApi.UpdateAiSecurityRequest} request
      * @param {AiSecurityClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiSecurity.update({

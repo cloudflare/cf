@@ -31,6 +31,9 @@ export class DownloadClient {
      * @param {CloudflareApi.magicTransit.pcaps.GetDownloadRequest} request
      * @param {DownloadClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.pcaps.download.get({
      *         account_id: "account_id",

@@ -29,6 +29,9 @@ export class VerificationClient {
      * @param {CloudflareApi.ssl.GetVerificationRequest} request
      * @param {VerificationClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.ssl.verification.get({
      *         zone_id: "zone_id"
@@ -103,6 +106,9 @@ export class VerificationClient {
      *
      * @param {CloudflareApi.ssl.TlsCertificatesAndHostnamesValidationMethod3} request
      * @param {VerificationClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.ssl.verification.edit({

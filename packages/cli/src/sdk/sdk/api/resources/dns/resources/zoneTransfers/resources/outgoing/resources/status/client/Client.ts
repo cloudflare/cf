@@ -31,6 +31,9 @@ export class StatusClient {
      * @param {CloudflareApi.dns.zoneTransfers.outgoing.GetStatusRequest} request
      * @param {StatusClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.dns.zoneTransfers.outgoing.status.get({
      *         zone_id: "zone_id"

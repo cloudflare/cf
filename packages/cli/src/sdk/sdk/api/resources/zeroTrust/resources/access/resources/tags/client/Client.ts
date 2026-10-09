@@ -32,6 +32,9 @@ export class TagsClient {
      * @param {CloudflareApi.zeroTrust.access.ListTagsRequest} request
      * @param {TagsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.tags.list({
      *         account_id: "account_id"
@@ -108,6 +111,9 @@ export class TagsClient {
      * @param {CloudflareApi.zeroTrust.access.CreateTagsRequest} request
      * @param {TagsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.tags.create({
      *         account_id: "account_id"
@@ -176,6 +182,9 @@ export class TagsClient {
      * @param {CloudflareApi.zeroTrust.access.GetTagsRequest} request
      * @param {TagsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.tags.get({
      *         account_id: "account_id",
@@ -241,6 +250,9 @@ export class TagsClient {
      *
      * @param {CloudflareApi.zeroTrust.access.AccessTagWithoutAppCount} request
      * @param {TagsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.tags.update({
@@ -311,6 +323,9 @@ export class TagsClient {
      *
      * @param {CloudflareApi.zeroTrust.access.DeleteTagsRequest} request
      * @param {TagsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.tags.delete({

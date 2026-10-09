@@ -32,6 +32,9 @@ export class UploadClient {
      * @param {CloudflareApi.workers.assets.CreateUploadRequest} request
      * @param {UploadClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     import { createReadStream } from "fs";
      *     await client.workers.assets.upload.create({
@@ -113,6 +116,9 @@ export class UploadClient {
      *
      * @param {CloudflareApi.workers.assets.CreateSessionUploadRequest} request
      * @param {UploadClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workers.assets.upload.createSession({

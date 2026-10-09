@@ -34,6 +34,9 @@ export class ScriptAndVersionSettingsClient {
      * @param {CloudflareApi.workers.legacy.scripts.GetScriptAndVersionSettingsRequest} request
      * @param {ScriptAndVersionSettingsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workers.legacy.scripts.scriptAndVersionSettings.get({
      *         account_id: "account_id",
@@ -104,6 +107,9 @@ export class ScriptAndVersionSettingsClient {
      *
      * @param {CloudflareApi.workers.legacy.scripts.EditScriptAndVersionSettingsRequest} request
      * @param {ScriptAndVersionSettingsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";

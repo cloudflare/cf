@@ -35,6 +35,9 @@ export class StreamsClient {
      * @param {CloudflareApi.k2.ListStreamsRequest} request
      * @param {StreamsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.k2.streams.list({
      *         account_id: "account_id"
@@ -109,6 +112,9 @@ export class StreamsClient {
      * @param {CloudflareApi.k2.CloudflareK2CreateK2StreamRequest} request
      * @param {StreamsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.k2.streams.create({
      *         account_id: "account_id",
@@ -178,6 +184,9 @@ export class StreamsClient {
      * @param {CloudflareApi.k2.GetStreamsRequest} request
      * @param {StreamsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.k2.streams.get({
      *         account_id: "account_id",
@@ -244,6 +253,9 @@ export class StreamsClient {
      * @param {CloudflareApi.k2.DeleteStreamsRequest} request
      * @param {StreamsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.k2.streams.delete({
      *         account_id: "account_id",
@@ -309,6 +321,9 @@ export class StreamsClient {
      *
      * @param {CloudflareApi.k2.CloudflareK2UpdateK2StreamRequest} request
      * @param {StreamsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.k2.streams.update({

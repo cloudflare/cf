@@ -29,6 +29,9 @@ export class CtAlertingClient {
      * @param {CloudflareApi.GetCtAlertingRequest} request
      * @param {CtAlertingClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.ctAlerting.get({
      *         zone_id: "zone_id"
@@ -94,6 +97,9 @@ export class CtAlertingClient {
      *
      * @param {CloudflareApi.TlsCertificatesAndHostnamesCtAlertingSubscriptionUpdate} request
      * @param {CtAlertingClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.ctAlerting.update({

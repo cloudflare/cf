@@ -28,6 +28,9 @@ export class LeasesClient {
      * @param {CloudflareApi.addressing.ListLeasesRequest} request
      * @param {LeasesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.addressing.leases.list({
      *         account_id: "account_id"

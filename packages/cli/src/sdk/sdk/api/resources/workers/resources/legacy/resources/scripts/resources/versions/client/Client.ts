@@ -34,6 +34,9 @@ export class VersionsClient {
      * @param {CloudflareApi.workers.legacy.scripts.ListVersionsRequest} request
      * @param {VersionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workers.legacy.scripts.versions.list({
      *         account_id: "account_id",
@@ -113,6 +116,9 @@ export class VersionsClient {
      *
      * @param {CloudflareApi.workers.legacy.scripts.CreateVersionsRequest} request
      * @param {VersionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";
@@ -207,6 +213,9 @@ export class VersionsClient {
      *
      * @param {CloudflareApi.workers.legacy.scripts.GetVersionsRequest} request
      * @param {VersionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workers.legacy.scripts.versions.get({

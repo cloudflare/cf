@@ -28,6 +28,9 @@ export class AvailabilitiesClient {
      * @param {CloudflareApi.speed.ListAvailabilitiesRequest} request
      * @param {AvailabilitiesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.speed.availabilities.list({
      *         zone_id: "zone_id"

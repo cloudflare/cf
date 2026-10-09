@@ -39,6 +39,9 @@ export class ListsClient {
      * @param {CloudflareApi.zeroTrust.gateway.ListListsRequest} request
      * @param {ListsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.gateway.lists.list({
      *         account_id: "account_id"
@@ -118,6 +121,9 @@ export class ListsClient {
      * @param {CloudflareApi.zeroTrust.gateway.CreateListsRequest} request
      * @param {ListsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.gateway.lists.create({
      *         account_id: "account_id",
@@ -190,6 +196,9 @@ export class ListsClient {
      *
      * @param {CloudflareApi.zeroTrust.gateway.UploadListsRequest} request
      * @param {ListsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";
@@ -267,6 +276,9 @@ export class ListsClient {
      * @param {CloudflareApi.zeroTrust.gateway.GetListsRequest} request
      * @param {ListsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.gateway.lists.get({
      *         account_id: "account_id",
@@ -332,6 +344,9 @@ export class ListsClient {
      *
      * @param {CloudflareApi.zeroTrust.gateway.UpdateListsRequest} request
      * @param {ListsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.gateway.lists.update({
@@ -403,6 +418,9 @@ export class ListsClient {
      * @param {CloudflareApi.zeroTrust.gateway.DeleteListsRequest} request
      * @param {ListsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.gateway.lists.delete({
      *         account_id: "account_id",
@@ -468,6 +486,9 @@ export class ListsClient {
      *
      * @param {CloudflareApi.zeroTrust.gateway.EditListsRequest} request
      * @param {ListsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.gateway.lists.edit({

@@ -32,6 +32,9 @@ export class TagsClient {
      * @param {CloudflareApi.cloudforceOne.threatSignals.articles.GenerateTagsRequest} request
      * @param {TagsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.cloudforceOne.threatSignals.articles.tags.generate({
      *         account_id: "account_id",
@@ -100,6 +103,9 @@ export class TagsClient {
      *
      * @param {CloudflareApi.cloudforceOne.threatSignals.articles.AddTagsRequest} request
      * @param {TagsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.threatSignals.articles.tags.add({
@@ -173,6 +179,9 @@ export class TagsClient {
      *
      * @param {CloudflareApi.cloudforceOne.threatSignals.articles.RemoveTagsRequest} request
      * @param {TagsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.threatSignals.articles.tags.remove({

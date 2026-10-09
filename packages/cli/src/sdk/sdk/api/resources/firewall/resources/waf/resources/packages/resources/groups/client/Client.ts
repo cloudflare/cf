@@ -36,6 +36,9 @@ export class GroupsClient {
      * @param {CloudflareApi.firewall.waf.packages.ListGroupsRequest} request
      * @param {GroupsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.firewall.waf.packages.groups.list({
      *         zone_id: "zone_id",
@@ -136,6 +139,9 @@ export class GroupsClient {
      * @param {CloudflareApi.firewall.waf.packages.GetGroupsRequest} request
      * @param {GroupsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.firewall.waf.packages.groups.get({
      *         zone_id: "zone_id",
@@ -206,6 +212,9 @@ export class GroupsClient {
      *
      * @param {CloudflareApi.firewall.waf.packages.EditGroupsRequest} request
      * @param {GroupsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.firewall.waf.packages.groups.edit({

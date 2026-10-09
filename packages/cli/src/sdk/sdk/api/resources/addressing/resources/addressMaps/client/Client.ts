@@ -47,6 +47,9 @@ export class AddressMapsClient {
      * @param {CloudflareApi.addressing.ListAddressMapsRequest} request
      * @param {AddressMapsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.addressing.addressMaps.list({
      *         account_id: "account_id"
@@ -114,6 +117,9 @@ export class AddressMapsClient {
      *
      * @param {CloudflareApi.addressing.CreateAddressMapsRequest} request
      * @param {AddressMapsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.addressing.addressMaps.create({
@@ -186,6 +192,9 @@ export class AddressMapsClient {
      * @param {CloudflareApi.addressing.GetAddressMapsRequest} request
      * @param {AddressMapsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.addressing.addressMaps.get({
      *         account_id: "account_id",
@@ -255,6 +264,9 @@ export class AddressMapsClient {
      * @param {CloudflareApi.addressing.DeleteAddressMapsRequest} request
      * @param {AddressMapsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.addressing.addressMaps.delete({
      *         account_id: "account_id",
@@ -323,6 +335,9 @@ export class AddressMapsClient {
      *
      * @param {CloudflareApi.addressing.EditAddressMapsRequest} request
      * @param {AddressMapsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.addressing.addressMaps.edit({

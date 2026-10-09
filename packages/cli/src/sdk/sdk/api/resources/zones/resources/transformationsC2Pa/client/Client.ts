@@ -31,6 +31,9 @@ export class TransformationsC2PaClient {
      * @param {CloudflareApi.zones.GetTransformationsC2PaRequest} request
      * @param {TransformationsC2PaClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zones.transformationsC2Pa.get({
      *         zone_id: "zone_id"
@@ -100,6 +103,9 @@ export class TransformationsC2PaClient {
      *
      * @param {CloudflareApi.zones.EditTransformationsC2PaRequest} request
      * @param {TransformationsC2PaClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zones.transformationsC2Pa.edit({

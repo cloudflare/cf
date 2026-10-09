@@ -34,6 +34,9 @@ export class SubdomainClient {
      * @param {CloudflareApi.workers.legacy.scripts.GetSubdomainRequest} request
      * @param {SubdomainClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workers.legacy.scripts.subdomain.get({
      *         account_id: "account_id",
@@ -101,6 +104,9 @@ export class SubdomainClient {
      *
      * @param {CloudflareApi.workers.legacy.scripts.CreateSubdomainRequest} request
      * @param {SubdomainClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workers.legacy.scripts.subdomain.create({
@@ -173,6 +179,9 @@ export class SubdomainClient {
      *
      * @param {CloudflareApi.workers.legacy.scripts.DeleteSubdomainRequest} request
      * @param {SubdomainClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workers.legacy.scripts.subdomain.delete({

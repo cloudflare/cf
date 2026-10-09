@@ -29,6 +29,9 @@ export class MessagesClient {
      * @param {CloudflareApi.queues.PushMessagesRequest} request
      * @param {MessagesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.queues.messages.push({
      *         account_id: "account_id",
@@ -102,6 +105,9 @@ export class MessagesClient {
      * @param {CloudflareApi.queues.AckMessagesRequest} request
      * @param {MessagesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.queues.messages.ack({
      *         account_id: "account_id",
@@ -173,6 +179,9 @@ export class MessagesClient {
      *
      * @param {CloudflareApi.queues.MqQueueBatch} request
      * @param {MessagesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.queues.messages.bulkPush({
@@ -246,6 +255,9 @@ export class MessagesClient {
      * @param {CloudflareApi.queues.ExtendLeasesMessagesRequest} request
      * @param {MessagesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.queues.messages.extendLeases({
      *         account_id: "account_id",
@@ -317,6 +329,9 @@ export class MessagesClient {
      *
      * @param {CloudflareApi.queues.PeekMessagesRequest} request
      * @param {MessagesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.queues.messages.peek({
@@ -390,6 +405,9 @@ export class MessagesClient {
      * @param {CloudflareApi.queues.PullMessagesRequest} request
      * @param {MessagesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.queues.messages.pull({
      *         account_id: "account_id",
@@ -461,6 +479,9 @@ export class MessagesClient {
      *
      * @param {CloudflareApi.queues.PurgeMessagesRequest} request
      * @param {MessagesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.queues.messages.purge({

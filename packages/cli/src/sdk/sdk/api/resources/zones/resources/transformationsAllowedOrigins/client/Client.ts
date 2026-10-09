@@ -31,6 +31,9 @@ export class TransformationsAllowedOriginsClient {
      * @param {CloudflareApi.zones.GetTransformationsAllowedOriginsRequest} request
      * @param {TransformationsAllowedOriginsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zones.transformationsAllowedOrigins.get({
      *         zone_id: "zone_id"
@@ -100,6 +103,9 @@ export class TransformationsAllowedOriginsClient {
      *
      * @param {CloudflareApi.zones.EditTransformationsAllowedOriginsRequest} request
      * @param {TransformationsAllowedOriginsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zones.transformationsAllowedOrigins.edit({

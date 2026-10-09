@@ -29,6 +29,9 @@ export class CustomCsrsClient {
      * @param {CloudflareApi.ListCustomCsrsRequest} request
      * @param {CustomCsrsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.customCsrs.list({
      *         account_or_zone: "account_or_zone",
@@ -112,6 +115,9 @@ export class CustomCsrsClient {
      * @param {CloudflareApi.TlsCertificatesAndHostnamesCustomCsrCreateRequest2} request
      * @param {CustomCsrsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.customCsrs.create({
      *         account_or_zone: "account_or_zone",
@@ -190,6 +196,9 @@ export class CustomCsrsClient {
      * @param {CloudflareApi.GetCustomCsrsRequest} request
      * @param {CustomCsrsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.customCsrs.get({
      *         account_or_zone: "account_or_zone",
@@ -263,6 +272,9 @@ export class CustomCsrsClient {
      *
      * @param {CloudflareApi.DeleteCustomCsrsRequest} request
      * @param {CustomCsrsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.customCsrs.delete({

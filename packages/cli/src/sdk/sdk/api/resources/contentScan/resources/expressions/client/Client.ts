@@ -29,6 +29,9 @@ export class ExpressionsClient {
      * @param {CloudflareApi.contentScan.ListExpressionsRequest} request
      * @param {ExpressionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.contentScan.expressions.list({
      *         zone_id: "zone_id"
@@ -96,6 +99,9 @@ export class ExpressionsClient {
      *
      * @param {CloudflareApi.contentScan.CreateExpressionsRequest} request
      * @param {ExpressionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.contentScan.expressions.create({
@@ -171,6 +177,9 @@ export class ExpressionsClient {
      * @param {CloudflareApi.contentScan.DeleteExpressionsRequest} request
      * @param {ExpressionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.contentScan.expressions.delete({
      *         zone_id: "zone_id",
@@ -239,6 +248,9 @@ export class ExpressionsClient {
      *
      * @param {CloudflareApi.contentScan.UpdateExpressionsRequest} request
      * @param {ExpressionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.contentScan.expressions.update({

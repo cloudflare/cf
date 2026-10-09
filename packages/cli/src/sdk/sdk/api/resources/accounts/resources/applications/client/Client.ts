@@ -44,6 +44,8 @@ export class ApplicationsClient {
      * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.BadGatewayError}
      * @throws {@link CloudflareApi.ServiceUnavailableError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.accounts.applications.list({
@@ -143,6 +145,9 @@ export class ApplicationsClient {
      * @param {CloudflareApi.accounts.CreateApplicationsRequest} request
      * @param {ApplicationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.accounts.applications.create({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -214,6 +219,9 @@ export class ApplicationsClient {
      * @param {CloudflareApi.accounts.GetApplicationsRequest} request
      * @param {ApplicationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.accounts.applications.get({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -282,6 +290,8 @@ export class ApplicationsClient {
      *
      * @throws {@link CloudflareApi.ConflictError}
      * @throws {@link CloudflareApi.BadGatewayError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.accounts.applications.delete({
@@ -355,6 +365,9 @@ export class ApplicationsClient {
      *
      * @param {CloudflareApi.accounts.AlexandriaUpdateApplicationRequest} request
      * @param {ApplicationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.accounts.applications.update({

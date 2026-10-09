@@ -31,6 +31,9 @@ export class UniqueDevicesClient {
      * @param {CloudflareApi.zeroTrust.dex.overview.tests.GetUniqueDevicesRequest} request
      * @param {UniqueDevicesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.dex.overview.tests.uniqueDevices.get({
      *         account_id: "account_id",

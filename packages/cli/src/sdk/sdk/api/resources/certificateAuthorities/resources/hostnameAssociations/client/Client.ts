@@ -29,6 +29,9 @@ export class HostnameAssociationsClient {
      * @param {CloudflareApi.certificateAuthorities.GetHostnameAssociationsRequest} request
      * @param {HostnameAssociationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.certificateAuthorities.hostnameAssociations.get({
      *         zone_id: "zone_id",
@@ -104,6 +107,9 @@ export class HostnameAssociationsClient {
      *
      * @param {CloudflareApi.certificateAuthorities.TlsCertificatesAndHostnamesHostnameAssociation} request
      * @param {HostnameAssociationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.certificateAuthorities.hostnameAssociations.update({

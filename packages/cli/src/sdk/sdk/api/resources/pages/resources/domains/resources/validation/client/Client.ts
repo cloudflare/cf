@@ -31,6 +31,9 @@ export class ValidationClient {
      * @param {CloudflareApi.pages.domains.RetryValidationRequest} request
      * @param {ValidationClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.pages.domains.validation.retry({
      *         account_id: "account_id",

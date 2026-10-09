@@ -12,6 +12,13 @@
 			"type": "string",
 			"required": true,
 			"description": "Access-protected AI Gateway custom domain"
+		},
+		{
+			"name": "dry-run",
+			"type": "boolean",
+			"required": false,
+			"description": "Parse arguments and show the command without executing it",
+			"default": false
 		}
 	]
 }

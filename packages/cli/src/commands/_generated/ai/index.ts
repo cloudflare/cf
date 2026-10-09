@@ -17,6 +17,7 @@ import $codex from "#commands/ai/codex/index.js";
 import $opencode from "#commands/ai/opencode/index.js";
 import $pi from "#commands/ai/pi/index.js";
 import $run from "#commands/ai/run/index.js";
+import { withHandWrittenDryRun } from "#lib/hand-written-dry-run.js";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "ai",
@@ -24,12 +25,12 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
-			.command($claude)
-			.command($codex)
+			.command(withHandWrittenDryRun($claude, "preview"))
+			.command(withHandWrittenDryRun($codex, "preview"))
 			.command($getmodelschema)
 			.command($listmarkdownsupportedformats)
-			.command($opencode)
-			.command($pi)
+			.command(withHandWrittenDryRun($opencode, "preview"))
+			.command(withHandWrittenDryRun($pi, "preview"))
 			.command($run)
 			.command($tomarkdown)
 			.command($websearch)

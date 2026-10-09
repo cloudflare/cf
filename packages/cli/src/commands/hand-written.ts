@@ -197,24 +197,28 @@ export const handWrittenCommands: readonly HandWrittenCommand[] = [
 	},
 	{
 		kind: "leaf",
+		dryRun: "preview",
 		parent: "ai",
 		name: "claude",
 		dir: "ai/claude",
 	},
 	{
 		kind: "leaf",
+		dryRun: "preview",
 		parent: "ai",
 		name: "codex",
 		dir: "ai/codex",
 	},
 	{
 		kind: "leaf",
+		dryRun: "preview",
 		parent: "ai",
 		name: "opencode",
 		dir: "ai/opencode",
 	},
 	{
 		kind: "leaf",
+		dryRun: "preview",
 		parent: "ai",
 		name: "pi",
 		dir: "ai/pi",

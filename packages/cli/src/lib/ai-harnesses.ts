@@ -135,9 +135,16 @@ export function resolveHarnessSettings(
 	overrides: { gateway?: string; model?: string; endpoint?: string } = {}
 ): ResolvedHarnessSettings {
 	const config = readConfig();
+	const gateway = overrides.gateway ?? config.gateway;
+	const endpoint = overrides.endpoint ?? config.endpoint;
+	if (gateway && endpoint) {
+		throw new Error(
+			"--gateway and --endpoint cannot be used together: an endpoint already selects its gateway."
+		);
+	}
 	return {
-		gateway: overrides.gateway ?? config.gateway,
-		endpoint: overrides.endpoint ?? config.endpoint,
+		gateway,
+		endpoint,
 		model:
 			overrides.model ??
 			config.harnesses?.[harness]?.model ??

@@ -79,6 +79,29 @@ describe("resolveHarnessSettings", () => {
 		});
 	});
 
+	it("rejects a gateway and endpoint together", async () => {
+		expect(() =>
+			resolveHarnessSettings("opencode", {
+				gateway: "default",
+				endpoint: "https://ai.example.com",
+			})
+		).toThrow("--gateway and --endpoint cannot be used together");
+	});
+
+	it("rejects a configured gateway and endpoint together", async () => {
+		await writeFile(
+			configPath,
+			JSON.stringify({
+				gateway: "default",
+				endpoint: "https://ai.example.com",
+			})
+		);
+
+		expect(() => resolveHarnessSettings("opencode")).toThrow(
+			"--gateway and --endpoint cannot be used together"
+		);
+	});
+
 	it("lets flags override user settings", async () => {
 		await writeFile(
 			configPath,

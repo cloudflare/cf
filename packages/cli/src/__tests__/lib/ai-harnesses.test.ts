@@ -312,7 +312,9 @@ describe("resolveHarnessToken", () => {
 			"https://api.cloudflare.com/client/v4"
 		);
 
-		expect(statSync(cachePath).mode & 0o777).toBe(0o600);
+		if (process.platform !== "win32") {
+			expect(statSync(cachePath).mode & 0o777).toBe(0o600);
+		}
 	});
 
 	it("keeps separate tokens per account", async () => {

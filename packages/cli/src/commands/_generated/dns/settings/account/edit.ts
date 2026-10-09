@@ -98,6 +98,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Whether the zone mode is a regular or CDN/DNS only zone.",
 			choices: ["standard", "cdn_only", "dns_only"],
 		})
+		.coerce("zone-defaults-zone-mode", (value) =>
+			resolveFileToken(value, "zone-defaults-zone-mode", "text")
+		)
 		.option("zone-defaults-nameservers-type", {
 			type: "string",
 			description: "Nameserver type",
@@ -109,6 +112,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"custom.tenant",
 			],
 		})
+		.coerce("zone-defaults-nameservers-type", (value) =>
+			resolveFileToken(value, "zone-defaults-nameservers-type", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -205,19 +211,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												),
 												ttl: argv["zone-defaults-soa-ttl"],
 											},
-											zone_mode: resolveFileToken(
-												argv["zone-defaults-zone-mode"] as string | undefined,
-												"zone-defaults-zone-mode",
-												"text"
-											),
+											zone_mode: argv["zone-defaults-zone-mode"],
 											nameservers: {
-												type: resolveFileToken(
-													argv["zone-defaults-nameservers-type"] as
-														| string
-														| undefined,
-													"zone-defaults-nameservers-type",
-													"text"
-												),
+												type: argv["zone-defaults-nameservers-type"],
 											},
 										},
 									}),
@@ -288,17 +284,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							),
 							ttl: argv["zone-defaults-soa-ttl"],
 						},
-						zone_mode: resolveFileToken(
-							argv["zone-defaults-zone-mode"] as string | undefined,
-							"zone-defaults-zone-mode",
-							"text"
-						),
+						zone_mode: argv["zone-defaults-zone-mode"],
 						nameservers: {
-							type: resolveFileToken(
-								argv["zone-defaults-nameservers-type"] as string | undefined,
-								"zone-defaults-nameservers-type",
-								"text"
-							),
+							type: argv["zone-defaults-nameservers-type"],
 						},
 					},
 				});

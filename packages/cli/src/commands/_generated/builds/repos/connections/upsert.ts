@@ -43,6 +43,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Source control provider.",
 			choices: ["github", "gitlab", "gitlab_internal", "origin"],
 		})
+		.coerce("provider-type", (value) =>
+			resolveFileToken(value, "provider-type", "text")
+		)
 		.option("repo-id", {
 			type: "string",
 			description: "Provider-specific repository identifier.",
@@ -103,11 +106,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"provider-account-name",
 											"text"
 										),
-										provider_type: resolveFileToken(
-											argv["provider-type"] as string | undefined,
-											"provider-type",
-											"text"
-										),
+										provider_type: argv["provider-type"],
 										repo_id: resolveFileToken(
 											argv["repo-id"] as string | undefined,
 											"repo-id",
@@ -181,11 +180,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"provider-account-name",
 						"text"
 					),
-					provider_type: resolveFileToken(
-						argv["provider-type"] as string | undefined,
-						"provider-type",
-						"text"
-					),
+					provider_type: argv["provider-type"],
 					repo_id: resolveFileToken(
 						argv["repo-id"] as string | undefined,
 						"repo-id",

@@ -40,6 +40,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The action field",
 			choices: ["stop", "pause", "resume"],
 		})
+		.coerce("action", (value) => resolveFileToken(value, "action", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -85,11 +86,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										action: resolveFileToken(
-											argv["action"] as string | undefined,
-											"action",
-											"text"
-										),
+										action: argv["action"],
 									}),
 					});
 					return;
@@ -121,11 +118,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					action: resolveFileToken(
-						argv["action"] as string | undefined,
-						"action",
-						"text"
-					),
+					action: argv["action"],
 				});
 				const result = await withProgress(`Updating`, async () =>
 					client.realtime.kit.recordings.control({

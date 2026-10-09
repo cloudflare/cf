@@ -45,6 +45,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"],
 			default: "1m",
 		})
+		.coerce("duration", (value) => resolveFileToken(value, "duration", "text"))
 		.option("name", {
 			type: "string",
 			description:
@@ -61,6 +62,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Prefix match type to be applied for a prefix auto advertisement when using an advanced_ddos rule.",
 			choices: ["exact", "subnet", "supernet"],
 		})
+		.coerce("prefix-match", (value) =>
+			resolveFileToken(value, "prefix-match", "text")
+		)
 		.option("prefixes", {
 			type: "string",
 			array: true,
@@ -71,16 +75,23 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "MNM rule type.",
 			choices: ["threshold", "zscore", "advanced_ddos"],
 		})
+		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
 		.option("zscore-sensitivity", {
 			type: "string",
 			description: "Level of sensitivity set for zscore rules.",
 			choices: ["low", "medium", "high"],
 		})
+		.coerce("zscore-sensitivity", (value) =>
+			resolveFileToken(value, "zscore-sensitivity", "text")
+		)
 		.option("zscore-target", {
 			type: "string",
 			description: "Target of the zscore rule analysis.",
 			choices: ["bits", "packets"],
 		})
+		.coerce("zscore-target", (value) =>
+			resolveFileToken(value, "zscore-target", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -133,38 +144,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								: compactBody({
 										automatic_advertisement: argv["automatic-advertisement"],
 										bandwidth_threshold: argv["bandwidth-threshold"],
-										duration: resolveFileToken(
-											argv["duration"] as string | undefined,
-											"duration",
-											"text"
-										),
+										duration: argv["duration"],
 										name: resolveFileToken(
 											argv["name"] as string | undefined,
 											"name",
 											"text"
 										),
 										packet_threshold: argv["packet-threshold"],
-										prefix_match: resolveFileToken(
-											argv["prefix-match"] as string | undefined,
-											"prefix-match",
-											"text"
-										),
+										prefix_match: argv["prefix-match"],
 										prefixes: argv["prefixes"],
-										type: resolveFileToken(
-											argv["type"] as string | undefined,
-											"type",
-											"text"
-										),
-										zscore_sensitivity: resolveFileToken(
-											argv["zscore-sensitivity"] as string | undefined,
-											"zscore-sensitivity",
-											"text"
-										),
-										zscore_target: resolveFileToken(
-											argv["zscore-target"] as string | undefined,
-											"zscore-target",
-											"text"
-										),
+										type: argv["type"],
+										zscore_sensitivity: argv["zscore-sensitivity"],
+										zscore_target: argv["zscore-target"],
 									}),
 					});
 					return;
@@ -212,38 +203,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const bodyData = compactBody<Body>({
 					automatic_advertisement: argv["automatic-advertisement"],
 					bandwidth_threshold: argv["bandwidth-threshold"],
-					duration: resolveFileToken(
-						argv["duration"] as string | undefined,
-						"duration",
-						"text"
-					),
+					duration: argv["duration"],
 					name: resolveFileToken(
 						argv["name"] as string | undefined,
 						"name",
 						"text"
 					),
 					packet_threshold: argv["packet-threshold"],
-					prefix_match: resolveFileToken(
-						argv["prefix-match"] as string | undefined,
-						"prefix-match",
-						"text"
-					),
+					prefix_match: argv["prefix-match"],
 					prefixes: argv["prefixes"],
-					type: resolveFileToken(
-						argv["type"] as string | undefined,
-						"type",
-						"text"
-					),
-					zscore_sensitivity: resolveFileToken(
-						argv["zscore-sensitivity"] as string | undefined,
-						"zscore-sensitivity",
-						"text"
-					),
-					zscore_target: resolveFileToken(
-						argv["zscore-target"] as string | undefined,
-						"zscore-target",
-						"text"
-					),
+					type: argv["type"],
+					zscore_sensitivity: argv["zscore-sensitivity"],
+					zscore_target: argv["zscore-target"],
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.magicNetworkMonitoring.rules.create({

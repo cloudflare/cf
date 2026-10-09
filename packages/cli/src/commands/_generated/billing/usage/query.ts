@@ -48,6 +48,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["usage"],
 			default: "usage",
 		})
+		.coerce("metric", (value) => resolveFileToken(value, "metric", "text"))
 		.option("time-period-from", {
 			type: "string",
 			description: "Start of the range (ISO 8601). Required if `To` is set.",
@@ -105,11 +106,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											ProductFamilyIds: argv["filter-by-product-family-ids"],
 										},
 										GroupBy: parseObjectArray(argv["group-by"], "group-by"),
-										Metric: resolveFileToken(
-											argv["metric"] as string | undefined,
-											"metric",
-											"text"
-										),
+										Metric: argv["metric"],
 										TimePeriod: {
 											From: resolveFileToken(
 												argv["time-period-from"] as string | undefined,
@@ -149,11 +146,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						ProductFamilyIds: argv["filter-by-product-family-ids"],
 					},
 					GroupBy: parseObjectArray(argv["group-by"], "group-by"),
-					Metric: resolveFileToken(
-						argv["metric"] as string | undefined,
-						"metric",
-						"text"
-					),
+					Metric: argv["metric"],
 					TimePeriod: {
 						From: resolveFileToken(
 							argv["time-period-from"] as string | undefined,

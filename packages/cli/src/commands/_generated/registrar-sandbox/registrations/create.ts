@@ -148,6 +148,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["off", "redaction"],
 			default: "redaction",
 		})
+		.coerce("privacy-mode", (value) =>
+			resolveFileToken(value, "privacy-mode", "text")
+		)
 		.option("years", {
 			type: "number",
 			description:
@@ -395,11 +398,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"domain-name",
 											"text"
 										),
-										privacy_mode: resolveFileToken(
-											argv["privacy-mode"] as string | undefined,
-											"privacy-mode",
-											"text"
-										),
+										privacy_mode: argv["privacy-mode"],
 										years: argv["years"],
 									}),
 					});
@@ -661,15 +660,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						)
 					);
 				if (argv["privacy-mode"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["privacy_mode"],
-						resolveFileToken(
-							argv["privacy-mode"] as string | undefined,
-							"privacy-mode",
-							"text"
-						)
-					);
+					setNestedValue(bodyData, ["privacy_mode"], argv["privacy-mode"]);
 				if (argv["years"] !== undefined)
 					setNestedValue(bodyData, ["years"], argv["years"]);
 				const result = await withProgress(`Creating`, async () =>

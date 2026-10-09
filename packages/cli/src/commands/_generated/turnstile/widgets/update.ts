@@ -41,6 +41,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance,\nthis setting can determine the clearance level to be set\n",
 			choices: ["no_clearance", "jschallenge", "managed", "interactive"],
 		})
+		.coerce("clearance-level", (value) =>
+			resolveFileToken(value, "clearance-level", "text")
+		)
 		.option("domains", {
 			type: "string",
 			array: true,
@@ -66,6 +69,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Region where this widget can be used. This cannot be changed after creation.\n",
 			choices: ["world", "china"],
 		})
+		.coerce("region", (value) => resolveFileToken(value, "region", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -116,11 +120,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								? parseBody(argv.body)
 								: compactBody({
 										bot_fight_mode: argv["bot-fight-mode"],
-										clearance_level: resolveFileToken(
-											argv["clearance-level"] as string | undefined,
-											"clearance-level",
-											"text"
-										),
+										clearance_level: argv["clearance-level"],
 										domains: argv["domains"],
 										ephemeral_id: argv["ephemeral-id"],
 										name: resolveFileToken(
@@ -129,11 +129,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 										offlabel: argv["offlabel"],
-										region: resolveFileToken(
-											argv["region"] as string | undefined,
-											"region",
-											"text"
-										),
+										region: argv["region"],
 									}),
 					});
 					return;
@@ -169,11 +165,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
 					bot_fight_mode: argv["bot-fight-mode"],
-					clearance_level: resolveFileToken(
-						argv["clearance-level"] as string | undefined,
-						"clearance-level",
-						"text"
-					),
+					clearance_level: argv["clearance-level"],
 					domains: argv["domains"],
 					ephemeral_id: argv["ephemeral-id"],
 					name: resolveFileToken(
@@ -182,11 +174,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"text"
 					),
 					offlabel: argv["offlabel"],
-					region: resolveFileToken(
-						argv["region"] as string | undefined,
-						"region",
-						"text"
-					),
+					region: argv["region"],
 				});
 				const result = await withProgress(`Updating`, async () =>
 					client.turnstile.widgets.update({

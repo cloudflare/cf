@@ -26,6 +26,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Certificate Authority selected for the order.  For information on any certificate authority specific details or restrictions [see this page for more details](https://developers.cloudflare.com/ssl/reference/certificate-authorities).",
 			choices: ["google", "lets_encrypt", "ssl_com"],
 		})
+		.coerce("certificate-authority", (value) =>
+			resolveFileToken(value, "certificate-authority", "text")
+		)
 		.option("cloudflare-branding", {
 			type: "boolean",
 			description:
@@ -42,11 +45,15 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Type of certificate pack.",
 			choices: ["advanced"],
 		})
+		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
 		.option("validation-method", {
 			type: "string",
 			description: "Validation Method selected for the order.",
 			choices: ["txt", "http", "email"],
 		})
+		.coerce("validation-method", (value) =>
+			resolveFileToken(value, "validation-method", "text")
+		)
 		.option("validity-days", {
 			type: "number",
 			description: "Validity Days selected for the order.",
@@ -101,23 +108,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										certificate_authority: resolveFileToken(
-											argv["certificate-authority"] as string | undefined,
-											"certificate-authority",
-											"text"
-										),
+										certificate_authority: argv["certificate-authority"],
 										cloudflare_branding: argv["cloudflare-branding"],
 										hosts: argv["hosts"],
-										type: resolveFileToken(
-											argv["type"] as string | undefined,
-											"type",
-											"text"
-										),
-										validation_method: resolveFileToken(
-											argv["validation-method"] as string | undefined,
-											"validation-method",
-											"text"
-										),
+										type: argv["type"],
+										validation_method: argv["validation-method"],
 										validity_days: argv["validity-days"],
 									}),
 					});
@@ -174,23 +169,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					certificate_authority: resolveFileToken(
-						argv["certificate-authority"] as string | undefined,
-						"certificate-authority",
-						"text"
-					),
+					certificate_authority: argv["certificate-authority"],
 					cloudflare_branding: argv["cloudflare-branding"],
 					hosts: argv["hosts"],
-					type: resolveFileToken(
-						argv["type"] as string | undefined,
-						"type",
-						"text"
-					),
-					validation_method: resolveFileToken(
-						argv["validation-method"] as string | undefined,
-						"validation-method",
-						"text"
-					),
+					type: argv["type"],
+					validation_method: argv["validation-method"],
 					validity_days: argv["validity-days"],
 				});
 				const result = await withProgress(`Creating`, async () =>

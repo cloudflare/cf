@@ -86,6 +86,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The usage model for Pages Functions.",
 			choices: ["standard", "bundled", "unbound"],
 		})
+		.coerce("deployment-configs-preview-usage-model", (value) =>
+			resolveFileToken(value, "deployment-configs-preview-usage-model", "text")
+		)
 		.option("deployment-configs-preview-wrangler-config-hash", {
 			type: "string",
 			description:
@@ -131,6 +134,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The usage model for Pages Functions.",
 			choices: ["standard", "bundled", "unbound"],
 		})
+		.coerce("deployment-configs-production-usage-model", (value) =>
+			resolveFileToken(
+				value,
+				"deployment-configs-production-usage-model",
+				"text"
+			)
+		)
 		.option("deployment-configs-production-wrangler-config-hash", {
 			type: "string",
 			description:
@@ -193,6 +203,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Controls whether commits to preview branches trigger a preview deployment.",
 			choices: ["all", "none", "custom"],
 		})
+		.coerce("source-config-preview-deployment-setting", (value) =>
+			resolveFileToken(
+				value,
+				"source-config-preview-deployment-setting",
+				"text"
+			)
+		)
 		.option("source-config-production-branch", {
 			type: "string",
 			description: "The production branch of the repository.",
@@ -215,6 +232,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The source control management provider.",
 			choices: ["github", "gitlab"],
 		})
+		.coerce("source-type", (value) =>
+			resolveFileToken(value, "source-type", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -405,13 +425,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 														"text"
 													),
 												},
-												usage_model: resolveFileToken(
-													argv["deployment-configs-preview-usage-model"] as
-														| string
-														| undefined,
-													"deployment-configs-preview-usage-model",
-													"text"
-												),
+												usage_model:
+													argv["deployment-configs-preview-usage-model"],
 												wrangler_config_hash: resolveFileToken(
 													argv[
 														"deployment-configs-preview-wrangler-config-hash"
@@ -455,13 +470,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 														"text"
 													),
 												},
-												usage_model: resolveFileToken(
-													argv["deployment-configs-production-usage-model"] as
-														| string
-														| undefined,
-													"deployment-configs-production-usage-model",
-													"text"
-												),
+												usage_model:
+													argv["deployment-configs-production-usage-model"],
 												wrangler_config_hash: resolveFileToken(
 													argv[
 														"deployment-configs-production-wrangler-config-hash"
@@ -503,13 +513,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 													argv["source-config-preview-branch-excludes"],
 												preview_branch_includes:
 													argv["source-config-preview-branch-includes"],
-												preview_deployment_setting: resolveFileToken(
-													argv["source-config-preview-deployment-setting"] as
-														| string
-														| undefined,
-													"source-config-preview-deployment-setting",
-													"text"
-												),
+												preview_deployment_setting:
+													argv["source-config-preview-deployment-setting"],
 												production_branch: resolveFileToken(
 													argv["source-config-production-branch"] as
 														| string
@@ -530,11 +535,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 													"text"
 												),
 											},
-											type: resolveFileToken(
-												argv["source-type"] as string | undefined,
-												"source-type",
-												"text"
-											),
+											type: argv["source-type"],
 										},
 									}),
 						sensitiveBodyPaths: [["build_config", "web_analytics_token"]],
@@ -629,13 +630,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 									"text"
 								),
 							},
-							usage_model: resolveFileToken(
-								argv["deployment-configs-preview-usage-model"] as
-									| string
-									| undefined,
-								"deployment-configs-preview-usage-model",
-								"text"
-							),
+							usage_model: argv["deployment-configs-preview-usage-model"],
 							wrangler_config_hash: resolveFileToken(
 								argv["deployment-configs-preview-wrangler-config-hash"] as
 									| string
@@ -673,13 +668,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 									"text"
 								),
 							},
-							usage_model: resolveFileToken(
-								argv["deployment-configs-production-usage-model"] as
-									| string
-									| undefined,
-								"deployment-configs-production-usage-model",
-								"text"
-							),
+							usage_model: argv["deployment-configs-production-usage-model"],
 							wrangler_config_hash: resolveFileToken(
 								argv["deployment-configs-production-wrangler-config-hash"] as
 									| string
@@ -719,13 +708,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								argv["source-config-preview-branch-excludes"],
 							preview_branch_includes:
 								argv["source-config-preview-branch-includes"],
-							preview_deployment_setting: resolveFileToken(
-								argv["source-config-preview-deployment-setting"] as
-									| string
-									| undefined,
-								"source-config-preview-deployment-setting",
-								"text"
-							),
+							preview_deployment_setting:
+								argv["source-config-preview-deployment-setting"],
 							production_branch: resolveFileToken(
 								argv["source-config-production-branch"] as string | undefined,
 								"source-config-production-branch",
@@ -744,11 +728,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								"text"
 							),
 						},
-						type: resolveFileToken(
-							argv["source-type"] as string | undefined,
-							"source-type",
-							"text"
-						),
+						type: argv["source-type"],
 					},
 				});
 				const result = await withProgress(`Creating`, async () =>

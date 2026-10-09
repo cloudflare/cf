@@ -60,6 +60,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Source control provider for the seed repository.",
 			choices: ["github", "gitlab"],
 		})
+		.coerce("seed-repo-provider", (value) =>
+			resolveFileToken(value, "seed-repo-provider", "text")
+		)
 		.option("seed-repo-repository", {
 			type: "string",
 			description: "Repository name.",
@@ -157,11 +160,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"seed-repo-path",
 												"text"
 											),
-											provider: resolveFileToken(
-												argv["seed-repo-provider"] as string | undefined,
-												"seed-repo-provider",
-												"text"
-											),
+											provider: argv["seed-repo-provider"],
 											repository: resolveFileToken(
 												argv["seed-repo-repository"] as string | undefined,
 												"seed-repo-repository",
@@ -218,11 +217,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"seed-repo-path",
 							"text"
 						),
-						provider: resolveFileToken(
-							argv["seed-repo-provider"] as string | undefined,
-							"seed-repo-provider",
-							"text"
-						),
+						provider: argv["seed-repo-provider"],
 						repository: resolveFileToken(
 							argv["seed-repo-repository"] as string | undefined,
 							"seed-repo-repository",

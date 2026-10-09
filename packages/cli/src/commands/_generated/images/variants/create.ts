@@ -41,6 +41,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"The fit property describes how the width and height dimensions should be interpreted.",
 			choices: ["scale-down", "contain", "cover", "crop", "pad"],
 		})
+		.coerce("options-fit", (value) =>
+			resolveFileToken(value, "options-fit", "text")
+		)
 		.option("options-height", {
 			type: "number",
 			description: "Maximum height in image pixels.",
@@ -50,6 +53,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "What EXIF data should be preserved in the output image.",
 			choices: ["keep", "copyright", "none"],
 		})
+		.coerce("options-metadata", (value) =>
+			resolveFileToken(value, "options-metadata", "text")
+		)
 		.option("options-width", {
 			type: "number",
 			description: "Maximum width in image pixels.",
@@ -108,17 +114,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										),
 										neverRequireSignedURLs: argv["never-require-signed-urls"],
 										options: {
-											fit: resolveFileToken(
-												argv["options-fit"] as string | undefined,
-												"options-fit",
-												"text"
-											),
+											fit: argv["options-fit"],
 											height: argv["options-height"],
-											metadata: resolveFileToken(
-												argv["options-metadata"] as string | undefined,
-												"options-metadata",
-												"text"
-											),
+											metadata: argv["options-metadata"],
 											width: argv["options-width"],
 										},
 									}),
@@ -173,17 +171,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					id: resolveFileToken(argv["id"] as string | undefined, "id", "text"),
 					neverRequireSignedURLs: argv["never-require-signed-urls"],
 					options: {
-						fit: resolveFileToken(
-							argv["options-fit"] as string | undefined,
-							"options-fit",
-							"text"
-						),
+						fit: argv["options-fit"],
 						height: argv["options-height"],
-						metadata: resolveFileToken(
-							argv["options-metadata"] as string | undefined,
-							"options-metadata",
-							"text"
-						),
+						metadata: argv["options-metadata"],
 						width: argv["options-width"],
 					},
 				});

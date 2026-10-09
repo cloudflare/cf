@@ -63,6 +63,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The type field",
 			choices: ["tcp", "http"],
 		})
+		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
 		.option("http-port", { type: "number", description: "The http_port field" })
 		.option("https-port", {
 			type: "number",
@@ -73,6 +74,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The app_protocol field",
 			choices: ["postgresql", "mysql"],
 		})
+		.coerce("app-protocol", (value) =>
+			resolveFileToken(value, "app-protocol", "text")
+		)
 		.option("tcp-port", { type: "number", description: "The tcp_port field" })
 		.option("dry-run", {
 			type: "boolean",
@@ -219,18 +223,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"text"
 											),
 										},
-										type: resolveFileToken(
-											argv["type"] as string | undefined,
-											"type",
-											"text"
-										),
+										type: argv["type"],
 										http_port: argv["http-port"],
 										https_port: argv["https-port"],
-										app_protocol: resolveFileToken(
-											argv["app-protocol"] as string | undefined,
-											"app-protocol",
-											"text"
-										),
+										app_protocol: argv["app-protocol"],
 										tcp_port: argv["tcp-port"],
 									}),
 					});
@@ -309,18 +305,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"text"
 						),
 					},
-					type: resolveFileToken(
-						argv["type"] as string | undefined,
-						"type",
-						"text"
-					),
+					type: argv["type"],
 					http_port: argv["http-port"],
 					https_port: argv["https-port"],
-					app_protocol: resolveFileToken(
-						argv["app-protocol"] as string | undefined,
-						"app-protocol",
-						"text"
-					),
+					app_protocol: argv["app-protocol"],
 					tcp_port: argv["tcp-port"],
 				});
 				const result = await withProgress(`Updating`, async () =>

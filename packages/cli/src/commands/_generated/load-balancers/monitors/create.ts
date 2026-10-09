@@ -107,6 +107,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["http", "https", "tcp", "udp_icmp", "icmp_ping", "smtp"],
 			default: "http",
 		})
+		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -187,11 +188,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										),
 										retries: argv["retries"],
 										timeout: argv["timeout"],
-										type: resolveFileToken(
-											argv["type"] as string | undefined,
-											"type",
-											"text"
-										),
+										type: argv["type"],
 									}),
 					});
 					return;
@@ -252,11 +249,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					),
 					retries: argv["retries"],
 					timeout: argv["timeout"],
-					type: resolveFileToken(
-						argv["type"] as string | undefined,
-						"type",
-						"text"
-					),
+					type: argv["type"],
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.loadBalancers.monitors.create({

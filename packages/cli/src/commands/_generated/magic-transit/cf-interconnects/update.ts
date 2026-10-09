@@ -95,6 +95,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"How frequent the health check is run. The default value is `mid`.",
 			choices: ["low", "mid", "high"],
 		})
+		.coerce("health-check-rate", (value) =>
+			resolveFileToken(value, "health-check-rate", "text")
+		)
 		.option("health-check-target-saved", {
 			type: "string",
 			description:
@@ -106,12 +109,18 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"The type of healthcheck to run, reply or request. The default value is `reply`.",
 			choices: ["reply", "request"],
 		})
+		.coerce("health-check-type", (value) =>
+			resolveFileToken(value, "health-check-type", "text")
+		)
 		.option("health-check-direction", {
 			type: "string",
 			description:
 				"The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the interconnect and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the interconnect.",
 			choices: ["unidirectional", "bidirectional"],
 		})
+		.coerce("health-check-direction", (value) =>
+			resolveFileToken(value, "health-check-direction", "text")
+		)
 		.option("health-check-source", {
 			type: "string",
 			description:
@@ -235,11 +244,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										},
 										health_check: {
 											enabled: argv["health-check-enabled"],
-											rate: resolveFileToken(
-												argv["health-check-rate"] as string | undefined,
-												"health-check-rate",
-												"text"
-											),
+											rate: argv["health-check-rate"],
 											target: {
 												saved: resolveFileToken(
 													argv["health-check-target-saved"] as
@@ -249,16 +254,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 													"text"
 												),
 											},
-											type: resolveFileToken(
-												argv["health-check-type"] as string | undefined,
-												"health-check-type",
-												"text"
-											),
-											direction: resolveFileToken(
-												argv["health-check-direction"] as string | undefined,
-												"health-check-direction",
-												"text"
-											),
+											type: argv["health-check-type"],
+											direction: argv["health-check-direction"],
 											source: resolveFileToken(
 												argv["health-check-source"] as string | undefined,
 												"health-check-source",
@@ -408,11 +405,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					setNestedValue(
 						bodyData,
 						["health_check", "rate"],
-						resolveFileToken(
-							argv["health-check-rate"] as string | undefined,
-							"health-check-rate",
-							"text"
-						)
+						argv["health-check-rate"]
 					);
 				if (argv["health-check-target-saved"] !== undefined)
 					setNestedValue(
@@ -428,21 +421,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					setNestedValue(
 						bodyData,
 						["health_check", "type"],
-						resolveFileToken(
-							argv["health-check-type"] as string | undefined,
-							"health-check-type",
-							"text"
-						)
+						argv["health-check-type"]
 					);
 				if (argv["health-check-direction"] !== undefined)
 					setNestedValue(
 						bodyData,
 						["health_check", "direction"],
-						resolveFileToken(
-							argv["health-check-direction"] as string | undefined,
-							"health-check-direction",
-							"text"
-						)
+						argv["health-check-direction"]
 					);
 				if (argv["health-check-source"] !== undefined)
 					setNestedValue(

@@ -40,18 +40,25 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The type of DNS record associated with the application.",
 			choices: ["CNAME", "ADDRESS"],
 		})
+		.coerce("dns-type", (value) => resolveFileToken(value, "dns-type", "text"))
 		.option("edge-ips-connectivity", {
 			type: "string",
 			description:
 				"The IP versions supported for inbound connections on Spectrum anycast IPs.",
 			choices: ["all", "ipv4", "ipv6"],
 		})
+		.coerce("edge-ips-connectivity", (value) =>
+			resolveFileToken(value, "edge-ips-connectivity", "text")
+		)
 		.option("edge-ips-type", {
 			type: "string",
 			description:
 				"The type of edge IP configuration specified. Dynamically allocated edge IPs use Spectrum anycast IPs in accordance with the connectivity you specify. Only valid with CNAME DNS names.",
 			choices: ["dynamic", "static"],
 		})
+		.coerce("edge-ips-type", (value) =>
+			resolveFileToken(value, "edge-ips-type", "text")
+		)
 		.option("edge-ips-ips", {
 			type: "string",
 			array: true,
@@ -83,6 +90,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				'The type of DNS record associated with the origin. "" is used to specify a combination of A/AAAA records.',
 			choices: ["A", "AAAA", "SRV"],
 		})
+		.coerce("origin-dns-type", (value) =>
+			resolveFileToken(value, "origin-dns-type", "text")
+		)
 		.option("origin-worker-id", {
 			type: "string",
 			description:
@@ -99,18 +109,25 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Enables Proxy Protocol to the origin. Refer to [Enable Proxy protocol](https://developers.cloudflare.com/spectrum/getting-started/proxy-protocol/) for implementation details on PROXY Protocol V1, PROXY Protocol V2, and Simple Proxy Protocol.",
 			choices: ["off", "v1", "v2", "simple"],
 		})
+		.coerce("proxy-protocol", (value) =>
+			resolveFileToken(value, "proxy-protocol", "text")
+		)
 		.option("tls", {
 			type: "string",
 			description:
 				"The type of TLS termination associated with the application.",
 			choices: ["off", "flexible", "full", "strict"],
 		})
+		.coerce("tls", (value) => resolveFileToken(value, "tls", "text"))
 		.option("traffic-type", {
 			type: "string",
 			description:
 				'Determines how data travels from the edge to your origin. When set to "direct", Spectrum will send traffic directly to your origin, and the application\'s type is derived from the `protocol`. When set to "http" or "https", Spectrum will apply Cloudflare\'s HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly. When set to "worker", traffic is sent to the Worker specified by `origin_worker_id`.',
 			choices: ["direct", "http", "https", "worker"],
 		})
+		.coerce("traffic-type", (value) =>
+			resolveFileToken(value, "traffic-type", "text")
+		)
 		.option("virtual-network-id", {
 			type: "string",
 			description:
@@ -182,23 +199,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"dns-name",
 												"text"
 											),
-											type: resolveFileToken(
-												argv["dns-type"] as string | undefined,
-												"dns-type",
-												"text"
-											),
+											type: argv["dns-type"],
 										},
 										edge_ips: {
-											connectivity: resolveFileToken(
-												argv["edge-ips-connectivity"] as string | undefined,
-												"edge-ips-connectivity",
-												"text"
-											),
-											type: resolveFileToken(
-												argv["edge-ips-type"] as string | undefined,
-												"edge-ips-type",
-												"text"
-											),
+											connectivity: argv["edge-ips-connectivity"],
+											type: argv["edge-ips-type"],
 											ips: argv["edge-ips-ips"],
 										},
 										ip_firewall: argv["ip-firewall"],
@@ -210,11 +215,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"text"
 											),
 											ttl: argv["origin-dns-ttl"],
-											type: resolveFileToken(
-												argv["origin-dns-type"] as string | undefined,
-												"origin-dns-type",
-												"text"
-											),
+											type: argv["origin-dns-type"],
 										},
 										origin_worker_id: resolveFileToken(
 											argv["origin-worker-id"] as string | undefined,
@@ -226,21 +227,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"protocol",
 											"text"
 										),
-										proxy_protocol: resolveFileToken(
-											argv["proxy-protocol"] as string | undefined,
-											"proxy-protocol",
-											"text"
-										),
-										tls: resolveFileToken(
-											argv["tls"] as string | undefined,
-											"tls",
-											"text"
-										),
-										traffic_type: resolveFileToken(
-											argv["traffic-type"] as string | undefined,
-											"traffic-type",
-											"text"
-										),
+										proxy_protocol: argv["proxy-protocol"],
+										tls: argv["tls"],
+										traffic_type: argv["traffic-type"],
 										virtual_network_id: resolveFileToken(
 											argv["virtual-network-id"] as string | undefined,
 											"virtual-network-id",
@@ -284,23 +273,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"dns-name",
 							"text"
 						),
-						type: resolveFileToken(
-							argv["dns-type"] as string | undefined,
-							"dns-type",
-							"text"
-						),
+						type: argv["dns-type"],
 					},
 					edge_ips: {
-						connectivity: resolveFileToken(
-							argv["edge-ips-connectivity"] as string | undefined,
-							"edge-ips-connectivity",
-							"text"
-						),
-						type: resolveFileToken(
-							argv["edge-ips-type"] as string | undefined,
-							"edge-ips-type",
-							"text"
-						),
+						connectivity: argv["edge-ips-connectivity"],
+						type: argv["edge-ips-type"],
 						ips: argv["edge-ips-ips"],
 					},
 					ip_firewall: argv["ip-firewall"],
@@ -312,11 +289,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"text"
 						),
 						ttl: argv["origin-dns-ttl"],
-						type: resolveFileToken(
-							argv["origin-dns-type"] as string | undefined,
-							"origin-dns-type",
-							"text"
-						),
+						type: argv["origin-dns-type"],
 					},
 					origin_worker_id: resolveFileToken(
 						argv["origin-worker-id"] as string | undefined,
@@ -328,21 +301,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"protocol",
 						"text"
 					),
-					proxy_protocol: resolveFileToken(
-						argv["proxy-protocol"] as string | undefined,
-						"proxy-protocol",
-						"text"
-					),
-					tls: resolveFileToken(
-						argv["tls"] as string | undefined,
-						"tls",
-						"text"
-					),
-					traffic_type: resolveFileToken(
-						argv["traffic-type"] as string | undefined,
-						"traffic-type",
-						"text"
-					),
+					proxy_protocol: argv["proxy-protocol"],
+					tls: argv["tls"],
+					traffic_type: argv["traffic-type"],
 					virtual_network_id: resolveFileToken(
 						argv["virtual-network-id"] as string | undefined,
 						"virtual-network-id",

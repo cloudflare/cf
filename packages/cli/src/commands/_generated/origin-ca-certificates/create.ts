@@ -40,6 +40,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				'Signature type desired on certificate ("origin-rsa" (rsa), "origin-ecc" (ecdsa), or "keyless-certificate" (for Keyless SSL servers).',
 			choices: ["origin-rsa", "origin-ecc", "keyless-certificate"],
 		})
+		.coerce("request-type", (value) =>
+			resolveFileToken(value, "request-type", "text")
+		)
 		.option("requested-validity", {
 			type: "number",
 			description:
@@ -93,11 +96,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 										hostnames: argv["hostnames"],
-										request_type: resolveFileToken(
-											argv["request-type"] as string | undefined,
-											"request-type",
-											"text"
-										),
+										request_type: argv["request-type"],
 										requested_validity: argv["requested-validity"],
 									}),
 					});
@@ -142,11 +141,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"text"
 					),
 					hostnames: argv["hostnames"],
-					request_type: resolveFileToken(
-						argv["request-type"] as string | undefined,
-						"request-type",
-						"text"
-					),
+					request_type: argv["request-type"],
 					requested_validity: argv["requested-validity"],
 				});
 				const result = await withProgress(`Creating`, async () =>

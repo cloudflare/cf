@@ -51,6 +51,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"me",
 			],
 		})
+		.coerce("location-hint", (value) =>
+			resolveFileToken(value, "location-hint", "text")
+		)
 		.option("params", {
 			type: "string",
 			description: "JSON-encoded event payload passed into the new instance.",
@@ -104,11 +107,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"instance-id",
 											"text"
 										),
-										location_hint: resolveFileToken(
-											argv["location-hint"] as string | undefined,
-											"location-hint",
-											"text"
-										),
+										location_hint: argv["location-hint"],
 										params: resolveFileToken(
 											argv["params"] as string | undefined,
 											"params",
@@ -142,11 +141,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"instance-id",
 						"text"
 					),
-					location_hint: resolveFileToken(
-						argv["location-hint"] as string | undefined,
-						"location-hint",
-						"text"
-					),
+					location_hint: argv["location-hint"],
 					params: resolveFileToken(
 						argv["params"] as string | undefined,
 						"params",

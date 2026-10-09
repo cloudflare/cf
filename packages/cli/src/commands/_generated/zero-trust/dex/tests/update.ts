@@ -40,11 +40,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The type of test.",
 			choices: ["http", "traceroute"],
 		})
+		.coerce("data-kind", (value) =>
+			resolveFileToken(value, "data-kind", "text")
+		)
 		.option("data-method", {
 			type: "string",
 			description: "The HTTP request method type.",
 			choices: ["GET"],
 		})
+		.coerce("data-method", (value) =>
+			resolveFileToken(value, "data-method", "text")
+		)
 		.option("description", {
 			type: "string",
 			description: "Additional details about the test.",
@@ -121,16 +127,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"data-host",
 												"text"
 											),
-											kind: resolveFileToken(
-												argv["data-kind"] as string | undefined,
-												"data-kind",
-												"text"
-											),
-											method: resolveFileToken(
-												argv["data-method"] as string | undefined,
-												"data-method",
-												"text"
-											),
+											kind: argv["data-kind"],
+											method: argv["data-method"],
 										},
 										description: resolveFileToken(
 											argv["description"] as string | undefined,
@@ -212,16 +210,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"data-host",
 							"text"
 						),
-						kind: resolveFileToken(
-							argv["data-kind"] as string | undefined,
-							"data-kind",
-							"text"
-						),
-						method: resolveFileToken(
-							argv["data-method"] as string | undefined,
-							"data-method",
-							"text"
-						),
+						kind: argv["data-kind"],
+						method: argv["data-method"],
 					},
 					description: resolveFileToken(
 						argv["description"] as string | undefined,

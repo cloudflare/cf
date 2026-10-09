@@ -49,6 +49,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["none", "gzip", "deflate"],
 			default: "gzip",
 		})
+		.coerce("destination-compression-type", (value) =>
+			resolveFileToken(value, "destination-compression-type", "text")
+		)
 		.option("destination-credentials-access-key-id", {
 			type: "string",
 			description: "Specifies the R2 Bucket Access Key Id.",
@@ -66,6 +69,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Specifies the format of data to deliver.",
 			choices: ["json"],
 		})
+		.coerce("destination-format", (value) =>
+			resolveFileToken(value, "destination-format", "text")
+		)
 		.option("destination-path-bucket", {
 			type: "string",
 			description: "Specifies the R2 Bucket to store files.",
@@ -83,6 +89,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Specifies the type of destination.",
 			choices: ["r2"],
 		})
+		.coerce("destination-type", (value) =>
+			resolveFileToken(value, "destination-type", "text")
+		)
 		.option("name", {
 			type: "string",
 			description: "Defines the name of the pipeline.",
@@ -147,13 +156,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												max_rows: argv["destination-batch-max-rows"],
 											},
 											compression: {
-												type: resolveFileToken(
-													argv["destination-compression-type"] as
-														| string
-														| undefined,
-													"destination-compression-type",
-													"text"
-												),
+												type: argv["destination-compression-type"],
 											},
 											credentials: {
 												access_key_id: resolveFileToken(
@@ -178,11 +181,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 													"text"
 												),
 											},
-											format: resolveFileToken(
-												argv["destination-format"] as string | undefined,
-												"destination-format",
-												"text"
-											),
+											format: argv["destination-format"],
 											path: {
 												bucket: resolveFileToken(
 													argv["destination-path-bucket"] as string | undefined,
@@ -202,11 +201,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 													"text"
 												),
 											},
-											type: resolveFileToken(
-												argv["destination-type"] as string | undefined,
-												"destination-type",
-												"text"
-											),
+											type: argv["destination-type"],
 										},
 										name: resolveFileToken(
 											argv["name"] as string | undefined,
@@ -295,11 +290,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							max_rows: argv["destination-batch-max-rows"],
 						},
 						compression: {
-							type: resolveFileToken(
-								argv["destination-compression-type"] as string | undefined,
-								"destination-compression-type",
-								"text"
-							),
+							type: argv["destination-compression-type"],
 						},
 						credentials: {
 							access_key_id: resolveFileToken(
@@ -322,11 +313,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								"text"
 							),
 						},
-						format: resolveFileToken(
-							argv["destination-format"] as string | undefined,
-							"destination-format",
-							"text"
-						),
+						format: argv["destination-format"],
 						path: {
 							bucket: resolveFileToken(
 								argv["destination-path-bucket"] as string | undefined,
@@ -344,11 +331,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								"text"
 							),
 						},
-						type: resolveFileToken(
-							argv["destination-type"] as string | undefined,
-							"destination-type",
-							"text"
-						),
+						type: argv["destination-type"],
 					},
 					name: resolveFileToken(
 						argv["name"] as string | undefined,

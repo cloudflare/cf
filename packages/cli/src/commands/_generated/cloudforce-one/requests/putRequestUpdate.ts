@@ -55,6 +55,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"critical",
 			],
 		})
+		.coerce("priority", (value) => resolveFileToken(value, "priority", "text"))
 		.option("request-type", {
 			type: "string",
 			description:
@@ -84,6 +85,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"amber+strict",
 			],
 		})
+		.coerce("tlp", (value) => resolveFileToken(value, "tlp", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -145,11 +147,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"event-id",
 											"text"
 										),
-										priority: resolveFileToken(
-											argv["priority"] as string | undefined,
-											"priority",
-											"text"
-										),
+										priority: argv["priority"],
 										request_type: resolveFileToken(
 											argv["request-type"] as string | undefined,
 											"request-type",
@@ -170,11 +168,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"title",
 											"text"
 										),
-										tlp: resolveFileToken(
-											argv["tlp"] as string | undefined,
-											"tlp",
-											"text"
-										),
+										tlp: argv["tlp"],
 									}),
 					});
 					return;
@@ -209,11 +203,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"event-id",
 						"text"
 					),
-					priority: resolveFileToken(
-						argv["priority"] as string | undefined,
-						"priority",
-						"text"
-					),
+					priority: argv["priority"],
 					request_type: resolveFileToken(
 						argv["request-type"] as string | undefined,
 						"request-type",
@@ -234,11 +224,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"title",
 						"text"
 					),
-					tlp: resolveFileToken(
-						argv["tlp"] as string | undefined,
-						"tlp",
-						"text"
-					),
+					tlp: argv["tlp"],
 				});
 				const result = await withProgress(`Updating`, async () =>
 					client.cloudforceOne.requests.putRequestUpdate({

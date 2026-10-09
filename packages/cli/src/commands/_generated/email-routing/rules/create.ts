@@ -52,6 +52,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["api", "wrangler"],
 			default: "api",
 		})
+		.coerce("source", (value) => resolveFileToken(value, "source", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -109,11 +110,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 										priority: argv["priority"],
-										source: resolveFileToken(
-											argv["source"] as string | undefined,
-											"source",
-											"text"
-										),
+										source: argv["source"],
 									}),
 					});
 					return;
@@ -162,11 +159,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"text"
 					),
 					priority: argv["priority"],
-					source: resolveFileToken(
-						argv["source"] as string | undefined,
-						"source",
-						"text"
-					),
+					source: argv["source"],
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.emailRouting.rules.create({

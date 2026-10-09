@@ -26,6 +26,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				'Controls Image Resizing behavior:\n- "off": Feature disabled.\n- "on": Resizing is enabled for same-zone images only.\n- "open": Resizing is enabled for images from any origin.\n- "latest": Resizing is enabled for same-zone images using the latest version.\n',
 			choices: ["off", "on", "open", "latest"],
 		})
+		.coerce("value", (value) => resolveFileToken(value, "value", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -69,11 +70,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										value: resolveFileToken(
-											argv["value"] as string | undefined,
-											"value",
-											"text"
-										),
+										value: argv["value"],
 									}),
 					});
 					return;
@@ -105,11 +102,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					value: resolveFileToken(
-						argv["value"] as string | undefined,
-						"value",
-						"text"
-					),
+					value: argv["value"],
 				});
 				const result = await withProgress(`Updating`, async () =>
 					client.zones.imageResizing.edit({

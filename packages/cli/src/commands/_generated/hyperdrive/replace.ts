@@ -70,6 +70,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"VERIFY_IDENTITY",
 			],
 		})
+		.coerce("mtls-sslmode", (value) =>
+			resolveFileToken(value, "mtls-sslmode", "text")
+		)
 		.option("name", {
 			type: "string",
 			description:
@@ -90,6 +93,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Specifies the URL scheme used to connect to your origin database.",
 			choices: ["postgres", "postgresql", "mysql"],
 		})
+		.coerce("origin-scheme", (value) =>
+			resolveFileToken(value, "origin-scheme", "text")
+		)
 		.option("origin-user", {
 			type: "string",
 			description: "Set the user of your origin database.",
@@ -216,11 +222,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"mtls-certificate-id",
 												"text"
 											),
-											sslmode: resolveFileToken(
-												argv["mtls-sslmode"] as string | undefined,
-												"mtls-sslmode",
-												"text"
-											),
+											sslmode: argv["mtls-sslmode"],
 										},
 										name: resolveFileToken(
 											argv["name"] as string | undefined,
@@ -238,11 +240,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"origin-password",
 												"text"
 											),
-											scheme: resolveFileToken(
-												argv["origin-scheme"] as string | undefined,
-												"origin-scheme",
-												"text"
-											),
+											scheme: argv["origin-scheme"],
 											user: resolveFileToken(
 												argv["origin-user"] as string | undefined,
 												"origin-user",
@@ -348,11 +346,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"mtls-certificate-id",
 							"text"
 						),
-						sslmode: resolveFileToken(
-							argv["mtls-sslmode"] as string | undefined,
-							"mtls-sslmode",
-							"text"
-						),
+						sslmode: argv["mtls-sslmode"],
 					},
 					name: resolveFileToken(
 						argv["name"] as string | undefined,
@@ -370,11 +364,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"origin-password",
 							"text"
 						),
-						scheme: resolveFileToken(
-							argv["origin-scheme"] as string | undefined,
-							"origin-scheme",
-							"text"
-						),
+						scheme: argv["origin-scheme"],
 						user: resolveFileToken(
 							argv["origin-user"] as string | undefined,
 							"origin-user",

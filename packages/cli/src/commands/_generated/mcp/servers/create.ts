@@ -39,6 +39,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Authentication method used to connect to the upstream MCP server.",
 			choices: ["oauth", "bearer", "unauthenticated"],
 		})
+		.coerce("auth-type", (value) =>
+			resolveFileToken(value, "auth-type", "text")
+		)
 		.option("client-secret", {
 			type: "string",
 			description:
@@ -134,11 +137,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"auth-credentials",
 											"text"
 										),
-										auth_type: resolveFileToken(
-											argv["auth-type"] as string | undefined,
-											"auth-type",
-											"text"
-										),
+										auth_type: argv["auth-type"],
 										client_secret: resolveFileToken(
 											argv["client-secret"] as string | undefined,
 											"client-secret",
@@ -228,11 +227,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"auth-credentials",
 						"text"
 					),
-					auth_type: resolveFileToken(
-						argv["auth-type"] as string | undefined,
-						"auth-type",
-						"text"
-					),
+					auth_type: argv["auth-type"],
 					client_secret: resolveFileToken(
 						argv["client-secret"] as string | undefined,
 						"client-secret",

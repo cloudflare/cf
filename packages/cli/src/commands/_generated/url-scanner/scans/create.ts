@@ -230,6 +230,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"ZW",
 			],
 		})
+		.coerce("country", (value) => resolveFileToken(value, "country", "text"))
 		.option("customagent", {
 			type: "string",
 			description: "The customagent field",
@@ -249,6 +250,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["Public", "Unlisted"],
 			default: "Public",
 		})
+		.coerce("visibility", (value) =>
+			resolveFileToken(value, "visibility", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -292,11 +296,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								? parseBody(argv.body)
 								: compactBody({
 										agentReadiness: argv["agent-readiness"],
-										country: resolveFileToken(
-											argv["country"] as string | undefined,
-											"country",
-											"text"
-										),
+										country: argv["country"],
 										customagent: resolveFileToken(
 											argv["customagent"] as string | undefined,
 											"customagent",
@@ -313,11 +313,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"url",
 											"text"
 										),
-										visibility: resolveFileToken(
-											argv["visibility"] as string | undefined,
-											"visibility",
-											"text"
-										),
+										visibility: argv["visibility"],
 									}),
 					});
 					return;
@@ -344,11 +340,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
 					agentReadiness: argv["agent-readiness"],
-					country: resolveFileToken(
-						argv["country"] as string | undefined,
-						"country",
-						"text"
-					),
+					country: argv["country"],
 					customagent: resolveFileToken(
 						argv["customagent"] as string | undefined,
 						"customagent",
@@ -365,11 +357,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"url",
 						"text"
 					),
-					visibility: resolveFileToken(
-						argv["visibility"] as string | undefined,
-						"visibility",
-						"text"
-					),
+					visibility: argv["visibility"],
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.urlScanner.scans.create({

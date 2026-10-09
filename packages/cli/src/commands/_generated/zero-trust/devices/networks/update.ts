@@ -49,6 +49,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The type of device managed network.",
 			choices: ["tls"],
 		})
+		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -125,11 +126,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"name",
 											"text"
 										),
-										type: resolveFileToken(
-											argv["type"] as string | undefined,
-											"type",
-											"text"
-										),
+										type: argv["type"],
 									}),
 					});
 					return;
@@ -170,11 +167,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"name",
 						"text"
 					),
-					type: resolveFileToken(
-						argv["type"] as string | undefined,
-						"type",
-						"text"
-					),
+					type: argv["type"],
 				});
 				const result = await withProgress(`Updating`, async () =>
 					client.zeroTrust.devices.networks.update({

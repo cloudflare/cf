@@ -73,6 +73,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Quality of screen share ",
 			choices: ["hd", "vga", "qvga", "fhd", "uhd"],
 		})
+		.coerce("config-media-screenshare-quality", (value) =>
+			resolveFileToken(value, "config-media-screenshare-quality", "text")
+		)
 		.option("config-media-video-frame-rate", {
 			type: "number",
 			description: "Frame rate of participants' video",
@@ -82,6 +85,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Video quality of participants",
 			choices: ["hd", "vga", "qvga", "fhd", "uhd"],
 		})
+		.coerce("config-media-video-quality", (value) =>
+			resolveFileToken(value, "config-media-video-quality", "text")
+		)
 		.option("config-media-video-simulcast", {
 			type: "boolean",
 			description: "Enable simulcast for participant videos.",
@@ -91,6 +97,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Type of the meeting",
 			choices: ["GROUP_CALL", "WEBINAR", "AUDIO_ROOM", "LIVESTREAM"],
 		})
+		.coerce("config-view-type", (value) =>
+			resolveFileToken(value, "config-view-type", "text")
+		)
 		.option("name", { type: "string", description: "Name of the preset" })
 		.option("permissions-accept-stage-requests", {
 			type: "boolean",
@@ -196,16 +205,29 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Can produce audio",
 			choices: ["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"],
 		})
+		.coerce("permissions-media-audio-can-produce", (value) =>
+			resolveFileToken(value, "permissions-media-audio-can-produce", "text")
+		)
 		.option("permissions-media-screenshare-can-produce", {
 			type: "string",
 			description: "Can produce screen share video",
 			choices: ["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"],
 		})
+		.coerce("permissions-media-screenshare-can-produce", (value) =>
+			resolveFileToken(
+				value,
+				"permissions-media-screenshare-can-produce",
+				"text"
+			)
+		)
 		.option("permissions-media-video-can-produce", {
 			type: "string",
 			description: "Can produce video",
 			choices: ["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"],
 		})
+		.coerce("permissions-media-video-can-produce", (value) =>
+			resolveFileToken(value, "permissions-media-video-can-produce", "text")
+		)
 		.option("permissions-pin-participant", {
 			type: "boolean",
 			description: "The permissions.pin_participant field",
@@ -239,6 +261,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Type of the recording peer",
 			choices: ["RECORDER", "LIVESTREAMER", "NONE"],
 		})
+		.coerce("permissions-recorder-type", (value) =>
+			resolveFileToken(value, "permissions-recorder-type", "text")
+		)
 		.option("permissions-show-participant-list", {
 			type: "boolean",
 			description: "The permissions.show_participant_list field",
@@ -248,6 +273,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The permissions.stage_access field",
 			choices: ["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"],
 		})
+		.coerce("permissions-stage-access", (value) =>
+			resolveFileToken(value, "permissions-stage-access", "text")
+		)
 		.option("permissions-stage-enabled", {
 			type: "boolean",
 			description: "The permissions.stage_enabled field",
@@ -261,16 +289,25 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Waiting room type",
 			choices: ["SKIP", "ON_PRIVILEGED_USER_ENTRY", "SKIP_ON_ACCEPT"],
 		})
+		.coerce("permissions-waiting-room-type", (value) =>
+			resolveFileToken(value, "permissions-waiting-room-type", "text")
+		)
 		.option("ui-design-tokens-border-radius", {
 			type: "string",
 			description: "The ui.design_tokens.border_radius field",
 			choices: ["sharp", "rounded", "extra-rounded", "circular"],
 		})
+		.coerce("ui-design-tokens-border-radius", (value) =>
+			resolveFileToken(value, "ui-design-tokens-border-radius", "text")
+		)
 		.option("ui-design-tokens-border-width", {
 			type: "string",
 			description: "The ui.design_tokens.border_width field",
 			choices: ["none", "thin", "fat"],
 		})
+		.coerce("ui-design-tokens-border-width", (value) =>
+			resolveFileToken(value, "ui-design-tokens-border-width", "text")
+		)
 		.option("ui-design-tokens-colors-danger", {
 			type: "string",
 			description: "The ui.design_tokens.colors.danger field",
@@ -316,6 +353,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The ui.design_tokens.theme field",
 			choices: ["darkest", "dark", "light"],
 		})
+		.coerce("ui-design-tokens-theme", (value) =>
+			resolveFileToken(value, "ui-design-tokens-theme", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -431,31 +471,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												screenshare: {
 													frame_rate:
 														argv["config-media-screenshare-frame-rate"],
-													quality: resolveFileToken(
-														argv["config-media-screenshare-quality"] as
-															| string
-															| undefined,
-														"config-media-screenshare-quality",
-														"text"
-													),
+													quality: argv["config-media-screenshare-quality"],
 												},
 												video: {
 													frame_rate: argv["config-media-video-frame-rate"],
-													quality: resolveFileToken(
-														argv["config-media-video-quality"] as
-															| string
-															| undefined,
-														"config-media-video-quality",
-														"text"
-													),
+													quality: argv["config-media-video-quality"],
 													simulcast: argv["config-media-video-simulcast"],
 												},
 											},
-											view_type: resolveFileToken(
-												argv["config-view-type"] as string | undefined,
-												"config-view-type",
-												"text"
-											),
+											view_type: argv["config-view-type"],
 										},
 										name: resolveFileToken(
 											argv["name"] as string | undefined,
@@ -516,31 +540,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											kick_participant: argv["permissions-kick-participant"],
 											media: {
 												audio: {
-													can_produce: resolveFileToken(
-														argv["permissions-media-audio-can-produce"] as
-															| string
-															| undefined,
-														"permissions-media-audio-can-produce",
-														"text"
-													),
+													can_produce:
+														argv["permissions-media-audio-can-produce"],
 												},
 												screenshare: {
-													can_produce: resolveFileToken(
-														argv[
-															"permissions-media-screenshare-can-produce"
-														] as string | undefined,
-														"permissions-media-screenshare-can-produce",
-														"text"
-													),
+													can_produce:
+														argv["permissions-media-screenshare-can-produce"],
 												},
 												video: {
-													can_produce: resolveFileToken(
-														argv["permissions-media-video-can-produce"] as
-															| string
-															| undefined,
-														"permissions-media-video-can-produce",
-														"text"
-													),
+													can_produce:
+														argv["permissions-media-video-can-produce"],
 												},
 											},
 											pin_participant: argv["permissions-pin-participant"],
@@ -555,45 +564,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												can_view: argv["permissions-polls-can-view"],
 												can_vote: argv["permissions-polls-can-vote"],
 											},
-											recorder_type: resolveFileToken(
-												argv["permissions-recorder-type"] as string | undefined,
-												"permissions-recorder-type",
-												"text"
-											),
+											recorder_type: argv["permissions-recorder-type"],
 											show_participant_list:
 												argv["permissions-show-participant-list"],
-											stage_access: resolveFileToken(
-												argv["permissions-stage-access"] as string | undefined,
-												"permissions-stage-access",
-												"text"
-											),
+											stage_access: argv["permissions-stage-access"],
 											stage_enabled: argv["permissions-stage-enabled"],
 											transcription_enabled:
 												argv["permissions-transcription-enabled"],
-											waiting_room_type: resolveFileToken(
-												argv["permissions-waiting-room-type"] as
-													| string
-													| undefined,
-												"permissions-waiting-room-type",
-												"text"
-											),
+											waiting_room_type: argv["permissions-waiting-room-type"],
 										},
 										ui: {
 											design_tokens: {
-												border_radius: resolveFileToken(
-													argv["ui-design-tokens-border-radius"] as
-														| string
-														| undefined,
-													"ui-design-tokens-border-radius",
-													"text"
-												),
-												border_width: resolveFileToken(
-													argv["ui-design-tokens-border-width"] as
-														| string
-														| undefined,
-													"ui-design-tokens-border-width",
-													"text"
-												),
+												border_radius: argv["ui-design-tokens-border-radius"],
+												border_width: argv["ui-design-tokens-border-width"],
 												colors: {
 													danger: resolveFileToken(
 														argv["ui-design-tokens-colors-danger"] as
@@ -658,11 +641,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 													"text"
 												),
 												spacing_base: argv["ui-design-tokens-spacing-base"],
-												theme: resolveFileToken(
-													argv["ui-design-tokens-theme"] as string | undefined,
-													"ui-design-tokens-theme",
-													"text"
-												),
+												theme: argv["ui-design-tokens-theme"],
 											},
 										},
 									}),
@@ -1031,29 +1010,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							},
 							screenshare: {
 								frame_rate: argv["config-media-screenshare-frame-rate"],
-								quality: resolveFileToken(
-									argv["config-media-screenshare-quality"] as
-										| string
-										| undefined,
-									"config-media-screenshare-quality",
-									"text"
-								),
+								quality: argv["config-media-screenshare-quality"],
 							},
 							video: {
 								frame_rate: argv["config-media-video-frame-rate"],
-								quality: resolveFileToken(
-									argv["config-media-video-quality"] as string | undefined,
-									"config-media-video-quality",
-									"text"
-								),
+								quality: argv["config-media-video-quality"],
 								simulcast: argv["config-media-video-simulcast"],
 							},
 						},
-						view_type: resolveFileToken(
-							argv["config-view-type"] as string | undefined,
-							"config-view-type",
-							"text"
-						),
+						view_type: argv["config-view-type"],
 					},
 					name: resolveFileToken(
 						argv["name"] as string | undefined,
@@ -1110,31 +1075,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						kick_participant: argv["permissions-kick-participant"],
 						media: {
 							audio: {
-								can_produce: resolveFileToken(
-									argv["permissions-media-audio-can-produce"] as
-										| string
-										| undefined,
-									"permissions-media-audio-can-produce",
-									"text"
-								),
+								can_produce: argv["permissions-media-audio-can-produce"],
 							},
 							screenshare: {
-								can_produce: resolveFileToken(
-									argv["permissions-media-screenshare-can-produce"] as
-										| string
-										| undefined,
-									"permissions-media-screenshare-can-produce",
-									"text"
-								),
+								can_produce: argv["permissions-media-screenshare-can-produce"],
 							},
 							video: {
-								can_produce: resolveFileToken(
-									argv["permissions-media-video-can-produce"] as
-										| string
-										| undefined,
-									"permissions-media-video-can-produce",
-									"text"
-								),
+								can_produce: argv["permissions-media-video-can-produce"],
 							},
 						},
 						pin_participant: argv["permissions-pin-participant"],
@@ -1148,37 +1095,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							can_view: argv["permissions-polls-can-view"],
 							can_vote: argv["permissions-polls-can-vote"],
 						},
-						recorder_type: resolveFileToken(
-							argv["permissions-recorder-type"] as string | undefined,
-							"permissions-recorder-type",
-							"text"
-						),
+						recorder_type: argv["permissions-recorder-type"],
 						show_participant_list: argv["permissions-show-participant-list"],
-						stage_access: resolveFileToken(
-							argv["permissions-stage-access"] as string | undefined,
-							"permissions-stage-access",
-							"text"
-						),
+						stage_access: argv["permissions-stage-access"],
 						stage_enabled: argv["permissions-stage-enabled"],
 						transcription_enabled: argv["permissions-transcription-enabled"],
-						waiting_room_type: resolveFileToken(
-							argv["permissions-waiting-room-type"] as string | undefined,
-							"permissions-waiting-room-type",
-							"text"
-						),
+						waiting_room_type: argv["permissions-waiting-room-type"],
 					},
 					ui: {
 						design_tokens: {
-							border_radius: resolveFileToken(
-								argv["ui-design-tokens-border-radius"] as string | undefined,
-								"ui-design-tokens-border-radius",
-								"text"
-							),
-							border_width: resolveFileToken(
-								argv["ui-design-tokens-border-width"] as string | undefined,
-								"ui-design-tokens-border-width",
-								"text"
-							),
+							border_radius: argv["ui-design-tokens-border-radius"],
+							border_width: argv["ui-design-tokens-border-width"],
 							colors: {
 								danger: resolveFileToken(
 									argv["ui-design-tokens-colors-danger"] as string | undefined,
@@ -1231,11 +1158,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								"text"
 							),
 							spacing_base: argv["ui-design-tokens-spacing-base"],
-							theme: resolveFileToken(
-								argv["ui-design-tokens-theme"] as string | undefined,
-								"ui-design-tokens-theme",
-								"text"
-							),
+							theme: argv["ui-design-tokens-theme"],
 						},
 					},
 				});

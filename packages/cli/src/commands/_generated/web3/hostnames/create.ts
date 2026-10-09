@@ -39,6 +39,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Specify the target gateway of the hostname.",
 			choices: ["ethereum", "ipfs", "ipfs_universal_path"],
 		})
+		.coerce("target", (value) => resolveFileToken(value, "target", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -97,11 +98,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"name",
 											"text"
 										),
-										target: resolveFileToken(
-											argv["target"] as string | undefined,
-											"target",
-											"text"
-										),
+										target: argv["target"],
 									}),
 					});
 					return;
@@ -154,11 +151,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"name",
 						"text"
 					),
-					target: resolveFileToken(
-						argv["target"] as string | undefined,
-						"target",
-						"text"
-					),
+					target: argv["target"],
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.web3.hostnames.create({

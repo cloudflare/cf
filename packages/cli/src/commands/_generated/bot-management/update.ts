@@ -29,22 +29,32 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Enable rule to block AI Scrapers and Crawlers.",
 			choices: ["block", "disabled", "only_on_ad_pages"],
 		})
+		.coerce("ai-bots-protection", (value) =>
+			resolveFileToken(value, "ai-bots-protection", "text")
+		)
 		.option("ai-search", {
 			type: "string",
 			description: "Configure robots.txt policy for AI search bots.",
 			choices: ["disabled", "block", "only_on_ad_pages"],
 		})
+		.coerce("ai-search", (value) =>
+			resolveFileToken(value, "ai-search", "text")
+		)
 		.option("ai-training", {
 			type: "string",
 			description: "Configure robots.txt policy for AI model training bots.",
 			choices: ["disabled", "disallow", "block", "only_on_ad_pages"],
 		})
+		.coerce("ai-training", (value) =>
+			resolveFileToken(value, "ai-training", "text")
+		)
 		.option("ai-user", {
 			type: "string",
 			description:
 				"Configure robots.txt policy for AI assistant and agent bots.",
 			choices: ["disabled", "block", "only_on_ad_pages"],
 		})
+		.coerce("ai-user", (value) => resolveFileToken(value, "ai-user", "text"))
 		.option("bot-preference-sync-enabled", {
 			type: "boolean",
 			description:
@@ -56,18 +66,27 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Specifies the Robots Access Control License variant to use.",
 			choices: ["off", "policy_only"],
 		})
+		.coerce("cf-robots-variant", (value) =>
+			resolveFileToken(value, "cf-robots-variant", "text")
+		)
 		.option("content-bots-protection", {
 			type: "string",
 			description:
 				"Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules.",
 			choices: ["block", "disabled"],
 		})
+		.coerce("content-bots-protection", (value) =>
+			resolveFileToken(value, "content-bots-protection", "text")
+		)
 		.option("crawler-protection", {
 			type: "string",
 			description:
 				"Enable rule to punish AI Scrapers and Crawlers via a link maze.",
 			choices: ["enabled", "disabled"],
 		})
+		.coerce("crawler-protection", (value) =>
+			resolveFileToken(value, "crawler-protection", "text")
+		)
 		.option("enable-js", {
 			type: "boolean",
 			description:
@@ -132,6 +151,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Super Bot Fight Mode (SBFM) action to take on definitely automated requests.",
 			choices: ["allow", "block", "managed_challenge"],
 		})
+		.coerce("sbfm-definitely-automated", (value) =>
+			resolveFileToken(value, "sbfm-definitely-automated", "text")
+		)
 		.option("sbfm-static-resource-protection", {
 			type: "boolean",
 			description:
@@ -143,12 +165,18 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Super Bot Fight Mode (SBFM) action to take on verified bots requests.",
 			choices: ["allow", "block"],
 		})
+		.coerce("sbfm-verified-bots", (value) =>
+			resolveFileToken(value, "sbfm-verified-bots", "text")
+		)
 		.option("sbfm-likely-automated", {
 			type: "string",
 			description:
 				"Super Bot Fight Mode (SBFM) action to take on likely automated requests.",
 			choices: ["allow", "block", "managed_challenge"],
 		})
+		.coerce("sbfm-likely-automated", (value) =>
+			resolveFileToken(value, "sbfm-likely-automated", "text")
+		)
 		.option("auto-update-model", {
 			type: "boolean",
 			description:
@@ -235,43 +263,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								: compactBody({
 										ai_bots_migration_opt_out:
 											argv["ai-bots-migration-opt-out"],
-										ai_bots_protection: resolveFileToken(
-											argv["ai-bots-protection"] as string | undefined,
-											"ai-bots-protection",
-											"text"
-										),
-										ai_search: resolveFileToken(
-											argv["ai-search"] as string | undefined,
-											"ai-search",
-											"text"
-										),
-										ai_training: resolveFileToken(
-											argv["ai-training"] as string | undefined,
-											"ai-training",
-											"text"
-										),
-										ai_user: resolveFileToken(
-											argv["ai-user"] as string | undefined,
-											"ai-user",
-											"text"
-										),
+										ai_bots_protection: argv["ai-bots-protection"],
+										ai_search: argv["ai-search"],
+										ai_training: argv["ai-training"],
+										ai_user: argv["ai-user"],
 										bot_preference_sync_enabled:
 											argv["bot-preference-sync-enabled"],
-										cf_robots_variant: resolveFileToken(
-											argv["cf-robots-variant"] as string | undefined,
-											"cf-robots-variant",
-											"text"
-										),
-										content_bots_protection: resolveFileToken(
-											argv["content-bots-protection"] as string | undefined,
-											"content-bots-protection",
-											"text"
-										),
-										crawler_protection: resolveFileToken(
-											argv["crawler-protection"] as string | undefined,
-											"crawler-protection",
-											"text"
-										),
+										cf_robots_variant: argv["cf-robots-variant"],
+										content_bots_protection: argv["content-bots-protection"],
+										crawler_protection: argv["crawler-protection"],
 										enable_js: argv["enable-js"],
 										is_robots_txt_managed: argv["is-robots-txt-managed"],
 										jsd_api_results_enabled: argv["jsd-api-results-enabled"],
@@ -312,23 +312,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											fight_mode: argv["stale-zone-configuration-fight-mode"],
 										},
 										optimize_wordpress: argv["optimize-wordpress"],
-										sbfm_definitely_automated: resolveFileToken(
-											argv["sbfm-definitely-automated"] as string | undefined,
-											"sbfm-definitely-automated",
-											"text"
-										),
+										sbfm_definitely_automated:
+											argv["sbfm-definitely-automated"],
 										sbfm_static_resource_protection:
 											argv["sbfm-static-resource-protection"],
-										sbfm_verified_bots: resolveFileToken(
-											argv["sbfm-verified-bots"] as string | undefined,
-											"sbfm-verified-bots",
-											"text"
-										),
-										sbfm_likely_automated: resolveFileToken(
-											argv["sbfm-likely-automated"] as string | undefined,
-											"sbfm-likely-automated",
-											"text"
-										),
+										sbfm_verified_bots: argv["sbfm-verified-bots"],
+										sbfm_likely_automated: argv["sbfm-likely-automated"],
 										auto_update_model: argv["auto-update-model"],
 										bm_cookie_enabled: argv["bm-cookie-enabled"],
 										suppress_session_score: argv["suppress-session-score"],
@@ -357,42 +346,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
 					ai_bots_migration_opt_out: argv["ai-bots-migration-opt-out"],
-					ai_bots_protection: resolveFileToken(
-						argv["ai-bots-protection"] as string | undefined,
-						"ai-bots-protection",
-						"text"
-					),
-					ai_search: resolveFileToken(
-						argv["ai-search"] as string | undefined,
-						"ai-search",
-						"text"
-					),
-					ai_training: resolveFileToken(
-						argv["ai-training"] as string | undefined,
-						"ai-training",
-						"text"
-					),
-					ai_user: resolveFileToken(
-						argv["ai-user"] as string | undefined,
-						"ai-user",
-						"text"
-					),
+					ai_bots_protection: argv["ai-bots-protection"],
+					ai_search: argv["ai-search"],
+					ai_training: argv["ai-training"],
+					ai_user: argv["ai-user"],
 					bot_preference_sync_enabled: argv["bot-preference-sync-enabled"],
-					cf_robots_variant: resolveFileToken(
-						argv["cf-robots-variant"] as string | undefined,
-						"cf-robots-variant",
-						"text"
-					),
-					content_bots_protection: resolveFileToken(
-						argv["content-bots-protection"] as string | undefined,
-						"content-bots-protection",
-						"text"
-					),
-					crawler_protection: resolveFileToken(
-						argv["crawler-protection"] as string | undefined,
-						"crawler-protection",
-						"text"
-					),
+					cf_robots_variant: argv["cf-robots-variant"],
+					content_bots_protection: argv["content-bots-protection"],
+					crawler_protection: argv["crawler-protection"],
 					enable_js: argv["enable-js"],
 					is_robots_txt_managed: argv["is-robots-txt-managed"],
 					jsd_api_results_enabled: argv["jsd-api-results-enabled"],
@@ -433,23 +394,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						fight_mode: argv["stale-zone-configuration-fight-mode"],
 					},
 					optimize_wordpress: argv["optimize-wordpress"],
-					sbfm_definitely_automated: resolveFileToken(
-						argv["sbfm-definitely-automated"] as string | undefined,
-						"sbfm-definitely-automated",
-						"text"
-					),
+					sbfm_definitely_automated: argv["sbfm-definitely-automated"],
 					sbfm_static_resource_protection:
 						argv["sbfm-static-resource-protection"],
-					sbfm_verified_bots: resolveFileToken(
-						argv["sbfm-verified-bots"] as string | undefined,
-						"sbfm-verified-bots",
-						"text"
-					),
-					sbfm_likely_automated: resolveFileToken(
-						argv["sbfm-likely-automated"] as string | undefined,
-						"sbfm-likely-automated",
-						"text"
-					),
+					sbfm_verified_bots: argv["sbfm-verified-bots"],
+					sbfm_likely_automated: argv["sbfm-likely-automated"],
 					auto_update_model: argv["auto-update-model"],
 					bm_cookie_enabled: argv["bm-cookie-enabled"],
 					suppress_session_score: argv["suppress-session-score"],

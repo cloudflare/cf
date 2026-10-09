@@ -34,6 +34,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The jurisdiction field",
 			choices: ["default", "eu", "us", "fedramp"],
 		})
+		.coerce("jurisdiction", (value) =>
+			resolveFileToken(value, "jurisdiction", "text")
+		)
 		.option("secret-access-key-id", {
 			type: "string",
 			description: "The secret.accessKeyId field",
@@ -47,6 +50,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The vendor field",
 			choices: ["r2"],
 		})
+		.coerce("vendor", (value) => resolveFileToken(value, "vendor", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -94,11 +98,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"bucket",
 											"text"
 										),
-										jurisdiction: resolveFileToken(
-											argv["jurisdiction"] as string | undefined,
-											"jurisdiction",
-											"text"
-										),
+										jurisdiction: argv["jurisdiction"],
 										secret: {
 											accessKeyId: resolveFileToken(
 												argv["secret-access-key-id"] as string | undefined,
@@ -111,11 +111,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"text"
 											),
 										},
-										vendor: resolveFileToken(
-											argv["vendor"] as string | undefined,
-											"vendor",
-											"text"
-										),
+										vendor: argv["vendor"],
 									}),
 						sensitiveBodyPaths: [["secret", "secretAccessKey"]],
 					});
@@ -170,11 +166,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"bucket",
 						"text"
 					),
-					jurisdiction: resolveFileToken(
-						argv["jurisdiction"] as string | undefined,
-						"jurisdiction",
-						"text"
-					),
+					jurisdiction: argv["jurisdiction"],
 					secret: {
 						accessKeyId: resolveFileToken(
 							argv["secret-access-key-id"] as string | undefined,
@@ -187,11 +179,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"text"
 						),
 					},
-					vendor: resolveFileToken(
-						argv["vendor"] as string | undefined,
-						"vendor",
-						"text"
-					),
+					vendor: argv["vendor"],
 				});
 				const result = await withProgress(`Updating`, async () =>
 					client.r2.superSlurper.connectivityPrecheck.target({

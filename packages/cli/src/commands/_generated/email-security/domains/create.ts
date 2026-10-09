@@ -45,6 +45,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The mailbox folder to scan, for API-scanning domains.",
 			choices: ["AllItems", "Inbox"],
 		})
+		.coerce("folder", (value) => resolveFileToken(value, "folder", "text"))
 		.option("integration-id", {
 			type: "string",
 			description:
@@ -134,11 +135,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 										drop_dispositions: argv["drop-dispositions"],
-										folder: resolveFileToken(
-											argv["folder"] as string | undefined,
-											"folder",
-											"text"
-										),
+										folder: argv["folder"],
 										integration_id: resolveFileToken(
 											argv["integration-id"] as string | undefined,
 											"integration-id",
@@ -209,11 +206,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"text"
 					),
 					drop_dispositions: argv["drop-dispositions"],
-					folder: resolveFileToken(
-						argv["folder"] as string | undefined,
-						"folder",
-						"text"
-					),
+					folder: argv["folder"],
 					integration_id: resolveFileToken(
 						argv["integration-id"] as string | undefined,
 						"integration-id",

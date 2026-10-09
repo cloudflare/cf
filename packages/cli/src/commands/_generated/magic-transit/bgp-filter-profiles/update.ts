@@ -39,6 +39,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Action to take when a route matches one of the targets in this profile",
 			choices: ["allow", "deny"],
 		})
+		.coerce("match-action", (value) =>
+			resolveFileToken(value, "match-action", "text")
+		)
 		.option("name", {
 			type: "string",
 			description: "Friendly name for the filter profile",
@@ -97,11 +100,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"description",
 											"text"
 										),
-										match_action: resolveFileToken(
-											argv["match-action"] as string | undefined,
-											"match-action",
-											"text"
-										),
+										match_action: argv["match-action"],
 										name: resolveFileToken(
 											argv["name"] as string | undefined,
 											"name",
@@ -136,11 +135,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"description",
 						"text"
 					),
-					match_action: resolveFileToken(
-						argv["match-action"] as string | undefined,
-						"match-action",
-						"text"
-					),
+					match_action: argv["match-action"],
 					name: resolveFileToken(
 						argv["name"] as string | undefined,
 						"name",

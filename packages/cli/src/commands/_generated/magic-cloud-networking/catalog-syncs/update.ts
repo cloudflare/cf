@@ -40,6 +40,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The update_mode field",
 			choices: ["AUTO", "MANUAL"],
 		})
+		.coerce("update-mode", (value) =>
+			resolveFileToken(value, "update-mode", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -97,11 +100,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"policy",
 											"text"
 										),
-										update_mode: resolveFileToken(
-											argv["update-mode"] as string | undefined,
-											"update-mode",
-											"text"
-										),
+										update_mode: argv["update-mode"],
 									}),
 					});
 					return;
@@ -140,11 +139,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"policy",
 						"text"
 					),
-					update_mode: resolveFileToken(
-						argv["update-mode"] as string | undefined,
-						"update-mode",
-						"text"
-					),
+					update_mode: argv["update-mode"],
 				});
 				const result = await withProgress(`Updating`, async () =>
 					client.magicCloudNetworking.catalogSyncs.update({

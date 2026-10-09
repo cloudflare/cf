@@ -51,12 +51,18 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"code_review",
 			],
 		})
+		.coerce("ai-config-summarization-summary-type", (value) =>
+			resolveFileToken(value, "ai-config-summarization-summary-type", "text")
+		)
 		.option("ai-config-summarization-text-format", {
 			type: "string",
 			description:
 				"Determines the text format of the summary, such as plain text or markdown.",
 			choices: ["plain_text", "markdown"],
 		})
+		.coerce("ai-config-summarization-text-format", (value) =>
+			resolveFileToken(value, "ai-config-summarization-text-format", "text")
+		)
 		.option("ai-config-summarization-word-limit", {
 			type: "number",
 			description: "Sets the maximum number of words in the meeting summary.",
@@ -84,6 +90,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"nl",
 			],
 		})
+		.coerce("ai-config-transcription-language", (value) =>
+			resolveFileToken(value, "ai-config-transcription-language", "text")
+		)
 		.option("ai-config-transcription-profanity-filter", {
 			type: "boolean",
 			description:
@@ -110,12 +119,18 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Audio signal pathway within an audio file that carries a specific sound source.",
 			choices: ["mono", "stereo"],
 		})
+		.coerce("recording-config-audio-config-channel", (value) =>
+			resolveFileToken(value, "recording-config-audio-config-channel", "text")
+		)
 		.option("recording-config-audio-config-codec", {
 			type: "string",
 			description:
 				"Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.",
 			choices: ["MP3", "AAC"],
 		})
+		.coerce("recording-config-audio-config-codec", (value) =>
+			resolveFileToken(value, "recording-config-audio-config-codec", "text")
+		)
 		.option("recording-config-audio-config-export-file", {
 			type: "boolean",
 			description: "Controls whether to export audio file seperately",
@@ -144,6 +159,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Codec using which the recording will be encoded.",
 			choices: ["H264", "VP8", "VP9"],
 		})
+		.coerce("recording-config-video-config-codec", (value) =>
+			resolveFileToken(value, "recording-config-video-config-codec", "text")
+		)
 		.option("recording-config-video-config-export-file", {
 			type: "boolean",
 			description: "Controls whether to export video file seperately",
@@ -157,6 +175,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Position of the watermark",
 			choices: ["left top", "right top", "left bottom", "right bottom"],
 		})
+		.coerce("recording-config-video-config-watermark-position", (value) =>
+			resolveFileToken(
+				value,
+				"recording-config-video-config-watermark-position",
+				"text"
+			)
+		)
 		.option("recording-config-video-config-watermark-url", {
 			type: "string",
 			description: "URL of the watermark image",
@@ -176,6 +201,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting.",
 			choices: ["ACTIVE", "INACTIVE"],
 		})
+		.coerce("status", (value) => resolveFileToken(value, "status", "text"))
 		.option("summarize-on-end", {
 			type: "boolean",
 			description:
@@ -280,31 +306,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								: compactBody({
 										ai_config: {
 											summarization: {
-												summary_type: resolveFileToken(
-													argv["ai-config-summarization-summary-type"] as
-														| string
-														| undefined,
-													"ai-config-summarization-summary-type",
-													"text"
-												),
-												text_format: resolveFileToken(
-													argv["ai-config-summarization-text-format"] as
-														| string
-														| undefined,
-													"ai-config-summarization-text-format",
-													"text"
-												),
+												summary_type:
+													argv["ai-config-summarization-summary-type"],
+												text_format:
+													argv["ai-config-summarization-text-format"],
 												word_limit: argv["ai-config-summarization-word-limit"],
 											},
 											transcription: {
 												keywords: argv["ai-config-transcription-keywords"],
-												language: resolveFileToken(
-													argv["ai-config-transcription-language"] as
-														| string
-														| undefined,
-													"ai-config-transcription-language",
-													"text"
-												),
+												language: argv["ai-config-transcription-language"],
 												profanity_filter:
 													argv["ai-config-transcription-profanity-filter"],
 											},
@@ -314,20 +324,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										record_on_start: argv["record-on-start"],
 										recording_config: {
 											audio_config: {
-												channel: resolveFileToken(
-													argv["recording-config-audio-config-channel"] as
-														| string
-														| undefined,
-													"recording-config-audio-config-channel",
-													"text"
-												),
-												codec: resolveFileToken(
-													argv["recording-config-audio-config-codec"] as
-														| string
-														| undefined,
-													"recording-config-audio-config-codec",
-													"text"
-												),
+												channel: argv["recording-config-audio-config-channel"],
+												codec: argv["recording-config-audio-config-codec"],
 												export_file:
 													argv["recording-config-audio-config-export-file"],
 											},
@@ -355,24 +353,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 													],
 											},
 											video_config: {
-												codec: resolveFileToken(
-													argv["recording-config-video-config-codec"] as
-														| string
-														| undefined,
-													"recording-config-video-config-codec",
-													"text"
-												),
+												codec: argv["recording-config-video-config-codec"],
 												export_file:
 													argv["recording-config-video-config-export-file"],
 												height: argv["recording-config-video-config-height"],
 												watermark: {
-													position: resolveFileToken(
+													position:
 														argv[
 															"recording-config-video-config-watermark-position"
-														] as string | undefined,
-														"recording-config-video-config-watermark-position",
-														"text"
-													),
+														],
 													url: resolveFileToken(
 														argv[
 															"recording-config-video-config-watermark-url"
@@ -386,11 +375,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										},
 										session_keep_alive_time_in_secs:
 											argv["session-keep-alive-time-in-secs"],
-										status: resolveFileToken(
-											argv["status"] as string | undefined,
-											"status",
-											"text"
-										),
+										status: argv["status"],
 										summarize_on_end: argv["summarize-on-end"],
 										title: resolveFileToken(
 											argv["title"] as string | undefined,
@@ -424,29 +409,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const bodyData = compactBody<Body>({
 					ai_config: {
 						summarization: {
-							summary_type: resolveFileToken(
-								argv["ai-config-summarization-summary-type"] as
-									| string
-									| undefined,
-								"ai-config-summarization-summary-type",
-								"text"
-							),
-							text_format: resolveFileToken(
-								argv["ai-config-summarization-text-format"] as
-									| string
-									| undefined,
-								"ai-config-summarization-text-format",
-								"text"
-							),
+							summary_type: argv["ai-config-summarization-summary-type"],
+							text_format: argv["ai-config-summarization-text-format"],
 							word_limit: argv["ai-config-summarization-word-limit"],
 						},
 						transcription: {
 							keywords: argv["ai-config-transcription-keywords"],
-							language: resolveFileToken(
-								argv["ai-config-transcription-language"] as string | undefined,
-								"ai-config-transcription-language",
-								"text"
-							),
+							language: argv["ai-config-transcription-language"],
 							profanity_filter:
 								argv["ai-config-transcription-profanity-filter"],
 						},
@@ -456,20 +425,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					record_on_start: argv["record-on-start"],
 					recording_config: {
 						audio_config: {
-							channel: resolveFileToken(
-								argv["recording-config-audio-config-channel"] as
-									| string
-									| undefined,
-								"recording-config-audio-config-channel",
-								"text"
-							),
-							codec: resolveFileToken(
-								argv["recording-config-audio-config-codec"] as
-									| string
-									| undefined,
-								"recording-config-audio-config-codec",
-								"text"
-							),
+							channel: argv["recording-config-audio-config-channel"],
+							codec: argv["recording-config-audio-config-codec"],
 							export_file: argv["recording-config-audio-config-export-file"],
 						},
 						file_name_prefix: resolveFileToken(
@@ -492,23 +449,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								argv["recording-config-realtimekit-bucket-config-enabled"],
 						},
 						video_config: {
-							codec: resolveFileToken(
-								argv["recording-config-video-config-codec"] as
-									| string
-									| undefined,
-								"recording-config-video-config-codec",
-								"text"
-							),
+							codec: argv["recording-config-video-config-codec"],
 							export_file: argv["recording-config-video-config-export-file"],
 							height: argv["recording-config-video-config-height"],
 							watermark: {
-								position: resolveFileToken(
-									argv["recording-config-video-config-watermark-position"] as
-										| string
-										| undefined,
-									"recording-config-video-config-watermark-position",
-									"text"
-								),
+								position:
+									argv["recording-config-video-config-watermark-position"],
 								url: resolveFileToken(
 									argv["recording-config-video-config-watermark-url"] as
 										| string
@@ -522,11 +468,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					},
 					session_keep_alive_time_in_secs:
 						argv["session-keep-alive-time-in-secs"],
-					status: resolveFileToken(
-						argv["status"] as string | undefined,
-						"status",
-						"text"
-					),
+					status: argv["status"],
 					summarize_on_end: argv["summarize-on-end"],
 					title: resolveFileToken(
 						argv["title"] as string | undefined,

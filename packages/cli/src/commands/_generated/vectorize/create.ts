@@ -32,6 +32,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Specifies the type of metric to use calculating distance.",
 			choices: ["cosine", "euclidean", "dot-product"],
 		})
+		.coerce("config-metric", (value) =>
+			resolveFileToken(value, "config-metric", "text")
+		)
 		.option("config-preset", {
 			type: "string",
 			description: "Specifies the preset to use for the index.",
@@ -43,6 +46,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"cohere/embed-multilingual-v2.0",
 			],
 		})
+		.coerce("config-preset", (value) =>
+			resolveFileToken(value, "config-preset", "text")
+		)
 		.option("description", {
 			type: "string",
 			description: "Specifies the description of the index.",
@@ -97,16 +103,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								: compactBody({
 										config: {
 											dimensions: argv["config-dimensions"],
-											metric: resolveFileToken(
-												argv["config-metric"] as string | undefined,
-												"config-metric",
-												"text"
-											),
-											preset: resolveFileToken(
-												argv["config-preset"] as string | undefined,
-												"config-preset",
-												"text"
-											),
+											metric: argv["config-metric"],
+											preset: argv["config-preset"],
 										},
 										description: resolveFileToken(
 											argv["description"] as string | undefined,
@@ -145,16 +143,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const bodyData = compactBody<Body>({
 					config: {
 						dimensions: argv["config-dimensions"],
-						metric: resolveFileToken(
-							argv["config-metric"] as string | undefined,
-							"config-metric",
-							"text"
-						),
-						preset: resolveFileToken(
-							argv["config-preset"] as string | undefined,
-							"config-preset",
-							"text"
-						),
+						metric: argv["config-metric"],
+						preset: argv["config-preset"],
 					},
 					description: resolveFileToken(
 						argv["description"] as string | undefined,

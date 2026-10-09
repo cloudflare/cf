@@ -48,6 +48,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"50G",
 			],
 		})
+		.coerce("bandwidth", (value) =>
+			resolveFileToken(value, "bandwidth", "text")
+		)
 		.option("pairing-key", {
 			type: "string",
 			description: "Pairing key provided by GCP",
@@ -120,11 +123,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"speed",
 											"text"
 										),
-										bandwidth: resolveFileToken(
-											argv["bandwidth"] as string | undefined,
-											"bandwidth",
-											"text"
-										),
+										bandwidth: argv["bandwidth"],
 										pairing_key: resolveFileToken(
 											argv["pairing-key"] as string | undefined,
 											"pairing-key",
@@ -181,11 +180,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"speed",
 						"text"
 					),
-					bandwidth: resolveFileToken(
-						argv["bandwidth"] as string | undefined,
-						"bandwidth",
-						"text"
-					),
+					bandwidth: argv["bandwidth"],
 					pairing_key: resolveFileToken(
 						argv["pairing-key"] as string | undefined,
 						"pairing-key",

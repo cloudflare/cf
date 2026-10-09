@@ -31,6 +31,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				'When set, this applies a mitigation action to this operation\n\n  - `"log"` - log request when request does not conform to schema for this operation\n  - `"block"` - deny access to the site when request does not conform to schema for this operation\n  - `"none"` - will skip mitigation for this operation\n  - `null` - clears any mitigation action\n',
 			choices: ["log", "block", "none"],
 		})
+		.coerce("mitigation-action", (value) =>
+			resolveFileToken(value, "mitigation-action", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -76,11 +79,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										mitigation_action: resolveFileToken(
-											argv["mitigation-action"] as string | undefined,
-											"mitigation-action",
-											"text"
-										),
+										mitigation_action: argv["mitigation-action"],
 									}),
 					});
 					return;
@@ -113,11 +112,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					mitigation_action: resolveFileToken(
-						argv["mitigation-action"] as string | undefined,
-						"mitigation-action",
-						"text"
-					),
+					mitigation_action: argv["mitigation-action"],
 				});
 				const result = await withProgress(`Updating`, async () =>
 					client.apiSecurity.schemaValidation.settings.operations.update({

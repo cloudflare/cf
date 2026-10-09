@@ -28,6 +28,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The jurisdiction field",
 			choices: ["eu", "us", "fedramp"],
 		})
+		.coerce("jurisdiction", (value) =>
+			resolveFileToken(value, "jurisdiction", "text")
+		)
 		.option("queue-name", {
 			type: "string",
 			description: "The queue_name field",
@@ -74,11 +77,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										jurisdiction: resolveFileToken(
-											argv["jurisdiction"] as string | undefined,
-											"jurisdiction",
-											"text"
-										),
+										jurisdiction: argv["jurisdiction"],
 										queue_name: resolveFileToken(
 											argv["queue-name"] as string | undefined,
 											"queue-name",
@@ -112,11 +111,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					jurisdiction: resolveFileToken(
-						argv["jurisdiction"] as string | undefined,
-						"jurisdiction",
-						"text"
-					),
+					jurisdiction: argv["jurisdiction"],
 					queue_name: resolveFileToken(
 						argv["queue-name"] as string | undefined,
 						"queue-name",

@@ -1,6 +1,13 @@
 import { runInTempDir, seed } from "@cloudflare/workers-utils/test-helpers";
 import { http, HttpResponse } from "msw";
-import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
+import {
+	afterEach,
+	beforeEach,
+	describe,
+	expect,
+	it,
+	vi,
+} from "vite-plus/test";
 import {
 	readFileForFlag,
 	resolveFileToken,
@@ -132,6 +139,50 @@ describe("readFileForFlag", () => {
 		expect(() => readFileForFlag("empty.bin")).toThrow(
 			"Cannot read invalid or empty file: empty.bin"
 		);
+	});
+});
+
+describe("generated enum file flags", () => {
+	runInTempDir();
+
+	let logSpy: ReturnType<typeof vi.spyOn>;
+	let errSpy: ReturnType<typeof vi.spyOn>;
+
+	beforeEach(() => {
+		logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+		errSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+	});
+
+	afterEach(() => {
+		logSpy.mockRestore();
+		errSpy.mockRestore();
+	});
+
+	const ENV = { CLOUDFLARE_ACCOUNT_ID: "test-account" };
+	const args = ["r2", "buckets", "create", "--name", "example", "--dry-run"];
+
+	it("validates the resolved value and passes it to the generated handler", async () => {
+		await seed({ "location.txt": "weur" });
+
+		const { exitCode } = await runCf(
+			[...args, "--location-hint", "@location.txt"],
+			ENV
+		);
+		const output = String(logSpy.mock.calls[0]?.[0]);
+
+		expect(exitCode).toBe(0);
+		expect(JSON.parse(output)).toMatchObject({
+			body: { locationHint: "weur" },
+		});
+	});
+
+	it("rejects file contents that are not among the enum choices", async () => {
+		await seed({ "invalid-location.txt": "not-a-region" });
+
+		await expect(
+			runCf([...args, "--location-hint", "@invalid-location.txt"], ENV)
+		).rejects.toThrow('Given: "not-a-region"');
+		expect(logSpy).not.toHaveBeenCalled();
 	});
 });
 

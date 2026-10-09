@@ -54,6 +54,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"trust-grant",
 			],
 		})
+		.coerce("resource-type", (value) =>
+			resolveFileToken(value, "resource-type", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -106,11 +109,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"resource-id",
 											"text"
 										),
-										resource_type: resolveFileToken(
-											argv["resource-type"] as string | undefined,
-											"resource-type",
-											"text"
-										),
+										resource_type: argv["resource-type"],
 									}),
 					});
 					return;
@@ -171,11 +170,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"resource-id",
 						"text"
 					),
-					resource_type: resolveFileToken(
-						argv["resource-type"] as string | undefined,
-						"resource-type",
-						"text"
-					),
+					resource_type: argv["resource-type"],
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.resourceSharing.resources.create({

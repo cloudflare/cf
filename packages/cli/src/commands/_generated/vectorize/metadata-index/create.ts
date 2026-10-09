@@ -38,6 +38,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Specifies the type of metadata property to index.",
 			choices: ["string", "number", "boolean"],
 		})
+		.coerce("index-type", (value) =>
+			resolveFileToken(value, "index-type", "text")
+		)
 		.option("property-name", {
 			type: "string",
 			description: "Specifies the metadata property to index.",
@@ -84,11 +87,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										indexType: resolveFileToken(
-											argv["index-type"] as string | undefined,
-											"index-type",
-											"text"
-										),
+										indexType: argv["index-type"],
 										propertyName: resolveFileToken(
 											argv["property-name"] as string | undefined,
 											"property-name",
@@ -130,11 +129,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					indexType: resolveFileToken(
-						argv["index-type"] as string | undefined,
-						"index-type",
-						"text"
-					),
+					indexType: argv["index-type"],
 					propertyName: resolveFileToken(
 						argv["property-name"] as string | undefined,
 						"property-name",

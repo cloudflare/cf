@@ -54,6 +54,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The order field",
 			choices: ["asc", "desc"],
 		})
+		.coerce("order", (value) => resolveFileToken(value, "order", "text"))
 		.option("order-by", { type: "string", description: "The orderBy field" })
 		.option("page", { type: "number", description: "The page field" })
 		.option("page-size", { type: "number", description: "The pageSize field" })
@@ -124,11 +125,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 										datasetId: argv["dataset-id"],
-										order: resolveFileToken(
-											argv["order"] as string | undefined,
-											"order",
-											"text"
-										),
+										order: argv["order"],
 										orderBy: resolveFileToken(
 											argv["order-by"] as string | undefined,
 											"order-by",
@@ -171,11 +168,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"text"
 					),
 					datasetId: argv["dataset-id"],
-					order: resolveFileToken(
-						argv["order"] as string | undefined,
-						"order",
-						"text"
-					),
+					order: argv["order"],
 					orderBy: resolveFileToken(
 						argv["order-by"] as string | undefined,
 						"order-by",

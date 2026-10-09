@@ -26,6 +26,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["ubiquitous", "optimal", "force"],
 			default: "ubiquitous",
 		})
+		.coerce("bundle-method", (value) =>
+			resolveFileToken(value, "bundle-method", "text")
+		)
 		.option("certificate", {
 			type: "string",
 			description:
@@ -74,11 +77,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										bundle_method: resolveFileToken(
-											argv["bundle-method"] as string | undefined,
-											"bundle-method",
-											"text"
-										),
+										bundle_method: argv["bundle-method"],
 										certificate: resolveFileToken(
 											argv["certificate"] as string | undefined,
 											"certificate",
@@ -108,11 +107,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					bundle_method: resolveFileToken(
-						argv["bundle-method"] as string | undefined,
-						"bundle-method",
-						"text"
-					),
+					bundle_method: argv["bundle-method"],
 					certificate: resolveFileToken(
 						argv["certificate"] as string | undefined,
 						"certificate",

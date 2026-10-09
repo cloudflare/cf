@@ -40,6 +40,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Status of the member invitation. If not provided during creation, defaults to 'pending'.\nChanging from 'accepted' back to 'pending' will trigger a replacement of the member resource in Terraform.\n",
 			choices: ["accepted", "pending"],
 		})
+		.coerce("status", (value) => resolveFileToken(value, "status", "text"))
 		.option("policies", {
 			type: "string",
 			description:
@@ -95,11 +96,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 										roles: argv["roles"],
-										status: resolveFileToken(
-											argv["status"] as string | undefined,
-											"status",
-											"text"
-										),
+										status: argv["status"],
 										policies: parseObjectArray(argv["policies"], "policies"),
 									}),
 					});
@@ -135,11 +132,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"text"
 					),
 					roles: argv["roles"],
-					status: resolveFileToken(
-						argv["status"] as string | undefined,
-						"status",
-						"text"
-					),
+					status: argv["status"],
 					policies: parseObjectArray(argv["policies"], "policies"),
 				});
 				const result = await withProgress(`Creating`, async () =>

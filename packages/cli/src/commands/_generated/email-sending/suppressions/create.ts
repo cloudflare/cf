@@ -45,6 +45,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Blocks the recipient for every sending domain of the account.",
 			choices: ["account", "sending_domain"],
 		})
+		.coerce("scope-type", (value) =>
+			resolveFileToken(value, "scope-type", "text")
+		)
 		.option("scope-value", {
 			type: "string",
 			description:
@@ -122,11 +125,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 										scope: {
-											type: resolveFileToken(
-												argv["scope-type"] as string | undefined,
-												"scope-type",
-												"text"
-											),
+											type: argv["scope-type"],
 											value: resolveFileToken(
 												argv["scope-value"] as string | undefined,
 												"scope-value",
@@ -177,11 +176,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"text"
 					),
 					scope: {
-						type: resolveFileToken(
-							argv["scope-type"] as string | undefined,
-							"scope-type",
-							"text"
-						),
+						type: argv["scope-type"],
 						value: resolveFileToken(
 							argv["scope-value"] as string | undefined,
 							"scope-value",

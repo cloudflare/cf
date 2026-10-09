@@ -84,6 +84,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The HTTP method to use for the health check.",
 			choices: ["GET", "HEAD"],
 		})
+		.coerce("result-http-config-method", (value) =>
+			resolveFileToken(value, "result-http-config-method", "text")
+		)
 		.option("result-http-config-path", {
 			type: "string",
 			description: "The endpoint path to health check against.",
@@ -117,6 +120,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The TCP connection method to use for the health check.",
 			choices: ["connection_established"],
 		})
+		.coerce("result-tcp-config-method", (value) =>
+			resolveFileToken(value, "result-tcp-config-method", "text")
+		)
 		.option("result-tcp-config-port", {
 			type: "number",
 			description:
@@ -219,13 +225,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 													argv["result-http-config-expected-codes"],
 												follow_redirects:
 													argv["result-http-config-follow-redirects"],
-												method: resolveFileToken(
-													argv["result-http-config-method"] as
-														| string
-														| undefined,
-													"result-http-config-method",
-													"text"
-												),
+												method: argv["result-http-config-method"],
 												path: resolveFileToken(
 													argv["result-http-config-path"] as string | undefined,
 													"result-http-config-path",
@@ -242,13 +242,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											retries: argv["result-retries"],
 											suspended: argv["result-suspended"],
 											tcp_config: {
-												method: resolveFileToken(
-													argv["result-tcp-config-method"] as
-														| string
-														| undefined,
-													"result-tcp-config-method",
-													"text"
-												),
+												method: argv["result-tcp-config-method"],
 												port: argv["result-tcp-config-port"],
 											},
 											timeout: argv["result-timeout"],
@@ -324,11 +318,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							),
 							expected_codes: argv["result-http-config-expected-codes"],
 							follow_redirects: argv["result-http-config-follow-redirects"],
-							method: resolveFileToken(
-								argv["result-http-config-method"] as string | undefined,
-								"result-http-config-method",
-								"text"
-							),
+							method: argv["result-http-config-method"],
 							path: resolveFileToken(
 								argv["result-http-config-path"] as string | undefined,
 								"result-http-config-path",
@@ -345,11 +335,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						retries: argv["result-retries"],
 						suspended: argv["result-suspended"],
 						tcp_config: {
-							method: resolveFileToken(
-								argv["result-tcp-config-method"] as string | undefined,
-								"result-tcp-config-method",
-								"text"
-							),
+							method: argv["result-tcp-config-method"],
 							port: argv["result-tcp-config-port"],
 						},
 						timeout: argv["result-timeout"],

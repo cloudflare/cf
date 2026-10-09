@@ -44,6 +44,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The destination.provider field",
 			choices: ["r2"],
 		})
+		.coerce("destination-provider", (value) =>
+			resolveFileToken(value, "destination-provider", "text")
+		)
 		.option("destination-secret-access-key", {
 			type: "string",
 			description:
@@ -63,6 +66,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The source.provider field",
 			choices: ["aws", "gcs", "s3", "azure"],
 		})
+		.coerce("source-provider", (value) =>
+			resolveFileToken(value, "source-provider", "text")
+		)
 		.option("source-region", {
 			type: "string",
 			description: "AWS region containing the source S3 bucket.",
@@ -222,11 +228,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"destination-access-key-id",
 												"text"
 											),
-											provider: resolveFileToken(
-												argv["destination-provider"] as string | undefined,
-												"destination-provider",
-												"text"
-											),
+											provider: argv["destination-provider"],
 											secretAccessKey: resolveFileToken(
 												argv["destination-secret-access-key"] as
 													| string
@@ -246,11 +248,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"source-bucket",
 												"text"
 											),
-											provider: resolveFileToken(
-												argv["source-provider"] as string | undefined,
-												"source-provider",
-												"text"
-											),
+											provider: argv["source-provider"],
 											region: resolveFileToken(
 												argv["source-region"] as string | undefined,
 												"source-region",
@@ -345,11 +343,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					setNestedValue(
 						bodyData,
 						["destination", "provider"],
-						resolveFileToken(
-							argv["destination-provider"] as string | undefined,
-							"destination-provider",
-							"text"
-						)
+						argv["destination-provider"]
 					);
 				if (argv["destination-secret-access-key"] !== undefined)
 					setNestedValue(
@@ -385,11 +379,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					setNestedValue(
 						bodyData,
 						["source", "provider"],
-						resolveFileToken(
-							argv["source-provider"] as string | undefined,
-							"source-provider",
-							"text"
-						)
+						argv["source-provider"]
 					);
 				if (argv["source-region"] !== undefined)
 					setNestedValue(

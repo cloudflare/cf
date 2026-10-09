@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vite-plus/test";
 import { deriveArgsFromOp } from "../../../generator/arg-derivation.js";
+import { generateBuilderLines } from "../../../generator/emit/builder.js";
+import { emitBodyArgValue } from "../../../generator/emit/handler/body-object.js";
 import type { OperationInfo, Schema } from "@cloudflare/forge";
 
 function operation(queryParamName: string, sdkName?: string): OperationInfo {
@@ -417,6 +419,60 @@ describe("deriveArgsFromOp object-array body flags", () => {
 		);
 		expect(derived.args.find((arg) => arg.name === "versions")?.choices).toBe(
 			undefined
+		);
+	});
+});
+
+describe("file-backed enum arguments", () => {
+	it("resolves enum file tokens before choices validation without reading twice", () => {
+		const createMethod = method(undefined, "create");
+		const createOperation = {
+			...operation("sort"),
+			method: "post",
+			queryParams: [
+				{ name: "sort", type: "string", enumValues: ["asc", "desc"] },
+			],
+			bodyParams: [
+				{
+					name: "selection",
+					type: "string",
+					apiFieldPath: ["selection"],
+					enumValues: ["first", "second"],
+				},
+				{
+					name: "description",
+					type: "string",
+					apiFieldPath: ["description"],
+				},
+			],
+			hasRequestBody: true,
+			requestContentTypes: ["application/json"],
+		} as unknown as OperationInfo;
+		const derived = deriveArgsFromOp(createMethod, "example", createOperation);
+		const builder = generateBuilderLines(
+			createMethod,
+			"example",
+			createOperation,
+			"json",
+			derived
+		).join("\n");
+		const enumArg = derived.args.find((arg) => arg.name === "selection");
+		const textArg = derived.args.find((arg) => arg.name === "description");
+
+		expect(builder).toContain('"choices":["first","second"]');
+		expect(builder).toContain(
+			'.coerce("selection", (value) => resolveFileToken(value, "selection", "text"))'
+		);
+		expect(builder).not.toContain('.coerce("sort"');
+		expect(builder).not.toContain('.coerce("description"');
+		if (!enumArg || !textArg) {
+			throw new Error("Expected derived body arguments");
+		}
+		expect(emitBodyArgValue(enumArg, 'argv["selection"]')).toBe(
+			'argv["selection"]'
+		);
+		expect(emitBodyArgValue(textArg, 'argv["description"]')).toContain(
+			'resolveFileToken(argv["description"]'
 		);
 	});
 });

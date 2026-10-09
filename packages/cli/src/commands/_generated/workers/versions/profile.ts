@@ -55,6 +55,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["cpu", "heap"],
 			default: "cpu",
 		})
+		.coerce("profile-type", (value) =>
+			resolveFileToken(value, "profile-type", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -114,11 +117,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"namespace-id",
 											"text"
 										),
-										profile_type: resolveFileToken(
-											argv["profile-type"] as string | undefined,
-											"profile-type",
-											"text"
-										),
+										profile_type: argv["profile-type"],
 									}),
 					});
 					return;
@@ -177,15 +176,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						)
 					);
 				if (argv["profile-type"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["profile_type"],
-						resolveFileToken(
-							argv["profile-type"] as string | undefined,
-							"profile-type",
-							"text"
-						)
-					);
+					setNestedValue(bodyData, ["profile_type"], argv["profile-type"]);
 				const __cfRawBytes = await withProgress(`Creating`, async () =>
 					fetchRawBytes(
 						`/accounts/${accountId}/workers/workers/${encodeURIComponent(String(argv["worker-id"]))}/versions/${encodeURIComponent(String(argv["version-id"]))}/profile`,

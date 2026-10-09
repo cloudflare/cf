@@ -36,6 +36,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Type of packet sent.",
 			choices: ["icmp", "tcp", "udp", "gre", "gre+icmp"],
 		})
+		.coerce("options-packet-type", (value) =>
+			resolveFileToken(value, "options-packet-type", "text")
+		)
 		.option("options-packets-per-ttl", {
 			type: "number",
 			description: "Number of packets sent at each TTL.",
@@ -100,11 +103,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										colos: argv["colos"],
 										options: {
 											max_ttl: argv["options-max-ttl"],
-											packet_type: resolveFileToken(
-												argv["options-packet-type"] as string | undefined,
-												"options-packet-type",
-												"text"
-											),
+											packet_type: argv["options-packet-type"],
 											packets_per_ttl: argv["options-packets-per-ttl"],
 											port: argv["options-port"],
 											wait_time: argv["options-wait-time"],
@@ -140,11 +139,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					colos: argv["colos"],
 					options: {
 						max_ttl: argv["options-max-ttl"],
-						packet_type: resolveFileToken(
-							argv["options-packet-type"] as string | undefined,
-							"options-packet-type",
-							"text"
-						),
+						packet_type: argv["options-packet-type"],
 						packets_per_ttl: argv["options-packets-per-ttl"],
 						port: argv["options-port"],
 						wait_time: argv["options-wait-time"],

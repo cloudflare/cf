@@ -30,6 +30,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Desired validation method.",
 			choices: ["http", "cname", "txt", "email"],
 		})
+		.coerce("validation-method", (value) =>
+			resolveFileToken(value, "validation-method", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -75,11 +78,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										validation_method: resolveFileToken(
-											argv["validation-method"] as string | undefined,
-											"validation-method",
-											"text"
-										),
+										validation_method: argv["validation-method"],
 									}),
 					});
 					return;
@@ -112,11 +111,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					validation_method: resolveFileToken(
-						argv["validation-method"] as string | undefined,
-						"validation-method",
-						"text"
-					),
+					validation_method: argv["validation-method"],
 				});
 				const result = await withProgress(`Updating`, async () =>
 					client.ssl.verification.edit({

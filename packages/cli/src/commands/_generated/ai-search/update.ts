@@ -54,6 +54,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"anything_goes",
 			],
 		})
+		.coerce("cache-threshold", (value) =>
+			resolveFileToken(value, "cache-threshold", "text")
+		)
 		.option("chunk", { type: "boolean", description: "The chunk field" })
 		.option("chunk-overlap", {
 			type: "number",
@@ -77,6 +80,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The fusion_method field",
 			choices: ["max", "rrf"],
 		})
+		.coerce("fusion-method", (value) =>
+			resolveFileToken(value, "fusion-method", "text")
+		)
 		.option("index-method-keyword", {
 			type: "boolean",
 			description: "Enable keyword (BM25) storage backend.",
@@ -91,6 +97,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Tokenizer used for keyword search indexing. porter provides word-level tokenization with Porter stemming (good for natural language queries). trigram enables character-level substring matching (good for partial matches, code, identifiers). Changing this triggers a full re-index. Defaults to porter.",
 			choices: ["porter", "trigram"],
 		})
+		.coerce("indexing-options-keyword-tokenizer", (value) =>
+			resolveFileToken(value, "indexing-options-keyword-tokenizer", "text")
+		)
 		.option("indexing-options-use-ocr", {
 			type: "boolean",
 			description:
@@ -109,6 +118,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The metadata.created_from_emdash_plugin.type field",
 			choices: ["native", "rest"],
 		})
+		.coerce("metadata-created-from-emdash-plugin-type", (value) =>
+			resolveFileToken(
+				value,
+				"metadata-created-from-emdash-plugin-type",
+				"text"
+			)
+		)
 		.option("metadata-created-from-emdash-plugin-version", {
 			type: "string",
 			description: "The metadata.created_from_emdash_plugin.version field",
@@ -163,6 +179,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The public_endpoint_params.rate_limit.technique field",
 			choices: ["fixed", "sliding"],
 		})
+		.coerce("public-endpoint-params-rate-limit-technique", (value) =>
+			resolveFileToken(
+				value,
+				"public-endpoint-params-rate-limit-technique",
+				"text"
+			)
+		)
 		.option("public-endpoint-params-search-endpoint-disabled", {
 			type: "boolean",
 			description: "Disable search endpoint for this public endpoint",
@@ -181,6 +204,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Controls which documents are candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term, ranked by BM25 relevance. When omitted on an update, the existing stored value is preserved; when never set, search falls back to 'and'.",
 			choices: ["and", "or"],
 		})
+		.coerce("retrieval-options-keyword-match-mode", (value) =>
+			resolveFileToken(value, "retrieval-options-keyword-match-mode", "text")
+		)
 		.option("rewrite-model", {
 			type: "string",
 			description:
@@ -245,6 +271,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Where the crawler looks for URLs: 'sitemaps' reads sitemap XML only, 'links' follows page links only, 'all' does both.",
 			choices: ["all", "sitemaps", "links"],
 		})
+		.coerce("source-params-web-crawler-discover-options-source", (value) =>
+			resolveFileToken(
+				value,
+				"source-params-web-crawler-discover-options-source",
+				"text"
+			)
+		)
 		.option("source-params-web-crawler-parse-options-include-images", {
 			type: "boolean",
 			description:
@@ -267,6 +300,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"How URLs are discovered. 'sitemap' reads XML sitemaps; 'discover' follows links recursively and requires the source to be a Verified zone on this account.",
 			choices: ["sitemap", "discover"],
 		})
+		.coerce("source-params-web-crawler-parse-type", (value) =>
+			resolveFileToken(value, "source-params-web-crawler-parse-type", "text")
+		)
 		.option("summarization", {
 			type: "boolean",
 			description: "The summarization field",
@@ -409,11 +445,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 										cache: argv["cache"],
-										cache_threshold: resolveFileToken(
-											argv["cache-threshold"] as string | undefined,
-											"cache-threshold",
-											"text"
-										),
+										cache_threshold: argv["cache-threshold"],
 										chunk: argv["chunk"],
 										chunk_overlap: argv["chunk-overlap"],
 										chunk_size: argv["chunk-size"],
@@ -426,23 +458,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"embedding-model",
 											"text"
 										),
-										fusion_method: resolveFileToken(
-											argv["fusion-method"] as string | undefined,
-											"fusion-method",
-											"text"
-										),
+										fusion_method: argv["fusion-method"],
 										index_method: {
 											keyword: argv["index-method-keyword"],
 											vector: argv["index-method-vector"],
 										},
 										indexing_options: {
-											keyword_tokenizer: resolveFileToken(
-												argv["indexing-options-keyword-tokenizer"] as
-													| string
-													| undefined,
-												"indexing-options-keyword-tokenizer",
-												"text"
-											),
+											keyword_tokenizer:
+												argv["indexing-options-keyword-tokenizer"],
 											use_ocr: argv["indexing-options-use-ocr"],
 										},
 										max_num_results: argv["max-num-results"],
@@ -450,13 +473,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											created_from_aisearch_wizard:
 												argv["metadata-created-from-aisearch-wizard"],
 											created_from_emdash_plugin: {
-												type: resolveFileToken(
-													argv["metadata-created-from-emdash-plugin-type"] as
-														| string
-														| undefined,
-													"metadata-created-from-emdash-plugin-type",
-													"text"
-												),
+												type: argv["metadata-created-from-emdash-plugin-type"],
 												version: resolveFileToken(
 													argv[
 														"metadata-created-from-emdash-plugin-version"
@@ -501,13 +518,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 													argv["public-endpoint-params-rate-limit-period-ms"],
 												requests:
 													argv["public-endpoint-params-rate-limit-requests"],
-												technique: resolveFileToken(
-													argv[
-														"public-endpoint-params-rate-limit-technique"
-													] as string | undefined,
-													"public-endpoint-params-rate-limit-technique",
-													"text"
-												),
+												technique:
+													argv["public-endpoint-params-rate-limit-technique"],
 											},
 											search_endpoint: {
 												disabled:
@@ -523,13 +535,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 										retrieval_options: {
-											keyword_match_mode: resolveFileToken(
-												argv["retrieval-options-keyword-match-mode"] as
-													| string
-													| undefined,
-												"retrieval-options-keyword-match-mode",
-												"text"
-											),
+											keyword_match_mode:
+												argv["retrieval-options-keyword-match-mode"],
 										},
 										rewrite_model: resolveFileToken(
 											argv["rewrite-model"] as string | undefined,
@@ -580,13 +587,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 														argv[
 															"source-params-web-crawler-discover-options-max-age"
 														],
-													source: resolveFileToken(
+													source:
 														argv[
 															"source-params-web-crawler-discover-options-source"
-														] as string | undefined,
-														"source-params-web-crawler-discover-options-source",
-														"text"
-													),
+														],
 												},
 												parse_options: {
 													include_images:
@@ -602,13 +606,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 															"source-params-web-crawler-parse-options-use-browser-rendering"
 														],
 												},
-												parse_type: resolveFileToken(
-													argv["source-params-web-crawler-parse-type"] as
-														| string
-														| undefined,
-													"source-params-web-crawler-parse-type",
-													"text"
-												),
+												parse_type:
+													argv["source-params-web-crawler-parse-type"],
 											},
 										},
 										summarization: argv["summarization"],
@@ -674,11 +673,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"text"
 					),
 					cache: argv["cache"],
-					cache_threshold: resolveFileToken(
-						argv["cache-threshold"] as string | undefined,
-						"cache-threshold",
-						"text"
-					),
+					cache_threshold: argv["cache-threshold"],
 					chunk: argv["chunk"],
 					chunk_overlap: argv["chunk-overlap"],
 					chunk_size: argv["chunk-size"],
@@ -691,21 +686,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"embedding-model",
 						"text"
 					),
-					fusion_method: resolveFileToken(
-						argv["fusion-method"] as string | undefined,
-						"fusion-method",
-						"text"
-					),
+					fusion_method: argv["fusion-method"],
 					index_method: {
 						keyword: argv["index-method-keyword"],
 						vector: argv["index-method-vector"],
 					},
 					indexing_options: {
-						keyword_tokenizer: resolveFileToken(
-							argv["indexing-options-keyword-tokenizer"] as string | undefined,
-							"indexing-options-keyword-tokenizer",
-							"text"
-						),
+						keyword_tokenizer: argv["indexing-options-keyword-tokenizer"],
 						use_ocr: argv["indexing-options-use-ocr"],
 					},
 					max_num_results: argv["max-num-results"],
@@ -713,13 +700,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						created_from_aisearch_wizard:
 							argv["metadata-created-from-aisearch-wizard"],
 						created_from_emdash_plugin: {
-							type: resolveFileToken(
-								argv["metadata-created-from-emdash-plugin-type"] as
-									| string
-									| undefined,
-								"metadata-created-from-emdash-plugin-type",
-								"text"
-							),
+							type: argv["metadata-created-from-emdash-plugin-type"],
 							version: resolveFileToken(
 								argv["metadata-created-from-emdash-plugin-version"] as
 									| string
@@ -760,13 +741,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						rate_limit: {
 							period_ms: argv["public-endpoint-params-rate-limit-period-ms"],
 							requests: argv["public-endpoint-params-rate-limit-requests"],
-							technique: resolveFileToken(
-								argv["public-endpoint-params-rate-limit-technique"] as
-									| string
-									| undefined,
-								"public-endpoint-params-rate-limit-technique",
-								"text"
-							),
+							technique: argv["public-endpoint-params-rate-limit-technique"],
 						},
 						search_endpoint: {
 							disabled: argv["public-endpoint-params-search-endpoint-disabled"],
@@ -779,13 +754,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"text"
 					),
 					retrieval_options: {
-						keyword_match_mode: resolveFileToken(
-							argv["retrieval-options-keyword-match-mode"] as
-								| string
-								| undefined,
-							"retrieval-options-keyword-match-mode",
-							"text"
-						),
+						keyword_match_mode: argv["retrieval-options-keyword-match-mode"],
 					},
 					rewrite_model: resolveFileToken(
 						argv["rewrite-model"] as string | undefined,
@@ -826,13 +795,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								limit: argv["source-params-web-crawler-discover-options-limit"],
 								max_age:
 									argv["source-params-web-crawler-discover-options-max-age"],
-								source: resolveFileToken(
-									argv["source-params-web-crawler-discover-options-source"] as
-										| string
-										| undefined,
-									"source-params-web-crawler-discover-options-source",
-									"text"
-								),
+								source:
+									argv["source-params-web-crawler-discover-options-source"],
 							},
 							parse_options: {
 								include_images:
@@ -848,13 +812,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										"source-params-web-crawler-parse-options-use-browser-rendering"
 									],
 							},
-							parse_type: resolveFileToken(
-								argv["source-params-web-crawler-parse-type"] as
-									| string
-									| undefined,
-								"source-params-web-crawler-parse-type",
-								"text"
-							),
+							parse_type: argv["source-params-web-crawler-parse-type"],
 						},
 					},
 					summarization: argv["summarization"],

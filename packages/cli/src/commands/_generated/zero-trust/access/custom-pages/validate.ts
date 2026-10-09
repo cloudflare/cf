@@ -37,6 +37,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Custom page type.",
 			choices: ["identity_denied", "forbidden", "login", "interstitial"],
 		})
+		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
 		.option("contract-version", {
 			type: "number",
 			description: "Contract version to validate against; omit for the latest.",
@@ -89,11 +90,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"template",
 											"text"
 										),
-										type: resolveFileToken(
-											argv["type"] as string | undefined,
-											"type",
-											"text"
-										),
+										type: argv["type"],
 										version: argv["contract-version"],
 									}),
 					});
@@ -135,11 +132,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"template",
 						"text"
 					),
-					type: resolveFileToken(
-						argv["type"] as string | undefined,
-						"type",
-						"text"
-					),
+					type: argv["type"],
 					version: argv["contract-version"],
 				});
 				const result = await withProgress(`Creating`, async () =>

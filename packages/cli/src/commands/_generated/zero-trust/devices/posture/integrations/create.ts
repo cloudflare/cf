@@ -89,6 +89,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"custom_s2s",
 			],
 		})
+		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -254,11 +255,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"name",
 											"text"
 										),
-										type: resolveFileToken(
-											argv["type"] as string | undefined,
-											"type",
-											"text"
-										),
+										type: argv["type"],
 									}),
 						sensitiveBodyPaths: [
 							["config", "client_secret"],
@@ -366,11 +363,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"name",
 						"text"
 					),
-					type: resolveFileToken(
-						argv["type"] as string | undefined,
-						"type",
-						"text"
-					),
+					type: argv["type"],
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.zeroTrust.devices.posture.integrations.create({

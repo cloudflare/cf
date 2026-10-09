@@ -36,6 +36,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["low", "mid", "high"],
 			default: "mid",
 		})
+		.coerce("health-check-rate", (value) =>
+			resolveFileToken(value, "health-check-rate", "text")
+		)
 		.option("load-balance-inner-flows", {
 			type: "boolean",
 			description: "The load_balance_inner_flows field",
@@ -125,11 +128,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										health_check_rate: resolveFileToken(
-											argv["health-check-rate"] as string | undefined,
-											"health-check-rate",
-											"text"
-										),
+										health_check_rate: argv["health-check-rate"],
 										load_balance_inner_flows: argv["load-balance-inner-flows"],
 										name: resolveFileToken(
 											argv["name"] as string | undefined,
@@ -188,11 +187,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					health_check_rate: resolveFileToken(
-						argv["health-check-rate"] as string | undefined,
-						"health-check-rate",
-						"text"
-					),
+					health_check_rate: argv["health-check-rate"],
 					load_balance_inner_flows: argv["load-balance-inner-flows"],
 					name: resolveFileToken(
 						argv["name"] as string | undefined,

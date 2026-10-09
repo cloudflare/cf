@@ -25,6 +25,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"The Certificate Authority that Total TLS certificates will be issued through.",
 			choices: ["google", "lets_encrypt", "ssl_com"],
 		})
+		.coerce("certificate-authority", (value) =>
+			resolveFileToken(value, "certificate-authority", "text")
+		)
 		.option("enabled", {
 			type: "boolean",
 			description:
@@ -73,11 +76,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										certificate_authority: resolveFileToken(
-											argv["certificate-authority"] as string | undefined,
-											"certificate-authority",
-											"text"
-										),
+										certificate_authority: argv["certificate-authority"],
 										enabled: argv["enabled"],
 									}),
 					});
@@ -108,11 +107,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					certificate_authority: resolveFileToken(
-						argv["certificate-authority"] as string | undefined,
-						"certificate-authority",
-						"text"
-					),
+					certificate_authority: argv["certificate-authority"],
 					enabled: argv["enabled"],
 				});
 				const result = await withProgress(`Creating`, async () =>

@@ -66,6 +66,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"SNOOPY-GOOGLE_DIRECTORY",
 			],
 		})
+		.coerce("provenance", (value) =>
+			resolveFileToken(value, "provenance", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -131,11 +134,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"name",
 											"text"
 										),
-										provenance: resolveFileToken(
-											argv["provenance"] as string | undefined,
-											"provenance",
-											"text"
-										),
+										provenance: argv["provenance"],
 									}),
 					});
 					return;
@@ -198,11 +197,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"name",
 						"text"
 					),
-					provenance: resolveFileToken(
-						argv["provenance"] as string | undefined,
-						"provenance",
-						"text"
-					),
+					provenance: argv["provenance"],
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.emailSecurity.impersonationRegistry.create({

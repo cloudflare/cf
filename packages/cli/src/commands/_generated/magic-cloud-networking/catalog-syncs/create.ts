@@ -41,6 +41,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The destination_type field",
 			choices: ["NONE", "ZERO_TRUST_LIST"],
 		})
+		.coerce("destination-type", (value) =>
+			resolveFileToken(value, "destination-type", "text")
+		)
 		.option("name", { type: "string", description: "The name field" })
 		.option("policy", { type: "string", description: "The policy field" })
 		.option("update-mode", {
@@ -48,6 +51,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The update_mode field",
 			choices: ["AUTO", "MANUAL"],
 		})
+		.coerce("update-mode", (value) =>
+			resolveFileToken(value, "update-mode", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -95,11 +101,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"description",
 											"text"
 										),
-										destination_type: resolveFileToken(
-											argv["destination-type"] as string | undefined,
-											"destination-type",
-											"text"
-										),
+										destination_type: argv["destination-type"],
 										name: resolveFileToken(
 											argv["name"] as string | undefined,
 											"name",
@@ -110,11 +112,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"policy",
 											"text"
 										),
-										update_mode: resolveFileToken(
-											argv["update-mode"] as string | undefined,
-											"update-mode",
-											"text"
-										),
+										update_mode: argv["update-mode"],
 									}),
 					});
 					return;
@@ -173,11 +171,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					setNestedValue(
 						bodyData,
 						["destination_type"],
-						resolveFileToken(
-							argv["destination-type"] as string | undefined,
-							"destination-type",
-							"text"
-						)
+						argv["destination-type"]
 					);
 				if (argv["name"] !== undefined)
 					setNestedValue(
@@ -196,15 +190,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						)
 					);
 				if (argv["update-mode"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["update_mode"],
-						resolveFileToken(
-							argv["update-mode"] as string | undefined,
-							"update-mode",
-							"text"
-						)
-					);
+					setNestedValue(bodyData, ["update_mode"], argv["update-mode"]);
 				const result = await withProgress(`Creating`, async () =>
 					requestApi<unknown>(
 						client,

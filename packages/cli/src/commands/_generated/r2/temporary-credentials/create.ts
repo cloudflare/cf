@@ -49,6 +49,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"object-read-only",
 			],
 		})
+		.coerce("permission", (value) =>
+			resolveFileToken(value, "permission", "text")
+		)
 		.option("prefixes", {
 			type: "string",
 			array: true,
@@ -113,11 +116,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"parent-access-key-id",
 											"text"
 										),
-										permission: resolveFileToken(
-											argv["permission"] as string | undefined,
-											"permission",
-											"text"
-										),
+										permission: argv["permission"],
 										prefixes: argv["prefixes"],
 										ttlSeconds: argv["ttl-seconds"],
 									}),
@@ -182,11 +181,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"parent-access-key-id",
 						"text"
 					),
-					permission: resolveFileToken(
-						argv["permission"] as string | undefined,
-						"permission",
-						"text"
-					),
+					permission: argv["permission"],
 					prefixes: argv["prefixes"],
 					ttlSeconds: argv["ttl-seconds"],
 				});

@@ -24,6 +24,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The feature identifier.",
 			choices: ["csam_scanner"],
 		})
+		.coerce("id", (value) => resolveFileToken(value, "id", "text"))
 		.option("value-email", {
 			type: "string",
 			description:
@@ -81,11 +82,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										id: resolveFileToken(
-											argv["id"] as string | undefined,
-											"id",
-											"text"
-										),
+										id: argv["id"],
 										value: {
 											email: resolveFileToken(
 												argv["value-email"] as string | undefined,
@@ -119,7 +116,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					id: resolveFileToken(argv["id"] as string | undefined, "id", "text"),
+					id: argv["id"],
 					value: {
 						email: resolveFileToken(
 							argv["value-email"] as string | undefined,

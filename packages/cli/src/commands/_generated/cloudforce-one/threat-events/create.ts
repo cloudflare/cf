@@ -66,11 +66,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The source.resourceType field",
 			choices: ["article"],
 		})
+		.coerce("source-resource-type", (value) =>
+			resolveFileToken(value, "source-resource-type", "text")
+		)
 		.option("source-system", {
 			type: "string",
 			description: "The source.system field",
 			choices: ["threat-signals"],
 		})
+		.coerce("source-system", (value) =>
+			resolveFileToken(value, "source-system", "text")
+		)
 		.option("source-title", {
 			type: "string",
 			description:
@@ -222,16 +228,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"source-resource-id",
 												"text"
 											),
-											resourceType: resolveFileToken(
-												argv["source-resource-type"] as string | undefined,
-												"source-resource-type",
-												"text"
-											),
-											system: resolveFileToken(
-												argv["source-system"] as string | undefined,
-												"source-system",
-												"text"
-											),
+											resourceType: argv["source-resource-type"],
+											system: argv["source-system"],
 											title: resolveFileToken(
 												argv["source-title"] as string | undefined,
 												"source-title",
@@ -357,16 +355,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"source-resource-id",
 							"text"
 						),
-						resourceType: resolveFileToken(
-							argv["source-resource-type"] as string | undefined,
-							"source-resource-type",
-							"text"
-						),
-						system: resolveFileToken(
-							argv["source-system"] as string | undefined,
-							"source-system",
-							"text"
-						),
+						resourceType: argv["source-resource-type"],
+						system: argv["source-system"],
 						title: resolveFileToken(
 							argv["source-title"] as string | undefined,
 							"source-title",

@@ -39,6 +39,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Cloud vendor hosting the origin. Must be one of the supported vendors.",
 			choices: ["aws", "azure", "gcp", "oci"],
 		})
+		.coerce("vendor", (value) => resolveFileToken(value, "vendor", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -89,11 +90,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"region",
 											"text"
 										),
-										vendor: resolveFileToken(
-											argv["vendor"] as string | undefined,
-											"vendor",
-											"text"
-										),
+										vendor: argv["vendor"],
 									}),
 					});
 					return;
@@ -137,11 +134,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"region",
 						"text"
 					),
-					vendor: resolveFileToken(
-						argv["vendor"] as string | undefined,
-						"vendor",
-						"text"
-					),
+					vendor: argv["vendor"],
 				});
 				const result = await withProgress(`Updating`, async () =>
 					client.cache.originCloudRegions.update({

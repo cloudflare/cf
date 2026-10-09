@@ -64,11 +64,15 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The vendor field",
 			choices: ["s3", "gcs", "r2"],
 		})
+		.coerce("vendor", (value) => resolveFileToken(value, "vendor", "text"))
 		.option("jurisdiction", {
 			type: "string",
 			description: "The jurisdiction field",
 			choices: ["default", "eu", "us", "fedramp"],
 		})
+		.coerce("jurisdiction", (value) =>
+			resolveFileToken(value, "jurisdiction", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -192,16 +196,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"text"
 											),
 										},
-										vendor: resolveFileToken(
-											argv["vendor"] as string | undefined,
-											"vendor",
-											"text"
-										),
-										jurisdiction: resolveFileToken(
-											argv["jurisdiction"] as string | undefined,
-											"jurisdiction",
-											"text"
-										),
+										vendor: argv["vendor"],
+										jurisdiction: argv["jurisdiction"],
 									}),
 						sensitiveBodyPaths: [
 							["secret", "secretAccessKey"],
@@ -284,16 +280,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"text"
 						),
 					},
-					vendor: resolveFileToken(
-						argv["vendor"] as string | undefined,
-						"vendor",
-						"text"
-					),
-					jurisdiction: resolveFileToken(
-						argv["jurisdiction"] as string | undefined,
-						"jurisdiction",
-						"text"
-					),
+					vendor: argv["vendor"],
+					jurisdiction: argv["jurisdiction"],
 				});
 				const result = await withProgress(`Updating`, async () =>
 					client.r2.superSlurper.connectivityPrecheck.source({

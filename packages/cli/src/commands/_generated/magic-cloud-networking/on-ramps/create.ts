@@ -56,6 +56,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The cloud_type field",
 			choices: ["AWS", "AZURE", "GOOGLE"],
 		})
+		.coerce("cloud-type", (value) =>
+			resolveFileToken(value, "cloud-type", "text")
+		)
 		.option("description", {
 			type: "string",
 			description: "The description field",
@@ -92,6 +95,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The type field",
 			choices: ["OnrampTypeSingle", "OnrampTypeHub"],
 		})
+		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
 		.option("vpc", { type: "string", description: "The vpc field" })
 		.option("dry-run", {
 			type: "boolean",
@@ -152,11 +156,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										attached_hubs: argv["attached-hubs"],
 										attached_vpcs: argv["attached-vpcs"],
 										cloud_asn: argv["cloud-asn"],
-										cloud_type: resolveFileToken(
-											argv["cloud-type"] as string | undefined,
-											"cloud-type",
-											"text"
-										),
+										cloud_type: argv["cloud-type"],
 										description: resolveFileToken(
 											argv["description"] as string | undefined,
 											"description",
@@ -185,11 +185,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"region",
 											"text"
 										),
-										type: resolveFileToken(
-											argv["type"] as string | undefined,
-											"type",
-											"text"
-										),
+										type: argv["type"],
 										vpc: resolveFileToken(
 											argv["vpc"] as string | undefined,
 											"vpc",
@@ -271,15 +267,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv["cloud-asn"] !== undefined)
 					setNestedValue(bodyData, ["cloud_asn"], argv["cloud-asn"]);
 				if (argv["cloud-type"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["cloud_type"],
-						resolveFileToken(
-							argv["cloud-type"] as string | undefined,
-							"cloud-type",
-							"text"
-						)
-					);
+					setNestedValue(bodyData, ["cloud_type"], argv["cloud-type"]);
 				if (argv["description"] !== undefined)
 					setNestedValue(
 						bodyData,
@@ -347,11 +335,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						)
 					);
 				if (argv["type"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["type"],
-						resolveFileToken(argv["type"] as string | undefined, "type", "text")
-					);
+					setNestedValue(bodyData, ["type"], argv["type"]);
 				if (argv["vpc"] !== undefined)
 					setNestedValue(
 						bodyData,

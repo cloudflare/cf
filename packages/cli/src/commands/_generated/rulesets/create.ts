@@ -42,6 +42,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The kind of the ruleset.",
 			choices: ["managed", "custom", "root", "zone"],
 		})
+		.coerce("kind", (value) => resolveFileToken(value, "kind", "text"))
 		.option("phase", {
 			type: "string",
 			description: "The phase of the ruleset.",
@@ -72,6 +73,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"magic_transit_ratelimit",
 			],
 		})
+		.coerce("phase", (value) => resolveFileToken(value, "phase", "text"))
 		.option("rules", {
 			type: "string",
 			description:
@@ -145,16 +147,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"name",
 											"text"
 										),
-										kind: resolveFileToken(
-											argv["kind"] as string | undefined,
-											"kind",
-											"text"
-										),
-										phase: resolveFileToken(
-											argv["phase"] as string | undefined,
-											"phase",
-											"text"
-										),
+										kind: argv["kind"],
+										phase: argv["phase"],
 										rules: parseObjectArray(argv["rules"], "rules"),
 									}),
 					});
@@ -207,16 +201,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"name",
 						"text"
 					),
-					kind: resolveFileToken(
-						argv["kind"] as string | undefined,
-						"kind",
-						"text"
-					),
-					phase: resolveFileToken(
-						argv["phase"] as string | undefined,
-						"phase",
-						"text"
-					),
+					kind: argv["kind"],
+					phase: argv["phase"],
 					rules: parseObjectArray(argv["rules"], "rules"),
 				});
 				const qs = new URLSearchParams(

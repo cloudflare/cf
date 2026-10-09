@@ -62,6 +62,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["clear", "green", "amber", "amber-strict", "red", "white"],
 			default: "red",
 		})
+		.coerce("tlp", (value) => resolveFileToken(value, "tlp", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -124,11 +125,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 										publish: argv["publish"],
-										tlp: resolveFileToken(
-											argv["tlp"] as string | undefined,
-											"tlp",
-											"text"
-										),
+										tlp: argv["tlp"],
 									}),
 					});
 					return;
@@ -201,11 +198,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv["publish"] !== undefined)
 					setNestedValue(bodyData, ["publish"], argv["publish"]);
 				if (argv["tlp"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["tlp"],
-						resolveFileToken(argv["tlp"] as string | undefined, "tlp", "text")
-					);
+					setNestedValue(bodyData, ["tlp"], argv["tlp"]);
 				const result = await withProgress(`Creating`, async () =>
 					requestApi<unknown>(
 						client,

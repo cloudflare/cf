@@ -31,12 +31,18 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Specify the jurisdiction to restrict the KV namespace to durably store data within. Can only be set at namespace creation time.",
 			choices: ["eu", "fedramp", "us"],
 		})
+		.coerce("jurisdiction", (value) =>
+			resolveFileToken(value, "jurisdiction", "text")
+		)
 		.option("namespace-mode", {
 			type: "string",
 			description:
 				"The mode of the Workers KV namespace. Specify `instant` when creating a namespace to create a KV Instant namespace. Omit this field when creating a namespace to create a classic namespace. Currently, `instant` is the only supported explicit value.",
 			choices: ["instant"],
 		})
+		.coerce("namespace-mode", (value) =>
+			resolveFileToken(value, "namespace-mode", "text")
+		)
 		.option("title", {
 			type: "string",
 			description: "Human-readable string name for a Workers KV namespace.",
@@ -83,16 +89,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										jurisdiction: resolveFileToken(
-											argv["jurisdiction"] as string | undefined,
-											"jurisdiction",
-											"text"
-										),
-										mode: resolveFileToken(
-											argv["namespace-mode"] as string | undefined,
-											"namespace-mode",
-											"text"
-										),
+										jurisdiction: argv["jurisdiction"],
+										mode: argv["namespace-mode"],
 										title: resolveFileToken(
 											argv["title"] as string | undefined,
 											"title",
@@ -126,16 +124,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					jurisdiction: resolveFileToken(
-						argv["jurisdiction"] as string | undefined,
-						"jurisdiction",
-						"text"
-					),
-					mode: resolveFileToken(
-						argv["namespace-mode"] as string | undefined,
-						"namespace-mode",
-						"text"
-					),
+					jurisdiction: argv["jurisdiction"],
+					mode: argv["namespace-mode"],
 					title: resolveFileToken(
 						argv["title"] as string | undefined,
 						"title",

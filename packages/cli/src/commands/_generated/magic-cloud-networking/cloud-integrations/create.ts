@@ -37,6 +37,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The cloud_type field",
 			choices: ["AWS", "AZURE", "GOOGLE", "CLOUDFLARE"],
 		})
+		.coerce("cloud-type", (value) =>
+			resolveFileToken(value, "cloud-type", "text")
+		)
 		.option("description", {
 			type: "string",
 			description: "The description field",
@@ -87,11 +90,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										cloud_type: resolveFileToken(
-											argv["cloud-type"] as string | undefined,
-											"cloud-type",
-											"text"
-										),
+										cloud_type: argv["cloud-type"],
 										description: resolveFileToken(
 											argv["description"] as string | undefined,
 											"description",
@@ -143,15 +142,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData: Record<string, unknown> = {};
 				if (argv["cloud-type"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["cloud_type"],
-						resolveFileToken(
-							argv["cloud-type"] as string | undefined,
-							"cloud-type",
-							"text"
-						)
-					);
+					setNestedValue(bodyData, ["cloud_type"], argv["cloud-type"]);
 				if (argv["description"] !== undefined)
 					setNestedValue(
 						bodyData,

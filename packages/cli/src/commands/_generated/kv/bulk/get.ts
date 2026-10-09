@@ -41,6 +41,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["text", "json"],
 			default: "text",
 		})
+		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
 		.option("with-metadata", {
 			type: "boolean",
 			description: "Whether to include metadata in the response.",
@@ -89,11 +90,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								? parseBody(argv.body)
 								: compactBody({
 										keys: argv["keys"],
-										type: resolveFileToken(
-											argv["type"] as string | undefined,
-											"type",
-											"text"
-										),
+										type: argv["type"],
 										withMetadata: argv["with-metadata"],
 									}),
 					});
@@ -124,11 +121,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
 					keys: argv["keys"],
-					type: resolveFileToken(
-						argv["type"] as string | undefined,
-						"type",
-						"text"
-					),
+					type: argv["type"],
 					withMetadata: argv["with-metadata"],
 				});
 				const result = await withProgress(`Creating`, async () =>

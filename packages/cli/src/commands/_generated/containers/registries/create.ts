@@ -57,6 +57,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Registry provider. This must match `domain`: `DockerHub` for `docker.io`,\n`ECR` for AWS ECR, or `GAR` for Google Artifact Registry.\n",
 			choices: ["ECR", "DockerHub", "GAR"],
 		})
+		.coerce("kind", (value) => resolveFileToken(value, "kind", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -129,11 +130,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 										is_public: argv["is-public"],
-										kind: resolveFileToken(
-											argv["kind"] as string | undefined,
-											"kind",
-											"text"
-										),
+										kind: argv["kind"],
 									}),
 					});
 					return;
@@ -216,11 +213,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"text"
 					),
 					is_public: argv["is-public"],
-					kind: resolveFileToken(
-						argv["kind"] as string | undefined,
-						"kind",
-						"text"
-					),
+					kind: argv["kind"],
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.containers.registries.create({

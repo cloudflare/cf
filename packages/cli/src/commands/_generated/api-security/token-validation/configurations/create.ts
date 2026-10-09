@@ -33,6 +33,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The token_type field",
 			choices: ["JWT"],
 		})
+		.coerce("token-type", (value) =>
+			resolveFileToken(value, "token-type", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -86,11 +89,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"title",
 											"text"
 										),
-										token_type: resolveFileToken(
-											argv["token-type"] as string | undefined,
-											"token-type",
-											"text"
-										),
+										token_type: argv["token-type"],
 									}),
 					});
 					return;
@@ -144,11 +143,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"title",
 						"text"
 					),
-					token_type: resolveFileToken(
-						argv["token-type"] as string | undefined,
-						"token-type",
-						"text"
-					),
+					token_type: argv["token-type"],
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.apiSecurity.tokenValidation.configurations.create({

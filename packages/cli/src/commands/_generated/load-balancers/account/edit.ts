@@ -60,12 +60,18 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				'Determines the authoritative location when ECS is not preferred, does not exist in the request, or its GeoIP lookup is unsuccessful.\n- `"pop"`: Use the Cloudflare PoP location.\n- `"resolver_ip"`: Use the DNS resolver GeoIP location. If the GeoIP lookup is unsuccessful, use the Cloudflare PoP location.',
 			choices: ["pop", "resolver_ip"],
 		})
+		.coerce("location-strategy-mode", (value) =>
+			resolveFileToken(value, "location-strategy-mode", "text")
+		)
 		.option("location-strategy-prefer-ecs", {
 			type: "string",
 			description:
 				'Whether the EDNS Client Subnet (ECS) GeoIP should be preferred as the authoritative location.\n- `"always"`: Always prefer ECS.\n- `"never"`: Never prefer ECS.\n- `"proximity"`: Prefer ECS only when `steering_policy="proximity"`.\n- `"geo"`: Prefer ECS only when `steering_policy="geo"`.',
 			choices: ["always", "never", "proximity", "geo"],
 		})
+		.coerce("location-strategy-prefer-ecs", (value) =>
+			resolveFileToken(value, "location-strategy-prefer-ecs", "text")
+		)
 		.option("name", {
 			type: "string",
 			description:
@@ -97,6 +103,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				'Specifies the type of session affinity the load balancer should use unless specified as `"none"`. The supported types are: - `"cookie"`: On the first request to a proxied load balancer, a cookie is generated, encoding information of which origin the request will be forwarded to. Subsequent requests, by the same client to the same load balancer, will be sent to the origin server the cookie encodes, for the duration of the cookie and as long as the origin server remains healthy. If the cookie has expired or the origin server is unhealthy, then a new origin server is calculated and used. - `"ip_cookie"`: Behaves the same as `"cookie"` except the initial origin selection is stable and based on the client\'s ip address. - `"header"`: On the first request to a proxied load balancer, a session key based on the configured HTTP headers (see `session_affinity_attributes.headers`) is generated, encoding the request headers used for storing in the load balancer session state which origin the request will be forwarded to. Subsequent requests to the load balancer with the same headers will be sent to the same origin server, for the duration of the session and as long as the origin server remains healthy. If the session has been idle for the duration of `session_affinity_ttl` seconds or the origin server is unhealthy, then a new origin server is calculated and used. See `headers` in `session_affinity_attributes` for additional required configuration.',
 			choices: ["none", "cookie", "ip_cookie", "header"],
 		})
+		.coerce("session-affinity", (value) =>
+			resolveFileToken(value, "session-affinity", "text")
+		)
 		.option("session-affinity-attributes-drain-duration", {
 			type: "number",
 			description:
@@ -119,18 +128,31 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				'Configures the SameSite attribute on session affinity cookie. Value "Auto" will be translated to "Lax" or "None" depending if Always Use HTTPS is enabled. Note: when using value "None", the secure attribute can not be set to "Never".',
 			choices: ["Auto", "Lax", "None", "Strict"],
 		})
+		.coerce("session-affinity-attributes-samesite", (value) =>
+			resolveFileToken(value, "session-affinity-attributes-samesite", "text")
+		)
 		.option("session-affinity-attributes-secure", {
 			type: "string",
 			description:
 				'Configures the Secure attribute on session affinity cookie. Value "Always" indicates the Secure attribute will be set in the Set-Cookie header, "Never" indicates the Secure attribute will not be set, and "Auto" will set the Secure attribute depending if Always Use HTTPS is enabled.',
 			choices: ["Auto", "Always", "Never"],
 		})
+		.coerce("session-affinity-attributes-secure", (value) =>
+			resolveFileToken(value, "session-affinity-attributes-secure", "text")
+		)
 		.option("session-affinity-attributes-zero-downtime-failover", {
 			type: "string",
 			description:
 				'Configures the zero-downtime failover between origins within a pool when session affinity is enabled. This feature is currently incompatible with Argo, Tiered Cache, and Bandwidth Alliance. The supported values are: - `"none"`: No failover takes place for sessions pinned to the origin (default). - `"temporary"`: Traffic will be sent to another other healthy origin until the originally pinned origin is available; note that this can potentially result in heavy origin flapping. - `"sticky"`: The session affinity cookie is updated and subsequent requests are sent to the new origin. Note: Zero-downtime failover with sticky sessions is currently not supported for session affinity by header.',
 			choices: ["none", "temporary", "sticky"],
 		})
+		.coerce("session-affinity-attributes-zero-downtime-failover", (value) =>
+			resolveFileToken(
+				value,
+				"session-affinity-attributes-zero-downtime-failover",
+				"text"
+			)
+		)
 		.option("session-affinity-ttl", {
 			type: "number",
 			description:
@@ -150,6 +172,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"least_connections",
 			],
 		})
+		.coerce("steering-policy", (value) =>
+			resolveFileToken(value, "steering-policy", "text")
+		)
 		.option("ttl", {
 			type: "number",
 			description:
@@ -239,18 +264,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 										location_strategy: {
-											mode: resolveFileToken(
-												argv["location-strategy-mode"] as string | undefined,
-												"location-strategy-mode",
-												"text"
-											),
-											prefer_ecs: resolveFileToken(
-												argv["location-strategy-prefer-ecs"] as
-													| string
-													| undefined,
-												"location-strategy-prefer-ecs",
-												"text"
-											),
+											mode: argv["location-strategy-mode"],
+											prefer_ecs: argv["location-strategy-prefer-ecs"],
 										},
 										name: resolveFileToken(
 											argv["name"] as string | undefined,
@@ -263,45 +278,22 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											default_weight: argv["random-steering-default-weight"],
 										},
 										rules: parseObjectArray(argv["rules"], "rules"),
-										session_affinity: resolveFileToken(
-											argv["session-affinity"] as string | undefined,
-											"session-affinity",
-											"text"
-										),
+										session_affinity: argv["session-affinity"],
 										session_affinity_attributes: {
 											drain_duration:
 												argv["session-affinity-attributes-drain-duration"],
 											headers: argv["session-affinity-attributes-headers"],
 											require_all_headers:
 												argv["session-affinity-attributes-require-all-headers"],
-											samesite: resolveFileToken(
-												argv["session-affinity-attributes-samesite"] as
-													| string
-													| undefined,
-												"session-affinity-attributes-samesite",
-												"text"
-											),
-											secure: resolveFileToken(
-												argv["session-affinity-attributes-secure"] as
-													| string
-													| undefined,
-												"session-affinity-attributes-secure",
-												"text"
-											),
-											zero_downtime_failover: resolveFileToken(
+											samesite: argv["session-affinity-attributes-samesite"],
+											secure: argv["session-affinity-attributes-secure"],
+											zero_downtime_failover:
 												argv[
 													"session-affinity-attributes-zero-downtime-failover"
-												] as string | undefined,
-												"session-affinity-attributes-zero-downtime-failover",
-												"text"
-											),
+												],
 										},
 										session_affinity_ttl: argv["session-affinity-ttl"],
-										steering_policy: resolveFileToken(
-											argv["steering-policy"] as string | undefined,
-											"steering-policy",
-											"text"
-										),
+										steering_policy: argv["steering-policy"],
 										ttl: argv["ttl"],
 									}),
 					});
@@ -356,16 +348,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"text"
 					),
 					location_strategy: {
-						mode: resolveFileToken(
-							argv["location-strategy-mode"] as string | undefined,
-							"location-strategy-mode",
-							"text"
-						),
-						prefer_ecs: resolveFileToken(
-							argv["location-strategy-prefer-ecs"] as string | undefined,
-							"location-strategy-prefer-ecs",
-							"text"
-						),
+						mode: argv["location-strategy-mode"],
+						prefer_ecs: argv["location-strategy-prefer-ecs"],
 					},
 					name: resolveFileToken(
 						argv["name"] as string | undefined,
@@ -378,42 +362,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						default_weight: argv["random-steering-default-weight"],
 					},
 					rules: parseObjectArray(argv["rules"], "rules"),
-					session_affinity: resolveFileToken(
-						argv["session-affinity"] as string | undefined,
-						"session-affinity",
-						"text"
-					),
+					session_affinity: argv["session-affinity"],
 					session_affinity_attributes: {
 						drain_duration: argv["session-affinity-attributes-drain-duration"],
 						headers: argv["session-affinity-attributes-headers"],
 						require_all_headers:
 							argv["session-affinity-attributes-require-all-headers"],
-						samesite: resolveFileToken(
-							argv["session-affinity-attributes-samesite"] as
-								| string
-								| undefined,
-							"session-affinity-attributes-samesite",
-							"text"
-						),
-						secure: resolveFileToken(
-							argv["session-affinity-attributes-secure"] as string | undefined,
-							"session-affinity-attributes-secure",
-							"text"
-						),
-						zero_downtime_failover: resolveFileToken(
-							argv["session-affinity-attributes-zero-downtime-failover"] as
-								| string
-								| undefined,
-							"session-affinity-attributes-zero-downtime-failover",
-							"text"
-						),
+						samesite: argv["session-affinity-attributes-samesite"],
+						secure: argv["session-affinity-attributes-secure"],
+						zero_downtime_failover:
+							argv["session-affinity-attributes-zero-downtime-failover"],
 					},
 					session_affinity_ttl: argv["session-affinity-ttl"],
-					steering_policy: resolveFileToken(
-						argv["steering-policy"] as string | undefined,
-						"steering-policy",
-						"text"
-					),
+					steering_policy: argv["steering-policy"],
 					ttl: argv["ttl"],
 				});
 				const result = await withProgress(`Updating`, async () =>

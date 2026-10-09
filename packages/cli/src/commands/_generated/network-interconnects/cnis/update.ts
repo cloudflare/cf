@@ -52,6 +52,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"The BGP mode for a CNI.\nOne of the following:\n* `dynamic_route_exchange`\n* `advertise_only`",
 			choices: ["dynamic_route_exchange", "advertise_only"],
 		})
+		.coerce("bgp-mode", (value) => resolveFileToken(value, "bgp-mode", "text"))
 		.option("cust-ip", {
 			type: "string",
 			description:
@@ -149,11 +150,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"text"
 											),
 										},
-										bgp_mode: resolveFileToken(
-											argv["bgp-mode"] as string | undefined,
-											"bgp-mode",
-											"text"
-										),
+										bgp_mode: argv["bgp-mode"],
 										cust_ip: resolveFileToken(
 											argv["cust-ip"] as string | undefined,
 											"cust-ip",
@@ -268,11 +265,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"text"
 						),
 					},
-					bgp_mode: resolveFileToken(
-						argv["bgp-mode"] as string | undefined,
-						"bgp-mode",
-						"text"
-					),
+					bgp_mode: argv["bgp-mode"],
 					cust_ip: resolveFileToken(
 						argv["cust-ip"] as string | undefined,
 						"cust-ip",

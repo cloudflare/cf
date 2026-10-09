@@ -36,6 +36,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"zh-TW",
 			],
 		})
+		.coerce("language-locale", (value) =>
+			resolveFileToken(value, "language-locale", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -78,11 +81,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										"language-locale": resolveFileToken(
-											argv["language-locale"] as string | undefined,
-											"language-locale",
-											"text"
-										),
+										"language-locale": argv["language-locale"],
 									}),
 					});
 					return;
@@ -100,11 +99,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					"language-locale": resolveFileToken(
-						argv["language-locale"] as string | undefined,
-						"language-locale",
-						"text"
-					),
+					"language-locale": argv["language-locale"],
 				});
 				const result = await withProgress(`Updating`, async () =>
 					client.cps.update({ ...bodyData } satisfies Request)

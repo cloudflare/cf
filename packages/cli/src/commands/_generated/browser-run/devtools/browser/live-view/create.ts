@@ -40,6 +40,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The guardrails.mode field",
 			choices: ["readonly"],
 		})
+		.coerce("guardrails-mode", (value) =>
+			resolveFileToken(value, "guardrails-mode", "text")
+		)
 		.option("target-id", {
 			type: "string",
 			description:
@@ -103,11 +106,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								: compactBody({
 										expiresInMs: argv["expires-in-ms"],
 										guardrails: {
-											mode: resolveFileToken(
-												argv["guardrails-mode"] as string | undefined,
-												"guardrails-mode",
-												"text"
-											),
+											mode: argv["guardrails-mode"],
 										},
 										targetId: resolveFileToken(
 											argv["target-id"] as string | undefined,
@@ -139,11 +138,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const bodyData = compactBody<Body>({
 					expiresInMs: argv["expires-in-ms"],
 					guardrails: {
-						mode: resolveFileToken(
-							argv["guardrails-mode"] as string | undefined,
-							"guardrails-mode",
-							"text"
-						),
+						mode: argv["guardrails-mode"],
 					},
 					targetId: resolveFileToken(
 						argv["target-id"] as string | undefined,

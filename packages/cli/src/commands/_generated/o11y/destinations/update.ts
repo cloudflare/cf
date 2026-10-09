@@ -38,6 +38,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The configuration.type field",
 			choices: ["logpush"],
 		})
+		.coerce("configuration-type", (value) =>
+			resolveFileToken(value, "configuration-type", "text")
+		)
 		.option("configuration-url", {
 			type: "string",
 			description: "The configuration.url field",
@@ -86,11 +89,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								? parseBody(argv.body)
 								: compactBody({
 										configuration: {
-											type: resolveFileToken(
-												argv["configuration-type"] as string | undefined,
-												"configuration-type",
-												"text"
-											),
+											type: argv["configuration-type"],
 											url: resolveFileToken(
 												argv["configuration-url"] as string | undefined,
 												"configuration-url",
@@ -140,11 +139,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
 					configuration: {
-						type: resolveFileToken(
-							argv["configuration-type"] as string | undefined,
-							"configuration-type",
-							"text"
-						),
+						type: argv["configuration-type"],
 						url: resolveFileToken(
 							argv["configuration-url"] as string | undefined,
 							"configuration-url",

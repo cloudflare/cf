@@ -43,6 +43,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "How often the subscription is renewed automatically.",
 			choices: ["weekly", "monthly", "quarterly", "yearly"],
 		})
+		.coerce("frequency", (value) =>
+			resolveFileToken(value, "frequency", "text")
+		)
 		.option("rate-plan-currency", {
 			type: "string",
 			description: "The currency applied to the rate plan subscription.",
@@ -137,11 +140,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											argv["component-values"],
 											"component-values"
 										),
-										frequency: resolveFileToken(
-											argv["frequency"] as string | undefined,
-											"frequency",
-											"text"
-										),
+										frequency: argv["frequency"],
 										rate_plan: {
 											currency: resolveFileToken(
 												argv["rate-plan-currency"] as string | undefined,
@@ -201,11 +200,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						argv["component-values"],
 						"component-values"
 					),
-					frequency: resolveFileToken(
-						argv["frequency"] as string | undefined,
-						"frequency",
-						"text"
-					),
+					frequency: argv["frequency"],
 					rate_plan: {
 						currency: resolveFileToken(
 							argv["rate-plan-currency"] as string | undefined,

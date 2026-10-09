@@ -30,6 +30,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Action to take on requests that match operations included in `selector` and fail `expression`.",
 			choices: ["log", "block"],
 		})
+		.coerce("action", (value) => resolveFileToken(value, "action", "text"))
 		.option("description", {
 			type: "string",
 			description:
@@ -107,11 +108,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										action: resolveFileToken(
-											argv["action"] as string | undefined,
-											"action",
-											"text"
-										),
+										action: argv["action"],
 										description: resolveFileToken(
 											argv["description"] as string | undefined,
 											"description",
@@ -166,11 +163,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					action: resolveFileToken(
-						argv["action"] as string | undefined,
-						"action",
-						"text"
-					),
+					action: argv["action"],
 					description: resolveFileToken(
 						argv["description"] as string | undefined,
 						"description",

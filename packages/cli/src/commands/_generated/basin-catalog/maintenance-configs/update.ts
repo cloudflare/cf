@@ -34,12 +34,18 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Specifies the state of maintenance operations.",
 			choices: ["enabled", "disabled"],
 		})
+		.coerce("compaction-state", (value) =>
+			resolveFileToken(value, "compaction-state", "text")
+		)
 		.option("compaction-target-size-mb", {
 			type: "string",
 			description:
 				'Sets the target file size for compaction in megabytes. Defaults to "128".',
 			choices: ["64", "128", "256", "512"],
 		})
+		.coerce("compaction-target-size-mb", (value) =>
+			resolveFileToken(value, "compaction-target-size-mb", "text")
+		)
 		.option("snapshot-expiration-max-snapshot-age", {
 			type: "string",
 			description: "Updates the maximum age for snapshots optionally.",
@@ -54,6 +60,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Specifies the state of maintenance operations.",
 			choices: ["enabled", "disabled"],
 		})
+		.coerce("snapshot-expiration-state", (value) =>
+			resolveFileToken(value, "snapshot-expiration-state", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -103,16 +112,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								? parseBody(argv.body)
 								: compactBody({
 										compaction: {
-											state: resolveFileToken(
-												argv["compaction-state"] as string | undefined,
-												"compaction-state",
-												"text"
-											),
-											target_size_mb: resolveFileToken(
-												argv["compaction-target-size-mb"] as string | undefined,
-												"compaction-target-size-mb",
-												"text"
-											),
+											state: argv["compaction-state"],
+											target_size_mb: argv["compaction-target-size-mb"],
 										},
 										snapshot_expiration: {
 											max_snapshot_age: resolveFileToken(
@@ -124,11 +125,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											),
 											min_snapshots_to_keep:
 												argv["snapshot-expiration-min-snapshots-to-keep"],
-											state: resolveFileToken(
-												argv["snapshot-expiration-state"] as string | undefined,
-												"snapshot-expiration-state",
-												"text"
-											),
+											state: argv["snapshot-expiration-state"],
 										},
 									}),
 					});
@@ -154,16 +151,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
 					compaction: {
-						state: resolveFileToken(
-							argv["compaction-state"] as string | undefined,
-							"compaction-state",
-							"text"
-						),
-						target_size_mb: resolveFileToken(
-							argv["compaction-target-size-mb"] as string | undefined,
-							"compaction-target-size-mb",
-							"text"
-						),
+						state: argv["compaction-state"],
+						target_size_mb: argv["compaction-target-size-mb"],
 					},
 					snapshot_expiration: {
 						max_snapshot_age: resolveFileToken(
@@ -175,11 +164,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						),
 						min_snapshots_to_keep:
 							argv["snapshot-expiration-min-snapshots-to-keep"],
-						state: resolveFileToken(
-							argv["snapshot-expiration-state"] as string | undefined,
-							"snapshot-expiration-state",
-							"text"
-						),
+						state: argv["snapshot-expiration-state"],
 					},
 				});
 				const result = await withProgress(`Creating`, async () =>

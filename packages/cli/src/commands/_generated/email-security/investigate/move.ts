@@ -36,6 +36,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"RecoverableItemsPurges",
 			],
 		})
+		.coerce("destination", (value) =>
+			resolveFileToken(value, "destination", "text")
+		)
 		.option("expected-disposition", {
 			type: "string",
 			description: "Nonfunctional field. End of life: December 1, 2026.",
@@ -52,6 +55,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"NONE",
 			],
 		})
+		.coerce("expected-disposition", (value) =>
+			resolveFileToken(value, "expected-disposition", "text")
+		)
 		.option("ids", {
 			type: "string",
 			array: true,
@@ -105,16 +111,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										destination: resolveFileToken(
-											argv["destination"] as string | undefined,
-											"destination",
-											"text"
-										),
-										expected_disposition: resolveFileToken(
-											argv["expected-disposition"] as string | undefined,
-											"expected-disposition",
-											"text"
-										),
+										destination: argv["destination"],
+										expected_disposition: argv["expected-disposition"],
 										ids: argv["ids"],
 										postfix_ids: argv["postfix-ids"],
 									}),
@@ -157,16 +155,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					destination: resolveFileToken(
-						argv["destination"] as string | undefined,
-						"destination",
-						"text"
-					),
-					expected_disposition: resolveFileToken(
-						argv["expected-disposition"] as string | undefined,
-						"expected-disposition",
-						"text"
-					),
+					destination: argv["destination"],
+					expected_disposition: argv["expected-disposition"],
 					ids: argv["ids"],
 					postfix_ids: argv["postfix-ids"],
 				});

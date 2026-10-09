@@ -47,6 +47,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The git_repository.provider_type field",
 			choices: ["github", "gitlab", "gitlab_internal", "origin"],
 		})
+		.coerce("git-repository-provider-type", (value) =>
+			resolveFileToken(value, "git-repository-provider-type", "text")
+		)
 		.option("git-repository-repo-id", {
 			type: "string",
 			description: "Provider-specific repository identifier.",
@@ -204,13 +207,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"git-repository-provider-account-name",
 												"text"
 											),
-											provider_type: resolveFileToken(
-												argv["git-repository-provider-type"] as
-													| string
-													| undefined,
-												"git-repository-provider-type",
-												"text"
-											),
+											provider_type: argv["git-repository-provider-type"],
 											repo_id: resolveFileToken(
 												argv["git-repository-repo-id"] as string | undefined,
 												"git-repository-repo-id",
@@ -434,11 +431,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"git-repository-provider-account-name",
 							"text"
 						),
-						provider_type: resolveFileToken(
-							argv["git-repository-provider-type"] as string | undefined,
-							"git-repository-provider-type",
-							"text"
-						),
+						provider_type: argv["git-repository-provider-type"],
 						repo_id: resolveFileToken(
 							argv["git-repository-repo-id"] as string | undefined,
 							"git-repository-repo-id",

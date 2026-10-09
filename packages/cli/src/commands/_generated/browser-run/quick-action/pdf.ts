@@ -123,6 +123,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"a6",
 			],
 		})
+		.coerce("pdf-options-format", (value) =>
+			resolveFileToken(value, "pdf-options-format", "text")
+		)
 		.option("pdf-options-header-template", {
 			type: "string",
 			description: "HTML template for the print header.",
@@ -414,11 +417,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"pdf-options-footer-template",
 												"text"
 											),
-											format: resolveFileToken(
-												argv["pdf-options-format"] as string | undefined,
-												"pdf-options-format",
-												"text"
-											),
+											format: argv["pdf-options-format"],
 											headerTemplate: resolveFileToken(
 												argv["pdf-options-header-template"] as
 													| string
@@ -620,11 +619,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					setNestedValue(
 						bodyData,
 						["pdfOptions", "format"],
-						resolveFileToken(
-							argv["pdf-options-format"] as string | undefined,
-							"pdf-options-format",
-							"text"
-						)
+						argv["pdf-options-format"]
 					);
 				if (argv["pdf-options-header-template"] !== undefined)
 					setNestedValue(

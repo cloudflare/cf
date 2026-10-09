@@ -34,6 +34,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"The action Access will take if a user matches this policy. Infrastructure application policies can only use the Allow action.",
 			choices: ["allow", "deny", "non_identity", "bypass"],
 		})
+		.coerce("decision", (value) => resolveFileToken(value, "decision", "text"))
 		.option("exclude", {
 			type: "string",
 			description:
@@ -95,11 +96,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										decision: resolveFileToken(
-											argv["decision"] as string | undefined,
-											"decision",
-											"text"
-										),
+										decision: argv["decision"],
 										exclude: parseObjectArray(argv["exclude"], "exclude"),
 										include: parseObjectArray(argv["include"], "include"),
 										name: resolveFileToken(
@@ -148,11 +145,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					decision: resolveFileToken(
-						argv["decision"] as string | undefined,
-						"decision",
-						"text"
-					),
+					decision: argv["decision"],
 					exclude: parseObjectArray(argv["exclude"], "exclude"),
 					include: parseObjectArray(argv["include"], "include"),
 					name: resolveFileToken(

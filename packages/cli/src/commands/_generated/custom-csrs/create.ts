@@ -46,6 +46,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["rsa2048", "p256v1"],
 			default: "rsa2048",
 		})
+		.coerce("key-type", (value) => resolveFileToken(value, "key-type", "text"))
 		.option("locality", {
 			type: "string",
 			description: "City or locality name.",
@@ -136,11 +137,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"description",
 											"text"
 										),
-										key_type: resolveFileToken(
-											argv["key-type"] as string | undefined,
-											"key-type",
-											"text"
-										),
+										key_type: argv["key-type"],
 										locality: resolveFileToken(
 											argv["locality"] as string | undefined,
 											"locality",
@@ -252,11 +249,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"description",
 						"text"
 					),
-					key_type: resolveFileToken(
-						argv["key-type"] as string | undefined,
-						"key-type",
-						"text"
-					),
+					key_type: argv["key-type"],
 					locality: resolveFileToken(
 						argv["locality"] as string | undefined,
 						"locality",

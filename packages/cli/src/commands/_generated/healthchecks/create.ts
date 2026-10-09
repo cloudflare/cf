@@ -70,6 +70,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The HTTP method to use for the health check.",
 			choices: ["GET", "HEAD"],
 		})
+		.coerce("http-config-method", (value) =>
+			resolveFileToken(value, "http-config-method", "text")
+		)
 		.option("http-config-path", {
 			type: "string",
 			description: "The endpoint path to health check against.",
@@ -106,6 +109,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The TCP connection method to use for the health check.",
 			choices: ["connection_established"],
 		})
+		.coerce("tcp-config-method", (value) =>
+			resolveFileToken(value, "tcp-config-method", "text")
+		)
 		.option("tcp-config-port", {
 			type: "number",
 			description:
@@ -195,11 +201,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											),
 											expected_codes: argv["http-config-expected-codes"],
 											follow_redirects: argv["http-config-follow-redirects"],
-											method: resolveFileToken(
-												argv["http-config-method"] as string | undefined,
-												"http-config-method",
-												"text"
-											),
+											method: argv["http-config-method"],
 											path: resolveFileToken(
 												argv["http-config-path"] as string | undefined,
 												"http-config-path",
@@ -216,11 +218,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										retries: argv["retries"],
 										suspended: argv["suspended"],
 										tcp_config: {
-											method: resolveFileToken(
-												argv["tcp-config-method"] as string | undefined,
-												"tcp-config-method",
-												"text"
-											),
+											method: argv["tcp-config-method"],
 											port: argv["tcp-config-port"],
 										},
 										timeout: argv["timeout"],
@@ -287,11 +285,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						),
 						expected_codes: argv["http-config-expected-codes"],
 						follow_redirects: argv["http-config-follow-redirects"],
-						method: resolveFileToken(
-							argv["http-config-method"] as string | undefined,
-							"http-config-method",
-							"text"
-						),
+						method: argv["http-config-method"],
 						path: resolveFileToken(
 							argv["http-config-path"] as string | undefined,
 							"http-config-path",
@@ -308,11 +302,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					retries: argv["retries"],
 					suspended: argv["suspended"],
 					tcp_config: {
-						method: resolveFileToken(
-							argv["tcp-config-method"] as string | undefined,
-							"tcp-config-method",
-							"text"
-						),
+						method: argv["tcp-config-method"],
 						port: argv["tcp-config-port"],
 					},
 					timeout: argv["timeout"],

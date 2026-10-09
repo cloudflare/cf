@@ -31,6 +31,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				'Enables Unique Transformations billing for the account.\nNote: once enabled, this setting cannot be set back to "off".\n',
 			choices: ["on"],
 		})
+		.coerce("value", (value) => resolveFileToken(value, "value", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -73,11 +74,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										value: resolveFileToken(
-											argv["value"] as string | undefined,
-											"value",
-											"text"
-										),
+										value: argv["value"],
 									}),
 					});
 					return;
@@ -107,11 +104,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					value: resolveFileToken(
-						argv["value"] as string | undefined,
-						"value",
-						"text"
-					),
+					value: argv["value"],
 				});
 				const result = await withProgress(`Updating`, async () =>
 					client.accounts.utBilling.edit({

@@ -38,6 +38,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The role field",
 			choices: ["read", "write"],
 		})
+		.coerce("role", (value) => resolveFileToken(value, "role", "text"))
 		.option("subject-id", {
 			type: "string",
 			description: "The subjectId field",
@@ -47,6 +48,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The subjectType field",
 			choices: ["account", "group"],
 		})
+		.coerce("subject-type", (value) =>
+			resolveFileToken(value, "subject-type", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -89,21 +93,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										role: resolveFileToken(
-											argv["role"] as string | undefined,
-											"role",
-											"text"
-										),
+										role: argv["role"],
 										subjectId: resolveFileToken(
 											argv["subject-id"] as string | undefined,
 											"subject-id",
 											"text"
 										),
-										subjectType: resolveFileToken(
-											argv["subject-type"] as string | undefined,
-											"subject-type",
-											"text"
-										),
+										subjectType: argv["subject-type"],
 									}),
 					});
 					return;
@@ -147,21 +143,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					role: resolveFileToken(
-						argv["role"] as string | undefined,
-						"role",
-						"text"
-					),
+					role: argv["role"],
 					subjectId: resolveFileToken(
 						argv["subject-id"] as string | undefined,
 						"subject-id",
 						"text"
 					),
-					subjectType: resolveFileToken(
-						argv["subject-type"] as string | undefined,
-						"subject-type",
-						"text"
-					),
+					subjectType: argv["subject-type"],
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.cloudforceOne.events.dataset.permissions.create({

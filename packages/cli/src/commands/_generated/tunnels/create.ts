@@ -32,6 +32,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["local", "cloudflare"],
 			default: "local",
 		})
+		.coerce("config-source", (value) =>
+			resolveFileToken(value, "config-source", "text")
+		)
 		.option("name", {
 			type: "string",
 			description: "A user-friendly name for a tunnel.",
@@ -83,11 +86,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										config_src: resolveFileToken(
-											argv["config-source"] as string | undefined,
-											"config-source",
-											"text"
-										),
+										config_src: argv["config-source"],
 										name: resolveFileToken(
 											argv["name"] as string | undefined,
 											"name",
@@ -127,11 +126,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					config_src: resolveFileToken(
-						argv["config-source"] as string | undefined,
-						"config-source",
-						"text"
-					),
+					config_src: argv["config-source"],
 					name: resolveFileToken(
 						argv["name"] as string | undefined,
 						"name",

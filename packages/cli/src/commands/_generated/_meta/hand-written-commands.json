@@ -1176,21 +1176,13 @@
 			}
 		},
 		{
-			"command": "cf hyperdrive create-database-signature",
-			"name": "create-database-signature",
-			"fullPath": ["hyperdrive", "create-database-signature"],
+			"command": "cf hyperdrive integration planetscale signature",
+			"name": "signature",
+			"fullPath": ["hyperdrive", "integration", "planetscale", "signature"],
 			"description": "Returns a short-lived signed authorization for creating a database that is billed through Cloudflare. The caller passes these values to the integration partner's own CLI, which verifies the signature before creating the database. Requires the account to be entitled to Cloudflare-billed databases for the integration.",
 			"summary": "Create Database Signature",
-			"usage": "cf hyperdrive create-database-signature <integration>",
-			"arguments": [
-				{
-					"name": "integration",
-					"position": 0,
-					"type": "string",
-					"required": true,
-					"description": "The database integration to authorize against. This value is case-insensitive."
-				}
-			],
+			"usage": "cf hyperdrive integration planetscale signature",
+			"arguments": [],
 			"options": [
 				{
 					"name": "dry-run",
@@ -1203,14 +1195,14 @@
 			"category": "action",
 			"hasRequestBody": false,
 			"httpMethod": "POST",
-			"apiPath": "/accounts/{account_id}/hyperdrive/integrationsOperations/{integration}/createDatabaseSignature",
+			"apiPath": "/accounts/{account_id}/hyperdrive/integrationsOperations/planetScale/createDatabaseSignature",
 			"operationId": "create-hyperdrive-database-signature",
 			"hideCommand": false,
 			"handWritten": {
 				"kind": "leafOverride",
 				"overrides": true,
-				"dir": "hyperdrive/create-database-signature",
-				"emitKey": "hyperdrive/create-database-signature"
+				"dir": "hyperdrive/integration/planetscale/signature",
+				"emitKey": "hyperdrive/integration/planetscale/signature"
 			}
 		},
 		{
@@ -2043,6 +2035,8 @@
 		"d1": "D1 is Cloudflare's managed, serverless database with SQLite's SQL semantics, built-in disaster recovery, and Worker and HTTP API access.",
 		"d1 migrations": "Create, list, and apply D1 database migrations",
 		"hyperdrive": "Accelerate access to existing databases by caching queries and pooling connections at the edge",
+		"hyperdrive integration": "Operations for integration",
+		"hyperdrive integration planetscale": "Operations for integration.planetscale",
 		"pages": "Full-stack application hosting with Git-integrated builds, preview deployments, and custom domains",
 		"registrar": "registrar",
 		"registrar registrations": "Operations for registrations",

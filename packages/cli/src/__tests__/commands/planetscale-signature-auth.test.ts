@@ -26,6 +26,7 @@ const ENV = {
 	CLOUDFLARE_API_BASE_URL: TEST_BASE_URL,
 	CLOUDFLARE_API_TOKEN: "stale-token",
 };
+const COMMAND = ["hyperdrive", "integration", "planetscale", "signature"];
 
 describe("cf hyperdrive integration planetscale signature", () => {
 	runInTempDir();
@@ -57,30 +58,23 @@ describe("cf hyperdrive integration planetscale signature", () => {
 			)
 		);
 
-		expect(
-			await runCf(
-				["hyperdrive", "integration", "planetscale", "signature"],
-				ENV
-			)
-		).toEqual({ exitCode: 0 });
+		expect(await runCf(COMMAND, ENV)).toEqual({ exitCode: 0 });
 		expect(mocks.ensurePlanetScaleSetupScope).toHaveBeenCalledWith(false);
 		expect(authorization).toBe("Bearer authorized-token");
 		expect(std.out).toContain('"signature": "signed"');
 	});
 
 	it("does not authorize during a dry run", async () => {
-		expect(
-			await runCf(
-				[
-					"hyperdrive",
-					"integration",
-					"planetscale",
-					"signature",
-					"--dry-run",
-				],
-				ENV
-			)
-		).toEqual({ exitCode: 0 });
+		expect(await runCf([...COMMAND, "--dry-run"], ENV)).toEqual({
+			exitCode: 0,
+		});
+		expect(mocks.ensurePlanetScaleSetupScope).not.toHaveBeenCalled();
+	});
+
+	it("does not authorize during local execution", async () => {
+		await expect(runCf([...COMMAND, "--local"], ENV)).rejects.toThrow(
+			"This command has no local equivalent"
+		);
 		expect(mocks.ensurePlanetScaleSetupScope).not.toHaveBeenCalled();
 	});
 });
@@ -99,9 +93,7 @@ describe("PlanetScale signature spec drift", () => {
 			operationId: "create-hyperdrive-database-signature",
 			httpMethod: "POST",
 			path: "/accounts/{account_id}/hyperdrive/integrationsOperations/planetScale/createDatabaseSignature",
-			pathParams: [
-				{ name: "account_id", type: "string", required: true },
-			],
+			pathParams: [{ name: "account_id", type: "string", required: true }],
 			queryParams: [],
 			hasRequestBody: false,
 			requestBodyFields: [],

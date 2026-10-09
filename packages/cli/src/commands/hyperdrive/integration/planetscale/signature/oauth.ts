@@ -1,10 +1,10 @@
-import { login, readAuthCredentials } from "#lib/auth.js";
-import { isNonInteractiveOrCI } from "#lib/interactive.js";
 import { getAuthFromEnv } from "@cloudflare/workers-auth";
 import {
 	DefaultScopeKeys,
 	validateScopeKeys,
 } from "@cloudflare/workers-auth/cf";
+import { login, readAuthCredentials } from "#lib/auth.js";
+import { isNonInteractiveOrCI } from "#lib/interactive.js";
 
 const PLANETSCALE_SETUP_SCOPE = "hyperdrive-planetscale:setup";
 const NO_BROWSER_ENV_VARS = [

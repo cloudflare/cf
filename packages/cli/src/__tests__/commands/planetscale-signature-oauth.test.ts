@@ -1,4 +1,11 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from "vite-plus/test";
+import {
+	afterEach,
+	beforeEach,
+	describe,
+	expect,
+	it,
+	vi,
+} from "vite-plus/test";
 
 const mocks = vi.hoisted(() => ({
 	getAuthFromEnv: vi.fn<() => { apiToken: string } | undefined>(),
@@ -23,13 +30,19 @@ vi.mock("@cloudflare/workers-auth/cf", () => ({
 	validateScopeKeys: mocks.validateScopeKeys,
 }));
 
-const { ensurePlanetScaleSetupScope } = await import(
-	"#commands/hyperdrive/integration/planetscale/signature/oauth.js"
-);
+const { ensurePlanetScaleSetupScope } =
+	await import("#commands/hyperdrive/integration/planetscale/signature/oauth.js");
 const REQUIRED_SCOPE = "hyperdrive-planetscale:setup";
+const BROWSER_SECRET_ENV_VARS = [
+	"CLOUDFLARE_ACCESS_CLIENT_SECRET",
+	"WRANGLER_CF_AUTHORIZATION_TOKEN",
+] as const;
 
 describe("PlanetScale signature OAuth", () => {
 	beforeEach(() => {
+		for (const envVar of BROWSER_SECRET_ENV_VARS) {
+			vi.stubEnv(envVar, undefined);
+		}
 		mocks.getAuthFromEnv.mockReset().mockReturnValue(undefined);
 		mocks.isNonInteractiveOrCI.mockReset().mockReturnValue(false);
 		mocks.readAuthCredentials.mockReset().mockReturnValue(undefined);
@@ -103,19 +116,20 @@ describe("PlanetScale signature OAuth", () => {
 		expect(mocks.login).not.toHaveBeenCalled();
 	});
 
-	it("fails if an API token appears before OAuth starts", async () => {
-		mocks.login.mockResolvedValue(false);
+	it.each([
+		{
+			condition: "an API token appears before OAuth starts",
+			loginResult: false,
+			message: "CLOUDFLARE_API_TOKEN became active",
+		},
+		{
+			condition: "authorization does not grant the scope",
+			loginResult: true,
+			message: "without granting the required OAuth scope",
+		},
+	])("fails if $condition", async ({ loginResult, message }) => {
+		mocks.login.mockResolvedValue(loginResult);
 
-		await expect(ensurePlanetScaleSetupScope()).rejects.toThrow(
-			"CLOUDFLARE_API_TOKEN became active"
-		);
-	});
-
-	it("fails if authorization does not grant the scope", async () => {
-		mocks.login.mockResolvedValue(true);
-
-		await expect(ensurePlanetScaleSetupScope()).rejects.toThrow(
-			"without granting the required OAuth scope"
-		);
+		await expect(ensurePlanetScaleSetupScope()).rejects.toThrow(message);
 	});
 });

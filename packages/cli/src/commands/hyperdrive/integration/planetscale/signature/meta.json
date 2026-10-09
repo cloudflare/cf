@@ -1,6 +1,7 @@
 {
 	"description": "Returns a short-lived signed authorization for creating a database that is billed through Cloudflare. The caller passes these values to the integration partner's own CLI, which verifies the signature before creating the database. Requires the account to be entitled to Cloudflare-billed databases for the integration.",
 	"usage": "cf hyperdrive integration planetscale signature",
+	"arguments": [],
 	"options": [
 		{
 			"name": "dry-run",

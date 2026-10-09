@@ -1,3 +1,8 @@
+import { ensurePlanetScaleSetupScope } from "./oauth.js";
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -8,11 +13,6 @@ import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { withTelemetry } from "#lib/telemetry/index.js";
-import { ensurePlanetScaleSetupScope } from "./oauth.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -46,7 +46,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			return;
 		}
 
-		await ensurePlanetScaleSetupScope(argv.quiet);
+		if (!argv.local) {
+			await ensurePlanetScaleSetupScope(argv.quiet);
+		}
 		const client = await createCommandClient(argv);
 		const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
 		argv.accountId = accountId;

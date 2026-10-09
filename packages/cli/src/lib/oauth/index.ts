@@ -14,10 +14,12 @@ import {
 	type AuthContext,
 } from "@cloudflare/workers-auth/cf";
 import { USER_AGENT, VERSION } from "../../version.js";
+import { hasQuietFlag } from "../args.js";
 import { CliExit } from "../cli-exit.js";
 import { getComplianceRegion, type ComplianceRegion } from "../context.js";
 import { isNonInteractiveOrCI } from "../interactive.js";
 import { openSession } from "../session.js";
+import { printAccountConfigHint } from "./account-hint.js";
 
 const logger: AuthContext["logger"] = {
 	debug: (...args) => {
@@ -64,16 +66,11 @@ async function select(
 		throw new CliExit(130, { cancelled: true });
 	}
 
-	logger.log(
-		`To have cf automatically use this account for future commands in this project, you can update your \`cloudflare.config.ts\`:
-
-import { defineConfig } from "cf/config";
-
-export default defineConfig({
-  accountId: "${result}",
-});
-`
-	);
+	// workers-auth only asks cf to select an account, so the result is
+	// always an account ID.
+	if (!hasQuietFlag()) {
+		printAccountConfigHint(result);
+	}
 
 	return result;
 }

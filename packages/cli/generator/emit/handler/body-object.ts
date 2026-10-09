@@ -82,9 +82,7 @@ export function emitBodyObject(ctx: EmitContext, indent: string): string[] {
 export function emitBodyArgValue(arg: ArgIR, read: string): string {
 	return arg.type === "object-array"
 		? `parseObjectArray(${read}, ${JSON.stringify(arg.name)})`
-		: arg.fromFile && arg.choices?.length
-			? read
-			: arg.fromFile
-				? `resolveFileToken(${read} as string | undefined, ${JSON.stringify(arg.name)}, ${JSON.stringify(arg.fromFile.format)})`
-				: read;
+		: arg.fromFile && !arg.choices?.length
+			? `resolveFileToken(${read} as string | undefined, ${JSON.stringify(arg.name)}, ${JSON.stringify(arg.fromFile.format)})`
+			: read;
 }

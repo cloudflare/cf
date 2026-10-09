@@ -46,13 +46,6 @@ describe("cf previews deploy Containers", () => {
 	beforeEach(() => {
 		vi.stubEnv("CLOUDFLARE_API_TOKEN", "test-api-token");
 		vi.stubEnv("CLOUDFLARE_ACCOUNT_ID", ACCOUNT_ID);
-		msw.use(
-			http.get(
-				"*/accounts/:accountId/workers/workers/:workerName/previews/:previewId/deployments/latest",
-				() =>
-					HttpResponse.json(createFetchResult({ id: "previous-deployment-id" }))
-			)
-		);
 	});
 
 	it("deploys only live Containers belonging to the selected Worker", async () => {
@@ -72,6 +65,11 @@ describe("cf previews deploy Containers", () => {
 							updated_on: "2026-09-23T00:00:00Z",
 						})
 					)
+			),
+			http.get(
+				"*/accounts/:accountId/workers/workers/:workerName/previews/:previewId/deployments/latest",
+				() =>
+					HttpResponse.json(createFetchResult({ id: "previous-deployment-id" }))
 			),
 			http.post(
 				"*/accounts/:accountId/workers/workers/:workerName/previews/:previewId/deployments",
@@ -202,6 +200,11 @@ describe("cf previews deploy Containers", () => {
 							updated_on: "2026-09-23T00:00:00Z",
 						})
 					)
+			),
+			http.get(
+				"*/accounts/:accountId/workers/workers/:workerName/previews/:previewId/deployments/latest",
+				() =>
+					HttpResponse.json(createFetchResult({ id: "previous-deployment-id" }))
 			),
 			http.post(
 				"*/accounts/:accountId/workers/workers/:workerName/previews/:previewId/deployments",

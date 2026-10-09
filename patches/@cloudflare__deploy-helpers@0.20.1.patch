@@ -1,7 +1,7 @@
 diff --git a/dist/index.mjs b/dist/index.mjs
 --- a/dist/index.mjs
 +++ b/dist/index.mjs
-@@ -7036,13 +7036,8 @@ async function pushOrResolveImage(config2, container, imageName, imageConfig, bu
+@@ -7235,13 +7235,8 @@ async function pushOrResolveImage(config2, container, imageName, imageConfig, bu
        targetTag: builtImage.localTag,
        accountId,
        complianceConfig: config2,
@@ -14,5 +14,5 @@ diff --git a/dist/index.mjs b/dist/index.mjs
 -      }
 -    }
      return "remoteDigest" in imageRef ? imageRef.remoteDigest : imageRef.newTag;
-   } catch (error51) {
-     if (error51 instanceof Error) {
+   } catch (error62) {
+     if (error62 instanceof Error) {

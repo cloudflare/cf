@@ -5,7 +5,7 @@ packages:
 patchedDependencies:
   "@changesets/cli@2.31.0": patches/@changesets__cli@2.31.0.patch
   "@cloudflare/containers-shared@*": patches/@cloudflare__containers-shared@0.21.1.patch
-  "@cloudflare/deploy-helpers@*": patches/@cloudflare__deploy-helpers@0.19.0.patch
+  "@cloudflare/deploy-helpers@*": patches/@cloudflare__deploy-helpers@0.20.1.patch
 
 # Prevent transitive deps from pulling from git / tarball URLs.
 # Direct deps (vendor/*.tgz) are still allowed.

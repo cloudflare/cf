@@ -1,5 +1,36 @@
 # cf
 
+## 1.0.0-beta.14
+
+### Minor Changes
+
+- 1835314: Add `--dry-run` to hand-written commands
+
+  Validate arguments and preview hand-written commands without executing their handlers. Commands with existing dry-run implementations retain their command-specific previews. Require every hand-written command to declare a dry-run strategy and option during generation.
+
+- b18d3bc: Update the generated command surface and vendored Forge packages for
+  Forge OpenAPI release `452470fdc5b20e63c0703ecd7641013545bb9cdc`.
+- 4456851: Update the generated command surface and vendored Forge packages for
+  Forge OpenAPI release `501f083b89efb26dccfb49369db0fe5484109b5a`.
+- dc4bd05: Update the generated command surface and vendored Forge packages for
+  Forge OpenAPI release `6b00f157496cd6a1792a613dc94654c51273aeb9`.
+- e116362: Update the generated command surface and vendored Forge packages for
+  Forge OpenAPI release `f20240cf7d68bcebb138ab5ed5240ed523cb10ef`.
+
+### Patch Changes
+
+- 2d61a4c: Accept `@file` values for generated string enum body flags
+
+  Resolve file tokens before checking an enum's allowed choices, so a file containing a valid value works like a literal flag. Continue rejecting file contents outside the enum and preserve the existing choices in help.
+
+- 7283747: Remove the fixed timeout from binary uploads
+
+  Allow binary and multipart uploads to finish without a CLI-imposed request
+  deadline, so large R2 objects are not aborted after 30 seconds. Keep the
+  standard timeout for other API calls and report SDK timeouts clearly.
+
+- 1b423f4: Keep `cf previews deploy` available in a generated command group so future schema updates can add Preview API commands without a root registration collision.
+
 ## 1.0.0-beta.13
 
 ### Minor Changes

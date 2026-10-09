@@ -44,6 +44,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"When inbound trace context may be continued. Authenticated propagation is not supported yet.",
 			choices: ["accept", "authenticated", "reject"],
 		})
+		.coerce("propagation-policy", (value: string | undefined) =>
+			resolveFileToken(value, "propagation-policy", "text")
+		)
 		.option("sampling-ratio", {
 			type: "number",
 			description: "The ratio of requests sampled for tracing, from 0 to 1.",
@@ -101,11 +104,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										enabled: argv["enabled"],
 										forward_context: argv["forward-context"],
 										persist: argv["persist"],
-										propagation_policy: resolveFileToken(
-											argv["propagation-policy"] as string | undefined,
-											"propagation-policy",
-											"text"
-										),
+										propagation_policy: argv["propagation-policy"],
 										sampling_ratio: argv["sampling-ratio"],
 									}),
 					});
@@ -135,11 +134,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					enabled: argv["enabled"],
 					forward_context: argv["forward-context"],
 					persist: argv["persist"],
-					propagation_policy: resolveFileToken(
-						argv["propagation-policy"] as string | undefined,
-						"propagation-policy",
-						"text"
-					),
+					propagation_policy: argv["propagation-policy"],
 					sampling_ratio: argv["sampling-ratio"],
 				});
 				const result = await withProgress(`Updating`, async () =>

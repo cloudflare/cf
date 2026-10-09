@@ -50,6 +50,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				'X402 payment scheme. "exact" requires the specified payment amount; "upto" permits a payment up to the specified amount; "origin_controlled" lets the origin server set pricing dynamically, in which case the rule carries no price and the price field must be omitted.',
 			choices: ["exact", "upto", "origin_controlled"],
 		})
+		.coerce("scheme", (value: string | undefined) =>
+			resolveFileToken(value, "scheme", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -116,11 +119,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"price",
 											"text"
 										),
-										scheme: resolveFileToken(
-											argv["scheme"] as string | undefined,
-											"scheme",
-											"text"
-										),
+										scheme: argv["scheme"],
 									}),
 					});
 					return;
@@ -167,11 +166,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"price",
 						"text"
 					),
-					scheme: resolveFileToken(
-						argv["scheme"] as string | undefined,
-						"scheme",
-						"text"
-					),
+					scheme: argv["scheme"],
 				});
 				const result = await withProgress(`Updating`, async () =>
 					client.monetization.rules.edit({

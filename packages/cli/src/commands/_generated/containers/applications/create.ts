@@ -99,6 +99,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Selects a scheduler-backed application. Use `default` when the Containers\nscheduler should maintain the requested number of instances and manage deployment\nconfiguration, placement, scaling, versions, and rollouts.\n",
 			choices: ["default", "durable_object"],
 		})
+		.coerce("scheduling-policy", (value: string | undefined) =>
+			resolveFileToken(value, "scheduling-policy", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -222,11 +225,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										},
 										rollout_active_grace_period:
 											argv["rollout-active-grace-period"],
-										scheduling_policy: resolveFileToken(
-											argv["scheduling-policy"] as string | undefined,
-											"scheduling-policy",
-											"text"
-										),
+										scheduling_policy: argv["scheduling-policy"],
 									}),
 					});
 					return;
@@ -306,11 +305,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						},
 					},
 					rollout_active_grace_period: argv["rollout-active-grace-period"],
-					scheduling_policy: resolveFileToken(
-						argv["scheduling-policy"] as string | undefined,
-						"scheduling-policy",
-						"text"
-					),
+					scheduling_policy: argv["scheduling-policy"],
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.containers.applications.create({

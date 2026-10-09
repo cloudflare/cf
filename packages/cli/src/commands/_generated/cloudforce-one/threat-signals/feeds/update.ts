@@ -44,6 +44,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"ab02a976-0a20-5c76-a553-7f6325afacfe",
 			],
 		})
+		.coerce("category-id", (value: string | undefined) =>
+			resolveFileToken(value, "category-id", "text")
+		)
 		.option("display-name", {
 			type: "string",
 			description: "The display_name field",
@@ -96,11 +99,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										category_id: resolveFileToken(
-											argv["category-id"] as string | undefined,
-											"category-id",
-											"text"
-										),
+										category_id: argv["category-id"],
 										display_name: resolveFileToken(
 											argv["display-name"] as string | undefined,
 											"display-name",
@@ -136,11 +135,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					category_id: resolveFileToken(
-						argv["category-id"] as string | undefined,
-						"category-id",
-						"text"
-					),
+					category_id: argv["category-id"],
 					display_name: resolveFileToken(
 						argv["display-name"] as string | undefined,
 						"display-name",

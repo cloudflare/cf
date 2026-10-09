@@ -36,6 +36,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The auth_requirements.type field",
 			choices: ["Org", "NoAuth"],
 		})
+		.coerce("auth-requirements-type", (value: string | undefined) =>
+			resolveFileToken(value, "auth-requirements-type", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -83,11 +86,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												argv[
 													"auth-requirements-allowed-microsoft-organizations"
 												],
-											type: resolveFileToken(
-												argv["auth-requirements-type"] as string | undefined,
-												"auth-requirements-type",
-												"text"
-											),
+											type: argv["auth-requirements-type"],
 										},
 									}),
 					});
@@ -121,11 +120,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					auth_requirements: {
 						allowed_microsoft_organizations:
 							argv["auth-requirements-allowed-microsoft-organizations"],
-						type: resolveFileToken(
-							argv["auth-requirements-type"] as string | undefined,
-							"auth-requirements-type",
-							"text"
-						),
+						type: argv["auth-requirements-type"],
 					},
 				});
 				const result = await withProgress(`Creating`, async () =>

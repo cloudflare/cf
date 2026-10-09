@@ -30,6 +30,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Mark state of operation in API Discovery\n  * `review` - Mark operation as for review\n  * `ignored` - Mark operation as ignored\n",
 			choices: ["review", "ignored"],
 		})
+		.coerce("state", (value: string | undefined) =>
+			resolveFileToken(value, "state", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -74,11 +77,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										state: resolveFileToken(
-											argv["state"] as string | undefined,
-											"state",
-											"text"
-										),
+										state: argv["state"],
 									}),
 					});
 					return;
@@ -104,11 +103,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					state: resolveFileToken(
-						argv["state"] as string | undefined,
-						"state",
-						"text"
-					),
+					state: argv["state"],
 				});
 				const result = await withProgress(`Updating`, async () =>
 					client.webAssets.discovery.operations.edit({

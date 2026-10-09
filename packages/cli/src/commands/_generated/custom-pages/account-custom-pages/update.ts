@@ -39,6 +39,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The custom page state.",
 			choices: ["default", "customized"],
 		})
+		.coerce("state", (value: string | undefined) =>
+			resolveFileToken(value, "state", "text")
+		)
 		.option("url", {
 			type: "string",
 			description: "The URL associated with the custom page.",
@@ -96,11 +99,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										state: resolveFileToken(
-											argv["state"] as string | undefined,
-											"state",
-											"text"
-										),
+										state: argv["state"],
 										url: resolveFileToken(
 											argv["url"] as string | undefined,
 											"url",
@@ -155,11 +154,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					state: resolveFileToken(
-						argv["state"] as string | undefined,
-						"state",
-						"text"
-					),
+					state: argv["state"],
 					url: resolveFileToken(
 						argv["url"] as string | undefined,
 						"url",

@@ -61,6 +61,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Deprecated compatibility field. Omit it; the API ignores this value and infers the type from the flag's variations.",
 			choices: ["boolean", "string", "number", "json"],
 		})
+		.coerce("type", (value: string | undefined) =>
+			resolveFileToken(value, "type", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -120,11 +123,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 										rules: parseObjectArray(argv["rules"], "rules"),
-										type: resolveFileToken(
-											argv["type"] as string | undefined,
-											"type",
-											"text"
-										),
+										type: argv["type"],
 									}),
 					});
 					return;
@@ -187,11 +186,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"text"
 					),
 					rules: parseObjectArray(argv["rules"], "rules"),
-					type: resolveFileToken(
-						argv["type"] as string | undefined,
-						"type",
-						"text"
-					),
+					type: argv["type"],
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.flagship.apps.flags.create({

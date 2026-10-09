@@ -25,11 +25,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The scope of the URL normalization.",
 			choices: ["incoming", "both", "none"],
 		})
+		.coerce("scope", (value: string | undefined) =>
+			resolveFileToken(value, "scope", "text")
+		)
 		.option("type", {
 			type: "string",
 			description: "The type of URL normalization performed by Cloudflare.",
 			choices: ["cloudflare", "rfc3986"],
 		})
+		.coerce("type", (value: string | undefined) =>
+			resolveFileToken(value, "type", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -73,16 +79,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										scope: resolveFileToken(
-											argv["scope"] as string | undefined,
-											"scope",
-											"text"
-										),
-										type: resolveFileToken(
-											argv["type"] as string | undefined,
-											"type",
-											"text"
-										),
+										scope: argv["scope"],
+										type: argv["type"],
 									}),
 					});
 					return;
@@ -121,16 +119,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					scope: resolveFileToken(
-						argv["scope"] as string | undefined,
-						"scope",
-						"text"
-					),
-					type: resolveFileToken(
-						argv["type"] as string | undefined,
-						"type",
-						"text"
-					),
+					scope: argv["scope"],
+					type: argv["type"],
 				});
 				const result = await withProgress(`Updating`, async () =>
 					client.urlNormalization.update({

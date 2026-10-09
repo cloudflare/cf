@@ -41,6 +41,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The strategy field",
 			choices: ["percentage"],
 		})
+		.coerce("strategy", (value: string | undefined) =>
+			resolveFileToken(value, "strategy", "text")
+		)
 		.option("versions", {
 			type: "string",
 			description:
@@ -93,11 +96,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										strategy: resolveFileToken(
-											argv["strategy"] as string | undefined,
-											"strategy",
-											"text"
-										),
+										strategy: argv["strategy"],
 										versions: parseObjectArray(argv["versions"], "versions"),
 									}),
 					});
@@ -142,11 +141,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					strategy: resolveFileToken(
-						argv["strategy"] as string | undefined,
-						"strategy",
-						"text"
-					),
+					strategy: argv["strategy"],
 					versions: parseObjectArray(argv["versions"], "versions"),
 				});
 				const qs = new URLSearchParams(

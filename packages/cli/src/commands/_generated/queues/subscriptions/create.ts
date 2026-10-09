@@ -33,6 +33,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Type of destination",
 			choices: ["queues.queue"],
 		})
+		.coerce("destination-type", (value: string | undefined) =>
+			resolveFileToken(value, "destination-type", "text")
+		)
 		.option("enabled", {
 			type: "boolean",
 			description: "Whether the subscription is active",
@@ -58,6 +61,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"workflows.workflow",
 			],
 		})
+		.coerce("source-type", (value: string | undefined) =>
+			resolveFileToken(value, "source-type", "text")
+		)
 		.option("source-model-name", {
 			type: "string",
 			description: "Name of the Workers AI model",
@@ -158,11 +164,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"destination-queue-id",
 												"text"
 											),
-											type: resolveFileToken(
-												argv["destination-type"] as string | undefined,
-												"destination-type",
-												"text"
-											),
+											type: argv["destination-type"],
 										},
 										enabled: argv["enabled"],
 										events: argv["events"],
@@ -172,11 +174,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 										source: {
-											type: resolveFileToken(
-												argv["source-type"] as string | undefined,
-												"source-type",
-												"text"
-											),
+											type: argv["source-type"],
 											model_name: resolveFileToken(
 												argv["source-model-name"] as string | undefined,
 												"source-model-name",
@@ -226,11 +224,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"destination-queue-id",
 							"text"
 						),
-						type: resolveFileToken(
-							argv["destination-type"] as string | undefined,
-							"destination-type",
-							"text"
-						),
+						type: argv["destination-type"],
 					},
 					enabled: argv["enabled"],
 					events: argv["events"],
@@ -240,11 +234,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"text"
 					),
 					source: {
-						type: resolveFileToken(
-							argv["source-type"] as string | undefined,
-							"source-type",
-							"text"
-						),
+						type: argv["source-type"],
 						model_name: resolveFileToken(
 							argv["source-model-name"] as string | undefined,
 							"source-model-name",

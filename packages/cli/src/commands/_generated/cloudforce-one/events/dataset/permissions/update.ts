@@ -40,6 +40,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The role field",
 			choices: ["read", "write"],
 		})
+		.coerce("role", (value: string | undefined) =>
+			resolveFileToken(value, "role", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -85,11 +88,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										role: resolveFileToken(
-											argv["role"] as string | undefined,
-											"role",
-											"text"
-										),
+										role: argv["role"],
 									}),
 					});
 					return;
@@ -121,11 +120,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					role: resolveFileToken(
-						argv["role"] as string | undefined,
-						"role",
-						"text"
-					),
+					role: argv["role"],
 				});
 				const result = await withProgress(`Updating`, async () =>
 					client.cloudforceOne.events.dataset.permissions.update({

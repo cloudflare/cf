@@ -39,6 +39,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"ab02a976-0a20-5c76-a553-7f6325afacfe",
 			],
 		})
+		.coerce("category-id", (value: string | undefined) =>
+			resolveFileToken(value, "category-id", "text")
+		)
 		.option("curated-feed-id", {
 			type: "string",
 			description: "The curated_feed_id field",
@@ -101,11 +104,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										category_id: resolveFileToken(
-											argv["category-id"] as string | undefined,
-											"category-id",
-											"text"
-										),
+										category_id: argv["category-id"],
 										curated_feed_id: resolveFileToken(
 											argv["curated-feed-id"] as string | undefined,
 											"curated-feed-id",
@@ -150,11 +149,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					category_id: resolveFileToken(
-						argv["category-id"] as string | undefined,
-						"category-id",
-						"text"
-					),
+					category_id: argv["category-id"],
 					curated_feed_id: resolveFileToken(
 						argv["curated-feed-id"] as string | undefined,
 						"curated-feed-id",

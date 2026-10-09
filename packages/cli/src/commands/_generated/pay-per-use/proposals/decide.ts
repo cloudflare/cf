@@ -30,6 +30,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The action field",
 			choices: ["accept", "reject"],
 		})
+		.coerce("action", (value: string | undefined) =>
+			resolveFileToken(value, "action", "text")
+		)
 		.option("price-id", {
 			type: "number",
 			description:
@@ -77,11 +80,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										action: resolveFileToken(
-											argv["action"] as string | undefined,
-											"action",
-											"text"
-										),
+										action: argv["action"],
 										price_id: argv["price-id"],
 									}),
 					});
@@ -117,11 +116,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					action: resolveFileToken(
-						argv["action"] as string | undefined,
-						"action",
-						"text"
-					),
+					action: argv["action"],
 					price_id: argv["price-id"],
 				});
 				const result = await withProgress(`Creating`, async () =>

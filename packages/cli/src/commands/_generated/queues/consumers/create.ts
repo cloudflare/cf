@@ -71,6 +71,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The type field",
 			choices: ["worker", "http_pull"],
 		})
+		.coerce("type", (value: string | undefined) =>
+			resolveFileToken(value, "type", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -140,11 +143,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											visibility_timeout_ms:
 												argv["settings-visibility-timeout-ms"],
 										},
-										type: resolveFileToken(
-											argv["type"] as string | undefined,
-											"type",
-											"text"
-										),
+										type: argv["type"],
 									}),
 					});
 					return;
@@ -201,11 +200,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						retry_delay: argv["settings-retry-delay"],
 						visibility_timeout_ms: argv["settings-visibility-timeout-ms"],
 					},
-					type: resolveFileToken(
-						argv["type"] as string | undefined,
-						"type",
-						"text"
-					),
+					type: argv["type"],
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.queues.consumers.create({

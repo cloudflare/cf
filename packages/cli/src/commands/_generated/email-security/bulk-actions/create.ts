@@ -31,6 +31,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"The action the job performs on every message matching the search parameters.",
 			choices: ["MOVE", "RELEASE"],
 		})
+		.coerce("action", (value: string | undefined) =>
+			resolveFileToken(value, "action", "text")
+		)
 		.option("comment", {
 			type: "string",
 			description: "Optional note describing the job.",
@@ -46,6 +49,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"RecoverableItemsPurges",
 			],
 		})
+		.coerce("destination", (value: string | undefined) =>
+			resolveFileToken(value, "destination", "text")
+		)
 		.option("expected-disposition", {
 			type: "string",
 			description: "Nonfunctional field. End of life: December 1, 2026.",
@@ -62,6 +68,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"NONE",
 			],
 		})
+		.coerce("expected-disposition", (value: string | undefined) =>
+			resolveFileToken(value, "expected-disposition", "text")
+		)
 		.option("search-params-action-log", {
 			type: "boolean",
 			description:
@@ -86,6 +95,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"move_failed",
 			],
 		})
+		.coerce("search-params-delivery-status", (value: string | undefined) =>
+			resolveFileToken(value, "search-params-delivery-status", "text")
+		)
 		.option("search-params-detections-only", {
 			type: "boolean",
 			description: "Whether to include only detections in search results.",
@@ -121,11 +133,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"NONE",
 			],
 		})
+		.coerce("search-params-final-disposition", (value: string | undefined) =>
+			resolveFileToken(value, "search-params-final-disposition", "text")
+		)
 		.option("search-params-message-action", {
 			type: "string",
 			description: "Message actions to filter by.",
 			choices: ["PREVIEW", "QUARANTINE_RELEASED", "MOVED"],
 		})
+		.coerce("search-params-message-action", (value: string | undefined) =>
+			resolveFileToken(value, "search-params-message-action", "text")
+		)
 		.option("search-params-message-id", {
 			type: "string",
 			description: "Message-ID header value to filter by.",
@@ -221,26 +239,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										action: resolveFileToken(
-											argv["action"] as string | undefined,
-											"action",
-											"text"
-										),
+										action: argv["action"],
 										comment: resolveFileToken(
 											argv["comment"] as string | undefined,
 											"comment",
 											"text"
 										),
-										destination: resolveFileToken(
-											argv["destination"] as string | undefined,
-											"destination",
-											"text"
-										),
-										expected_disposition: resolveFileToken(
-											argv["expected-disposition"] as string | undefined,
-											"expected-disposition",
-											"text"
-										),
+										destination: argv["destination"],
+										expected_disposition: argv["expected-disposition"],
 										search_params: {
 											action_log: argv["search-params-action-log"],
 											alert_id: resolveFileToken(
@@ -248,13 +254,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"search-params-alert-id",
 												"text"
 											),
-											delivery_status: resolveFileToken(
-												argv["search-params-delivery-status"] as
-													| string
-													| undefined,
-												"search-params-delivery-status",
-												"text"
-											),
+											delivery_status: argv["search-params-delivery-status"],
 											detections_only: argv["search-params-detections-only"],
 											domain: resolveFileToken(
 												argv["search-params-domain"] as string | undefined,
@@ -273,20 +273,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"search-params-exact-subject",
 												"text"
 											),
-											final_disposition: resolveFileToken(
-												argv["search-params-final-disposition"] as
-													| string
-													| undefined,
-												"search-params-final-disposition",
-												"text"
-											),
-											message_action: resolveFileToken(
-												argv["search-params-message-action"] as
-													| string
-													| undefined,
-												"search-params-message-action",
-												"text"
-											),
+											final_disposition:
+												argv["search-params-final-disposition"],
+											message_action: argv["search-params-message-action"],
 											message_id: resolveFileToken(
 												argv["search-params-message-id"] as string | undefined,
 												"search-params-message-id",
@@ -360,26 +349,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					action: resolveFileToken(
-						argv["action"] as string | undefined,
-						"action",
-						"text"
-					),
+					action: argv["action"],
 					comment: resolveFileToken(
 						argv["comment"] as string | undefined,
 						"comment",
 						"text"
 					),
-					destination: resolveFileToken(
-						argv["destination"] as string | undefined,
-						"destination",
-						"text"
-					),
-					expected_disposition: resolveFileToken(
-						argv["expected-disposition"] as string | undefined,
-						"expected-disposition",
-						"text"
-					),
+					destination: argv["destination"],
+					expected_disposition: argv["expected-disposition"],
 					search_params: {
 						action_log: argv["search-params-action-log"],
 						alert_id: resolveFileToken(
@@ -387,11 +364,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"search-params-alert-id",
 							"text"
 						),
-						delivery_status: resolveFileToken(
-							argv["search-params-delivery-status"] as string | undefined,
-							"search-params-delivery-status",
-							"text"
-						),
+						delivery_status: argv["search-params-delivery-status"],
 						detections_only: argv["search-params-detections-only"],
 						domain: resolveFileToken(
 							argv["search-params-domain"] as string | undefined,
@@ -408,16 +381,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"search-params-exact-subject",
 							"text"
 						),
-						final_disposition: resolveFileToken(
-							argv["search-params-final-disposition"] as string | undefined,
-							"search-params-final-disposition",
-							"text"
-						),
-						message_action: resolveFileToken(
-							argv["search-params-message-action"] as string | undefined,
-							"search-params-message-action",
-							"text"
-						),
+						final_disposition: argv["search-params-final-disposition"],
+						message_action: argv["search-params-message-action"],
 						message_id: resolveFileToken(
 							argv["search-params-message-id"] as string | undefined,
 							"search-params-message-id",

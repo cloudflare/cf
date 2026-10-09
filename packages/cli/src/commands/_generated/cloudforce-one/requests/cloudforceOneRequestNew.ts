@@ -42,6 +42,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The CISA defined Traffic Light Protocol (TLP).",
 			choices: ["clear", "amber", "amber-strict", "green", "red"],
 		})
+		.coerce("tlp", (value: string | undefined) =>
+			resolveFileToken(value, "tlp", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -104,11 +107,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"summary",
 											"text"
 										),
-										tlp: resolveFileToken(
-											argv["tlp"] as string | undefined,
-											"tlp",
-											"text"
-										),
+										tlp: argv["tlp"],
 									}),
 					});
 					return;
@@ -151,11 +150,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"summary",
 						"text"
 					),
-					tlp: resolveFileToken(
-						argv["tlp"] as string | undefined,
-						"tlp",
-						"text"
-					),
+					tlp: argv["tlp"],
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.cloudforceOne.requests.cloudforceOneRequestNew({

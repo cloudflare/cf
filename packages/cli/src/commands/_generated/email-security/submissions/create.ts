@@ -35,6 +35,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The type field",
 			choices: ["reclassification", "missed_detection"],
 		})
+		.coerce("type", (value: string | undefined) =>
+			resolveFileToken(value, "type", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -78,11 +81,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								? parseBody(argv.body)
 								: compactBody({
 										messages: parseObjectArray(argv["messages"], "messages"),
-										type: resolveFileToken(
-											argv["type"] as string | undefined,
-											"type",
-											"text"
-										),
+										type: argv["type"],
 									}),
 					});
 					return;
@@ -118,11 +117,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
 					messages: parseObjectArray(argv["messages"], "messages"),
-					type: resolveFileToken(
-						argv["type"] as string | undefined,
-						"type",
-						"text"
-					),
+					type: argv["type"],
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.emailSecurity.submissions.create({

@@ -57,6 +57,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"The default policy to use when load shedding. A random policy randomly sheds a given percent of requests. A hash policy computes a hash over the CF-Connecting-IP address and sheds all requests originating from a percent of IPs.",
 			choices: ["random", "hash"],
 		})
+		.coerce("load-shedding-default-policy", (value: string | undefined) =>
+			resolveFileToken(value, "load-shedding-default-policy", "text")
+		)
 		.option("load-shedding-session-percent", {
 			type: "number",
 			description:
@@ -68,6 +71,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Only the hash policy is supported for existing sessions (to avoid exponential decay).",
 			choices: ["hash"],
 		})
+		.coerce("load-shedding-session-policy", (value: string | undefined) =>
+			resolveFileToken(value, "load-shedding-session-policy", "text")
+		)
 		.option("longitude", {
 			type: "number",
 			description:
@@ -136,6 +142,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"least_connections",
 			],
 		})
+		.coerce("origin-steering-policy", (value: string | undefined) =>
+			resolveFileToken(value, "origin-steering-policy", "text")
+		)
 		.option("origins", {
 			type: "string",
 			description:
@@ -203,21 +212,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										latitude: argv["latitude"],
 										load_shedding: {
 											default_percent: argv["load-shedding-default-percent"],
-											default_policy: resolveFileToken(
-												argv["load-shedding-default-policy"] as
-													| string
-													| undefined,
-												"load-shedding-default-policy",
-												"text"
-											),
+											default_policy: argv["load-shedding-default-policy"],
 											session_percent: argv["load-shedding-session-percent"],
-											session_policy: resolveFileToken(
-												argv["load-shedding-session-policy"] as
-													| string
-													| undefined,
-												"load-shedding-session-policy",
-												"text"
-											),
+											session_policy: argv["load-shedding-session-policy"],
 										},
 										longitude: argv["longitude"],
 										minimum_origins: argv["minimum-origins"],
@@ -253,11 +250,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											},
 										},
 										origin_steering: {
-											policy: resolveFileToken(
-												argv["origin-steering-policy"] as string | undefined,
-												"origin-steering-policy",
-												"text"
-											),
+											policy: argv["origin-steering-policy"],
 										},
 										origins: parseObjectArray(argv["origins"], "origins"),
 									}),
@@ -301,17 +294,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					latitude: argv["latitude"],
 					load_shedding: {
 						default_percent: argv["load-shedding-default-percent"],
-						default_policy: resolveFileToken(
-							argv["load-shedding-default-policy"] as string | undefined,
-							"load-shedding-default-policy",
-							"text"
-						),
+						default_policy: argv["load-shedding-default-policy"],
 						session_percent: argv["load-shedding-session-percent"],
-						session_policy: resolveFileToken(
-							argv["load-shedding-session-policy"] as string | undefined,
-							"load-shedding-session-policy",
-							"text"
-						),
+						session_policy: argv["load-shedding-session-policy"],
 					},
 					longitude: argv["longitude"],
 					minimum_origins: argv["minimum-origins"],
@@ -347,11 +332,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						},
 					},
 					origin_steering: {
-						policy: resolveFileToken(
-							argv["origin-steering-policy"] as string | undefined,
-							"origin-steering-policy",
-							"text"
-						),
+						policy: argv["origin-steering-policy"],
 					},
 					origins: parseObjectArray(argv["origins"], "origins"),
 				});

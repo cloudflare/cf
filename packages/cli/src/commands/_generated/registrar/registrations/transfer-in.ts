@@ -151,6 +151,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"WHOIS privacy mode to apply after transfer completes. Defaults to\nthe extension's default privacy mode (typically `redaction`).\n",
 			choices: ["off", "redaction"],
 		})
+		.coerce("privacy-mode", (value: string | undefined) =>
+			resolveFileToken(value, "privacy-mode", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -393,11 +396,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												},
 											},
 										},
-										privacy_mode: resolveFileToken(
-											argv["privacy-mode"] as string | undefined,
-											"privacy-mode",
-											"text"
-										),
+										privacy_mode: argv["privacy-mode"],
 									}),
 					});
 					return;
@@ -652,15 +651,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						)
 					);
 				if (argv["privacy-mode"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["privacy_mode"],
-						resolveFileToken(
-							argv["privacy-mode"] as string | undefined,
-							"privacy-mode",
-							"text"
-						)
-					);
+					setNestedValue(bodyData, ["privacy_mode"], argv["privacy-mode"]);
 				const result = await withProgress(`Creating`, async () =>
 					requestApi<unknown>(
 						client,

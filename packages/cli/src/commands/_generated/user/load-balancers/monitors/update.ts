@@ -99,6 +99,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"The protocol to use for the health check. Currently supported protocols are 'HTTP','HTTPS', 'TCP', 'ICMP-PING', 'UDP-ICMP', and 'SMTP'.",
 			choices: ["http", "https", "tcp", "udp_icmp", "icmp_ping", "smtp"],
 		})
+		.coerce("type", (value: string | undefined) =>
+			resolveFileToken(value, "type", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -178,11 +181,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										),
 										retries: argv["retries"],
 										timeout: argv["timeout"],
-										type: resolveFileToken(
-											argv["type"] as string | undefined,
-											"type",
-											"text"
-										),
+										type: argv["type"],
 									}),
 					});
 					return;
@@ -241,11 +240,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					),
 					retries: argv["retries"],
 					timeout: argv["timeout"],
-					type: resolveFileToken(
-						argv["type"] as string | undefined,
-						"type",
-						"text"
-					),
+					type: argv["type"],
 				});
 				const result = await withProgress(`Updating`, async () =>
 					client.user.loadBalancers.monitors.update({

@@ -44,6 +44,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"TRACE",
 			],
 		})
+		.coerce("method", (value: string | undefined) =>
+			resolveFileToken(value, "method", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -98,11 +101,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"host",
 											"text"
 										),
-										method: resolveFileToken(
-											argv["method"] as string | undefined,
-											"method",
-											"text"
-										),
+										method: argv["method"],
 									}),
 					});
 					return;
@@ -166,11 +165,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"host",
 						"text"
 					),
-					method: resolveFileToken(
-						argv["method"] as string | undefined,
-						"method",
-						"text"
-					),
+					method: argv["method"],
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.webAssets.operations.create({

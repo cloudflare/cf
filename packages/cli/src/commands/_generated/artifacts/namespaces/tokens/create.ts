@@ -36,6 +36,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The scope field",
 			choices: ["read", "write"],
 		})
+		.coerce("scope", (value: string | undefined) =>
+			resolveFileToken(value, "scope", "text")
+		)
 		.option("ttl", { type: "number", description: "The ttl field" })
 		.option("dry-run", {
 			type: "boolean",
@@ -84,11 +87,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"repo",
 											"text"
 										),
-										scope: resolveFileToken(
-											argv["scope"] as string | undefined,
-											"scope",
-											"text"
-										),
+										scope: argv["scope"],
 										ttl: argv["ttl"],
 									}),
 					});
@@ -121,11 +120,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"repo",
 						"text"
 					),
-					scope: resolveFileToken(
-						argv["scope"] as string | undefined,
-						"scope",
-						"text"
-					),
+					scope: argv["scope"],
 					ttl: argv["ttl"],
 				});
 				const result = await withProgress(`Creating`, async () =>

@@ -25,6 +25,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"The zone-level Precursor enforcement mode applied to requests that do\nnot match a more specific enforcement rule.\n",
 			choices: ["off", "min-friction", "max-security"],
 		})
+		.coerce("default-mode", (value: string | undefined) =>
+			resolveFileToken(value, "default-mode", "text")
+		)
 		.option("enforcement-rules", {
 			type: "string",
 			description:
@@ -73,11 +76,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										default_mode: resolveFileToken(
-											argv["default-mode"] as string | undefined,
-											"default-mode",
-											"text"
-										),
+										default_mode: argv["default-mode"],
 										enforcement_rules: parseObjectArray(
 											argv["enforcement-rules"],
 											"enforcement-rules"
@@ -106,11 +105,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					default_mode: resolveFileToken(
-						argv["default-mode"] as string | undefined,
-						"default-mode",
-						"text"
-					),
+					default_mode: argv["default-mode"],
 					enforcement_rules: parseObjectArray(
 						argv["enforcement-rules"],
 						"enforcement-rules"

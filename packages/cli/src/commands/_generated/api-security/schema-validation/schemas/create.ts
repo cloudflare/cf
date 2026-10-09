@@ -28,6 +28,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The kind of the schema",
 			choices: ["openapi_v3"],
 		})
+		.coerce("kind", (value: string | undefined) =>
+			resolveFileToken(value, "kind", "text")
+		)
 		.option("name", {
 			type: "string",
 			description: "A human-readable name for the schema",
@@ -84,11 +87,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										kind: resolveFileToken(
-											argv["kind"] as string | undefined,
-											"kind",
-											"text"
-										),
+										kind: argv["kind"],
 										name: resolveFileToken(
 											argv["name"] as string | undefined,
 											"name",
@@ -148,11 +147,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					kind: resolveFileToken(
-						argv["kind"] as string | undefined,
-						"kind",
-						"text"
-					),
+					kind: argv["kind"],
 					name: resolveFileToken(
 						argv["name"] as string | undefined,
 						"name",

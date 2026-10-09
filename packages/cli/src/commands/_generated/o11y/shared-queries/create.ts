@@ -40,6 +40,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"distribution",
 			],
 		})
+		.coerce("chart-type", (value: string | undefined) =>
+			resolveFileToken(value, "chart-type", "text")
+		)
 		.option("compare", {
 			type: "boolean",
 			description:
@@ -51,6 +54,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Value-axis bucketing for chartType 'distribution'. Omitted or 'log': geometric buckets, best for heavy-tailed latency. 'linear': fixed-width buckets, clearer for narrow or additive ranges. Ignored for other chartTypes. The response echoes the scheme used in distribution.bucketMode.",
 			choices: ["log", "linear"],
 		})
+		.coerce("distribution-scale", (value: string | undefined) =>
+			resolveFileToken(value, "distribution-scale", "text")
+		)
 		.option("granularity", {
 			type: "number",
 			description:
@@ -95,6 +101,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Logical operator for combining top-level filters: 'and' (all must match) or 'or' (any must match). Defaults to 'and'.",
 			choices: ["and", "or", "AND", "OR"],
 		})
+		.coerce("parameters-filter-combination", (value: string | undefined) =>
+			resolveFileToken(value, "parameters-filter-combination", "text")
+		)
 		.option("parameters-limit", {
 			type: "number",
 			description:
@@ -116,6 +125,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Sort direction: 'asc' for ascending, 'desc' for descending.",
 			choices: ["asc", "desc"],
 		})
+		.coerce("parameters-order-by-order", (value: string | undefined) =>
+			resolveFileToken(value, "parameters-order-by-order", "text")
+		)
 		.option("parameters-order-by-value", {
 			type: "string",
 			description:
@@ -150,6 +162,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			],
 			default: "calculations",
 		})
+		.coerce("view", (value: string | undefined) =>
+			resolveFileToken(value, "view", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -227,17 +242,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								? parseBody(argv.body)
 								: compactBody({
 										chart: argv["chart"],
-										chartType: resolveFileToken(
-											argv["chart-type"] as string | undefined,
-											"chart-type",
-											"text"
-										),
+										chartType: argv["chart-type"],
 										compare: argv["compare"],
-										distributionScale: resolveFileToken(
-											argv["distribution-scale"] as string | undefined,
-											"distribution-scale",
-											"text"
-										),
+										distributionScale: argv["distribution-scale"],
 										granularity: argv["granularity"],
 										ignoreSeries: argv["ignore-series"],
 										limit: argv["limit"],
@@ -254,26 +261,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										),
 										parameters: {
 											datasets: argv["parameters-datasets"],
-											filterCombination: resolveFileToken(
-												argv["parameters-filter-combination"] as
-													| string
-													| undefined,
-												"parameters-filter-combination",
-												"text"
-											),
+											filterCombination: argv["parameters-filter-combination"],
 											limit: argv["parameters-limit"],
 											needle: {
 												isRegex: argv["parameters-needle-is-regex"],
 												matchCase: argv["parameters-needle-match-case"],
 											},
 											orderBy: {
-												order: resolveFileToken(
-													argv["parameters-order-by-order"] as
-														| string
-														| undefined,
-													"parameters-order-by-order",
-													"text"
-												),
+												order: argv["parameters-order-by-order"],
 												value: resolveFileToken(
 													argv["parameters-order-by-value"] as
 														| string
@@ -292,11 +287,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											from: argv["timeframe-from"],
 											to: argv["timeframe-to"],
 										},
-										view: resolveFileToken(
-											argv["view"] as string | undefined,
-											"view",
-											"text"
-										),
+										view: argv["view"],
 									}),
 					});
 					return;
@@ -336,17 +327,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
 					chart: argv["chart"],
-					chartType: resolveFileToken(
-						argv["chart-type"] as string | undefined,
-						"chart-type",
-						"text"
-					),
+					chartType: argv["chart-type"],
 					compare: argv["compare"],
-					distributionScale: resolveFileToken(
-						argv["distribution-scale"] as string | undefined,
-						"distribution-scale",
-						"text"
-					),
+					distributionScale: argv["distribution-scale"],
 					granularity: argv["granularity"],
 					ignoreSeries: argv["ignore-series"],
 					limit: argv["limit"],
@@ -363,22 +346,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					),
 					parameters: {
 						datasets: argv["parameters-datasets"],
-						filterCombination: resolveFileToken(
-							argv["parameters-filter-combination"] as string | undefined,
-							"parameters-filter-combination",
-							"text"
-						),
+						filterCombination: argv["parameters-filter-combination"],
 						limit: argv["parameters-limit"],
 						needle: {
 							isRegex: argv["parameters-needle-is-regex"],
 							matchCase: argv["parameters-needle-match-case"],
 						},
 						orderBy: {
-							order: resolveFileToken(
-								argv["parameters-order-by-order"] as string | undefined,
-								"parameters-order-by-order",
-								"text"
-							),
+							order: argv["parameters-order-by-order"],
 							value: resolveFileToken(
 								argv["parameters-order-by-value"] as string | undefined,
 								"parameters-order-by-value",
@@ -395,11 +370,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						from: argv["timeframe-from"],
 						to: argv["timeframe-to"],
 					},
-					view: resolveFileToken(
-						argv["view"] as string | undefined,
-						"view",
-						"text"
-					),
+					view: argv["view"],
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.observability.sharedQueries.create({

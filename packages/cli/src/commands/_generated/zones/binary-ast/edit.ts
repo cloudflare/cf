@@ -26,6 +26,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				'Controls Binary AST behavior:\n- "off": Feature disabled.\n- "on": Binary AST enabled.\n- "latest": Binary AST enabled using the latest version.\n',
 			choices: ["off", "on", "latest"],
 		})
+		.coerce("value", (value: string | undefined) =>
+			resolveFileToken(value, "value", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -69,11 +72,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										value: resolveFileToken(
-											argv["value"] as string | undefined,
-											"value",
-											"text"
-										),
+										value: argv["value"],
 									}),
 					});
 					return;
@@ -105,11 +104,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					value: resolveFileToken(
-						argv["value"] as string | undefined,
-						"value",
-						"text"
-					),
+					value: argv["value"],
 				});
 				const result = await withProgress(`Updating`, async () =>
 					client.zones.binaryAst.edit({

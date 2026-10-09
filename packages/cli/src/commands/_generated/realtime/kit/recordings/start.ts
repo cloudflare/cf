@@ -42,12 +42,18 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Audio signal pathway within an audio file that carries a specific sound source.",
 			choices: ["mono", "stereo"],
 		})
+		.coerce("audio-config-channel", (value: string | undefined) =>
+			resolveFileToken(value, "audio-config-channel", "text")
+		)
 		.option("audio-config-codec", {
 			type: "string",
 			description:
 				"Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.",
 			choices: ["MP3", "AAC"],
 		})
+		.coerce("audio-config-codec", (value: string | undefined) =>
+			resolveFileToken(value, "audio-config-codec", "text")
+		)
 		.option("audio-config-export-file", {
 			type: "boolean",
 			description: "Controls whether to export audio file seperately",
@@ -61,6 +67,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The metadata is presented in the form of ID3 tags.",
 			choices: ["ID3"],
 		})
+		.coerce("interactive-config-type", (value: string | undefined) =>
+			resolveFileToken(value, "interactive-config-type", "text")
+		)
 		.option("max-seconds", {
 			type: "number",
 			description:
@@ -88,6 +97,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Codec using which the recording will be encoded.",
 			choices: ["H264", "VP8", "VP9"],
 		})
+		.coerce("video-config-codec", (value: string | undefined) =>
+			resolveFileToken(value, "video-config-codec", "text")
+		)
 		.option("video-config-export-file", {
 			type: "boolean",
 			description: "Controls whether to export video file seperately",
@@ -101,6 +113,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Position of the watermark",
 			choices: ["left top", "right top", "left bottom", "right bottom"],
 		})
+		.coerce("video-config-watermark-position", (value: string | undefined) =>
+			resolveFileToken(value, "video-config-watermark-position", "text")
+		)
 		.option("video-config-watermark-size-height", {
 			type: "number",
 			description: "Height of the watermark in px",
@@ -189,16 +204,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										allow_multiple_recordings:
 											argv["allow-multiple-recordings"],
 										audio_config: {
-											channel: resolveFileToken(
-												argv["audio-config-channel"] as string | undefined,
-												"audio-config-channel",
-												"text"
-											),
-											codec: resolveFileToken(
-												argv["audio-config-codec"] as string | undefined,
-												"audio-config-codec",
-												"text"
-											),
+											channel: argv["audio-config-channel"],
+											codec: argv["audio-config-codec"],
 											export_file: argv["audio-config-export-file"],
 										},
 										file_name_prefix: resolveFileToken(
@@ -207,11 +214,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 										interactive_config: {
-											type: resolveFileToken(
-												argv["interactive-config-type"] as string | undefined,
-												"interactive-config-type",
-												"text"
-											),
+											type: argv["interactive-config-type"],
 										},
 										max_seconds: argv["max-seconds"],
 										meeting_id: resolveFileToken(
@@ -235,21 +238,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 										video_config: {
-											codec: resolveFileToken(
-												argv["video-config-codec"] as string | undefined,
-												"video-config-codec",
-												"text"
-											),
+											codec: argv["video-config-codec"],
 											export_file: argv["video-config-export-file"],
 											height: argv["video-config-height"],
 											watermark: {
-												position: resolveFileToken(
-													argv["video-config-watermark-position"] as
-														| string
-														| undefined,
-													"video-config-watermark-position",
-													"text"
-												),
+												position: argv["video-config-watermark-position"],
 												size: {
 													height: argv["video-config-watermark-size-height"],
 													width: argv["video-config-watermark-size-width"],
@@ -295,16 +288,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const bodyData = compactBody<Body>({
 					allow_multiple_recordings: argv["allow-multiple-recordings"],
 					audio_config: {
-						channel: resolveFileToken(
-							argv["audio-config-channel"] as string | undefined,
-							"audio-config-channel",
-							"text"
-						),
-						codec: resolveFileToken(
-							argv["audio-config-codec"] as string | undefined,
-							"audio-config-codec",
-							"text"
-						),
+						channel: argv["audio-config-channel"],
+						codec: argv["audio-config-codec"],
 						export_file: argv["audio-config-export-file"],
 					},
 					file_name_prefix: resolveFileToken(
@@ -313,11 +298,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"text"
 					),
 					interactive_config: {
-						type: resolveFileToken(
-							argv["interactive-config-type"] as string | undefined,
-							"interactive-config-type",
-							"text"
-						),
+						type: argv["interactive-config-type"],
 					},
 					max_seconds: argv["max-seconds"],
 					meeting_id: resolveFileToken(
@@ -341,19 +322,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"text"
 					),
 					video_config: {
-						codec: resolveFileToken(
-							argv["video-config-codec"] as string | undefined,
-							"video-config-codec",
-							"text"
-						),
+						codec: argv["video-config-codec"],
 						export_file: argv["video-config-export-file"],
 						height: argv["video-config-height"],
 						watermark: {
-							position: resolveFileToken(
-								argv["video-config-watermark-position"] as string | undefined,
-								"video-config-watermark-position",
-								"text"
-							),
+							position: argv["video-config-watermark-position"],
 							size: {
 								height: argv["video-config-watermark-size-height"],
 								width: argv["video-config-watermark-size-width"],

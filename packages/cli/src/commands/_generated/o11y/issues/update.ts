@@ -34,6 +34,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The status field",
 			choices: ["active", "resolved", "ignored"],
 		})
+		.coerce("status", (value: string | undefined) =>
+			resolveFileToken(value, "status", "text")
+		)
 		.option("title", { type: "string", description: "The title field" })
 		.option("dry-run", {
 			type: "boolean",
@@ -77,11 +80,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										status: resolveFileToken(
-											argv["status"] as string | undefined,
-											"status",
-											"text"
-										),
+										status: argv["status"],
 										title: resolveFileToken(
 											argv["title"] as string | undefined,
 											"title",
@@ -110,11 +109,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					status: resolveFileToken(
-						argv["status"] as string | undefined,
-						"status",
-						"text"
-					),
+					status: argv["status"],
 					title: resolveFileToken(
 						argv["title"] as string | undefined,
 						"title",

@@ -41,11 +41,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Whether the code applies to every device in the account or one physical device.",
 			choices: ["account", "device"],
 		})
+		.coerce("scope", (value: string | undefined) =>
+			resolveFileToken(value, "scope", "text")
+		)
 		.option("type", {
 			type: "string",
 			description: "The feature that the override code applies to.",
 			choices: ["uninstall_protection"],
 		})
+		.coerce("type", (value: string | undefined) =>
+			resolveFileToken(value, "type", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -94,16 +100,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 										duration_hours: argv["duration-hours"],
-										scope: resolveFileToken(
-											argv["scope"] as string | undefined,
-											"scope",
-											"text"
-										),
-										type: resolveFileToken(
-											argv["type"] as string | undefined,
-											"type",
-											"text"
-										),
+										scope: argv["scope"],
+										type: argv["type"],
 									}),
 					});
 					return;
@@ -151,16 +149,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"text"
 					),
 					duration_hours: argv["duration-hours"],
-					scope: resolveFileToken(
-						argv["scope"] as string | undefined,
-						"scope",
-						"text"
-					),
-					type: resolveFileToken(
-						argv["type"] as string | undefined,
-						"type",
-						"text"
-					),
+					scope: argv["scope"],
+					type: argv["type"],
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.zeroTrust.devices.overrideCodes.create({

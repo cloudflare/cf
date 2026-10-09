@@ -104,6 +104,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Specify whether to redirect users to a Cloudflare-hosted block page or a customer-provided URI.",
 			choices: ["customized_block_page", "redirect_uri"],
 		})
+		.coerce("settings-block-page-mode", (value: string | undefined) =>
+			resolveFileToken(value, "settings-block-page-mode", "text")
+		)
 		.option("settings-block-page-name", {
 			type: "string",
 			description:
@@ -124,6 +127,15 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Specify the inspection mode as either `deep` or `shallow`.",
 			choices: ["deep", "shallow"],
 		})
+		.coerce(
+			"settings-body-scanning-inspection-mode",
+			(value: string | undefined) =>
+				resolveFileToken(
+					value,
+					"settings-body-scanning-inspection-mode",
+					"text"
+				)
+		)
 		.option("settings-browser-isolation-non-identity-enabled", {
 			type: "boolean",
 			description:
@@ -169,6 +181,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Define the proxy inspection mode.   1. static: Gateway applies static inspection to HTTP on TCP(80). With TLS decryption on, Gateway inspects HTTPS traffic on TCP(443) and UDP(443).   2. dynamic: Gateway applies protocol detection to inspect HTTP and HTTPS traffic on any port. TLS decryption must remain on to inspect HTTPS traffic.",
 			choices: ["static", "dynamic"],
 		})
+		.coerce("settings-inspection-mode", (value: string | undefined) =>
+			resolveFileToken(value, "settings-inspection-mode", "text")
+		)
 		.option("settings-max-ttl-secs", {
 			type: "number",
 			description:
@@ -189,6 +204,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Specify the action to take when the system cannot scan the file.",
 			choices: ["allow", "block"],
 		})
+		.coerce("settings-sandbox-fallback-action", (value: string | undefined) =>
+			resolveFileToken(value, "settings-sandbox-fallback-action", "text")
+		)
 		.option("settings-tls-decrypt-enabled", {
 			type: "boolean",
 			description: "Specify whether to inspect encrypted HTTP traffic.",
@@ -392,13 +410,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 													"settings-block-page-mailto-subject",
 													"text"
 												),
-												mode: resolveFileToken(
-													argv["settings-block-page-mode"] as
-														| string
-														| undefined,
-													"settings-block-page-mode",
-													"text"
-												),
+												mode: argv["settings-block-page-mode"],
 												name: resolveFileToken(
 													argv["settings-block-page-name"] as
 														| string
@@ -417,13 +429,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												),
 											},
 											body_scanning: {
-												inspection_mode: resolveFileToken(
-													argv["settings-body-scanning-inspection-mode"] as
-														| string
-														| undefined,
-													"settings-body-scanning-inspection-mode",
-													"text"
-												),
+												inspection_mode:
+													argv["settings-body-scanning-inspection-mode"],
 											},
 											browser_isolation: {
 												non_identity_enabled:
@@ -463,13 +470,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												enabled: argv["settings-host-selector-enabled"],
 											},
 											inspection: {
-												mode: resolveFileToken(
-													argv["settings-inspection-mode"] as
-														| string
-														| undefined,
-													"settings-inspection-mode",
-													"text"
-												),
+												mode: argv["settings-inspection-mode"],
 											},
 											max_ttl_secs: argv["settings-max-ttl-secs"],
 											protocol_detection: {
@@ -477,13 +478,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											},
 											sandbox: {
 												enabled: argv["settings-sandbox-enabled"],
-												fallback_action: resolveFileToken(
-													argv["settings-sandbox-fallback-action"] as
-														| string
-														| undefined,
-													"settings-sandbox-fallback-action",
-													"text"
-												),
+												fallback_action:
+													argv["settings-sandbox-fallback-action"],
 											},
 											tls_decrypt: {
 												enabled: argv["settings-tls-decrypt-enabled"],
@@ -583,11 +579,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								"settings-block-page-mailto-subject",
 								"text"
 							),
-							mode: resolveFileToken(
-								argv["settings-block-page-mode"] as string | undefined,
-								"settings-block-page-mode",
-								"text"
-							),
+							mode: argv["settings-block-page-mode"],
 							name: resolveFileToken(
 								argv["settings-block-page-name"] as string | undefined,
 								"settings-block-page-name",
@@ -601,13 +593,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							),
 						},
 						body_scanning: {
-							inspection_mode: resolveFileToken(
-								argv["settings-body-scanning-inspection-mode"] as
-									| string
-									| undefined,
-								"settings-body-scanning-inspection-mode",
-								"text"
-							),
+							inspection_mode: argv["settings-body-scanning-inspection-mode"],
 						},
 						browser_isolation: {
 							non_identity_enabled:
@@ -642,11 +628,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							enabled: argv["settings-host-selector-enabled"],
 						},
 						inspection: {
-							mode: resolveFileToken(
-								argv["settings-inspection-mode"] as string | undefined,
-								"settings-inspection-mode",
-								"text"
-							),
+							mode: argv["settings-inspection-mode"],
 						},
 						max_ttl_secs: argv["settings-max-ttl-secs"],
 						protocol_detection: {
@@ -654,11 +636,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						},
 						sandbox: {
 							enabled: argv["settings-sandbox-enabled"],
-							fallback_action: resolveFileToken(
-								argv["settings-sandbox-fallback-action"] as string | undefined,
-								"settings-sandbox-fallback-action",
-								"text"
-							),
+							fallback_action: argv["settings-sandbox-fallback-action"],
 						},
 						tls_decrypt: {
 							enabled: argv["settings-tls-decrypt-enabled"],

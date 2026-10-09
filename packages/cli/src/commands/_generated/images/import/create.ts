@@ -32,6 +32,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["skip", "overwrite"],
 			default: "skip",
 		})
+		.coerce("conflict-behaviour", (value: string | undefined) =>
+			resolveFileToken(value, "conflict-behaviour", "text")
+		)
 		.option("excluded-content-types", {
 			type: "string",
 			array: true,
@@ -92,11 +95,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										conflictBehaviour: resolveFileToken(
-											argv["conflict-behaviour"] as string | undefined,
-											"conflict-behaviour",
-											"text"
-										),
+										conflictBehaviour: argv["conflict-behaviour"],
 										excludedContentTypes: argv["excluded-content-types"],
 										pathPrefix: resolveFileToken(
 											argv["path-prefix"] as string | undefined,
@@ -141,11 +140,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					conflictBehaviour: resolveFileToken(
-						argv["conflict-behaviour"] as string | undefined,
-						"conflict-behaviour",
-						"text"
-					),
+					conflictBehaviour: argv["conflict-behaviour"],
 					excludedContentTypes: argv["excluded-content-types"],
 					pathPrefix: resolveFileToken(
 						argv["path-prefix"] as string | undefined,

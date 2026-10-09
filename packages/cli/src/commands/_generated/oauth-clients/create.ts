@@ -89,6 +89,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"The authentication method the client uses at the token endpoint.",
 			choices: ["none", "client_secret_basic", "client_secret_post"],
 		})
+		.coerce("token-endpoint-auth-method", (value: string | undefined) =>
+			resolveFileToken(value, "token-endpoint-auth-method", "text")
+		)
 		.option("tos-uri", {
 			type: "string",
 			description: "URL that points to a terms of service document.",
@@ -163,11 +166,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										redirect_uris: argv["redirect-uris"],
 										response_types: argv["response-types"],
 										scopes: argv["scopes"],
-										token_endpoint_auth_method: resolveFileToken(
-											argv["token-endpoint-auth-method"] as string | undefined,
-											"token-endpoint-auth-method",
-											"text"
-										),
+										token_endpoint_auth_method:
+											argv["token-endpoint-auth-method"],
 										tos_uri: resolveFileToken(
 											argv["tos-uri"] as string | undefined,
 											"tos-uri",
@@ -255,11 +255,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					redirect_uris: argv["redirect-uris"],
 					response_types: argv["response-types"],
 					scopes: argv["scopes"],
-					token_endpoint_auth_method: resolveFileToken(
-						argv["token-endpoint-auth-method"] as string | undefined,
-						"token-endpoint-auth-method",
-						"text"
-					),
+					token_endpoint_auth_method: argv["token-endpoint-auth-method"],
 					tos_uri: resolveFileToken(
 						argv["tos-uri"] as string | undefined,
 						"tos-uri",

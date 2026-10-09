@@ -50,6 +50,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"SLACK",
 			],
 		})
+		.coerce("application", (value: string | undefined) =>
+			resolveFileToken(value, "application", "text")
+		)
 		.option("auth-method", {
 			type: "string",
 			description: "Authentication method slug (uses default if omitted).",
@@ -116,11 +119,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								: argv.body !== undefined
 									? parseBody(argv.body)
 									: compactBody({
-											application: resolveFileToken(
-												argv["application"] as string | undefined,
-												"application",
-												"text"
-											),
+											application: argv["application"],
 											auth_method: resolveFileToken(
 												argv["auth-method"] as string | undefined,
 												"auth-method",
@@ -205,15 +204,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData: Record<string, unknown> = {};
 				if (argv["application"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["application"],
-						resolveFileToken(
-							argv["application"] as string | undefined,
-							"application",
-							"text"
-						)
-					);
+					setNestedValue(bodyData, ["application"], argv["application"]);
 				if (argv["auth-method"] !== undefined)
 					setNestedValue(
 						bodyData,

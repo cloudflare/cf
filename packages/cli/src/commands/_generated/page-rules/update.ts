@@ -39,6 +39,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The status of the Page Rule.",
 			choices: ["active", "disabled"],
 		})
+		.coerce("status", (value: string | undefined) =>
+			resolveFileToken(value, "status", "text")
+		)
 		.option("targets", {
 			type: "string",
 			description:
@@ -90,11 +93,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								: compactBody({
 										actions: parseObjectArray(argv["actions"], "actions"),
 										priority: argv["priority"],
-										status: resolveFileToken(
-											argv["status"] as string | undefined,
-											"status",
-											"text"
-										),
+										status: argv["status"],
 										targets: parseObjectArray(argv["targets"], "targets"),
 									}),
 					});
@@ -133,11 +132,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const bodyData = compactBody<Body>({
 					actions: parseObjectArray(argv["actions"], "actions"),
 					priority: argv["priority"],
-					status: resolveFileToken(
-						argv["status"] as string | undefined,
-						"status",
-						"text"
-					),
+					status: argv["status"],
 					targets: parseObjectArray(argv["targets"], "targets"),
 				});
 				const result = await withProgress(`Updating`, async () =>

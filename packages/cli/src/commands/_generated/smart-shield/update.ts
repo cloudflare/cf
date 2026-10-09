@@ -22,21 +22,33 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Specifies the enablement value of Cache Reserve.",
 			choices: ["on", "off"],
 		})
+		.coerce("cache-reserve-value", (value: string | undefined) =>
+			resolveFileToken(value, "cache-reserve-value", "text")
+		)
 		.option("regional-tiered-cache-value", {
 			type: "string",
 			description: "Specifies the enablement value of Regional Tiered Cache.",
 			choices: ["on", "off"],
 		})
+		.coerce("regional-tiered-cache-value", (value: string | undefined) =>
+			resolveFileToken(value, "regional-tiered-cache-value", "text")
+		)
 		.option("smart-routing-value", {
 			type: "string",
 			description: "Specifies the enablement value of Smart Routing.",
 			choices: ["on", "off"],
 		})
+		.coerce("smart-routing-value", (value: string | undefined) =>
+			resolveFileToken(value, "smart-routing-value", "text")
+		)
 		.option("smart-tiered-cache-value", {
 			type: "string",
 			description: "Specifies the enablement value of Smart Tiered Cache.",
 			choices: ["on", "off"],
 		})
+		.coerce("smart-tiered-cache-value", (value: string | undefined) =>
+			resolveFileToken(value, "smart-tiered-cache-value", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -87,34 +99,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								? parseBody(argv.body)
 								: compactBody({
 										cache_reserve: {
-											value: resolveFileToken(
-												argv["cache-reserve-value"] as string | undefined,
-												"cache-reserve-value",
-												"text"
-											),
+											value: argv["cache-reserve-value"],
 										},
 										regional_tiered_cache: {
-											value: resolveFileToken(
-												argv["regional-tiered-cache-value"] as
-													| string
-													| undefined,
-												"regional-tiered-cache-value",
-												"text"
-											),
+											value: argv["regional-tiered-cache-value"],
 										},
 										smart_routing: {
-											value: resolveFileToken(
-												argv["smart-routing-value"] as string | undefined,
-												"smart-routing-value",
-												"text"
-											),
+											value: argv["smart-routing-value"],
 										},
 										smart_tiered_cache: {
-											value: resolveFileToken(
-												argv["smart-tiered-cache-value"] as string | undefined,
-												"smart-tiered-cache-value",
-												"text"
-											),
+											value: argv["smart-tiered-cache-value"],
 										},
 									}),
 					});
@@ -141,32 +135,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
 					cache_reserve: {
-						value: resolveFileToken(
-							argv["cache-reserve-value"] as string | undefined,
-							"cache-reserve-value",
-							"text"
-						),
+						value: argv["cache-reserve-value"],
 					},
 					regional_tiered_cache: {
-						value: resolveFileToken(
-							argv["regional-tiered-cache-value"] as string | undefined,
-							"regional-tiered-cache-value",
-							"text"
-						),
+						value: argv["regional-tiered-cache-value"],
 					},
 					smart_routing: {
-						value: resolveFileToken(
-							argv["smart-routing-value"] as string | undefined,
-							"smart-routing-value",
-							"text"
-						),
+						value: argv["smart-routing-value"],
 					},
 					smart_tiered_cache: {
-						value: resolveFileToken(
-							argv["smart-tiered-cache-value"] as string | undefined,
-							"smart-tiered-cache-value",
-							"text"
-						),
+						value: argv["smart-tiered-cache-value"],
 					},
 				});
 				const result = await withProgress(`Updating`, async () =>

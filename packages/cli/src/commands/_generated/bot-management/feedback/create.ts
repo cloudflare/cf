@@ -47,6 +47,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Type of feedback report.",
 			choices: ["false_positive", "false_negative"],
 		})
+		.coerce("type", (value: string | undefined) =>
+			resolveFileToken(value, "type", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -116,11 +119,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"subtype",
 											"text"
 										),
-										type: resolveFileToken(
-											argv["type"] as string | undefined,
-											"type",
-											"text"
-										),
+										type: argv["type"],
 									}),
 					});
 					return;
@@ -207,11 +206,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"subtype",
 						"text"
 					),
-					type: resolveFileToken(
-						argv["type"] as string | undefined,
-						"type",
-						"text"
-					),
+					type: argv["type"],
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.botManagement.feedback.create({

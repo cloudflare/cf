@@ -36,6 +36,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["and", "or", "AND", "OR"],
 			default: "and",
 		})
+		.coerce("filter-combination", (value: string | undefined) =>
+			resolveFileToken(value, "filter-combination", "text")
+		)
 		.option("filters", {
 			type: "string",
 			description:
@@ -81,11 +84,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										filterCombination: resolveFileToken(
-											argv["filter-combination"] as string | undefined,
-											"filter-combination",
-											"text"
-										),
+										filterCombination: argv["filter-combination"],
 										filters: parseObjectArray(argv["filters"], "filters"),
 										scriptId: resolveFileToken(
 											argv["script-id"] as string | undefined,
@@ -120,11 +119,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					setNestedValue(
 						bodyData,
 						["filterCombination"],
-						resolveFileToken(
-							argv["filter-combination"] as string | undefined,
-							"filter-combination",
-							"text"
-						)
+						argv["filter-combination"]
 					);
 				if (argv["filters"] !== undefined)
 					setNestedValue(

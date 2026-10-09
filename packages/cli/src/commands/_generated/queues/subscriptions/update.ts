@@ -38,6 +38,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Type of destination",
 			choices: ["queues.queue"],
 		})
+		.coerce("destination-type", (value: string | undefined) =>
+			resolveFileToken(value, "destination-type", "text")
+		)
 		.option("enabled", {
 			type: "boolean",
 			description: "Whether the subscription is active",
@@ -114,11 +117,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"destination-queue-id",
 												"text"
 											),
-											type: resolveFileToken(
-												argv["destination-type"] as string | undefined,
-												"destination-type",
-												"text"
-											),
+											type: argv["destination-type"],
 										},
 										enabled: argv["enabled"],
 										events: argv["events"],
@@ -156,11 +155,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"destination-queue-id",
 							"text"
 						),
-						type: resolveFileToken(
-							argv["destination-type"] as string | undefined,
-							"destination-type",
-							"text"
-						),
+						type: argv["destination-type"],
 					},
 					enabled: argv["enabled"],
 					events: argv["events"],

@@ -31,6 +31,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["unrestricted", "us", "eu", "fedramp"],
 			default: "unrestricted",
 		})
+		.coerce("jurisdiction", (value: string | undefined) =>
+			resolveFileToken(value, "jurisdiction", "text")
+		)
 		.option("namespace", { type: "string", description: "The namespace field" })
 		.option("dry-run", {
 			type: "boolean",
@@ -74,11 +77,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										jurisdiction: resolveFileToken(
-											argv["jurisdiction"] as string | undefined,
-											"jurisdiction",
-											"text"
-										),
+										jurisdiction: argv["jurisdiction"],
 										namespace: resolveFileToken(
 											argv["namespace"] as string | undefined,
 											"namespace",
@@ -112,11 +111,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					jurisdiction: resolveFileToken(
-						argv["jurisdiction"] as string | undefined,
-						"jurisdiction",
-						"text"
-					),
+					jurisdiction: argv["jurisdiction"],
 					namespace: resolveFileToken(
 						argv["namespace"] as string | undefined,
 						"namespace",

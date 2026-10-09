@@ -29,6 +29,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Specify the location to restrict the D1 database to run and store data. If this option is present, the location hint is ignored.",
 			choices: ["eu", "fedramp", "us"],
 		})
+		.coerce("jurisdiction", (value: string | undefined) =>
+			resolveFileToken(value, "jurisdiction", "text")
+		)
 		.option("name", { type: "string", description: "D1 database name." })
 		.option("primary-location-hint", {
 			type: "string",
@@ -36,12 +39,18 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Specify the region to create the D1 primary, if available. If this option is omitted, the D1 will be created as close as possible to the current user.",
 			choices: ["wnam", "enam", "weur", "eeur", "apac", "oc"],
 		})
+		.coerce("primary-location-hint", (value: string | undefined) =>
+			resolveFileToken(value, "primary-location-hint", "text")
+		)
 		.option("read-replication-mode", {
 			type: "string",
 			description:
 				"The read replication mode for the database. Use 'auto' to create replicas and allow D1 automatically place them around the world, or 'disabled' to not use any database replicas (it can take a few hours for all replicas to be deleted).",
 			choices: ["auto", "disabled"],
 		})
+		.coerce("read-replication-mode", (value: string | undefined) =>
+			resolveFileToken(value, "read-replication-mode", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -105,27 +114,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										jurisdiction: resolveFileToken(
-											argv["jurisdiction"] as string | undefined,
-											"jurisdiction",
-											"text"
-										),
+										jurisdiction: argv["jurisdiction"],
 										name: resolveFileToken(
 											argv["name"] as string | undefined,
 											"name",
 											"text"
 										),
-										primary_location_hint: resolveFileToken(
-											argv["primary-location-hint"] as string | undefined,
-											"primary-location-hint",
-											"text"
-										),
+										primary_location_hint: argv["primary-location-hint"],
 										read_replication: {
-											mode: resolveFileToken(
-												argv["read-replication-mode"] as string | undefined,
-												"read-replication-mode",
-												"text"
-											),
+											mode: argv["read-replication-mode"],
 										},
 									}),
 					});
@@ -155,27 +152,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					jurisdiction: resolveFileToken(
-						argv["jurisdiction"] as string | undefined,
-						"jurisdiction",
-						"text"
-					),
+					jurisdiction: argv["jurisdiction"],
 					name: resolveFileToken(
 						argv["name"] as string | undefined,
 						"name",
 						"text"
 					),
-					primary_location_hint: resolveFileToken(
-						argv["primary-location-hint"] as string | undefined,
-						"primary-location-hint",
-						"text"
-					),
+					primary_location_hint: argv["primary-location-hint"],
 					read_replication: {
-						mode: resolveFileToken(
-							argv["read-replication-mode"] as string | undefined,
-							"read-replication-mode",
-							"text"
-						),
+						mode: argv["read-replication-mode"],
 					},
 				});
 				const result = await withProgress(`Creating`, async () =>

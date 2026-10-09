@@ -65,6 +65,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Specifies the recording behavior for the live input. Set this value to `off` to prevent a recording. Set the value to `automatic` to begin a recording and transition to on-demand after Stream Live stops receiving input.",
 			choices: ["off", "automatic"],
 		})
+		.coerce("recording-mode", (value: string | undefined) =>
+			resolveFileToken(value, "recording-mode", "text")
+		)
 		.option("recording-require-signed-urls", {
 			type: "boolean",
 			description:
@@ -141,11 +144,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											allowedOrigins: argv["recording-allowed-origins"],
 											hideLiveViewerCount:
 												argv["recording-hide-live-viewer-count"],
-											mode: resolveFileToken(
-												argv["recording-mode"] as string | undefined,
-												"recording-mode",
-												"text"
-											),
+											mode: argv["recording-mode"],
 											requireSignedURLs: argv["recording-require-signed-urls"],
 											timeoutSeconds: argv["recording-timeout-seconds"],
 										},
@@ -183,11 +182,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					recording: {
 						allowedOrigins: argv["recording-allowed-origins"],
 						hideLiveViewerCount: argv["recording-hide-live-viewer-count"],
-						mode: resolveFileToken(
-							argv["recording-mode"] as string | undefined,
-							"recording-mode",
-							"text"
-						),
+						mode: argv["recording-mode"],
 						requireSignedURLs: argv["recording-require-signed-urls"],
 						timeoutSeconds: argv["recording-timeout-seconds"],
 					},

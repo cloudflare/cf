@@ -41,6 +41,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Specify the type of content list entry to block.",
 			choices: ["cid", "content_path"],
 		})
+		.coerce("type", (value: string | undefined) =>
+			resolveFileToken(value, "type", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -98,11 +101,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"description",
 											"text"
 										),
-										type: resolveFileToken(
-											argv["type"] as string | undefined,
-											"type",
-											"text"
-										),
+										type: argv["type"],
 									}),
 					});
 					return;
@@ -153,11 +152,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"description",
 						"text"
 					),
-					type: resolveFileToken(
-						argv["type"] as string | undefined,
-						"type",
-						"text"
-					),
+					type: argv["type"],
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.web3.hostnames.ipfsUniversalPaths.contentLists.entries.create({

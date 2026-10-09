@@ -44,11 +44,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The condition.operator field",
 			choices: ["and", "or"],
 		})
+		.coerce("condition-operator", (value: string | undefined) =>
+			resolveFileToken(value, "condition-operator", "text")
+		)
 		.option("condition-type", {
 			type: "string",
 			description: "The condition.type field",
 			choices: ["group"],
 		})
+		.coerce("condition-type", (value: string | undefined) =>
+			resolveFileToken(value, "condition-type", "text")
+		)
 		.option("description", {
 			type: "string",
 			description: "The description field",
@@ -71,6 +77,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["silent", "blocking"],
 			default: "silent",
 		})
+		.coerce("status", (value: string | undefined) =>
+			resolveFileToken(value, "status", "text")
+		)
 		.option("strings", {
 			type: "string",
 			description:
@@ -137,16 +146,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								? parseBody(argv.body)
 								: compactBody({
 										condition: {
-											operator: resolveFileToken(
-												argv["condition-operator"] as string | undefined,
-												"condition-operator",
-												"text"
-											),
-											type: resolveFileToken(
-												argv["condition-type"] as string | undefined,
-												"condition-type",
-												"text"
-											),
+											operator: argv["condition-operator"],
+											type: argv["condition-type"],
 										},
 										description: resolveFileToken(
 											argv["description"] as string | undefined,
@@ -160,11 +161,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"name",
 											"text"
 										),
-										status: resolveFileToken(
-											argv["status"] as string | undefined,
-											"status",
-											"text"
-										),
+										status: argv["status"],
 										strings: parseObjectArray(argv["strings"], "strings"),
 									}),
 					});
@@ -213,16 +210,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
 					condition: {
-						operator: resolveFileToken(
-							argv["condition-operator"] as string | undefined,
-							"condition-operator",
-							"text"
-						),
-						type: resolveFileToken(
-							argv["condition-type"] as string | undefined,
-							"condition-type",
-							"text"
-						),
+						operator: argv["condition-operator"],
+						type: argv["condition-type"],
 					},
 					description: resolveFileToken(
 						argv["description"] as string | undefined,
@@ -236,11 +225,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"name",
 						"text"
 					),
-					status: resolveFileToken(
-						argv["status"] as string | undefined,
-						"status",
-						"text"
-					),
+					status: argv["status"],
 					strings: parseObjectArray(argv["strings"], "strings"),
 				});
 				const qs = new URLSearchParams(

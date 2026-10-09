@@ -39,6 +39,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The minTLS field",
 			choices: ["1.0", "1.1", "1.2", "1.3"],
 		})
+		.coerce("min-tls", (value: string | undefined) =>
+			resolveFileToken(value, "min-tls", "text")
+		)
 		.option("zone-id", {
 			type: "string",
 			description:
@@ -91,11 +94,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"domain",
 											"text"
 										),
-										minTLS: resolveFileToken(
-											argv["min-tls"] as string | undefined,
-											"min-tls",
-											"text"
-										),
+										minTLS: argv["min-tls"],
 										zone_id: resolveFileToken(
 											argv["zone-id"] as string | undefined,
 											"zone-id",
@@ -141,11 +140,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"domain",
 						"text"
 					),
-					minTLS: resolveFileToken(
-						argv["min-tls"] as string | undefined,
-						"min-tls",
-						"text"
-					),
+					minTLS: argv["min-tls"],
 					zone_id: resolveFileToken(
 						argv["zone-id"] as string | undefined,
 						"zone-id",

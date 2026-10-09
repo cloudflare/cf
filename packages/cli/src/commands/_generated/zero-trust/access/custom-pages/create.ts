@@ -42,6 +42,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Custom page type.",
 			choices: ["identity_denied", "forbidden", "login", "interstitial"],
 		})
+		.coerce("type", (value: string | undefined) =>
+			resolveFileToken(value, "type", "text")
+		)
 		.option("uid", { type: "string", description: "UUID." })
 		.option("dry-run", {
 			type: "boolean",
@@ -97,11 +100,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"name",
 											"text"
 										),
-										type: resolveFileToken(
-											argv["type"] as string | undefined,
-											"type",
-											"text"
-										),
+										type: argv["type"],
 										uid: resolveFileToken(
 											argv["uid"] as string | undefined,
 											"uid",
@@ -160,11 +159,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"name",
 						"text"
 					),
-					type: resolveFileToken(
-						argv["type"] as string | undefined,
-						"type",
-						"text"
-					),
+					type: argv["type"],
 					uid: resolveFileToken(
 						argv["uid"] as string | undefined,
 						"uid",

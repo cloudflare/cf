@@ -44,6 +44,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"HMAC-Signing",
 			],
 		})
+		.coerce("authentication-type", (value: string | undefined) =>
+			resolveFileToken(value, "authentication-type", "text")
+		)
 		.option("destination-url", {
 			type: "string",
 			description:
@@ -69,6 +72,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Status of the webhook configuration.",
 			choices: ["enabled", "disabled"],
 		})
+		.coerce("status", (value: string | undefined) =>
+			resolveFileToken(value, "status", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -112,11 +118,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										authentication_type: resolveFileToken(
-											argv["authentication-type"] as string | undefined,
-											"authentication-type",
-											"text"
-										),
+										authentication_type: argv["authentication-type"],
 										destination_url: resolveFileToken(
 											argv["destination-url"] as string | undefined,
 											"destination-url",
@@ -133,11 +135,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"signing-secret",
 											"text"
 										),
-										status: resolveFileToken(
-											argv["status"] as string | undefined,
-											"status",
-											"text"
-										),
+										status: argv["status"],
 									}),
 						sensitiveBodyPaths: [["signing_secret"]],
 					});
@@ -194,11 +192,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					authentication_type: resolveFileToken(
-						argv["authentication-type"] as string | undefined,
-						"authentication-type",
-						"text"
-					),
+					authentication_type: argv["authentication-type"],
 					destination_url: resolveFileToken(
 						argv["destination-url"] as string | undefined,
 						"destination-url",
@@ -215,11 +209,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"signing-secret",
 						"text"
 					),
-					status: resolveFileToken(
-						argv["status"] as string | undefined,
-						"status",
-						"text"
-					),
+					status: argv["status"],
 				});
 				const result = await withProgress(`Updating`, async () =>
 					client.zeroTrust.casb.webhooks.update({

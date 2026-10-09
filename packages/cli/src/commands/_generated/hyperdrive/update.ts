@@ -66,6 +66,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"VERIFY_IDENTITY",
 			],
 		})
+		.coerce("mtls-sslmode", (value: string | undefined) =>
+			resolveFileToken(value, "mtls-sslmode", "text")
+		)
 		.option("name", {
 			type: "string",
 			description:
@@ -137,11 +140,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"mtls-certificate-id",
 												"text"
 											),
-											sslmode: resolveFileToken(
-												argv["mtls-sslmode"] as string | undefined,
-												"mtls-sslmode",
-												"text"
-											),
+											sslmode: argv["mtls-sslmode"],
 										},
 										name: resolveFileToken(
 											argv["name"] as string | undefined,
@@ -188,11 +187,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"mtls-certificate-id",
 							"text"
 						),
-						sslmode: resolveFileToken(
-							argv["mtls-sslmode"] as string | undefined,
-							"mtls-sslmode",
-							"text"
-						),
+						sslmode: argv["mtls-sslmode"],
 					},
 					name: resolveFileToken(
 						argv["name"] as string | undefined,

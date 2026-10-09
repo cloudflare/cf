@@ -91,6 +91,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"amber+strict",
 			],
 		})
+		.coerce("tlp", (value: string | undefined) =>
+			resolveFileToken(value, "tlp", "text")
+		)
 		.option("value", { type: "string", description: "The value field" })
 		.option("dry-run", {
 			type: "boolean",
@@ -172,11 +175,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"last-seen",
 											"text"
 										),
-										tlp: resolveFileToken(
-											argv["tlp"] as string | undefined,
-											"tlp",
-											"text"
-										),
+										tlp: argv["tlp"],
 										value: resolveFileToken(
 											argv["value"] as string | undefined,
 											"value",
@@ -248,11 +247,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"last-seen",
 						"text"
 					),
-					tlp: resolveFileToken(
-						argv["tlp"] as string | undefined,
-						"tlp",
-						"text"
-					),
+					tlp: argv["tlp"],
 					value: resolveFileToken(
 						argv["value"] as string | undefined,
 						"value",

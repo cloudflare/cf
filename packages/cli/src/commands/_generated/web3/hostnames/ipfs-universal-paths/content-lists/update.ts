@@ -30,6 +30,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Behavior of the content list.",
 			choices: ["block"],
 		})
+		.coerce("action", (value: string | undefined) =>
+			resolveFileToken(value, "action", "text")
+		)
 		.option("entries", {
 			type: "string",
 			description:
@@ -81,11 +84,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										action: resolveFileToken(
-											argv["action"] as string | undefined,
-											"action",
-											"text"
-										),
+										action: argv["action"],
 										entries: parseObjectArray(argv["entries"], "entries"),
 									}),
 					});
@@ -124,11 +123,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					action: resolveFileToken(
-						argv["action"] as string | undefined,
-						"action",
-						"text"
-					),
+					action: argv["action"],
 					entries: parseObjectArray(argv["entries"], "entries"),
 				});
 				const result = await withProgress(`Updating`, async () =>

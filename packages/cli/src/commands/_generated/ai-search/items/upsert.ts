@@ -47,6 +47,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The next_action field",
 			choices: ["INDEX"],
 		})
+		.coerce("next-action", (value: string | undefined) =>
+			resolveFileToken(value, "next-action", "text")
+		)
 		.option("wait-for-completion", {
 			type: "boolean",
 			description:
@@ -102,11 +105,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"key",
 											"text"
 										),
-										next_action: resolveFileToken(
-											argv["next-action"] as string | undefined,
-											"next-action",
-											"text"
-										),
+										next_action: argv["next-action"],
 										wait_for_completion: argv["wait-for-completion"],
 									}),
 					});
@@ -150,11 +149,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"key",
 						"text"
 					),
-					next_action: resolveFileToken(
-						argv["next-action"] as string | undefined,
-						"next-action",
-						"text"
-					),
+					next_action: argv["next-action"],
 					wait_for_completion: argv["wait-for-completion"],
 				});
 				const result = await withProgress(`Updating`, async () =>

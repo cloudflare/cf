@@ -37,6 +37,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"configuration_suggestion",
 			],
 		})
+		.coerce("issue-type", (value: string | undefined) =>
+			resolveFileToken(value, "issue-type", "text")
+		)
 		.option("issue-class", {
 			type: "string",
 			description: "The issue_class field",
@@ -96,11 +99,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										issue_type: resolveFileToken(
-											argv["issue-type"] as string | undefined,
-											"issue-type",
-											"text"
-										),
+										issue_type: argv["issue-type"],
 										issue_class: resolveFileToken(
 											argv["issue-class"] as string | undefined,
 											"issue-class",
@@ -141,11 +140,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					issue_type: resolveFileToken(
-						argv["issue-type"] as string | undefined,
-						"issue-type",
-						"text"
-					),
+					issue_type: argv["issue-type"],
 					issue_class: resolveFileToken(
 						argv["issue-class"] as string | undefined,
 						"issue-class",

@@ -81,6 +81,15 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Controls whether commits to preview branches trigger a preview deployment.",
 			choices: ["all", "none", "custom"],
 		})
+		.coerce(
+			"source-config-preview-deployment-setting",
+			(value: string | undefined) =>
+				resolveFileToken(
+					value,
+					"source-config-preview-deployment-setting",
+					"text"
+				)
+		)
 		.option("source-config-production-branch", {
 			type: "string",
 			description: "The production branch of the repository.",
@@ -103,6 +112,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The source control management provider.",
 			choices: ["github", "gitlab"],
 		})
+		.coerce("type", (value: string | undefined) =>
+			resolveFileToken(value, "type", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -174,13 +186,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												argv["source-config-preview-branch-excludes"],
 											preview_branch_includes:
 												argv["source-config-preview-branch-includes"],
-											preview_deployment_setting: resolveFileToken(
-												argv["source-config-preview-deployment-setting"] as
-													| string
-													| undefined,
-												"source-config-preview-deployment-setting",
-												"text"
-											),
+											preview_deployment_setting:
+												argv["source-config-preview-deployment-setting"],
 											production_branch: resolveFileToken(
 												argv["source-config-production-branch"] as
 													| string
@@ -201,11 +208,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"text"
 											),
 										},
-										type: resolveFileToken(
-											argv["type"] as string | undefined,
-											"type",
-											"text"
-										),
+										type: argv["type"],
 									}),
 					});
 					return;
@@ -331,13 +334,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv["source-config-preview-branch-excludes"],
 						preview_branch_includes:
 							argv["source-config-preview-branch-includes"],
-						preview_deployment_setting: resolveFileToken(
-							argv["source-config-preview-deployment-setting"] as
-								| string
-								| undefined,
-							"source-config-preview-deployment-setting",
-							"text"
-						),
+						preview_deployment_setting:
+							argv["source-config-preview-deployment-setting"],
 						production_branch: resolveFileToken(
 							argv["source-config-production-branch"] as string | undefined,
 							"source-config-production-branch",
@@ -356,11 +354,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"text"
 						),
 					},
-					type: resolveFileToken(
-						argv["type"] as string | undefined,
-						"type",
-						"text"
-					),
+					type: argv["type"],
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.pages.source.connect({

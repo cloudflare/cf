@@ -33,6 +33,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The integration_type field",
 			choices: ["Okta"],
 		})
+		.coerce("integration-type", (value: string | undefined) =>
+			resolveFileToken(value, "integration-type", "text")
+		)
 		.option("reference-id", {
 			type: "string",
 			description:
@@ -85,11 +88,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										integration_type: resolveFileToken(
-											argv["integration-type"] as string | undefined,
-											"integration-type",
-											"text"
-										),
+										integration_type: argv["integration-type"],
 										reference_id: resolveFileToken(
 											argv["reference-id"] as string | undefined,
 											"reference-id",
@@ -135,11 +134,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					integration_type: resolveFileToken(
-						argv["integration-type"] as string | undefined,
-						"integration-type",
-						"text"
-					),
+					integration_type: argv["integration-type"],
 					reference_id: resolveFileToken(
 						argv["reference-id"] as string | undefined,
 						"reference-id",

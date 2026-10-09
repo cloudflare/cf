@@ -41,6 +41,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"High-availability mode for the Mesh node. `none` means HA is enabled but no provider is configured yet (newly created nodes default to this). `disabled` means HA is explicitly turned off. `aws` uses AWS ENI move for failover. `local` uses virtual IPs (VIPs) on the local interface.",
 			choices: ["none", "disabled", "aws", "local"],
 		})
+		.coerce("ha-mode", (value: string | undefined) =>
+			resolveFileToken(value, "ha-mode", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -91,11 +94,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"text"
 											),
 										},
-										ha_mode: resolveFileToken(
-											argv["ha-mode"] as string | undefined,
-											"ha-mode",
-											"text"
-										),
+										ha_mode: argv["ha-mode"],
 									}),
 					});
 					return;
@@ -133,11 +132,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"text"
 						),
 					},
-					ha_mode: resolveFileToken(
-						argv["ha-mode"] as string | undefined,
-						"ha-mode",
-						"text"
-					),
+					ha_mode: argv["ha-mode"],
 				});
 				const result = await withProgress(`Updating`, async () =>
 					client.mesh.nodes.configurations.update({

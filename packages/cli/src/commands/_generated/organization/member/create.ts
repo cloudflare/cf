@@ -30,6 +30,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The member.status field",
 			choices: ["active", "canceled"],
 		})
+		.coerce("member-status", (value: string | undefined) =>
+			resolveFileToken(value, "member-status", "text")
+		)
 		.option("member-user-email", {
 			type: "string",
 			description: "The member.user.email field",
@@ -78,11 +81,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								? parseBody(argv.body)
 								: compactBody({
 										member: {
-											status: resolveFileToken(
-												argv["member-status"] as string | undefined,
-												"member-status",
-												"text"
-											),
+											status: argv["member-status"],
 											user: {
 												email: resolveFileToken(
 													argv["member-user-email"] as string | undefined,
@@ -118,11 +117,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
 					member: {
-						status: resolveFileToken(
-							argv["member-status"] as string | undefined,
-							"member-status",
-							"text"
-						),
+						status: argv["member-status"],
 						user: {
 							email: resolveFileToken(
 								argv["member-user-email"] as string | undefined,

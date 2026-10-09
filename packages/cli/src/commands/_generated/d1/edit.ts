@@ -35,6 +35,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"The read replication mode for the database. Use 'auto' to create replicas and allow D1 automatically place them around the world, or 'disabled' to not use any database replicas (it can take a few hours for all replicas to be deleted).",
 			choices: ["auto", "disabled"],
 		})
+		.coerce("read-replication-mode", (value: string | undefined) =>
+			resolveFileToken(value, "read-replication-mode", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -94,11 +97,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								? parseBody(argv.body)
 								: compactBody({
 										read_replication: {
-											mode: resolveFileToken(
-												argv["read-replication-mode"] as string | undefined,
-												"read-replication-mode",
-												"text"
-											),
+											mode: argv["read-replication-mode"],
 										},
 									}),
 					});
@@ -124,11 +123,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
 					read_replication: {
-						mode: resolveFileToken(
-							argv["read-replication-mode"] as string | undefined,
-							"read-replication-mode",
-							"text"
-						),
+						mode: argv["read-replication-mode"],
 					},
 				});
 				const result = await withProgress(`Updating`, async () =>

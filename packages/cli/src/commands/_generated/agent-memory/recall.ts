@@ -48,11 +48,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Verbosity of the synthesized answer. Defaults to 'medium'.",
 			choices: ["short", "medium", "long"],
 		})
+		.coerce("response-length", (value: string | undefined) =>
+			resolveFileToken(value, "response-length", "text")
+		)
 		.option("thinking-level", {
 			type: "string",
 			description: "Recall intensity / search depth. Defaults to 'low'.",
 			choices: ["low", "medium", "high"],
 		})
+		.coerce("thinking-level", (value: string | undefined) =>
+			resolveFileToken(value, "thinking-level", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -108,16 +114,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"reference-date",
 											"text"
 										),
-										responseLength: resolveFileToken(
-											argv["response-length"] as string | undefined,
-											"response-length",
-											"text"
-										),
-										thinkingLevel: resolveFileToken(
-											argv["thinking-level"] as string | undefined,
-											"thinking-level",
-											"text"
-										),
+										responseLength: argv["response-length"],
+										thinkingLevel: argv["thinking-level"],
 									}),
 					});
 					return;
@@ -158,16 +156,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"reference-date",
 						"text"
 					),
-					responseLength: resolveFileToken(
-						argv["response-length"] as string | undefined,
-						"response-length",
-						"text"
-					),
-					thinkingLevel: resolveFileToken(
-						argv["thinking-level"] as string | undefined,
-						"thinking-level",
-						"text"
-					),
+					responseLength: argv["response-length"],
+					thinkingLevel: argv["thinking-level"],
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.agentMemory.recall({

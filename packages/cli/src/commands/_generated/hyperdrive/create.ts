@@ -47,6 +47,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"VERIFY_IDENTITY",
 			],
 		})
+		.coerce("mtls-sslmode", (value: string | undefined) =>
+			resolveFileToken(value, "mtls-sslmode", "text")
+		)
 		.option("name", {
 			type: "string",
 			description:
@@ -79,12 +82,18 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The database integration provider used by this operation.",
 			choices: ["planetscale"],
 		})
+		.coerce("integration-provider", (value: string | undefined) =>
+			resolveFileToken(value, "integration-provider", "text")
+		)
 		.option("integration-scheme", {
 			type: "string",
 			description:
 				"Specifies the URL scheme used to connect to your origin database.",
 			choices: ["postgres", "postgresql", "mysql"],
 		})
+		.coerce("integration-scheme", (value: string | undefined) =>
+			resolveFileToken(value, "integration-scheme", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -144,11 +153,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"mtls-certificate-id",
 												"text"
 											),
-											sslmode: resolveFileToken(
-												argv["mtls-sslmode"] as string | undefined,
-												"mtls-sslmode",
-												"text"
-											),
+											sslmode: argv["mtls-sslmode"],
 										},
 										name: resolveFileToken(
 											argv["name"] as string | undefined,
@@ -183,16 +188,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"integration-organization-name",
 												"text"
 											),
-											provider: resolveFileToken(
-												argv["integration-provider"] as string | undefined,
-												"integration-provider",
-												"text"
-											),
-											scheme: resolveFileToken(
-												argv["integration-scheme"] as string | undefined,
-												"integration-scheme",
-												"text"
-											),
+											provider: argv["integration-provider"],
+											scheme: argv["integration-scheme"],
 										},
 									}),
 					});
@@ -233,11 +230,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"mtls-certificate-id",
 							"text"
 						),
-						sslmode: resolveFileToken(
-							argv["mtls-sslmode"] as string | undefined,
-							"mtls-sslmode",
-							"text"
-						),
+						sslmode: argv["mtls-sslmode"],
 					},
 					name: resolveFileToken(
 						argv["name"] as string | undefined,
@@ -266,16 +259,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"integration-organization-name",
 							"text"
 						),
-						provider: resolveFileToken(
-							argv["integration-provider"] as string | undefined,
-							"integration-provider",
-							"text"
-						),
-						scheme: resolveFileToken(
-							argv["integration-scheme"] as string | undefined,
-							"integration-scheme",
-							"text"
-						),
+						provider: argv["integration-provider"],
+						scheme: argv["integration-scheme"],
 					},
 				});
 				const result = await withProgress(`Creating`, async () =>

@@ -52,6 +52,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				'Target type. "tag" is not allowed (tag↔tag relationships are not supported).',
 			choices: ["event", "indicator"],
 		})
+		.coerce("target-type", (value: string | undefined) =>
+			resolveFileToken(value, "target-type", "text")
+		)
 		.option("type", { type: "string", description: "Relationship type." })
 		.option("dry-run", {
 			type: "boolean",
@@ -106,11 +109,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"target-id",
 											"text"
 										),
-										targetType: resolveFileToken(
-											argv["target-type"] as string | undefined,
-											"target-type",
-											"text"
-										),
+										targetType: argv["target-type"],
 										type: resolveFileToken(
 											argv["type"] as string | undefined,
 											"type",
@@ -175,11 +174,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"target-id",
 						"text"
 					),
-					targetType: resolveFileToken(
-						argv["target-type"] as string | undefined,
-						"target-type",
-						"text"
-					),
+					targetType: argv["target-type"],
 					type: resolveFileToken(
 						argv["type"] as string | undefined,
 						"type",

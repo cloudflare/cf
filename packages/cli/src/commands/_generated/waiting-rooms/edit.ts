@@ -36,12 +36,18 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Configures the SameSite attribute on the waiting room cookie. Value `auto` will be translated to `lax` or `none` depending if **Always Use HTTPS** is enabled. Note that when using value `none`, the secure attribute cannot be set to `never`.",
 			choices: ["auto", "lax", "none", "strict"],
 		})
+		.coerce("cookie-attributes-samesite", (value: string | undefined) =>
+			resolveFileToken(value, "cookie-attributes-samesite", "text")
+		)
 		.option("cookie-attributes-secure", {
 			type: "string",
 			description:
 				"Configures the Secure attribute on the waiting room cookie. Value `always` indicates that the Secure attribute will be set in the Set-Cookie header, `never` indicates that the Secure attribute will not be set, and `auto` will set the Secure attribute depending if **Always Use HTTPS** is enabled.",
 			choices: ["auto", "always", "never"],
 		})
+		.coerce("cookie-attributes-secure", (value: string | undefined) =>
+			resolveFileToken(value, "cookie-attributes-secure", "text")
+		)
 		.option("cookie-suffix", {
 			type: "string",
 			description:
@@ -98,6 +104,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"vi-VN",
 			],
 		})
+		.coerce("default-template-language", (value: string | undefined) =>
+			resolveFileToken(value, "default-template-language", "text")
+		)
 		.option("description", {
 			type: "string",
 			description:
@@ -149,6 +158,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Sets the queueing method used by the waiting room. Changing this parameter from the **default** queueing method is only available for the Waiting Room Advanced subscription. Regardless of the queueing method, if `queue_all` is enabled or an event is prequeueing, users in the waiting room will not be accepted to the origin. These users will always see a waiting room page that refreshes automatically. The valid queueing methods are:\n1. `fifo` **(default)**: First-In-First-Out queue where customers gain access in the order they arrived.\n2. `random`: Random queue where customers gain access randomly, regardless of arrival time.\n3. `passthrough`: Users will pass directly through the waiting room and into the origin website. As a result, any configured limits will not be respected while this is enabled. This method can be used as an alternative to disabling a waiting room (with `suspended`) so that analytics are still reported. This can be used if you wish to allow all traffic normally, but want to restrict traffic during a waiting room event, or vice versa.\n4. `reject`: Users will be immediately rejected from the waiting room. As a result, no users will reach the origin website while this is enabled. This can be used if you wish to reject all traffic while performing maintenance, block traffic during a specified period of time (an event), or block traffic while events are not occurring. Consider a waiting room used for vaccine distribution that only allows traffic during sign-up events, and otherwise blocks all traffic. For this case, the waiting room uses `reject`, and its events override this with `fifo`, `random`, or `passthrough`. When this queueing method is enabled and neither `queueAll` is enabled nor an event is prequeueing, the waiting room page **will not refresh automatically**.",
 			choices: ["fifo", "random", "passthrough", "reject"],
 		})
+		.coerce("queueing-method", (value: string | undefined) =>
+			resolveFileToken(value, "queueing-method", "text")
+		)
 		.option("queueing-status-code", {
 			type: "number",
 			description: "HTTP status code returned to a user while in the queue.",
@@ -174,6 +186,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Which action to take when a bot is detected using Turnstile. `log` will\nhave no impact on queueing behavior, simply keeping track of how many\nbots are detected in Waiting Room Analytics. `infinite_queue` will send\nbots to a false queueing state, where they will never reach your\norigin. `infinite_queue` requires Advanced Waiting Room.\n",
 			choices: ["log", "infinite_queue"],
 		})
+		.coerce("turnstile-action", (value: string | undefined) =>
+			resolveFileToken(value, "turnstile-action", "text")
+		)
 		.option("turnstile-mode", {
 			type: "string",
 			description:
@@ -185,6 +200,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"visible_managed",
 			],
 		})
+		.coerce("turnstile-mode", (value: string | undefined) =>
+			resolveFileToken(value, "turnstile-mode", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -246,18 +264,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"additional-routes"
 										),
 										cookie_attributes: {
-											samesite: resolveFileToken(
-												argv["cookie-attributes-samesite"] as
-													| string
-													| undefined,
-												"cookie-attributes-samesite",
-												"text"
-											),
-											secure: resolveFileToken(
-												argv["cookie-attributes-secure"] as string | undefined,
-												"cookie-attributes-secure",
-												"text"
-											),
+											samesite: argv["cookie-attributes-samesite"],
+											secure: argv["cookie-attributes-secure"],
 										},
 										cookie_suffix: resolveFileToken(
 											argv["cookie-suffix"] as string | undefined,
@@ -269,11 +277,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"custom-page-html",
 											"text"
 										),
-										default_template_language: resolveFileToken(
-											argv["default-template-language"] as string | undefined,
-											"default-template-language",
-											"text"
-										),
+										default_template_language:
+											argv["default-template-language"],
 										description: resolveFileToken(
 											argv["description"] as string | undefined,
 											"description",
@@ -299,25 +304,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 										queue_all: argv["queue-all"],
-										queueing_method: resolveFileToken(
-											argv["queueing-method"] as string | undefined,
-											"queueing-method",
-											"text"
-										),
+										queueing_method: argv["queueing-method"],
 										queueing_status_code: argv["queueing-status-code"],
 										session_duration: argv["session-duration"],
 										suspended: argv["suspended"],
 										total_active_users: argv["total-active-users"],
-										turnstile_action: resolveFileToken(
-											argv["turnstile-action"] as string | undefined,
-											"turnstile-action",
-											"text"
-										),
-										turnstile_mode: resolveFileToken(
-											argv["turnstile-mode"] as string | undefined,
-											"turnstile-mode",
-											"text"
-										),
+										turnstile_action: argv["turnstile-action"],
+										turnstile_mode: argv["turnstile-mode"],
 									}),
 					});
 					return;
@@ -370,16 +363,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"additional-routes"
 					),
 					cookie_attributes: {
-						samesite: resolveFileToken(
-							argv["cookie-attributes-samesite"] as string | undefined,
-							"cookie-attributes-samesite",
-							"text"
-						),
-						secure: resolveFileToken(
-							argv["cookie-attributes-secure"] as string | undefined,
-							"cookie-attributes-secure",
-							"text"
-						),
+						samesite: argv["cookie-attributes-samesite"],
+						secure: argv["cookie-attributes-secure"],
 					},
 					cookie_suffix: resolveFileToken(
 						argv["cookie-suffix"] as string | undefined,
@@ -391,11 +376,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"custom-page-html",
 						"text"
 					),
-					default_template_language: resolveFileToken(
-						argv["default-template-language"] as string | undefined,
-						"default-template-language",
-						"text"
-					),
+					default_template_language: argv["default-template-language"],
 					description: resolveFileToken(
 						argv["description"] as string | undefined,
 						"description",
@@ -421,25 +402,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"text"
 					),
 					queue_all: argv["queue-all"],
-					queueing_method: resolveFileToken(
-						argv["queueing-method"] as string | undefined,
-						"queueing-method",
-						"text"
-					),
+					queueing_method: argv["queueing-method"],
 					queueing_status_code: argv["queueing-status-code"],
 					session_duration: argv["session-duration"],
 					suspended: argv["suspended"],
 					total_active_users: argv["total-active-users"],
-					turnstile_action: resolveFileToken(
-						argv["turnstile-action"] as string | undefined,
-						"turnstile-action",
-						"text"
-					),
-					turnstile_mode: resolveFileToken(
-						argv["turnstile-mode"] as string | undefined,
-						"turnstile-mode",
-						"text"
-					),
+					turnstile_action: argv["turnstile-action"],
+					turnstile_mode: argv["turnstile-mode"],
 				});
 				const result = await withProgress(`Updating`, async () =>
 					client.waitingRooms.edit({

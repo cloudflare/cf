@@ -45,6 +45,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["full_auto", "full_manual"],
 			default: "full_auto",
 		})
+		.coerce("kind", (value: string | undefined) =>
+			resolveFileToken(value, "kind", "text")
+		)
 		.option("percentage", {
 			type: "number",
 			description:
@@ -66,6 +69,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				'Strategy used for the rollout.\n- "rolling": Step-based rollout with health gates. Actively replaces instances to reach each step\'s target percentage.\n- "new_instances": Percentage control over version distribution. Version sync actively replaces instances to match the configured percentage. The "full_auto" kind advances through fixed percentage targets after target-version health is observed.\n',
 			choices: ["rolling", "new_instances"],
 		})
+		.coerce("strategy", (value: string | undefined) =>
+			resolveFileToken(value, "strategy", "text")
+		)
 		.option("target-configuration-command", {
 			type: "string",
 			array: true,
@@ -148,19 +154,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"description",
 											"text"
 										),
-										kind: resolveFileToken(
-											argv["kind"] as string | undefined,
-											"kind",
-											"text"
-										),
+										kind: argv["kind"],
 										percentage: argv["percentage"],
 										step_percentage: argv["step-percentage"],
 										steps: parseObjectArray(argv["steps"], "steps"),
-										strategy: resolveFileToken(
-											argv["strategy"] as string | undefined,
-											"strategy",
-											"text"
-										),
+										strategy: argv["strategy"],
 										target_configuration: {
 											command: argv["target-configuration-command"],
 											entrypoint: argv["target-configuration-entrypoint"],
@@ -228,19 +226,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"description",
 						"text"
 					),
-					kind: resolveFileToken(
-						argv["kind"] as string | undefined,
-						"kind",
-						"text"
-					),
+					kind: argv["kind"],
 					percentage: argv["percentage"],
 					step_percentage: argv["step-percentage"],
 					steps: parseObjectArray(argv["steps"], "steps"),
-					strategy: resolveFileToken(
-						argv["strategy"] as string | undefined,
-						"strategy",
-						"text"
-					),
+					strategy: argv["strategy"],
 					target_configuration: {
 						command: argv["target-configuration-command"],
 						entrypoint: argv["target-configuration-entrypoint"],

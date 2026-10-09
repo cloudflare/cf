@@ -39,6 +39,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The indicator_type field",
 			choices: ["domain", "ipv4", "ipv6", "url"],
 		})
+		.coerce("indicator-type", (value: string | undefined) =>
+			resolveFileToken(value, "indicator-type", "text")
+		)
 		.option("ip", {
 			type: "string",
 			description: "Provide only if indicator_type is `ipv4` or `ipv6`.",
@@ -102,11 +105,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								: compactBody({
 										content_adds: argv["content-adds"],
 										content_removes: argv["content-removes"],
-										indicator_type: resolveFileToken(
-											argv["indicator-type"] as string | undefined,
-											"indicator-type",
-											"text"
-										),
+										indicator_type: argv["indicator-type"],
 										ip: resolveFileToken(
 											argv["ip"] as string | undefined,
 											"ip",
@@ -143,11 +142,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const bodyData = compactBody<Body>({
 					content_adds: argv["content-adds"],
 					content_removes: argv["content-removes"],
-					indicator_type: resolveFileToken(
-						argv["indicator-type"] as string | undefined,
-						"indicator-type",
-						"text"
-					),
+					indicator_type: argv["indicator-type"],
 					ip: resolveFileToken(argv["ip"] as string | undefined, "ip", "text"),
 					security_adds: argv["security-adds"],
 					security_removes: argv["security-removes"],

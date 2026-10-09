@@ -38,6 +38,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The pattern.validation field",
 			choices: ["luhn"],
 		})
+		.coerce("pattern-validation", (value: string | undefined) =>
+			resolveFileToken(value, "pattern-validation", "text")
+		)
 		.option("profile-id", {
 			type: "string",
 			description: "The profile_id field",
@@ -101,11 +104,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"pattern-regex",
 												"text"
 											),
-											validation: resolveFileToken(
-												argv["pattern-validation"] as string | undefined,
-												"pattern-validation",
-												"text"
-											),
+											validation: argv["pattern-validation"],
 										},
 										profile_id: resolveFileToken(
 											argv["profile-id"] as string | undefined,
@@ -165,11 +164,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"pattern-regex",
 							"text"
 						),
-						validation: resolveFileToken(
-							argv["pattern-validation"] as string | undefined,
-							"pattern-validation",
-							"text"
-						),
+						validation: argv["pattern-validation"],
 					},
 					profile_id: resolveFileToken(
 						argv["profile-id"] as string | undefined,

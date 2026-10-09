@@ -48,141 +48,225 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The guardrails.prompt.P1 field",
 			choices: ["FLAG", "BLOCK"],
 		})
+		.coerce("guardrails-prompt-p1", (value: string | undefined) =>
+			resolveFileToken(value, "guardrails-prompt-p1", "text")
+		)
 		.option("guardrails-prompt-s1", {
 			type: "string",
 			description: "The guardrails.prompt.S1 field",
 			choices: ["FLAG", "BLOCK"],
 		})
+		.coerce("guardrails-prompt-s1", (value: string | undefined) =>
+			resolveFileToken(value, "guardrails-prompt-s1", "text")
+		)
 		.option("guardrails-prompt-s10", {
 			type: "string",
 			description: "The guardrails.prompt.S10 field",
 			choices: ["FLAG", "BLOCK"],
 		})
+		.coerce("guardrails-prompt-s10", (value: string | undefined) =>
+			resolveFileToken(value, "guardrails-prompt-s10", "text")
+		)
 		.option("guardrails-prompt-s11", {
 			type: "string",
 			description: "The guardrails.prompt.S11 field",
 			choices: ["FLAG", "BLOCK"],
 		})
+		.coerce("guardrails-prompt-s11", (value: string | undefined) =>
+			resolveFileToken(value, "guardrails-prompt-s11", "text")
+		)
 		.option("guardrails-prompt-s12", {
 			type: "string",
 			description: "The guardrails.prompt.S12 field",
 			choices: ["FLAG", "BLOCK"],
 		})
+		.coerce("guardrails-prompt-s12", (value: string | undefined) =>
+			resolveFileToken(value, "guardrails-prompt-s12", "text")
+		)
 		.option("guardrails-prompt-s13", {
 			type: "string",
 			description: "The guardrails.prompt.S13 field",
 			choices: ["FLAG", "BLOCK"],
 		})
+		.coerce("guardrails-prompt-s13", (value: string | undefined) =>
+			resolveFileToken(value, "guardrails-prompt-s13", "text")
+		)
 		.option("guardrails-prompt-s2", {
 			type: "string",
 			description: "The guardrails.prompt.S2 field",
 			choices: ["FLAG", "BLOCK"],
 		})
+		.coerce("guardrails-prompt-s2", (value: string | undefined) =>
+			resolveFileToken(value, "guardrails-prompt-s2", "text")
+		)
 		.option("guardrails-prompt-s3", {
 			type: "string",
 			description: "The guardrails.prompt.S3 field",
 			choices: ["FLAG", "BLOCK"],
 		})
+		.coerce("guardrails-prompt-s3", (value: string | undefined) =>
+			resolveFileToken(value, "guardrails-prompt-s3", "text")
+		)
 		.option("guardrails-prompt-s4", {
 			type: "string",
 			description: "The guardrails.prompt.S4 field",
 			choices: ["FLAG", "BLOCK"],
 		})
+		.coerce("guardrails-prompt-s4", (value: string | undefined) =>
+			resolveFileToken(value, "guardrails-prompt-s4", "text")
+		)
 		.option("guardrails-prompt-s5", {
 			type: "string",
 			description: "The guardrails.prompt.S5 field",
 			choices: ["FLAG", "BLOCK"],
 		})
+		.coerce("guardrails-prompt-s5", (value: string | undefined) =>
+			resolveFileToken(value, "guardrails-prompt-s5", "text")
+		)
 		.option("guardrails-prompt-s6", {
 			type: "string",
 			description: "The guardrails.prompt.S6 field",
 			choices: ["FLAG", "BLOCK"],
 		})
+		.coerce("guardrails-prompt-s6", (value: string | undefined) =>
+			resolveFileToken(value, "guardrails-prompt-s6", "text")
+		)
 		.option("guardrails-prompt-s7", {
 			type: "string",
 			description: "The guardrails.prompt.S7 field",
 			choices: ["FLAG", "BLOCK"],
 		})
+		.coerce("guardrails-prompt-s7", (value: string | undefined) =>
+			resolveFileToken(value, "guardrails-prompt-s7", "text")
+		)
 		.option("guardrails-prompt-s8", {
 			type: "string",
 			description: "The guardrails.prompt.S8 field",
 			choices: ["FLAG", "BLOCK"],
 		})
+		.coerce("guardrails-prompt-s8", (value: string | undefined) =>
+			resolveFileToken(value, "guardrails-prompt-s8", "text")
+		)
 		.option("guardrails-prompt-s9", {
 			type: "string",
 			description: "The guardrails.prompt.S9 field",
 			choices: ["FLAG", "BLOCK"],
 		})
+		.coerce("guardrails-prompt-s9", (value: string | undefined) =>
+			resolveFileToken(value, "guardrails-prompt-s9", "text")
+		)
 		.option("guardrails-response-p1", {
 			type: "string",
 			description: "The guardrails.response.P1 field",
 			choices: ["FLAG", "BLOCK"],
 		})
+		.coerce("guardrails-response-p1", (value: string | undefined) =>
+			resolveFileToken(value, "guardrails-response-p1", "text")
+		)
 		.option("guardrails-response-s1", {
 			type: "string",
 			description: "The guardrails.response.S1 field",
 			choices: ["FLAG", "BLOCK"],
 		})
+		.coerce("guardrails-response-s1", (value: string | undefined) =>
+			resolveFileToken(value, "guardrails-response-s1", "text")
+		)
 		.option("guardrails-response-s10", {
 			type: "string",
 			description: "The guardrails.response.S10 field",
 			choices: ["FLAG", "BLOCK"],
 		})
+		.coerce("guardrails-response-s10", (value: string | undefined) =>
+			resolveFileToken(value, "guardrails-response-s10", "text")
+		)
 		.option("guardrails-response-s11", {
 			type: "string",
 			description: "The guardrails.response.S11 field",
 			choices: ["FLAG", "BLOCK"],
 		})
+		.coerce("guardrails-response-s11", (value: string | undefined) =>
+			resolveFileToken(value, "guardrails-response-s11", "text")
+		)
 		.option("guardrails-response-s12", {
 			type: "string",
 			description: "The guardrails.response.S12 field",
 			choices: ["FLAG", "BLOCK"],
 		})
+		.coerce("guardrails-response-s12", (value: string | undefined) =>
+			resolveFileToken(value, "guardrails-response-s12", "text")
+		)
 		.option("guardrails-response-s13", {
 			type: "string",
 			description: "The guardrails.response.S13 field",
 			choices: ["FLAG", "BLOCK"],
 		})
+		.coerce("guardrails-response-s13", (value: string | undefined) =>
+			resolveFileToken(value, "guardrails-response-s13", "text")
+		)
 		.option("guardrails-response-s2", {
 			type: "string",
 			description: "The guardrails.response.S2 field",
 			choices: ["FLAG", "BLOCK"],
 		})
+		.coerce("guardrails-response-s2", (value: string | undefined) =>
+			resolveFileToken(value, "guardrails-response-s2", "text")
+		)
 		.option("guardrails-response-s3", {
 			type: "string",
 			description: "The guardrails.response.S3 field",
 			choices: ["FLAG", "BLOCK"],
 		})
+		.coerce("guardrails-response-s3", (value: string | undefined) =>
+			resolveFileToken(value, "guardrails-response-s3", "text")
+		)
 		.option("guardrails-response-s4", {
 			type: "string",
 			description: "The guardrails.response.S4 field",
 			choices: ["FLAG", "BLOCK"],
 		})
+		.coerce("guardrails-response-s4", (value: string | undefined) =>
+			resolveFileToken(value, "guardrails-response-s4", "text")
+		)
 		.option("guardrails-response-s5", {
 			type: "string",
 			description: "The guardrails.response.S5 field",
 			choices: ["FLAG", "BLOCK"],
 		})
+		.coerce("guardrails-response-s5", (value: string | undefined) =>
+			resolveFileToken(value, "guardrails-response-s5", "text")
+		)
 		.option("guardrails-response-s6", {
 			type: "string",
 			description: "The guardrails.response.S6 field",
 			choices: ["FLAG", "BLOCK"],
 		})
+		.coerce("guardrails-response-s6", (value: string | undefined) =>
+			resolveFileToken(value, "guardrails-response-s6", "text")
+		)
 		.option("guardrails-response-s7", {
 			type: "string",
 			description: "The guardrails.response.S7 field",
 			choices: ["FLAG", "BLOCK"],
 		})
+		.coerce("guardrails-response-s7", (value: string | undefined) =>
+			resolveFileToken(value, "guardrails-response-s7", "text")
+		)
 		.option("guardrails-response-s8", {
 			type: "string",
 			description: "The guardrails.response.S8 field",
 			choices: ["FLAG", "BLOCK"],
 		})
+		.coerce("guardrails-response-s8", (value: string | undefined) =>
+			resolveFileToken(value, "guardrails-response-s8", "text")
+		)
 		.option("guardrails-response-s9", {
 			type: "string",
 			description: "The guardrails.response.S9 field",
 			choices: ["FLAG", "BLOCK"],
 		})
+		.coerce("guardrails-response-s9", (value: string | undefined) =>
+			resolveFileToken(value, "guardrails-response-s9", "text")
+		)
 		.option("id", {
 			type: "string",
 			description: "Unique identifier of the AI Gateway within the account.",
@@ -200,6 +284,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The log_management_strategy field",
 			choices: ["STOP_INSERTING", "DELETE_OLDEST"],
 		})
+		.coerce("log-management-strategy", (value: string | undefined) =>
+			resolveFileToken(value, "log-management-strategy", "text")
+		)
 		.option("logpush", { type: "boolean", description: "The logpush field" })
 		.option("logpush-public-key", {
 			type: "string",
@@ -223,11 +310,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The rate_limiting_technique field",
 			choices: ["fixed", "sliding"],
 		})
+		.coerce("rate-limiting-technique", (value: string | undefined) =>
+			resolveFileToken(value, "rate-limiting-technique", "text")
+		)
 		.option("retry-backoff", {
 			type: "string",
 			description: "Backoff strategy for retry delays",
 			choices: ["constant", "linear", "exponential"],
 		})
+		.coerce("retry-backoff", (value: string | undefined) =>
+			resolveFileToken(value, "retry-backoff", "text")
+		)
 		.option("retry-delay", {
 			type: "number",
 			description: "Delay between retry attempts in milliseconds (0-60000)",
@@ -252,6 +345,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["postpaid", "unified"],
 			default: "postpaid",
 		})
+		.coerce("workers-ai-billing-mode", (value: string | undefined) =>
+			resolveFileToken(value, "workers-ai-billing-mode", "text")
+		)
 		.option("zdr", { type: "boolean", description: "The zdr field" })
 		.option("dry-run", {
 			type: "boolean",
@@ -361,148 +457,36 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										collect_logs: argv["collect-logs"],
 										guardrails: {
 											prompt: {
-												P1: resolveFileToken(
-													argv["guardrails-prompt-p1"] as string | undefined,
-													"guardrails-prompt-p1",
-													"text"
-												),
-												S1: resolveFileToken(
-													argv["guardrails-prompt-s1"] as string | undefined,
-													"guardrails-prompt-s1",
-													"text"
-												),
-												S10: resolveFileToken(
-													argv["guardrails-prompt-s10"] as string | undefined,
-													"guardrails-prompt-s10",
-													"text"
-												),
-												S11: resolveFileToken(
-													argv["guardrails-prompt-s11"] as string | undefined,
-													"guardrails-prompt-s11",
-													"text"
-												),
-												S12: resolveFileToken(
-													argv["guardrails-prompt-s12"] as string | undefined,
-													"guardrails-prompt-s12",
-													"text"
-												),
-												S13: resolveFileToken(
-													argv["guardrails-prompt-s13"] as string | undefined,
-													"guardrails-prompt-s13",
-													"text"
-												),
-												S2: resolveFileToken(
-													argv["guardrails-prompt-s2"] as string | undefined,
-													"guardrails-prompt-s2",
-													"text"
-												),
-												S3: resolveFileToken(
-													argv["guardrails-prompt-s3"] as string | undefined,
-													"guardrails-prompt-s3",
-													"text"
-												),
-												S4: resolveFileToken(
-													argv["guardrails-prompt-s4"] as string | undefined,
-													"guardrails-prompt-s4",
-													"text"
-												),
-												S5: resolveFileToken(
-													argv["guardrails-prompt-s5"] as string | undefined,
-													"guardrails-prompt-s5",
-													"text"
-												),
-												S6: resolveFileToken(
-													argv["guardrails-prompt-s6"] as string | undefined,
-													"guardrails-prompt-s6",
-													"text"
-												),
-												S7: resolveFileToken(
-													argv["guardrails-prompt-s7"] as string | undefined,
-													"guardrails-prompt-s7",
-													"text"
-												),
-												S8: resolveFileToken(
-													argv["guardrails-prompt-s8"] as string | undefined,
-													"guardrails-prompt-s8",
-													"text"
-												),
-												S9: resolveFileToken(
-													argv["guardrails-prompt-s9"] as string | undefined,
-													"guardrails-prompt-s9",
-													"text"
-												),
+												P1: argv["guardrails-prompt-p1"],
+												S1: argv["guardrails-prompt-s1"],
+												S10: argv["guardrails-prompt-s10"],
+												S11: argv["guardrails-prompt-s11"],
+												S12: argv["guardrails-prompt-s12"],
+												S13: argv["guardrails-prompt-s13"],
+												S2: argv["guardrails-prompt-s2"],
+												S3: argv["guardrails-prompt-s3"],
+												S4: argv["guardrails-prompt-s4"],
+												S5: argv["guardrails-prompt-s5"],
+												S6: argv["guardrails-prompt-s6"],
+												S7: argv["guardrails-prompt-s7"],
+												S8: argv["guardrails-prompt-s8"],
+												S9: argv["guardrails-prompt-s9"],
 											},
 											response: {
-												P1: resolveFileToken(
-													argv["guardrails-response-p1"] as string | undefined,
-													"guardrails-response-p1",
-													"text"
-												),
-												S1: resolveFileToken(
-													argv["guardrails-response-s1"] as string | undefined,
-													"guardrails-response-s1",
-													"text"
-												),
-												S10: resolveFileToken(
-													argv["guardrails-response-s10"] as string | undefined,
-													"guardrails-response-s10",
-													"text"
-												),
-												S11: resolveFileToken(
-													argv["guardrails-response-s11"] as string | undefined,
-													"guardrails-response-s11",
-													"text"
-												),
-												S12: resolveFileToken(
-													argv["guardrails-response-s12"] as string | undefined,
-													"guardrails-response-s12",
-													"text"
-												),
-												S13: resolveFileToken(
-													argv["guardrails-response-s13"] as string | undefined,
-													"guardrails-response-s13",
-													"text"
-												),
-												S2: resolveFileToken(
-													argv["guardrails-response-s2"] as string | undefined,
-													"guardrails-response-s2",
-													"text"
-												),
-												S3: resolveFileToken(
-													argv["guardrails-response-s3"] as string | undefined,
-													"guardrails-response-s3",
-													"text"
-												),
-												S4: resolveFileToken(
-													argv["guardrails-response-s4"] as string | undefined,
-													"guardrails-response-s4",
-													"text"
-												),
-												S5: resolveFileToken(
-													argv["guardrails-response-s5"] as string | undefined,
-													"guardrails-response-s5",
-													"text"
-												),
-												S6: resolveFileToken(
-													argv["guardrails-response-s6"] as string | undefined,
-													"guardrails-response-s6",
-													"text"
-												),
-												S7: resolveFileToken(
-													argv["guardrails-response-s7"] as string | undefined,
-													"guardrails-response-s7",
-													"text"
-												),
-												S8: resolveFileToken(
-													argv["guardrails-response-s8"] as string | undefined,
-													"guardrails-response-s8",
-													"text"
-												),
-												S9: resolveFileToken(
-													argv["guardrails-response-s9"] as string | undefined,
-													"guardrails-response-s9",
-													"text"
-												),
+												P1: argv["guardrails-response-p1"],
+												S1: argv["guardrails-response-s1"],
+												S10: argv["guardrails-response-s10"],
+												S11: argv["guardrails-response-s11"],
+												S12: argv["guardrails-response-s12"],
+												S13: argv["guardrails-response-s13"],
+												S2: argv["guardrails-response-s2"],
+												S3: argv["guardrails-response-s3"],
+												S4: argv["guardrails-response-s4"],
+												S5: argv["guardrails-response-s5"],
+												S6: argv["guardrails-response-s6"],
+												S7: argv["guardrails-response-s7"],
+												S8: argv["guardrails-response-s8"],
+												S9: argv["guardrails-response-s9"],
 											},
 										},
 										id: resolveFileToken(
@@ -512,11 +496,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										),
 										log_classification: argv["log-classification"],
 										log_management: argv["log-management"],
-										log_management_strategy: resolveFileToken(
-											argv["log-management-strategy"] as string | undefined,
-											"log-management-strategy",
-											"text"
-										),
+										log_management_strategy: argv["log-management-strategy"],
 										logpush: argv["logpush"],
 										logpush_public_key: resolveFileToken(
 											argv["logpush-public-key"] as string | undefined,
@@ -526,16 +506,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										otel: parseObjectArray(argv["otel"], "otel"),
 										rate_limiting_interval: argv["rate-limiting-interval"],
 										rate_limiting_limit: argv["rate-limiting-limit"],
-										rate_limiting_technique: resolveFileToken(
-											argv["rate-limiting-technique"] as string | undefined,
-											"rate-limiting-technique",
-											"text"
-										),
-										retry_backoff: resolveFileToken(
-											argv["retry-backoff"] as string | undefined,
-											"retry-backoff",
-											"text"
-										),
+										rate_limiting_technique: argv["rate-limiting-technique"],
+										retry_backoff: argv["retry-backoff"],
 										retry_delay: argv["retry-delay"],
 										retry_max_attempts: argv["retry-max-attempts"],
 										spend_limits: {
@@ -553,11 +525,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"text"
 											),
 										},
-										workers_ai_billing_mode: resolveFileToken(
-											argv["workers-ai-billing-mode"] as string | undefined,
-											"workers-ai-billing-mode",
-											"text"
-										),
+										workers_ai_billing_mode: argv["workers-ai-billing-mode"],
 										zdr: argv["zdr"],
 									}),
 					});
@@ -619,158 +587,42 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					collect_logs: argv["collect-logs"],
 					guardrails: {
 						prompt: {
-							P1: resolveFileToken(
-								argv["guardrails-prompt-p1"] as string | undefined,
-								"guardrails-prompt-p1",
-								"text"
-							),
-							S1: resolveFileToken(
-								argv["guardrails-prompt-s1"] as string | undefined,
-								"guardrails-prompt-s1",
-								"text"
-							),
-							S10: resolveFileToken(
-								argv["guardrails-prompt-s10"] as string | undefined,
-								"guardrails-prompt-s10",
-								"text"
-							),
-							S11: resolveFileToken(
-								argv["guardrails-prompt-s11"] as string | undefined,
-								"guardrails-prompt-s11",
-								"text"
-							),
-							S12: resolveFileToken(
-								argv["guardrails-prompt-s12"] as string | undefined,
-								"guardrails-prompt-s12",
-								"text"
-							),
-							S13: resolveFileToken(
-								argv["guardrails-prompt-s13"] as string | undefined,
-								"guardrails-prompt-s13",
-								"text"
-							),
-							S2: resolveFileToken(
-								argv["guardrails-prompt-s2"] as string | undefined,
-								"guardrails-prompt-s2",
-								"text"
-							),
-							S3: resolveFileToken(
-								argv["guardrails-prompt-s3"] as string | undefined,
-								"guardrails-prompt-s3",
-								"text"
-							),
-							S4: resolveFileToken(
-								argv["guardrails-prompt-s4"] as string | undefined,
-								"guardrails-prompt-s4",
-								"text"
-							),
-							S5: resolveFileToken(
-								argv["guardrails-prompt-s5"] as string | undefined,
-								"guardrails-prompt-s5",
-								"text"
-							),
-							S6: resolveFileToken(
-								argv["guardrails-prompt-s6"] as string | undefined,
-								"guardrails-prompt-s6",
-								"text"
-							),
-							S7: resolveFileToken(
-								argv["guardrails-prompt-s7"] as string | undefined,
-								"guardrails-prompt-s7",
-								"text"
-							),
-							S8: resolveFileToken(
-								argv["guardrails-prompt-s8"] as string | undefined,
-								"guardrails-prompt-s8",
-								"text"
-							),
-							S9: resolveFileToken(
-								argv["guardrails-prompt-s9"] as string | undefined,
-								"guardrails-prompt-s9",
-								"text"
-							),
+							P1: argv["guardrails-prompt-p1"],
+							S1: argv["guardrails-prompt-s1"],
+							S10: argv["guardrails-prompt-s10"],
+							S11: argv["guardrails-prompt-s11"],
+							S12: argv["guardrails-prompt-s12"],
+							S13: argv["guardrails-prompt-s13"],
+							S2: argv["guardrails-prompt-s2"],
+							S3: argv["guardrails-prompt-s3"],
+							S4: argv["guardrails-prompt-s4"],
+							S5: argv["guardrails-prompt-s5"],
+							S6: argv["guardrails-prompt-s6"],
+							S7: argv["guardrails-prompt-s7"],
+							S8: argv["guardrails-prompt-s8"],
+							S9: argv["guardrails-prompt-s9"],
 						},
 						response: {
-							P1: resolveFileToken(
-								argv["guardrails-response-p1"] as string | undefined,
-								"guardrails-response-p1",
-								"text"
-							),
-							S1: resolveFileToken(
-								argv["guardrails-response-s1"] as string | undefined,
-								"guardrails-response-s1",
-								"text"
-							),
-							S10: resolveFileToken(
-								argv["guardrails-response-s10"] as string | undefined,
-								"guardrails-response-s10",
-								"text"
-							),
-							S11: resolveFileToken(
-								argv["guardrails-response-s11"] as string | undefined,
-								"guardrails-response-s11",
-								"text"
-							),
-							S12: resolveFileToken(
-								argv["guardrails-response-s12"] as string | undefined,
-								"guardrails-response-s12",
-								"text"
-							),
-							S13: resolveFileToken(
-								argv["guardrails-response-s13"] as string | undefined,
-								"guardrails-response-s13",
-								"text"
-							),
-							S2: resolveFileToken(
-								argv["guardrails-response-s2"] as string | undefined,
-								"guardrails-response-s2",
-								"text"
-							),
-							S3: resolveFileToken(
-								argv["guardrails-response-s3"] as string | undefined,
-								"guardrails-response-s3",
-								"text"
-							),
-							S4: resolveFileToken(
-								argv["guardrails-response-s4"] as string | undefined,
-								"guardrails-response-s4",
-								"text"
-							),
-							S5: resolveFileToken(
-								argv["guardrails-response-s5"] as string | undefined,
-								"guardrails-response-s5",
-								"text"
-							),
-							S6: resolveFileToken(
-								argv["guardrails-response-s6"] as string | undefined,
-								"guardrails-response-s6",
-								"text"
-							),
-							S7: resolveFileToken(
-								argv["guardrails-response-s7"] as string | undefined,
-								"guardrails-response-s7",
-								"text"
-							),
-							S8: resolveFileToken(
-								argv["guardrails-response-s8"] as string | undefined,
-								"guardrails-response-s8",
-								"text"
-							),
-							S9: resolveFileToken(
-								argv["guardrails-response-s9"] as string | undefined,
-								"guardrails-response-s9",
-								"text"
-							),
+							P1: argv["guardrails-response-p1"],
+							S1: argv["guardrails-response-s1"],
+							S10: argv["guardrails-response-s10"],
+							S11: argv["guardrails-response-s11"],
+							S12: argv["guardrails-response-s12"],
+							S13: argv["guardrails-response-s13"],
+							S2: argv["guardrails-response-s2"],
+							S3: argv["guardrails-response-s3"],
+							S4: argv["guardrails-response-s4"],
+							S5: argv["guardrails-response-s5"],
+							S6: argv["guardrails-response-s6"],
+							S7: argv["guardrails-response-s7"],
+							S8: argv["guardrails-response-s8"],
+							S9: argv["guardrails-response-s9"],
 						},
 					},
 					id: resolveFileToken(argv["id"] as string | undefined, "id", "text"),
 					log_classification: argv["log-classification"],
 					log_management: argv["log-management"],
-					log_management_strategy: resolveFileToken(
-						argv["log-management-strategy"] as string | undefined,
-						"log-management-strategy",
-						"text"
-					),
+					log_management_strategy: argv["log-management-strategy"],
 					logpush: argv["logpush"],
 					logpush_public_key: resolveFileToken(
 						argv["logpush-public-key"] as string | undefined,
@@ -780,16 +632,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					otel: parseObjectArray(argv["otel"], "otel"),
 					rate_limiting_interval: argv["rate-limiting-interval"],
 					rate_limiting_limit: argv["rate-limiting-limit"],
-					rate_limiting_technique: resolveFileToken(
-						argv["rate-limiting-technique"] as string | undefined,
-						"rate-limiting-technique",
-						"text"
-					),
-					retry_backoff: resolveFileToken(
-						argv["retry-backoff"] as string | undefined,
-						"retry-backoff",
-						"text"
-					),
+					rate_limiting_technique: argv["rate-limiting-technique"],
+					retry_backoff: argv["retry-backoff"],
 					retry_delay: argv["retry-delay"],
 					retry_max_attempts: argv["retry-max-attempts"],
 					spend_limits: {
@@ -807,11 +651,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"text"
 						),
 					},
-					workers_ai_billing_mode: resolveFileToken(
-						argv["workers-ai-billing-mode"] as string | undefined,
-						"workers-ai-billing-mode",
-						"text"
-					),
+					workers_ai_billing_mode: argv["workers-ai-billing-mode"],
 					zdr: argv["zdr"],
 				});
 				const result = await withProgress(`Creating`, async () =>

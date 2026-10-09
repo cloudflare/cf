@@ -98,6 +98,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"If set, the event will override the waiting room's `turnstile_action` property while it is active. If null, the event will inherit it.",
 			choices: ["log", "infinite_queue"],
 		})
+		.coerce("turnstile-action", (value: string | undefined) =>
+			resolveFileToken(value, "turnstile-action", "text")
+		)
 		.option("turnstile-mode", {
 			type: "string",
 			description:
@@ -109,6 +112,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"visible_managed",
 			],
 		})
+		.coerce("turnstile-mode", (value: string | undefined) =>
+			resolveFileToken(value, "turnstile-mode", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -201,16 +207,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										shuffle_at_event_start: argv["shuffle-at-event-start"],
 										suspended: argv["suspended"],
 										total_active_users: argv["total-active-users"],
-										turnstile_action: resolveFileToken(
-											argv["turnstile-action"] as string | undefined,
-											"turnstile-action",
-											"text"
-										),
-										turnstile_mode: resolveFileToken(
-											argv["turnstile-mode"] as string | undefined,
-											"turnstile-mode",
-											"text"
-										),
+										turnstile_action: argv["turnstile-action"],
+										turnstile_mode: argv["turnstile-mode"],
 									}),
 					});
 					return;
@@ -295,16 +293,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					shuffle_at_event_start: argv["shuffle-at-event-start"],
 					suspended: argv["suspended"],
 					total_active_users: argv["total-active-users"],
-					turnstile_action: resolveFileToken(
-						argv["turnstile-action"] as string | undefined,
-						"turnstile-action",
-						"text"
-					),
-					turnstile_mode: resolveFileToken(
-						argv["turnstile-mode"] as string | undefined,
-						"turnstile-mode",
-						"text"
-					),
+					turnstile_action: argv["turnstile-action"],
+					turnstile_mode: argv["turnstile-mode"],
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.waitingRooms.events.create({

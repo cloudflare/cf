@@ -56,6 +56,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to previous value.",
 			choices: ["1.0", "1.1", "1.2", "1.3"],
 		})
+		.coerce("min-tls", (value: string | undefined) =>
+			resolveFileToken(value, "min-tls", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -103,11 +106,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								: compactBody({
 										ciphers: argv["ciphers"],
 										enabled: argv["enabled"],
-										minTLS: resolveFileToken(
-											argv["min-tls"] as string | undefined,
-											"min-tls",
-											"text"
-										),
+										minTLS: argv["min-tls"],
 									}),
 					});
 					return;
@@ -140,15 +139,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv["enabled"] !== undefined)
 					setNestedValue(bodyData, ["enabled"], argv["enabled"]);
 				if (argv["min-tls"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["minTLS"],
-						resolveFileToken(
-							argv["min-tls"] as string | undefined,
-							"min-tls",
-							"text"
-						)
-					);
+					setNestedValue(bodyData, ["minTLS"], argv["min-tls"]);
 				const result = await withProgress(`Updating`, async () =>
 					requestApi<unknown>(
 						client,

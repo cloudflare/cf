@@ -43,6 +43,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"mitreCapec",
 			],
 		})
+		.coerce("dimension", (value: string | undefined) =>
+			resolveFileToken(value, "dimension", "text")
+		)
 		.option("enabled", {
 			type: "boolean",
 			description: "The enabled field",
@@ -91,11 +94,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										dimension: resolveFileToken(
-											argv["dimension"] as string | undefined,
-											"dimension",
-											"text"
-										),
+										dimension: argv["dimension"],
 										enabled: argv["enabled"],
 										value: resolveFileToken(
 											argv["value"] as string | undefined,
@@ -147,11 +146,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					dimension: resolveFileToken(
-						argv["dimension"] as string | undefined,
-						"dimension",
-						"text"
-					),
+					dimension: argv["dimension"],
 					enabled: argv["enabled"],
 					value: resolveFileToken(
 						argv["value"] as string | undefined,

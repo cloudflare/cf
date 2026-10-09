@@ -74,6 +74,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"`inherit` uses the account `max_ttl_secs`. `override` uses this location's `ttl_secs`. `disabled` leaves returned TTLs unchanged.",
 			choices: ["inherit", "override", "disabled"],
 		})
+		.coerce("max-ttl-mode", (value: string | undefined) =>
+			resolveFileToken(value, "max-ttl-mode", "text")
+		)
 		.option("max-ttl-ttl-secs", {
 			type: "number",
 			description:
@@ -178,11 +181,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											},
 										},
 										max_ttl: {
-											mode: resolveFileToken(
-												argv["max-ttl-mode"] as string | undefined,
-												"max-ttl-mode",
-												"text"
-											),
+											mode: argv["max-ttl-mode"],
 											ttl_secs: argv["max-ttl-ttl-secs"],
 										},
 										name: resolveFileToken(
@@ -243,11 +242,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						},
 					},
 					max_ttl: {
-						mode: resolveFileToken(
-							argv["max-ttl-mode"] as string | undefined,
-							"max-ttl-mode",
-							"text"
-						),
+						mode: argv["max-ttl-mode"],
 						ttl_secs: argv["max-ttl-ttl-secs"],
 					},
 					name: resolveFileToken(

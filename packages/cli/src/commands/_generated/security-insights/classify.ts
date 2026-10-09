@@ -36,6 +36,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"User-defined classification for the insight. Can be 'false_positive', 'accept_risk', 'other', or null.",
 			choices: ["false_positive", "accept_risk", "other"],
 		})
+		.coerce("classification", (value: string | undefined) =>
+			resolveFileToken(value, "classification", "text")
+		)
 		.option("rationale", {
 			type: "string",
 			description:
@@ -94,11 +97,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										classification: resolveFileToken(
-											argv["classification"] as string | undefined,
-											"classification",
-											"text"
-										),
+										classification: argv["classification"],
 										rationale: resolveFileToken(
 											argv["rationale"] as string | undefined,
 											"rationale",
@@ -140,11 +139,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					classification: resolveFileToken(
-						argv["classification"] as string | undefined,
-						"classification",
-						"text"
-					),
+					classification: argv["classification"],
 					rationale: resolveFileToken(
 						argv["rationale"] as string | undefined,
 						"rationale",

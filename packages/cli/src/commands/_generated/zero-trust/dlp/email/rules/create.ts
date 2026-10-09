@@ -33,6 +33,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The action.action field",
 			choices: ["Block"],
 		})
+		.coerce("action-action", (value: string | undefined) =>
+			resolveFileToken(value, "action-action", "text")
+		)
 		.option("action-message", {
 			type: "string",
 			description: "The action.message field",
@@ -91,11 +94,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								? parseBody(argv.body)
 								: compactBody({
 										action: {
-											action: resolveFileToken(
-												argv["action-action"] as string | undefined,
-												"action-action",
-												"text"
-											),
+											action: argv["action-action"],
 											message: resolveFileToken(
 												argv["action-message"] as string | undefined,
 												"action-message",
@@ -160,11 +159,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
 					action: {
-						action: resolveFileToken(
-							argv["action-action"] as string | undefined,
-							"action-action",
-							"text"
-						),
+						action: argv["action-action"],
 						message: resolveFileToken(
 							argv["action-message"] as string | undefined,
 							"action-message",

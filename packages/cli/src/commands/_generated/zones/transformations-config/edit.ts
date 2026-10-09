@@ -29,12 +29,18 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Whether C2PA signing is enabled for image transformations.",
 			choices: ["off", "on"],
 		})
+		.coerce("value-c2pa", (value: string | undefined) =>
+			resolveFileToken(value, "value-c2pa", "text")
+		)
 		.option("value-transformations", {
 			type: "string",
 			description:
 				'Controls Image Transformations behavior:\n- "off": Feature disabled.\n- "on": Transformations enabled for same-zone images only.\n- "open": Transformations enabled for images from any origin.\n- "latest": Transformations enabled using the latest version.\n',
 			choices: ["off", "on", "open", "latest"],
 		})
+		.coerce("value-transformations", (value: string | undefined) =>
+			resolveFileToken(value, "value-transformations", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -84,16 +90,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"value-allowed-origins",
 												"text"
 											),
-											c2pa: resolveFileToken(
-												argv["value-c2pa"] as string | undefined,
-												"value-c2pa",
-												"text"
-											),
-											transformations: resolveFileToken(
-												argv["value-transformations"] as string | undefined,
-												"value-transformations",
-												"text"
-											),
+											c2pa: argv["value-c2pa"],
+											transformations: argv["value-transformations"],
 										},
 									}),
 					});
@@ -125,16 +123,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"value-allowed-origins",
 							"text"
 						),
-						c2pa: resolveFileToken(
-							argv["value-c2pa"] as string | undefined,
-							"value-c2pa",
-							"text"
-						),
-						transformations: resolveFileToken(
-							argv["value-transformations"] as string | undefined,
-							"value-transformations",
-							"text"
-						),
+						c2pa: argv["value-c2pa"],
+						transformations: argv["value-transformations"],
 					},
 				});
 				const result = await withProgress(`Updating`, async () =>

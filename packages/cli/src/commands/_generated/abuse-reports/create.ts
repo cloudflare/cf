@@ -47,6 +47,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"abuse_ncsei",
 			],
 		})
+		.coerce("act", (value: string | undefined) =>
+			resolveFileToken(value, "act", "text")
+		)
 		.option("comments", {
 			type: "string",
 			description:
@@ -124,6 +127,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.\n",
 			choices: ["send", "send-anon"],
 		})
+		.coerce("host-notification", (value: string | undefined) =>
+			resolveFileToken(value, "host-notification", "text")
+		)
 		.option("original-work", {
 			type: "string",
 			description:
@@ -135,6 +141,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.\n",
 			choices: ["send", "send-anon", "none"],
 		})
+		.coerce("owner-notification", (value: string | undefined) =>
+			resolveFileToken(value, "owner-notification", "text")
+		)
 		.option("signature", {
 			type: "string",
 			description:
@@ -183,6 +192,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.\n",
 			choices: ["send", "send-anon"],
 		})
+		.coerce("ncmec-notification", (value: string | undefined) =>
+			resolveFileToken(value, "ncmec-notification", "text")
+		)
 		.option("reg-who-request-reg-who-authorization-statement", {
 			type: "string",
 			description:
@@ -208,6 +220,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The type of WHOIS data request per RDP procedure.",
 			choices: ["disclosure", "invalid_whois"],
 		})
+		.coerce(
+			"reg-who-request-reg-who-request-type",
+			(value: string | undefined) =>
+				resolveFileToken(value, "reg-who-request-reg-who-request-type", "text")
+		)
 		.option("reg-who-request-reg-who-requested-data-elements", {
 			type: "string",
 			array: true,
@@ -219,6 +236,15 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The nature of the requestor per RDP 10.2.1.2.",
 			choices: ["government", "corporation", "individual"],
 		})
+		.coerce(
+			"reg-who-request-reg-who-requestor-type",
+			(value: string | undefined) =>
+				resolveFileToken(
+					value,
+					"reg-who-request-reg-who-requestor-type",
+					"text"
+				)
+		)
 		.option("ncsei-subject-representation", {
 			type: "boolean",
 			description:
@@ -999,11 +1025,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										act: resolveFileToken(
-											argv["act"] as string | undefined,
-											"act",
-											"text"
-										),
+										act: argv["act"],
 										comments: resolveFileToken(
 											argv["comments"] as string | undefined,
 											"comments",
@@ -1075,21 +1097,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"country",
 											"text"
 										),
-										host_notification: resolveFileToken(
-											argv["host-notification"] as string | undefined,
-											"host-notification",
-											"text"
-										),
+										host_notification: argv["host-notification"],
 										original_work: resolveFileToken(
 											argv["original-work"] as string | undefined,
 											"original-work",
 											"text"
 										),
-										owner_notification: resolveFileToken(
-											argv["owner-notification"] as string | undefined,
-											"owner-notification",
-											"text"
-										),
+										owner_notification: argv["owner-notification"],
 										signature: resolveFileToken(
 											argv["signature"] as string | undefined,
 											"signature",
@@ -1135,11 +1149,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"source-ips",
 											"text"
 										),
-										ncmec_notification: resolveFileToken(
-											argv["ncmec-notification"] as string | undefined,
-											"ncmec-notification",
-											"text"
-										),
+										ncmec_notification: argv["ncmec-notification"],
 										reg_who_request: {
 											reg_who_authorization_statement: resolveFileToken(
 												argv[
@@ -1161,22 +1171,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"reg-who-request-reg-who-legal-basis",
 												"text"
 											),
-											reg_who_request_type: resolveFileToken(
-												argv["reg-who-request-reg-who-request-type"] as
-													| string
-													| undefined,
-												"reg-who-request-reg-who-request-type",
-												"text"
-											),
+											reg_who_request_type:
+												argv["reg-who-request-reg-who-request-type"],
 											reg_who_requested_data_elements:
 												argv["reg-who-request-reg-who-requested-data-elements"],
-											reg_who_requestor_type: resolveFileToken(
-												argv["reg-who-request-reg-who-requestor-type"] as
-													| string
-													| undefined,
-												"reg-who-request-reg-who-requestor-type",
-												"text"
-											),
+											reg_who_requestor_type:
+												argv["reg-who-request-reg-who-requestor-type"],
 										},
 										ncsei_subject_representation:
 											argv["ncsei-subject-representation"],
@@ -1476,11 +1476,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					act: resolveFileToken(
-						argv["act"] as string | undefined,
-						"act",
-						"text"
-					),
+					act: argv["act"],
 					comments: resolveFileToken(
 						argv["comments"] as string | undefined,
 						"comments",
@@ -1552,21 +1548,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"country",
 						"text"
 					),
-					host_notification: resolveFileToken(
-						argv["host-notification"] as string | undefined,
-						"host-notification",
-						"text"
-					),
+					host_notification: argv["host-notification"],
 					original_work: resolveFileToken(
 						argv["original-work"] as string | undefined,
 						"original-work",
 						"text"
 					),
-					owner_notification: resolveFileToken(
-						argv["owner-notification"] as string | undefined,
-						"owner-notification",
-						"text"
-					),
+					owner_notification: argv["owner-notification"],
 					signature: resolveFileToken(
 						argv["signature"] as string | undefined,
 						"signature",
@@ -1612,11 +1600,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"source-ips",
 						"text"
 					),
-					ncmec_notification: resolveFileToken(
-						argv["ncmec-notification"] as string | undefined,
-						"ncmec-notification",
-						"text"
-					),
+					ncmec_notification: argv["ncmec-notification"],
 					reg_who_request: {
 						reg_who_authorization_statement: resolveFileToken(
 							argv["reg-who-request-reg-who-authorization-statement"] as
@@ -1634,22 +1618,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"reg-who-request-reg-who-legal-basis",
 							"text"
 						),
-						reg_who_request_type: resolveFileToken(
-							argv["reg-who-request-reg-who-request-type"] as
-								| string
-								| undefined,
-							"reg-who-request-reg-who-request-type",
-							"text"
-						),
+						reg_who_request_type: argv["reg-who-request-reg-who-request-type"],
 						reg_who_requested_data_elements:
 							argv["reg-who-request-reg-who-requested-data-elements"],
-						reg_who_requestor_type: resolveFileToken(
-							argv["reg-who-request-reg-who-requestor-type"] as
-								| string
-								| undefined,
-							"reg-who-request-reg-who-requestor-type",
-							"text"
-						),
+						reg_who_requestor_type:
+							argv["reg-who-request-reg-who-requestor-type"],
 					},
 					ncsei_subject_representation: argv["ncsei-subject-representation"],
 				});

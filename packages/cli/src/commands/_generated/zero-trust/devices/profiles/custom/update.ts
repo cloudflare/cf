@@ -52,6 +52,15 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Whether the user may disable the browser extension proxy.",
 			choices: ["unlocked", "locked"],
 		})
+		.coerce(
+			"browser-extension-config-proxy-control",
+			(value: string | undefined) =>
+				resolveFileToken(
+					value,
+					"browser-extension-config-proxy-control",
+					"text"
+				)
+		)
 		.option("browser-extension-config-proxy-enabled", {
 			type: "boolean",
 			description: "Whether the browser extension proxy is active.",
@@ -319,13 +328,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										allowed_to_leave: argv["allowed-to-leave"],
 										auto_connect: argv["auto-connect"],
 										browser_extension_config: {
-											proxy_control: resolveFileToken(
-												argv["browser-extension-config-proxy-control"] as
-													| string
-													| undefined,
-												"browser-extension-config-proxy-control",
-												"text"
-											),
+											proxy_control:
+												argv["browser-extension-config-proxy-control"],
 											proxy_enabled:
 												argv["browser-extension-config-proxy-enabled"],
 										},
@@ -427,13 +431,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					allowed_to_leave: argv["allowed-to-leave"],
 					auto_connect: argv["auto-connect"],
 					browser_extension_config: {
-						proxy_control: resolveFileToken(
-							argv["browser-extension-config-proxy-control"] as
-								| string
-								| undefined,
-							"browser-extension-config-proxy-control",
-							"text"
-						),
+						proxy_control: argv["browser-extension-config-proxy-control"],
 						proxy_enabled: argv["browser-extension-config-proxy-enabled"],
 					},
 					captive_portal: argv["captive-portal"],

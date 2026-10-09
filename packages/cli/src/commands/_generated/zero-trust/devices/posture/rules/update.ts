@@ -51,6 +51,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Operating system.",
 			choices: ["windows", "linux", "mac", "android", "ios", "chromeos"],
 		})
+		.coerce("input-operating-system", (value: string | undefined) =>
+			resolveFileToken(value, "input-operating-system", "text")
+		)
 		.option("input-path", { type: "string", description: "File path." })
 		.option("input-sha256", { type: "string", description: "SHA-256." })
 		.option("input-thumbprint", {
@@ -64,6 +67,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Operator.",
 			choices: ["<", "<=", ">", ">=", "=="],
 		})
+		.coerce("input-operator", (value: string | undefined) =>
+			resolveFileToken(value, "input-operator", "text")
+		)
 		.option("input-os-distro-name", {
 			type: "string",
 			description: "Operating System Distribution Name (linux only).",
@@ -139,6 +145,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"error",
 			],
 		})
+		.coerce("input-compliance-status", (value: string | undefined) =>
+			resolveFileToken(value, "input-compliance-status", "text")
+		)
 		.option("input-connection-id", {
 			type: "string",
 			description: "Posture Integration ID.",
@@ -160,11 +169,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"For more details on state, please refer to the Crowdstrike documentation.",
 			choices: ["online", "offline", "unknown"],
 		})
+		.coerce("input-state", (value: string | undefined) =>
+			resolveFileToken(value, "input-state", "text")
+		)
 		.option("input-version-operator", {
 			type: "string",
 			description: "Version Operator.",
 			choices: ["<", "<=", ">", ">=", "=="],
 		})
+		.coerce("input-version-operator", (value: string | undefined) =>
+			resolveFileToken(value, "input-version-operator", "text")
+		)
 		.option("input-auth-state", {
 			type: "string",
 			array: true,
@@ -176,6 +191,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Count Operator.",
 			choices: ["<", "<=", ">", ">=", "=="],
 		})
+		.coerce("input-count-operator", (value: string | undefined) =>
+			resolveFileToken(value, "input-count-operator", "text")
+		)
 		.option("input-issue-count", {
 			type: "string",
 			description: "The Number of Issues.",
@@ -191,11 +209,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"For more details on risk level, refer to the Tanium documentation.",
 			choices: ["low", "medium", "high", "critical"],
 		})
+		.coerce("input-risk-level", (value: string | undefined) =>
+			resolveFileToken(value, "input-risk-level", "text")
+		)
 		.option("input-score-operator", {
 			type: "string",
 			description: "Score Operator.",
 			choices: ["<", "<=", ">", ">=", "=="],
 		})
+		.coerce("input-score-operator", (value: string | undefined) =>
+			resolveFileToken(value, "input-score-operator", "text")
+		)
 		.option("input-total-score", {
 			type: "number",
 			description:
@@ -218,6 +242,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Network status of device.",
 			choices: ["connected", "disconnected", "disconnecting", "connecting"],
 		})
+		.coerce("input-network-status", (value: string | undefined) =>
+			resolveFileToken(value, "input-network-status", "text")
+		)
 		.option("input-operational-state", {
 			type: "string",
 			description: "Agent operational state.",
@@ -231,6 +258,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"db_corruption",
 			],
 		})
+		.coerce("input-operational-state", (value: string | undefined) =>
+			resolveFileToken(value, "input-operational-state", "text")
+		)
 		.option("input-score", {
 			type: "number",
 			description:
@@ -279,6 +309,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"custom_s2s",
 			],
 		})
+		.coerce("type", (value: string | undefined) =>
+			resolveFileToken(value, "type", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -2084,11 +2117,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										),
 										input: {
 											exists: argv["input-exists"],
-											operating_system: resolveFileToken(
-												argv["input-operating-system"] as string | undefined,
-												"input-operating-system",
-												"text"
-											),
+											operating_system: argv["input-operating-system"],
 											path: resolveFileToken(
 												argv["input-path"] as string | undefined,
 												"input-path",
@@ -2114,11 +2143,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"input-domain",
 												"text"
 											),
-											operator: resolveFileToken(
-												argv["input-operator"] as string | undefined,
-												"input-operator",
-												"text"
-											),
+											operator: argv["input-operator"],
 											os_distro_name: resolveFileToken(
 												argv["input-os-distro-name"] as string | undefined,
 												"input-os-distro-name",
@@ -2161,11 +2186,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											subject_alternative_names:
 												argv["input-subject-alternative-names"],
 											update_window_days: argv["input-update-window-days"],
-											compliance_status: resolveFileToken(
-												argv["input-compliance-status"] as string | undefined,
-												"input-compliance-status",
-												"text"
-											),
+											compliance_status: argv["input-compliance-status"],
 											connection_id: resolveFileToken(
 												argv["input-connection-id"] as string | undefined,
 												"input-connection-id",
@@ -2191,22 +2212,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"input-sensor-config",
 												"text"
 											),
-											state: resolveFileToken(
-												argv["input-state"] as string | undefined,
-												"input-state",
-												"text"
-											),
-											versionOperator: resolveFileToken(
-												argv["input-version-operator"] as string | undefined,
-												"input-version-operator",
-												"text"
-											),
+											state: argv["input-state"],
+											versionOperator: argv["input-version-operator"],
 											auth_state: argv["input-auth-state"],
-											countOperator: resolveFileToken(
-												argv["input-count-operator"] as string | undefined,
-												"input-count-operator",
-												"text"
-											),
+											countOperator: argv["input-count-operator"],
 											issue_count: resolveFileToken(
 												argv["input-issue-count"] as string | undefined,
 												"input-issue-count",
@@ -2217,30 +2226,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"input-eid-last-seen",
 												"text"
 											),
-											risk_level: resolveFileToken(
-												argv["input-risk-level"] as string | undefined,
-												"input-risk-level",
-												"text"
-											),
-											scoreOperator: resolveFileToken(
-												argv["input-score-operator"] as string | undefined,
-												"input-score-operator",
-												"text"
-											),
+											risk_level: argv["input-risk-level"],
+											scoreOperator: argv["input-score-operator"],
 											total_score: argv["input-total-score"],
 											active_threats: argv["input-active-threats"],
 											infected: argv["input-infected"],
 											is_active: argv["input-is-active"],
-											network_status: resolveFileToken(
-												argv["input-network-status"] as string | undefined,
-												"input-network-status",
-												"text"
-											),
-											operational_state: resolveFileToken(
-												argv["input-operational-state"] as string | undefined,
-												"input-operational-state",
-												"text"
-											),
+											network_status: argv["input-network-status"],
+											operational_state: argv["input-operational-state"],
 											score: argv["input-score"],
 										},
 										match: parseObjectArray(argv["match"], "match"),
@@ -2254,11 +2247,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"schedule",
 											"text"
 										),
-										type: resolveFileToken(
-											argv["type"] as string | undefined,
-											"type",
-											"text"
-										),
+										type: argv["type"],
 									}),
 					});
 					return;
@@ -2331,11 +2320,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					),
 					input: {
 						exists: argv["input-exists"],
-						operating_system: resolveFileToken(
-							argv["input-operating-system"] as string | undefined,
-							"input-operating-system",
-							"text"
-						),
+						operating_system: argv["input-operating-system"],
 						path: resolveFileToken(
 							argv["input-path"] as string | undefined,
 							"input-path",
@@ -2361,11 +2346,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"input-domain",
 							"text"
 						),
-						operator: resolveFileToken(
-							argv["input-operator"] as string | undefined,
-							"input-operator",
-							"text"
-						),
+						operator: argv["input-operator"],
 						os_distro_name: resolveFileToken(
 							argv["input-os-distro-name"] as string | undefined,
 							"input-os-distro-name",
@@ -2407,11 +2388,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						},
 						subject_alternative_names: argv["input-subject-alternative-names"],
 						update_window_days: argv["input-update-window-days"],
-						compliance_status: resolveFileToken(
-							argv["input-compliance-status"] as string | undefined,
-							"input-compliance-status",
-							"text"
-						),
+						compliance_status: argv["input-compliance-status"],
 						connection_id: resolveFileToken(
 							argv["input-connection-id"] as string | undefined,
 							"input-connection-id",
@@ -2437,22 +2414,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"input-sensor-config",
 							"text"
 						),
-						state: resolveFileToken(
-							argv["input-state"] as string | undefined,
-							"input-state",
-							"text"
-						),
-						versionOperator: resolveFileToken(
-							argv["input-version-operator"] as string | undefined,
-							"input-version-operator",
-							"text"
-						),
+						state: argv["input-state"],
+						versionOperator: argv["input-version-operator"],
 						auth_state: argv["input-auth-state"],
-						countOperator: resolveFileToken(
-							argv["input-count-operator"] as string | undefined,
-							"input-count-operator",
-							"text"
-						),
+						countOperator: argv["input-count-operator"],
 						issue_count: resolveFileToken(
 							argv["input-issue-count"] as string | undefined,
 							"input-issue-count",
@@ -2463,30 +2428,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"input-eid-last-seen",
 							"text"
 						),
-						risk_level: resolveFileToken(
-							argv["input-risk-level"] as string | undefined,
-							"input-risk-level",
-							"text"
-						),
-						scoreOperator: resolveFileToken(
-							argv["input-score-operator"] as string | undefined,
-							"input-score-operator",
-							"text"
-						),
+						risk_level: argv["input-risk-level"],
+						scoreOperator: argv["input-score-operator"],
 						total_score: argv["input-total-score"],
 						active_threats: argv["input-active-threats"],
 						infected: argv["input-infected"],
 						is_active: argv["input-is-active"],
-						network_status: resolveFileToken(
-							argv["input-network-status"] as string | undefined,
-							"input-network-status",
-							"text"
-						),
-						operational_state: resolveFileToken(
-							argv["input-operational-state"] as string | undefined,
-							"input-operational-state",
-							"text"
-						),
+						network_status: argv["input-network-status"],
+						operational_state: argv["input-operational-state"],
 						score: argv["input-score"],
 					},
 					match: parseObjectArray(argv["match"], "match"),
@@ -2500,11 +2449,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"schedule",
 						"text"
 					),
-					type: resolveFileToken(
-						argv["type"] as string | undefined,
-						"type",
-						"text"
-					),
+					type: argv["type"],
 				});
 				const result = await withProgress(`Updating`, async () =>
 					client.zeroTrust.devices.posture.rules.update({

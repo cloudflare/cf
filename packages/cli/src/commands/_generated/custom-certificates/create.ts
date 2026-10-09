@@ -27,6 +27,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["ubiquitous", "optimal", "force"],
 			default: "ubiquitous",
 		})
+		.coerce("bundle-method", (value: string | undefined) =>
+			resolveFileToken(value, "bundle-method", "text")
+		)
 		.option("certificate", {
 			type: "string",
 			description:
@@ -43,11 +46,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["staging", "production"],
 			default: "production",
 		})
+		.coerce("deploy", (value: string | undefined) =>
+			resolveFileToken(value, "deploy", "text")
+		)
 		.option("geo-restrictions-label", {
 			type: "string",
 			description: "The geo_restrictions.label field",
 			choices: ["us", "eu", "highest_security"],
 		})
+		.coerce("geo-restrictions-label", (value: string | undefined) =>
+			resolveFileToken(value, "geo-restrictions-label", "text")
+		)
 		.option("policy", {
 			type: "string",
 			description:
@@ -65,6 +74,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["legacy_custom", "sni_custom"],
 			default: "legacy_custom",
 		})
+		.coerce("type", (value: string | undefined) =>
+			resolveFileToken(value, "type", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -114,11 +126,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										bundle_method: resolveFileToken(
-											argv["bundle-method"] as string | undefined,
-											"bundle-method",
-											"text"
-										),
+										bundle_method: argv["bundle-method"],
 										certificate: resolveFileToken(
 											argv["certificate"] as string | undefined,
 											"certificate",
@@ -129,17 +137,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"custom-csr-id",
 											"text"
 										),
-										deploy: resolveFileToken(
-											argv["deploy"] as string | undefined,
-											"deploy",
-											"text"
-										),
+										deploy: argv["deploy"],
 										geo_restrictions: {
-											label: resolveFileToken(
-												argv["geo-restrictions-label"] as string | undefined,
-												"geo-restrictions-label",
-												"text"
-											),
+											label: argv["geo-restrictions-label"],
 										},
 										policy: resolveFileToken(
 											argv["policy"] as string | undefined,
@@ -151,11 +151,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"private-key",
 											"text"
 										),
-										type: resolveFileToken(
-											argv["type"] as string | undefined,
-											"type",
-											"text"
-										),
+										type: argv["type"],
 									}),
 						sensitiveBodyPaths: [["private_key"]],
 					});
@@ -187,11 +183,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					bundle_method: resolveFileToken(
-						argv["bundle-method"] as string | undefined,
-						"bundle-method",
-						"text"
-					),
+					bundle_method: argv["bundle-method"],
 					certificate: resolveFileToken(
 						argv["certificate"] as string | undefined,
 						"certificate",
@@ -202,17 +194,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"custom-csr-id",
 						"text"
 					),
-					deploy: resolveFileToken(
-						argv["deploy"] as string | undefined,
-						"deploy",
-						"text"
-					),
+					deploy: argv["deploy"],
 					geo_restrictions: {
-						label: resolveFileToken(
-							argv["geo-restrictions-label"] as string | undefined,
-							"geo-restrictions-label",
-							"text"
-						),
+						label: argv["geo-restrictions-label"],
 					},
 					policy: resolveFileToken(
 						argv["policy"] as string | undefined,
@@ -224,11 +208,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"private-key",
 						"text"
 					),
-					type: resolveFileToken(
-						argv["type"] as string | undefined,
-						"type",
-						"text"
-					),
+					type: argv["type"],
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.customCertificates.create({

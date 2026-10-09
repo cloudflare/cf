@@ -49,6 +49,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The jobType field",
 			choices: ["prefixDelete", "storageClassMigration"],
 		})
+		.coerce("job-type", (value: string | undefined) =>
+			resolveFileToken(value, "job-type", "text")
+		)
 		.option("prefix", {
 			type: "string",
 			description:
@@ -59,11 +62,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The destinationStorageClass field",
 			choices: ["Standard", "InfrequentAccess"],
 		})
+		.coerce("destination-storage-class", (value: string | undefined) =>
+			resolveFileToken(value, "destination-storage-class", "text")
+		)
 		.option("source-storage-class", {
 			type: "string",
 			description: "The sourceStorageClass field",
 			choices: ["Standard", "InfrequentAccess"],
 		})
+		.coerce("source-storage-class", (value: string | undefined) =>
+			resolveFileToken(value, "source-storage-class", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -126,26 +135,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										jobType: resolveFileToken(
-											argv["job-type"] as string | undefined,
-											"job-type",
-											"text"
-										),
+										jobType: argv["job-type"],
 										prefix: resolveFileToken(
 											argv["prefix"] as string | undefined,
 											"prefix",
 											"text"
 										),
-										destinationStorageClass: resolveFileToken(
-											argv["destination-storage-class"] as string | undefined,
-											"destination-storage-class",
-											"text"
-										),
-										sourceStorageClass: resolveFileToken(
-											argv["source-storage-class"] as string | undefined,
-											"source-storage-class",
-											"text"
-										),
+										destinationStorageClass: argv["destination-storage-class"],
+										sourceStorageClass: argv["source-storage-class"],
 									}),
 					});
 					return;
@@ -202,15 +199,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData: Record<string, unknown> = {};
 				if (argv["job-type"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["jobType"],
-						resolveFileToken(
-							argv["job-type"] as string | undefined,
-							"job-type",
-							"text"
-						)
-					);
+					setNestedValue(bodyData, ["jobType"], argv["job-type"]);
 				if (argv["prefix"] !== undefined)
 					setNestedValue(
 						bodyData,
@@ -225,21 +214,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					setNestedValue(
 						bodyData,
 						["destinationStorageClass"],
-						resolveFileToken(
-							argv["destination-storage-class"] as string | undefined,
-							"destination-storage-class",
-							"text"
-						)
+						argv["destination-storage-class"]
 					);
 				if (argv["source-storage-class"] !== undefined)
 					setNestedValue(
 						bodyData,
 						["sourceStorageClass"],
-						resolveFileToken(
-							argv["source-storage-class"] as string | undefined,
-							"source-storage-class",
-							"text"
-						)
+						argv["source-storage-class"]
 					);
 				const result = await withProgress(`Deleting`, async () =>
 					requestApi<unknown>(

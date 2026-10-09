@@ -45,6 +45,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Set a Flag to describe how to combine the filters on the query.",
 			choices: ["and", "or", "AND", "OR"],
 		})
+		.coerce("parameters-filter-combination", (value: string | undefined) =>
+			resolveFileToken(value, "parameters-filter-combination", "text")
+		)
 		.option("parameters-limit", {
 			type: "number",
 			description:
@@ -63,6 +66,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Set the order of the results",
 			choices: ["asc", "desc"],
 		})
+		.coerce("parameters-order-by-order", (value: string | undefined) =>
+			resolveFileToken(value, "parameters-order-by-order", "text")
+		)
 		.option("parameters-order-by-value", {
 			type: "string",
 			description: "Configure which Calculation to order the results by.",
@@ -127,26 +133,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										),
 										parameters: {
 											datasets: argv["parameters-datasets"],
-											filterCombination: resolveFileToken(
-												argv["parameters-filter-combination"] as
-													| string
-													| undefined,
-												"parameters-filter-combination",
-												"text"
-											),
+											filterCombination: argv["parameters-filter-combination"],
 											limit: argv["parameters-limit"],
 											needle: {
 												isRegex: argv["parameters-needle-is-regex"],
 												matchCase: argv["parameters-needle-match-case"],
 											},
 											orderBy: {
-												order: resolveFileToken(
-													argv["parameters-order-by-order"] as
-														| string
-														| undefined,
-													"parameters-order-by-order",
-													"text"
-												),
+												order: argv["parameters-order-by-order"],
 												value: resolveFileToken(
 													argv["parameters-order-by-value"] as
 														| string
@@ -206,22 +200,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					),
 					parameters: {
 						datasets: argv["parameters-datasets"],
-						filterCombination: resolveFileToken(
-							argv["parameters-filter-combination"] as string | undefined,
-							"parameters-filter-combination",
-							"text"
-						),
+						filterCombination: argv["parameters-filter-combination"],
 						limit: argv["parameters-limit"],
 						needle: {
 							isRegex: argv["parameters-needle-is-regex"],
 							matchCase: argv["parameters-needle-match-case"],
 						},
 						orderBy: {
-							order: resolveFileToken(
-								argv["parameters-order-by-order"] as string | undefined,
-								"parameters-order-by-order",
-								"text"
-							),
+							order: argv["parameters-order-by-order"],
 							value: resolveFileToken(
 								argv["parameters-order-by-value"] as string | undefined,
 								"parameters-order-by-value",

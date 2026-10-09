@@ -25,6 +25,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Whether C2PA signing is enabled for image transformations.",
 			choices: ["off", "on"],
 		})
+		.coerce("value", (value: string | undefined) =>
+			resolveFileToken(value, "value", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -68,11 +71,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										value: resolveFileToken(
-											argv["value"] as string | undefined,
-											"value",
-											"text"
-										),
+										value: argv["value"],
 									}),
 					});
 					return;
@@ -104,11 +103,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					value: resolveFileToken(
-						argv["value"] as string | undefined,
-						"value",
-						"text"
-					),
+					value: argv["value"],
 				});
 				const result = await withProgress(`Updating`, async () =>
 					client.zones.transformationsC2Pa.edit({

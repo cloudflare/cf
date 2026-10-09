@@ -34,6 +34,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["active", "disabled"],
 			default: "disabled",
 		})
+		.coerce("status", (value: string | undefined) =>
+			resolveFileToken(value, "status", "text")
+		)
 		.option("targets", {
 			type: "string",
 			description:
@@ -84,11 +87,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								: compactBody({
 										actions: parseObjectArray(argv["actions"], "actions"),
 										priority: argv["priority"],
-										status: resolveFileToken(
-											argv["status"] as string | undefined,
-											"status",
-											"text"
-										),
+										status: argv["status"],
 										targets: parseObjectArray(argv["targets"], "targets"),
 									}),
 					});
@@ -126,11 +125,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const bodyData = compactBody<Body>({
 					actions: parseObjectArray(argv["actions"], "actions"),
 					priority: argv["priority"],
-					status: resolveFileToken(
-						argv["status"] as string | undefined,
-						"status",
-						"text"
-					),
+					status: argv["status"],
 					targets: parseObjectArray(argv["targets"], "targets"),
 				});
 				const result = await withProgress(`Creating`, async () =>

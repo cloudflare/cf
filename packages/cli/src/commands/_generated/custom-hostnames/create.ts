@@ -41,11 +41,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"A ubiquitous bundle has the highest probability of being verified everywhere, even by clients using outdated or unusual trust stores. An optimal bundle uses the shortest chain and newest intermediates. And the force bundle verifies the chain, but does not otherwise modify it.",
 			choices: ["ubiquitous", "optimal", "force"],
 		})
+		.coerce("ssl-bundle-method", (value: string | undefined) =>
+			resolveFileToken(value, "ssl-bundle-method", "text")
+		)
 		.option("ssl-certificate-authority", {
 			type: "string",
 			description: "The Certificate Authority that will issue the certificate.",
 			choices: ["digicert", "google", "lets_encrypt", "ssl_com"],
 		})
+		.coerce("ssl-certificate-authority", (value: string | undefined) =>
+			resolveFileToken(value, "ssl-certificate-authority", "text")
+		)
 		.option("ssl-cloudflare-branding", {
 			type: "boolean",
 			description:
@@ -69,6 +75,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Domain control validation (DCV) method used for this hostname.",
 			choices: ["http", "txt", "email"],
 		})
+		.coerce("ssl-method", (value: string | undefined) =>
+			resolveFileToken(value, "ssl-method", "text")
+		)
 		.option("ssl-settings-ciphers", {
 			type: "string",
 			array: true,
@@ -80,27 +89,42 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Whether or not Early Hints is enabled.",
 			choices: ["on", "off"],
 		})
+		.coerce("ssl-settings-early-hints", (value: string | undefined) =>
+			resolveFileToken(value, "ssl-settings-early-hints", "text")
+		)
 		.option("ssl-settings-http2", {
 			type: "string",
 			description: "Whether or not HTTP2 is enabled.",
 			choices: ["on", "off"],
 		})
+		.coerce("ssl-settings-http2", (value: string | undefined) =>
+			resolveFileToken(value, "ssl-settings-http2", "text")
+		)
 		.option("ssl-settings-min-tls-version", {
 			type: "string",
 			description: "The minimum TLS version supported.",
 			choices: ["1.0", "1.1", "1.2", "1.3"],
 		})
+		.coerce("ssl-settings-min-tls-version", (value: string | undefined) =>
+			resolveFileToken(value, "ssl-settings-min-tls-version", "text")
+		)
 		.option("ssl-settings-tls-1-3", {
 			type: "string",
 			description: "Whether or not TLS 1.3 is enabled.",
 			choices: ["on", "off"],
 		})
+		.coerce("ssl-settings-tls-1-3", (value: string | undefined) =>
+			resolveFileToken(value, "ssl-settings-tls-1-3", "text")
+		)
 		.option("ssl-type", {
 			type: "string",
 			description:
 				"Level of validation to be used for this hostname. Domain validation (dv) must be used.",
 			choices: ["dv"],
 		})
+		.coerce("ssl-type", (value: string | undefined) =>
+			resolveFileToken(value, "ssl-type", "text")
+		)
 		.option("ssl-wildcard", {
 			type: "boolean",
 			description: "Indicates whether the certificate covers a wildcard.",
@@ -176,16 +200,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 										ssl: {
-											bundle_method: resolveFileToken(
-												argv["ssl-bundle-method"] as string | undefined,
-												"ssl-bundle-method",
-												"text"
-											),
-											certificate_authority: resolveFileToken(
-												argv["ssl-certificate-authority"] as string | undefined,
-												"ssl-certificate-authority",
-												"text"
-											),
+											bundle_method: argv["ssl-bundle-method"],
+											certificate_authority: argv["ssl-certificate-authority"],
 											cloudflare_branding: argv["ssl-cloudflare-branding"],
 											custom_certificate: resolveFileToken(
 												argv["ssl-custom-certificate"] as string | undefined,
@@ -202,43 +218,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"ssl-custom-key",
 												"text"
 											),
-											method: resolveFileToken(
-												argv["ssl-method"] as string | undefined,
-												"ssl-method",
-												"text"
-											),
+											method: argv["ssl-method"],
 											settings: {
 												ciphers: argv["ssl-settings-ciphers"],
-												early_hints: resolveFileToken(
-													argv["ssl-settings-early-hints"] as
-														| string
-														| undefined,
-													"ssl-settings-early-hints",
-													"text"
-												),
-												http2: resolveFileToken(
-													argv["ssl-settings-http2"] as string | undefined,
-													"ssl-settings-http2",
-													"text"
-												),
-												min_tls_version: resolveFileToken(
-													argv["ssl-settings-min-tls-version"] as
-														| string
-														| undefined,
-													"ssl-settings-min-tls-version",
-													"text"
-												),
-												tls_1_3: resolveFileToken(
-													argv["ssl-settings-tls-1-3"] as string | undefined,
-													"ssl-settings-tls-1-3",
-													"text"
-												),
+												early_hints: argv["ssl-settings-early-hints"],
+												http2: argv["ssl-settings-http2"],
+												min_tls_version: argv["ssl-settings-min-tls-version"],
+												tls_1_3: argv["ssl-settings-tls-1-3"],
 											},
-											type: resolveFileToken(
-												argv["ssl-type"] as string | undefined,
-												"ssl-type",
-												"text"
-											),
+											type: argv["ssl-type"],
 											wildcard: argv["ssl-wildcard"],
 										},
 									}),
@@ -288,16 +276,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"text"
 					),
 					ssl: {
-						bundle_method: resolveFileToken(
-							argv["ssl-bundle-method"] as string | undefined,
-							"ssl-bundle-method",
-							"text"
-						),
-						certificate_authority: resolveFileToken(
-							argv["ssl-certificate-authority"] as string | undefined,
-							"ssl-certificate-authority",
-							"text"
-						),
+						bundle_method: argv["ssl-bundle-method"],
+						certificate_authority: argv["ssl-certificate-authority"],
 						cloudflare_branding: argv["ssl-cloudflare-branding"],
 						custom_certificate: resolveFileToken(
 							argv["ssl-custom-certificate"] as string | undefined,
@@ -314,39 +294,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"ssl-custom-key",
 							"text"
 						),
-						method: resolveFileToken(
-							argv["ssl-method"] as string | undefined,
-							"ssl-method",
-							"text"
-						),
+						method: argv["ssl-method"],
 						settings: {
 							ciphers: argv["ssl-settings-ciphers"],
-							early_hints: resolveFileToken(
-								argv["ssl-settings-early-hints"] as string | undefined,
-								"ssl-settings-early-hints",
-								"text"
-							),
-							http2: resolveFileToken(
-								argv["ssl-settings-http2"] as string | undefined,
-								"ssl-settings-http2",
-								"text"
-							),
-							min_tls_version: resolveFileToken(
-								argv["ssl-settings-min-tls-version"] as string | undefined,
-								"ssl-settings-min-tls-version",
-								"text"
-							),
-							tls_1_3: resolveFileToken(
-								argv["ssl-settings-tls-1-3"] as string | undefined,
-								"ssl-settings-tls-1-3",
-								"text"
-							),
+							early_hints: argv["ssl-settings-early-hints"],
+							http2: argv["ssl-settings-http2"],
+							min_tls_version: argv["ssl-settings-min-tls-version"],
+							tls_1_3: argv["ssl-settings-tls-1-3"],
 						},
-						type: resolveFileToken(
-							argv["ssl-type"] as string | undefined,
-							"ssl-type",
-							"text"
-						),
+						type: argv["ssl-type"],
 						wildcard: argv["ssl-wildcard"],
 					},
 				});

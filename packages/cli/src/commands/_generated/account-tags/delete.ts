@@ -77,6 +77,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"worker",
 			],
 		})
+		.coerce("resource-type", (value: string | undefined) =>
+			resolveFileToken(value, "resource-type", "text")
+		)
 		.option("worker-id", {
 			type: "string",
 			description: "Worker ID is required only for worker_version resources",
@@ -145,11 +148,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"resource-id",
 											"text"
 										),
-										resource_type: resolveFileToken(
-											argv["resource-type"] as string | undefined,
-											"resource-type",
-											"text"
-										),
+										resource_type: argv["resource-type"],
 										worker_id: resolveFileToken(
 											argv["worker-id"] as string | undefined,
 											"worker-id",
@@ -267,15 +266,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						)
 					);
 				if (argv["resource-type"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["resource_type"],
-						resolveFileToken(
-							argv["resource-type"] as string | undefined,
-							"resource-type",
-							"text"
-						)
-					);
+					setNestedValue(bodyData, ["resource_type"], argv["resource-type"]);
 				if (argv["worker-id"] !== undefined)
 					setNestedValue(
 						bodyData,

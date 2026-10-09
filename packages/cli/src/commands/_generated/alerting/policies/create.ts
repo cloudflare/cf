@@ -107,6 +107,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"zone_aop_custom_certificate_expiration_type",
 			],
 		})
+		.coerce("alert-type", (value: string | undefined) =>
+			resolveFileToken(value, "alert-type", "text")
+		)
 		.option("description", {
 			type: "string",
 			description: "Optional description for the Notification policy.",
@@ -385,11 +388,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"alert-interval",
 											"text"
 										),
-										alert_type: resolveFileToken(
-											argv["alert-type"] as string | undefined,
-											"alert-type",
-											"text"
-										),
+										alert_type: argv["alert-type"],
 										description: resolveFileToken(
 											argv["description"] as string | undefined,
 											"description",
@@ -564,11 +563,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"alert-interval",
 						"text"
 					),
-					alert_type: resolveFileToken(
-						argv["alert-type"] as string | undefined,
-						"alert-type",
-						"text"
-					),
+					alert_type: argv["alert-type"],
 					description: resolveFileToken(
 						argv["description"] as string | undefined,
 						"description",

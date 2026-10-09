@@ -103,6 +103,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"ACH_DIRECT_DEBIT",
 			],
 		})
+		.coerce("type", (value: string | undefined) =>
+			resolveFileToken(value, "type", "text")
+		)
 		.option("zipcode", { type: "string", description: "Billing zip code." })
 		.option("dry-run", {
 			type: "boolean",
@@ -244,11 +247,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"state",
 											"text"
 										),
-										type: resolveFileToken(
-											argv["type"] as string | undefined,
-											"type",
-											"text"
-										),
+										type: argv["type"],
 										zipcode: resolveFileToken(
 											argv["zipcode"] as string | undefined,
 											"zipcode",
@@ -373,11 +372,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"state",
 						"text"
 					),
-					type: resolveFileToken(
-						argv["type"] as string | undefined,
-						"type",
-						"text"
-					),
+					type: argv["type"],
 					zipcode: resolveFileToken(
 						argv["zipcode"] as string | undefined,
 						"zipcode",

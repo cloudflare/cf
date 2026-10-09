@@ -36,6 +36,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["none", "indexed", "all"],
 			default: "none",
 		})
+		.coerce("return-metadata", (value: string | undefined) =>
+			resolveFileToken(value, "return-metadata", "text")
+		)
 		.option("return-values", {
 			type: "boolean",
 			description:
@@ -95,11 +98,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										returnMetadata: resolveFileToken(
-											argv["return-metadata"] as string | undefined,
-											"return-metadata",
-											"text"
-										),
+										returnMetadata: argv["return-metadata"],
 										returnValues: argv["return-values"],
 										topK: argv["top-k"],
 										vector: argv["vector"],
@@ -131,11 +130,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					returnMetadata: resolveFileToken(
-						argv["return-metadata"] as string | undefined,
-						"return-metadata",
-						"text"
-					),
+					returnMetadata: argv["return-metadata"],
 					returnValues: argv["return-values"],
 					topK: argv["top-k"],
 					vector: argv["vector"],

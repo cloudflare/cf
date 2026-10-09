@@ -42,6 +42,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The requester.requesterType field",
 			choices: ["workers"],
 		})
+		.coerce("requester-requester-type", (value: string | undefined) =>
+			resolveFileToken(value, "requester-requester-type", "text")
+		)
 		.option("resources", {
 			type: "string",
 			description:
@@ -92,11 +95,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"requester-requester-id",
 												"text"
 											),
-											requesterType: resolveFileToken(
-												argv["requester-requester-type"] as string | undefined,
-												"requester-requester-type",
-												"text"
-											),
+											requesterType: argv["requester-requester-type"],
 										},
 										resources: parseObjectArray(argv["resources"], "resources"),
 									}),
@@ -155,11 +154,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					setNestedValue(
 						bodyData,
 						["requester", "requesterType"],
-						resolveFileToken(
-							argv["requester-requester-type"] as string | undefined,
-							"requester-requester-type",
-							"text"
-						)
+						argv["requester-requester-type"]
 					);
 				if (argv["resources"] !== undefined)
 					setNestedValue(

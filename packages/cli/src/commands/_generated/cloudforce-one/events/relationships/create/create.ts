@@ -49,6 +49,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Type of relationship to create between parent and child events",
 			choices: ["related_to", "caused_by", "attributed_to"],
 		})
+		.coerce("relationship-type", (value: string | undefined) =>
+			resolveFileToken(value, "relationship-type", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -102,11 +105,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"parent-id",
 											"text"
 										),
-										relationshipType: resolveFileToken(
-											argv["relationship-type"] as string | undefined,
-											"relationship-type",
-											"text"
-										),
+										relationshipType: argv["relationship-type"],
 									}),
 					});
 					return;
@@ -164,11 +163,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"parent-id",
 						"text"
 					),
-					relationshipType: resolveFileToken(
-						argv["relationship-type"] as string | undefined,
-						"relationship-type",
-						"text"
-					),
+					relationshipType: argv["relationship-type"],
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.cloudforceOne.events.relationships.create.create({

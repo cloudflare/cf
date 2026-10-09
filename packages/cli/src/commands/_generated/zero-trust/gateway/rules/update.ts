@@ -56,6 +56,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"redirect",
 			],
 		})
+		.coerce("action", (value: string | undefined) =>
+			resolveFileToken(value, "action", "text")
+		)
 		.option("description", {
 			type: "string",
 			description: "Specify the rule description.",
@@ -106,6 +109,15 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				'Configure copy behavior. If set to remote_only, users cannot copy isolated content from the remote browser to the local clipboard. If this field is absent, copying remains enabled. Applies only when version == "v2".',
 			choices: ["enabled", "disabled", "remote_only"],
 		})
+		.coerce(
+			"rule-settings-biso-admin-controls-copy",
+			(value: string | undefined) =>
+				resolveFileToken(
+					value,
+					"rule-settings-biso-admin-controls-copy",
+					"text"
+				)
+		)
 		.option("rule-settings-biso-admin-controls-dcp", {
 			type: "boolean",
 			description:
@@ -127,6 +139,15 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				'Configure download behavior. When set to remote_only, users can view downloads but cannot save them. If this field is absent, downloading remains enabled. Applies only when version == "v2".',
 			choices: ["enabled", "disabled", "remote_only"],
 		})
+		.coerce(
+			"rule-settings-biso-admin-controls-download",
+			(value: string | undefined) =>
+				resolveFileToken(
+					value,
+					"rule-settings-biso-admin-controls-download",
+					"text"
+				)
+		)
 		.option("rule-settings-biso-admin-controls-dp", {
 			type: "boolean",
 			description:
@@ -143,30 +164,75 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				'Configure keyboard usage behavior. If this field is absent, keyboard usage remains enabled. Applies only when version == "v2".',
 			choices: ["enabled", "disabled"],
 		})
+		.coerce(
+			"rule-settings-biso-admin-controls-keyboard",
+			(value: string | undefined) =>
+				resolveFileToken(
+					value,
+					"rule-settings-biso-admin-controls-keyboard",
+					"text"
+				)
+		)
 		.option("rule-settings-biso-admin-controls-paste", {
 			type: "string",
 			description:
 				'Configure paste behavior. If set to remote_only, users cannot paste content from the local clipboard into isolated pages. If this field is absent, pasting remains enabled. Applies only when version == "v2".',
 			choices: ["enabled", "disabled", "remote_only"],
 		})
+		.coerce(
+			"rule-settings-biso-admin-controls-paste",
+			(value: string | undefined) =>
+				resolveFileToken(
+					value,
+					"rule-settings-biso-admin-controls-paste",
+					"text"
+				)
+		)
 		.option("rule-settings-biso-admin-controls-printing", {
 			type: "string",
 			description:
 				'Configure print behavior. Default, Printing is enabled. Applies only when version == "v2".',
 			choices: ["enabled", "disabled"],
 		})
+		.coerce(
+			"rule-settings-biso-admin-controls-printing",
+			(value: string | undefined) =>
+				resolveFileToken(
+					value,
+					"rule-settings-biso-admin-controls-printing",
+					"text"
+				)
+		)
 		.option("rule-settings-biso-admin-controls-upload", {
 			type: "string",
 			description:
 				'Configure upload behavior. If this field is absent, uploading remains enabled. Applies only when version == "v2".',
 			choices: ["enabled", "disabled"],
 		})
+		.coerce(
+			"rule-settings-biso-admin-controls-upload",
+			(value: string | undefined) =>
+				resolveFileToken(
+					value,
+					"rule-settings-biso-admin-controls-upload",
+					"text"
+				)
+		)
 		.option("rule-settings-biso-admin-controls-version", {
 			type: "string",
 			description:
 				"Indicate which version of the browser isolation controls should apply.",
 			choices: ["v1", "v2"],
 		})
+		.coerce(
+			"rule-settings-biso-admin-controls-version",
+			(value: string | undefined) =>
+				resolveFileToken(
+					value,
+					"rule-settings-biso-admin-controls-version",
+					"text"
+				)
+		)
 		.option("rule-settings-biso-admin-controls-wm-id", {
 			type: "string",
 			description:
@@ -314,6 +380,15 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Specify the fallback behavior to apply when the internal DNS response code differs from 'NOERROR' or when the response data contains only CNAME records for 'A' or 'AAAA' queries.",
 			choices: ["none", "public_dns"],
 		})
+		.coerce(
+			"rule-settings-resolve-dns-internally-fallback",
+			(value: string | undefined) =>
+				resolveFileToken(
+					value,
+					"rule-settings-resolve-dns-internally-fallback",
+					"text"
+				)
+		)
 		.option("rule-settings-resolve-dns-internally-view-id", {
 			type: "string",
 			description:
@@ -330,6 +405,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Defines the action performed when an untrusted certificate seen. The default action an error with HTTP code 526.",
 			choices: ["pass_through", "block", "error"],
 		})
+		.coerce(
+			"rule-settings-untrusted-cert-action",
+			(value: string | undefined) =>
+				resolveFileToken(value, "rule-settings-untrusted-cert-action", "text")
+		)
 		.option("schedule-fri", {
 			type: "string",
 			description:
@@ -517,11 +597,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										action: resolveFileToken(
-											argv["action"] as string | undefined,
-											"action",
-											"text"
-										),
+										action: argv["action"],
 										description: resolveFileToken(
 											argv["description"] as string | undefined,
 											"description",
@@ -556,60 +632,23 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 													argv["rule-settings-audit-ssh-command-logging"],
 											},
 											biso_admin_controls: {
-												copy: resolveFileToken(
-													argv["rule-settings-biso-admin-controls-copy"] as
-														| string
-														| undefined,
-													"rule-settings-biso-admin-controls-copy",
-													"text"
-												),
+												copy: argv["rule-settings-biso-admin-controls-copy"],
 												dcp: argv["rule-settings-biso-admin-controls-dcp"],
 												dd: argv["rule-settings-biso-admin-controls-dd"],
 												dk: argv["rule-settings-biso-admin-controls-dk"],
-												download: resolveFileToken(
-													argv["rule-settings-biso-admin-controls-download"] as
-														| string
-														| undefined,
-													"rule-settings-biso-admin-controls-download",
-													"text"
-												),
+												download:
+													argv["rule-settings-biso-admin-controls-download"],
 												dp: argv["rule-settings-biso-admin-controls-dp"],
 												du: argv["rule-settings-biso-admin-controls-du"],
-												keyboard: resolveFileToken(
-													argv["rule-settings-biso-admin-controls-keyboard"] as
-														| string
-														| undefined,
-													"rule-settings-biso-admin-controls-keyboard",
-													"text"
-												),
-												paste: resolveFileToken(
-													argv["rule-settings-biso-admin-controls-paste"] as
-														| string
-														| undefined,
-													"rule-settings-biso-admin-controls-paste",
-													"text"
-												),
-												printing: resolveFileToken(
-													argv["rule-settings-biso-admin-controls-printing"] as
-														| string
-														| undefined,
-													"rule-settings-biso-admin-controls-printing",
-													"text"
-												),
-												upload: resolveFileToken(
-													argv["rule-settings-biso-admin-controls-upload"] as
-														| string
-														| undefined,
-													"rule-settings-biso-admin-controls-upload",
-													"text"
-												),
-												version: resolveFileToken(
-													argv["rule-settings-biso-admin-controls-version"] as
-														| string
-														| undefined,
-													"rule-settings-biso-admin-controls-version",
-													"text"
-												),
+												keyboard:
+													argv["rule-settings-biso-admin-controls-keyboard"],
+												paste: argv["rule-settings-biso-admin-controls-paste"],
+												printing:
+													argv["rule-settings-biso-admin-controls-printing"],
+												upload:
+													argv["rule-settings-biso-admin-controls-upload"],
+												version:
+													argv["rule-settings-biso-admin-controls-version"],
 												wm_id: resolveFileToken(
 													argv["rule-settings-biso-admin-controls-wm-id"] as
 														| string
@@ -748,13 +787,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												),
 											},
 											resolve_dns_internally: {
-												fallback: resolveFileToken(
-													argv[
-														"rule-settings-resolve-dns-internally-fallback"
-													] as string | undefined,
-													"rule-settings-resolve-dns-internally-fallback",
-													"text"
-												),
+												fallback:
+													argv["rule-settings-resolve-dns-internally-fallback"],
 												view_id: resolveFileToken(
 													argv[
 														"rule-settings-resolve-dns-internally-view-id"
@@ -766,13 +800,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											resolve_dns_through_cloudflare:
 												argv["rule-settings-resolve-dns-through-cloudflare"],
 											untrusted_cert: {
-												action: resolveFileToken(
-													argv["rule-settings-untrusted-cert-action"] as
-														| string
-														| undefined,
-													"rule-settings-untrusted-cert-action",
-													"text"
-												),
+												action: argv["rule-settings-untrusted-cert-action"],
 											},
 										},
 										schedule: {
@@ -875,11 +903,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					action: resolveFileToken(
-						argv["action"] as string | undefined,
-						"action",
-						"text"
-					),
+					action: argv["action"],
 					description: resolveFileToken(
 						argv["description"] as string | undefined,
 						"description",
@@ -912,60 +936,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							command_logging: argv["rule-settings-audit-ssh-command-logging"],
 						},
 						biso_admin_controls: {
-							copy: resolveFileToken(
-								argv["rule-settings-biso-admin-controls-copy"] as
-									| string
-									| undefined,
-								"rule-settings-biso-admin-controls-copy",
-								"text"
-							),
+							copy: argv["rule-settings-biso-admin-controls-copy"],
 							dcp: argv["rule-settings-biso-admin-controls-dcp"],
 							dd: argv["rule-settings-biso-admin-controls-dd"],
 							dk: argv["rule-settings-biso-admin-controls-dk"],
-							download: resolveFileToken(
-								argv["rule-settings-biso-admin-controls-download"] as
-									| string
-									| undefined,
-								"rule-settings-biso-admin-controls-download",
-								"text"
-							),
+							download: argv["rule-settings-biso-admin-controls-download"],
 							dp: argv["rule-settings-biso-admin-controls-dp"],
 							du: argv["rule-settings-biso-admin-controls-du"],
-							keyboard: resolveFileToken(
-								argv["rule-settings-biso-admin-controls-keyboard"] as
-									| string
-									| undefined,
-								"rule-settings-biso-admin-controls-keyboard",
-								"text"
-							),
-							paste: resolveFileToken(
-								argv["rule-settings-biso-admin-controls-paste"] as
-									| string
-									| undefined,
-								"rule-settings-biso-admin-controls-paste",
-								"text"
-							),
-							printing: resolveFileToken(
-								argv["rule-settings-biso-admin-controls-printing"] as
-									| string
-									| undefined,
-								"rule-settings-biso-admin-controls-printing",
-								"text"
-							),
-							upload: resolveFileToken(
-								argv["rule-settings-biso-admin-controls-upload"] as
-									| string
-									| undefined,
-								"rule-settings-biso-admin-controls-upload",
-								"text"
-							),
-							version: resolveFileToken(
-								argv["rule-settings-biso-admin-controls-version"] as
-									| string
-									| undefined,
-								"rule-settings-biso-admin-controls-version",
-								"text"
-							),
+							keyboard: argv["rule-settings-biso-admin-controls-keyboard"],
+							paste: argv["rule-settings-biso-admin-controls-paste"],
+							printing: argv["rule-settings-biso-admin-controls-printing"],
+							upload: argv["rule-settings-biso-admin-controls-upload"],
+							version: argv["rule-settings-biso-admin-controls-version"],
 							wm_id: resolveFileToken(
 								argv["rule-settings-biso-admin-controls-wm-id"] as
 									| string
@@ -1080,13 +1062,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							),
 						},
 						resolve_dns_internally: {
-							fallback: resolveFileToken(
-								argv["rule-settings-resolve-dns-internally-fallback"] as
-									| string
-									| undefined,
-								"rule-settings-resolve-dns-internally-fallback",
-								"text"
-							),
+							fallback: argv["rule-settings-resolve-dns-internally-fallback"],
 							view_id: resolveFileToken(
 								argv["rule-settings-resolve-dns-internally-view-id"] as
 									| string
@@ -1098,13 +1074,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						resolve_dns_through_cloudflare:
 							argv["rule-settings-resolve-dns-through-cloudflare"],
 						untrusted_cert: {
-							action: resolveFileToken(
-								argv["rule-settings-untrusted-cert-action"] as
-									| string
-									| undefined,
-								"rule-settings-untrusted-cert-action",
-								"text"
-							),
+							action: argv["rule-settings-untrusted-cert-action"],
 						},
 					},
 					schedule: {

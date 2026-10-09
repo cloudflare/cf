@@ -85,6 +85,15 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The public_endpoint_params.rate_limit.technique field",
 			choices: ["fixed", "sliding"],
 		})
+		.coerce(
+			"public-endpoint-params-rate-limit-technique",
+			(value: string | undefined) =>
+				resolveFileToken(
+					value,
+					"public-endpoint-params-rate-limit-technique",
+					"text"
+				)
+		)
 		.option("public-endpoint-params-search-endpoint-disabled", {
 			type: "boolean",
 			description: "Disable search endpoint for this public endpoint",
@@ -175,13 +184,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 													argv["public-endpoint-params-rate-limit-period-ms"],
 												requests:
 													argv["public-endpoint-params-rate-limit-requests"],
-												technique: resolveFileToken(
-													argv[
-														"public-endpoint-params-rate-limit-technique"
-													] as string | undefined,
-													"public-endpoint-params-rate-limit-technique",
-													"text"
-												),
+												technique:
+													argv["public-endpoint-params-rate-limit-technique"],
 											},
 											search_endpoint: {
 												disabled:
@@ -244,13 +248,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						rate_limit: {
 							period_ms: argv["public-endpoint-params-rate-limit-period-ms"],
 							requests: argv["public-endpoint-params-rate-limit-requests"],
-							technique: resolveFileToken(
-								argv["public-endpoint-params-rate-limit-technique"] as
-									| string
-									| undefined,
-								"public-endpoint-params-rate-limit-technique",
-								"text"
-							),
+							technique: argv["public-endpoint-params-rate-limit-technique"],
 						},
 						search_endpoint: {
 							disabled: argv["public-endpoint-params-search-endpoint-disabled"],

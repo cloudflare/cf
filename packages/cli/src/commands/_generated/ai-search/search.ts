@@ -48,6 +48,15 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"anything_goes",
 			],
 		})
+		.coerce(
+			"ai-search-options-cache-cache-threshold",
+			(value: string | undefined) =>
+				resolveFileToken(
+					value,
+					"ai-search-options-cache-cache-threshold",
+					"text"
+				)
+		)
 		.option("ai-search-options-cache-enabled", {
 			type: "boolean",
 			description: "The ai_search_options.cache.enabled field",
@@ -86,12 +95,30 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The ai_search_options.retrieval.fusion_method field",
 			choices: ["max", "rrf"],
 		})
+		.coerce(
+			"ai-search-options-retrieval-fusion-method",
+			(value: string | undefined) =>
+				resolveFileToken(
+					value,
+					"ai-search-options-retrieval-fusion-method",
+					"text"
+				)
+		)
 		.option("ai-search-options-retrieval-keyword-match-mode", {
 			type: "string",
 			description:
 				"Controls which documents are candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term, ranked by BM25 relevance. When omitted, falls back to the instance-level retrieval_options.keyword_match_mode, then to 'and'.",
 			choices: ["and", "or"],
 		})
+		.coerce(
+			"ai-search-options-retrieval-keyword-match-mode",
+			(value: string | undefined) =>
+				resolveFileToken(
+					value,
+					"ai-search-options-retrieval-keyword-match-mode",
+					"text"
+				)
+		)
 		.option("ai-search-options-retrieval-match-threshold", {
 			type: "number",
 			description: "The ai_search_options.retrieval.match_threshold field",
@@ -105,6 +132,15 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The ai_search_options.retrieval.retrieval_type field",
 			choices: ["vector", "keyword", "hybrid"],
 		})
+		.coerce(
+			"ai-search-options-retrieval-retrieval-type",
+			(value: string | undefined) =>
+				resolveFileToken(
+					value,
+					"ai-search-options-retrieval-retrieval-type",
+					"text"
+				)
+		)
 		.option("ai-search-options-retrieval-return-on-failure", {
 			type: "boolean",
 			description: "The ai_search_options.retrieval.return_on_failure field",
@@ -171,13 +207,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								: compactBody({
 										ai_search_options: {
 											cache: {
-												cache_threshold: resolveFileToken(
-													argv["ai-search-options-cache-cache-threshold"] as
-														| string
-														| undefined,
-													"ai-search-options-cache-cache-threshold",
-													"text"
-												),
+												cache_threshold:
+													argv["ai-search-options-cache-cache-threshold"],
 												enabled: argv["ai-search-options-cache-enabled"],
 											},
 											query_rewrite: {
@@ -213,31 +244,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											retrieval: {
 												context_expansion:
 													argv["ai-search-options-retrieval-context-expansion"],
-												fusion_method: resolveFileToken(
-													argv["ai-search-options-retrieval-fusion-method"] as
-														| string
-														| undefined,
-													"ai-search-options-retrieval-fusion-method",
-													"text"
-												),
-												keyword_match_mode: resolveFileToken(
+												fusion_method:
+													argv["ai-search-options-retrieval-fusion-method"],
+												keyword_match_mode:
 													argv[
 														"ai-search-options-retrieval-keyword-match-mode"
-													] as string | undefined,
-													"ai-search-options-retrieval-keyword-match-mode",
-													"text"
-												),
+													],
 												match_threshold:
 													argv["ai-search-options-retrieval-match-threshold"],
 												max_num_results:
 													argv["ai-search-options-retrieval-max-num-results"],
-												retrieval_type: resolveFileToken(
-													argv["ai-search-options-retrieval-retrieval-type"] as
-														| string
-														| undefined,
-													"ai-search-options-retrieval-retrieval-type",
-													"text"
-												),
+												retrieval_type:
+													argv["ai-search-options-retrieval-retrieval-type"],
 												return_on_failure:
 													argv["ai-search-options-retrieval-return-on-failure"],
 											},
@@ -270,13 +288,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const bodyData = compactBody<Body>({
 					ai_search_options: {
 						cache: {
-							cache_threshold: resolveFileToken(
-								argv["ai-search-options-cache-cache-threshold"] as
-									| string
-									| undefined,
-								"ai-search-options-cache-cache-threshold",
-								"text"
-							),
+							cache_threshold: argv["ai-search-options-cache-cache-threshold"],
 							enabled: argv["ai-search-options-cache-enabled"],
 						},
 						query_rewrite: {
@@ -309,31 +321,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						retrieval: {
 							context_expansion:
 								argv["ai-search-options-retrieval-context-expansion"],
-							fusion_method: resolveFileToken(
-								argv["ai-search-options-retrieval-fusion-method"] as
-									| string
-									| undefined,
-								"ai-search-options-retrieval-fusion-method",
-								"text"
-							),
-							keyword_match_mode: resolveFileToken(
-								argv["ai-search-options-retrieval-keyword-match-mode"] as
-									| string
-									| undefined,
-								"ai-search-options-retrieval-keyword-match-mode",
-								"text"
-							),
+							fusion_method: argv["ai-search-options-retrieval-fusion-method"],
+							keyword_match_mode:
+								argv["ai-search-options-retrieval-keyword-match-mode"],
 							match_threshold:
 								argv["ai-search-options-retrieval-match-threshold"],
 							max_num_results:
 								argv["ai-search-options-retrieval-max-num-results"],
-							retrieval_type: resolveFileToken(
-								argv["ai-search-options-retrieval-retrieval-type"] as
-									| string
-									| undefined,
-								"ai-search-options-retrieval-retrieval-type",
-								"text"
-							),
+							retrieval_type:
+								argv["ai-search-options-retrieval-retrieval-type"],
 							return_on_failure:
 								argv["ai-search-options-retrieval-return-on-failure"],
 						},

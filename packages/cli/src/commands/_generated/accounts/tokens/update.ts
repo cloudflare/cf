@@ -59,6 +59,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Status of the token.",
 			choices: ["active", "disabled", "expired"],
 		})
+		.coerce("status", (value: string | undefined) =>
+			resolveFileToken(value, "status", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -123,11 +126,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 										policies: parseObjectArray(argv["policies"], "policies"),
-										status: resolveFileToken(
-											argv["status"] as string | undefined,
-											"status",
-											"text"
-										),
+										status: argv["status"],
 									}),
 					});
 					return;
@@ -181,11 +180,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"text"
 					),
 					policies: parseObjectArray(argv["policies"], "policies"),
-					status: resolveFileToken(
-						argv["status"] as string | undefined,
-						"status",
-						"text"
-					),
+					status: argv["status"],
 				});
 				const result = await withProgress(`Updating`, async () =>
 					client.accounts.tokens.update({

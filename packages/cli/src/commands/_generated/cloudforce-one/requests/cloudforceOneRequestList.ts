@@ -58,6 +58,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Sort order (asc or desc).",
 			choices: ["asc", "desc"],
 		})
+		.coerce("sort-order", (value: string | undefined) =>
+			resolveFileToken(value, "sort-order", "text")
+		)
 		.option("status", {
 			type: "string",
 			description: "Request Status.",
@@ -70,6 +73,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"declined",
 			],
 		})
+		.coerce("status", (value: string | undefined) =>
+			resolveFileToken(value, "status", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -144,16 +150,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"sort-by",
 											"text"
 										),
-										sort_order: resolveFileToken(
-											argv["sort-order"] as string | undefined,
-											"sort-order",
-											"text"
-										),
-										status: resolveFileToken(
-											argv["status"] as string | undefined,
-											"status",
-											"text"
-										),
+										sort_order: argv["sort-order"],
+										status: argv["status"],
 									}),
 					});
 					return;
@@ -218,16 +216,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"sort-by",
 						"text"
 					),
-					sort_order: resolveFileToken(
-						argv["sort-order"] as string | undefined,
-						"sort-order",
-						"text"
-					),
-					status: resolveFileToken(
-						argv["status"] as string | undefined,
-						"status",
-						"text"
-					),
+					sort_order: argv["sort-order"],
+					status: argv["status"],
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.cloudforceOne.requests.cloudforceOneRequestList({

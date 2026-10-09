@@ -106,6 +106,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Defines when a PIN is required to use the SSH key. Valid values: `never` (no PIN required), `once` (PIN required once per session), `always` (PIN required for each use).",
 			choices: ["never", "once", "always"],
 		})
+		.coerce(
+			"mfa-piv-key-requirements-pin-policy",
+			(value: string | undefined) =>
+				resolveFileToken(value, "mfa-piv-key-requirements-pin-policy", "text")
+		)
 		.option("mfa-piv-key-requirements-require-fips-device", {
 			type: "boolean",
 			description:
@@ -129,6 +134,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Defines when physical touch is required to use the SSH key. Valid values: `never` (no touch required), `always` (touch required for each use), `cached` (touch cached for 15 seconds).",
 			choices: ["never", "always", "cached"],
 		})
+		.coerce(
+			"mfa-piv-key-requirements-touch-policy",
+			(value: string | undefined) =>
+				resolveFileToken(value, "mfa-piv-key-requirements-touch-policy", "text")
+		)
 		.option("mfa-required-for-all-apps", {
 			type: "boolean",
 			description:
@@ -145,6 +155,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The action applied to an inactive service token.",
 			choices: ["disable", "delete"],
 		})
+		.coerce("service-token-inactivity-action", (value: string | undefined) =>
+			resolveFileToken(value, "service-token-inactivity-action", "text")
+		)
 		.option("service-token-inactivity-enabled", {
 			type: "boolean",
 			description:
@@ -340,26 +353,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											),
 										},
 										mfa_piv_key_requirements: {
-											pin_policy: resolveFileToken(
-												argv["mfa-piv-key-requirements-pin-policy"] as
-													| string
-													| undefined,
-												"mfa-piv-key-requirements-pin-policy",
-												"text"
-											),
+											pin_policy: argv["mfa-piv-key-requirements-pin-policy"],
 											require_fips_device:
 												argv["mfa-piv-key-requirements-require-fips-device"],
 											ssh_key_size:
 												argv["mfa-piv-key-requirements-ssh-key-size"],
 											ssh_key_type:
 												argv["mfa-piv-key-requirements-ssh-key-type"],
-											touch_policy: resolveFileToken(
-												argv["mfa-piv-key-requirements-touch-policy"] as
-													| string
-													| undefined,
-												"mfa-piv-key-requirements-touch-policy",
-												"text"
-											),
+											touch_policy:
+												argv["mfa-piv-key-requirements-touch-policy"],
 										},
 										mfa_required_for_all_apps:
 											argv["mfa-required-for-all-apps"],
@@ -369,13 +371,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 										service_token_inactivity: {
-											action: resolveFileToken(
-												argv["service-token-inactivity-action"] as
-													| string
-													| undefined,
-												"service-token-inactivity-action",
-												"text"
-											),
+											action: argv["service-token-inactivity-action"],
 											enabled: argv["service-token-inactivity-enabled"],
 											inactivity_threshold_days:
 												argv[
@@ -502,22 +498,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						),
 					},
 					mfa_piv_key_requirements: {
-						pin_policy: resolveFileToken(
-							argv["mfa-piv-key-requirements-pin-policy"] as string | undefined,
-							"mfa-piv-key-requirements-pin-policy",
-							"text"
-						),
+						pin_policy: argv["mfa-piv-key-requirements-pin-policy"],
 						require_fips_device:
 							argv["mfa-piv-key-requirements-require-fips-device"],
 						ssh_key_size: argv["mfa-piv-key-requirements-ssh-key-size"],
 						ssh_key_type: argv["mfa-piv-key-requirements-ssh-key-type"],
-						touch_policy: resolveFileToken(
-							argv["mfa-piv-key-requirements-touch-policy"] as
-								| string
-								| undefined,
-							"mfa-piv-key-requirements-touch-policy",
-							"text"
-						),
+						touch_policy: argv["mfa-piv-key-requirements-touch-policy"],
 					},
 					mfa_required_for_all_apps: argv["mfa-required-for-all-apps"],
 					name: resolveFileToken(
@@ -526,11 +512,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"text"
 					),
 					service_token_inactivity: {
-						action: resolveFileToken(
-							argv["service-token-inactivity-action"] as string | undefined,
-							"service-token-inactivity-action",
-							"text"
-						),
+						action: argv["service-token-inactivity-action"],
 						enabled: argv["service-token-inactivity-enabled"],
 						inactivity_threshold_days:
 							argv["service-token-inactivity-inactivity-threshold-days"],

@@ -29,12 +29,18 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Configures the SameSite attribute on the waiting room cookie. Value `auto` will be translated to `lax` or `none` depending if **Always Use HTTPS** is enabled. Note that when using value `none`, the secure attribute cannot be set to `never`.",
 			choices: ["auto", "lax", "none", "strict"],
 		})
+		.coerce("cookie-attributes-samesite", (value: string | undefined) =>
+			resolveFileToken(value, "cookie-attributes-samesite", "text")
+		)
 		.option("cookie-attributes-secure", {
 			type: "string",
 			description:
 				"Configures the Secure attribute on the waiting room cookie. Value `always` indicates that the Secure attribute will be set in the Set-Cookie header, `never` indicates that the Secure attribute will not be set, and `auto` will set the Secure attribute depending if **Always Use HTTPS** is enabled.",
 			choices: ["auto", "always", "never"],
 		})
+		.coerce("cookie-attributes-secure", (value: string | undefined) =>
+			resolveFileToken(value, "cookie-attributes-secure", "text")
+		)
 		.option("cookie-suffix", {
 			type: "string",
 			description:
@@ -94,6 +100,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			],
 			default: "en-US",
 		})
+		.coerce("default-template-language", (value: string | undefined) =>
+			resolveFileToken(value, "default-template-language", "text")
+		)
 		.option("description", {
 			type: "string",
 			description:
@@ -151,6 +160,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["fifo", "random", "passthrough", "reject"],
 			default: "fifo",
 		})
+		.coerce("queueing-method", (value: string | undefined) =>
+			resolveFileToken(value, "queueing-method", "text")
+		)
 		.option("queueing-status-code", {
 			type: "number",
 			description: "HTTP status code returned to a user while in the queue.",
@@ -180,6 +192,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["log", "infinite_queue"],
 			default: "log",
 		})
+		.coerce("turnstile-action", (value: string | undefined) =>
+			resolveFileToken(value, "turnstile-action", "text")
+		)
 		.option("turnstile-mode", {
 			type: "string",
 			description:
@@ -192,6 +207,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			],
 			default: "invisible",
 		})
+		.coerce("turnstile-mode", (value: string | undefined) =>
+			resolveFileToken(value, "turnstile-mode", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -252,18 +270,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"additional-routes"
 										),
 										cookie_attributes: {
-											samesite: resolveFileToken(
-												argv["cookie-attributes-samesite"] as
-													| string
-													| undefined,
-												"cookie-attributes-samesite",
-												"text"
-											),
-											secure: resolveFileToken(
-												argv["cookie-attributes-secure"] as string | undefined,
-												"cookie-attributes-secure",
-												"text"
-											),
+											samesite: argv["cookie-attributes-samesite"],
+											secure: argv["cookie-attributes-secure"],
 										},
 										cookie_suffix: resolveFileToken(
 											argv["cookie-suffix"] as string | undefined,
@@ -275,11 +283,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"custom-page-html",
 											"text"
 										),
-										default_template_language: resolveFileToken(
-											argv["default-template-language"] as string | undefined,
-											"default-template-language",
-											"text"
-										),
+										default_template_language:
+											argv["default-template-language"],
 										description: resolveFileToken(
 											argv["description"] as string | undefined,
 											"description",
@@ -305,25 +310,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 										queue_all: argv["queue-all"],
-										queueing_method: resolveFileToken(
-											argv["queueing-method"] as string | undefined,
-											"queueing-method",
-											"text"
-										),
+										queueing_method: argv["queueing-method"],
 										queueing_status_code: argv["queueing-status-code"],
 										session_duration: argv["session-duration"],
 										suspended: argv["suspended"],
 										total_active_users: argv["total-active-users"],
-										turnstile_action: resolveFileToken(
-											argv["turnstile-action"] as string | undefined,
-											"turnstile-action",
-											"text"
-										),
-										turnstile_mode: resolveFileToken(
-											argv["turnstile-mode"] as string | undefined,
-											"turnstile-mode",
-											"text"
-										),
+										turnstile_action: argv["turnstile-action"],
+										turnstile_mode: argv["turnstile-mode"],
 									}),
 					});
 					return;
@@ -375,16 +368,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"additional-routes"
 					),
 					cookie_attributes: {
-						samesite: resolveFileToken(
-							argv["cookie-attributes-samesite"] as string | undefined,
-							"cookie-attributes-samesite",
-							"text"
-						),
-						secure: resolveFileToken(
-							argv["cookie-attributes-secure"] as string | undefined,
-							"cookie-attributes-secure",
-							"text"
-						),
+						samesite: argv["cookie-attributes-samesite"],
+						secure: argv["cookie-attributes-secure"],
 					},
 					cookie_suffix: resolveFileToken(
 						argv["cookie-suffix"] as string | undefined,
@@ -396,11 +381,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"custom-page-html",
 						"text"
 					),
-					default_template_language: resolveFileToken(
-						argv["default-template-language"] as string | undefined,
-						"default-template-language",
-						"text"
-					),
+					default_template_language: argv["default-template-language"],
 					description: resolveFileToken(
 						argv["description"] as string | undefined,
 						"description",
@@ -426,25 +407,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"text"
 					),
 					queue_all: argv["queue-all"],
-					queueing_method: resolveFileToken(
-						argv["queueing-method"] as string | undefined,
-						"queueing-method",
-						"text"
-					),
+					queueing_method: argv["queueing-method"],
 					queueing_status_code: argv["queueing-status-code"],
 					session_duration: argv["session-duration"],
 					suspended: argv["suspended"],
 					total_active_users: argv["total-active-users"],
-					turnstile_action: resolveFileToken(
-						argv["turnstile-action"] as string | undefined,
-						"turnstile-action",
-						"text"
-					),
-					turnstile_mode: resolveFileToken(
-						argv["turnstile-mode"] as string | undefined,
-						"turnstile-mode",
-						"text"
-					),
+					turnstile_action: argv["turnstile-action"],
+					turnstile_mode: argv["turnstile-mode"],
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.waitingRooms.create({

@@ -51,6 +51,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Filename generation strategy.",
 			choices: ["serial", "uuid", "uuid_v7", "ulid"],
 		})
+		.coerce("config-file-naming-strategy", (value: string | undefined) =>
+			resolveFileToken(value, "config-file-naming-strategy", "text")
+		)
 		.option("config-file-naming-suffix", {
 			type: "string",
 			description:
@@ -96,11 +99,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The format.decimal_encoding field",
 			choices: ["number", "string", "bytes"],
 		})
+		.coerce("format-decimal-encoding", (value: string | undefined) =>
+			resolveFileToken(value, "format-decimal-encoding", "text")
+		)
 		.option("format-timestamp-format", {
 			type: "string",
 			description: "The format.timestamp_format field",
 			choices: ["rfc3339", "unix_millis"],
 		})
+		.coerce("format-timestamp-format", (value: string | undefined) =>
+			resolveFileToken(value, "format-timestamp-format", "text")
+		)
 		.option("format-unstructured", {
 			type: "boolean",
 			description: "The format.unstructured field",
@@ -110,11 +119,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Specifies the compression applied to JSON sink output.",
 			choices: ["uncompressed", "gzip", "snappy", "zstd", "lz4"],
 		})
+		.coerce("format-compression", (value: string | undefined) =>
+			resolveFileToken(value, "format-compression", "text")
+		)
 		.option("format-type", {
 			type: "string",
 			description: "The format.type field",
 			choices: ["json", "parquet"],
 		})
+		.coerce("format-type", (value: string | undefined) =>
+			resolveFileToken(value, "format-type", "text")
+		)
 		.option("format-row-group-bytes", {
 			type: "number",
 			description: "The format.row_group_bytes field",
@@ -132,6 +147,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Specifies the type of sink.",
 			choices: ["r2", "r2_data_catalog", "basin_catalog"],
 		})
+		.coerce("type", (value: string | undefined) =>
+			resolveFileToken(value, "type", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -368,13 +386,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 													"config-file-naming-prefix",
 													"text"
 												),
-												strategy: resolveFileToken(
-													argv["config-file-naming-strategy"] as
-														| string
-														| undefined,
-													"config-file-naming-strategy",
-													"text"
-												),
+												strategy: argv["config-file-naming-strategy"],
 												suffix: resolveFileToken(
 													argv["config-file-naming-suffix"] as
 														| string
@@ -427,27 +439,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											),
 										},
 										format: {
-											decimal_encoding: resolveFileToken(
-												argv["format-decimal-encoding"] as string | undefined,
-												"format-decimal-encoding",
-												"text"
-											),
-											timestamp_format: resolveFileToken(
-												argv["format-timestamp-format"] as string | undefined,
-												"format-timestamp-format",
-												"text"
-											),
+											decimal_encoding: argv["format-decimal-encoding"],
+											timestamp_format: argv["format-timestamp-format"],
 											unstructured: argv["format-unstructured"],
-											compression: resolveFileToken(
-												argv["format-compression"] as string | undefined,
-												"format-compression",
-												"text"
-											),
-											type: resolveFileToken(
-												argv["format-type"] as string | undefined,
-												"format-type",
-												"text"
-											),
+											compression: argv["format-compression"],
+											type: argv["format-type"],
 											row_group_bytes: argv["format-row-group-bytes"],
 										},
 										name: resolveFileToken(
@@ -458,11 +454,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										schema: {
 											inferred: argv["schema-inferred"],
 										},
-										type: resolveFileToken(
-											argv["type"] as string | undefined,
-											"type",
-											"text"
-										),
+										type: argv["type"],
 									}),
 						sensitiveBodyPaths: [
 							["config", "credentials", "secret_access_key"],
@@ -533,11 +525,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								"config-file-naming-prefix",
 								"text"
 							),
-							strategy: resolveFileToken(
-								argv["config-file-naming-strategy"] as string | undefined,
-								"config-file-naming-strategy",
-								"text"
-							),
+							strategy: argv["config-file-naming-strategy"],
 							suffix: resolveFileToken(
 								argv["config-file-naming-suffix"] as string | undefined,
 								"config-file-naming-suffix",
@@ -584,27 +572,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						),
 					},
 					format: {
-						decimal_encoding: resolveFileToken(
-							argv["format-decimal-encoding"] as string | undefined,
-							"format-decimal-encoding",
-							"text"
-						),
-						timestamp_format: resolveFileToken(
-							argv["format-timestamp-format"] as string | undefined,
-							"format-timestamp-format",
-							"text"
-						),
+						decimal_encoding: argv["format-decimal-encoding"],
+						timestamp_format: argv["format-timestamp-format"],
 						unstructured: argv["format-unstructured"],
-						compression: resolveFileToken(
-							argv["format-compression"] as string | undefined,
-							"format-compression",
-							"text"
-						),
-						type: resolveFileToken(
-							argv["format-type"] as string | undefined,
-							"format-type",
-							"text"
-						),
+						compression: argv["format-compression"],
+						type: argv["format-type"],
 						row_group_bytes: argv["format-row-group-bytes"],
 					},
 					name: resolveFileToken(
@@ -615,11 +587,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					schema: {
 						inferred: argv["schema-inferred"],
 					},
-					type: resolveFileToken(
-						argv["type"] as string | undefined,
-						"type",
-						"text"
-					),
+					type: argv["type"],
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.pipelines.sinks.create({

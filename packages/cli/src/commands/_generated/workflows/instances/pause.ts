@@ -41,6 +41,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The status field",
 			choices: ["pause", "resume", "terminate", "restart"],
 		})
+		.coerce("status", (value: string | undefined) =>
+			resolveFileToken(value, "status", "text")
+		)
 		.option("rollback", {
 			type: "boolean",
 			description: "Run rollback before terminating.",
@@ -55,6 +58,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The from.type field",
 			choices: ["do", "sleep", "waitForEvent"],
 		})
+		.coerce("from-type", (value: string | undefined) =>
+			resolveFileToken(value, "from-type", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -125,11 +131,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										status: resolveFileToken(
-											argv["status"] as string | undefined,
-											"status",
-											"text"
-										),
+										status: argv["status"],
 										rollback: argv["rollback"],
 										from: {
 											count: argv["from-count"],
@@ -138,11 +140,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"from-name",
 												"text"
 											),
-											type: resolveFileToken(
-												argv["from-type"] as string | undefined,
-												"from-type",
-												"text"
-											),
+											type: argv["from-type"],
 										},
 									}),
 					});
@@ -175,11 +173,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					status: resolveFileToken(
-						argv["status"] as string | undefined,
-						"status",
-						"text"
-					),
+					status: argv["status"],
 					rollback: argv["rollback"],
 					from: {
 						count: argv["from-count"],
@@ -188,11 +182,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"from-name",
 							"text"
 						),
-						type: resolveFileToken(
-							argv["from-type"] as string | undefined,
-							"from-type",
-							"text"
-						),
+						type: argv["from-type"],
 					},
 				});
 				const result = await withProgress(`Updating`, async () =>

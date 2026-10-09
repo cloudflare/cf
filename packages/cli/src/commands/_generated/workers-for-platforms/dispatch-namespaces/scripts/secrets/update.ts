@@ -48,12 +48,18 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The kind of resource that the binding provides.",
 			choices: ["secret_text", "secret_key"],
 		})
+		.coerce("type", (value: string | undefined) =>
+			resolveFileToken(value, "type", "text")
+		)
 		.option("format", {
 			type: "string",
 			description:
 				"Data format of the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#format).",
 			choices: ["raw", "pkcs8", "spki", "jwk"],
 		})
+		.coerce("format", (value: string | undefined) =>
+			resolveFileToken(value, "format", "text")
+		)
 		.option("key-base64", {
 			type: "string",
 			description:
@@ -128,16 +134,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text",
 											"text"
 										),
-										type: resolveFileToken(
-											argv["type"] as string | undefined,
-											"type",
-											"text"
-										),
-										format: resolveFileToken(
-											argv["format"] as string | undefined,
-											"format",
-											"text"
-										),
+										type: argv["type"],
+										format: argv["format"],
 										key_base64: resolveFileToken(
 											argv["key-base64"] as string | undefined,
 											"key-base64",
@@ -207,16 +205,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"text",
 						"text"
 					),
-					type: resolveFileToken(
-						argv["type"] as string | undefined,
-						"type",
-						"text"
-					),
-					format: resolveFileToken(
-						argv["format"] as string | undefined,
-						"format",
-						"text"
-					),
+					type: argv["type"],
+					format: argv["format"],
 					key_base64: resolveFileToken(
 						argv["key-base64"] as string | undefined,
 						"key-base64",

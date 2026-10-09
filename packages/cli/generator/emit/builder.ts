@@ -118,6 +118,11 @@ export function generateBuilderLines(
 						: undefined,
 			})})`
 		);
+		if (arg.fromFile && arg.choices?.length) {
+			builderLines.push(
+				`.coerce(${JSON.stringify(optName)}, (value: string | undefined) => resolveFileToken(value, ${JSON.stringify(optName)}, ${JSON.stringify(arg.fromFile.format)}))`
+			);
+		}
 	}
 
 	// --dry-run: every command, even pure GETs.

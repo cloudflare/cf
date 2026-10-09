@@ -201,6 +201,8 @@ export * from "./pipelines/client/requests/index.js";
 export * from "./pipelines/types/index.js";
 export * as precursor from "./precursor/index.js";
 export * from "./precursor/client/requests/index.js";
+export * as previews from "./previews/index.js";
+export * from "./previews/client/requests/index.js";
 export * as queries from "./queries/index.js";
 export * from "./queries/client/requests/index.js";
 export * as queues from "./queues/index.js";

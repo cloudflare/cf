@@ -5,6 +5,7 @@ import * as CloudflareApi from "../index.js";
 export interface ZeroTrustGatewayLocations {
     client_default?: CloudflareApi.ZeroTrustGatewayClientDefault | undefined;
     created_at?: CloudflareApi.ZeroTrustGatewayReadOnlyTimestamp | undefined;
+    dns64_enabled?: CloudflareApi.ZeroTrustGatewayDns64Enabled | undefined;
     dns_destination_ips_id?: CloudflareApi.ZeroTrustGatewayDnsDestinationIpsIdRead | undefined;
     dns_destination_ipv6_block_id?: (CloudflareApi.ZeroTrustGatewayDnsDestinationIpv6BlockId | null) | undefined;
     doh_subdomain?: CloudflareApi.ZeroTrustGatewaySubdomain | undefined;

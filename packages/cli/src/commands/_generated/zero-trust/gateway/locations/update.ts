@@ -34,6 +34,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "boolean",
 			description: "Indicate whether this location is the default location.",
 		})
+		.option("dns64-enabled", {
+			type: "boolean",
+			description:
+				"Enable DNS64 synthesis for DNS queries matched to this location. When updating a location, omitting this field resets it to false.",
+		})
 		.option("dns-destination-ips-id", {
 			type: "string",
 			description:
@@ -133,6 +138,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				classification: {
 					safeFlags: [
 						"client-default",
+						"dns64-enabled",
 						"ecs-support",
 						"endpoints-doh-enabled",
 						"endpoints-doh-require-token",
@@ -159,6 +165,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								? parseBody(argv.body)
 								: compactBody({
 										client_default: argv["client-default"],
+										dns64_enabled: argv["dns64-enabled"],
 										dns_destination_ips_id: resolveFileToken(
 											argv["dns-destination-ips-id"] as string | undefined,
 											"dns-destination-ips-id",
@@ -220,6 +227,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
 					client_default: argv["client-default"],
+					dns64_enabled: argv["dns64-enabled"],
 					dns_destination_ips_id: resolveFileToken(
 						argv["dns-destination-ips-id"] as string | undefined,
 						"dns-destination-ips-id",

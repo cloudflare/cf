@@ -15,6 +15,7 @@ export interface UpdateLocationsRequest {
     account_id: string;
     location_id: string;
     client_default?: CloudflareApi.ZeroTrustGatewayClientDefault;
+    dns64_enabled?: CloudflareApi.ZeroTrustGatewayDns64Enabled;
     dns_destination_ips_id?: CloudflareApi.ZeroTrustGatewayDnsDestinationIpsIdWrite;
     ecs_support?: CloudflareApi.ZeroTrustGatewayEcsSupport;
     endpoints?: CloudflareApi.ZeroTrustGatewayEndpoints | null;

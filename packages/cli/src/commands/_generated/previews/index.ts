@@ -1,3 +1,4 @@
+import $delete from "./delete.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * previews command
@@ -13,6 +14,7 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
+			.command($delete)
 			.command(withHandWrittenDryRun($deploy, "preview"))
 			.demandCommand(1, "Please specify a subcommand");
 	},

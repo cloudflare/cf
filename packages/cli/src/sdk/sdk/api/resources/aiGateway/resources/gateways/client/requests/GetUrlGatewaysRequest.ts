@@ -5,12 +5,12 @@
  *     {
  *         account_id: "0d37909e38d3e99c29fa2cd343ac421a",
  *         gateway_id: "my-gateway",
- *         provider: "workers-ai"
+ *         "ai-gateway-provider": "workers-ai"
  *     }
  */
 export interface GetUrlGatewaysRequest {
     account_id: string;
     /** Unique identifier of the AI Gateway within the account. */
     gateway_id: string;
-    provider: string;
+    "ai-gateway-provider": string;
 }

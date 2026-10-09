@@ -60970,6 +60970,37 @@
 				}
 			]
 		},
+		"previews delete": {
+			"operationId": "workers.previews.delete",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/workers/workers/{worker_id}/previews/{preview_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "worker_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "preview_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "force",
+					"type": "boolean",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
 		"queries bulk create": {
 			"operationId": "postAccountsAccountIdBrandProtectionQueriesBulk",
 			"httpMethod": "POST",
@@ -105633,6 +105664,12 @@
 					"description": "Indicate whether this location is the default location."
 				},
 				{
+					"name": "dns64-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Enable DNS64 synthesis for DNS queries matched to this location. When updating a location, omitting this field resets it to false."
+				},
+				{
 					"name": "dns-destination-ips-id",
 					"type": "string",
 					"required": false,
@@ -105800,6 +105837,12 @@
 					"type": "boolean",
 					"required": false,
 					"description": "Indicate whether this location is the default location."
+				},
+				{
+					"name": "dns64-enabled",
+					"type": "boolean",
+					"required": false,
+					"description": "Enable DNS64 synthesis for DNS queries matched to this location. When updating a location, omitting this field resets it to false."
 				},
 				{
 					"name": "dns-destination-ips-id",

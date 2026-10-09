@@ -4,17 +4,17 @@
  * @example
  *     {
  *         account_id: "account_id",
- *         worker_id: "worker_id",
- *         preview_id: "preview_id"
+ *         worker: "worker_id",
+ *         name: "preview_id"
  *     }
  */
 export interface DeletePreviewsRequest {
     /** Identifier. */
     account_id: string;
     /** Identifier for the Worker, which can be ID or name. */
-    worker_id: string;
+    worker: string;
     /** Identifier for the Preview, which can be ID, slug, or URL-encoded name. */
-    preview_id: string;
+    name: string;
     /** If true, delete the Preview even when other Workers still reference it. Service bindings in those Workers may be left broken. Durable Object namespaces implemented by the deleted Preview are deleted even if other Workers reference them. */
     force?: boolean;
 }

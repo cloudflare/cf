@@ -20,9 +20,9 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 ai-gateway gateways get-url <provider>\n\nRetrieves the endpoint URL for an AI Gateway."
+			"$0 ai-gateway gateways get-url <ai-gateway-provider>\n\nRetrieves the endpoint URL for an AI Gateway."
 		)
-		.positional("provider", {
+		.positional("ai-gateway-provider", {
 			type: "string",
 			description: "Provider",
 			demandOption: true,
@@ -44,7 +44,7 @@ type Args = InferArgs<typeof builder>;
 type Request = SdkRequest<"aig-config-get-gateway-url">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "get-url <provider>",
+	command: "get-url <ai-gateway-provider>",
 	describe: "Get Gateway URL",
 	builder,
 	handler: async (argv): Promise<void> =>
@@ -62,10 +62,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf ai-gateway gateways get-url",
 						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-gateway/gateways/${argv["gateway-id"] == null ? "<gateway-id>" : encodeURIComponent(String(argv["gateway-id"]))}/url/${argv["provider"] == null ? "<provider>" : encodeURIComponent(String(argv["provider"]))}`,
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-gateway/gateways/${argv["gateway-id"] == null ? "<gateway-id>" : encodeURIComponent(String(argv["gateway-id"]))}/url/${argv["ai-gateway-provider"] == null ? "<ai-gateway-provider>" : encodeURIComponent(String(argv["ai-gateway-provider"]))}`,
 						pathParams: {
 							"gateway-id": String(argv["gateway-id"] ?? ""),
-							provider: String(argv["provider"] ?? ""),
+							"ai-gateway-provider": String(argv["ai-gateway-provider"] ?? ""),
 						},
 						bodyKind: "none",
 					});
@@ -79,7 +79,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					client.aiGateway.gateways.getUrl({
 						account_id: accountId,
 						gateway_id: argv["gateway-id"],
-						provider: argv["provider"],
+						"ai-gateway-provider": argv["ai-gateway-provider"],
 					} satisfies Request)
 				);
 				formatOutput(result, { successLabel: `Loaded` });

@@ -66,6 +66,11 @@ describe("cf previews deploy Containers", () => {
 						})
 					)
 			),
+			http.get(
+				"*/accounts/:accountId/workers/workers/:workerName/previews/:previewId/deployments/latest",
+				() =>
+					HttpResponse.json(createFetchResult({ id: "previous-deployment-id" }))
+			),
 			http.post(
 				"*/accounts/:accountId/workers/workers/:workerName/previews/:previewId/deployments",
 				async ({ request }) => {
@@ -195,6 +200,11 @@ describe("cf previews deploy Containers", () => {
 							updated_on: "2026-09-23T00:00:00Z",
 						})
 					)
+			),
+			http.get(
+				"*/accounts/:accountId/workers/workers/:workerName/previews/:previewId/deployments/latest",
+				() =>
+					HttpResponse.json(createFetchResult({ id: "previous-deployment-id" }))
 			),
 			http.post(
 				"*/accounts/:accountId/workers/workers/:workerName/previews/:previewId/deployments",

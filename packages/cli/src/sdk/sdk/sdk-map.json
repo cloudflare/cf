@@ -5215,12 +5215,12 @@
     ],
     "method": "getUrl",
     "httpMethod": "GET",
-    "path": "/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/url/{provider}",
+    "path": "/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/url/{ai-gateway-provider}",
     "requestType": "GetUrlGatewaysRequest",
     "requiredRequestProperties": [
       "account_id",
-      "gateway_id",
-      "provider"
+      "ai-gateway-provider",
+      "gateway_id"
     ]
   },
   "aig-config-list-account-provider": {
@@ -25222,7 +25222,7 @@
     "path": "/user/load_balancers/pools",
     "responseType": "PoolsPoolsResponse",
     "requiredRequestProperties": [
-      "__@iterator@7074",
+      "__@iterator@7081",
       "anchor",
       "at",
       "big",
@@ -45323,7 +45323,9 @@
     "responseType": "WorkersDomain",
     "requiredRequestProperties": [
       "account_id",
+      "enabled",
       "hostname",
+      "previews_enabled",
       "service",
       "zone_id",
       "zone_name"
@@ -45351,18 +45353,17 @@
   },
   "workers.previews.delete": {
     "accessor": [
-      "workers",
       "previews"
     ],
     "method": "delete",
     "httpMethod": "DELETE",
-    "path": "/accounts/{account_id}/workers/workers/{worker_id}/previews/{preview_id}",
+    "path": "/accounts/{account_id}/workers/workers/{worker}/previews/{name}",
     "requestType": "DeletePreviewsRequest",
     "responseType": "WorkersApiResponseCommon",
     "requiredRequestProperties": [
       "account_id",
-      "preview_id",
-      "worker_id"
+      "name",
+      "worker"
     ]
   },
   "workers.previews.deployments.create": {

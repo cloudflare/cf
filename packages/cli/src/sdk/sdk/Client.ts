@@ -109,6 +109,7 @@ import { PayPerCrawlClient } from "./api/resources/payPerCrawl/client/Client.js"
 import { PayPerUseClient } from "./api/resources/payPerUse/client/Client.js";
 import { PipelinesClient } from "./api/resources/pipelines/client/Client.js";
 import { PrecursorClient } from "./api/resources/precursor/client/Client.js";
+import { PreviewsClient } from "./api/resources/previews/client/Client.js";
 import { QueriesClient } from "./api/resources/queries/client/Client.js";
 import { QueuesClient } from "./api/resources/queues/client/Client.js";
 import { R2Client } from "./api/resources/r2/client/Client.js";
@@ -218,6 +219,7 @@ export class CloudflareApiClient {
     protected _values: ValuesClient | undefined;
     protected _vectorize: VectorizeClient | undefined;
     protected _workers: WorkersClient | undefined;
+    protected _previews: PreviewsClient | undefined;
     protected _workflows: WorkflowsClient | undefined;
     protected _sql: SqlClient | undefined;
     protected _originCaCertificates: OriginCaCertificatesClient | undefined;
@@ -503,6 +505,10 @@ export class CloudflareApiClient {
 
     public get workers(): WorkersClient {
         return (this._workers ??= new WorkersClient(this._options));
+    }
+
+    public get previews(): PreviewsClient {
+        return (this._previews ??= new PreviewsClient(this._options));
     }
 
     public get workflows(): WorkflowsClient {

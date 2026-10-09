@@ -13,6 +13,7 @@ export interface CreateLocationsRequest {
     /** Specify the Cloudflare account identifier. */
     account_id: string;
     client_default?: CloudflareApi.ZeroTrustGatewayClientDefault;
+    dns64_enabled?: CloudflareApi.ZeroTrustGatewayDns64Enabled;
     dns_destination_ips_id?: CloudflareApi.ZeroTrustGatewayDnsDestinationIpsIdWrite;
     ecs_support?: CloudflareApi.ZeroTrustGatewayEcsSupport;
     endpoints?: CloudflareApi.ZeroTrustGatewayEndpoints | null;

@@ -7474,6 +7474,7 @@ export * from "./ZeroTrustGatewayDescription3.js";
 export * from "./ZeroTrustGatewayDescription4.js";
 export * from "./ZeroTrustGatewayDescriptionItem.js";
 export * from "./ZeroTrustGatewayDevicePosture.js";
+export * from "./ZeroTrustGatewayDns64Enabled.js";
 export * from "./ZeroTrustGatewayDnsDestinationIpPair.js";
 export * from "./ZeroTrustGatewayDnsDestinationIpsIdRead.js";
 export * from "./ZeroTrustGatewayDnsDestinationIpsIdWrite.js";

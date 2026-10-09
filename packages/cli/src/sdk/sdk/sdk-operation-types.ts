@@ -2875,7 +2875,7 @@ export interface SdkOperationRequestMap {
   "workers.domains.list": CloudflareApi.workers.ListDomainsRequest;
   "workers.domains.update": CloudflareApi.workers.UpdateDomainsRequest;
   "workers.previews.create": CloudflareApi.workers.CreatePreviewsRequest;
-  "workers.previews.delete": CloudflareApi.workers.DeletePreviewsRequest;
+  "workers.previews.delete": CloudflareApi.DeletePreviewsRequest;
   "workers.previews.deployments.create": CloudflareApi.workers.previews.CreateDeploymentsRequest;
   "workers.previews.deployments.delete": CloudflareApi.workers.previews.DeleteDeploymentsRequest;
   "workers.previews.deployments.get": CloudflareApi.workers.previews.GetDeploymentsRequest;
@@ -3762,9 +3762,9 @@ export interface SdkOperationQueryMap {
   "workers-kv-namespace-list-a-namespace'-s-keys": Pick<CloudflareApi.kv.ListKeysRequest, Extract<"limit" | "prefix" | "cursor", keyof CloudflareApi.kv.ListKeysRequest>>;
   "workers-kv-namespace-list-namespaces": Pick<CloudflareApi.kv.ListNamespacesRequest, Extract<"page" | "per_page" | "order" | "direction", keyof CloudflareApi.kv.ListNamespacesRequest>>;
   "workers-kv-namespace-write-key-value-pair-with-metadata": Pick<CloudflareApi.kv.PutKeysRequest, Extract<"expiration" | "expiration_ttl", keyof CloudflareApi.kv.PutKeysRequest>>;
-  "workers.domains.list": Pick<CloudflareApi.workers.ListDomainsRequest, Extract<"zone_id" | "zone_name" | "service" | "hostname" | "environment", keyof CloudflareApi.workers.ListDomainsRequest>>;
+  "workers.domains.list": Pick<CloudflareApi.workers.ListDomainsRequest, Extract<"zone_id" | "zone_name" | "service" | "hostname" | "environment" | "previews_enabled" | "enabled", keyof CloudflareApi.workers.ListDomainsRequest>>;
   "workers.previews.create": Pick<CloudflareApi.workers.CreatePreviewsRequest, Extract<"ignore_defaults" | "ignore_base_config", keyof CloudflareApi.workers.CreatePreviewsRequest>>;
-  "workers.previews.delete": Pick<CloudflareApi.workers.DeletePreviewsRequest, Extract<"force", keyof CloudflareApi.workers.DeletePreviewsRequest>>;
+  "workers.previews.delete": Pick<CloudflareApi.DeletePreviewsRequest, Extract<"force", keyof CloudflareApi.DeletePreviewsRequest>>;
   "workers.previews.deployments.create": Pick<CloudflareApi.workers.previews.CreateDeploymentsRequest, Extract<"ignore_defaults", keyof CloudflareApi.workers.previews.CreateDeploymentsRequest>>;
   "workers.previews.deployments.get": Pick<CloudflareApi.workers.previews.GetDeploymentsRequest, Extract<"include", keyof CloudflareApi.workers.previews.GetDeploymentsRequest>>;
   "workers.previews.deployments.list": Pick<CloudflareApi.workers.previews.ListDeploymentsRequest, Extract<"page" | "per_page", keyof CloudflareApi.workers.previews.ListDeploymentsRequest>>;

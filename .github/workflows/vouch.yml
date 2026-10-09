@@ -2,7 +2,7 @@ name: Vouch
 
 on:
   pull_request_target:
-    types: [opened, reopened]
+    types: [opened]
 
 permissions:
   contents: read

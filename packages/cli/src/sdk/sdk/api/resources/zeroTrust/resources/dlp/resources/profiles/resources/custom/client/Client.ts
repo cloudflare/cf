@@ -32,6 +32,9 @@ export class CustomClient {
      * @param {CloudflareApi.zeroTrust.dlp.profiles.DlpNewCustomProfile} request
      * @param {CustomClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.dlp.profiles.custom.create({
      *         account_id: "account_id",
@@ -100,6 +103,9 @@ export class CustomClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.profiles.DlpCustomProfileUpdate} request
      * @param {CustomClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.profiles.custom.update({
@@ -170,6 +176,9 @@ export class CustomClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.profiles.DeleteCustomRequest} request
      * @param {CustomClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.profiles.custom.delete({

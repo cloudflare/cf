@@ -28,6 +28,9 @@ export class LogoMatchesClient {
      * @param {CloudflareApi.brandProtection.GetLogoMatchesRequest} request
      * @param {LogoMatchesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.brandProtection.logoMatches.get({
      *         account_id: "account_id",

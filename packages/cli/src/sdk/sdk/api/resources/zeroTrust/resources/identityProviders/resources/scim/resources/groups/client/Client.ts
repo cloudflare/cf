@@ -31,6 +31,9 @@ export class GroupsClient {
      * @param {CloudflareApi.zeroTrust.identityProviders.scim.ListGroupsRequest} request
      * @param {GroupsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.identityProviders.scim.groups.list({
      *         account_id: "account_id",
@@ -120,6 +123,9 @@ export class GroupsClient {
      * @param {CloudflareApi.zeroTrust.identityProviders.scim.GetGroupsRequest} request
      * @param {GroupsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.identityProviders.scim.groups.get({
      *         account_id: "account_id",
@@ -186,6 +192,9 @@ export class GroupsClient {
      *
      * @param {CloudflareApi.zeroTrust.identityProviders.scim.DeleteGroupsRequest} request
      * @param {GroupsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.identityProviders.scim.groups.delete({

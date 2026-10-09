@@ -32,6 +32,9 @@ export class SettingsClient {
      * @param {CloudflareApi.ssl.universal.GetSettingsRequest} request
      * @param {SettingsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.ssl.universal.settings.get({
      *         zone_id: "zone_id"
@@ -99,6 +102,9 @@ export class SettingsClient {
      *
      * @param {CloudflareApi.ssl.universal.EditSettingsRequest} request
      * @param {SettingsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.ssl.universal.settings.edit({

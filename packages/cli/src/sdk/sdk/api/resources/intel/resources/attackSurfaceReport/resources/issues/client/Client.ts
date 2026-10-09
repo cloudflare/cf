@@ -32,6 +32,9 @@ export class IssuesClient {
      * @param {CloudflareApi.intel.attackSurfaceReport.ListIssuesRequest} request
      * @param {IssuesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.intel.attackSurfaceReport.issues.list({
      *         account_id: "account_id",
@@ -155,6 +158,9 @@ export class IssuesClient {
      * @param {CloudflareApi.intel.attackSurfaceReport.ClassIssuesRequest} request
      * @param {IssuesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.intel.attackSurfaceReport.issues.class({
      *         account_id: "account_id",
@@ -271,6 +277,9 @@ export class IssuesClient {
      *
      * @param {CloudflareApi.intel.attackSurfaceReport.SeverityIssuesRequest} request
      * @param {IssuesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.intel.attackSurfaceReport.issues.severity({
@@ -389,6 +398,9 @@ export class IssuesClient {
      * @param {CloudflareApi.intel.attackSurfaceReport.TypeIssuesRequest} request
      * @param {IssuesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.intel.attackSurfaceReport.issues.type({
      *         account_id: "account_id",
@@ -505,6 +517,9 @@ export class IssuesClient {
      *
      * @param {CloudflareApi.intel.attackSurfaceReport.DismissIssuesRequest} request
      * @param {IssuesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.intel.attackSurfaceReport.issues.dismiss({

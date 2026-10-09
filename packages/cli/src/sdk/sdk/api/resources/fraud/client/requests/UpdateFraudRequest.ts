@@ -7,7 +7,7 @@ import * as CloudflareApi from "../../../../index.js";
  *     {
  *         zone_id: "zone_id",
  *         body: {
- *             username_expressions: ["http.request.body.form[\"username\"][0]", "lookup_json_string(http.request.body.raw, \"username\")"]
+ *             username_expressions: []
  *         }
  *     }
  *

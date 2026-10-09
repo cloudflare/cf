@@ -32,6 +32,9 @@ export class SchedulesClient {
      * @param {CloudflareApi.workers.scripts.GetSchedulesRequest} request
      * @param {SchedulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workers.scripts.schedules.get({
      *         account_id: "account_id",
@@ -100,6 +103,9 @@ export class SchedulesClient {
      *
      * @param {CloudflareApi.workers.scripts.UpdateSchedulesRequest} request
      * @param {SchedulesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workers.scripts.schedules.update({

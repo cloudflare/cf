@@ -29,6 +29,9 @@ export class TraceroutesClient {
      * @param {CloudflareApi.diagnostics.CreateTraceroutesRequest} request
      * @param {TraceroutesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.diagnostics.traceroutes.create({
      *         account_id: "account_id",

@@ -31,6 +31,9 @@ export class ParticipantsClient {
      * @param {CloudflareApi.realtime.kit.sessions.ListParticipantsRequest} request
      * @param {ParticipantsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.realtime.kit.sessions.participants.list({
      *         account_id: "account_id",
@@ -124,6 +127,9 @@ export class ParticipantsClient {
      *
      * @param {CloudflareApi.realtime.kit.sessions.GetParticipantsRequest} request
      * @param {ParticipantsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.realtime.kit.sessions.participants.get({

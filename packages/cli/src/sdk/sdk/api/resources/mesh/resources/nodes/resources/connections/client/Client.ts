@@ -31,6 +31,9 @@ export class ConnectionsClient {
      * @param {CloudflareApi.mesh.nodes.ListConnectionsRequest} request
      * @param {ConnectionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.mesh.nodes.connections.list({
      *         account_id: "account_id",

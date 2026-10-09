@@ -32,6 +32,9 @@ export class SippyClient {
      * @param {CloudflareApi.r2.buckets.GetSippyRequest} request
      * @param {SippyClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.r2.buckets.sippy.get({
      *         account_id: "account_id",
@@ -98,6 +101,9 @@ export class SippyClient {
      *
      * @param {CloudflareApi.r2.buckets.UpdateSippyRequest} request
      * @param {SippyClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.r2.buckets.sippy.update({
@@ -174,6 +180,9 @@ export class SippyClient {
      *
      * @param {CloudflareApi.r2.buckets.DeleteSippyRequest} request
      * @param {SippyClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.r2.buckets.sippy.delete({

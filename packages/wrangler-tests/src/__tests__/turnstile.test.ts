@@ -119,10 +119,10 @@ describe("turnstile widget commands", () => {
 		const request = mockWidgetCreate();
 
 		await runWrangler(
-			"turnstile widgets create --name Example --domains example.com --mode staging"
+			"turnstile widgets create --name Example --domains example.com --mode staging --widget-mode managed"
 		);
 
-		await expect(request).resolves.not.toHaveProperty("mode");
+		await expect(request).resolves.toHaveProperty("mode", "managed");
 	});
 
 	it.todo("splits comma-separated values in --domain");

@@ -31,6 +31,9 @@ export class DnsDestinationIpsClient {
      * @param {CloudflareApi.zeroTrust.gateway.ListDnsDestinationIpsRequest} request
      * @param {DnsDestinationIpsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.gateway.dnsDestinationIps.list({
      *         account_id: "account_id"

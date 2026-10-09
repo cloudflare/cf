@@ -29,6 +29,9 @@ export class TieredCachingClient {
      * @param {CloudflareApi.argo.GetTieredCachingRequest} request
      * @param {TieredCachingClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.argo.tieredCaching.get({
      *         zone_id: "zone_id"
@@ -96,6 +99,9 @@ export class TieredCachingClient {
      *
      * @param {CloudflareApi.argo.CacheSettingsPatch} request
      * @param {TieredCachingClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.argo.tieredCaching.edit({

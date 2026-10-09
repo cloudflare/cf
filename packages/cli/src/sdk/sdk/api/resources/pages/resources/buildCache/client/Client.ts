@@ -28,6 +28,9 @@ export class BuildCacheClient {
      * @param {CloudflareApi.pages.PurgeBuildCacheRequest} request
      * @param {BuildCacheClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.pages.buildCache.purge({
      *         account_id: "account_id",

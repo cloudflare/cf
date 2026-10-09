@@ -28,6 +28,9 @@ export class AvailableAlertsClient {
      * @param {CloudflareApi.alerting.ListAvailableAlertsRequest} request
      * @param {AvailableAlertsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.alerting.availableAlerts.list({
      *         account_id: "account_id"

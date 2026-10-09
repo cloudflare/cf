@@ -29,6 +29,9 @@ export class SecurityTxtClient {
      * @param {CloudflareApi.GetSecurityTxtRequest} request
      * @param {SecurityTxtClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.securityTxt.get({
      *         zone_id: "zone_id"
@@ -96,6 +99,9 @@ export class SecurityTxtClient {
      *
      * @param {CloudflareApi.UpdateSecurityTxtRequest} request
      * @param {SecurityTxtClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.securityTxt.update({
@@ -168,6 +174,9 @@ export class SecurityTxtClient {
      *
      * @param {CloudflareApi.DeleteSecurityTxtRequest} request
      * @param {SecurityTxtClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.securityTxt.delete({

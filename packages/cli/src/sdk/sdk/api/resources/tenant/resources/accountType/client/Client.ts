@@ -28,6 +28,9 @@ export class AccountTypeClient {
      * @param {CloudflareApi.tenant.ListAccountTypeRequest} request
      * @param {AccountTypeClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.tenant.accountType.list({
      *         tenant_id: "tenant_id"

@@ -28,6 +28,9 @@ export class ConnectionsClient {
      * @param {CloudflareApi.clientSideSecurity.ListConnectionsRequest} request
      * @param {ConnectionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.clientSideSecurity.connections.list({
      *         zone_id: "zone_id",
@@ -135,6 +138,9 @@ export class ConnectionsClient {
      *
      * @param {CloudflareApi.clientSideSecurity.GetConnectionsRequest} request
      * @param {ConnectionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.clientSideSecurity.connections.get({

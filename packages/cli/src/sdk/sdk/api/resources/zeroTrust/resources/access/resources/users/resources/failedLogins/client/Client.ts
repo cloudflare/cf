@@ -31,6 +31,9 @@ export class FailedLoginsClient {
      * @param {CloudflareApi.zeroTrust.access.users.ListFailedLoginsRequest} request
      * @param {FailedLoginsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.users.failedLogins.list({
      *         account_id: "account_id",

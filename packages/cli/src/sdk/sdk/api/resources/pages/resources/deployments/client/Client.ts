@@ -35,6 +35,9 @@ export class DeploymentsClient {
      * @param {CloudflareApi.pages.ListDeploymentsRequest} request
      * @param {DeploymentsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.pages.deployments.list({
      *         account_id: "account_id",
@@ -112,6 +115,9 @@ export class DeploymentsClient {
      *
      * @param {CloudflareApi.pages.CreateDeploymentsRequest} request
      * @param {DeploymentsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      */
     public create(
         request: CloudflareApi.pages.CreateDeploymentsRequest,
@@ -233,6 +239,9 @@ export class DeploymentsClient {
      * @param {CloudflareApi.pages.GetDeploymentsRequest} request
      * @param {DeploymentsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.pages.deployments.get({
      *         account_id: "account_id",
@@ -299,6 +308,9 @@ export class DeploymentsClient {
      *
      * @param {CloudflareApi.pages.DeleteDeploymentsRequest} request
      * @param {DeploymentsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.pages.deployments.delete({
@@ -380,6 +392,9 @@ export class DeploymentsClient {
      * @param {CloudflareApi.pages.RetryDeploymentsRequest} request
      * @param {DeploymentsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.pages.deployments.retry({
      *         account_id: "account_id",
@@ -446,6 +461,9 @@ export class DeploymentsClient {
      *
      * @param {CloudflareApi.pages.RollbackDeploymentsRequest} request
      * @param {DeploymentsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.pages.deployments.rollback({

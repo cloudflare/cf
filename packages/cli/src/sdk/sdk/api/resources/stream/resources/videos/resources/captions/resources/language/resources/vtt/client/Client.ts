@@ -31,6 +31,9 @@ export class VttClient {
      * @param {CloudflareApi.stream.videos.captions.language.GetVttRequest} request
      * @param {VttClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.stream.videos.captions.language.vtt.get({
      *         account_id: "account_id",

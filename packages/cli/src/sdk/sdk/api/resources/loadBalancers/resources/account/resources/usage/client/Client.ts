@@ -31,6 +31,9 @@ export class UsageClient {
      * @param {CloudflareApi.loadBalancers.account.ListUsageRequest} request
      * @param {UsageClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.loadBalancers.account.usage.list({
      *         account_id: "account_id"

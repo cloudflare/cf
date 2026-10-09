@@ -31,6 +31,9 @@ export class RegionsClient {
      * @param {CloudflareApi.addressing.regionalHostnames.ListRegionsRequest} request
      * @param {RegionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.addressing.regionalHostnames.regions.list({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353"

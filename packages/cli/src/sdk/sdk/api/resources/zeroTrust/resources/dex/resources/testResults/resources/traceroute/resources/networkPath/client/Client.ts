@@ -31,6 +31,9 @@ export class NetworkPathClient {
      * @param {CloudflareApi.zeroTrust.dex.testResults.traceroute.GetNetworkPathRequest} request
      * @param {NetworkPathClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.dex.testResults.traceroute.networkPath.get({
      *         account_id: "account_id",

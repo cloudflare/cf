@@ -32,6 +32,9 @@ export class TagCategoriesClient {
      * @param {CloudflareApi.cloudforceOne.threatSignals.skills.GetTagCategoriesRequest} request
      * @param {TagCategoriesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.cloudforceOne.threatSignals.skills.tagCategories.get({
      *         account_id: "account_id",
@@ -100,6 +103,9 @@ export class TagCategoriesClient {
      *
      * @param {CloudflareApi.cloudforceOne.threatSignals.skills.UpdateTagCategoriesRequest} request
      * @param {TagCategoriesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.threatSignals.skills.tagCategories.update({

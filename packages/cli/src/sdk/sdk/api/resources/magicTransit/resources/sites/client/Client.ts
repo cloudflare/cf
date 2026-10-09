@@ -59,6 +59,9 @@ export class SitesClient {
      * @param {CloudflareApi.magicTransit.ListSitesRequest} request
      * @param {SitesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.sites.list({
      *         account_id: "account_id",
@@ -135,6 +138,9 @@ export class SitesClient {
      * @param {CloudflareApi.magicTransit.MagicSitesAddSingleRequest} request
      * @param {SitesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.sites.create({
      *         account_id: "account_id",
@@ -204,6 +210,9 @@ export class SitesClient {
      * @param {CloudflareApi.magicTransit.GetSitesRequest} request
      * @param {SitesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.sites.get({
      *         account_id: "account_id",
@@ -270,6 +279,9 @@ export class SitesClient {
      *
      * @param {CloudflareApi.magicTransit.UpdateSitesRequest} request
      * @param {SitesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.sites.update({
@@ -341,6 +353,9 @@ export class SitesClient {
      * @param {CloudflareApi.magicTransit.DeleteSitesRequest} request
      * @param {SitesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.sites.delete({
      *         account_id: "account_id",
@@ -406,6 +421,9 @@ export class SitesClient {
      *
      * @param {CloudflareApi.magicTransit.EditSitesRequest} request
      * @param {SitesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.sites.edit({

@@ -32,6 +32,9 @@ export class PoliciesClient {
      * @param {CloudflareApi.zeroTrust.access.ListPoliciesRequest} request
      * @param {PoliciesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.policies.list({
      *         account_id: "account_id"
@@ -107,6 +110,9 @@ export class PoliciesClient {
      *
      * @param {CloudflareApi.zeroTrust.access.CreatePoliciesRequest} request
      * @param {PoliciesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.policies.create({
@@ -188,6 +194,9 @@ export class PoliciesClient {
      * @param {CloudflareApi.zeroTrust.access.GetPoliciesRequest} request
      * @param {PoliciesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.policies.get({
      *         account_id: "account_id",
@@ -256,6 +265,9 @@ export class PoliciesClient {
      *
      * @param {CloudflareApi.zeroTrust.access.UpdatePoliciesRequest} request
      * @param {PoliciesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.policies.update({
@@ -337,6 +349,9 @@ export class PoliciesClient {
      *
      * @param {CloudflareApi.zeroTrust.access.DeletePoliciesRequest} request
      * @param {PoliciesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.policies.delete({

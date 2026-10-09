@@ -31,6 +31,9 @@ export class RegionsClient {
      * @param {CloudflareApi.user.loadBalancers.ListRegionsRequest} request
      * @param {RegionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.user.loadBalancers.regions.list({
      *         subdivision_code: "CA",

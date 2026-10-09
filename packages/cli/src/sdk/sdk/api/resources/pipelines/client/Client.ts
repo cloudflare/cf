@@ -42,6 +42,9 @@ export class PipelinesClient {
      * @param {CloudflareApi.LegacyListPipelinesRequest} request
      * @param {PipelinesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.pipelines.legacyList({
      *         account_id: "account_id"
@@ -118,6 +121,9 @@ export class PipelinesClient {
      *
      * @param {CloudflareApi.LegacyCreatePipelinesRequest} request
      * @param {PipelinesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.pipelines.legacyCreate({
@@ -210,6 +216,9 @@ export class PipelinesClient {
      * @param {CloudflareApi.ListPipelinesRequest} request
      * @param {PipelinesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.pipelines.list({
      *         account_id: "account_id"
@@ -284,6 +293,9 @@ export class PipelinesClient {
      * @param {CloudflareApi.CreatePipelinesRequest} request
      * @param {PipelinesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.pipelines.create({
      *         account_id: "account_id",
@@ -357,6 +369,9 @@ export class PipelinesClient {
      * @param {CloudflareApi.GetPipelinesRequest} request
      * @param {PipelinesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.pipelines.get({
      *         account_id: "account_id",
@@ -422,6 +437,9 @@ export class PipelinesClient {
      *
      * @param {CloudflareApi.DeletePipelinesRequest} request
      * @param {PipelinesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.pipelines.delete({
@@ -490,6 +508,8 @@ export class PipelinesClient {
      * @param {PipelinesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.UnprocessableEntityError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.pipelines.validateSql({
@@ -572,6 +592,8 @@ export class PipelinesClient {
      * @param {PipelinesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.pipelines.legacyGet({
@@ -646,6 +668,9 @@ export class PipelinesClient {
      *
      * @param {CloudflareApi.LegacyUpdatePipelinesRequest} request
      * @param {PipelinesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.pipelines.legacyUpdate({
@@ -733,6 +758,9 @@ export class PipelinesClient {
      *
      * @param {CloudflareApi.LegacyDeletePipelinesRequest} request
      * @param {PipelinesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.pipelines.legacyDelete({

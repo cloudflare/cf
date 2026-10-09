@@ -29,6 +29,9 @@ export class LockdownsClient {
      * @param {CloudflareApi.firewall.ListLockdownsRequest} request
      * @param {LockdownsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.firewall.lockdowns.list({
      *         zone_id: "zone_id",
@@ -136,6 +139,9 @@ export class LockdownsClient {
      * @param {CloudflareApi.firewall.CreateLockdownsRequest} request
      * @param {LockdownsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.firewall.lockdowns.create({
      *         zone_id: "zone_id",
@@ -208,6 +214,9 @@ export class LockdownsClient {
      * @param {CloudflareApi.firewall.GetLockdownsRequest} request
      * @param {LockdownsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.firewall.lockdowns.get({
      *         zone_id: "zone_id",
@@ -273,6 +282,9 @@ export class LockdownsClient {
      *
      * @param {CloudflareApi.firewall.UpdateLockdownsRequest} request
      * @param {LockdownsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.firewall.lockdowns.update({
@@ -346,6 +358,9 @@ export class LockdownsClient {
      *
      * @param {CloudflareApi.firewall.DeleteLockdownsRequest} request
      * @param {LockdownsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.firewall.lockdowns.delete({

@@ -29,6 +29,9 @@ export class StateClient {
      * @param {CloudflareApi.securityInsights.GetStateRequest} request
      * @param {StateClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.securityInsights.state.get({
      *         account_id: "account_id"
@@ -96,6 +99,9 @@ export class StateClient {
      *
      * @param {CloudflareApi.securityInsights.SecurityCenterUpdateAccountStateRequest} request
      * @param {StateClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.securityInsights.state.update({

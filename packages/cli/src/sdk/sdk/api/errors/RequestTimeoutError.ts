@@ -5,6 +5,8 @@ import * as errors from "../../errors/index.js";
 import * as CloudflareApi from "../index.js";
 
 export class RequestTimeoutError extends errors.CloudflareApiError {
+    declare public readonly body: CloudflareApi.AiAuditApiResponseCommonFailure;
+
     constructor(body: CloudflareApi.AiAuditApiResponseCommonFailure, rawResponse?: core.RawResponse) {
         super({
             message: "RequestTimeoutError",

@@ -29,6 +29,9 @@ export class SettingsClient {
      * @param {CloudflareApi.originTlsClientAuth.GetSettingsRequest} request
      * @param {SettingsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.originTlsClientAuth.settings.get({
      *         zone_id: "zone_id"
@@ -96,6 +99,9 @@ export class SettingsClient {
      *
      * @param {CloudflareApi.originTlsClientAuth.UpdateSettingsRequest} request
      * @param {SettingsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.originTlsClientAuth.settings.update({

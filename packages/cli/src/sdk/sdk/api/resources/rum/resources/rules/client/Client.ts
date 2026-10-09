@@ -29,6 +29,9 @@ export class RulesClient {
      * @param {CloudflareApi.rum.CreateRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.rum.rules.create({
      *         account_id: "account_id",
@@ -98,6 +101,9 @@ export class RulesClient {
      *
      * @param {CloudflareApi.rum.UpdateRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.rum.rules.update({
@@ -170,6 +176,9 @@ export class RulesClient {
      * @param {CloudflareApi.rum.DeleteRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.rum.rules.delete({
      *         account_id: "account_id",
@@ -240,6 +249,9 @@ export class RulesClient {
      * @param {CloudflareApi.rum.ListRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.rum.rules.list({
      *         account_id: "account_id",
@@ -305,6 +317,9 @@ export class RulesClient {
      *
      * @param {CloudflareApi.rum.RumModifyRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.rum.rules.bulkCreate({

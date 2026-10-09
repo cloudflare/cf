@@ -28,6 +28,9 @@ export class DcvDelegationClient {
      * @param {CloudflareApi.GetDcvDelegationRequest} request
      * @param {DcvDelegationClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.dcvDelegation.get({
      *         zone_id: "zone_id"

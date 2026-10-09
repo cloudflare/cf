@@ -31,6 +31,9 @@ export class IndicatorsClient {
      * @param {CloudflareApi.cloudforceOne.threatSignals.ListIndicatorsRequest} request
      * @param {IndicatorsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.cloudforceOne.threatSignals.indicators.list({
      *         account_id: "account_id"

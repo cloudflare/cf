@@ -38,6 +38,8 @@ export class SqlClient {
      * @throws {@link CloudflareApi.NotImplementedError}
      * @throws {@link CloudflareApi.ServiceUnavailableError}
      * @throws {@link CloudflareApi.InsufficientStorageError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.sql.query({
@@ -150,6 +152,8 @@ export class SqlClient {
      * @throws {@link CloudflareApi.UnprocessableEntityError}
      * @throws {@link CloudflareApi.InternalServerError}
      * @throws {@link CloudflareApi.ServiceUnavailableError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.sql.datasets({

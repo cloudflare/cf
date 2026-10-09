@@ -32,6 +32,9 @@ export class OutputsClient {
      * @param {CloudflareApi.stream.liveInputs.ListOutputsRequest} request
      * @param {OutputsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.stream.liveInputs.outputs.list({
      *         account_id: "account_id",
@@ -100,6 +103,9 @@ export class OutputsClient {
      *
      * @param {CloudflareApi.stream.liveInputs.StreamCreateOutputRequest} request
      * @param {OutputsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.stream.liveInputs.outputs.create({
@@ -171,6 +177,9 @@ export class OutputsClient {
      *
      * @param {CloudflareApi.stream.liveInputs.StreamUpdateOutputRequest} request
      * @param {OutputsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.stream.liveInputs.outputs.update({
@@ -247,6 +256,9 @@ export class OutputsClient {
      *
      * @param {CloudflareApi.stream.liveInputs.DeleteOutputsRequest} request
      * @param {OutputsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.stream.liveInputs.outputs.delete({

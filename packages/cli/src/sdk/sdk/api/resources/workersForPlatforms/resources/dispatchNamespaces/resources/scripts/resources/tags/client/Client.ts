@@ -32,6 +32,9 @@ export class TagsClient {
      * @param {CloudflareApi.workersForPlatforms.dispatchNamespaces.scripts.ListTagsRequest} request
      * @param {TagsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workersForPlatforms.dispatchNamespaces.scripts.tags.list({
      *         account_id: "account_id",
@@ -101,6 +104,9 @@ export class TagsClient {
      *
      * @param {CloudflareApi.workersForPlatforms.dispatchNamespaces.scripts.UpdateTagsRequest} request
      * @param {TagsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workersForPlatforms.dispatchNamespaces.scripts.tags.update({
@@ -181,6 +187,9 @@ export class TagsClient {
      * @param {CloudflareApi.workersForPlatforms.dispatchNamespaces.scripts.CreateTagsRequest} request
      * @param {TagsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workersForPlatforms.dispatchNamespaces.scripts.tags.create({
      *         account_id: "account_id",
@@ -250,6 +259,9 @@ export class TagsClient {
      *
      * @param {CloudflareApi.workersForPlatforms.dispatchNamespaces.scripts.DeleteTagsRequest} request
      * @param {TagsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workersForPlatforms.dispatchNamespaces.scripts.tags.delete({
@@ -331,6 +343,9 @@ export class TagsClient {
      *
      * @param {CloudflareApi.workersForPlatforms.dispatchNamespaces.scripts.WorkersTagPatch} request
      * @param {TagsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workersForPlatforms.dispatchNamespaces.scripts.tags.edit({

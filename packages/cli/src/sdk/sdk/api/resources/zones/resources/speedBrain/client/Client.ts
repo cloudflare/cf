@@ -30,6 +30,9 @@ export class SpeedBrainClient {
      * @param {CloudflareApi.zones.GetSpeedBrainRequest} request
      * @param {SpeedBrainClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zones.speedBrain.get({
      *         zone_id: "zone_id"
@@ -98,6 +101,9 @@ export class SpeedBrainClient {
      *
      * @param {CloudflareApi.zones.EditSpeedBrainRequest} request
      * @param {SpeedBrainClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zones.speedBrain.edit({

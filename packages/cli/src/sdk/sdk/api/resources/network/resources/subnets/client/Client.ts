@@ -46,6 +46,9 @@ export class SubnetsClient {
      * @param {CloudflareApi.network.ListSubnetsRequest} request
      * @param {SubnetsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.network.subnets.list({
      *         account_id: "account_id",

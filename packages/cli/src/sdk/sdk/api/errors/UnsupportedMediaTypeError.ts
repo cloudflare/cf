@@ -5,6 +5,8 @@ import * as errors from "../../errors/index.js";
 import * as CloudflareApi from "../index.js";
 
 export class UnsupportedMediaTypeError extends errors.CloudflareApiError {
+    declare public readonly body: CloudflareApi.PayPerCrawlApiErrorResponse;
+
     constructor(body: CloudflareApi.PayPerCrawlApiErrorResponse, rawResponse?: core.RawResponse) {
         super({
             message: "UnsupportedMediaTypeError",

@@ -8,24 +8,24 @@ import * as CloudflareApi from "../index.js";
  */
 export type AlexandriaCreateApplicationRequest =
     | ({
-          category_id: CloudflareApi.AlexandriaCategoryId;
-          hostnames: CloudflareApi.AlexandriaApplicationHostnames | undefined;
-          human_id: CloudflareApi.AlexandriaApplicationHumanId;
-          ip_subnets: CloudflareApi.AlexandriaApplicationIpSubnets | undefined;
-          name: CloudflareApi.AlexandriaApplicationName;
-          port_protocols: CloudflareApi.AlexandriaApplicationPortProtocols | undefined;
-          support_domains: CloudflareApi.AlexandriaApplicationSupportDomains | undefined;
-      } & {
           hostnames: string[];
+      } & {
+          category_id: CloudflareApi.AlexandriaCategoryId;
+          hostnames?: CloudflareApi.AlexandriaApplicationHostnames | undefined;
+          human_id: CloudflareApi.AlexandriaApplicationHumanId;
+          ip_subnets?: CloudflareApi.AlexandriaApplicationIpSubnets | undefined;
+          name: CloudflareApi.AlexandriaApplicationName;
+          port_protocols?: CloudflareApi.AlexandriaApplicationPortProtocols | undefined;
+          support_domains?: CloudflareApi.AlexandriaApplicationSupportDomains | undefined;
       })
     | ({
-          category_id: CloudflareApi.AlexandriaCategoryId;
-          hostnames: CloudflareApi.AlexandriaApplicationHostnames | undefined;
-          human_id: CloudflareApi.AlexandriaApplicationHumanId;
-          ip_subnets: CloudflareApi.AlexandriaApplicationIpSubnets | undefined;
-          name: CloudflareApi.AlexandriaApplicationName;
-          port_protocols: CloudflareApi.AlexandriaApplicationPortProtocols | undefined;
-          support_domains: CloudflareApi.AlexandriaApplicationSupportDomains | undefined;
-      } & {
           ip_subnets: string[];
+      } & {
+          category_id: CloudflareApi.AlexandriaCategoryId;
+          hostnames?: CloudflareApi.AlexandriaApplicationHostnames | undefined;
+          human_id: CloudflareApi.AlexandriaApplicationHumanId;
+          ip_subnets?: CloudflareApi.AlexandriaApplicationIpSubnets | undefined;
+          name: CloudflareApi.AlexandriaApplicationName;
+          port_protocols?: CloudflareApi.AlexandriaApplicationPortProtocols | undefined;
+          support_domains?: CloudflareApi.AlexandriaApplicationSupportDomains | undefined;
       });

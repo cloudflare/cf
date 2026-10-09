@@ -28,6 +28,9 @@ export class SummaryClient {
      * @param {CloudflareApi.resourceTagging.GetSummaryRequest} request
      * @param {SummaryClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.resourceTagging.summary.get({
      *         account_id: "account_id",

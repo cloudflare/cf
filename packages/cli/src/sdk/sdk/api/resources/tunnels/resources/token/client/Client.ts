@@ -28,6 +28,9 @@ export class TokenClient {
      * @param {CloudflareApi.tunnels.GetTokenRequest} request
      * @param {TokenClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.tunnels.token.get({
      *         account_id: "account_id",

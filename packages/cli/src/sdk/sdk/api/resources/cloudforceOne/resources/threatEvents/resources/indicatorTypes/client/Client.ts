@@ -33,6 +33,8 @@ export class IndicatorTypesClient {
      * @param {IndicatorTypesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.threatEvents.indicatorTypes.list({

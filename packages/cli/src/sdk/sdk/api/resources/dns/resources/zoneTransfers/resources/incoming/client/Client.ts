@@ -32,6 +32,9 @@ export class IncomingClient {
      * @param {CloudflareApi.dns.zoneTransfers.GetIncomingRequest} request
      * @param {IncomingClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.dns.zoneTransfers.incoming.get({
      *         zone_id: "zone_id"
@@ -99,6 +102,9 @@ export class IncomingClient {
      *
      * @param {CloudflareApi.dns.zoneTransfers.CreateIncomingRequest} request
      * @param {IncomingClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.dns.zoneTransfers.incoming.create({
@@ -176,6 +182,9 @@ export class IncomingClient {
      * @param {CloudflareApi.dns.zoneTransfers.UpdateIncomingRequest} request
      * @param {IncomingClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.dns.zoneTransfers.incoming.update({
      *         zone_id: "zone_id",
@@ -251,6 +260,9 @@ export class IncomingClient {
      *
      * @param {CloudflareApi.dns.zoneTransfers.DeleteIncomingRequest} request
      * @param {IncomingClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.dns.zoneTransfers.incoming.delete({

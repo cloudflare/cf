@@ -36,6 +36,9 @@ export class BatchClient {
      * @param {CloudflareApi.organization.member.OrganizationsApiBatchCreateMembersRequest} request
      * @param {BatchClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.organization.member.batch.create({
      *         organization_id: "organization_id",

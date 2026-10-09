@@ -29,6 +29,9 @@ export class HoldsClient {
      * @param {CloudflareApi.zones.GetHoldsRequest} request
      * @param {HoldsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zones.holds.get({
      *         zone_id: "zone_id"
@@ -89,6 +92,9 @@ export class HoldsClient {
      *
      * @param {CloudflareApi.zones.CreateHoldsRequest} request
      * @param {HoldsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zones.holds.create({
@@ -162,6 +168,9 @@ export class HoldsClient {
      *
      * @param {CloudflareApi.zones.DeleteHoldsRequest} request
      * @param {HoldsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zones.holds.delete({
@@ -237,6 +246,9 @@ export class HoldsClient {
      *
      * @param {CloudflareApi.zones.EditHoldsRequest} request
      * @param {HoldsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zones.holds.edit({

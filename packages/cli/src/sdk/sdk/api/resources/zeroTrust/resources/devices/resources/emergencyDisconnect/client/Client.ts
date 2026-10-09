@@ -32,6 +32,9 @@ export class EmergencyDisconnectClient {
      * @param {CloudflareApi.zeroTrust.devices.GetEmergencyDisconnectRequest} request
      * @param {EmergencyDisconnectClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.devices.emergencyDisconnect.get({
      *         account_id: "account_id"
@@ -99,6 +102,9 @@ export class EmergencyDisconnectClient {
      *
      * @param {CloudflareApi.zeroTrust.devices.TeamsDevicesGlobalWarpOverrideRequest} request
      * @param {EmergencyDisconnectClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.devices.emergencyDisconnect.set({

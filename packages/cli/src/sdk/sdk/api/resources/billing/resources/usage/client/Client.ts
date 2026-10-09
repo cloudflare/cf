@@ -32,6 +32,9 @@ export class UsageClient {
      * @param {CloudflareApi.billing.GetV1UsageRequest} request
      * @param {UsageClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.billing.usage.getV1({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -111,6 +114,9 @@ export class UsageClient {
      * @param {CloudflareApi.billing.GetInfoV1UsageRequest} request
      * @param {UsageClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.billing.usage.getInfoV1({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353"
@@ -182,14 +188,18 @@ export class UsageClient {
      * This includes all metered usage, including usage that falls within
      * free-tier allowances and may result in zero cost.
      *
-     * **Note:** Cost and pricing fields are not yet populated and
-     * will be absent from responses until billing integration is complete.
+     * **Note:** This endpoint serves `usage` records only; cost and pricing
+     * fields are absent from responses. To retrieve rated costs, use `POST`
+     * on the same path with `Metric: cost`.
      *
      * When `from` and `to` are omitted, defaults to the start of the current
      * month through today. The maximum date range is 31 days.
      *
      * @param {CloudflareApi.billing.GetAccountUsageV2UsageRequest} request
      * @param {UsageClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.billing.usage.getAccountUsageV2({
@@ -277,8 +287,8 @@ export class UsageClient {
      * This includes all metered usage, including usage that falls within
      * free-tier allowances and may result in zero cost.
      *
-     * **Note:** Cost and pricing fields are not yet populated and
-     * will be absent from responses until billing integration is complete.
+     * **Note:** Cost and pricing fields are populated only when `Metric`
+     * is `cost`; otherwise they are absent from responses.
      *
      * The request body is optional. When it is omitted, or when `TimePeriod`
      * is omitted, the range defaults to the start of the current month through
@@ -301,6 +311,9 @@ export class UsageClient {
      *
      * @param {CloudflareApi.billing.BillableUsageApiV2UsageQuery} request
      * @param {UsageClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.billing.usage.query({
@@ -378,6 +391,9 @@ export class UsageClient {
      *
      * @param {CloudflareApi.billing.GetAccountBillableMetricsUsageRequest} request
      * @param {UsageClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.billing.usage.getAccountBillableMetrics({
@@ -462,6 +478,8 @@ export class UsageClient {
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.UnauthorizedError}
      * @throws {@link CloudflareApi.ForbiddenError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.billing.usage.get({

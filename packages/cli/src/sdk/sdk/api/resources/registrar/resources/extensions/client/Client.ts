@@ -40,6 +40,9 @@ export class ExtensionsClient {
      * @param {CloudflareApi.registrar.ListExtensionsRequest} request
      * @param {ExtensionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.registrar.extensions.list({
      *         account_id: "account_id",
@@ -125,6 +128,9 @@ export class ExtensionsClient {
      *
      * @param {CloudflareApi.registrar.GetExtensionsRequest} request
      * @param {ExtensionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.registrar.extensions.get({

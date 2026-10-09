@@ -35,6 +35,9 @@ export class AccountClient {
      * @param {CloudflareApi.loadBalancers.ListAccountRequest} request
      * @param {AccountClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.loadBalancers.account.list({
      *         account_or_zone: "account_or_zone",
@@ -103,6 +106,9 @@ export class AccountClient {
      *
      * @param {CloudflareApi.loadBalancers.CreateAccountRequest} request
      * @param {AccountClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.loadBalancers.account.create({
@@ -175,6 +181,9 @@ export class AccountClient {
      *
      * @param {CloudflareApi.loadBalancers.GetAccountRequest} request
      * @param {AccountClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.loadBalancers.account.get({
@@ -249,6 +258,9 @@ export class AccountClient {
      *
      * @param {CloudflareApi.loadBalancers.UpdateAccountRequest} request
      * @param {AccountClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.loadBalancers.account.update({
@@ -328,6 +340,9 @@ export class AccountClient {
      * @param {CloudflareApi.loadBalancers.DeleteAccountRequest} request
      * @param {AccountClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.loadBalancers.account.delete({
      *         account_or_zone: "account_or_zone",
@@ -401,6 +416,9 @@ export class AccountClient {
      *
      * @param {CloudflareApi.loadBalancers.EditAccountRequest} request
      * @param {AccountClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.loadBalancers.account.edit({

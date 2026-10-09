@@ -7,11 +7,7 @@ import * as CloudflareApi from "../../../../../../index.js";
  *     {
  *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
  *         dataset: "gateway-http",
- *         filters: [{
- *                 name: "country",
- *                 op: "in",
- *                 values: ["US", "CA", "GB"]
- *             }],
+ *         filters: [],
  *         from: "2024-11-05T00:00:00Z",
  *         groupBy: ["appName", "appCategory"],
  *         stats: ["bytesTotal", "requestsTotal"],

@@ -35,6 +35,9 @@ export class JobsClient {
      * @param {CloudflareApi.r2.buckets.ListJobsRequest} request
      * @param {JobsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.r2.buckets.jobs.list({
      *         account_id: "account_id",
@@ -145,6 +148,8 @@ export class JobsClient {
      *
      * @throws {@link CloudflareApi.ConflictError}
      * @throws {@link CloudflareApi.TooManyRequestsError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.r2.buckets.jobs.create({
@@ -249,6 +254,9 @@ export class JobsClient {
      *
      * @param {CloudflareApi.r2.buckets.GetJobsRequest} request
      * @param {JobsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.r2.buckets.jobs.get({

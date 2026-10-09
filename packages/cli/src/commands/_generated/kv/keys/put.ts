@@ -60,7 +60,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("metadata", {
 			type: "string",
-			description: "The metadata",
+			description: "Associates arbitrary JSON data with a key/value pair.",
 		});
 }
 

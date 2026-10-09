@@ -59,6 +59,9 @@ export class BrandProtectionClient {
      * @param {CloudflareApi.SubmitBrandProtectionRequest} request
      * @param {BrandProtectionClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.brandProtection.submit({
      *         account_id: "account_id",
@@ -138,6 +141,9 @@ export class BrandProtectionClient {
      *
      * @param {CloudflareApi.UrlInfoBrandProtectionRequest} request
      * @param {BrandProtectionClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.brandProtection.urlInfo({

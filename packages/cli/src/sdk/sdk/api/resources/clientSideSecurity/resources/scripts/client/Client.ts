@@ -28,6 +28,9 @@ export class ScriptsClient {
      * @param {CloudflareApi.clientSideSecurity.ListScriptsRequest} request
      * @param {ScriptsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.clientSideSecurity.scripts.list({
      *         zone_id: "zone_id",
@@ -138,6 +141,9 @@ export class ScriptsClient {
      *
      * @param {CloudflareApi.clientSideSecurity.GetScriptsRequest} request
      * @param {ScriptsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.clientSideSecurity.scripts.get({

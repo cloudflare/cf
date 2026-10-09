@@ -35,6 +35,9 @@ export class ConfigsClient {
      * @param {CloudflareApi.magicNetworkMonitoring.GetConfigsRequest} request
      * @param {ConfigsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicNetworkMonitoring.configs.get({
      *         account_id: "account_id"
@@ -102,6 +105,9 @@ export class ConfigsClient {
      *
      * @param {CloudflareApi.magicNetworkMonitoring.CreateConfigsRequest} request
      * @param {ConfigsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicNetworkMonitoring.configs.create({
@@ -176,6 +182,9 @@ export class ConfigsClient {
      * @param {CloudflareApi.magicNetworkMonitoring.UpdateConfigsRequest} request
      * @param {ConfigsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicNetworkMonitoring.configs.update({
      *         account_id: "account_id",
@@ -249,6 +258,9 @@ export class ConfigsClient {
      * @param {CloudflareApi.magicNetworkMonitoring.DeleteConfigsRequest} request
      * @param {ConfigsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicNetworkMonitoring.configs.delete({
      *         account_id: "account_id"
@@ -316,6 +328,9 @@ export class ConfigsClient {
      *
      * @param {CloudflareApi.magicNetworkMonitoring.EditConfigsRequest} request
      * @param {ConfigsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicNetworkMonitoring.configs.edit({

@@ -32,6 +32,9 @@ export class DefaultClient {
      * @param {CloudflareApi.zeroTrust.devices.profiles.GetDefaultRequest} request
      * @param {DefaultClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.devices.profiles.default.get({
      *         account_id: "account_id"
@@ -99,6 +102,9 @@ export class DefaultClient {
      *
      * @param {CloudflareApi.zeroTrust.devices.profiles.UpdateDefaultRequest} request
      * @param {DefaultClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.devices.profiles.default.update({

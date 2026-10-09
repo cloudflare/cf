@@ -29,6 +29,9 @@ export class EdgeClient {
      * @param {CloudflareApi.logpush.GetEdgeRequest} request
      * @param {EdgeClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.logpush.edge.get({
      *         zone_id: "zone_id"
@@ -96,6 +99,9 @@ export class EdgeClient {
      *
      * @param {CloudflareApi.logpush.CreateEdgeRequest} request
      * @param {EdgeClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.logpush.edge.create({

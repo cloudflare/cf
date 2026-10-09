@@ -29,6 +29,9 @@ export class UrlNormalizationClient {
      * @param {CloudflareApi.GetUrlNormalizationRequest} request
      * @param {UrlNormalizationClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.urlNormalization.get({
      *         zone_id: "zone_id"
@@ -96,6 +99,9 @@ export class UrlNormalizationClient {
      *
      * @param {CloudflareApi.UpdateUrlNormalizationRequest} request
      * @param {UrlNormalizationClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.urlNormalization.update({
@@ -171,6 +177,9 @@ export class UrlNormalizationClient {
      *
      * @param {CloudflareApi.DeleteUrlNormalizationRequest} request
      * @param {UrlNormalizationClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.urlNormalization.delete({

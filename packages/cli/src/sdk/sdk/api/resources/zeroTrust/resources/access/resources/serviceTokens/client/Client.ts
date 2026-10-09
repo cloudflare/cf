@@ -32,6 +32,9 @@ export class ServiceTokensClient {
      * @param {CloudflareApi.zeroTrust.access.RefreshServiceTokensRequest} request
      * @param {ServiceTokensClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.serviceTokens.refresh({
      *         account_id: "account_id",
@@ -97,6 +100,9 @@ export class ServiceTokensClient {
      *
      * @param {CloudflareApi.zeroTrust.access.RotateServiceTokensRequest} request
      * @param {ServiceTokensClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.serviceTokens.rotate({
@@ -169,6 +175,9 @@ export class ServiceTokensClient {
      *
      * @param {CloudflareApi.zeroTrust.access.ListServiceTokensRequest} request
      * @param {ServiceTokensClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.serviceTokens.list({
@@ -256,6 +265,9 @@ export class ServiceTokensClient {
      * @param {CloudflareApi.zeroTrust.access.CreateServiceTokensRequest} request
      * @param {ServiceTokensClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.serviceTokens.create({
      *         account_or_zone: "account_or_zone",
@@ -329,6 +341,9 @@ export class ServiceTokensClient {
      * @param {CloudflareApi.zeroTrust.access.GetServiceTokensRequest} request
      * @param {ServiceTokensClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.serviceTokens.get({
      *         account_or_zone: "account_or_zone",
@@ -399,6 +414,9 @@ export class ServiceTokensClient {
      *
      * @param {CloudflareApi.zeroTrust.access.UpdateServiceTokensRequest} request
      * @param {ServiceTokensClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.serviceTokens.update({
@@ -474,6 +492,9 @@ export class ServiceTokensClient {
      *
      * @param {CloudflareApi.zeroTrust.access.DeleteServiceTokensRequest} request
      * @param {ServiceTokensClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.serviceTokens.delete({

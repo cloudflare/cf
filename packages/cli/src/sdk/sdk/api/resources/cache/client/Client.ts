@@ -49,6 +49,9 @@ export class CacheClient {
      * @param {CloudflareApi.InvalidateEnvironmentCacheRequest} request
      * @param {CacheClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.cache.invalidateEnvironment({
      *         zone_id: "zone_id",
@@ -190,6 +193,9 @@ export class CacheClient {
      *
      * @param {CloudflareApi.PurgeEnvironmentCacheRequest} request
      * @param {CacheClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cache.purgeEnvironment({
@@ -357,6 +363,9 @@ export class CacheClient {
      * @param {CloudflareApi.InvalidateCacheRequest} request
      * @param {CacheClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.cache.invalidate({
      *         zone_id: "zone_id",
@@ -504,6 +513,9 @@ export class CacheClient {
      *
      * @param {CloudflareApi.PurgeCacheRequest} request
      * @param {CacheClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cache.purge({

@@ -31,6 +31,9 @@ export class ResultsClient {
      * @param {CloudflareApi.cloudforceOne.scans.GetBannersResultsRequest} request
      * @param {ResultsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.cloudforceOne.scans.results.getBanners({
      *         account_id: "account_id",
@@ -99,6 +102,9 @@ export class ResultsClient {
      *
      * @param {CloudflareApi.cloudforceOne.scans.GetResultsRequest} request
      * @param {ResultsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.scans.results.get({

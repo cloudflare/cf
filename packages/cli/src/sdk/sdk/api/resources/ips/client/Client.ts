@@ -28,6 +28,9 @@ export class IpsClient {
      * @param {CloudflareApi.ListIpsRequest} request
      * @param {IpsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.ips.list()
      */

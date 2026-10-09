@@ -40,6 +40,8 @@ export class ActiveClient {
      * @param {ActiveClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.realtime.kit.meetings.active.get({
@@ -117,6 +119,8 @@ export class ActiveClient {
      * @param {ActiveClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.realtime.kit.meetings.active.kick({
@@ -196,6 +200,9 @@ export class ActiveClient {
      * @param {CloudflareApi.realtime.kit.meetings.KickAllActiveRequest} request
      * @param {ActiveClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.realtime.kit.meetings.active.kickAll({
      *         account_id: "account_id",
@@ -265,6 +272,9 @@ export class ActiveClient {
      *
      * @param {CloudflareApi.realtime.kit.meetings.MuteActiveRequest} request
      * @param {ActiveClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.realtime.kit.meetings.active.mute({
@@ -338,6 +348,9 @@ export class ActiveClient {
      *
      * @param {CloudflareApi.realtime.kit.meetings.MuteAllActiveRequest} request
      * @param {ActiveClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.realtime.kit.meetings.active.muteAll({

@@ -32,6 +32,9 @@ export class PreviewTokensClient {
      * @param {CloudflareApi.customPages.accountCustomPages.CustomPagesPreviewRequest} request
      * @param {PreviewTokensClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.customPages.accountCustomPages.previewTokens.create({
      *         account_or_zone: "account_or_zone",

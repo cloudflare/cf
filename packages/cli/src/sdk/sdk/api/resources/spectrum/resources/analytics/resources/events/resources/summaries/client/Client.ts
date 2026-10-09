@@ -31,6 +31,9 @@ export class SummariesClient {
      * @param {CloudflareApi.spectrum.analytics.events.GetSummariesRequest} request
      * @param {SummariesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.spectrum.analytics.events.summaries.get({
      *         zone_id: "zone_id",

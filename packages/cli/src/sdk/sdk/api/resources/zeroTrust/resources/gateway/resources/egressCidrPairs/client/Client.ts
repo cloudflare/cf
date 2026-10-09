@@ -31,6 +31,9 @@ export class EgressCidrPairsClient {
      * @param {CloudflareApi.zeroTrust.gateway.ListEgressCidrPairsRequest} request
      * @param {EgressCidrPairsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.gateway.egressCidrPairs.list({
      *         account_id: "account_id"

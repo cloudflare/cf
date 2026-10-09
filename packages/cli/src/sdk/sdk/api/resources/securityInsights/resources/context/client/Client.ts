@@ -28,6 +28,9 @@ export class ContextClient {
      * @param {CloudflareApi.securityInsights.GetContextRequest} request
      * @param {ContextClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.securityInsights.context.get({
      *         account_id: "account_id",

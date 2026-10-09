@@ -31,6 +31,9 @@ export class LivestreamClient {
      * @param {CloudflareApi.realtime.kit.meetings.ListActiveLivestreamRequest} request
      * @param {LivestreamClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.realtime.kit.meetings.livestream.listActive({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -100,6 +103,9 @@ export class LivestreamClient {
      *
      * @param {CloudflareApi.realtime.kit.meetings.GetLivestreamRequest} request
      * @param {LivestreamClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.realtime.kit.meetings.livestream.get({

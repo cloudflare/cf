@@ -46,6 +46,9 @@ export class PageClient {
      * @param {CloudflareApi.waitingRooms.WaitingroomQueryPreview} request
      * @param {PageClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.waitingRooms.page.preview({
      *         zone_id: "zone_id",

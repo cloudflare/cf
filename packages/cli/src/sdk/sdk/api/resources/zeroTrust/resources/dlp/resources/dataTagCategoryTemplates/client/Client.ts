@@ -31,6 +31,9 @@ export class DataTagCategoryTemplatesClient {
      * @param {CloudflareApi.zeroTrust.dlp.ListDataTagCategoryTemplatesRequest} request
      * @param {DataTagCategoryTemplatesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.dlp.dataTagCategoryTemplates.list({
      *         account_id: "account_id"
@@ -98,6 +101,9 @@ export class DataTagCategoryTemplatesClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.GetDataTagCategoryTemplatesRequest} request
      * @param {DataTagCategoryTemplatesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.dataTagCategoryTemplates.get({

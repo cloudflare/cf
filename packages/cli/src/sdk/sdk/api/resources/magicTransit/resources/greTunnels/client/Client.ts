@@ -29,6 +29,9 @@ export class GreTunnelsClient {
      * @param {CloudflareApi.magicTransit.ListGreTunnelsRequest} request
      * @param {GreTunnelsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.greTunnels.list({
      *         account_id: "account_id"
@@ -97,6 +100,9 @@ export class GreTunnelsClient {
      *
      * @param {CloudflareApi.magicTransit.MagicCreateGreTunnelRequest} request
      * @param {GreTunnelsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.greTunnels.create({
@@ -170,6 +176,9 @@ export class GreTunnelsClient {
      *
      * @param {CloudflareApi.magicTransit.BulkUpdateGreTunnelsRequest} request
      * @param {GreTunnelsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.greTunnels.bulkUpdate({
@@ -246,6 +255,9 @@ export class GreTunnelsClient {
      * @param {CloudflareApi.magicTransit.GetGreTunnelsRequest} request
      * @param {GreTunnelsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.greTunnels.get({
      *         account_id: "account_id",
@@ -319,6 +331,9 @@ export class GreTunnelsClient {
      *
      * @param {CloudflareApi.magicTransit.MagicGreTunnelAddSingleRequest} request
      * @param {GreTunnelsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.greTunnels.update({
@@ -401,6 +416,9 @@ export class GreTunnelsClient {
      *
      * @param {CloudflareApi.magicTransit.DeleteGreTunnelsRequest} request
      * @param {GreTunnelsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.greTunnels.delete({

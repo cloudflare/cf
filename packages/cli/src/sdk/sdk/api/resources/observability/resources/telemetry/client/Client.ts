@@ -36,6 +36,8 @@ export class TelemetryClient {
      * @throws {@link CloudflareApi.TooManyRequestsError}
      * @throws {@link CloudflareApi.InternalServerError}
      * @throws {@link CloudflareApi.GatewayTimeoutError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.observability.telemetry.keys({
@@ -132,6 +134,8 @@ export class TelemetryClient {
      * @throws {@link CloudflareApi.TooManyRequestsError}
      * @throws {@link CloudflareApi.InternalServerError}
      * @throws {@link CloudflareApi.GatewayTimeoutError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.observability.telemetry.query({
@@ -233,6 +237,8 @@ export class TelemetryClient {
      * @throws {@link CloudflareApi.TooManyRequestsError}
      * @throws {@link CloudflareApi.InternalServerError}
      * @throws {@link CloudflareApi.GatewayTimeoutError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.observability.telemetry.values({

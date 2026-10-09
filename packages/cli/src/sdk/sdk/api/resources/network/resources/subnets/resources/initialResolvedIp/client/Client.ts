@@ -32,6 +32,9 @@ export class InitialResolvedIpClient {
      * @param {CloudflareApi.network.subnets.GetInitialResolvedIpRequest} request
      * @param {InitialResolvedIpClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.network.subnets.initialResolvedIp.get({
      *         account_id: "account_id",
@@ -98,6 +101,9 @@ export class InitialResolvedIpClient {
      *
      * @param {CloudflareApi.network.subnets.EditInitialResolvedIpRequest} request
      * @param {InitialResolvedIpClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.network.subnets.initialResolvedIp.edit({

@@ -31,6 +31,9 @@ export class AccessRequestsClient {
      * @param {CloudflareApi.zeroTrust.access.logs.ListAccessRequestsRequest} request
      * @param {AccessRequestsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.logs.accessRequests.list({
      *         account_id: "account_id",

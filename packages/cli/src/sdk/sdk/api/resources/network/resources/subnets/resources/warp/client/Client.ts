@@ -40,6 +40,9 @@ export class WarpClient {
      * @param {CloudflareApi.network.subnets.CreateWarpRequest} request
      * @param {WarpClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.network.subnets.warp.create({
      *         account_id: "account_id",
@@ -110,6 +113,9 @@ export class WarpClient {
      * @param {CloudflareApi.network.subnets.GetWarpRequest} request
      * @param {WarpClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.network.subnets.warp.get({
      *         account_id: "account_id",
@@ -175,6 +181,9 @@ export class WarpClient {
      *
      * @param {CloudflareApi.network.subnets.DeleteWarpRequest} request
      * @param {WarpClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.network.subnets.warp.delete({
@@ -248,6 +257,9 @@ export class WarpClient {
      *
      * @param {CloudflareApi.network.subnets.EditWarpRequest} request
      * @param {WarpClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.network.subnets.warp.edit({

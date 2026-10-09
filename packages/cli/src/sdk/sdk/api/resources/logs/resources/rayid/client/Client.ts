@@ -28,6 +28,9 @@ export class RayidClient {
      * @param {CloudflareApi.logs.GetRayidRequest} request
      * @param {RayidClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.logs.rayid.get({
      *         zone_id: "zone_id",

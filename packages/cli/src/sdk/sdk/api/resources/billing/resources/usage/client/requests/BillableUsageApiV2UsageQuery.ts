@@ -14,7 +14,16 @@ export interface BillableUsageApiV2UsageQuery {
     FilterBy?: CloudflareApi.BillableUsageApiV2FilterBy;
     /** Grouping definitions used to split result rows. At most two unique keys may be supplied. */
     GroupBy?: CloudflareApi.BillableUsageApiV2GroupBy[];
-    /** Type of cost/usage records to retrieve. `usage` returns unrated usage quantities. Unrelated to `FilterBy.BillableMetricIds`. Defaults to `usage` when omitted. */
-    Metric?: "usage";
+    /** Type of cost/usage records to retrieve. `usage` returns unrated usage quantities. `cost` returns rated usage with cost and pricing fields; it is available only on `POST` account usage and only when the underlying usage data source is ClickHouse (other sources return an empty result set). Requests that combine `cost` with `GroupBy` or `FilterBy.Tags` return HTTP 400. Unrelated to `FilterBy.BillableMetricIds`. Defaults to `usage` when omitted. */
+    Metric?: BillableUsageApiV2UsageQuery.Metric;
     TimePeriod?: CloudflareApi.BillableUsageApiV2TimePeriod;
+}
+
+export namespace BillableUsageApiV2UsageQuery {
+    /** Type of cost/usage records to retrieve. `usage` returns unrated usage quantities. `cost` returns rated usage with cost and pricing fields; it is available only on `POST` account usage and only when the underlying usage data source is ClickHouse (other sources return an empty result set). Requests that combine `cost` with `GroupBy` or `FilterBy.Tags` return HTTP 400. Unrelated to `FilterBy.BillableMetricIds`. Defaults to `usage` when omitted. */
+    export const Metric = {
+        Usage: "usage",
+        Cost: "cost",
+    } as const;
+    export type Metric = (typeof Metric)[keyof typeof Metric];
 }

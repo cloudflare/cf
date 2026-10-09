@@ -31,6 +31,9 @@ export class OriginCloudRegionsClient {
      * @param {CloudflareApi.cache.ListV1OriginCloudRegionsRequest} request
      * @param {OriginCloudRegionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.cache.originCloudRegions.listV1({
      *         zone_id: "zone_id"
@@ -100,6 +103,9 @@ export class OriginCloudRegionsClient {
      *
      * @param {CloudflareApi.cache.CreateV1OriginCloudRegionsRequest} request
      * @param {OriginCloudRegionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cache.originCloudRegions.createV1({
@@ -179,6 +185,9 @@ export class OriginCloudRegionsClient {
      * @param {CloudflareApi.cache.EditV1OriginCloudRegionsRequest} request
      * @param {OriginCloudRegionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.cache.originCloudRegions.editV1({
      *         zone_id: "zone_id",
@@ -257,6 +266,9 @@ export class OriginCloudRegionsClient {
      * @param {CloudflareApi.cache.BulkDeleteV1OriginCloudRegionsRequest} request
      * @param {OriginCloudRegionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.cache.originCloudRegions.bulkDeleteV1({
      *         zone_id: "zone_id",
@@ -330,6 +342,9 @@ export class OriginCloudRegionsClient {
      *
      * @param {CloudflareApi.cache.BulkEditV1OriginCloudRegionsRequest} request
      * @param {OriginCloudRegionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cache.originCloudRegions.bulkEditV1({
@@ -413,6 +428,9 @@ export class OriginCloudRegionsClient {
      * @param {CloudflareApi.cache.SupportedRegionsV1OriginCloudRegionsRequest} request
      * @param {OriginCloudRegionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.cache.originCloudRegions.supportedRegionsV1({
      *         zone_id: "zone_id"
@@ -482,6 +500,9 @@ export class OriginCloudRegionsClient {
      *
      * @param {CloudflareApi.cache.GetV1OriginCloudRegionsRequest} request
      * @param {OriginCloudRegionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cache.originCloudRegions.getV1({
@@ -554,6 +575,9 @@ export class OriginCloudRegionsClient {
      * @param {CloudflareApi.cache.DeleteV1OriginCloudRegionsRequest} request
      * @param {OriginCloudRegionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.cache.originCloudRegions.deleteV1({
      *         zone_id: "zone_id",
@@ -622,6 +646,9 @@ export class OriginCloudRegionsClient {
      *
      * @param {CloudflareApi.cache.ListOriginCloudRegionsRequest} request
      * @param {OriginCloudRegionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cache.originCloudRegions.list({
@@ -698,6 +725,9 @@ export class OriginCloudRegionsClient {
      *
      * @param {CloudflareApi.cache.BulkUpdateOriginCloudRegionsRequest} request
      * @param {OriginCloudRegionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cache.originCloudRegions.bulkUpdate({
@@ -779,6 +809,9 @@ export class OriginCloudRegionsClient {
      * @param {CloudflareApi.cache.BulkDeleteOriginCloudRegionsRequest} request
      * @param {OriginCloudRegionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.cache.originCloudRegions.bulkDelete({
      *         zone_id: "zone_id",
@@ -851,6 +884,9 @@ export class OriginCloudRegionsClient {
      * @param {CloudflareApi.cache.SupportedRegionsOriginCloudRegionsRequest} request
      * @param {OriginCloudRegionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.cache.originCloudRegions.supportedRegions({
      *         zone_id: "zone_id"
@@ -918,6 +954,9 @@ export class OriginCloudRegionsClient {
      *
      * @param {CloudflareApi.cache.GetOriginCloudRegionsRequest} request
      * @param {OriginCloudRegionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cache.originCloudRegions.get({
@@ -987,6 +1026,9 @@ export class OriginCloudRegionsClient {
      *
      * @param {CloudflareApi.cache.UpdateOriginCloudRegionsRequest} request
      * @param {OriginCloudRegionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cache.originCloudRegions.update({
@@ -1064,6 +1106,9 @@ export class OriginCloudRegionsClient {
      *
      * @param {CloudflareApi.cache.DeleteOriginCloudRegionsRequest} request
      * @param {OriginCloudRegionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cache.originCloudRegions.delete({

@@ -32,6 +32,9 @@ export class TracksClient {
      * @param {CloudflareApi.realtime.kit.recordings.StartTracksRequest} request
      * @param {TracksClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.realtime.kit.recordings.tracks.start({
      *         account_id: "account_id",

@@ -29,6 +29,9 @@ export class SubdomainsClient {
      * @param {CloudflareApi.workers.GetSubdomainsRequest} request
      * @param {SubdomainsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workers.subdomains.get({
      *         account_id: "account_id"
@@ -93,6 +96,9 @@ export class SubdomainsClient {
      *
      * @param {CloudflareApi.workers.UpdateSubdomainsRequest} request
      * @param {SubdomainsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workers.subdomains.update({
@@ -164,6 +170,9 @@ export class SubdomainsClient {
      *
      * @param {CloudflareApi.workers.DeleteSubdomainsRequest} request
      * @param {SubdomainsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workers.subdomains.delete({

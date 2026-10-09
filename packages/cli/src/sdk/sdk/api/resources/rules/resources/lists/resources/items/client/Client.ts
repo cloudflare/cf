@@ -32,6 +32,9 @@ export class ItemsClient {
      * @param {CloudflareApi.rules.lists.ListItemsRequest} request
      * @param {ItemsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.rules.lists.items.list({
      *         account_id: "account_id",
@@ -116,6 +119,9 @@ export class ItemsClient {
      * @param {CloudflareApi.rules.lists.CreateItemsRequest} request
      * @param {ItemsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.rules.lists.items.create({
      *         account_id: "account_id",
@@ -194,6 +200,9 @@ export class ItemsClient {
      *
      * @param {CloudflareApi.rules.lists.UpdateItemsRequest} request
      * @param {ItemsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.rules.lists.items.update({
@@ -274,6 +283,9 @@ export class ItemsClient {
      * @param {CloudflareApi.rules.lists.DeleteItemsRequest} request
      * @param {ItemsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.rules.lists.items.delete({
      *         account_id: "account_id",
@@ -345,6 +357,9 @@ export class ItemsClient {
      *
      * @param {CloudflareApi.rules.lists.GetItemsRequest} request
      * @param {ItemsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.rules.lists.items.get({

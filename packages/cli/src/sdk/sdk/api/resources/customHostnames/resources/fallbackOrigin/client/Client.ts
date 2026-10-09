@@ -29,6 +29,9 @@ export class FallbackOriginClient {
      * @param {CloudflareApi.customHostnames.GetFallbackOriginRequest} request
      * @param {FallbackOriginClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.customHostnames.fallbackOrigin.get({
      *         zone_id: "zone_id"
@@ -96,6 +99,9 @@ export class FallbackOriginClient {
      *
      * @param {CloudflareApi.customHostnames.UpdateFallbackOriginRequest} request
      * @param {FallbackOriginClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.customHostnames.fallbackOrigin.update({
@@ -168,6 +174,9 @@ export class FallbackOriginClient {
      *
      * @param {CloudflareApi.customHostnames.DeleteFallbackOriginRequest} request
      * @param {FallbackOriginClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.customHostnames.fallbackOrigin.delete({

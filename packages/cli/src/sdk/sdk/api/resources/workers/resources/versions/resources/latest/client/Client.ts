@@ -32,6 +32,9 @@ export class LatestClient {
      * @param {CloudflareApi.workers.versions.EditLatestRequest} request
      * @param {LatestClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workers.versions.latest.edit({
      *         account_id: "account_id",

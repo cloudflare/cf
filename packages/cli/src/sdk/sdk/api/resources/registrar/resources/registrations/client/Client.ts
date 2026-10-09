@@ -74,6 +74,8 @@ export class RegistrationsClient {
      * @param {RegistrationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.registrar.registrations.check({
@@ -187,6 +189,8 @@ export class RegistrationsClient {
      * @param {RegistrationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.registrar.registrations.search({
@@ -299,6 +303,8 @@ export class RegistrationsClient {
      *
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.ServiceUnavailableError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.registrar.registrations.transferCheck({
@@ -412,6 +418,9 @@ export class RegistrationsClient {
      *
      * @param {CloudflareApi.registrar.ListRegistrationsRequest} request
      * @param {RegistrationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.registrar.registrations.list({
@@ -545,6 +554,9 @@ export class RegistrationsClient {
      *
      * @param {CloudflareApi.registrar.RegistrarApiRegistrationCreateRequest} request
      * @param {RegistrationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.registrar.registrations.create({
@@ -812,6 +824,9 @@ export class RegistrationsClient {
      * @param {CloudflareApi.registrar.GetRegistrationsRequest} request
      * @param {RegistrationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.registrar.registrations.get({
      *         account_id: "account_id",
@@ -891,6 +906,9 @@ export class RegistrationsClient {
      *
      * @param {CloudflareApi.registrar.RegistrarApiRegistrationUpdateRequest} request
      * @param {RegistrationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.registrar.registrations.update({
@@ -1015,6 +1033,9 @@ export class RegistrationsClient {
      * @param {CloudflareApi.registrar.GetRegistrationStatusRegistrationsRequest} request
      * @param {RegistrationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.registrar.registrations.getRegistrationStatus({
      *         account_id: "account_id",
@@ -1124,6 +1145,9 @@ export class RegistrationsClient {
      *
      * @param {CloudflareApi.registrar.RegistrarApiTransferInCreateRequest} request
      * @param {RegistrationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.registrar.registrations.transferIn({
@@ -1258,6 +1282,9 @@ export class RegistrationsClient {
      * @param {CloudflareApi.registrar.GetTransferStatusRegistrationsRequest} request
      * @param {RegistrationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.registrar.registrations.getTransferStatus({
      *         account_id: "account_id",
@@ -1336,6 +1363,9 @@ export class RegistrationsClient {
      *
      * @param {CloudflareApi.registrar.GetUpdateStatusRegistrationsRequest} request
      * @param {RegistrationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.registrar.registrations.getUpdateStatus({

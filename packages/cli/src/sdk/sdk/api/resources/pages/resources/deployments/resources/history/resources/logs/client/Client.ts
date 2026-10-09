@@ -31,6 +31,9 @@ export class LogsClient {
      * @param {CloudflareApi.pages.deployments.history.GetLogsRequest} request
      * @param {LogsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.pages.deployments.history.logs.get({
      *         account_id: "account_id",

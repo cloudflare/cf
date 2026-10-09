@@ -31,6 +31,8 @@ export class RulesClient {
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.monetization.rules.list({
@@ -106,6 +108,8 @@ export class RulesClient {
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.ForbiddenError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.monetization.rules.update({
@@ -189,6 +193,9 @@ export class RulesClient {
      * @param {CloudflareApi.monetization.DeleteAllRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.monetization.rules.deleteAll({
      *         zone_id: "9f1839b6152d298aca64c4e906b6d074"
@@ -258,6 +265,8 @@ export class RulesClient {
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.monetization.rules.get({
@@ -334,6 +343,8 @@ export class RulesClient {
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.monetization.rules.delete({
@@ -411,6 +422,8 @@ export class RulesClient {
      *
      * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.monetization.rules.edit({

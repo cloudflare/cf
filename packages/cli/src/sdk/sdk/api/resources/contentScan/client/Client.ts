@@ -35,6 +35,9 @@ export class ContentScanClient {
      * @param {CloudflareApi.GetContentScanRequest} request
      * @param {ContentScanClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.contentScan.get({
      *         zone_id: "zone_id"
@@ -102,6 +105,9 @@ export class ContentScanClient {
      *
      * @param {CloudflareApi.UpdateContentScanRequest} request
      * @param {ContentScanClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.contentScan.update({

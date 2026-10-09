@@ -29,6 +29,9 @@ export class ConfigClient {
      * @param {CloudflareApi.tunnels.GetConfigRequest} request
      * @param {ConfigClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.tunnels.config.get({
      *         account_id: "account_id",
@@ -94,6 +97,9 @@ export class ConfigClient {
      *
      * @param {CloudflareApi.tunnels.UpdateConfigRequest} request
      * @param {ConfigClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.tunnels.config.update({

@@ -31,6 +31,9 @@ export class ConfigsClient {
      * @param {CloudflareApi.zaraz.history.GetConfigsRequest} request
      * @param {ConfigsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zaraz.history.configs.get({
      *         zone_id: "zone_id",

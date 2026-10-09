@@ -32,6 +32,9 @@ export class PacfilesClient {
      * @param {CloudflareApi.zeroTrust.gateway.ListPacfilesRequest} request
      * @param {PacfilesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.gateway.pacfiles.list({
      *         account_id: "account_id"
@@ -108,6 +111,9 @@ export class PacfilesClient {
      * @param {CloudflareApi.zeroTrust.gateway.CreatePacfilesRequest} request
      * @param {PacfilesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.gateway.pacfiles.create({
      *         account_id: "account_id",
@@ -181,6 +187,9 @@ export class PacfilesClient {
      * @param {CloudflareApi.zeroTrust.gateway.GetPacfilesRequest} request
      * @param {PacfilesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.gateway.pacfiles.get({
      *         account_id: "account_id",
@@ -249,6 +258,9 @@ export class PacfilesClient {
      *
      * @param {CloudflareApi.zeroTrust.gateway.UpdatePacfilesRequest} request
      * @param {PacfilesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.gateway.pacfiles.update({
@@ -324,6 +336,9 @@ export class PacfilesClient {
      *
      * @param {CloudflareApi.zeroTrust.gateway.DeletePacfilesRequest} request
      * @param {PacfilesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.gateway.pacfiles.delete({

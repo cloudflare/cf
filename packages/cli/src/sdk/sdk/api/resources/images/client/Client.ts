@@ -57,6 +57,9 @@ export class ImagesClient {
      * @param {CloudflareApi.ImagesImageBasicUpload} request
      * @param {ImagesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     import { createReadStream } from "fs";
      *     await client.images.create({
@@ -152,6 +155,9 @@ export class ImagesClient {
      * @param {CloudflareApi.StatsImagesRequest} request
      * @param {ImagesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.images.stats({
      *         account_id: "account_id"
@@ -216,6 +222,9 @@ export class ImagesClient {
      *
      * @param {CloudflareApi.GetImagesRequest} request
      * @param {ImagesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.images.get({
@@ -283,6 +292,9 @@ export class ImagesClient {
      * @param {CloudflareApi.DeleteImagesRequest} request
      * @param {ImagesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.images.delete({
      *         account_id: "account_id",
@@ -349,6 +361,9 @@ export class ImagesClient {
      * @param {CloudflareApi.ImagesImagePatchRequest} request
      * @param {ImagesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.images.edit({
      *         account_id: "account_id",
@@ -414,6 +429,9 @@ export class ImagesClient {
 
     /**
      * Download an image from CF Images. For most images this will be the originally uploaded file. For larger images it can be a near-lossless version of the original.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      */
     public getBlob(
         request: CloudflareApi.GetBlobImagesRequest,
@@ -530,6 +548,8 @@ export class ImagesClient {
      * @param {ImagesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.images.list({
@@ -619,6 +639,9 @@ export class ImagesClient {
      *
      * @param {CloudflareApi.ImagesImageDirectUploadRequestV2} request
      * @param {ImagesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";

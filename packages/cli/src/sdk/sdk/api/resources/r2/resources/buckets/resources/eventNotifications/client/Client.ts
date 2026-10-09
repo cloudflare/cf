@@ -34,6 +34,8 @@ export class EventNotificationsClient {
      * @param {EventNotificationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.r2.buckets.eventNotifications.list({
@@ -108,6 +110,8 @@ export class EventNotificationsClient {
      * @param {EventNotificationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.r2.buckets.eventNotifications.get({
@@ -186,6 +190,9 @@ export class EventNotificationsClient {
      *
      * @param {CloudflareApi.r2.buckets.UpdateEventNotificationsRequest} request
      * @param {EventNotificationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.r2.buckets.eventNotifications.update({
@@ -266,6 +273,9 @@ export class EventNotificationsClient {
      *
      * @param {CloudflareApi.r2.buckets.DeleteEventNotificationsRequest} request
      * @param {EventNotificationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.r2.buckets.eventNotifications.delete({

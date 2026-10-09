@@ -6,3 +6,4 @@ export type { GetD1Request } from "./GetD1Request.js";
 export type { ListD1Request } from "./ListD1Request.js";
 export type { QueryD1Request } from "./QueryD1Request.js";
 export type { RawD1Request } from "./RawD1Request.js";
+export type { UndeleteD1Request } from "./UndeleteD1Request.js";

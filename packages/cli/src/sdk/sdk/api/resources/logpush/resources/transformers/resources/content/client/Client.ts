@@ -31,6 +31,9 @@ export class ContentClient {
      * @param {CloudflareApi.logpush.transformers.GetContentRequest} request
      * @param {ContentClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.logpush.transformers.content.get({
      *         account_id: "account_id",

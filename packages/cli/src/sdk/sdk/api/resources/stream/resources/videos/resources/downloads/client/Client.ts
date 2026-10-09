@@ -31,6 +31,9 @@ export class DownloadsClient {
      * @param {CloudflareApi.stream.videos.CreateDownloadsRequest} request
      * @param {DownloadsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.stream.videos.downloads.create({
      *         account_id: "account_id",
@@ -100,6 +103,9 @@ export class DownloadsClient {
      *
      * @param {CloudflareApi.stream.videos.DeleteDownloadsRequest} request
      * @param {DownloadsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.stream.videos.downloads.delete({

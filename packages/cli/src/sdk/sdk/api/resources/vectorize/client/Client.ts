@@ -41,6 +41,9 @@ export class VectorizeClient {
      * @param {CloudflareApi.ListVectorizeRequest} request
      * @param {VectorizeClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.vectorize.list({
      *         account_id: "account_id"
@@ -105,6 +108,9 @@ export class VectorizeClient {
      *
      * @param {CloudflareApi.CreateVectorizeRequest} request
      * @param {VectorizeClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.vectorize.create({
@@ -184,6 +190,9 @@ export class VectorizeClient {
      * @param {CloudflareApi.GetVectorizeRequest} request
      * @param {VectorizeClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.vectorize.get({
      *         account_id: "account_id",
@@ -253,6 +262,9 @@ export class VectorizeClient {
      * @param {CloudflareApi.DeleteVectorizeRequest} request
      * @param {VectorizeClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.vectorize.delete({
      *         account_id: "account_id",
@@ -318,6 +330,9 @@ export class VectorizeClient {
      *
      * @param {CloudflareApi.DeleteByIdsVectorizeRequest} request
      * @param {VectorizeClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.vectorize.deleteByIds({
@@ -392,6 +407,9 @@ export class VectorizeClient {
      * @param {CloudflareApi.GetByIdsVectorizeRequest} request
      * @param {VectorizeClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.vectorize.getByIds({
      *         account_id: "account_id",
@@ -465,6 +483,9 @@ export class VectorizeClient {
      * @param {CloudflareApi.InfoVectorizeRequest} request
      * @param {VectorizeClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.vectorize.info({
      *         account_id: "account_id",
@@ -533,6 +554,9 @@ export class VectorizeClient {
      *
      * @param {CloudflareApi.InsertVectorizeRequest} request
      * @param {VectorizeClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.vectorize.insert({
@@ -619,6 +643,9 @@ export class VectorizeClient {
      * @param {CloudflareApi.ListVectorsVectorizeRequest} request
      * @param {VectorizeClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.vectorize.listVectors({
      *         account_id: "account_id",
@@ -698,6 +725,9 @@ export class VectorizeClient {
      * @param {CloudflareApi.VectorizeIndexQueryV2Request} request
      * @param {VectorizeClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.vectorize.query({
      *         account_id: "account_id",
@@ -770,6 +800,9 @@ export class VectorizeClient {
      *
      * @param {CloudflareApi.UpsertVectorizeRequest} request
      * @param {VectorizeClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.vectorize.upsert({

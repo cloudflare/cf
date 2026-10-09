@@ -32,6 +32,9 @@ export class PaymentMethodsClient {
      * @param {CloudflareApi.accounts.billing.ListPaymentMethodsRequest} request
      * @param {PaymentMethodsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.accounts.billing.paymentMethods.list({
      *         account_id: "account_id"
@@ -108,6 +111,9 @@ export class PaymentMethodsClient {
      * @param {CloudflareApi.accounts.billing.CreatePaymentMethodsRequest} request
      * @param {PaymentMethodsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.accounts.billing.paymentMethods.create({
      *         account_id: "account_id",
@@ -180,6 +186,9 @@ export class PaymentMethodsClient {
      * @param {CloudflareApi.accounts.billing.GetPaymentMethodsRequest} request
      * @param {PaymentMethodsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.accounts.billing.paymentMethods.get({
      *         account_id: "account_id",
@@ -248,6 +257,9 @@ export class PaymentMethodsClient {
      *
      * @param {CloudflareApi.accounts.billing.UpdatePaymentMethodsRequest} request
      * @param {PaymentMethodsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.accounts.billing.paymentMethods.update({
@@ -322,6 +334,9 @@ export class PaymentMethodsClient {
      * @param {CloudflareApi.accounts.billing.DeletePaymentMethodsRequest} request
      * @param {PaymentMethodsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.accounts.billing.paymentMethods.delete({
      *         account_id: "account_id",
@@ -390,6 +405,9 @@ export class PaymentMethodsClient {
      *
      * @param {CloudflareApi.accounts.billing.SetDefaultPaymentMethodsRequest} request
      * @param {PaymentMethodsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.accounts.billing.paymentMethods.setDefault({

@@ -28,6 +28,9 @@ export class InvitesClient {
      *
      * @param {InvitesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.user.invites.list()
      */
@@ -85,6 +88,9 @@ export class InvitesClient {
      *
      * @param {CloudflareApi.user.GetInvitesRequest} request
      * @param {InvitesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.user.invites.get({
@@ -145,6 +151,9 @@ export class InvitesClient {
      *
      * @param {CloudflareApi.user.RespondInvitesRequest} request
      * @param {InvitesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.user.invites.respond({

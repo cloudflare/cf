@@ -43,6 +43,8 @@ export class DynamicRoutingClient {
      * @param {DynamicRoutingClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiGateway.dynamicRouting.list({
@@ -129,6 +131,8 @@ export class DynamicRoutingClient {
      * @param {DynamicRoutingClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiGateway.dynamicRouting.create({
@@ -218,6 +222,8 @@ export class DynamicRoutingClient {
      * @param {DynamicRoutingClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiGateway.dynamicRouting.get({
@@ -295,6 +301,8 @@ export class DynamicRoutingClient {
      * @param {DynamicRoutingClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiGateway.dynamicRouting.delete({
@@ -372,6 +380,8 @@ export class DynamicRoutingClient {
      * @param {DynamicRoutingClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiGateway.dynamicRouting.update({

@@ -29,6 +29,9 @@ export class AuditLogsClient {
      * @param {CloudflareApi.ListAuditLogsRequest} request
      * @param {AuditLogsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.auditLogs.list({
      *         account_id: "account_id",

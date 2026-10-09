@@ -34,6 +34,9 @@ export class PagesClient {
      * @param {CloudflareApi.speed.ListPagesRequest} request
      * @param {PagesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.speed.pages.list({
      *         zone_id: "zone_id"
@@ -101,6 +104,9 @@ export class PagesClient {
      *
      * @param {CloudflareApi.speed.TrendPagesRequest} request
      * @param {PagesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.speed.pages.trend({

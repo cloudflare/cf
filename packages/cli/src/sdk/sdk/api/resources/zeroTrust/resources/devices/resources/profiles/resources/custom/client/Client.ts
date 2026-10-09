@@ -32,6 +32,9 @@ export class CustomClient {
      * @param {CloudflareApi.zeroTrust.devices.profiles.ListCustomRequest} request
      * @param {CustomClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.devices.profiles.custom.list({
      *         account_id: "account_id"
@@ -107,6 +110,9 @@ export class CustomClient {
      * @param {CloudflareApi.zeroTrust.devices.profiles.CreateCustomRequest} request
      * @param {CustomClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.devices.profiles.custom.create({
      *         account_id: "account_id",
@@ -179,6 +185,9 @@ export class CustomClient {
      * @param {CloudflareApi.zeroTrust.devices.profiles.GetCustomRequest} request
      * @param {CustomClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.devices.profiles.custom.get({
      *         account_id: "account_id",
@@ -248,6 +257,9 @@ export class CustomClient {
      * @param {CloudflareApi.zeroTrust.devices.profiles.DeleteCustomRequest} request
      * @param {CustomClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.devices.profiles.custom.delete({
      *         account_id: "account_id",
@@ -316,6 +328,9 @@ export class CustomClient {
      *
      * @param {CloudflareApi.zeroTrust.devices.profiles.UpdateCustomRequest} request
      * @param {CustomClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.devices.profiles.custom.update({

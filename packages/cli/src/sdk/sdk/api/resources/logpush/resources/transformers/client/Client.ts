@@ -42,6 +42,9 @@ export class TransformersClient {
      * @param {CloudflareApi.logpush.ListTransformersRequest} request
      * @param {TransformersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.logpush.transformers.list({
      *         account_id: "account_id"
@@ -109,6 +112,9 @@ export class TransformersClient {
      *
      * @param {CloudflareApi.logpush.LogpushTransformerCreateRequest} request
      * @param {TransformersClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.logpush.transformers.create({
@@ -179,6 +185,9 @@ export class TransformersClient {
      *
      * @param {CloudflareApi.logpush.LogpushTransformerPreviewRequest} request
      * @param {TransformersClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.logpush.transformers.preview({
@@ -258,6 +267,9 @@ export class TransformersClient {
      * @param {CloudflareApi.logpush.GetTransformersRequest} request
      * @param {TransformersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.logpush.transformers.get({
      *         account_id: "account_id",
@@ -323,6 +335,9 @@ export class TransformersClient {
      *
      * @param {CloudflareApi.logpush.LogpushTransformerUpdateRequest} request
      * @param {TransformersClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.logpush.transformers.update({
@@ -395,6 +410,8 @@ export class TransformersClient {
      * @param {TransformersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.ConflictError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.logpush.transformers.delete({

@@ -12,7 +12,6 @@ import * as environments from "../../../../../../../../../../../../../../environ
 import { handleNonStatusCodeError } from "../../../../../../../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../../../../../../../errors/index.js";
 import type * as CloudflareApi from "../../../../../../../../../../../../../index.js";
-import { DeleteClient } from "../resources/delete/client/Client.js";
 
 export declare namespace RulesClient {
     export type Options = BaseClientOptions;
@@ -22,14 +21,9 @@ export declare namespace RulesClient {
 
 export class RulesClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<RulesClient.Options>;
-    protected _delete: DeleteClient | undefined;
 
     constructor(options: RulesClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
-    }
-
-    public get delete(): DeleteClient {
-        return (this._delete ??= new DeleteClient(this._options));
     }
 
     /**
@@ -37,6 +31,9 @@ export class RulesClient {
      *
      * @param {CloudflareApi.magicTransit.advancedTcpProtection.configs.syn.protection.ListRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.advancedTcpProtection.configs.syn.protection.rules.list({
@@ -122,6 +119,9 @@ export class RulesClient {
      * @param {CloudflareApi.magicTransit.advancedTcpProtection.configs.syn.protection.DosNewSynProtectionRule} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.advancedTcpProtection.configs.syn.protection.rules.create({
      *         account_id: "account_id",
@@ -190,10 +190,81 @@ export class RulesClient {
     }
 
     /**
+     * Delete all SYN Protection rules for an account.
+     *
+     * @param {CloudflareApi.magicTransit.advancedTcpProtection.configs.syn.protection.BulkDeleteRulesRequest} request
+     * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
+     * @example
+     *     await client.magicTransit.advancedTcpProtection.configs.syn.protection.rules.bulkDelete({
+     *         account_id: "account_id"
+     *     })
+     */
+    public bulkDelete(
+        request: CloudflareApi.magicTransit.advancedTcpProtection.configs.syn.protection.BulkDeleteRulesRequest,
+        requestOptions?: RulesClient.RequestOptions,
+    ): core.HttpResponsePromise<CloudflareApi.DosApiResponseCommon> {
+        return core.HttpResponsePromise.fromPromise(this.__bulkDelete(request, requestOptions));
+    }
+
+    private async __bulkDelete(
+        request: CloudflareApi.magicTransit.advancedTcpProtection.configs.syn.protection.BulkDeleteRulesRequest,
+        requestOptions?: RulesClient.RequestOptions,
+    ): Promise<core.WithRawResponse<CloudflareApi.DosApiResponseCommon>> {
+        const { account_id: accountId } = request;
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.CloudflareApiEnvironment.Default,
+                `accounts/${core.url.encodePathParam(accountId)}/magic/advanced_tcp_protection/configs/syn_protection/rules`,
+            ),
+            method: "DELETE",
+            headers: _headers,
+            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return { data: _response.body as CloudflareApi.DosApiResponseCommon, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            throw new errors.CloudflareApiError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
+        }
+
+        return handleNonStatusCodeError(
+            _response.error,
+            _response.rawResponse,
+            "DELETE",
+            "/accounts/{account_id}/magic/advanced_tcp_protection/configs/syn_protection/rules",
+        );
+    }
+
+    /**
      * Get a SYN Protection rule specified by the given UUID.
      *
      * @param {CloudflareApi.magicTransit.advancedTcpProtection.configs.syn.protection.GetRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.advancedTcpProtection.configs.syn.protection.rules.get({
@@ -256,10 +327,82 @@ export class RulesClient {
     }
 
     /**
+     * Delete a SYN Protection rule specified by the given UUID.
+     *
+     * @param {CloudflareApi.magicTransit.advancedTcpProtection.configs.syn.protection.DeleteRulesRequest} request
+     * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
+     * @example
+     *     await client.magicTransit.advancedTcpProtection.configs.syn.protection.rules.delete({
+     *         account_id: "account_id",
+     *         rule_id: "rule_id"
+     *     })
+     */
+    public delete(
+        request: CloudflareApi.magicTransit.advancedTcpProtection.configs.syn.protection.DeleteRulesRequest,
+        requestOptions?: RulesClient.RequestOptions,
+    ): core.HttpResponsePromise<CloudflareApi.DosApiResponseCommon> {
+        return core.HttpResponsePromise.fromPromise(this.__delete(request, requestOptions));
+    }
+
+    private async __delete(
+        request: CloudflareApi.magicTransit.advancedTcpProtection.configs.syn.protection.DeleteRulesRequest,
+        requestOptions?: RulesClient.RequestOptions,
+    ): Promise<core.WithRawResponse<CloudflareApi.DosApiResponseCommon>> {
+        const { account_id: accountId, rule_id: ruleId } = request;
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.CloudflareApiEnvironment.Default,
+                `accounts/${core.url.encodePathParam(accountId)}/magic/advanced_tcp_protection/configs/syn_protection/rules/${core.url.encodePathParam(ruleId)}`,
+            ),
+            method: "DELETE",
+            headers: _headers,
+            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return { data: _response.body as CloudflareApi.DosApiResponseCommon, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            throw new errors.CloudflareApiError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
+        }
+
+        return handleNonStatusCodeError(
+            _response.error,
+            _response.rawResponse,
+            "DELETE",
+            "/accounts/{account_id}/magic/advanced_tcp_protection/configs/syn_protection/rules/{rule_id}",
+        );
+    }
+
+    /**
      * Update a SYN Protection rule specified by the given UUID.
      *
      * @param {CloudflareApi.magicTransit.advancedTcpProtection.configs.syn.protection.DosSynProtectionRuleUpdate} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.advancedTcpProtection.configs.syn.protection.rules.update({

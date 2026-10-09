@@ -32,6 +32,9 @@ export class RulesClient {
      * @param {CloudflareApi.apiSecurity.tokenValidation.ListRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.apiSecurity.tokenValidation.rules.list({
      *         zone_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -132,6 +135,9 @@ export class RulesClient {
      * @param {CloudflareApi.apiSecurity.tokenValidation.CreateRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.apiSecurity.tokenValidation.rules.create({
      *         zone_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -204,6 +210,9 @@ export class RulesClient {
      * @param {CloudflareApi.apiSecurity.tokenValidation.BulkCreateRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.apiSecurity.tokenValidation.rules.bulkCreate({
      *         zone_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -275,6 +284,9 @@ export class RulesClient {
      *
      * @param {CloudflareApi.apiSecurity.tokenValidation.BulkEditRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.apiSecurity.tokenValidation.rules.bulkEdit({
@@ -350,6 +362,9 @@ export class RulesClient {
      * @param {CloudflareApi.apiSecurity.tokenValidation.GetRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.apiSecurity.tokenValidation.rules.get({
      *         zone_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -419,6 +434,9 @@ export class RulesClient {
      * @param {CloudflareApi.apiSecurity.tokenValidation.DeleteRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.apiSecurity.tokenValidation.rules.delete({
      *         zone_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -487,6 +505,9 @@ export class RulesClient {
      *
      * @param {CloudflareApi.apiSecurity.tokenValidation.EditRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.apiSecurity.tokenValidation.rules.edit({

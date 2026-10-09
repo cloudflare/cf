@@ -35,6 +35,8 @@ export class UrlscannerClient {
      * @param {UrlscannerClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.urlScanner.scan.get.urlscanner.scans({
@@ -160,6 +162,8 @@ export class UrlscannerClient {
      *
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.urlScanner.scan.get.urlscanner.scan({

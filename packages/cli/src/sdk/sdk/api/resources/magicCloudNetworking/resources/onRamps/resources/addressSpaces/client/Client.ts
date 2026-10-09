@@ -38,6 +38,8 @@ export class AddressSpacesClient {
      * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicCloudNetworking.onRamps.addressSpaces.list({
@@ -126,6 +128,8 @@ export class AddressSpacesClient {
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.UnprocessableEntityError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicCloudNetworking.onRamps.addressSpaces.update({
@@ -225,6 +229,8 @@ export class AddressSpacesClient {
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.UnprocessableEntityError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicCloudNetworking.onRamps.addressSpaces.edit({

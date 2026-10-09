@@ -28,6 +28,9 @@ export class RatePlansClient {
      * @param {CloudflareApi.zones.GetRatePlansRequest} request
      * @param {RatePlansClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zones.ratePlans.get({
      *         zone_id: "zone_id"

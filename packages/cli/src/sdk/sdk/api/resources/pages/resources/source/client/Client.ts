@@ -29,6 +29,9 @@ export class SourceClient {
      * @param {CloudflareApi.pages.PagesSourceConnectRequest} request
      * @param {SourceClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.pages.source.connect({
      *         account_id: "account_id",
@@ -113,6 +116,9 @@ export class SourceClient {
      *
      * @param {CloudflareApi.pages.DisconnectSourceRequest} request
      * @param {SourceClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.pages.source.disconnect({

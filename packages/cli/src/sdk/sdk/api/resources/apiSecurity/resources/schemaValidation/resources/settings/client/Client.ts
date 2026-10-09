@@ -38,6 +38,9 @@ export class SettingsClient {
      * @param {CloudflareApi.apiSecurity.schemaValidation.GetSettingsRequest} request
      * @param {SettingsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.apiSecurity.schemaValidation.settings.get({
      *         zone_id: "023e105f4ecef8ad9ca31a8372d0c353"
@@ -105,6 +108,9 @@ export class SettingsClient {
      *
      * @param {CloudflareApi.apiSecurity.schemaValidation.UpdateSettingsRequest} request
      * @param {SettingsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.apiSecurity.schemaValidation.settings.update({
@@ -176,6 +182,9 @@ export class SettingsClient {
      *
      * @param {CloudflareApi.apiSecurity.schemaValidation.EditSettingsRequest} request
      * @param {SettingsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.apiSecurity.schemaValidation.settings.edit({

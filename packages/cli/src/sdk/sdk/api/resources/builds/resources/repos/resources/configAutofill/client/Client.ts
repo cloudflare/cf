@@ -33,6 +33,8 @@ export class ConfigAutofillClient {
      * @param {ConfigAutofillClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.UnauthorizedError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.builds.repos.configAutofill.get({

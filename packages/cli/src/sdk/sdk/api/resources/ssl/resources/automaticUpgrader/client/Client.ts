@@ -29,6 +29,9 @@ export class AutomaticUpgraderClient {
      * @param {CloudflareApi.ssl.GetAutomaticUpgraderRequest} request
      * @param {AutomaticUpgraderClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.ssl.automaticUpgrader.get({
      *         zone_id: "zone_id"
@@ -93,6 +96,9 @@ export class AutomaticUpgraderClient {
      *
      * @param {CloudflareApi.ssl.CacheSchemasPatch} request
      * @param {AutomaticUpgraderClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.ssl.automaticUpgrader.patch({

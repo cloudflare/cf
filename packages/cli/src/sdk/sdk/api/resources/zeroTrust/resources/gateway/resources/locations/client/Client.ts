@@ -32,6 +32,9 @@ export class LocationsClient {
      * @param {CloudflareApi.zeroTrust.gateway.ListLocationsRequest} request
      * @param {LocationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.gateway.locations.list({
      *         account_id: "account_id"
@@ -110,6 +113,9 @@ export class LocationsClient {
      * @param {CloudflareApi.zeroTrust.gateway.CreateLocationsRequest} request
      * @param {LocationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.gateway.locations.create({
      *         account_id: "account_id",
@@ -182,6 +188,9 @@ export class LocationsClient {
      * @param {CloudflareApi.zeroTrust.gateway.GetLocationsRequest} request
      * @param {LocationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.gateway.locations.get({
      *         account_id: "account_id",
@@ -250,6 +259,9 @@ export class LocationsClient {
      *
      * @param {CloudflareApi.zeroTrust.gateway.UpdateLocationsRequest} request
      * @param {LocationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.gateway.locations.update({
@@ -323,6 +335,9 @@ export class LocationsClient {
      *
      * @param {CloudflareApi.zeroTrust.gateway.DeleteLocationsRequest} request
      * @param {LocationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.gateway.locations.delete({

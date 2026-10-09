@@ -37,6 +37,8 @@ export class FiltersClient {
      * @throws {@link CloudflareApi.TooManyRequestsError}
      * @throws {@link CloudflareApi.BadGatewayError}
      * @throws {@link CloudflareApi.ServiceUnavailableError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.priorityIntelligence.filters.generate({

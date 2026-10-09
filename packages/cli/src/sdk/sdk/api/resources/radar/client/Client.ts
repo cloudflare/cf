@@ -29,7 +29,6 @@ import { SearchClient } from "../resources/search/client/Client.js";
 import { TcpResetsTimeoutsClient } from "../resources/tcpResetsTimeouts/client/Client.js";
 import { TldsClient } from "../resources/tlds/client/Client.js";
 import { TrafficAnomaliesClient } from "../resources/trafficAnomalies/client/Client.js";
-import { VerifiedBotsClient } from "../resources/verifiedBots/client/Client.js";
 
 export declare namespace RadarClient {
     export type Options = BaseClientOptions;
@@ -62,7 +61,6 @@ export class RadarClient {
     protected _postQuantum: PostQuantumClient | undefined;
     protected _quality: QualityClient | undefined;
     protected _robotsTxt: RobotsTxtClient | undefined;
-    protected _verifiedBots: VerifiedBotsClient | undefined;
 
     constructor(options: RadarClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
@@ -166,9 +164,5 @@ export class RadarClient {
 
     public get robotsTxt(): RobotsTxtClient {
         return (this._robotsTxt ??= new RobotsTxtClient(this._options));
-    }
-
-    public get verifiedBots(): VerifiedBotsClient {
-        return (this._verifiedBots ??= new VerifiedBotsClient(this._options));
     }
 }

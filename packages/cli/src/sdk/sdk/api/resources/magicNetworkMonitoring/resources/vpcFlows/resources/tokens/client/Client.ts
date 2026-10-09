@@ -31,6 +31,9 @@ export class TokensClient {
      * @param {CloudflareApi.magicNetworkMonitoring.vpcFlows.CreateTokensRequest} request
      * @param {TokensClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicNetworkMonitoring.vpcFlows.tokens.create({
      *         account_id: "account_id"

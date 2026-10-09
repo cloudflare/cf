@@ -31,6 +31,9 @@ export class SummariesClient {
      * @param {CloudflareApi.realtime.kit.sessions.ExportSummariesRequest} request
      * @param {SummariesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.realtime.kit.sessions.summaries.export({
      *         account_id: "account_id",
@@ -100,6 +103,9 @@ export class SummariesClient {
      *
      * @param {CloudflareApi.realtime.kit.sessions.GenerateSummariesRequest} request
      * @param {SummariesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.realtime.kit.sessions.summaries.generate({

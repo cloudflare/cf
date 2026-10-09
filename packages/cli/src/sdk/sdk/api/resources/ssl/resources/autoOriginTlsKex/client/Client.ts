@@ -29,6 +29,9 @@ export class AutoOriginTlsKexClient {
      * @param {CloudflareApi.ssl.GetAutoOriginTlsKexRequest} request
      * @param {AutoOriginTlsKexClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.ssl.autoOriginTlsKex.get({
      *         zone_id: "zone_id"
@@ -96,6 +99,9 @@ export class AutoOriginTlsKexClient {
      *
      * @param {CloudflareApi.ssl.CacheAutoOriginTlsKexPatch} request
      * @param {AutoOriginTlsKexClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.ssl.autoOriginTlsKex.edit({

@@ -29,6 +29,9 @@ export class WidgetsClient {
      * @param {CloudflareApi.turnstile.ListWidgetsRequest} request
      * @param {WidgetsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.turnstile.widgets.list({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -108,6 +111,9 @@ export class WidgetsClient {
      *
      * @param {CloudflareApi.turnstile.CreateWidgetsRequest} request
      * @param {WidgetsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.turnstile.widgets.create({
@@ -192,6 +198,9 @@ export class WidgetsClient {
      * @param {CloudflareApi.turnstile.GetWidgetsRequest} request
      * @param {WidgetsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.turnstile.widgets.get({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -257,6 +266,9 @@ export class WidgetsClient {
      *
      * @param {CloudflareApi.turnstile.UpdateWidgetsRequest} request
      * @param {WidgetsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.turnstile.widgets.update({
@@ -330,6 +342,9 @@ export class WidgetsClient {
      * @param {CloudflareApi.turnstile.DeleteWidgetsRequest} request
      * @param {WidgetsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.turnstile.widgets.delete({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -398,6 +413,9 @@ export class WidgetsClient {
      *
      * @param {CloudflareApi.turnstile.RotateSecretWidgetsRequest} request
      * @param {WidgetsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.turnstile.widgets.rotateSecret({

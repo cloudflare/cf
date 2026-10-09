@@ -38,6 +38,9 @@ export class LivestreamsClient {
      * @param {CloudflareApi.realtime.kit.ListLivestreamsRequest} request
      * @param {LivestreamsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.realtime.kit.livestreams.list({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -130,6 +133,9 @@ export class LivestreamsClient {
      * @param {CloudflareApi.realtime.kit.GetLivestreamsRequest} request
      * @param {LivestreamsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.realtime.kit.livestreams.get({
      *         account_id: "account_id",
@@ -214,6 +220,9 @@ export class LivestreamsClient {
      * @param {CloudflareApi.realtime.kit.StopLivestreamsRequest} request
      * @param {LivestreamsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.realtime.kit.livestreams.stop({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -283,6 +292,9 @@ export class LivestreamsClient {
      *
      * @param {CloudflareApi.realtime.kit.StartLivestreamsRequest} request
      * @param {LivestreamsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.realtime.kit.livestreams.start({

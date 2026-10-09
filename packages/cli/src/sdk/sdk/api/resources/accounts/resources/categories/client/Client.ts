@@ -28,6 +28,9 @@ export class CategoriesClient {
      * @param {CloudflareApi.accounts.ListCategoriesRequest} request
      * @param {CategoriesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.accounts.categories.list({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353"
@@ -103,6 +106,9 @@ export class CategoriesClient {
      *
      * @param {CloudflareApi.accounts.GetCategoriesRequest} request
      * @param {CategoriesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.accounts.categories.get({

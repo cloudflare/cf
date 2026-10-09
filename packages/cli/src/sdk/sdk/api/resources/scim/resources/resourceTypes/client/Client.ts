@@ -28,6 +28,9 @@ export class ResourceTypesClient {
      * @param {CloudflareApi.scim.ListResourceTypesRequest} request
      * @param {ResourceTypesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.scim.resourceTypes.list({
      *         account_id: "account_id"
@@ -95,6 +98,9 @@ export class ResourceTypesClient {
      *
      * @param {CloudflareApi.scim.GetResourceTypesRequest} request
      * @param {ResourceTypesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.scim.resourceTypes.get({

@@ -68,6 +68,9 @@ export class ScriptsClient {
      * @param {CloudflareApi.workersForPlatforms.dispatchNamespaces.ListScriptsRequest} request
      * @param {ScriptsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workersForPlatforms.dispatchNamespaces.scripts.list({
      *         account_id: "account_id",
@@ -144,6 +147,9 @@ export class ScriptsClient {
      *
      * @param {CloudflareApi.workersForPlatforms.dispatchNamespaces.BulkDeleteScriptsRequest} request
      * @param {ScriptsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workersForPlatforms.dispatchNamespaces.scripts.bulkDelete({
@@ -224,6 +230,9 @@ export class ScriptsClient {
      * @param {CloudflareApi.workersForPlatforms.dispatchNamespaces.GetScriptsRequest} request
      * @param {ScriptsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workersForPlatforms.dispatchNamespaces.scripts.get({
      *         account_id: "account_id",
@@ -293,6 +302,9 @@ export class ScriptsClient {
      *
      * @param {CloudflareApi.workersForPlatforms.dispatchNamespaces.UpdateScriptsRequest} request
      * @param {ScriptsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";
@@ -384,6 +396,9 @@ export class ScriptsClient {
      *
      * @param {CloudflareApi.workersForPlatforms.dispatchNamespaces.DeleteScriptsRequest} request
      * @param {ScriptsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workersForPlatforms.dispatchNamespaces.scripts.delete({

@@ -41,6 +41,9 @@ export class PcapsClient {
      * @param {CloudflareApi.magicTransit.ListPcapsRequest} request
      * @param {PcapsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.pcaps.list({
      *         account_id: "account_id"
@@ -103,6 +106,9 @@ export class PcapsClient {
      *
      * @param {CloudflareApi.magicTransit.CreatePcapsRequest} request
      * @param {PcapsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.pcaps.create({
@@ -176,6 +182,9 @@ export class PcapsClient {
      * @param {CloudflareApi.magicTransit.GetPcapsRequest} request
      * @param {PcapsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.pcaps.get({
      *         account_id: "account_id",
@@ -244,6 +253,9 @@ export class PcapsClient {
      *
      * @param {CloudflareApi.magicTransit.StopPcapsRequest} request
      * @param {PcapsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.pcaps.stop({

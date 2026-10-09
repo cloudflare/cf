@@ -29,6 +29,9 @@ export class AgentMemoryClient {
      * @param {CloudflareApi.ListNamespacesAgentMemoryRequest} request
      * @param {AgentMemoryClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.agentMemory.listNamespaces({
      *         account_id: "account_id",
@@ -108,6 +111,9 @@ export class AgentMemoryClient {
      * @param {CloudflareApi.CreateNamespaceAgentMemoryRequest} request
      * @param {AgentMemoryClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.agentMemory.createNamespace({
      *         account_id: "account_id",
@@ -180,6 +186,9 @@ export class AgentMemoryClient {
      * @param {CloudflareApi.GetNamespaceAgentMemoryRequest} request
      * @param {AgentMemoryClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.agentMemory.getNamespace({
      *         account_id: "account_id",
@@ -249,6 +258,9 @@ export class AgentMemoryClient {
      * @param {CloudflareApi.DeleteNamespaceAgentMemoryRequest} request
      * @param {AgentMemoryClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.agentMemory.deleteNamespace({
      *         account_id: "account_id",
@@ -314,6 +326,9 @@ export class AgentMemoryClient {
      *
      * @param {CloudflareApi.ListProfilesAgentMemoryRequest} request
      * @param {AgentMemoryClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.agentMemory.listProfiles({
@@ -394,6 +409,9 @@ export class AgentMemoryClient {
      * @param {CloudflareApi.DeleteProfileAgentMemoryRequest} request
      * @param {AgentMemoryClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.agentMemory.deleteProfile({
      *         account_id: "account_id",
@@ -460,6 +478,9 @@ export class AgentMemoryClient {
      *
      * @param {CloudflareApi.IngestAgentMemoryRequest} request
      * @param {AgentMemoryClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.agentMemory.ingest({
@@ -534,6 +555,9 @@ export class AgentMemoryClient {
      *
      * @param {CloudflareApi.ListMemoriesAgentMemoryRequest} request
      * @param {AgentMemoryClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.agentMemory.listMemories({
@@ -626,6 +650,9 @@ export class AgentMemoryClient {
      * @param {CloudflareApi.GetMemoryAgentMemoryRequest} request
      * @param {AgentMemoryClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.agentMemory.getMemory({
      *         account_id: "account_id",
@@ -701,6 +728,9 @@ export class AgentMemoryClient {
      *
      * @param {CloudflareApi.DeleteMemoryAgentMemoryRequest} request
      * @param {AgentMemoryClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.agentMemory.deleteMemory({
@@ -778,6 +808,9 @@ export class AgentMemoryClient {
      * @param {CloudflareApi.RecallAgentMemoryRequest} request
      * @param {AgentMemoryClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.agentMemory.recall({
      *         account_id: "account_id",
@@ -851,6 +884,9 @@ export class AgentMemoryClient {
      *
      * @param {CloudflareApi.RememberAgentMemoryRequest} request
      * @param {AgentMemoryClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.agentMemory.remember({
@@ -926,6 +962,9 @@ export class AgentMemoryClient {
      * @param {CloudflareApi.DeleteSessionAgentMemoryRequest} request
      * @param {AgentMemoryClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.agentMemory.deleteSession({
      *         account_id: "account_id",
@@ -998,6 +1037,9 @@ export class AgentMemoryClient {
      *
      * @param {CloudflareApi.SummaryAgentMemoryRequest} request
      * @param {AgentMemoryClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.agentMemory.summary({

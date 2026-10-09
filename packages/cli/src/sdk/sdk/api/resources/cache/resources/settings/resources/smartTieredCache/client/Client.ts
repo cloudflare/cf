@@ -32,6 +32,9 @@ export class SmartTieredCacheClient {
      * @param {CloudflareApi.cache.settings.GetSmartTieredCacheRequest} request
      * @param {SmartTieredCacheClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.cache.settings.smartTieredCache.get({
      *         zone_id: "zone_id"
@@ -99,6 +102,9 @@ export class SmartTieredCacheClient {
      *
      * @param {CloudflareApi.cache.settings.CreateSmartTieredCacheRequest} request
      * @param {SmartTieredCacheClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cache.settings.smartTieredCache.create({
@@ -174,6 +180,9 @@ export class SmartTieredCacheClient {
      * @param {CloudflareApi.cache.settings.DeleteSmartTieredCacheRequest} request
      * @param {SmartTieredCacheClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.cache.settings.smartTieredCache.delete({
      *         zone_id: "zone_id"
@@ -241,6 +250,9 @@ export class SmartTieredCacheClient {
      *
      * @param {CloudflareApi.cache.settings.EditSmartTieredCacheRequest} request
      * @param {SmartTieredCacheClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cache.settings.smartTieredCache.edit({

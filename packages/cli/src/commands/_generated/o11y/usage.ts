@@ -32,6 +32,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Unix timestamp in milliseconds for the end of the range.",
 			demandOption: true,
 		})
+		.option("tz", {
+			type: "string",
+			description:
+				"IANA timezone used to align daily bins to local midnight (e.g. 'America/Chicago'). Defaults to UTC.",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -58,6 +63,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const queryParams: Record<string, unknown> = {
 					from: argv["from"],
 					to: argv["to"],
+					tz: argv["tz"],
 				};
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();

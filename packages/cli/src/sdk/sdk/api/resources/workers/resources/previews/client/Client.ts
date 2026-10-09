@@ -35,6 +35,9 @@ export class PreviewsClient {
      * @param {CloudflareApi.workers.ListPreviewsRequest} request
      * @param {PreviewsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workers.previews.list({
      *         account_id: "account_id",
@@ -124,6 +127,9 @@ export class PreviewsClient {
      *
      * @param {CloudflareApi.workers.CreatePreviewsRequest} request
      * @param {PreviewsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workers.previews.create({
@@ -215,6 +221,9 @@ export class PreviewsClient {
      * @param {CloudflareApi.workers.GetPreviewsRequest} request
      * @param {PreviewsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workers.previews.get({
      *         account_id: "account_id",
@@ -281,6 +290,9 @@ export class PreviewsClient {
      *
      * @param {CloudflareApi.workers.UpdatePreviewsRequest} request
      * @param {PreviewsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workers.previews.update({
@@ -374,6 +386,9 @@ export class PreviewsClient {
      * @param {CloudflareApi.workers.DeletePreviewsRequest} request
      * @param {PreviewsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workers.previews.delete({
      *         account_id: "account_id",
@@ -455,6 +470,9 @@ export class PreviewsClient {
      *
      * @param {CloudflareApi.workers.EditPreviewsRequest} request
      * @param {PreviewsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workers.previews.edit({

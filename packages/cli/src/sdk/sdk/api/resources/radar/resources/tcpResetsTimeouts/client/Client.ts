@@ -30,6 +30,8 @@ export class TcpResetsTimeoutsClient {
      * @param {TcpResetsTimeoutsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.radar.tcpResetsTimeouts.summary({
@@ -124,6 +126,8 @@ export class TcpResetsTimeoutsClient {
      * @param {TcpResetsTimeoutsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.radar.tcpResetsTimeouts.timeseriesGroups({

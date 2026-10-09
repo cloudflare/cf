@@ -28,6 +28,9 @@ export class AuditLogsClient {
      * @param {CloudflareApi.securityInsights.ListAuditLogsRequest} request
      * @param {AuditLogsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.securityInsights.auditLogs.list({
      *         account_or_zone: "account_or_zone",
@@ -119,6 +122,9 @@ export class AuditLogsClient {
      *
      * @param {CloudflareApi.securityInsights.GetAuditLogsRequest} request
      * @param {AuditLogsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.securityInsights.auditLogs.get({

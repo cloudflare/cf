@@ -29,6 +29,9 @@ export class TimeTravelClient {
      * @param {CloudflareApi.d1.GetBookmarkTimeTravelRequest} request
      * @param {TimeTravelClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.d1.timeTravel.getBookmark({
      *         account_id: "account_id",
@@ -105,6 +108,9 @@ export class TimeTravelClient {
      *
      * @param {CloudflareApi.d1.RestoreTimeTravelRequest} request
      * @param {TimeTravelClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.d1.timeTravel.restore({

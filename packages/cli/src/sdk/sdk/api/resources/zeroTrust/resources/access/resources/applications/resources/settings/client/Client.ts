@@ -32,6 +32,9 @@ export class SettingsClient {
      * @param {CloudflareApi.zeroTrust.access.applications.AccessAppSettingsRequest} request
      * @param {SettingsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.applications.settings.update({
      *         account_or_zone: "account_or_zone",

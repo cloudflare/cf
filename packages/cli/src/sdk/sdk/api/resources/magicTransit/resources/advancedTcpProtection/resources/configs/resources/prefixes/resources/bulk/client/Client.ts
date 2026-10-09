@@ -32,6 +32,9 @@ export class BulkClient {
      * @param {CloudflareApi.magicTransit.advancedTcpProtection.configs.prefixes.CreateBulkRequest} request
      * @param {BulkClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.advancedTcpProtection.configs.prefixes.bulk.create({
      *         account_id: "account_id",

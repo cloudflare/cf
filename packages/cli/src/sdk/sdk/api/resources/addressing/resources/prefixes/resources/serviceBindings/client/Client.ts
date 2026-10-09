@@ -33,6 +33,9 @@ export class ServiceBindingsClient {
      * @param {CloudflareApi.addressing.prefixes.ListServiceBindingsRequest} request
      * @param {ServiceBindingsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.addressing.prefixes.serviceBindings.list({
      *         account_id: "account_id",
@@ -102,6 +105,9 @@ export class ServiceBindingsClient {
      *
      * @param {CloudflareApi.addressing.prefixes.AddressingCreateBindingRequest} request
      * @param {ServiceBindingsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.addressing.prefixes.serviceBindings.create({
@@ -177,6 +183,9 @@ export class ServiceBindingsClient {
      * @param {CloudflareApi.addressing.prefixes.GetServiceBindingsRequest} request
      * @param {ServiceBindingsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.addressing.prefixes.serviceBindings.get({
      *         account_id: "account_id",
@@ -246,6 +255,9 @@ export class ServiceBindingsClient {
      *
      * @param {CloudflareApi.addressing.prefixes.DeleteServiceBindingsRequest} request
      * @param {ServiceBindingsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.addressing.prefixes.serviceBindings.delete({

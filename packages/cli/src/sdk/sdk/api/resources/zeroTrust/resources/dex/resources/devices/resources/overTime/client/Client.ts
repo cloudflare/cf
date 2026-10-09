@@ -31,6 +31,9 @@ export class OverTimeClient {
      * @param {CloudflareApi.zeroTrust.dex.devices.GetOverTimeRequest} request
      * @param {OverTimeClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.dex.devices.overTime.get({
      *         account_id: "account_id",

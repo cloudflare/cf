@@ -6,7 +6,9 @@ export type RunSkillsResponse =
     | CloudflareApi.cloudforceOne.threatSignals.articles.RunSkillsResponseZero
     | {
           article_id: string;
-          custom_output?: unknown | undefined;
+          custom_output: string | number | boolean | (string | null) | unknown[] | Record<string, unknown>;
+          custom_output_parse_status: "parsed" | "invalid_json";
+          custom_output_validation_status: "valid" | "invalid_json" | "schema_invalid" | "unknown";
           custom_skill_version: string;
           output_schema: string;
           persisted: true;

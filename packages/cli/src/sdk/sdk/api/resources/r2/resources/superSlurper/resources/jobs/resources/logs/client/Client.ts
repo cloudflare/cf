@@ -31,6 +31,9 @@ export class LogsClient {
      * @param {CloudflareApi.r2.superSlurper.jobs.ListLogsRequest} request
      * @param {LogsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.r2.superSlurper.jobs.logs.list({
      *         account_id: "account_id",

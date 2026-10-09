@@ -31,6 +31,9 @@ export class OperationsClient {
      * @param {CloudflareApi.apiSecurity.schemaValidation.schemas.ListOperationsRequest} request
      * @param {OperationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.apiSecurity.schemaValidation.schemas.operations.list({
      *         zone_id: "023e105f4ecef8ad9ca31a8372d0c353",

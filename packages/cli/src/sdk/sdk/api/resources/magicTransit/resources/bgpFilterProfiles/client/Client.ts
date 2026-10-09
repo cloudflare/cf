@@ -29,6 +29,9 @@ export class BgpFilterProfilesClient {
      * @param {CloudflareApi.magicTransit.ListBgpFilterProfilesRequest} request
      * @param {BgpFilterProfilesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.bgpFilterProfiles.list({
      *         account_id: "account_id"
@@ -96,6 +99,9 @@ export class BgpFilterProfilesClient {
      *
      * @param {CloudflareApi.magicTransit.MagicCreateBgpFilterProfileRequest} request
      * @param {BgpFilterProfilesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.bgpFilterProfiles.create({
@@ -168,6 +174,9 @@ export class BgpFilterProfilesClient {
      * @param {CloudflareApi.magicTransit.GetBgpFilterProfilesRequest} request
      * @param {BgpFilterProfilesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.bgpFilterProfiles.get({
      *         account_id: "account_id",
@@ -233,6 +242,9 @@ export class BgpFilterProfilesClient {
      *
      * @param {CloudflareApi.magicTransit.MagicUpdateBgpFilterProfileRequest} request
      * @param {BgpFilterProfilesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.bgpFilterProfiles.update({
@@ -302,6 +314,9 @@ export class BgpFilterProfilesClient {
      *
      * @param {CloudflareApi.magicTransit.DeleteBgpFilterProfilesRequest} request
      * @param {BgpFilterProfilesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.bgpFilterProfiles.delete({

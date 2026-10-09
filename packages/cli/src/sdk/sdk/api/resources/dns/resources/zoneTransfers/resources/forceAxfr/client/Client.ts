@@ -31,6 +31,9 @@ export class ForceAxfrClient {
      * @param {CloudflareApi.dns.zoneTransfers.CreateForceAxfrRequest} request
      * @param {ForceAxfrClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.dns.zoneTransfers.forceAxfr.create({
      *         zone_id: "zone_id"

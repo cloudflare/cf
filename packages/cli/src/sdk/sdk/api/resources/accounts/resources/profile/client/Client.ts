@@ -35,6 +35,9 @@ export class ProfileClient {
      * @param {CloudflareApi.accounts.GetProfileRequest} request
      * @param {ProfileClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.accounts.profile.get({
      *         account_id: "account_id"
@@ -109,6 +112,9 @@ export class ProfileClient {
      *
      * @param {CloudflareApi.accounts.UpdateProfileRequest} request
      * @param {ProfileClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.accounts.profile.update({

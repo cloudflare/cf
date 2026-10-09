@@ -34,6 +34,9 @@ export class UpsertClient {
      * @param {CloudflareApi.vectorize.deprecatedIndexes.CreateUpsertRequest} request
      * @param {UpsertClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.vectorize.deprecatedIndexes.upsert.create({
      *         account_id: "account_id",

@@ -31,6 +31,9 @@ export class OperationsClient {
      * @param {CloudflareApi.zeroTrust.gateway.ListOperationsRequest} request
      * @param {OperationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.gateway.operations.list({
      *         account_id: "account_id"
@@ -98,6 +101,9 @@ export class OperationsClient {
      *
      * @param {CloudflareApi.zeroTrust.gateway.GetOperationsRequest} request
      * @param {OperationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.gateway.operations.get({

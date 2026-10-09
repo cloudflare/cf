@@ -35,6 +35,9 @@ export class MtlsCertificatesClient {
      * @param {CloudflareApi.ListMtlsCertificatesRequest} request
      * @param {MtlsCertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.mtlsCertificates.list({
      *         account_id: "account_id"
@@ -111,6 +114,9 @@ export class MtlsCertificatesClient {
      * @param {CloudflareApi.CreateMtlsCertificatesRequest} request
      * @param {MtlsCertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.mtlsCertificates.create({
      *         account_id: "account_id",
@@ -184,6 +190,9 @@ export class MtlsCertificatesClient {
      * @param {CloudflareApi.GetMtlsCertificatesRequest} request
      * @param {MtlsCertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.mtlsCertificates.get({
      *         account_id: "account_id",
@@ -252,6 +261,9 @@ export class MtlsCertificatesClient {
      *
      * @param {CloudflareApi.DeleteMtlsCertificatesRequest} request
      * @param {MtlsCertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.mtlsCertificates.delete({

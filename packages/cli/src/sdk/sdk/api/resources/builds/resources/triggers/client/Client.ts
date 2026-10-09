@@ -43,11 +43,13 @@ export class TriggersClient {
      * @param {TriggersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.UnauthorizedError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.builds.triggers.create({
      *         account_id: "account-123",
-     *         branch_excludes: ["branch_excludes"],
+     *         branch_excludes: [],
      *         branch_includes: ["main"],
      *         build_command: "npm run build",
      *         build_token_uuid: "build_token_uuid",
@@ -130,6 +132,8 @@ export class TriggersClient {
      *
      * @throws {@link CloudflareApi.UnauthorizedError}
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.builds.triggers.delete({
@@ -206,6 +210,8 @@ export class TriggersClient {
      *
      * @throws {@link CloudflareApi.UnauthorizedError}
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.builds.triggers.update({
@@ -284,6 +290,8 @@ export class TriggersClient {
      * @param {TriggersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.UnauthorizedError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.builds.triggers.list({

@@ -28,6 +28,9 @@ export class MetricsClient {
      * @param {CloudflareApi.queues.GetMetricsRequest} request
      * @param {MetricsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.queues.metrics.get({
      *         account_id: "account_id",

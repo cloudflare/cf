@@ -32,6 +32,9 @@ export class PermissionsClient {
      * @param {CloudflareApi.intel.indicatorFeeds.CreatePermissionsRequest} request
      * @param {PermissionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.intel.indicatorFeeds.permissions.create({
      *         account_id: "account_id",
@@ -104,6 +107,9 @@ export class PermissionsClient {
      * @param {CloudflareApi.intel.indicatorFeeds.DeletePermissionsRequest} request
      * @param {PermissionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.intel.indicatorFeeds.permissions.delete({
      *         account_id: "account_id",
@@ -175,6 +181,9 @@ export class PermissionsClient {
      *
      * @param {CloudflareApi.intel.indicatorFeeds.ListPermissionsRequest} request
      * @param {PermissionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.intel.indicatorFeeds.permissions.list({

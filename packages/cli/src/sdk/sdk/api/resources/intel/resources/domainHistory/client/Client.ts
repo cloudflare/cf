@@ -28,6 +28,9 @@ export class DomainHistoryClient {
      * @param {CloudflareApi.intel.GetDomainHistoryRequest} request
      * @param {DomainHistoryClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.intel.domainHistory.get({
      *         account_id: "account_id",

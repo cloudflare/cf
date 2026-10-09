@@ -31,6 +31,9 @@ export class PreviewClient {
      * @param {CloudflareApi.user.loadBalancers.GetPreviewRequest} request
      * @param {PreviewClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.user.loadBalancers.preview.get({
      *         preview_id: "preview_id"

@@ -29,6 +29,9 @@ export class PrioritizeClient {
      * @param {CloudflareApi.customCertificates.UpdatePrioritizeRequest} request
      * @param {PrioritizeClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.customCertificates.prioritize.update({
      *         zone_id: "zone_id",

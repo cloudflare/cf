@@ -32,6 +32,9 @@ export class ReserveClient {
      * @param {CloudflareApi.cache.settings.GetReserveRequest} request
      * @param {ReserveClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.cache.settings.reserve.get({
      *         zone_id: "zone_id"
@@ -99,6 +102,9 @@ export class ReserveClient {
      *
      * @param {CloudflareApi.cache.settings.EditReserveRequest} request
      * @param {ReserveClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cache.settings.reserve.edit({
@@ -172,6 +178,9 @@ export class ReserveClient {
      * @param {CloudflareApi.cache.settings.StatusReserveRequest} request
      * @param {ReserveClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.cache.settings.reserve.status({
      *         zone_id: "zone_id"
@@ -239,6 +248,9 @@ export class ReserveClient {
      *
      * @param {CloudflareApi.cache.settings.ClearReserveRequest} request
      * @param {ReserveClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cache.settings.reserve.clear({

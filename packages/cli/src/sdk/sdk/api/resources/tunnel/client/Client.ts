@@ -28,6 +28,9 @@ export class TunnelClient {
      * @param {CloudflareApi.ListTunnelRequest} request
      * @param {TunnelClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.tunnel.list({
      *         account_id: "account_id",

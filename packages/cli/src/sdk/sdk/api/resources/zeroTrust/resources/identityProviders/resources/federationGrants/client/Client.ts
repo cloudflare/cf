@@ -33,6 +33,9 @@ export class FederationGrantsClient {
      * @param {CloudflareApi.zeroTrust.identityProviders.ListFederationGrantsRequest} request
      * @param {FederationGrantsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.identityProviders.federationGrants.list({
      *         account_id: "account_id"
@@ -105,6 +108,9 @@ export class FederationGrantsClient {
      *
      * @param {CloudflareApi.zeroTrust.identityProviders.AccessIdpFederationGrantCreateRequest} request
      * @param {FederationGrantsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.identityProviders.federationGrants.create({
@@ -179,6 +185,8 @@ export class FederationGrantsClient {
      * @param {FederationGrantsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.identityProviders.federationGrants.get({
@@ -256,6 +264,8 @@ export class FederationGrantsClient {
      * @param {FederationGrantsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.identityProviders.federationGrants.delete({

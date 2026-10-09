@@ -32,6 +32,8 @@ export class EvaluationTypesClient {
      * @param {EvaluationTypesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiGateway.evaluationTypes.list({

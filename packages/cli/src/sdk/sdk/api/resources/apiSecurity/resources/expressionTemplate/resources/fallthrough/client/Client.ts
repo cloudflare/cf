@@ -34,6 +34,9 @@ export class FallthroughClient {
      * @param {CloudflareApi.apiSecurity.expressionTemplate.ApiShieldRequestExpressionTemplatesFallthrough} request
      * @param {FallthroughClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.apiSecurity.expressionTemplate.fallthrough.create({
      *         zone_id: "023e105f4ecef8ad9ca31a8372d0c353",

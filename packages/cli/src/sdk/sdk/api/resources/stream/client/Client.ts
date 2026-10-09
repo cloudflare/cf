@@ -64,6 +64,9 @@ export class StreamClient {
      * @param {CloudflareApi.StorageUsageStreamRequest} request
      * @param {StreamClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.stream.storageUsage({
      *         account_id: "account_id",

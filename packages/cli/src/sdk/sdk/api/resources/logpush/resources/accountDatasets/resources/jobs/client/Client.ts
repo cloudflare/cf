@@ -31,6 +31,9 @@ export class JobsClient {
      * @param {CloudflareApi.logpush.accountDatasets.GetJobsRequest} request
      * @param {JobsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.logpush.accountDatasets.jobs.get({
      *         account_or_zone: "account_or_zone",

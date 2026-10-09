@@ -7,6 +7,7 @@ import {
 } from "../../../../../../../../BaseClient.js";
 import * as core from "../../../../../../../../core/index.js";
 import { mergeHeaders } from "../../../../../../../../core/headers.js";
+import { toJson } from "../../../../../../../../core/json.js";
 import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requestBody.js";
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
@@ -35,6 +36,8 @@ export class ApprovalsClient {
      *
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.ForbiddenError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.rules.approvals.list({
@@ -65,7 +68,13 @@ export class ApprovalsClient {
             rule_id: ruleId,
         } = request;
         const _queryParams: Record<string, unknown> = {
-            status: status != null ? status : undefined,
+            status: Array.isArray(status)
+                ? status.map((item) => (typeof item === "string" ? item : toJson(item)))
+                : status != null
+                  ? typeof status === "string"
+                      ? status
+                      : toJson(status)
+                  : undefined,
             latest_only: latestOnly != null ? latestOnly : undefined,
             limit,
             offset,
@@ -138,6 +147,8 @@ export class ApprovalsClient {
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.rules.approvals.get({
@@ -220,6 +231,8 @@ export class ApprovalsClient {
      * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.ConflictError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.rules.approvals.cancel({
@@ -303,6 +316,8 @@ export class ApprovalsClient {
      * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.ConflictError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.rules.approvals.resubmit({

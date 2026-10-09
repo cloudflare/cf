@@ -29,6 +29,9 @@ export class ClientCertificatesClient {
      * @param {CloudflareApi.ListClientCertificatesRequest} request
      * @param {ClientCertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.clientCertificates.list({
      *         zone_id: "zone_id",
@@ -110,6 +113,9 @@ export class ClientCertificatesClient {
      * @param {CloudflareApi.CreateClientCertificatesRequest} request
      * @param {ClientCertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.clientCertificates.create({
      *         zone_id: "zone_id",
@@ -183,6 +189,9 @@ export class ClientCertificatesClient {
      * @param {CloudflareApi.GetClientCertificatesRequest} request
      * @param {ClientCertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.clientCertificates.get({
      *         zone_id: "zone_id",
@@ -252,6 +261,9 @@ export class ClientCertificatesClient {
      * @param {CloudflareApi.DeleteClientCertificatesRequest} request
      * @param {ClientCertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.clientCertificates.delete({
      *         zone_id: "zone_id",
@@ -320,6 +332,9 @@ export class ClientCertificatesClient {
      *
      * @param {CloudflareApi.EditClientCertificatesRequest} request
      * @param {ClientCertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.clientCertificates.edit({

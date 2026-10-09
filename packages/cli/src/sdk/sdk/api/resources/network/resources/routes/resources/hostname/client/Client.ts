@@ -32,6 +32,9 @@ export class HostnameClient {
      * @param {CloudflareApi.network.routes.ListHostnameRequest} request
      * @param {HostnameClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.network.routes.hostname.list({
      *         account_id: "account_id",
@@ -130,6 +133,9 @@ export class HostnameClient {
      * @param {CloudflareApi.network.routes.CreateHostnameRequest} request
      * @param {HostnameClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.network.routes.hostname.create({
      *         account_id: "account_id"
@@ -198,6 +204,9 @@ export class HostnameClient {
      * @param {CloudflareApi.network.routes.GetHostnameRequest} request
      * @param {HostnameClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.network.routes.hostname.get({
      *         account_id: "account_id",
@@ -264,6 +273,9 @@ export class HostnameClient {
      * @param {CloudflareApi.network.routes.DeleteHostnameRequest} request
      * @param {HostnameClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.network.routes.hostname.delete({
      *         account_id: "account_id",
@@ -329,6 +341,9 @@ export class HostnameClient {
      *
      * @param {CloudflareApi.network.routes.EditHostnameRequest} request
      * @param {HostnameClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.network.routes.hostname.edit({

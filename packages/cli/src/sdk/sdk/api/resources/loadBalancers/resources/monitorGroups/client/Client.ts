@@ -36,6 +36,9 @@ export class MonitorGroupsClient {
      * @param {CloudflareApi.loadBalancers.ListMonitorGroupsRequest} request
      * @param {MonitorGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.loadBalancers.monitorGroups.list({
      *         account_id: "account_id"
@@ -105,6 +108,8 @@ export class MonitorGroupsClient {
      * @param {MonitorGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.PreconditionFailedError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.loadBalancers.monitorGroups.create({
@@ -194,6 +199,9 @@ export class MonitorGroupsClient {
      * @param {CloudflareApi.loadBalancers.GetMonitorGroupsRequest} request
      * @param {MonitorGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.loadBalancers.monitorGroups.get({
      *         account_id: "account_id",
@@ -264,6 +272,8 @@ export class MonitorGroupsClient {
      * @param {MonitorGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.PreconditionFailedError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.loadBalancers.monitorGroups.update({
@@ -355,6 +365,8 @@ export class MonitorGroupsClient {
      * @param {MonitorGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.PreconditionFailedError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.loadBalancers.monitorGroups.delete({
@@ -434,6 +446,8 @@ export class MonitorGroupsClient {
      * @param {MonitorGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.PreconditionFailedError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.loadBalancers.monitorGroups.edit({

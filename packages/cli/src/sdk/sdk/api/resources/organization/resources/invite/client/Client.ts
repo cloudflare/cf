@@ -33,6 +33,9 @@ export class InviteClient {
      * @param {CloudflareApi.organization.OrganizationsApiHandleOrganizationInviteRequest} request
      * @param {InviteClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.organization.invite.update({
      *         organization_id: "organization_id",

@@ -5,10 +5,10 @@ import * as CloudflareApi from "../index.js";
 /**
  * Defines targets covered by the application. Use either the legacy top-level target_attributes format or the rule format, but not both. The rule format requires include; require and exclude are optional.
  */
-export type AccessTargetCriteriaBase = {
-    exclude: CloudflareApi.AccessTargetRule | undefined;
-    include: CloudflareApi.AccessTargetRule | undefined;
+export type AccessTargetCriteriaBase = Record<string, unknown> & {
+    exclude?: CloudflareApi.AccessTargetRule | undefined;
+    include?: CloudflareApi.AccessTargetRule | undefined;
     port: number;
-    require: CloudflareApi.AccessTargetRule | undefined;
-    target_attributes: CloudflareApi.AccessTargetAttributes | undefined;
-} & Record<string, unknown>;
+    require?: CloudflareApi.AccessTargetRule | undefined;
+    target_attributes?: CloudflareApi.AccessTargetAttributes | undefined;
+};

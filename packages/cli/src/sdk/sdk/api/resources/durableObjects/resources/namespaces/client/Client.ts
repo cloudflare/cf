@@ -35,6 +35,9 @@ export class NamespacesClient {
      * @param {CloudflareApi.durableObjects.ListNamespacesRequest} request
      * @param {NamespacesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.durableObjects.namespaces.list({
      *         account_id: "account_id"
@@ -110,6 +113,9 @@ export class NamespacesClient {
      *
      * @param {CloudflareApi.durableObjects.QueryNamespacesRequest} request
      * @param {NamespacesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.durableObjects.namespaces.query({

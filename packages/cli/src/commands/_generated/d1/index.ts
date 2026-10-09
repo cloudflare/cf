@@ -6,6 +6,7 @@ import $list from "./list.js";
 import $query from "./query.js";
 import $raw from "./raw.js";
 import $timetravel from "./time-travel/index.js";
+import $undelete from "./undelete.js";
 import $update from "./update.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
@@ -30,6 +31,7 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($list)
 			.command($query)
 			.command($raw)
+			.command($undelete)
 			.command($update)
 			.command(withHandWrittenDryRun($migrations, "preview"))
 			.command($timetravel)

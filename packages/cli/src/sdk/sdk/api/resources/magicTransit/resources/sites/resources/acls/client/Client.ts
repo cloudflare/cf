@@ -32,6 +32,9 @@ export class AclsClient {
      * @param {CloudflareApi.magicTransit.sites.ListAclsRequest} request
      * @param {AclsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.sites.acls.list({
      *         account_id: "account_id",
@@ -100,6 +103,9 @@ export class AclsClient {
      *
      * @param {CloudflareApi.magicTransit.sites.MagicAclsAddSingleRequest} request
      * @param {AclsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.sites.acls.create({
@@ -177,6 +183,9 @@ export class AclsClient {
      * @param {CloudflareApi.magicTransit.sites.GetAclsRequest} request
      * @param {AclsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.sites.acls.get({
      *         account_id: "account_id",
@@ -243,6 +252,9 @@ export class AclsClient {
      *
      * @param {CloudflareApi.magicTransit.sites.UpdateAclsRequest} request
      * @param {AclsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.sites.acls.update({
@@ -315,6 +327,9 @@ export class AclsClient {
      * @param {CloudflareApi.magicTransit.sites.DeleteAclsRequest} request
      * @param {AclsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.sites.acls.delete({
      *         account_id: "account_id",
@@ -381,6 +396,9 @@ export class AclsClient {
      *
      * @param {CloudflareApi.magicTransit.sites.EditAclsRequest} request
      * @param {AclsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.sites.acls.edit({

@@ -32,6 +32,9 @@ export class ConnectivityPrecheckClient {
      * @param {CloudflareApi.r2.superSlurper.SourceConnectivityPrecheckRequest} request
      * @param {ConnectivityPrecheckClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.r2.superSlurper.connectivityPrecheck.source({
      *         account_id: "account_id",
@@ -110,6 +113,9 @@ export class ConnectivityPrecheckClient {
      *
      * @param {CloudflareApi.r2.superSlurper.TargetConnectivityPrecheckRequest} request
      * @param {ConnectivityPrecheckClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.r2.superSlurper.connectivityPrecheck.target({

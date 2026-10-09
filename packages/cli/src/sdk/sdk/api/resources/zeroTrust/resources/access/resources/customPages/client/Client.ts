@@ -33,6 +33,9 @@ export class CustomPagesClient {
      * @param {CloudflareApi.zeroTrust.access.ListCustomPagesRequest} request
      * @param {CustomPagesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.customPages.list({
      *         account_id: "account_id"
@@ -110,6 +113,8 @@ export class CustomPagesClient {
      * @param {CustomPagesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.UnprocessableEntityError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.customPages.create({
@@ -195,6 +200,9 @@ export class CustomPagesClient {
      * @param {CloudflareApi.zeroTrust.access.AccessCustomPageValidate} request
      * @param {CustomPagesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.customPages.validate({
      *         account_id: "account_id",
@@ -265,6 +273,9 @@ export class CustomPagesClient {
      * @param {CloudflareApi.zeroTrust.access.GetCustomPagesRequest} request
      * @param {CustomPagesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.customPages.get({
      *         account_id: "account_id",
@@ -332,6 +343,8 @@ export class CustomPagesClient {
      * @param {CustomPagesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.UnprocessableEntityError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.customPages.update({
@@ -417,6 +430,9 @@ export class CustomPagesClient {
      *
      * @param {CloudflareApi.zeroTrust.access.DeleteCustomPagesRequest} request
      * @param {CustomPagesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.customPages.delete({

@@ -31,6 +31,9 @@ export class EligibleDevicesClient {
      * @param {CloudflareApi.zeroTrust.dex.commands.ListEligibleDevicesRequest} request
      * @param {EligibleDevicesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.dex.commands.eligibleDevices.list({
      *         account_id: "account_id",

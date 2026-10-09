@@ -43,6 +43,9 @@ export class ProfilesClient {
      * @param {CloudflareApi.zeroTrust.dlp.ListProfilesRequest} request
      * @param {ProfilesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.dlp.profiles.list({
      *         account_id: "account_id"
@@ -117,6 +120,9 @@ export class ProfilesClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.GetProfilesRequest} request
      * @param {ProfilesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.profiles.get({

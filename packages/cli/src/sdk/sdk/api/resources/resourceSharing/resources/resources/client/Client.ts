@@ -29,6 +29,9 @@ export class ResourcesClient {
      * @param {CloudflareApi.resourceSharing.ListResourcesRequest} request
      * @param {ResourcesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.resourceSharing.resources.list({
      *         account_id: "account_id",
@@ -117,6 +120,9 @@ export class ResourcesClient {
      * @param {CloudflareApi.resourceSharing.CreateResourcesRequest} request
      * @param {ResourcesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.resourceSharing.resources.create({
      *         account_id: "account_id",
@@ -195,6 +201,9 @@ export class ResourcesClient {
      * @param {CloudflareApi.resourceSharing.GetResourcesRequest} request
      * @param {ResourcesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.resourceSharing.resources.get({
      *         account_id: "account_id",
@@ -264,6 +273,9 @@ export class ResourcesClient {
      *
      * @param {CloudflareApi.resourceSharing.ResourceSharingUpdateShareResourceRequest} request
      * @param {ResourcesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.resourceSharing.resources.update({
@@ -338,6 +350,9 @@ export class ResourcesClient {
      *
      * @param {CloudflareApi.resourceSharing.DeleteResourcesRequest} request
      * @param {ResourcesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.resourceSharing.resources.delete({

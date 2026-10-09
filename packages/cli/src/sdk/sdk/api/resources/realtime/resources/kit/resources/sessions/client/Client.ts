@@ -67,6 +67,9 @@ export class SessionsClient {
      * @param {CloudflareApi.realtime.kit.ListSessionsRequest} request
      * @param {SessionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.realtime.kit.sessions.list({
      *         account_id: "account_id",
@@ -165,6 +168,9 @@ export class SessionsClient {
      *
      * @param {CloudflareApi.realtime.kit.GetSessionsRequest} request
      * @param {SessionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.realtime.kit.sessions.get({

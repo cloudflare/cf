@@ -32,6 +32,9 @@ export class OriginClient {
      * @param {CloudflareApi.logpush.accountValidate.CreateOriginRequest} request
      * @param {OriginClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.logpush.accountValidate.origin.create({
      *         account_or_zone: "account_or_zone",

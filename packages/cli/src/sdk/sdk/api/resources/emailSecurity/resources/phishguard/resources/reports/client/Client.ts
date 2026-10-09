@@ -31,6 +31,9 @@ export class ReportsClient {
      * @param {CloudflareApi.emailSecurity.phishguard.ListReportsRequest} request
      * @param {ReportsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.emailSecurity.phishguard.reports.list({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",

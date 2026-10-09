@@ -32,6 +32,9 @@ export class IpProfilesClient {
      * @param {CloudflareApi.zeroTrust.devices.ListIpProfilesRequest} request
      * @param {IpProfilesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.devices.ipProfiles.list({
      *         account_id: "account_id"
@@ -108,6 +111,9 @@ export class IpProfilesClient {
      * @param {CloudflareApi.zeroTrust.devices.TeamsDevicesIpProfileCreateRequest} request
      * @param {IpProfilesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.devices.ipProfiles.create({
      *         account_id: "account_id",
@@ -180,6 +186,9 @@ export class IpProfilesClient {
      * @param {CloudflareApi.zeroTrust.devices.GetIpProfilesRequest} request
      * @param {IpProfilesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.devices.ipProfiles.get({
      *         account_id: "account_id",
@@ -245,6 +254,9 @@ export class IpProfilesClient {
      *
      * @param {CloudflareApi.zeroTrust.devices.DeleteIpProfilesRequest} request
      * @param {IpProfilesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.devices.ipProfiles.delete({
@@ -314,6 +326,9 @@ export class IpProfilesClient {
      *
      * @param {CloudflareApi.zeroTrust.devices.TeamsDevicesIpProfileUpdateRequest} request
      * @param {IpProfilesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.devices.ipProfiles.update({

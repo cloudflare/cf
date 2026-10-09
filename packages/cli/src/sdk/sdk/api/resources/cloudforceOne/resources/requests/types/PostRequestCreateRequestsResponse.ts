@@ -18,6 +18,8 @@ export interface PostRequestCreateRequestsResponse {
     message_tokens: number;
     /** Request priority */
     priority: PostRequestCreateRequestsResponse.Priority;
+    /** Raw stored Threat Intelligence priority. Values 64, 128, and 192 are authoritative; clients display null, 32, 255, and unsupported values as Unknown. */
+    priority_id?: (number | null) | undefined;
     /** Human-readable ID */
     readable_id: string;
     /** Release entitlements */

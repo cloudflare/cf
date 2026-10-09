@@ -31,6 +31,9 @@ export class ColoClient {
      * @param {CloudflareApi.analytics.GetColoRequest} request
      * @param {ColoClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.analytics.colo.get({
      *         zone_identifier: "zone_identifier"

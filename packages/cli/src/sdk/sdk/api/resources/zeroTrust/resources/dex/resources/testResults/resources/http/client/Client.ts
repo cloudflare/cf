@@ -37,6 +37,9 @@ export class HttpClient {
      * @param {CloudflareApi.zeroTrust.dex.testResults.GetHttpRequest} request
      * @param {HttpClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.dex.testResults.http.get({
      *         account_id: "account_id",

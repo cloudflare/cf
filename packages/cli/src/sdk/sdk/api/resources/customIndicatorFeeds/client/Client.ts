@@ -30,6 +30,9 @@ export class CustomIndicatorFeedsClient {
      * @param {CloudflareApi.CustomIndicatorFeedsGetUploadStatusRequest} request
      * @param {CustomIndicatorFeedsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.customIndicatorFeeds.getUploadStatus({
      *         account_id: "account_id",

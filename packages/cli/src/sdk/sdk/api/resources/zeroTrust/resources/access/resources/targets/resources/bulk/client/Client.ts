@@ -32,6 +32,9 @@ export class BulkClient {
      * @param {CloudflareApi.zeroTrust.access.targets.UpdateBulkRequest} request
      * @param {BulkClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.targets.bulk.update({
      *         account_id: "account_id",
@@ -107,6 +110,9 @@ export class BulkClient {
      * @param {CloudflareApi.zeroTrust.access.targets.DeleteBulkRequest} request
      * @param {BulkClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.targets.bulk.delete({
      *         account_id: "account_id",
@@ -175,6 +181,9 @@ export class BulkClient {
      *
      * @param {CloudflareApi.zeroTrust.access.targets.ReplaceTagsBulkRequest} request
      * @param {BulkClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.targets.bulk.replaceTags({

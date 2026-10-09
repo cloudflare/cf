@@ -35,6 +35,9 @@ export class DnssecClient {
      * @param {CloudflareApi.dns.GetDnssecRequest} request
      * @param {DnssecClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.dns.dnssec.get({
      *         zone_id: "zone_id"
@@ -95,6 +98,9 @@ export class DnssecClient {
      * @param {CloudflareApi.dns.DeleteDnssecRequest} request
      * @param {DnssecClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.dns.dnssec.delete({
      *         zone_id: "zone_id"
@@ -154,6 +160,9 @@ export class DnssecClient {
      *
      * @param {CloudflareApi.dns.EditDnssecRequest} request
      * @param {DnssecClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.dns.dnssec.edit({

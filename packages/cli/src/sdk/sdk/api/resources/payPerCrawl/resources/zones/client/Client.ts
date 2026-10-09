@@ -31,6 +31,8 @@ export class ZonesClient {
      * @param {ZonesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.payPerCrawl.zones.setCanBeEnabled({
@@ -112,6 +114,8 @@ export class ZonesClient {
      * @param {ZonesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.payPerCrawl.zones.queryCanBeEnabled({
@@ -190,6 +194,8 @@ export class ZonesClient {
      * @param {ZonesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.payPerCrawl.zones.getCanBeEnabled({

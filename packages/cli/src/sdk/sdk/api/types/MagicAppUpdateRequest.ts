@@ -2,10 +2,10 @@
 
 import * as CloudflareApi from "../index.js";
 
-export type MagicAppUpdateRequest = {
-    hostnames: CloudflareApi.MagicAppHostnames | undefined;
-    ip_subnets: CloudflareApi.MagicAppSubnets | undefined;
-    name: CloudflareApi.MagicAppName | undefined;
-    source_subnets: CloudflareApi.MagicAppSourceSubnets | undefined;
-    type: CloudflareApi.MagicAppType | undefined;
-} & Record<string, unknown>;
+export type MagicAppUpdateRequest = Record<string, unknown> & {
+    hostnames?: CloudflareApi.MagicAppHostnames | undefined;
+    ip_subnets?: CloudflareApi.MagicAppSubnets | undefined;
+    name?: CloudflareApi.MagicAppName | undefined;
+    source_subnets?: CloudflareApi.MagicAppSourceSubnets | undefined;
+    type?: CloudflareApi.MagicAppType | undefined;
+};

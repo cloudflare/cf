@@ -64,6 +64,9 @@ export class ThreatSignalsClient {
      * @param {CloudflareApi.cloudforceOne.HealthThreatSignalsRequest} request
      * @param {ThreatSignalsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.cloudforceOne.threatSignals.health({
      *         account_id: "account_id"
@@ -131,6 +134,9 @@ export class ThreatSignalsClient {
      *
      * @param {CloudflareApi.cloudforceOne.SearchThreatSignalsRequest} request
      * @param {ThreatSignalsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.threatSignals.search({

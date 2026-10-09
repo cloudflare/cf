@@ -31,6 +31,9 @@ export class UpdatesClient {
      * @param {CloudflareApi.zeroTrust.access.logs.scim.ListUpdatesRequest} request
      * @param {UpdatesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.logs.scim.updates.list({
      *         account_id: "account_id",

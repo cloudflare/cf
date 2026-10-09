@@ -31,6 +31,9 @@ export class MessagesClient {
      * @param {CloudflareApi.emailSecurity.bulkActions.ListMessagesRequest} request
      * @param {MessagesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.emailSecurity.bulkActions.messages.list({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",

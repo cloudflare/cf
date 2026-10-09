@@ -28,6 +28,9 @@ export class ResourcesClient {
      * @param {CloudflareApi.tags.ListResourcesRequest} request
      * @param {ResourcesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.tags.resources.list({
      *         account_id: "account_id",

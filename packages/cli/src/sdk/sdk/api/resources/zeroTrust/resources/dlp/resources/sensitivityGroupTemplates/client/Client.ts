@@ -31,6 +31,9 @@ export class SensitivityGroupTemplatesClient {
      * @param {CloudflareApi.zeroTrust.dlp.ListSensitivityGroupTemplatesRequest} request
      * @param {SensitivityGroupTemplatesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.dlp.sensitivityGroupTemplates.list({
      *         account_id: "account_id"
@@ -98,6 +101,9 @@ export class SensitivityGroupTemplatesClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.GetSensitivityGroupTemplatesRequest} request
      * @param {SensitivityGroupTemplatesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.sensitivityGroupTemplates.get({

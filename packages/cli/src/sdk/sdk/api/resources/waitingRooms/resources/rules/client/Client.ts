@@ -29,6 +29,9 @@ export class RulesClient {
      * @param {CloudflareApi.waitingRooms.GetRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.waitingRooms.rules.get({
      *         zone_id: "zone_id",
@@ -97,6 +100,9 @@ export class RulesClient {
      *
      * @param {CloudflareApi.waitingRooms.CreateRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.waitingRooms.rules.create({
@@ -174,6 +180,9 @@ export class RulesClient {
      * @param {CloudflareApi.waitingRooms.UpdateRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.waitingRooms.rules.update({
      *         zone_id: "zone_id",
@@ -250,6 +259,9 @@ export class RulesClient {
      * @param {CloudflareApi.waitingRooms.DeleteRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.waitingRooms.rules.delete({
      *         zone_id: "zone_id",
@@ -319,6 +331,9 @@ export class RulesClient {
      *
      * @param {CloudflareApi.waitingRooms.WaitingroomPatchRule} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.waitingRooms.rules.edit({

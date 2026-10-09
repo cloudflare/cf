@@ -32,6 +32,9 @@ export class RampsClient {
      * @param {CloudflareApi.magicTransit.cf1Sites.ListRampsRequest} request
      * @param {RampsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.cf1Sites.ramps.list({
      *         account_id: "account_id",
@@ -100,6 +103,9 @@ export class RampsClient {
      *
      * @param {CloudflareApi.magicTransit.cf1Sites.CreateRampsRequest} request
      * @param {RampsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.cf1Sites.ramps.create({
@@ -177,6 +183,9 @@ export class RampsClient {
      * @param {CloudflareApi.magicTransit.cf1Sites.GetRampsRequest} request
      * @param {RampsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.cf1Sites.ramps.get({
      *         account_id: "account_id",
@@ -243,6 +252,9 @@ export class RampsClient {
      *
      * @param {CloudflareApi.magicTransit.cf1Sites.DeleteRampsRequest} request
      * @param {RampsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.cf1Sites.ramps.delete({

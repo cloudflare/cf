@@ -39,18 +39,16 @@ export class QueryClient {
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.UnauthorizedError}
      * @throws {@link CloudflareApi.ForbiddenError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.analytics.query.summary({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
      *         dataset: "access-logins",
-     *         filters: [{
-     *                 name: "country",
-     *                 op: "in",
-     *                 values: ["US", "CA", "GB"]
-     *             }],
+     *         filters: [],
      *         from: "2024-11-01T00:00:00Z",
-     *         groupBy: ["country", "allowed"],
+     *         groupBy: [],
      *         stats: ["attemptsTotal"],
      *         to: "2024-11-08T00:00:00Z"
      *     })
@@ -130,6 +128,8 @@ export class QueryClient {
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.UnauthorizedError}
      * @throws {@link CloudflareApi.ForbiddenError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.analytics.query.timeseries({
@@ -151,11 +151,7 @@ export class QueryClient {
      *     await client.analytics.query.timeseries({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
      *         dataset: "shadow_it",
-     *         filters: [{
-     *                 name: "country",
-     *                 op: "in",
-     *                 values: ["US", "CA", "GB"]
-     *             }],
+     *         filters: [],
      *         from: "2024-11-05T00:00:00Z",
      *         groupBy: ["appName"],
      *         stats: ["bytesTotal"],
@@ -238,16 +234,14 @@ export class QueryClient {
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.UnauthorizedError}
      * @throws {@link CloudflareApi.ForbiddenError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.analytics.query.topN({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
      *         dataset: "gateway-http",
-     *         filters: [{
-     *                 name: "country",
-     *                 op: "in",
-     *                 values: ["US", "CA", "GB"]
-     *             }],
+     *         filters: [],
      *         from: "2024-11-05T00:00:00Z",
      *         groupBy: ["appName", "appCategory"],
      *         stats: ["bytesTotal", "requestsTotal"],

@@ -32,6 +32,9 @@ export class NetflowConfigClient {
      * @param {CloudflareApi.magicTransit.sites.GetNetflowConfigRequest} request
      * @param {NetflowConfigClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.sites.netflowConfig.get({
      *         account_id: "account_id",
@@ -97,6 +100,9 @@ export class NetflowConfigClient {
      *
      * @param {CloudflareApi.magicTransit.sites.CreateNetflowConfigRequest} request
      * @param {NetflowConfigClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.sites.netflowConfig.create({
@@ -168,6 +174,9 @@ export class NetflowConfigClient {
      * @param {CloudflareApi.magicTransit.sites.UpdateNetflowConfigRequest} request
      * @param {NetflowConfigClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.sites.netflowConfig.update({
      *         account_id: "account_id",
@@ -238,6 +247,9 @@ export class NetflowConfigClient {
      * @param {CloudflareApi.magicTransit.sites.DeleteNetflowConfigRequest} request
      * @param {NetflowConfigClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.sites.netflowConfig.delete({
      *         account_id: "account_id",
@@ -303,6 +315,9 @@ export class NetflowConfigClient {
      *
      * @param {CloudflareApi.magicTransit.sites.EditNetflowConfigRequest} request
      * @param {NetflowConfigClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.sites.netflowConfig.edit({

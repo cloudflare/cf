@@ -36,6 +36,9 @@ export class RulesClient {
      * @param {CloudflareApi.firewall.waf.packages.ListRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.firewall.waf.packages.rules.list({
      *         zone_id: "zone_id",
@@ -138,6 +141,9 @@ export class RulesClient {
      * @param {CloudflareApi.firewall.waf.packages.GetRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.firewall.waf.packages.rules.get({
      *         zone_id: "zone_id",
@@ -208,6 +214,9 @@ export class RulesClient {
      *
      * @param {CloudflareApi.firewall.waf.packages.EditRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.firewall.waf.packages.rules.edit({

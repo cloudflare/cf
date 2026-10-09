@@ -29,6 +29,9 @@ export class ContentPoliciesClient {
      * @param {CloudflareApi.emailSecurity.ListContentPoliciesRequest} request
      * @param {ContentPoliciesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.emailSecurity.contentPolicies.list({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -112,6 +115,9 @@ export class ContentPoliciesClient {
      * @param {CloudflareApi.emailSecurity.CreateContentPoliciesRequest} request
      * @param {ContentPoliciesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.emailSecurity.contentPolicies.create({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -191,6 +197,9 @@ export class ContentPoliciesClient {
      *
      * @param {CloudflareApi.emailSecurity.BatchContentPoliciesRequest} request
      * @param {ContentPoliciesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailSecurity.contentPolicies.batch({
@@ -282,6 +291,9 @@ export class ContentPoliciesClient {
      * @param {CloudflareApi.emailSecurity.GetContentPoliciesRequest} request
      * @param {ContentPoliciesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.emailSecurity.contentPolicies.get({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -351,6 +363,9 @@ export class ContentPoliciesClient {
      * @param {CloudflareApi.emailSecurity.DeleteContentPoliciesRequest} request
      * @param {ContentPoliciesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.emailSecurity.contentPolicies.delete({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -419,6 +434,9 @@ export class ContentPoliciesClient {
      *
      * @param {CloudflareApi.emailSecurity.EditContentPoliciesRequest} request
      * @param {ContentPoliciesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailSecurity.contentPolicies.edit({

@@ -32,6 +32,9 @@ export class ViewsClient {
      * @param {CloudflareApi.dns.settings.account.ListViewsRequest} request
      * @param {ViewsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.dns.settings.account.views.list({
      *         account_id: "account_id",
@@ -140,6 +143,9 @@ export class ViewsClient {
      * @param {CloudflareApi.dns.settings.account.DnsSettingsDnsViewPost} request
      * @param {ViewsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.dns.settings.account.views.create({
      *         account_id: "account_id",
@@ -213,6 +219,9 @@ export class ViewsClient {
      * @param {CloudflareApi.dns.settings.account.GetViewsRequest} request
      * @param {ViewsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.dns.settings.account.views.get({
      *         account_id: "account_id",
@@ -282,6 +291,9 @@ export class ViewsClient {
      * @param {CloudflareApi.dns.settings.account.DeleteViewsRequest} request
      * @param {ViewsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.dns.settings.account.views.delete({
      *         account_id: "account_id",
@@ -350,6 +362,9 @@ export class ViewsClient {
      *
      * @param {CloudflareApi.dns.settings.account.DnsSettingsDnsView} request
      * @param {ViewsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.dns.settings.account.views.edit({

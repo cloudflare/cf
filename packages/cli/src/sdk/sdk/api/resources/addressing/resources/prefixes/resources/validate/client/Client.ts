@@ -31,6 +31,9 @@ export class ValidateClient {
      * @param {CloudflareApi.addressing.prefixes.CreateValidateRequest} request
      * @param {ValidateClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.addressing.prefixes.validate.create({
      *         account_id: "account_id",

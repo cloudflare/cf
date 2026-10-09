@@ -1,5 +1,3 @@
-export * from "./SummaryNetflowsRequestFormat.js";
-export * from "./SummaryNetflowsResponse.js";
 export * from "./SummaryV2NetflowsRequestDimension.js";
 export * from "./SummaryV2NetflowsRequestFormat.js";
 export * from "./SummaryV2NetflowsRequestProductItem.js";

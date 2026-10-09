@@ -28,6 +28,9 @@ export class KeysClient {
      * @param {CloudflareApi.stream.ListKeysRequest} request
      * @param {KeysClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.stream.keys.list({
      *         account_id: "account_id"
@@ -96,6 +99,9 @@ export class KeysClient {
      * @param {CloudflareApi.stream.CreateKeysRequest} request
      * @param {KeysClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.stream.keys.create({
      *         account_id: "account_id"
@@ -160,6 +166,9 @@ export class KeysClient {
      *
      * @param {CloudflareApi.stream.DeleteKeysRequest} request
      * @param {KeysClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.stream.keys.delete({

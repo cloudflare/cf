@@ -29,6 +29,9 @@ export class ConfigClient {
      * @param {CloudflareApi.googleTagGateway.GetConfigRequest} request
      * @param {ConfigClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.googleTagGateway.config.get({
      *         zone_id: "zone_id"
@@ -96,6 +99,9 @@ export class ConfigClient {
      *
      * @param {CloudflareApi.googleTagGateway.UpdateConfigRequest} request
      * @param {ConfigClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.googleTagGateway.config.update({

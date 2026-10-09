@@ -31,6 +31,9 @@ export class ByTagClient {
      * @param {CloudflareApi.rulesets.versions.GetByTagRequest} request
      * @param {ByTagClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.rulesets.versions.byTag.get({
      *         account_or_zone: "account_or_zone",

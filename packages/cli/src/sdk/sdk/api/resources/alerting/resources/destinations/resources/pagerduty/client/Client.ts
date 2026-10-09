@@ -31,6 +31,9 @@ export class PagerdutyClient {
      * @param {CloudflareApi.alerting.destinations.GetPagerdutyRequest} request
      * @param {PagerdutyClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.alerting.destinations.pagerduty.get({
      *         account_id: "account_id"
@@ -99,6 +102,9 @@ export class PagerdutyClient {
      * @param {CloudflareApi.alerting.destinations.DeletePagerdutyRequest} request
      * @param {PagerdutyClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.alerting.destinations.pagerduty.delete({
      *         account_id: "account_id"
@@ -163,6 +169,9 @@ export class PagerdutyClient {
      *
      * @param {CloudflareApi.alerting.destinations.CreatePagerdutyRequest} request
      * @param {PagerdutyClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.alerting.destinations.pagerduty.create({
@@ -231,6 +240,9 @@ export class PagerdutyClient {
      *
      * @param {CloudflareApi.alerting.destinations.LinkPagerdutyRequest} request
      * @param {PagerdutyClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.alerting.destinations.pagerduty.link({

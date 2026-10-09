@@ -29,6 +29,9 @@ export class PublishClient {
      * @param {CloudflareApi.zaraz.CreatePublishRequest} request
      * @param {PublishClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zaraz.publish.create({
      *         zone_id: "zone_id",

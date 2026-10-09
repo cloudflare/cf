@@ -35,6 +35,9 @@ export class EntrypointClient {
      * @param {CloudflareApi.rulesets.GetEntrypointRequest} request
      * @param {EntrypointClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.rulesets.entrypoint.get({
      *         account_or_zone: "account_or_zone",
@@ -104,6 +107,9 @@ export class EntrypointClient {
      *
      * @param {CloudflareApi.rulesets.UpdateEntrypointRequest} request
      * @param {EntrypointClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.rulesets.entrypoint.update({

@@ -32,6 +32,9 @@ export class DeploymentsClient {
      * @param {CloudflareApi.workers.previews.ListDeploymentsRequest} request
      * @param {DeploymentsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workers.previews.deployments.list({
      *         account_id: "account_id",
@@ -109,6 +112,9 @@ export class DeploymentsClient {
      *
      * @param {CloudflareApi.workers.previews.CreateDeploymentsRequest} request
      * @param {DeploymentsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workers.previews.deployments.create({
@@ -197,6 +203,9 @@ export class DeploymentsClient {
      * @param {CloudflareApi.workers.previews.EditDeploymentsRequest} request
      * @param {DeploymentsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workers.previews.deployments.edit({
      *         account_id: "account_id",
@@ -284,6 +293,9 @@ export class DeploymentsClient {
      * @param {CloudflareApi.workers.previews.GetDeploymentsRequest} request
      * @param {DeploymentsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workers.previews.deployments.get({
      *         account_id: "account_id",
@@ -367,6 +379,9 @@ export class DeploymentsClient {
      *
      * @param {CloudflareApi.workers.previews.DeleteDeploymentsRequest} request
      * @param {DeploymentsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workers.previews.deployments.delete({

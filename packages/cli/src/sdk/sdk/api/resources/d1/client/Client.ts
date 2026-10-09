@@ -35,6 +35,9 @@ export class D1Client {
      * @param {CloudflareApi.ListD1Request} request
      * @param {D1Client.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.d1.list({
      *         account_id: "account_id"
@@ -109,6 +112,9 @@ export class D1Client {
      * @param {CloudflareApi.CreateD1Request} request
      * @param {D1Client.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.d1.create({
      *         account_id: "account_id",
@@ -180,6 +186,9 @@ export class D1Client {
      *
      * @param {CloudflareApi.GetD1Request} request
      * @param {D1Client.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.d1.get({
@@ -258,6 +267,9 @@ export class D1Client {
      * @param {CloudflareApi.D1DatabaseUpdateRequestBody} request
      * @param {D1Client.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.d1.update({
      *         account_id: "account_id",
@@ -333,6 +345,9 @@ export class D1Client {
      * @param {CloudflareApi.DeleteD1Request} request
      * @param {D1Client.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.d1.delete({
      *         account_id: "account_id",
@@ -398,6 +413,9 @@ export class D1Client {
      *
      * @param {CloudflareApi.D1DatabaseUpdatePartialRequestBody} request
      * @param {D1Client.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.d1.edit({
@@ -471,6 +489,9 @@ export class D1Client {
      * @param {CloudflareApi.QueryD1Request} request
      * @param {D1Client.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.d1.query({
      *         account_id: "account_id",
@@ -543,6 +564,9 @@ export class D1Client {
      * @param {CloudflareApi.RawD1Request} request
      * @param {D1Client.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.d1.raw({
      *         account_id: "account_id",
@@ -606,6 +630,86 @@ export class D1Client {
             _response.rawResponse,
             "POST",
             "/accounts/{account_id}/d1/database/{database_id}/raw",
+        );
+    }
+
+    /**
+     * Restore a deleted D1 database. The database is restored with the name it had when it was deleted,
+     * unless `new_name` is provided. The restored database counts against the account's limits.
+     * Undeleting a database that is not deleted succeeds without changes, unless `new_name` differs from its current name which errors.
+     *
+     * Once a database is undeleted, Time Travel (point-in-time recovery) cannot restore it to a bookmark or
+     * timestamp at or before the undeletion. Only states after the undeletion can be restored.
+     *
+     * @param {CloudflareApi.UndeleteD1Request} request
+     * @param {D1Client.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
+     * @example
+     *     await client.d1.undelete({
+     *         account_id: "account_id",
+     *         database_id: "database_id"
+     *     })
+     */
+    public undelete(
+        request: CloudflareApi.UndeleteD1Request,
+        requestOptions?: D1Client.RequestOptions,
+    ): core.HttpResponsePromise<CloudflareApi.D1DatabaseDetailsResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__undelete(request, requestOptions));
+    }
+
+    private async __undelete(
+        request: CloudflareApi.UndeleteD1Request,
+        requestOptions?: D1Client.RequestOptions,
+    ): Promise<core.WithRawResponse<CloudflareApi.D1DatabaseDetailsResponse>> {
+        const { account_id: accountId, database_id: databaseId, ..._body } = request;
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.CloudflareApiEnvironment.Default,
+                `accounts/${core.url.encodePathParam(accountId)}/d1/database/${core.url.encodePathParam(databaseId)}/undelete`,
+            ),
+            method: "POST",
+            headers: _headers,
+            contentType: "application/json",
+            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
+            requestType: "json",
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return {
+                data: _response.body as CloudflareApi.D1DatabaseDetailsResponse,
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            throw new errors.CloudflareApiError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
+        }
+
+        return handleNonStatusCodeError(
+            _response.error,
+            _response.rawResponse,
+            "POST",
+            "/accounts/{account_id}/d1/database/{database_id}/undelete",
         );
     }
 }

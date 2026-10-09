@@ -31,6 +31,9 @@ export class LiveClient {
      * @param {CloudflareApi.zeroTrust.dex.devices.aggregates.GetLiveRequest} request
      * @param {LiveClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.dex.devices.aggregates.live.get({
      *         account_id: "account_id",

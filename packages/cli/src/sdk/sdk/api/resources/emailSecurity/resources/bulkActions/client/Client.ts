@@ -35,6 +35,9 @@ export class BulkActionsClient {
      * @param {CloudflareApi.emailSecurity.ListBulkActionsRequest} request
      * @param {BulkActionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.emailSecurity.bulkActions.list({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -115,6 +118,9 @@ export class BulkActionsClient {
      * @param {CloudflareApi.emailSecurity.EmailSecurityBulkActionRequest} request
      * @param {BulkActionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.emailSecurity.bulkActions.create({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -188,6 +194,9 @@ export class BulkActionsClient {
      * @param {CloudflareApi.emailSecurity.GetBulkActionsRequest} request
      * @param {BulkActionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.emailSecurity.bulkActions.get({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -257,6 +266,9 @@ export class BulkActionsClient {
      * @param {CloudflareApi.emailSecurity.DeleteBulkActionsRequest} request
      * @param {BulkActionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.emailSecurity.bulkActions.delete({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -325,6 +337,9 @@ export class BulkActionsClient {
      *
      * @param {CloudflareApi.emailSecurity.CancelBulkActionsRequest} request
      * @param {BulkActionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailSecurity.bulkActions.cancel({

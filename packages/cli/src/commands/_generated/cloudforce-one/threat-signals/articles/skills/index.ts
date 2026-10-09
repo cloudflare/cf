@@ -1,4 +1,5 @@
 import $getoutput from "./get-output.js";
+import $list from "./list.js";
 import $run from "./run.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
@@ -14,6 +15,7 @@ const command: CommandModule<CommonYargsOptions> = {
 	builder: (yargs) => {
 		return yargs
 			.command($getoutput)
+			.command($list)
 			.command($run)
 			.demandCommand(1, "Please specify a subcommand");
 	},

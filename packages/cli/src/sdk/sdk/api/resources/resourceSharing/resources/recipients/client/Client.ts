@@ -29,6 +29,9 @@ export class RecipientsClient {
      * @param {CloudflareApi.resourceSharing.GetRecipientsRequest} request
      * @param {RecipientsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.resourceSharing.recipients.get({
      *         account_id: "account_id",
@@ -122,6 +125,9 @@ export class RecipientsClient {
      * @param {CloudflareApi.resourceSharing.DeleteRecipientsRequest} request
      * @param {RecipientsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.resourceSharing.recipients.delete({
      *         account_id: "account_id",
@@ -194,6 +200,9 @@ export class RecipientsClient {
      *
      * @param {CloudflareApi.resourceSharing.ListRecipientsRequest} request
      * @param {RecipientsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.resourceSharing.recipients.list({
@@ -287,6 +296,9 @@ export class RecipientsClient {
      * @param {CloudflareApi.resourceSharing.CreateRecipientsRequest} request
      * @param {RecipientsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.resourceSharing.recipients.create({
      *         account_id_path: "account_id_path",
@@ -367,6 +379,9 @@ export class RecipientsClient {
      *
      * @param {CloudflareApi.resourceSharing.UpdateRecipientsRequest} request
      * @param {RecipientsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.resourceSharing.recipients.update({

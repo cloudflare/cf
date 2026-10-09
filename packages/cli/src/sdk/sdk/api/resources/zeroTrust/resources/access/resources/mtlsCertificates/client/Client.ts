@@ -38,6 +38,9 @@ export class MtlsCertificatesClient {
      * @param {CloudflareApi.zeroTrust.access.ListMtlsCertificatesRequest} request
      * @param {MtlsCertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.mtlsCertificates.list({
      *         account_or_zone: "account_or_zone",
@@ -120,6 +123,9 @@ export class MtlsCertificatesClient {
      * @param {CloudflareApi.zeroTrust.access.CreateMtlsCertificatesRequest} request
      * @param {MtlsCertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.mtlsCertificates.create({
      *         account_or_zone: "account_or_zone",
@@ -191,6 +197,9 @@ export class MtlsCertificatesClient {
      * @param {CloudflareApi.zeroTrust.access.GetMtlsCertificatesRequest} request
      * @param {MtlsCertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.mtlsCertificates.get({
      *         account_or_zone: "account_or_zone",
@@ -261,6 +270,9 @@ export class MtlsCertificatesClient {
      *
      * @param {CloudflareApi.zeroTrust.access.UpdateMtlsCertificatesRequest} request
      * @param {MtlsCertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.mtlsCertificates.update({
@@ -337,6 +349,9 @@ export class MtlsCertificatesClient {
      *
      * @param {CloudflareApi.zeroTrust.access.DeleteMtlsCertificatesRequest} request
      * @param {MtlsCertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.mtlsCertificates.delete({

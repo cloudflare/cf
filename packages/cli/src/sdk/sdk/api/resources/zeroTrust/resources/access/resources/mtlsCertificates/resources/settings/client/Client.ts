@@ -32,6 +32,9 @@ export class SettingsClient {
      * @param {CloudflareApi.zeroTrust.access.mtlsCertificates.GetSettingsRequest} request
      * @param {SettingsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.mtlsCertificates.settings.get({
      *         account_or_zone: "account_or_zone",
@@ -100,6 +103,9 @@ export class SettingsClient {
      *
      * @param {CloudflareApi.zeroTrust.access.mtlsCertificates.UpdateSettingsRequest} request
      * @param {SettingsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.mtlsCertificates.settings.update({

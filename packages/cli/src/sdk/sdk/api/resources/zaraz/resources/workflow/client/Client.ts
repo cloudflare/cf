@@ -29,6 +29,9 @@ export class WorkflowClient {
      * @param {CloudflareApi.zaraz.GetWorkflowRequest} request
      * @param {WorkflowClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zaraz.workflow.get({
      *         zone_id: "zone_id"
@@ -93,6 +96,9 @@ export class WorkflowClient {
      *
      * @param {CloudflareApi.zaraz.UpdateWorkflowRequest} request
      * @param {WorkflowClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zaraz.workflow.update({

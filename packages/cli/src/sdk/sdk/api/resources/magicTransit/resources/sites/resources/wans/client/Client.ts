@@ -32,6 +32,9 @@ export class WansClient {
      * @param {CloudflareApi.magicTransit.sites.ListWansRequest} request
      * @param {WansClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.sites.wans.list({
      *         account_id: "account_id",
@@ -100,6 +103,9 @@ export class WansClient {
      *
      * @param {CloudflareApi.magicTransit.sites.MagicWansAddSingleRequest} request
      * @param {WansClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.sites.wans.create({
@@ -174,6 +180,9 @@ export class WansClient {
      * @param {CloudflareApi.magicTransit.sites.GetWansRequest} request
      * @param {WansClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.sites.wans.get({
      *         account_id: "account_id",
@@ -240,6 +249,9 @@ export class WansClient {
      *
      * @param {CloudflareApi.magicTransit.sites.UpdateWansRequest} request
      * @param {WansClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.sites.wans.update({
@@ -312,6 +324,9 @@ export class WansClient {
      * @param {CloudflareApi.magicTransit.sites.DeleteWansRequest} request
      * @param {WansClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.sites.wans.delete({
      *         account_id: "account_id",
@@ -378,6 +393,9 @@ export class WansClient {
      *
      * @param {CloudflareApi.magicTransit.sites.EditWansRequest} request
      * @param {WansClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.sites.wans.edit({

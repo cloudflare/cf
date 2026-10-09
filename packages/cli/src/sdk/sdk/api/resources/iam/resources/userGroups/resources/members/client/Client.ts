@@ -32,6 +32,9 @@ export class MembersClient {
      * @param {CloudflareApi.iam.userGroups.ListMembersRequest} request
      * @param {MembersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.iam.userGroups.members.list({
      *         account_id: "account_id",
@@ -119,6 +122,9 @@ export class MembersClient {
      * @param {CloudflareApi.iam.userGroups.CreateMembersRequest} request
      * @param {MembersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.iam.userGroups.members.create({
      *         account_id: "account_id",
@@ -193,6 +199,9 @@ export class MembersClient {
      *
      * @param {CloudflareApi.iam.userGroups.UpdateMembersRequest} request
      * @param {MembersClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.iam.userGroups.members.update({
@@ -269,6 +278,9 @@ export class MembersClient {
      * @param {CloudflareApi.iam.userGroups.GetMembersRequest} request
      * @param {MembersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.iam.userGroups.members.get({
      *         account_id: "account_id",
@@ -338,6 +350,9 @@ export class MembersClient {
      *
      * @param {CloudflareApi.iam.userGroups.DeleteMembersRequest} request
      * @param {MembersClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.iam.userGroups.members.delete({

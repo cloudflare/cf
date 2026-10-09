@@ -29,6 +29,9 @@ export class UsersClient {
      * @param {CloudflareApi.scim.ListUsersRequest} request
      * @param {UsersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.scim.users.list({
      *         account_id: "account_id",
@@ -107,6 +110,9 @@ export class UsersClient {
      * @param {CloudflareApi.scim.IamScimUserCreateRequest} request
      * @param {UsersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.scim.users.create({
      *         account_id: "account_id",
@@ -181,6 +187,9 @@ export class UsersClient {
      * @param {CloudflareApi.scim.GetUsersRequest} request
      * @param {UsersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.scim.users.get({
      *         account_id: "account_id",
@@ -246,6 +255,9 @@ export class UsersClient {
      *
      * @param {CloudflareApi.scim.IamScimUserReplaceRequest} request
      * @param {UsersClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.scim.users.update({
@@ -318,6 +330,9 @@ export class UsersClient {
      * @param {CloudflareApi.scim.DeleteUsersRequest} request
      * @param {UsersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.scim.users.delete({
      *         account_id: "account_id",
@@ -383,6 +398,9 @@ export class UsersClient {
      *
      * @param {CloudflareApi.scim.IamScimPatchOpRequest} request
      * @param {UsersClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.scim.users.edit({

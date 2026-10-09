@@ -37,6 +37,9 @@ export class RegistrationsClient {
      * @param {CloudflareApi.zeroTrust.devices.ListRegistrationsRequest} request
      * @param {RegistrationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.devices.registrations.list({
      *         account_id: "account_id",
@@ -153,6 +156,9 @@ export class RegistrationsClient {
      * @param {CloudflareApi.zeroTrust.devices.BulkDeleteRegistrationsRequest} request
      * @param {RegistrationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.devices.registrations.bulkDelete({
      *         account_id: "account_id",
@@ -229,6 +235,9 @@ export class RegistrationsClient {
      * @param {CloudflareApi.zeroTrust.devices.GetRegistrationsRequest} request
      * @param {RegistrationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.devices.registrations.get({
      *         account_id: "account_id",
@@ -304,6 +313,9 @@ export class RegistrationsClient {
      *
      * @param {CloudflareApi.zeroTrust.devices.DeleteRegistrationsRequest} request
      * @param {RegistrationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.devices.registrations.delete({

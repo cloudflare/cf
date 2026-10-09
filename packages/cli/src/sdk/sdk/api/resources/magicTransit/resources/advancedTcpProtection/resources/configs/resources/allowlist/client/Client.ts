@@ -12,7 +12,7 @@ import * as environments from "../../../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../../../errors/index.js";
 import type * as CloudflareApi from "../../../../../../../../../index.js";
-import { DeleteClient } from "../resources/delete/client/Client.js";
+import { PrefixClient } from "../resources/prefix/client/Client.js";
 
 export declare namespace AllowlistClient {
     export type Options = BaseClientOptions;
@@ -22,14 +22,14 @@ export declare namespace AllowlistClient {
 
 export class AllowlistClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<AllowlistClient.Options>;
-    protected _delete: DeleteClient | undefined;
+    protected _prefix: PrefixClient | undefined;
 
     constructor(options: AllowlistClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 
-    public get delete(): DeleteClient {
-        return (this._delete ??= new DeleteClient(this._options));
+    public get prefix(): PrefixClient {
+        return (this._prefix ??= new PrefixClient(this._options));
     }
 
     /**
@@ -37,6 +37,9 @@ export class AllowlistClient {
      *
      * @param {CloudflareApi.magicTransit.advancedTcpProtection.configs.ListAllowlistRequest} request
      * @param {AllowlistClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.advancedTcpProtection.configs.allowlist.list({
@@ -120,6 +123,9 @@ export class AllowlistClient {
      * @param {CloudflareApi.magicTransit.advancedTcpProtection.configs.DosNewInfraPrefix} request
      * @param {AllowlistClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.advancedTcpProtection.configs.allowlist.create({
      *         account_id: "account_id",
@@ -186,29 +192,31 @@ export class AllowlistClient {
     }
 
     /**
-     * Get an allowlist prefix specified by the given UUID.
+     * Delete all allowlist prefixes for an account.
      *
-     * @param {CloudflareApi.magicTransit.advancedTcpProtection.configs.GetAllowlistRequest} request
+     * @param {CloudflareApi.magicTransit.advancedTcpProtection.configs.BulkDeleteAllowlistRequest} request
      * @param {AllowlistClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
-     *     await client.magicTransit.advancedTcpProtection.configs.allowlist.get({
-     *         account_id: "account_id",
-     *         prefix_id: "prefix_id"
+     *     await client.magicTransit.advancedTcpProtection.configs.allowlist.bulkDelete({
+     *         account_id: "account_id"
      *     })
      */
-    public get(
-        request: CloudflareApi.magicTransit.advancedTcpProtection.configs.GetAllowlistRequest,
+    public bulkDelete(
+        request: CloudflareApi.magicTransit.advancedTcpProtection.configs.BulkDeleteAllowlistRequest,
         requestOptions?: AllowlistClient.RequestOptions,
-    ): core.HttpResponsePromise<CloudflareApi.DosInfraPrefix> {
-        return core.HttpResponsePromise.fromPromise(this.__get(request, requestOptions));
+    ): core.HttpResponsePromise<CloudflareApi.DosApiResponseCommon> {
+        return core.HttpResponsePromise.fromPromise(this.__bulkDelete(request, requestOptions));
     }
 
-    private async __get(
-        request: CloudflareApi.magicTransit.advancedTcpProtection.configs.GetAllowlistRequest,
+    private async __bulkDelete(
+        request: CloudflareApi.magicTransit.advancedTcpProtection.configs.BulkDeleteAllowlistRequest,
         requestOptions?: AllowlistClient.RequestOptions,
-    ): Promise<core.WithRawResponse<CloudflareApi.DosInfraPrefix>> {
-        const { account_id: accountId, prefix_id: prefixId } = request;
+    ): Promise<core.WithRawResponse<CloudflareApi.DosApiResponseCommon>> {
+        const { account_id: accountId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -220,9 +228,9 @@ export class AllowlistClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/magic/advanced_tcp_protection/configs/allowlist/${core.url.encodePathParam(prefixId)}`,
+                `accounts/${core.url.encodePathParam(accountId)}/magic/advanced_tcp_protection/configs/allowlist`,
             ),
-            method: "GET",
+            method: "DELETE",
             headers: _headers,
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
@@ -232,7 +240,7 @@ export class AllowlistClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body as CloudflareApi.DosInfraPrefix, rawResponse: _response.rawResponse };
+            return { data: _response.body as CloudflareApi.DosApiResponseCommon, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {
@@ -246,77 +254,8 @@ export class AllowlistClient {
         return handleNonStatusCodeError(
             _response.error,
             _response.rawResponse,
-            "GET",
-            "/accounts/{account_id}/magic/advanced_tcp_protection/configs/allowlist/{prefix_id}",
-        );
-    }
-
-    /**
-     * Update an allowlist prefix specified by the given UUID.
-     *
-     * @param {CloudflareApi.magicTransit.advancedTcpProtection.configs.DosInfraPrefixUpdate} request
-     * @param {AllowlistClient.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @example
-     *     await client.magicTransit.advancedTcpProtection.configs.allowlist.update({
-     *         account_id: "account_id",
-     *         prefix_id: "prefix_id"
-     *     })
-     */
-    public update(
-        request: CloudflareApi.magicTransit.advancedTcpProtection.configs.DosInfraPrefixUpdate,
-        requestOptions?: AllowlistClient.RequestOptions,
-    ): core.HttpResponsePromise<CloudflareApi.DosInfraPrefix> {
-        return core.HttpResponsePromise.fromPromise(this.__update(request, requestOptions));
-    }
-
-    private async __update(
-        request: CloudflareApi.magicTransit.advancedTcpProtection.configs.DosInfraPrefixUpdate,
-        requestOptions?: AllowlistClient.RequestOptions,
-    ): Promise<core.WithRawResponse<CloudflareApi.DosInfraPrefix>> {
-        const { account_id: accountId, prefix_id: prefixId, ..._body } = request;
-        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
-        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
-            _authRequest.headers,
-            this._options?.headers,
-            requestOptions?.headers,
-        );
-        const _response = await (this._options.fetcher ?? core.fetcher)({
-            url: core.url.join(
-                (await core.Supplier.get(this._options.baseUrl)) ??
-                    (await core.Supplier.get(this._options.environment)) ??
-                    environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/magic/advanced_tcp_protection/configs/allowlist/${core.url.encodePathParam(prefixId)}`,
-            ),
-            method: "PATCH",
-            headers: _headers,
-            contentType: "application/json",
-            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
-            requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
-            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
-            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
-            abortSignal: requestOptions?.abortSignal,
-            fetchFn: this._options?.fetch,
-            logging: this._options.logging,
-        });
-        if (_response.ok) {
-            return { data: _response.body as CloudflareApi.DosInfraPrefix, rawResponse: _response.rawResponse };
-        }
-
-        if (_response.error.reason === "status-code") {
-            throw new errors.CloudflareApiError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-                rawResponse: _response.rawResponse,
-            });
-        }
-
-        return handleNonStatusCodeError(
-            _response.error,
-            _response.rawResponse,
-            "PATCH",
-            "/accounts/{account_id}/magic/advanced_tcp_protection/configs/allowlist/{prefix_id}",
+            "DELETE",
+            "/accounts/{account_id}/magic/advanced_tcp_protection/configs/allowlist",
         );
     }
 }

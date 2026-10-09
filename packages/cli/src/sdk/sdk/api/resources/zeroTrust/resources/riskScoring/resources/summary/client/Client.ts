@@ -31,6 +31,9 @@ export class SummaryClient {
      * @param {CloudflareApi.zeroTrust.riskScoring.GetSummaryRequest} request
      * @param {SummaryClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.riskScoring.summary.get({
      *         account_id: "account_id"

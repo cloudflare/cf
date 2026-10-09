@@ -32,6 +32,9 @@ export class BgpPrefixesClient {
      * @param {CloudflareApi.addressing.prefixes.ListBgpPrefixesRequest} request
      * @param {BgpPrefixesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.addressing.prefixes.bgpPrefixes.list({
      *         account_id: "account_id",
@@ -100,6 +103,9 @@ export class BgpPrefixesClient {
      *
      * @param {CloudflareApi.addressing.prefixes.AddressingBgpPrefixCreate} request
      * @param {BgpPrefixesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.addressing.prefixes.bgpPrefixes.create({
@@ -174,6 +180,9 @@ export class BgpPrefixesClient {
      * @param {CloudflareApi.addressing.prefixes.GetBgpPrefixesRequest} request
      * @param {BgpPrefixesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.addressing.prefixes.bgpPrefixes.get({
      *         account_id: "account_id",
@@ -244,6 +253,9 @@ export class BgpPrefixesClient {
      * @param {CloudflareApi.addressing.prefixes.DeleteBgpPrefixesRequest} request
      * @param {BgpPrefixesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.addressing.prefixes.bgpPrefixes.delete({
      *         account_id: "account_id",
@@ -313,6 +325,9 @@ export class BgpPrefixesClient {
      *
      * @param {CloudflareApi.addressing.prefixes.AddressingBgpPrefixUpdateAdvertisement} request
      * @param {BgpPrefixesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.addressing.prefixes.bgpPrefixes.edit({

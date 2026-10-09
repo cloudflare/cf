@@ -28,6 +28,9 @@ export class CacheReserveClearClient {
      * @param {CloudflareApi.smartShield.StatusCacheReserveClearRequest} request
      * @param {CacheReserveClearClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.smartShield.cacheReserveClear.status({
      *         zone_id: "zone_id"
@@ -95,6 +98,9 @@ export class CacheReserveClearClient {
      *
      * @param {CloudflareApi.smartShield.ClearCacheReserveClearRequest} request
      * @param {CacheReserveClearClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.smartShield.cacheReserveClear.clear({

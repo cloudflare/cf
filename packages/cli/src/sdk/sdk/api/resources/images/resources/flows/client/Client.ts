@@ -29,6 +29,9 @@ export class FlowsClient {
      * @param {CloudflareApi.images.GetFlowsRequest} request
      * @param {FlowsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.images.flows.get({
      *         zone_id: "zone_id"
@@ -96,6 +99,9 @@ export class FlowsClient {
      *
      * @param {CloudflareApi.images.UpdateFlowsRequest} request
      * @param {FlowsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.images.flows.update({

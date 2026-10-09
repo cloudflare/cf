@@ -28,6 +28,9 @@ export class PlansClient {
      * @param {CloudflareApi.zones.ListPlansRequest} request
      * @param {PlansClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zones.plans.list({
      *         zone_id: "zone_id"
@@ -95,6 +98,9 @@ export class PlansClient {
      *
      * @param {CloudflareApi.zones.GetPlansRequest} request
      * @param {PlansClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zones.plans.get({

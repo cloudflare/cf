@@ -32,6 +32,9 @@ export class VerificationClient {
      * @param {CloudflareApi.emailSecurity.domains.GetVerificationRequest} request
      * @param {VerificationClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.emailSecurity.domains.verification.get({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",

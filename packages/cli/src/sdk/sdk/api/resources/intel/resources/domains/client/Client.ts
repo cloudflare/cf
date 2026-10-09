@@ -34,6 +34,9 @@ export class DomainsClient {
      * @param {CloudflareApi.intel.GetDomainsRequest} request
      * @param {DomainsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.intel.domains.get({
      *         account_id: "account_id"

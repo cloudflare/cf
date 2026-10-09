@@ -31,6 +31,9 @@ export class ItemsClient {
      * @param {CloudflareApi.zeroTrust.gateway.lists.ListItemsRequest} request
      * @param {ItemsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.gateway.lists.items.list({
      *         account_id: "account_id",

@@ -7,6 +7,7 @@ import {
 } from "../../../../../../../../BaseClient.js";
 import * as core from "../../../../../../../../core/index.js";
 import { mergeHeaders } from "../../../../../../../../core/headers.js";
+import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requestBody.js";
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
@@ -26,10 +27,165 @@ export class ZonesClient {
     }
 
     /**
+     * Add multiple zones as members of a particular address map.
+     *
+     * @param {CloudflareApi.addressing.addressMaps.UpdateBulkZonesRequest} request
+     * @param {ZonesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
+     * @example
+     *     await client.addressing.addressMaps.zones.updateBulk({
+     *         account_id: "account_id",
+     *         address_map_id: "address_map_id",
+     *         zones: ["8ac8489932db6327334c9b6d58544cfe"]
+     *     })
+     */
+    public updateBulk(
+        request: CloudflareApi.addressing.addressMaps.UpdateBulkZonesRequest,
+        requestOptions?: ZonesClient.RequestOptions,
+    ): core.HttpResponsePromise<CloudflareApi.AddressingApiResponseCollection> {
+        return core.HttpResponsePromise.fromPromise(this.__updateBulk(request, requestOptions));
+    }
+
+    private async __updateBulk(
+        request: CloudflareApi.addressing.addressMaps.UpdateBulkZonesRequest,
+        requestOptions?: ZonesClient.RequestOptions,
+    ): Promise<core.WithRawResponse<CloudflareApi.AddressingApiResponseCollection>> {
+        const { account_id: accountId, address_map_id: addressMapId, ..._body } = request;
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.CloudflareApiEnvironment.Default,
+                `accounts/${core.url.encodePathParam(accountId)}/addressing/address_maps/${core.url.encodePathParam(addressMapId)}/zones`,
+            ),
+            method: "POST",
+            headers: _headers,
+            contentType: "application/json",
+            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
+            requestType: "json",
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return {
+                data: _response.body as CloudflareApi.AddressingApiResponseCollection,
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            throw new errors.CloudflareApiError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
+        }
+
+        return handleNonStatusCodeError(
+            _response.error,
+            _response.rawResponse,
+            "POST",
+            "/accounts/{account_id}/addressing/address_maps/{address_map_id}/zones",
+        );
+    }
+
+    /**
+     * Remove multiple zones as members of a particular address map.
+     *
+     * @param {CloudflareApi.addressing.addressMaps.DeleteBulkZonesRequest} request
+     * @param {ZonesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
+     * @example
+     *     await client.addressing.addressMaps.zones.deleteBulk({
+     *         account_id: "account_id",
+     *         address_map_id: "address_map_id",
+     *         zones: ["8ac8489932db6327334c9b6d58544cfe"]
+     *     })
+     */
+    public deleteBulk(
+        request: CloudflareApi.addressing.addressMaps.DeleteBulkZonesRequest,
+        requestOptions?: ZonesClient.RequestOptions,
+    ): core.HttpResponsePromise<CloudflareApi.AddressingApiResponseCollection> {
+        return core.HttpResponsePromise.fromPromise(this.__deleteBulk(request, requestOptions));
+    }
+
+    private async __deleteBulk(
+        request: CloudflareApi.addressing.addressMaps.DeleteBulkZonesRequest,
+        requestOptions?: ZonesClient.RequestOptions,
+    ): Promise<core.WithRawResponse<CloudflareApi.AddressingApiResponseCollection>> {
+        const { account_id: accountId, address_map_id: addressMapId, ..._body } = request;
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.CloudflareApiEnvironment.Default,
+                `accounts/${core.url.encodePathParam(accountId)}/addressing/address_maps/${core.url.encodePathParam(addressMapId)}/zones`,
+            ),
+            method: "DELETE",
+            headers: _headers,
+            contentType: "application/json",
+            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
+            requestType: "json",
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return {
+                data: _response.body as CloudflareApi.AddressingApiResponseCollection,
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            throw new errors.CloudflareApiError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
+        }
+
+        return handleNonStatusCodeError(
+            _response.error,
+            _response.rawResponse,
+            "DELETE",
+            "/accounts/{account_id}/addressing/address_maps/{address_map_id}/zones",
+        );
+    }
+
+    /**
      * Add a zone as a member of a particular address map.
      *
      * @param {CloudflareApi.addressing.addressMaps.UpdateZonesRequest} request
      * @param {ZonesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.addressing.addressMaps.zones.update({
@@ -100,6 +256,9 @@ export class ZonesClient {
      *
      * @param {CloudflareApi.addressing.addressMaps.DeleteZonesRequest} request
      * @param {ZonesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.addressing.addressMaps.zones.delete({

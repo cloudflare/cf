@@ -28,6 +28,9 @@ export class SchemasClient {
      * @param {CloudflareApi.scim.ListSchemasRequest} request
      * @param {SchemasClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.scim.schemas.list({
      *         account_id: "account_id"
@@ -95,6 +98,9 @@ export class SchemasClient {
      *
      * @param {CloudflareApi.scim.GetSchemasRequest} request
      * @param {SchemasClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.scim.schemas.get({

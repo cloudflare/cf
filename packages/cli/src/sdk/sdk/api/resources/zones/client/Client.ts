@@ -150,6 +150,9 @@ export class ZonesClient {
      * @param {CloudflareApi.ListZonesRequest} request
      * @param {ZonesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zones.list({
      *         name: "example.com",
@@ -243,6 +246,9 @@ export class ZonesClient {
      * @param {CloudflareApi.CreateZonesRequest} request
      * @param {ZonesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zones.create({
      *         account: {},
@@ -308,6 +314,9 @@ export class ZonesClient {
      * @param {CloudflareApi.GetZonesRequest} request
      * @param {ZonesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zones.get({
      *         zone_id: "zone_id"
@@ -367,6 +376,9 @@ export class ZonesClient {
      *
      * @param {CloudflareApi.DeleteZonesRequest} request
      * @param {ZonesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zones.delete({
@@ -430,6 +442,9 @@ export class ZonesClient {
      *
      * @param {CloudflareApi.EditZonesRequest} request
      * @param {ZonesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zones.edit({

@@ -34,6 +34,9 @@ export class LatencyClient {
      * @param {CloudflareApi.analytics.GetLatencyRequest} request
      * @param {LatencyClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.analytics.latency.get({
      *         zone_id: "zone_id"

@@ -41,6 +41,8 @@ export class CatalogSyncsClient {
      * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicCloudNetworking.catalogSyncs.list({
@@ -129,6 +131,8 @@ export class CatalogSyncsClient {
      * @throws {@link CloudflareApi.ConflictError}
      * @throws {@link CloudflareApi.UnprocessableEntityError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicCloudNetworking.catalogSyncs.create({
@@ -225,6 +229,8 @@ export class CatalogSyncsClient {
      * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicCloudNetworking.catalogSyncs.get({
@@ -312,6 +318,8 @@ export class CatalogSyncsClient {
      * @throws {@link CloudflareApi.ConflictError}
      * @throws {@link CloudflareApi.UnprocessableEntityError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicCloudNetworking.catalogSyncs.update({
@@ -409,6 +417,8 @@ export class CatalogSyncsClient {
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.ConflictError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicCloudNetworking.catalogSyncs.delete({
@@ -505,6 +515,8 @@ export class CatalogSyncsClient {
      * @throws {@link CloudflareApi.ConflictError}
      * @throws {@link CloudflareApi.UnprocessableEntityError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicCloudNetworking.catalogSyncs.edit({
@@ -603,6 +615,8 @@ export class CatalogSyncsClient {
      * @throws {@link CloudflareApi.ConflictError}
      * @throws {@link CloudflareApi.UnprocessableEntityError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicCloudNetworking.catalogSyncs.refresh({

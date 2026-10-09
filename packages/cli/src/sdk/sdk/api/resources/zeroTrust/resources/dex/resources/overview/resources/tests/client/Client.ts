@@ -37,6 +37,9 @@ export class TestsClient {
      * @param {CloudflareApi.zeroTrust.dex.overview.ListTestsRequest} request
      * @param {TestsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.dex.overview.tests.list({
      *         account_id: "account_id",

@@ -31,6 +31,9 @@ export class QuotaClient {
      * @param {CloudflareApi.ssl.certificatePacks.GetQuotaRequest} request
      * @param {QuotaClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.ssl.certificatePacks.quota.get({
      *         zone_id: "zone_id"

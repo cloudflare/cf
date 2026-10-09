@@ -32,6 +32,9 @@ export class LocalUploadsClient {
      * @param {CloudflareApi.r2.buckets.GetLocalUploadsRequest} request
      * @param {LocalUploadsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.r2.buckets.localUploads.get({
      *         account_id: "account_id",
@@ -100,6 +103,9 @@ export class LocalUploadsClient {
      *
      * @param {CloudflareApi.r2.buckets.UpdateLocalUploadsRequest} request
      * @param {LocalUploadsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.r2.buckets.localUploads.update({

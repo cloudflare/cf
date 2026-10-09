@@ -32,6 +32,9 @@ export class CertificatesClient {
      * @param {CloudflareApi.customHostnames.certificatePack.UpdateCertificatesRequest} request
      * @param {CertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.customHostnames.certificatePack.certificates.update({
      *         zone_id: "zone_id",
@@ -115,6 +118,9 @@ export class CertificatesClient {
      *
      * @param {CloudflareApi.customHostnames.certificatePack.DeleteCertificatesRequest} request
      * @param {CertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.customHostnames.certificatePack.certificates.delete({

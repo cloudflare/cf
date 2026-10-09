@@ -31,6 +31,9 @@ export class HealthClient {
      * @param {CloudflareApi.user.loadBalancers.pools.GetHealthRequest} request
      * @param {HealthClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.user.loadBalancers.pools.health.get({
      *         pool_id: "pool_id"

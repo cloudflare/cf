@@ -43,6 +43,9 @@ export class DevicesClient {
      * @param {CloudflareApi.zeroTrust.dex.GetDevicesRequest} request
      * @param {DevicesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.dex.devices.get({
      *         account_id: "account_id",
@@ -129,6 +132,9 @@ export class DevicesClient {
      *
      * @param {CloudflareApi.zeroTrust.dex.ListDevicesRequest} request
      * @param {DevicesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dex.devices.list({

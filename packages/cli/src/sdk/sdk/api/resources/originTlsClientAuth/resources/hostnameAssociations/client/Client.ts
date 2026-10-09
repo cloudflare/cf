@@ -28,6 +28,9 @@ export class HostnameAssociationsClient {
      * @param {CloudflareApi.originTlsClientAuth.ListHostnameAssociationsRequest} request
      * @param {HostnameAssociationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.originTlsClientAuth.hostnameAssociations.list({
      *         zone_id: "zone_id"

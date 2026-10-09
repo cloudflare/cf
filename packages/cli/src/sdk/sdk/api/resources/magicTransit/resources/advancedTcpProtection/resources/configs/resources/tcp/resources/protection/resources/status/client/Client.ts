@@ -32,6 +32,9 @@ export class StatusClient {
      * @param {CloudflareApi.magicTransit.advancedTcpProtection.configs.tcp.protection.GetStatusRequest} request
      * @param {StatusClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.advancedTcpProtection.configs.tcp.protection.status.get({
      *         account_id: "account_id"
@@ -96,6 +99,9 @@ export class StatusClient {
      *
      * @param {CloudflareApi.magicTransit.advancedTcpProtection.configs.tcp.protection.DosUpdateProtectionStatus} request
      * @param {StatusClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.advancedTcpProtection.configs.tcp.protection.status.update({

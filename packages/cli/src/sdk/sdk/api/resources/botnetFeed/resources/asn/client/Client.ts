@@ -28,6 +28,9 @@ export class AsnClient {
      * @param {CloudflareApi.botnetFeed.DayReportAsnRequest} request
      * @param {AsnClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.botnetFeed.asn.dayReport({
      *         account_id: "account_id",
@@ -104,6 +107,9 @@ export class AsnClient {
      *
      * @param {CloudflareApi.botnetFeed.FullReportAsnRequest} request
      * @param {AsnClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.botnetFeed.asn.fullReport({

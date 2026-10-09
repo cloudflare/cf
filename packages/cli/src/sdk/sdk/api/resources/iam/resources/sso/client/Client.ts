@@ -29,6 +29,9 @@ export class SsoClient {
      * @param {CloudflareApi.iam.ListSsoRequest} request
      * @param {SsoClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.iam.sso.list({
      *         account_id: "account_id"
@@ -93,6 +96,9 @@ export class SsoClient {
      *
      * @param {CloudflareApi.iam.CreateSsoRequest} request
      * @param {SsoClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.iam.sso.create({
@@ -163,6 +169,9 @@ export class SsoClient {
      * @param {CloudflareApi.iam.GetSsoRequest} request
      * @param {SsoClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.iam.sso.get({
      *         account_id: "account_id",
@@ -228,6 +237,9 @@ export class SsoClient {
      *
      * @param {CloudflareApi.iam.DeleteSsoRequest} request
      * @param {SsoClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.iam.sso.delete({
@@ -298,6 +310,9 @@ export class SsoClient {
      * @param {CloudflareApi.iam.UpdateSsoRequest} request
      * @param {SsoClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.iam.sso.update({
      *         account_id: "account_id",
@@ -366,6 +381,9 @@ export class SsoClient {
      *
      * @param {CloudflareApi.iam.BeginVerificationSsoRequest} request
      * @param {SsoClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.iam.sso.beginVerification({

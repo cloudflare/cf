@@ -31,6 +31,9 @@ export class VersionsClient {
      * @param {CloudflareApi.rulesets.entrypoint.ListVersionsRequest} request
      * @param {VersionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.rulesets.entrypoint.versions.list({
      *         account_or_zone: "account_or_zone",
@@ -100,6 +103,9 @@ export class VersionsClient {
      *
      * @param {CloudflareApi.rulesets.entrypoint.GetVersionsRequest} request
      * @param {VersionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.rulesets.entrypoint.versions.get({

@@ -29,6 +29,9 @@ export class StreamsClient {
      * @param {CloudflareApi.pipelines.ListStreamsRequest} request
      * @param {StreamsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.pipelines.streams.list({
      *         account_id: "account_id",
@@ -108,6 +111,9 @@ export class StreamsClient {
      * @param {CloudflareApi.pipelines.CreateStreamsRequest} request
      * @param {StreamsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.pipelines.streams.create({
      *         account_id: "account_id",
@@ -180,6 +186,9 @@ export class StreamsClient {
      * @param {CloudflareApi.pipelines.GetStreamsRequest} request
      * @param {StreamsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.pipelines.streams.get({
      *         account_id: "account_id",
@@ -249,6 +258,9 @@ export class StreamsClient {
      * @param {CloudflareApi.pipelines.DeleteStreamsRequest} request
      * @param {StreamsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.pipelines.streams.delete({
      *         account_id: "account_id",
@@ -314,6 +326,9 @@ export class StreamsClient {
      *
      * @param {CloudflareApi.pipelines.UpdateStreamsRequest} request
      * @param {StreamsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.pipelines.streams.update({

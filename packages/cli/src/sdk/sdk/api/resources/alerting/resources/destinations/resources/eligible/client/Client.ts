@@ -31,6 +31,9 @@ export class EligibleClient {
      * @param {CloudflareApi.alerting.destinations.GetEligibleRequest} request
      * @param {EligibleClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.alerting.destinations.eligible.get({
      *         account_id: "account_id"

@@ -32,6 +32,9 @@ export class CidrClient {
      * @param {CloudflareApi.network.routes.ListCidrRequest} request
      * @param {CidrClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.network.routes.cidr.list({
      *         account_id: "account_id",
@@ -137,6 +140,9 @@ export class CidrClient {
      * @param {CloudflareApi.network.routes.CreateCidrRequest} request
      * @param {CidrClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.network.routes.cidr.create({
      *         account_id: "account_id",
@@ -206,6 +212,9 @@ export class CidrClient {
      * @param {CloudflareApi.network.routes.GetCidrRequest} request
      * @param {CidrClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.network.routes.cidr.get({
      *         account_id: "account_id",
@@ -272,6 +281,9 @@ export class CidrClient {
      * @param {CloudflareApi.network.routes.DeleteCidrRequest} request
      * @param {CidrClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.network.routes.cidr.delete({
      *         account_id: "account_id",
@@ -337,6 +349,9 @@ export class CidrClient {
      *
      * @param {CloudflareApi.network.routes.EditCidrRequest} request
      * @param {CidrClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.network.routes.cidr.edit({

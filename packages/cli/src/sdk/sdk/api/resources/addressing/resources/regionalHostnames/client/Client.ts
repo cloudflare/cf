@@ -35,6 +35,9 @@ export class RegionalHostnamesClient {
      * @param {CloudflareApi.addressing.ListRegionalHostnamesRequest} request
      * @param {RegionalHostnamesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.addressing.regionalHostnames.list({
      *         zone_id: "023e105f4ecef8ad9ca31a8372d0c353"
@@ -102,6 +105,9 @@ export class RegionalHostnamesClient {
      *
      * @param {CloudflareApi.addressing.CreateRegionalHostnamesRequest} request
      * @param {RegionalHostnamesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.addressing.regionalHostnames.create({
@@ -176,6 +182,9 @@ export class RegionalHostnamesClient {
      * @param {CloudflareApi.addressing.GetRegionalHostnamesRequest} request
      * @param {RegionalHostnamesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.addressing.regionalHostnames.get({
      *         zone_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -245,6 +254,9 @@ export class RegionalHostnamesClient {
      * @param {CloudflareApi.addressing.DeleteRegionalHostnamesRequest} request
      * @param {RegionalHostnamesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.addressing.regionalHostnames.delete({
      *         zone_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -310,6 +322,9 @@ export class RegionalHostnamesClient {
      *
      * @param {CloudflareApi.addressing.EditRegionalHostnamesRequest} request
      * @param {RegionalHostnamesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.addressing.regionalHostnames.edit({

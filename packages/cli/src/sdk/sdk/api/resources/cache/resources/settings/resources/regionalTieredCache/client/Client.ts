@@ -32,6 +32,9 @@ export class RegionalTieredCacheClient {
      * @param {CloudflareApi.cache.settings.GetRegionalTieredCacheRequest} request
      * @param {RegionalTieredCacheClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.cache.settings.regionalTieredCache.get({
      *         zone_id: "zone_id"
@@ -99,6 +102,9 @@ export class RegionalTieredCacheClient {
      *
      * @param {CloudflareApi.cache.settings.EditRegionalTieredCacheRequest} request
      * @param {RegionalTieredCacheClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cache.settings.regionalTieredCache.edit({

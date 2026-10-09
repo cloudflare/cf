@@ -35,6 +35,9 @@ export class LeakedCredentialChecksClient {
      * @param {CloudflareApi.GetLeakedCredentialChecksRequest} request
      * @param {LeakedCredentialChecksClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.leakedCredentialChecks.get({
      *         zone_id: "zone_id"
@@ -102,6 +105,9 @@ export class LeakedCredentialChecksClient {
      *
      * @param {CloudflareApi.UpdateLeakedCredentialChecksRequest} request
      * @param {LeakedCredentialChecksClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.leakedCredentialChecks.update({

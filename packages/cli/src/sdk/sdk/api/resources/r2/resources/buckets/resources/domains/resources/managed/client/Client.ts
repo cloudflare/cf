@@ -32,6 +32,9 @@ export class ManagedClient {
      * @param {CloudflareApi.r2.buckets.domains.ListManagedRequest} request
      * @param {ManagedClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.r2.buckets.domains.managed.list({
      *         account_id: "account_id",
@@ -101,6 +104,9 @@ export class ManagedClient {
      *
      * @param {CloudflareApi.r2.buckets.domains.R2EditManagedDomainRequest} request
      * @param {ManagedClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.r2.buckets.domains.managed.update({

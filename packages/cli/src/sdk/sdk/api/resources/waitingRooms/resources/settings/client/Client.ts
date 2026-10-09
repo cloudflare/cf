@@ -29,6 +29,9 @@ export class SettingsClient {
      * @param {CloudflareApi.waitingRooms.GetSettingsRequest} request
      * @param {SettingsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.waitingRooms.settings.get({
      *         zone_id: "zone_id"
@@ -96,6 +99,9 @@ export class SettingsClient {
      *
      * @param {CloudflareApi.waitingRooms.UpdateSettingsRequest} request
      * @param {SettingsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.waitingRooms.settings.update({
@@ -168,6 +174,9 @@ export class SettingsClient {
      *
      * @param {CloudflareApi.waitingRooms.EditSettingsRequest} request
      * @param {SettingsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.waitingRooms.settings.edit({

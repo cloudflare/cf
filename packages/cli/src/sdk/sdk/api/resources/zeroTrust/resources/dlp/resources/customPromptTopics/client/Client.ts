@@ -32,6 +32,9 @@ export class CustomPromptTopicsClient {
      * @param {CloudflareApi.zeroTrust.dlp.ListCustomPromptTopicsRequest} request
      * @param {CustomPromptTopicsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.dlp.customPromptTopics.list({
      *         account_id: "account_id"
@@ -99,6 +102,9 @@ export class CustomPromptTopicsClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.DlpNewCustomPromptTopic} request
      * @param {CustomPromptTopicsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.customPromptTopics.create({
@@ -171,6 +177,9 @@ export class CustomPromptTopicsClient {
      * @param {CloudflareApi.zeroTrust.dlp.GetCustomPromptTopicsRequest} request
      * @param {CustomPromptTopicsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.dlp.customPromptTopics.get({
      *         account_id: "account_id",
@@ -236,6 +245,9 @@ export class CustomPromptTopicsClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.DlpCustomPromptTopicUpdate} request
      * @param {CustomPromptTopicsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.customPromptTopics.update({
@@ -308,6 +320,9 @@ export class CustomPromptTopicsClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.DeleteCustomPromptTopicsRequest} request
      * @param {CustomPromptTopicsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.customPromptTopics.delete({

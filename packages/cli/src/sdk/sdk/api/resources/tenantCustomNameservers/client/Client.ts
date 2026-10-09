@@ -29,6 +29,9 @@ export class TenantCustomNameserversClient {
      * @param {CloudflareApi.GetTenantCustomNameserversRequest} request
      * @param {TenantCustomNameserversClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.tenantCustomNameservers.get({
      *         tenant_tag: "tenant_tag"
@@ -96,6 +99,9 @@ export class TenantCustomNameserversClient {
      *
      * @param {CloudflareApi.CreateTenantCustomNameserversRequest} request
      * @param {TenantCustomNameserversClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.tenantCustomNameservers.create({
@@ -170,6 +176,9 @@ export class TenantCustomNameserversClient {
      *
      * @param {CloudflareApi.DeleteTenantCustomNameserversRequest} request
      * @param {TenantCustomNameserversClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.tenantCustomNameservers.delete({

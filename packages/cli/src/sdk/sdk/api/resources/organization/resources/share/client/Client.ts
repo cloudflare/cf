@@ -28,6 +28,9 @@ export class ShareClient {
      * @param {CloudflareApi.organization.ListShareRequest} request
      * @param {ShareClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.organization.share.list({
      *         organization_id: "organization_id",

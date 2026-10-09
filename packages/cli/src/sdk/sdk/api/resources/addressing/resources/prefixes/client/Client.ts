@@ -59,6 +59,9 @@ export class PrefixesClient {
      * @param {CloudflareApi.addressing.ListPrefixesRequest} request
      * @param {PrefixesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.addressing.prefixes.list({
      *         account_id: "account_id"
@@ -126,6 +129,9 @@ export class PrefixesClient {
      *
      * @param {CloudflareApi.addressing.CreatePrefixesRequest} request
      * @param {PrefixesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.addressing.prefixes.create({
@@ -197,6 +203,9 @@ export class PrefixesClient {
      * @param {CloudflareApi.addressing.GetPrefixesRequest} request
      * @param {PrefixesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.addressing.prefixes.get({
      *         account_id: "account_id",
@@ -262,6 +271,9 @@ export class PrefixesClient {
      *
      * @param {CloudflareApi.addressing.DeletePrefixesRequest} request
      * @param {PrefixesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.addressing.prefixes.delete({
@@ -331,6 +343,9 @@ export class PrefixesClient {
      *
      * @param {CloudflareApi.addressing.EditPrefixesRequest} request
      * @param {PrefixesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.addressing.prefixes.edit({

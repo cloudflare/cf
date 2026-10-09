@@ -31,6 +31,9 @@ export class SubscriptionsClient {
      * @param {CloudflareApi.k2.streams.ListSubscriptionsRequest} request
      * @param {SubscriptionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.k2.streams.subscriptions.list({
      *         account_id: "account_id",

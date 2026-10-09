@@ -32,6 +32,9 @@ export class LifecycleClient {
      * @param {CloudflareApi.r2.buckets.GetLifecycleRequest} request
      * @param {LifecycleClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.r2.buckets.lifecycle.get({
      *         account_id: "account_id",
@@ -98,6 +101,9 @@ export class LifecycleClient {
      *
      * @param {CloudflareApi.r2.buckets.UpdateLifecycleRequest} request
      * @param {LifecycleClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.r2.buckets.lifecycle.update({

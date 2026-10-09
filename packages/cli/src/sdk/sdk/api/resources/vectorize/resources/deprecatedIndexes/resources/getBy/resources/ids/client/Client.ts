@@ -34,6 +34,9 @@ export class IdsClient {
      * @param {CloudflareApi.vectorize.deprecatedIndexes.getBy.CreateIdsRequest} request
      * @param {IdsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.vectorize.deprecatedIndexes.getBy.ids.create({
      *         account_id: "account_id",

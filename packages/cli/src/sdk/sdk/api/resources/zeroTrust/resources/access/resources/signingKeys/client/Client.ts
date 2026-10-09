@@ -32,6 +32,9 @@ export class SigningKeysClient {
      * @param {CloudflareApi.zeroTrust.access.GetSigningKeysRequest} request
      * @param {SigningKeysClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.signingKeys.get({
      *         account_id: "account_id"
@@ -96,6 +99,9 @@ export class SigningKeysClient {
      *
      * @param {CloudflareApi.zeroTrust.access.UpdateSigningKeysRequest} request
      * @param {SigningKeysClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.signingKeys.update({
@@ -165,6 +171,9 @@ export class SigningKeysClient {
      *
      * @param {CloudflareApi.zeroTrust.access.RotateSigningKeysRequest} request
      * @param {SigningKeysClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.signingKeys.rotate({

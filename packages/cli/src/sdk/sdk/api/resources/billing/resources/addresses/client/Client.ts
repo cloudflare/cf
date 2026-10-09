@@ -29,6 +29,9 @@ export class AddressesClient {
      * @param {CloudflareApi.billing.BillSubsApiAddressValidationRequest} request
      * @param {AddressesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.billing.addresses.validate()
      */

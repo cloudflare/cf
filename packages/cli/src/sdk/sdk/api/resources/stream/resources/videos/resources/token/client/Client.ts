@@ -32,6 +32,9 @@ export class TokenClient {
      * @param {CloudflareApi.stream.videos.StreamSignedTokenRequest} request
      * @param {TokenClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.stream.videos.token.create({
      *         account_id: "account_id",

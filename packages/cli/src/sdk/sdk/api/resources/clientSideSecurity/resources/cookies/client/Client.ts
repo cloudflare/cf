@@ -28,6 +28,9 @@ export class CookiesClient {
      * @param {CloudflareApi.clientSideSecurity.ListCookiesRequest} request
      * @param {CookiesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.clientSideSecurity.cookies.list({
      *         zone_id: "zone_id",
@@ -139,6 +142,9 @@ export class CookiesClient {
      *
      * @param {CloudflareApi.clientSideSecurity.GetCookiesRequest} request
      * @param {CookiesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.clientSideSecurity.cookies.get({

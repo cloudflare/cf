@@ -29,6 +29,9 @@ export class PoliciesClient {
      * @param {CloudflareApi.clientSideSecurity.ListPoliciesRequest} request
      * @param {PoliciesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.clientSideSecurity.policies.list({
      *         zone_id: "zone_id"
@@ -96,6 +99,9 @@ export class PoliciesClient {
      *
      * @param {CloudflareApi.clientSideSecurity.ClientSideSecurityPolicy} request
      * @param {PoliciesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.clientSideSecurity.policies.create({
@@ -173,6 +179,9 @@ export class PoliciesClient {
      * @param {CloudflareApi.clientSideSecurity.GetPoliciesRequest} request
      * @param {PoliciesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.clientSideSecurity.policies.get({
      *         zone_id: "zone_id",
@@ -241,6 +250,9 @@ export class PoliciesClient {
      *
      * @param {CloudflareApi.clientSideSecurity.UpdatePoliciesRequest} request
      * @param {PoliciesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.clientSideSecurity.policies.update({
@@ -313,6 +325,9 @@ export class PoliciesClient {
      *
      * @param {CloudflareApi.clientSideSecurity.DeletePoliciesRequest} request
      * @param {PoliciesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.clientSideSecurity.policies.delete({

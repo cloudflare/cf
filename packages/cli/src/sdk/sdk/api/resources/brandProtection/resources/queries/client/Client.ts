@@ -28,6 +28,9 @@ export class QueriesClient {
      * @param {CloudflareApi.brandProtection.GetQueriesRequest} request
      * @param {QueriesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.brandProtection.queries.get({
      *         account_id: "account_id"
@@ -105,6 +108,9 @@ export class QueriesClient {
      * @param {CloudflareApi.brandProtection.DismissQueriesRequest} request
      * @param {QueriesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.brandProtection.queries.dismiss({
      *         account_id: "account_id",
@@ -174,6 +180,9 @@ export class QueriesClient {
      *
      * @param {CloudflareApi.brandProtection.UndismissQueriesRequest} request
      * @param {QueriesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.brandProtection.queries.undismiss({

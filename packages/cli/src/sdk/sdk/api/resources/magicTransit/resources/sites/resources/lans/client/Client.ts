@@ -32,6 +32,9 @@ export class LansClient {
      * @param {CloudflareApi.magicTransit.sites.ListLansRequest} request
      * @param {LansClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.sites.lans.list({
      *         account_id: "account_id",
@@ -100,6 +103,9 @@ export class LansClient {
      *
      * @param {CloudflareApi.magicTransit.sites.MagicLansAddSingleRequest} request
      * @param {LansClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.sites.lans.create({
@@ -173,6 +179,9 @@ export class LansClient {
      * @param {CloudflareApi.magicTransit.sites.GetLansRequest} request
      * @param {LansClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.sites.lans.get({
      *         account_id: "account_id",
@@ -239,6 +248,9 @@ export class LansClient {
      *
      * @param {CloudflareApi.magicTransit.sites.UpdateLansRequest} request
      * @param {LansClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.sites.lans.update({
@@ -311,6 +323,9 @@ export class LansClient {
      * @param {CloudflareApi.magicTransit.sites.DeleteLansRequest} request
      * @param {LansClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.sites.lans.delete({
      *         account_id: "account_id",
@@ -377,6 +392,9 @@ export class LansClient {
      *
      * @param {CloudflareApi.magicTransit.sites.EditLansRequest} request
      * @param {LansClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.sites.lans.edit({

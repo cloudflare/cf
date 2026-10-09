@@ -4,50 +4,37 @@ import * as CloudflareApi from "../index.js";
 
 export type RealtimekitStorageConfig =
     | ({
-          access_key: string | undefined;
-          auth_method: CloudflareApi.RealtimekitStorageConfigAuthMethod | undefined;
-          bucket: string;
-          host: string | undefined;
-          password: string | undefined;
-          path: string | undefined;
-          port: number | undefined;
-          private_key: string | undefined;
-          region: string | undefined;
-          secret: string | undefined;
-          type: CloudflareApi.RealtimekitStorageConfigType;
-          username: string | undefined;
-      } & {
           type?: "gcs" | undefined;
+      } & {
+          access_key?: string | undefined;
+          auth_method?: CloudflareApi.RealtimekitStorageConfigAuthMethod | undefined;
+          bucket: string;
+          host?: string | undefined;
+          password?: string | undefined;
+          path?: string | undefined;
+          port?: number | undefined;
+          private_key?: string | undefined;
+          region?: string | undefined;
+          secret?: string | undefined;
+          type: CloudflareApi.RealtimekitStorageConfigType;
+          username?: string | undefined;
       })
     | ({
-          access_key: string | undefined;
-          auth_method: CloudflareApi.RealtimekitStorageConfigAuthMethod | undefined;
-          bucket: string;
-          host: string | undefined;
-          password: string | undefined;
-          path: string | undefined;
-          port: number | undefined;
-          private_key: string | undefined;
-          region: string | undefined;
-          secret: string | undefined;
-          type: CloudflareApi.RealtimekitStorageConfigType;
-          username: string | undefined;
-      } & {
           access_key?: unknown | undefined;
           region?: unknown | undefined;
           type?: ("aws" | "azure" | "digitalocean") | undefined;
-      })
-    | ({
-          access_key: string | undefined;
-          auth_method: CloudflareApi.RealtimekitStorageConfigAuthMethod | undefined;
+      } & {
+          access_key?: string | undefined;
+          auth_method?: CloudflareApi.RealtimekitStorageConfigAuthMethod | undefined;
           bucket: string;
-          host: string | undefined;
-          password: string | undefined;
-          path: string | undefined;
-          port: number | undefined;
-          private_key: string | undefined;
-          region: string | undefined;
-          secret: string | undefined;
+          host?: string | undefined;
+          password?: string | undefined;
+          path?: string | undefined;
+          port?: number | undefined;
+          private_key?: string | undefined;
+          region?: string | undefined;
+          secret?: string | undefined;
           type: CloudflareApi.RealtimekitStorageConfigType;
-          username: string | undefined;
-      } & CloudflareApi.RealtimekitStorageConfigType);
+          username?: string | undefined;
+      })
+    | CloudflareApi.RealtimekitStorageConfigType;

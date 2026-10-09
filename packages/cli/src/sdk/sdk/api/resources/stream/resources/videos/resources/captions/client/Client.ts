@@ -37,6 +37,9 @@ export class CaptionsClient {
      * @param {CloudflareApi.stream.videos.ListCaptionsRequest} request
      * @param {CaptionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.stream.videos.captions.list({
      *         account_id: "account_id",

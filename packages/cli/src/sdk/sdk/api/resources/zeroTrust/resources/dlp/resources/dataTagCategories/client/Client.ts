@@ -32,6 +32,9 @@ export class DataTagCategoriesClient {
      * @param {CloudflareApi.zeroTrust.dlp.ListDataTagCategoriesRequest} request
      * @param {DataTagCategoriesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.dlp.dataTagCategories.list({
      *         account_id: "account_id"
@@ -99,6 +102,9 @@ export class DataTagCategoriesClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.DlpNewDataTagCategory} request
      * @param {DataTagCategoriesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.dataTagCategories.create({
@@ -169,6 +175,9 @@ export class DataTagCategoriesClient {
      * @param {CloudflareApi.zeroTrust.dlp.GetDataTagCategoriesRequest} request
      * @param {DataTagCategoriesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.dlp.dataTagCategories.get({
      *         account_id: "account_id",
@@ -234,6 +243,9 @@ export class DataTagCategoriesClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.DlpDataTagCategoryUpdate} request
      * @param {DataTagCategoriesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.dataTagCategories.update({
@@ -303,6 +315,9 @@ export class DataTagCategoriesClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.DeleteDataTagCategoriesRequest} request
      * @param {DataTagCategoriesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.dataTagCategories.delete({

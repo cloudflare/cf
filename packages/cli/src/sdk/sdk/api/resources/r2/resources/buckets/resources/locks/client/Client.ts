@@ -32,6 +32,9 @@ export class LocksClient {
      * @param {CloudflareApi.r2.buckets.GetLocksRequest} request
      * @param {LocksClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.r2.buckets.locks.get({
      *         account_id: "account_id",
@@ -98,6 +101,9 @@ export class LocksClient {
      *
      * @param {CloudflareApi.r2.buckets.UpdateLocksRequest} request
      * @param {LocksClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.r2.buckets.locks.update({
@@ -173,6 +179,9 @@ export class LocksClient {
      *
      * @param {CloudflareApi.r2.buckets.DeleteLocksRequest} request
      * @param {LocksClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.r2.buckets.locks.delete({

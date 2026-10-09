@@ -44,6 +44,9 @@ export class SchemasClient {
      * @param {CloudflareApi.apiSecurity.schemaValidation.ListSchemasRequest} request
      * @param {SchemasClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.apiSecurity.schemaValidation.schemas.list({
      *         zone_id: "023e105f4ecef8ad9ca31a8372d0c353"
@@ -128,6 +131,9 @@ export class SchemasClient {
      * @param {CloudflareApi.apiSecurity.schemaValidation.CreateSchemasRequest} request
      * @param {SchemasClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.apiSecurity.schemaValidation.schemas.create({
      *         zone_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -205,6 +211,9 @@ export class SchemasClient {
      * @param {CloudflareApi.apiSecurity.schemaValidation.GetSchemasRequest} request
      * @param {SchemasClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.apiSecurity.schemaValidation.schemas.get({
      *         zone_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -281,6 +290,9 @@ export class SchemasClient {
      * @param {CloudflareApi.apiSecurity.schemaValidation.DeleteSchemasRequest} request
      * @param {SchemasClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.apiSecurity.schemaValidation.schemas.delete({
      *         zone_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -349,6 +361,9 @@ export class SchemasClient {
      *
      * @param {CloudflareApi.apiSecurity.schemaValidation.SetValidationSchemasRequest} request
      * @param {SchemasClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.apiSecurity.schemaValidation.schemas.setValidation({

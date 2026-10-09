@@ -29,6 +29,9 @@ export class DetectionsClient {
      * @param {CloudflareApi.leakedCredentialChecks.ListDetectionsRequest} request
      * @param {DetectionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.leakedCredentialChecks.detections.list({
      *         zone_id: "zone_id"
@@ -96,6 +99,9 @@ export class DetectionsClient {
      *
      * @param {CloudflareApi.leakedCredentialChecks.CreateDetectionsRequest} request
      * @param {DetectionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.leakedCredentialChecks.detections.create({
@@ -169,6 +175,9 @@ export class DetectionsClient {
      * @param {CloudflareApi.leakedCredentialChecks.GetDetectionsRequest} request
      * @param {DetectionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.leakedCredentialChecks.detections.get({
      *         zone_id: "zone_id",
@@ -237,6 +246,9 @@ export class DetectionsClient {
      *
      * @param {CloudflareApi.leakedCredentialChecks.UpdateDetectionsRequest} request
      * @param {DetectionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.leakedCredentialChecks.detections.update({
@@ -310,6 +322,9 @@ export class DetectionsClient {
      *
      * @param {CloudflareApi.leakedCredentialChecks.DeleteDetectionsRequest} request
      * @param {DetectionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.leakedCredentialChecks.detections.delete({

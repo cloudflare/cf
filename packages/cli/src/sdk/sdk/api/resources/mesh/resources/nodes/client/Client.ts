@@ -53,6 +53,9 @@ export class NodesClient {
      * @param {CloudflareApi.mesh.ListNodesRequest} request
      * @param {NodesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.mesh.nodes.list({
      *         account_id: "account_id",
@@ -156,6 +159,9 @@ export class NodesClient {
      * @param {CloudflareApi.mesh.CreateNodesRequest} request
      * @param {NodesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.mesh.nodes.create({
      *         account_id: "account_id",
@@ -228,6 +234,9 @@ export class NodesClient {
      * @param {CloudflareApi.mesh.GetNodesRequest} request
      * @param {NodesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.mesh.nodes.get({
      *         account_id: "account_id",
@@ -297,6 +306,9 @@ export class NodesClient {
      * @param {CloudflareApi.mesh.DeleteNodesRequest} request
      * @param {NodesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.mesh.nodes.delete({
      *         account_id: "account_id",
@@ -365,6 +377,9 @@ export class NodesClient {
      *
      * @param {CloudflareApi.mesh.EditNodesRequest} request
      * @param {NodesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.mesh.nodes.edit({
@@ -437,6 +452,9 @@ export class NodesClient {
      *
      * @param {CloudflareApi.mesh.FailoverNodesRequest} request
      * @param {NodesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.mesh.nodes.failover({

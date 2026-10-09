@@ -53,6 +53,9 @@ export class IndicatorFeedsClient {
      * @param {CloudflareApi.intel.ListIndicatorFeedsRequest} request
      * @param {IndicatorFeedsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.intel.indicatorFeeds.list({
      *         account_id: "account_id"
@@ -120,6 +123,9 @@ export class IndicatorFeedsClient {
      *
      * @param {CloudflareApi.intel.CustomIndicatorFeedsCreateFeed} request
      * @param {IndicatorFeedsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.intel.indicatorFeeds.create({
@@ -194,6 +200,9 @@ export class IndicatorFeedsClient {
      * @param {CloudflareApi.intel.GetIndicatorFeedsRequest} request
      * @param {IndicatorFeedsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.intel.indicatorFeeds.get({
      *         account_id: "account_id",
@@ -262,6 +271,9 @@ export class IndicatorFeedsClient {
      *
      * @param {CloudflareApi.intel.CustomIndicatorFeedsUpdatePublicFieldRequest} request
      * @param {IndicatorFeedsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.intel.indicatorFeeds.update({
@@ -334,6 +346,9 @@ export class IndicatorFeedsClient {
      *
      * @param {CloudflareApi.intel.DataIndicatorFeedsRequest} request
      * @param {IndicatorFeedsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.intel.indicatorFeeds.data({

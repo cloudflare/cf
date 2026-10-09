@@ -29,6 +29,9 @@ export class SmartRoutingClient {
      * @param {CloudflareApi.argo.CountZonesEnabledForAccountSmartRoutingRequest} request
      * @param {SmartRoutingClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.argo.smartRouting.countZonesEnabledForAccount({
      *         account_id: "account_id"
@@ -93,6 +96,9 @@ export class SmartRoutingClient {
      *
      * @param {SmartRoutingClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.argo.smartRouting.countZonesEnabledForUser()
      */
@@ -152,6 +158,9 @@ export class SmartRoutingClient {
      *
      * @param {CloudflareApi.argo.GetSmartRoutingRequest} request
      * @param {SmartRoutingClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.argo.smartRouting.get({
@@ -217,6 +226,9 @@ export class SmartRoutingClient {
      *
      * @param {CloudflareApi.argo.ArgoConfigPatch} request
      * @param {SmartRoutingClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.argo.smartRouting.edit({

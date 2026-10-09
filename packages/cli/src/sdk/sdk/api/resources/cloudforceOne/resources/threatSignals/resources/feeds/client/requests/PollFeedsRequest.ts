@@ -10,5 +10,5 @@ import * as CloudflareApi from "../../../../../../../../index.js";
  */
 export interface PollFeedsRequest {
     account_id: string;
-    feed_id?: CloudflareApi.cloudforceOne.threatSignals.PollFeedsRequestFeedId;
+    feed_id?: CloudflareApi.PollFeedsRequestFeedId;
 }

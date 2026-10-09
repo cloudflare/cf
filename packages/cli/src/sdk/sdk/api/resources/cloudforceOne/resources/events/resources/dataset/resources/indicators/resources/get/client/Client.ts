@@ -34,6 +34,9 @@ export class GetClient {
      * @param {CloudflareApi.cloudforceOne.events.dataset.indicators.IndicatorLegacyGetRequest} request
      * @param {GetClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.cloudforceOne.events.dataset.indicators.get.indicatorLegacy({
      *         account_id: "account_id",
@@ -123,6 +126,8 @@ export class GetClient {
      * @param {GetClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.events.dataset.indicators.get.indicator({

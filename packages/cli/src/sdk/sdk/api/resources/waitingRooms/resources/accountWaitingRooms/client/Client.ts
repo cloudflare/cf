@@ -28,6 +28,9 @@ export class AccountWaitingRoomsClient {
      * @param {CloudflareApi.waitingRooms.ListAccountWaitingRoomsRequest} request
      * @param {AccountWaitingRoomsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.waitingRooms.accountWaitingRooms.list({
      *         account_or_zone: "account_or_zone",

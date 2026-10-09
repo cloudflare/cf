@@ -29,6 +29,9 @@ export class HostnamesClient {
      * @param {CloudflareApi.originTlsClientAuth.UpdateHostnamesRequest} request
      * @param {HostnamesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.originTlsClientAuth.hostnames.update({
      *         zone_id: "zone_id",
@@ -100,6 +103,9 @@ export class HostnamesClient {
      *
      * @param {CloudflareApi.originTlsClientAuth.GetHostnamesRequest} request
      * @param {HostnamesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.originTlsClientAuth.hostnames.get({

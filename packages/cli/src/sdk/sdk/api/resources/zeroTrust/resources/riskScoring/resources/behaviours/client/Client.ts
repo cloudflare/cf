@@ -32,6 +32,9 @@ export class BehavioursClient {
      * @param {CloudflareApi.zeroTrust.riskScoring.GetBehavioursRequest} request
      * @param {BehavioursClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.riskScoring.behaviours.get({
      *         account_id: "account_id"
@@ -96,6 +99,9 @@ export class BehavioursClient {
      *
      * @param {CloudflareApi.zeroTrust.riskScoring.UpdateBehavioursRequest} request
      * @param {BehavioursClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.riskScoring.behaviours.update({

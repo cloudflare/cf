@@ -28,6 +28,9 @@ export class CountClient {
      * @param {CloudflareApi.securityInsights.ByClassCountRequest} request
      * @param {CountClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.securityInsights.count.byClass({
      *         account_or_zone: "account_or_zone",
@@ -147,6 +150,9 @@ export class CountClient {
      * @param {CloudflareApi.securityInsights.ByPartnerCountRequest} request
      * @param {CountClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.securityInsights.count.byPartner({
      *         account_or_zone: "account_or_zone",
@@ -223,6 +229,9 @@ export class CountClient {
      *
      * @param {CloudflareApi.securityInsights.BySeverityCountRequest} request
      * @param {CountClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.securityInsights.count.bySeverity({
@@ -342,6 +351,9 @@ export class CountClient {
      *
      * @param {CloudflareApi.securityInsights.ByTypeCountRequest} request
      * @param {CountClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.securityInsights.count.byType({

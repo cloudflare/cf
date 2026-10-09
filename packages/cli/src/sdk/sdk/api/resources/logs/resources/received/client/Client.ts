@@ -35,6 +35,9 @@ export class ReceivedClient {
      * @param {CloudflareApi.logs.GetReceivedRequest} request
      * @param {ReceivedClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.logs.received.get({
      *         zone_id: "zone_id",

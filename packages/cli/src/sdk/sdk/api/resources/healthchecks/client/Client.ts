@@ -35,6 +35,9 @@ export class HealthchecksClient {
      * @param {CloudflareApi.ListHealthchecksRequest} request
      * @param {HealthchecksClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.healthchecks.list({
      *         zone_id: "zone_id"
@@ -105,6 +108,9 @@ export class HealthchecksClient {
      *
      * @param {CloudflareApi.CreateHealthchecksRequest} request
      * @param {HealthchecksClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.healthchecks.create({
@@ -181,6 +187,9 @@ export class HealthchecksClient {
      * @param {CloudflareApi.GetHealthchecksRequest} request
      * @param {HealthchecksClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.healthchecks.get({
      *         zone_id: "zone_id",
@@ -249,6 +258,9 @@ export class HealthchecksClient {
      *
      * @param {CloudflareApi.UpdateHealthchecksRequest} request
      * @param {HealthchecksClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.healthchecks.update({
@@ -326,6 +338,9 @@ export class HealthchecksClient {
      * @param {CloudflareApi.DeleteHealthchecksRequest} request
      * @param {HealthchecksClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.healthchecks.delete({
      *         zone_id: "zone_id",
@@ -394,6 +409,9 @@ export class HealthchecksClient {
      *
      * @param {CloudflareApi.EditHealthchecksRequest} request
      * @param {HealthchecksClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.healthchecks.edit({

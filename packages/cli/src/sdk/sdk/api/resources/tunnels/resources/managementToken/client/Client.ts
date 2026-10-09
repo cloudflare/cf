@@ -29,6 +29,9 @@ export class ManagementTokenClient {
      * @param {CloudflareApi.tunnels.CreateManagementTokenRequest} request
      * @param {ManagementTokenClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.tunnels.managementToken.create({
      *         account_id: "account_id",

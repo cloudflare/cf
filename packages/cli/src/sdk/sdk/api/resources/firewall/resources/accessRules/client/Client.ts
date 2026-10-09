@@ -29,6 +29,9 @@ export class AccessRulesClient {
      * @param {CloudflareApi.firewall.ListAccessRulesRequest} request
      * @param {AccessRulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.firewall.accessRules.list({
      *         account_or_zone: "account_or_zone",
@@ -131,6 +134,9 @@ export class AccessRulesClient {
      * @param {CloudflareApi.firewall.CreateAccessRulesRequest} request
      * @param {AccessRulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.firewall.accessRules.create({
      *         account_or_zone: "account_or_zone",
@@ -204,6 +210,9 @@ export class AccessRulesClient {
      * @param {CloudflareApi.firewall.GetAccessRulesRequest} request
      * @param {AccessRulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.firewall.accessRules.get({
      *         account_or_zone: "account_or_zone",
@@ -272,6 +281,9 @@ export class AccessRulesClient {
      *
      * @param {CloudflareApi.firewall.DeleteAccessRulesRequest} request
      * @param {AccessRulesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.firewall.accessRules.delete({
@@ -344,6 +356,9 @@ export class AccessRulesClient {
      *
      * @param {CloudflareApi.firewall.EditAccessRulesRequest} request
      * @param {AccessRulesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.firewall.accessRules.edit({

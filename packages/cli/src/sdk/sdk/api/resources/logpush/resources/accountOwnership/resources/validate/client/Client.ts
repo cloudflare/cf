@@ -32,6 +32,9 @@ export class ValidateClient {
      * @param {CloudflareApi.logpush.accountOwnership.CreateValidateRequest} request
      * @param {ValidateClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.logpush.accountOwnership.validate.create({
      *         account_or_zone: "account_or_zone",

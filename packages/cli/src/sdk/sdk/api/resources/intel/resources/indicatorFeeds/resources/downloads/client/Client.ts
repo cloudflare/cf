@@ -31,6 +31,9 @@ export class DownloadsClient {
      * @param {CloudflareApi.intel.indicatorFeeds.GetDownloadsRequest} request
      * @param {DownloadsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.intel.indicatorFeeds.downloads.get({
      *         account_id: "account_id",

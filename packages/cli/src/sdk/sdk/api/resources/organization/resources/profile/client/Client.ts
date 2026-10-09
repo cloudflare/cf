@@ -33,6 +33,9 @@ export class ProfileClient {
      * @param {CloudflareApi.organization.GetProfileRequest} request
      * @param {ProfileClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.organization.profile.get({
      *         organization_id: "organization_id"
@@ -104,6 +107,9 @@ export class ProfileClient {
      *
      * @param {CloudflareApi.organization.OrganizationsApiModifyOrganizationProfileRequest} request
      * @param {ProfileClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.organization.profile.update({

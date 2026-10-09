@@ -38,6 +38,9 @@ export class ConfigurationsClient {
      * @param {CloudflareApi.apiSecurity.tokenValidation.ListConfigurationsRequest} request
      * @param {ConfigurationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.apiSecurity.tokenValidation.configurations.list({
      *         zone_id: "023e105f4ecef8ad9ca31a8372d0c353"
@@ -113,6 +116,9 @@ export class ConfigurationsClient {
      *
      * @param {CloudflareApi.apiSecurity.tokenValidation.CreateConfigurationsRequest} request
      * @param {ConfigurationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.apiSecurity.tokenValidation.configurations.create({
@@ -200,6 +206,9 @@ export class ConfigurationsClient {
      * @param {CloudflareApi.apiSecurity.tokenValidation.GetConfigurationsRequest} request
      * @param {ConfigurationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.apiSecurity.tokenValidation.configurations.get({
      *         zone_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -269,6 +278,9 @@ export class ConfigurationsClient {
      * @param {CloudflareApi.apiSecurity.tokenValidation.DeleteConfigurationsRequest} request
      * @param {ConfigurationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.apiSecurity.tokenValidation.configurations.delete({
      *         zone_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -337,6 +349,9 @@ export class ConfigurationsClient {
      *
      * @param {CloudflareApi.apiSecurity.tokenValidation.EditConfigurationsRequest} request
      * @param {ConfigurationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.apiSecurity.tokenValidation.configurations.edit({

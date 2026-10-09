@@ -34,6 +34,9 @@ export class MiscategorizationsClient {
      * @param {CloudflareApi.intel.IntelMiscategorization} request
      * @param {MiscategorizationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.intel.miscategorizations.create({
      *         account_id: "account_id"

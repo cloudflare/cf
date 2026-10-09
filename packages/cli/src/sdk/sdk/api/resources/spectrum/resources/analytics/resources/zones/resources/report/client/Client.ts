@@ -31,6 +31,9 @@ export class ReportClient {
      * @param {CloudflareApi.spectrum.analytics.zones.GetReportRequest} request
      * @param {ReportClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.spectrum.analytics.zones.report.get({
      *         since: "2014-01-01T05:20:00Z",

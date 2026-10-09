@@ -31,6 +31,9 @@ export class PermissionGroupsClient {
      * @param {CloudflareApi.user.tokens.ListPermissionGroupsRequest} request
      * @param {PermissionGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.user.tokens.permissionGroups.list({
      *         name: "Account%20Settings%20Write",

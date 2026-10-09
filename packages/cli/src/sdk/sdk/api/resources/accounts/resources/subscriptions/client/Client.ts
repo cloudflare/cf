@@ -30,6 +30,9 @@ export class SubscriptionsClient {
      * @param {CloudflareApi.accounts.CancelDelayedDowngradeSubscriptionsRequest} request
      * @param {SubscriptionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.accounts.subscriptions.cancelDelayedDowngrade({
      *         account_id: "account_id"
@@ -102,6 +105,8 @@ export class SubscriptionsClient {
      * @param {SubscriptionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.accounts.subscriptions.getByIdentifier({
@@ -177,6 +182,9 @@ export class SubscriptionsClient {
      * @param {CloudflareApi.accounts.UpdateSubscriptionsRequest} request
      * @param {SubscriptionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.accounts.subscriptions.update({
      *         account_id: "account_id",
@@ -250,6 +258,9 @@ export class SubscriptionsClient {
      * @param {CloudflareApi.accounts.DeleteSubscriptionsRequest} request
      * @param {SubscriptionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.accounts.subscriptions.delete({
      *         account_id: "account_id",
@@ -319,6 +330,9 @@ export class SubscriptionsClient {
      * @param {CloudflareApi.accounts.GetCancelReasonSubscriptionsRequest} request
      * @param {SubscriptionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.accounts.subscriptions.getCancelReason({
      *         account_id: "account_id",
@@ -387,6 +401,9 @@ export class SubscriptionsClient {
      *
      * @param {CloudflareApi.accounts.BillSubsApiCancelReasonRequest} request
      * @param {SubscriptionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.accounts.subscriptions.createCancelReason({
@@ -460,6 +477,9 @@ export class SubscriptionsClient {
      * @param {CloudflareApi.accounts.GetSubscriptionsRequest} request
      * @param {SubscriptionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.accounts.subscriptions.get({
      *         account_or_zone: "account_or_zone",
@@ -528,6 +548,9 @@ export class SubscriptionsClient {
      *
      * @param {CloudflareApi.accounts.CreateSubscriptionsRequest} request
      * @param {SubscriptionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.accounts.subscriptions.create({

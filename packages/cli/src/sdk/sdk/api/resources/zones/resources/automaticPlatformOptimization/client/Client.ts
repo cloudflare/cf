@@ -31,6 +31,9 @@ export class AutomaticPlatformOptimizationClient {
      * @param {CloudflareApi.zones.GetAutomaticPlatformOptimizationRequest} request
      * @param {AutomaticPlatformOptimizationClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zones.automaticPlatformOptimization.get({
      *         zone_id: "zone_id"
@@ -100,6 +103,9 @@ export class AutomaticPlatformOptimizationClient {
      *
      * @param {CloudflareApi.zones.EditAutomaticPlatformOptimizationRequest} request
      * @param {AutomaticPlatformOptimizationClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zones.automaticPlatformOptimization.edit({

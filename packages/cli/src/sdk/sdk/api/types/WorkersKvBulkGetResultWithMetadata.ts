@@ -12,34 +12,9 @@ export namespace WorkersKvBulkGetResultWithMetadata {
         export interface Value {
             expiration?: CloudflareApi.WorkersKvExpiration | undefined;
             /** The metadata associated with the key. */
-            metadata: Value.Metadata;
+            metadata: CloudflareApi.WorkersKvAny;
             /** The value associated with the key. */
-            value: Value.Value;
-        }
-
-        export namespace Value {
-            /**
-             * The metadata associated with the key.
-             */
-            export type Metadata =
-                | string
-                | number
-                | number
-                | boolean
-                | Record<string, unknown>
-                | null
-                | Record<string, unknown>[];
-            /**
-             * The value associated with the key.
-             */
-            export type Value =
-                | string
-                | number
-                | number
-                | boolean
-                | Record<string, unknown>
-                | null
-                | Record<string, unknown>[];
+            value: CloudflareApi.WorkersKvAny;
         }
     }
 }

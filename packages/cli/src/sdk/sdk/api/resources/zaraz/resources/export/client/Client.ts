@@ -28,6 +28,9 @@ export class ExportClient {
      * @param {CloudflareApi.zaraz.GetExportRequest} request
      * @param {ExportClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zaraz.export.get({
      *         zone_id: "zone_id"

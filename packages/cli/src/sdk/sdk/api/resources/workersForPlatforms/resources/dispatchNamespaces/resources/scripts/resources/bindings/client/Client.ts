@@ -31,6 +31,9 @@ export class BindingsClient {
      * @param {CloudflareApi.workersForPlatforms.dispatchNamespaces.scripts.GetBindingsRequest} request
      * @param {BindingsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workersForPlatforms.dispatchNamespaces.scripts.bindings.get({
      *         account_id: "account_id",

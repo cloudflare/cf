@@ -30,6 +30,9 @@ export class EntriesClient {
      * @param {CloudflareApi.web3.hostnames.ipfsUniversalPaths.contentLists.ListEntriesRequest} request
      * @param {EntriesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.web3.hostnames.ipfsUniversalPaths.contentLists.entries.list({
      *         zone_id: "zone_id",
@@ -96,6 +99,9 @@ export class EntriesClient {
     /**
      * @param {CloudflareApi.web3.hostnames.ipfsUniversalPaths.contentLists.CreateEntriesRequest} request
      * @param {EntriesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.web3.hostnames.ipfsUniversalPaths.contentLists.entries.create({
@@ -168,6 +174,9 @@ export class EntriesClient {
      * @param {CloudflareApi.web3.hostnames.ipfsUniversalPaths.contentLists.GetEntriesRequest} request
      * @param {EntriesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.web3.hostnames.ipfsUniversalPaths.contentLists.entries.get({
      *         zone_id: "zone_id",
@@ -232,6 +241,9 @@ export class EntriesClient {
     /**
      * @param {CloudflareApi.web3.hostnames.ipfsUniversalPaths.contentLists.UpdateEntriesRequest} request
      * @param {EntriesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.web3.hostnames.ipfsUniversalPaths.contentLists.entries.update({
@@ -309,6 +321,9 @@ export class EntriesClient {
     /**
      * @param {CloudflareApi.web3.hostnames.ipfsUniversalPaths.contentLists.DeleteEntriesRequest} request
      * @param {EntriesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.web3.hostnames.ipfsUniversalPaths.contentLists.entries.delete({

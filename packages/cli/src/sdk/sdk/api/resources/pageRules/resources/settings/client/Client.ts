@@ -30,6 +30,9 @@ export class SettingsClient {
      * @param {CloudflareApi.pageRules.ListSettingsRequest} request
      * @param {SettingsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.pageRules.settings.list({
      *         zone_id: "023e105f4ecef8ad9ca31a8372d0c353"

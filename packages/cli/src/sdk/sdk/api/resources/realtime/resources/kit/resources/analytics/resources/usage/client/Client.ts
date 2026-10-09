@@ -31,6 +31,9 @@ export class UsageClient {
      * @param {CloudflareApi.realtime.kit.analytics.GetUsageRequest} request
      * @param {UsageClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.realtime.kit.analytics.usage.get({
      *         account_id: "account_id",

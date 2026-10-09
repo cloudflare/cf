@@ -35,6 +35,9 @@ export class DnsFirewallClient {
      * @param {CloudflareApi.ListDnsFirewallRequest} request
      * @param {DnsFirewallClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.dnsFirewall.list({
      *         account_id: "account_id"
@@ -111,6 +114,9 @@ export class DnsFirewallClient {
      * @param {CloudflareApi.DnsFirewallDnsFirewallClusterPost} request
      * @param {DnsFirewallClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.dnsFirewall.create({
      *         account_id: "account_id",
@@ -184,6 +190,9 @@ export class DnsFirewallClient {
      * @param {CloudflareApi.GetDnsFirewallRequest} request
      * @param {DnsFirewallClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.dnsFirewall.get({
      *         account_id: "account_id",
@@ -253,6 +262,9 @@ export class DnsFirewallClient {
      * @param {CloudflareApi.DeleteDnsFirewallRequest} request
      * @param {DnsFirewallClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.dnsFirewall.delete({
      *         account_id: "account_id",
@@ -321,6 +333,9 @@ export class DnsFirewallClient {
      *
      * @param {CloudflareApi.DnsFirewallDnsFirewallCluster} request
      * @param {DnsFirewallClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.dnsFirewall.edit({

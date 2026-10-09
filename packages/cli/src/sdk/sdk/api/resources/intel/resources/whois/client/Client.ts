@@ -28,6 +28,9 @@ export class WhoisClient {
      * @param {CloudflareApi.intel.GetWhoisRequest} request
      * @param {WhoisClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.intel.whois.get({
      *         account_id: "account_id"

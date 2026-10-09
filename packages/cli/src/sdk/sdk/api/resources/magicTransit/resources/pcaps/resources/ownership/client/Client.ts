@@ -32,6 +32,9 @@ export class OwnershipClient {
      * @param {CloudflareApi.magicTransit.pcaps.GetOwnershipRequest} request
      * @param {OwnershipClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.pcaps.ownership.get({
      *         account_id: "account_id"
@@ -99,6 +102,9 @@ export class OwnershipClient {
      *
      * @param {CloudflareApi.magicTransit.pcaps.MagicVisibilityPcapsPcapsOwnershipRequest} request
      * @param {OwnershipClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.pcaps.ownership.create({
@@ -172,6 +178,9 @@ export class OwnershipClient {
      * @param {CloudflareApi.magicTransit.pcaps.MagicVisibilityPcapsPcapsOwnershipValidateRequest} request
      * @param {OwnershipClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.pcaps.ownership.validate({
      *         account_id: "account_id",
@@ -244,6 +253,9 @@ export class OwnershipClient {
      *
      * @param {CloudflareApi.magicTransit.pcaps.DeleteOwnershipRequest} request
      * @param {OwnershipClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.pcaps.ownership.delete({

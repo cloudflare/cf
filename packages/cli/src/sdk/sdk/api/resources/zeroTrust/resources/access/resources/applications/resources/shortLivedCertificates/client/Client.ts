@@ -31,6 +31,9 @@ export class ShortLivedCertificatesClient {
      * @param {CloudflareApi.zeroTrust.access.applications.ListShortLivedCertificatesRequest} request
      * @param {ShortLivedCertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.applications.shortLivedCertificates.list({
      *         account_or_zone: "account_or_zone",
@@ -113,6 +116,9 @@ export class ShortLivedCertificatesClient {
      * @param {CloudflareApi.zeroTrust.access.applications.GetShortLivedCertificatesRequest} request
      * @param {ShortLivedCertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.applications.shortLivedCertificates.get({
      *         account_or_zone: "account_or_zone",
@@ -180,6 +186,9 @@ export class ShortLivedCertificatesClient {
      * @param {CloudflareApi.zeroTrust.access.applications.CreateShortLivedCertificatesRequest} request
      * @param {ShortLivedCertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.applications.shortLivedCertificates.create({
      *         account_or_zone: "account_or_zone",
@@ -246,6 +255,9 @@ export class ShortLivedCertificatesClient {
      *
      * @param {CloudflareApi.zeroTrust.access.applications.DeleteShortLivedCertificatesRequest} request
      * @param {ShortLivedCertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.applications.shortLivedCertificates.delete({

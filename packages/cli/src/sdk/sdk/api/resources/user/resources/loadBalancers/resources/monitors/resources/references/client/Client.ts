@@ -31,6 +31,9 @@ export class ReferencesClient {
      * @param {CloudflareApi.user.loadBalancers.monitors.ListReferencesRequest} request
      * @param {ReferencesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.user.loadBalancers.monitors.references.list({
      *         monitor_id: "monitor_id"

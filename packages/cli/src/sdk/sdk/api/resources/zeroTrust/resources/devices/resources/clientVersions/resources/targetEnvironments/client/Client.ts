@@ -31,6 +31,9 @@ export class TargetEnvironmentsClient {
      * @param {CloudflareApi.zeroTrust.devices.clientVersions.ListTargetEnvironmentsRequest} request
      * @param {TargetEnvironmentsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.devices.clientVersions.targetEnvironments.list({
      *         account_id: "account_id"

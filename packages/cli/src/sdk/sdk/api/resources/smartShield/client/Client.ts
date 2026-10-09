@@ -44,6 +44,8 @@ export class SmartShieldClient {
      *
      * @throws {@link CloudflareApi.InternalServerError}
      * @throws {@link CloudflareApi.BadGatewayError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.smartShield.get({
@@ -117,6 +119,8 @@ export class SmartShieldClient {
      *
      * @throws {@link CloudflareApi.InternalServerError}
      * @throws {@link CloudflareApi.BadGatewayError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.smartShield.update({

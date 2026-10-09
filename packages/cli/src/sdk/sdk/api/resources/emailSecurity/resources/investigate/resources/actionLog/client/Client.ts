@@ -31,6 +31,9 @@ export class ActionLogClient {
      * @param {CloudflareApi.emailSecurity.investigate.ListActionLogRequest} request
      * @param {ActionLogClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.emailSecurity.investigate.actionLog.list({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",

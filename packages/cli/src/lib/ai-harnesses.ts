@@ -122,6 +122,14 @@ function readConfig(): AgentsConfig {
 	}
 }
 
+export function assertGatewayId(gateway: string | undefined): void {
+	if (gateway && /^https?:\/\//i.test(gateway)) {
+		throw new Error(
+			`--gateway accepts a gateway ID, not a URL. Use --endpoint ${gateway} for an Access-protected custom domain.`
+		);
+	}
+}
+
 export function resolveHarnessSettings(
 	harness: AiHarness,
 	overrides: { gateway?: string; model?: string; endpoint?: string } = {}

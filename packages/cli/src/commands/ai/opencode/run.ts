@@ -11,6 +11,7 @@ import {
 	detectAccessProtection,
 } from "#lib/access-credentials.js";
 import {
+	assertGatewayId,
 	resolveHarnessSettings,
 	resolveHarnessToken,
 } from "#lib/ai-harnesses.js";
@@ -166,6 +167,7 @@ const command: CommandModule<CommonYargsOptions, OpenCodeRunArgs> = {
 			throw new Error("--local is not supported by cf ai opencode.");
 		}
 
+		assertGatewayId(argv.gateway);
 		const settings = resolveHarnessSettings("opencode", argv);
 		const endpoint = argv.endpoint ?? settings.endpoint;
 		const protection =

@@ -4,6 +4,7 @@ import { x } from "tinyexec";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 import type { ArgumentsCamelCase, Argv, CommandModule } from "yargs";
 import {
+	assertGatewayId,
 	resolveHarnessSettings,
 	resolveHarnessToken,
 } from "#lib/ai-harnesses.js";
@@ -88,6 +89,7 @@ const command: CommandModule<CommonYargsOptions, PiArgs> = {
 		if (argv.local) {
 			throw new Error("--local is not supported by cf ai pi.");
 		}
+		assertGatewayId(argv.gateway);
 		const settings = resolveHarnessSettings("pi", argv);
 		if (settings.endpoint) {
 			throw new Error(

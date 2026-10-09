@@ -4,6 +4,7 @@ import { join } from "node:path";
 import { runInTempDir } from "@cloudflare/workers-utils/test-helpers";
 import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import {
+	assertGatewayId,
 	createHarnessToken,
 	resolveHarnessSettings,
 	resolveHarnessToken,
@@ -137,6 +138,18 @@ describe("resolveHarnessSettings", () => {
 
 		expect(() => resolveHarnessSettings("opencode")).toThrow(
 			"unknown harness unknown"
+		);
+	});
+});
+
+describe("assertGatewayId", () => {
+	it("accepts gateway IDs", () => {
+		expect(() => assertGatewayId("default")).not.toThrow();
+	});
+
+	it("directs custom-domain URLs to --endpoint", () => {
+		expect(() => assertGatewayId("https://ai.example.com")).toThrow(
+			"Use --endpoint https://ai.example.com"
 		);
 	});
 });

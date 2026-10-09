@@ -48,9 +48,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["usage"],
 			default: "usage",
 		})
-		.coerce("metric", (value: string | undefined) =>
-			resolveFileToken(value, "metric", "text")
-		)
+		.coerce("metric", (value) => resolveFileToken(value, "metric", "text"))
 		.option("time-period-from", {
 			type: "string",
 			description: "Start of the range (ISO 8601). Required if `To` is set.",

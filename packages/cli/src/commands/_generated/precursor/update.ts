@@ -25,7 +25,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"The zone-level Precursor enforcement mode applied to requests that do\nnot match a more specific enforcement rule.\n",
 			choices: ["off", "min-friction", "max-security"],
 		})
-		.coerce("default-mode", (value: string | undefined) =>
+		.coerce("default-mode", (value) =>
 			resolveFileToken(value, "default-mode", "text")
 		)
 		.option("enforcement-rules", {

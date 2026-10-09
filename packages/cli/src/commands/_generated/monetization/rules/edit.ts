@@ -50,9 +50,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				'X402 payment scheme. "exact" requires the specified payment amount; "upto" permits a payment up to the specified amount; "origin_controlled" lets the origin server set pricing dynamically, in which case the rule carries no price and the price field must be omitted.',
 			choices: ["exact", "upto", "origin_controlled"],
 		})
-		.coerce("scheme", (value: string | undefined) =>
-			resolveFileToken(value, "scheme", "text")
-		)
+		.coerce("scheme", (value) => resolveFileToken(value, "scheme", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

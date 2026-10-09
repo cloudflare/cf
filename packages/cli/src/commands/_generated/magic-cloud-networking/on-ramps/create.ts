@@ -56,7 +56,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The cloud_type field",
 			choices: ["AWS", "AZURE", "GOOGLE"],
 		})
-		.coerce("cloud-type", (value: string | undefined) =>
+		.coerce("cloud-type", (value) =>
 			resolveFileToken(value, "cloud-type", "text")
 		)
 		.option("description", {
@@ -95,9 +95,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The type field",
 			choices: ["OnrampTypeSingle", "OnrampTypeHub"],
 		})
-		.coerce("type", (value: string | undefined) =>
-			resolveFileToken(value, "type", "text")
-		)
+		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
 		.option("vpc", { type: "string", description: "The vpc field" })
 		.option("dry-run", {
 			type: "boolean",

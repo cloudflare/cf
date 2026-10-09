@@ -44,9 +44,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"TRACE",
 			],
 		})
-		.coerce("method", (value: string | undefined) =>
-			resolveFileToken(value, "method", "text")
-		)
+		.coerce("method", (value) => resolveFileToken(value, "method", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

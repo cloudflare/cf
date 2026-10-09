@@ -42,9 +42,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The CISA defined Traffic Light Protocol (TLP).",
 			choices: ["clear", "amber", "amber-strict", "green", "red"],
 		})
-		.coerce("tlp", (value: string | undefined) =>
-			resolveFileToken(value, "tlp", "text")
-		)
+		.coerce("tlp", (value) => resolveFileToken(value, "tlp", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

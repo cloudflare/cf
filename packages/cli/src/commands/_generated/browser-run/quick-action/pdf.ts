@@ -123,7 +123,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"a6",
 			],
 		})
-		.coerce("pdf-options-format", (value: string | undefined) =>
+		.coerce("pdf-options-format", (value) =>
 			resolveFileToken(value, "pdf-options-format", "text")
 		)
 		.option("pdf-options-header-template", {

@@ -25,9 +25,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Whether C2PA signing is enabled for image transformations.",
 			choices: ["off", "on"],
 		})
-		.coerce("value", (value: string | undefined) =>
-			resolveFileToken(value, "value", "text")
-		)
+		.coerce("value", (value) => resolveFileToken(value, "value", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

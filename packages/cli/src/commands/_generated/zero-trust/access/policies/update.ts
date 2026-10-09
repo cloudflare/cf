@@ -39,9 +39,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"The action Access will take if a user matches this policy. Infrastructure application policies can only use the Allow action.",
 			choices: ["allow", "deny", "non_identity", "bypass"],
 		})
-		.coerce("decision", (value: string | undefined) =>
-			resolveFileToken(value, "decision", "text")
-		)
+		.coerce("decision", (value) => resolveFileToken(value, "decision", "text"))
 		.option("exclude", {
 			type: "string",
 			description:

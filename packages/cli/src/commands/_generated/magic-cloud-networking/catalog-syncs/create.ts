@@ -41,7 +41,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The destination_type field",
 			choices: ["NONE", "ZERO_TRUST_LIST"],
 		})
-		.coerce("destination-type", (value: string | undefined) =>
+		.coerce("destination-type", (value) =>
 			resolveFileToken(value, "destination-type", "text")
 		)
 		.option("name", { type: "string", description: "The name field" })
@@ -51,7 +51,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The update_mode field",
 			choices: ["AUTO", "MANUAL"],
 		})
-		.coerce("update-mode", (value: string | undefined) =>
+		.coerce("update-mode", (value) =>
 			resolveFileToken(value, "update-mode", "text")
 		)
 		.option("dry-run", {

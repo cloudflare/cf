@@ -39,7 +39,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Masking level for payload logs.\n\n- `full`: The entire payload is masked.\n- `partial`: Only partial payload content is masked.\n- `clear`: No masking is applied to the payload content.\n- `default`: DLP uses its default masking behavior.",
 			choices: ["full", "partial", "clear", "default"],
 		})
-		.coerce("payload-logging-masking-level", (value: string | undefined) =>
+		.coerce("payload-logging-masking-level", (value) =>
 			resolveFileToken(value, "payload-logging-masking-level", "text")
 		)
 		.option("payload-logging-public-key", {

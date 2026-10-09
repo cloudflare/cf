@@ -98,7 +98,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Whether the zone mode is a regular or CDN/DNS only zone.",
 			choices: ["standard", "cdn_only", "dns_only"],
 		})
-		.coerce("zone-defaults-zone-mode", (value: string | undefined) =>
+		.coerce("zone-defaults-zone-mode", (value) =>
 			resolveFileToken(value, "zone-defaults-zone-mode", "text")
 		)
 		.option("zone-defaults-nameservers-type", {
@@ -112,7 +112,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"custom.tenant",
 			],
 		})
-		.coerce("zone-defaults-nameservers-type", (value: string | undefined) =>
+		.coerce("zone-defaults-nameservers-type", (value) =>
 			resolveFileToken(value, "zone-defaults-nameservers-type", "text")
 		)
 		.option("dry-run", {

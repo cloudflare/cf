@@ -36,16 +36,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The type of DNS record associated with the application.",
 			choices: ["CNAME", "ADDRESS"],
 		})
-		.coerce("dns-type", (value: string | undefined) =>
-			resolveFileToken(value, "dns-type", "text")
-		)
+		.coerce("dns-type", (value) => resolveFileToken(value, "dns-type", "text"))
 		.option("edge-ips-connectivity", {
 			type: "string",
 			description:
 				"The IP versions supported for inbound connections on Spectrum anycast IPs.",
 			choices: ["all", "ipv4", "ipv6"],
 		})
-		.coerce("edge-ips-connectivity", (value: string | undefined) =>
+		.coerce("edge-ips-connectivity", (value) =>
 			resolveFileToken(value, "edge-ips-connectivity", "text")
 		)
 		.option("edge-ips-type", {
@@ -54,7 +52,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"The type of edge IP configuration specified. Dynamically allocated edge IPs use Spectrum anycast IPs in accordance with the connectivity you specify. Only valid with CNAME DNS names.",
 			choices: ["dynamic", "static"],
 		})
-		.coerce("edge-ips-type", (value: string | undefined) =>
+		.coerce("edge-ips-type", (value) =>
 			resolveFileToken(value, "edge-ips-type", "text")
 		)
 		.option("edge-ips-ips", {
@@ -89,7 +87,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				'The type of DNS record associated with the origin. "" is used to specify a combination of A/AAAA records.',
 			choices: ["A", "AAAA", "SRV"],
 		})
-		.coerce("origin-dns-type", (value: string | undefined) =>
+		.coerce("origin-dns-type", (value) =>
 			resolveFileToken(value, "origin-dns-type", "text")
 		)
 		.option("origin-worker-id", {
@@ -109,7 +107,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["off", "v1", "v2", "simple"],
 			default: "off",
 		})
-		.coerce("proxy-protocol", (value: string | undefined) =>
+		.coerce("proxy-protocol", (value) =>
 			resolveFileToken(value, "proxy-protocol", "text")
 		)
 		.option("tls", {
@@ -119,9 +117,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["off", "flexible", "full", "strict"],
 			default: "off",
 		})
-		.coerce("tls", (value: string | undefined) =>
-			resolveFileToken(value, "tls", "text")
-		)
+		.coerce("tls", (value) => resolveFileToken(value, "tls", "text"))
 		.option("traffic-type", {
 			type: "string",
 			description:
@@ -129,7 +125,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["direct", "http", "https", "worker"],
 			default: "direct",
 		})
-		.coerce("traffic-type", (value: string | undefined) =>
+		.coerce("traffic-type", (value) =>
 			resolveFileToken(value, "traffic-type", "text")
 		)
 		.option("virtual-network-id", {

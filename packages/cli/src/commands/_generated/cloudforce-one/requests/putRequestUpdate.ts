@@ -55,9 +55,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"critical",
 			],
 		})
-		.coerce("priority", (value: string | undefined) =>
-			resolveFileToken(value, "priority", "text")
-		)
+		.coerce("priority", (value) => resolveFileToken(value, "priority", "text"))
 		.option("request-type", {
 			type: "string",
 			description:
@@ -87,9 +85,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"amber+strict",
 			],
 		})
-		.coerce("tlp", (value: string | undefined) =>
-			resolveFileToken(value, "tlp", "text")
-		)
+		.coerce("tlp", (value) => resolveFileToken(value, "tlp", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

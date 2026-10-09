@@ -33,7 +33,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The configuration.type field",
 			choices: ["logpush"],
 		})
-		.coerce("configuration-type", (value: string | undefined) =>
+		.coerce("configuration-type", (value) =>
 			resolveFileToken(value, "configuration-type", "text")
 		)
 		.option("configuration-url", {

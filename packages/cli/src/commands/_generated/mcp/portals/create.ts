@@ -36,7 +36,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Code Mode policy for this portal. `off`: Code Mode is unavailable; query parameters are ignored. `opt_in`: Code Mode is off by default; clients turn it on with `?codemode=search_and_execute`. `default_on`: Code Mode is on by default; clients can opt out with `?codemode=off`. `enforced`: Code Mode is always on; query parameters are ignored. Defaults to `opt_in` when omitted on create. If both `code_mode` and `allow_code_mode` are sent, they must be consistent or the request returns a 400.",
 			choices: ["off", "opt_in", "default_on", "enforced"],
 		})
-		.coerce("code-mode", (value: string | undefined) =>
+		.coerce("code-mode", (value) =>
 			resolveFileToken(value, "code-mode", "text")
 		)
 		.option("description", {

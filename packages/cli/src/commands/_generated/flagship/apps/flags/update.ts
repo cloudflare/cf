@@ -66,9 +66,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Deprecated compatibility field. Omit it; the API ignores this value and infers the type from the flag's variations.",
 			choices: ["boolean", "string", "number", "json"],
 		})
-		.coerce("type", (value: string | undefined) =>
-			resolveFileToken(value, "type", "text")
-		)
+		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

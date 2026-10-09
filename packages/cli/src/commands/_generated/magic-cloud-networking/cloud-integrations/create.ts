@@ -37,7 +37,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The cloud_type field",
 			choices: ["AWS", "AZURE", "GOOGLE", "CLOUDFLARE"],
 		})
-		.coerce("cloud-type", (value: string | undefined) =>
+		.coerce("cloud-type", (value) =>
 			resolveFileToken(value, "cloud-type", "text")
 		)
 		.option("description", {

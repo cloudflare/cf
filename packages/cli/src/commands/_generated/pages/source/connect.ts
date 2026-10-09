@@ -81,14 +81,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Controls whether commits to preview branches trigger a preview deployment.",
 			choices: ["all", "none", "custom"],
 		})
-		.coerce(
-			"source-config-preview-deployment-setting",
-			(value: string | undefined) =>
-				resolveFileToken(
-					value,
-					"source-config-preview-deployment-setting",
-					"text"
-				)
+		.coerce("source-config-preview-deployment-setting", (value) =>
+			resolveFileToken(
+				value,
+				"source-config-preview-deployment-setting",
+				"text"
+			)
 		)
 		.option("source-config-production-branch", {
 			type: "string",
@@ -112,9 +110,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The source control management provider.",
 			choices: ["github", "gitlab"],
 		})
-		.coerce("type", (value: string | undefined) =>
-			resolveFileToken(value, "type", "text")
-		)
+		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

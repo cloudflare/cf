@@ -59,7 +59,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			],
 			default: "close_enough",
 		})
-		.coerce("cache-threshold", (value: string | undefined) =>
+		.coerce("cache-threshold", (value) =>
 			resolveFileToken(value, "cache-threshold", "text")
 		)
 		.option("chunk", {
@@ -91,7 +91,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["max", "rrf"],
 			default: "rrf",
 		})
-		.coerce("fusion-method", (value: string | undefined) =>
+		.coerce("fusion-method", (value) =>
 			resolveFileToken(value, "fusion-method", "text")
 		)
 		.option("hybrid-search-enabled", {
@@ -114,7 +114,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Tokenizer used for keyword search indexing. porter provides word-level tokenization with Porter stemming (good for natural language queries). trigram enables character-level substring matching (good for partial matches, code, identifiers). Changing this triggers a full re-index. Defaults to porter.",
 			choices: ["porter", "trigram"],
 		})
-		.coerce("indexing-options-keyword-tokenizer", (value: string | undefined) =>
+		.coerce("indexing-options-keyword-tokenizer", (value) =>
 			resolveFileToken(value, "indexing-options-keyword-tokenizer", "text")
 		)
 		.option("indexing-options-use-ocr", {
@@ -136,14 +136,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The metadata.created_from_emdash_plugin.type field",
 			choices: ["native", "rest"],
 		})
-		.coerce(
-			"metadata-created-from-emdash-plugin-type",
-			(value: string | undefined) =>
-				resolveFileToken(
-					value,
-					"metadata-created-from-emdash-plugin-type",
-					"text"
-				)
+		.coerce("metadata-created-from-emdash-plugin-type", (value) =>
+			resolveFileToken(
+				value,
+				"metadata-created-from-emdash-plugin-type",
+				"text"
+			)
 		)
 		.option("metadata-created-from-emdash-plugin-version", {
 			type: "string",
@@ -198,14 +196,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The public_endpoint_params.rate_limit.technique field",
 			choices: ["fixed", "sliding"],
 		})
-		.coerce(
-			"public-endpoint-params-rate-limit-technique",
-			(value: string | undefined) =>
-				resolveFileToken(
-					value,
-					"public-endpoint-params-rate-limit-technique",
-					"text"
-				)
+		.coerce("public-endpoint-params-rate-limit-technique", (value) =>
+			resolveFileToken(
+				value,
+				"public-endpoint-params-rate-limit-technique",
+				"text"
+			)
 		)
 		.option("public-endpoint-params-search-endpoint-disabled", {
 			type: "boolean",
@@ -226,10 +222,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Controls which documents are candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term, ranked by BM25 relevance. When omitted on an update, the existing stored value is preserved; when never set, search falls back to 'and'.",
 			choices: ["and", "or"],
 		})
-		.coerce(
-			"retrieval-options-keyword-match-mode",
-			(value: string | undefined) =>
-				resolveFileToken(value, "retrieval-options-keyword-match-mode", "text")
+		.coerce("retrieval-options-keyword-match-mode", (value) =>
+			resolveFileToken(value, "retrieval-options-keyword-match-mode", "text")
 		)
 		.option("rewrite-model", {
 			type: "string",
@@ -297,14 +291,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Where the crawler looks for URLs: 'sitemaps' reads sitemap XML only, 'links' follows page links only, 'all' does both.",
 			choices: ["all", "sitemaps", "links"],
 		})
-		.coerce(
-			"source-params-web-crawler-discover-options-source",
-			(value: string | undefined) =>
-				resolveFileToken(
-					value,
-					"source-params-web-crawler-discover-options-source",
-					"text"
-				)
+		.coerce("source-params-web-crawler-discover-options-source", (value) =>
+			resolveFileToken(
+				value,
+				"source-params-web-crawler-discover-options-source",
+				"text"
+			)
 		)
 		.option("source-params-web-crawler-parse-options-include-images", {
 			type: "boolean",
@@ -328,10 +320,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"How URLs are discovered. 'sitemap' reads XML sitemaps; 'discover' follows links recursively and requires the source to be a Verified zone on this account.",
 			choices: ["sitemap", "discover"],
 		})
-		.coerce(
-			"source-params-web-crawler-parse-type",
-			(value: string | undefined) =>
-				resolveFileToken(value, "source-params-web-crawler-parse-type", "text")
+		.coerce("source-params-web-crawler-parse-type", (value) =>
+			resolveFileToken(value, "source-params-web-crawler-parse-type", "text")
 		)
 		.option("token-id", { type: "string", description: "The token_id field" })
 		.option("type", {
@@ -340,9 +330,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage.",
 			choices: ["r2", "web-crawler"],
 		})
-		.coerce("type", (value: string | undefined) =>
-			resolveFileToken(value, "type", "text")
-		)
+		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

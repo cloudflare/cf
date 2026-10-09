@@ -90,9 +90,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"custom_s2s",
 			],
 		})
-		.coerce("type", (value: string | undefined) =>
-			resolveFileToken(value, "type", "text")
-		)
+		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

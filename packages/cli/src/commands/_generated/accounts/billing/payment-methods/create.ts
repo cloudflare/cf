@@ -98,9 +98,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"ACH_DIRECT_DEBIT",
 			],
 		})
-		.coerce("type", (value: string | undefined) =>
-			resolveFileToken(value, "type", "text")
-		)
+		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
 		.option("zipcode", { type: "string", description: "Billing zip code." })
 		.option("dry-run", {
 			type: "boolean",

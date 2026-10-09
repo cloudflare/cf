@@ -70,7 +70,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"SNOOPY-GOOGLE_DIRECTORY",
 			],
 		})
-		.coerce("provenance", (value: string | undefined) =>
+		.coerce("provenance", (value) =>
 			resolveFileToken(value, "provenance", "text")
 		)
 		.option("dry-run", {

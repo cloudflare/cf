@@ -49,7 +49,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Type of relationship to create between parent and child events",
 			choices: ["related_to", "caused_by", "attributed_to"],
 		})
-		.coerce("relationship-type", (value: string | undefined) =>
+		.coerce("relationship-type", (value) =>
 			resolveFileToken(value, "relationship-type", "text")
 		)
 		.option("dry-run", {

@@ -77,7 +77,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"worker",
 			],
 		})
-		.coerce("resource-type", (value: string | undefined) =>
+		.coerce("resource-type", (value) =>
 			resolveFileToken(value, "resource-type", "text")
 		)
 		.option("worker-id", {

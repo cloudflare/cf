@@ -44,7 +44,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"ab02a976-0a20-5c76-a553-7f6325afacfe",
 			],
 		})
-		.coerce("category-id", (value: string | undefined) =>
+		.coerce("category-id", (value) =>
 			resolveFileToken(value, "category-id", "text")
 		)
 		.option("display-name", {

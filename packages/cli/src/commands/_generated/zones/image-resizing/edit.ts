@@ -26,9 +26,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				'Controls Image Resizing behavior:\n- "off": Feature disabled.\n- "on": Resizing is enabled for same-zone images only.\n- "open": Resizing is enabled for images from any origin.\n- "latest": Resizing is enabled for same-zone images using the latest version.\n',
 			choices: ["off", "on", "open", "latest"],
 		})
-		.coerce("value", (value: string | undefined) =>
-			resolveFileToken(value, "value", "text")
-		)
+		.coerce("value", (value) => resolveFileToken(value, "value", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

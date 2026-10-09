@@ -85,14 +85,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The public_endpoint_params.rate_limit.technique field",
 			choices: ["fixed", "sliding"],
 		})
-		.coerce(
-			"public-endpoint-params-rate-limit-technique",
-			(value: string | undefined) =>
-				resolveFileToken(
-					value,
-					"public-endpoint-params-rate-limit-technique",
-					"text"
-				)
+		.coerce("public-endpoint-params-rate-limit-technique", (value) =>
+			resolveFileToken(
+				value,
+				"public-endpoint-params-rate-limit-technique",
+				"text"
+			)
 		)
 		.option("public-endpoint-params-search-endpoint-disabled", {
 			type: "boolean",

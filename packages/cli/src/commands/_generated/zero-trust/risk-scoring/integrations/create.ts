@@ -33,7 +33,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The integration_type field",
 			choices: ["Okta"],
 		})
-		.coerce("integration-type", (value: string | undefined) =>
+		.coerce("integration-type", (value) =>
 			resolveFileToken(value, "integration-type", "text")
 		)
 		.option("reference-id", {

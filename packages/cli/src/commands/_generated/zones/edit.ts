@@ -31,9 +31,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"A full zone implies that DNS is hosted with Cloudflare. A partial\nzone is typically a partner-hosted zone or a CNAME setup. This\nparameter is only available to Enterprise customers or if it has\nbeen explicitly enabled on a zone.\n",
 			choices: ["full", "partial", "secondary", "internal"],
 		})
-		.coerce("type", (value: string | undefined) =>
-			resolveFileToken(value, "type", "text")
-		)
+		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
 		.option("vanity-name-servers", {
 			type: "string",
 			array: true,

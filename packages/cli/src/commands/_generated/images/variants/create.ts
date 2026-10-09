@@ -41,7 +41,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"The fit property describes how the width and height dimensions should be interpreted.",
 			choices: ["scale-down", "contain", "cover", "crop", "pad"],
 		})
-		.coerce("options-fit", (value: string | undefined) =>
+		.coerce("options-fit", (value) =>
 			resolveFileToken(value, "options-fit", "text")
 		)
 		.option("options-height", {
@@ -53,7 +53,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "What EXIF data should be preserved in the output image.",
 			choices: ["keep", "copyright", "none"],
 		})
-		.coerce("options-metadata", (value: string | undefined) =>
+		.coerce("options-metadata", (value) =>
 			resolveFileToken(value, "options-metadata", "text")
 		)
 		.option("options-width", {

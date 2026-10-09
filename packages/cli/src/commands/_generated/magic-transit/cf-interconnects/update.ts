@@ -95,7 +95,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"How frequent the health check is run. The default value is `mid`.",
 			choices: ["low", "mid", "high"],
 		})
-		.coerce("health-check-rate", (value: string | undefined) =>
+		.coerce("health-check-rate", (value) =>
 			resolveFileToken(value, "health-check-rate", "text")
 		)
 		.option("health-check-target-saved", {
@@ -109,7 +109,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"The type of healthcheck to run, reply or request. The default value is `reply`.",
 			choices: ["reply", "request"],
 		})
-		.coerce("health-check-type", (value: string | undefined) =>
+		.coerce("health-check-type", (value) =>
 			resolveFileToken(value, "health-check-type", "text")
 		)
 		.option("health-check-direction", {
@@ -118,7 +118,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the interconnect and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the interconnect.",
 			choices: ["unidirectional", "bidirectional"],
 		})
-		.coerce("health-check-direction", (value: string | undefined) =>
+		.coerce("health-check-direction", (value) =>
 			resolveFileToken(value, "health-check-direction", "text")
 		)
 		.option("health-check-source", {

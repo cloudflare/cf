@@ -71,9 +71,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The type field",
 			choices: ["worker", "http_pull"],
 		})
-		.coerce("type", (value: string | undefined) =>
-			resolveFileToken(value, "type", "text")
-		)
+		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

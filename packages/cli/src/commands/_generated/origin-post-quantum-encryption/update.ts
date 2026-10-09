@@ -25,9 +25,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Value of the Origin Post Quantum Encryption Setting.",
 			choices: ["preferred", "supported", "off"],
 		})
-		.coerce("value", (value: string | undefined) =>
-			resolveFileToken(value, "value", "text")
-		)
+		.coerce("value", (value) => resolveFileToken(value, "value", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

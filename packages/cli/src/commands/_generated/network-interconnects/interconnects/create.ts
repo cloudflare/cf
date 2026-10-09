@@ -48,7 +48,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"50G",
 			],
 		})
-		.coerce("bandwidth", (value: string | undefined) =>
+		.coerce("bandwidth", (value) =>
 			resolveFileToken(value, "bandwidth", "text")
 		)
 		.option("pairing-key", {

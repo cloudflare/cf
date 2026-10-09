@@ -70,7 +70,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"VERIFY_IDENTITY",
 			],
 		})
-		.coerce("mtls-sslmode", (value: string | undefined) =>
+		.coerce("mtls-sslmode", (value) =>
 			resolveFileToken(value, "mtls-sslmode", "text")
 		)
 		.option("name", {
@@ -93,7 +93,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Specifies the URL scheme used to connect to your origin database.",
 			choices: ["postgres", "postgresql", "mysql"],
 		})
-		.coerce("origin-scheme", (value: string | undefined) =>
+		.coerce("origin-scheme", (value) =>
 			resolveFileToken(value, "origin-scheme", "text")
 		)
 		.option("origin-user", {

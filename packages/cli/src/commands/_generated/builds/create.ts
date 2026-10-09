@@ -54,7 +54,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Source control provider for the seed repository.",
 			choices: ["github", "gitlab"],
 		})
-		.coerce("seed-repo-provider", (value: string | undefined) =>
+		.coerce("seed-repo-provider", (value) =>
 			resolveFileToken(value, "seed-repo-provider", "text")
 		)
 		.option("seed-repo-repository", {

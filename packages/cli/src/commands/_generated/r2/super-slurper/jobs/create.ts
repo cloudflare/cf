@@ -71,7 +71,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The source.vendor field",
 			choices: ["s3", "gcs", "r2"],
 		})
-		.coerce("source-vendor", (value: string | undefined) =>
+		.coerce("source-vendor", (value) =>
 			resolveFileToken(value, "source-vendor", "text")
 		)
 		.option("source-jurisdiction", {
@@ -79,7 +79,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The source.jurisdiction field",
 			choices: ["default", "eu", "us", "fedramp"],
 		})
-		.coerce("source-jurisdiction", (value: string | undefined) =>
+		.coerce("source-jurisdiction", (value) =>
 			resolveFileToken(value, "source-jurisdiction", "text")
 		)
 		.option("target-bucket", {
@@ -91,7 +91,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The target.jurisdiction field",
 			choices: ["default", "eu", "us", "fedramp"],
 		})
-		.coerce("target-jurisdiction", (value: string | undefined) =>
+		.coerce("target-jurisdiction", (value) =>
 			resolveFileToken(value, "target-jurisdiction", "text")
 		)
 		.option("target-secret-access-key-id", {
@@ -107,7 +107,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The target.vendor field",
 			choices: ["r2"],
 		})
-		.coerce("target-vendor", (value: string | undefined) =>
+		.coerce("target-vendor", (value) =>
 			resolveFileToken(value, "target-vendor", "text")
 		)
 		.option("dry-run", {

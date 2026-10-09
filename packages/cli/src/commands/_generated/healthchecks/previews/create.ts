@@ -72,7 +72,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The HTTP method to use for the health check.",
 			choices: ["GET", "HEAD"],
 		})
-		.coerce("http-config-method", (value: string | undefined) =>
+		.coerce("http-config-method", (value) =>
 			resolveFileToken(value, "http-config-method", "text")
 		)
 		.option("http-config-path", {
@@ -111,7 +111,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The TCP connection method to use for the health check.",
 			choices: ["connection_established"],
 		})
-		.coerce("tcp-config-method", (value: string | undefined) =>
+		.coerce("tcp-config-method", (value) =>
 			resolveFileToken(value, "tcp-config-method", "text")
 		)
 		.option("tcp-config-port", {

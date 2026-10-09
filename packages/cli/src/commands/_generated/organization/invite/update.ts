@@ -35,9 +35,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The status field",
 			choices: ["accept", "reject"],
 		})
-		.coerce("status", (value: string | undefined) =>
-			resolveFileToken(value, "status", "text")
-		)
+		.coerce("status", (value) => resolveFileToken(value, "status", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

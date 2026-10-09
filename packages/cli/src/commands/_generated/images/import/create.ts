@@ -32,7 +32,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["skip", "overwrite"],
 			default: "skip",
 		})
-		.coerce("conflict-behaviour", (value: string | undefined) =>
+		.coerce("conflict-behaviour", (value) =>
 			resolveFileToken(value, "conflict-behaviour", "text")
 		)
 		.option("excluded-content-types", {

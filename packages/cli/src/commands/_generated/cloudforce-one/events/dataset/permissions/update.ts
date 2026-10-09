@@ -40,9 +40,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The role field",
 			choices: ["read", "write"],
 		})
-		.coerce("role", (value: string | undefined) =>
-			resolveFileToken(value, "role", "text")
-		)
+		.coerce("role", (value) => resolveFileToken(value, "role", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

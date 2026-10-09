@@ -43,7 +43,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"mitreCapec",
 			],
 		})
-		.coerce("dimension", (value: string | undefined) =>
+		.coerce("dimension", (value) =>
 			resolveFileToken(value, "dimension", "text")
 		)
 		.option("enabled", {

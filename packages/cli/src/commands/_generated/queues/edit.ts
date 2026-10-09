@@ -34,7 +34,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The jurisdiction field",
 			choices: ["eu", "us", "fedramp"],
 		})
-		.coerce("jurisdiction", (value: string | undefined) =>
+		.coerce("jurisdiction", (value) =>
 			resolveFileToken(value, "jurisdiction", "text")
 		)
 		.option("queue-name", {

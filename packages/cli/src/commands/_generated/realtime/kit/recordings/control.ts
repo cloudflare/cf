@@ -40,9 +40,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The action field",
 			choices: ["stop", "pause", "resume"],
 		})
-		.coerce("action", (value: string | undefined) =>
-			resolveFileToken(value, "action", "text")
-		)
+		.coerce("action", (value) => resolveFileToken(value, "action", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

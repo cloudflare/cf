@@ -28,7 +28,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The format.decimal_encoding field",
 			choices: ["number", "string", "bytes"],
 		})
-		.coerce("format-decimal-encoding", (value: string | undefined) =>
+		.coerce("format-decimal-encoding", (value) =>
 			resolveFileToken(value, "format-decimal-encoding", "text")
 		)
 		.option("format-timestamp-format", {
@@ -36,7 +36,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The format.timestamp_format field",
 			choices: ["rfc3339", "unix_millis"],
 		})
-		.coerce("format-timestamp-format", (value: string | undefined) =>
+		.coerce("format-timestamp-format", (value) =>
 			resolveFileToken(value, "format-timestamp-format", "text")
 		)
 		.option("format-unstructured", {
@@ -48,7 +48,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The format.type field",
 			choices: ["json", "parquet"],
 		})
-		.coerce("format-type", (value: string | undefined) =>
+		.coerce("format-type", (value) =>
 			resolveFileToken(value, "format-type", "text")
 		)
 		.option("format-compression", {
@@ -56,7 +56,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The format.compression field",
 			choices: ["uncompressed", "snappy", "gzip", "zstd", "lz4"],
 		})
-		.coerce("format-compression", (value: string | undefined) =>
+		.coerce("format-compression", (value) =>
 			resolveFileToken(value, "format-compression", "text")
 		)
 		.option("format-row-group-bytes", {

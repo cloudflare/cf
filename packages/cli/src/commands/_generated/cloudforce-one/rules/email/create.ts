@@ -33,7 +33,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The condition.operator field",
 			choices: ["and", "or"],
 		})
-		.coerce("condition-operator", (value: string | undefined) =>
+		.coerce("condition-operator", (value) =>
 			resolveFileToken(value, "condition-operator", "text")
 		)
 		.option("condition-type", {
@@ -41,7 +41,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The condition.type field",
 			choices: ["group"],
 		})
-		.coerce("condition-type", (value: string | undefined) =>
+		.coerce("condition-type", (value) =>
 			resolveFileToken(value, "condition-type", "text")
 		)
 		.option("description", {
@@ -66,9 +66,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["silent", "blocking"],
 			default: "silent",
 		})
-		.coerce("status", (value: string | undefined) =>
-			resolveFileToken(value, "status", "text")
-		)
+		.coerce("status", (value) => resolveFileToken(value, "status", "text"))
 		.option("strings", {
 			type: "string",
 			description:

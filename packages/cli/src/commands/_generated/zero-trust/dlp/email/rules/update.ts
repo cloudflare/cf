@@ -38,7 +38,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The action.action field",
 			choices: ["Block"],
 		})
-		.coerce("action-action", (value: string | undefined) =>
+		.coerce("action-action", (value) =>
 			resolveFileToken(value, "action-action", "text")
 		)
 		.option("action-message", {

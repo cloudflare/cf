@@ -49,7 +49,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"object-read-only",
 			],
 		})
-		.coerce("permission", (value: string | undefined) =>
+		.coerce("permission", (value) =>
 			resolveFileToken(value, "permission", "text")
 		)
 		.option("prefixes", {

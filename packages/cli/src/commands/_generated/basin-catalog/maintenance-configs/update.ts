@@ -34,7 +34,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Specifies the state of maintenance operations.",
 			choices: ["enabled", "disabled"],
 		})
-		.coerce("compaction-state", (value: string | undefined) =>
+		.coerce("compaction-state", (value) =>
 			resolveFileToken(value, "compaction-state", "text")
 		)
 		.option("compaction-target-size-mb", {
@@ -43,7 +43,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				'Sets the target file size for compaction in megabytes. Defaults to "128".',
 			choices: ["64", "128", "256", "512"],
 		})
-		.coerce("compaction-target-size-mb", (value: string | undefined) =>
+		.coerce("compaction-target-size-mb", (value) =>
 			resolveFileToken(value, "compaction-target-size-mb", "text")
 		)
 		.option("snapshot-expiration-max-snapshot-age", {
@@ -60,7 +60,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Specifies the state of maintenance operations.",
 			choices: ["enabled", "disabled"],
 		})
-		.coerce("snapshot-expiration-state", (value: string | undefined) =>
+		.coerce("snapshot-expiration-state", (value) =>
 			resolveFileToken(value, "snapshot-expiration-state", "text")
 		)
 		.option("dry-run", {

@@ -49,9 +49,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The jobType field",
 			choices: ["prefixDelete", "storageClassMigration"],
 		})
-		.coerce("job-type", (value: string | undefined) =>
-			resolveFileToken(value, "job-type", "text")
-		)
+		.coerce("job-type", (value) => resolveFileToken(value, "job-type", "text"))
 		.option("prefix", {
 			type: "string",
 			description:
@@ -62,7 +60,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The destinationStorageClass field",
 			choices: ["Standard", "InfrequentAccess"],
 		})
-		.coerce("destination-storage-class", (value: string | undefined) =>
+		.coerce("destination-storage-class", (value) =>
 			resolveFileToken(value, "destination-storage-class", "text")
 		)
 		.option("source-storage-class", {
@@ -70,7 +68,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The sourceStorageClass field",
 			choices: ["Standard", "InfrequentAccess"],
 		})
-		.coerce("source-storage-class", (value: string | undefined) =>
+		.coerce("source-storage-class", (value) =>
 			resolveFileToken(value, "source-storage-class", "text")
 		)
 		.option("dry-run", {

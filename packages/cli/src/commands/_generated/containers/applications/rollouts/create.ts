@@ -45,9 +45,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["full_auto", "full_manual"],
 			default: "full_auto",
 		})
-		.coerce("kind", (value: string | undefined) =>
-			resolveFileToken(value, "kind", "text")
-		)
+		.coerce("kind", (value) => resolveFileToken(value, "kind", "text"))
 		.option("percentage", {
 			type: "number",
 			description:
@@ -69,9 +67,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				'Strategy used for the rollout.\n- "rolling": Step-based rollout with health gates. Actively replaces instances to reach each step\'s target percentage.\n- "new_instances": Percentage control over version distribution. Version sync actively replaces instances to match the configured percentage. The "full_auto" kind advances through fixed percentage targets after target-version health is observed.\n',
 			choices: ["rolling", "new_instances"],
 		})
-		.coerce("strategy", (value: string | undefined) =>
-			resolveFileToken(value, "strategy", "text")
-		)
+		.coerce("strategy", (value) => resolveFileToken(value, "strategy", "text"))
 		.option("target-configuration-command", {
 			type: "string",
 			array: true,

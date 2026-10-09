@@ -36,7 +36,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"RecoverableItemsPurges",
 			],
 		})
-		.coerce("destination", (value: string | undefined) =>
+		.coerce("destination", (value) =>
 			resolveFileToken(value, "destination", "text")
 		)
 		.option("expected-disposition", {
@@ -55,7 +55,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"NONE",
 			],
 		})
-		.coerce("expected-disposition", (value: string | undefined) =>
+		.coerce("expected-disposition", (value) =>
 			resolveFileToken(value, "expected-disposition", "text")
 		)
 		.option("ids", {

@@ -52,7 +52,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				'Target type. "tag" is not allowed (tag↔tag relationships are not supported).',
 			choices: ["event", "indicator"],
 		})
-		.coerce("target-type", (value: string | undefined) =>
+		.coerce("target-type", (value) =>
 			resolveFileToken(value, "target-type", "text")
 		)
 		.option("type", { type: "string", description: "Relationship type." })

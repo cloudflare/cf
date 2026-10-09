@@ -36,9 +36,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Destination address status. Non-admin callers may only set verified addresses back to unverified; setting to verified requires admin privileges.",
 			choices: ["unverified", "verified"],
 		})
-		.coerce("status", (value: string | undefined) =>
-			resolveFileToken(value, "status", "text")
-		)
+		.coerce("status", (value) => resolveFileToken(value, "status", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

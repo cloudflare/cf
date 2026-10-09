@@ -40,7 +40,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Magic WAN health check rate for tunnels created on this link.",
 			choices: ["low", "mid", "high"],
 		})
-		.coerce("health-check-rate", (value: string | undefined) =>
+		.coerce("health-check-rate", (value) =>
 			resolveFileToken(value, "health-check-rate", "text")
 		)
 		.option("load-balance-inner-flows", {

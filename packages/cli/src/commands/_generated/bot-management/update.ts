@@ -29,7 +29,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Enable rule to block AI Scrapers and Crawlers.",
 			choices: ["block", "disabled", "only_on_ad_pages"],
 		})
-		.coerce("ai-bots-protection", (value: string | undefined) =>
+		.coerce("ai-bots-protection", (value) =>
 			resolveFileToken(value, "ai-bots-protection", "text")
 		)
 		.option("ai-search", {
@@ -37,7 +37,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Configure robots.txt policy for AI search bots.",
 			choices: ["disabled", "block", "only_on_ad_pages"],
 		})
-		.coerce("ai-search", (value: string | undefined) =>
+		.coerce("ai-search", (value) =>
 			resolveFileToken(value, "ai-search", "text")
 		)
 		.option("ai-training", {
@@ -45,7 +45,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Configure robots.txt policy for AI model training bots.",
 			choices: ["disabled", "disallow", "block", "only_on_ad_pages"],
 		})
-		.coerce("ai-training", (value: string | undefined) =>
+		.coerce("ai-training", (value) =>
 			resolveFileToken(value, "ai-training", "text")
 		)
 		.option("ai-user", {
@@ -54,9 +54,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Configure robots.txt policy for AI assistant and agent bots.",
 			choices: ["disabled", "block", "only_on_ad_pages"],
 		})
-		.coerce("ai-user", (value: string | undefined) =>
-			resolveFileToken(value, "ai-user", "text")
-		)
+		.coerce("ai-user", (value) => resolveFileToken(value, "ai-user", "text"))
 		.option("bot-preference-sync-enabled", {
 			type: "boolean",
 			description:
@@ -68,7 +66,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Specifies the Robots Access Control License variant to use.",
 			choices: ["off", "policy_only"],
 		})
-		.coerce("cf-robots-variant", (value: string | undefined) =>
+		.coerce("cf-robots-variant", (value) =>
 			resolveFileToken(value, "cf-robots-variant", "text")
 		)
 		.option("content-bots-protection", {
@@ -77,7 +75,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules.",
 			choices: ["block", "disabled"],
 		})
-		.coerce("content-bots-protection", (value: string | undefined) =>
+		.coerce("content-bots-protection", (value) =>
 			resolveFileToken(value, "content-bots-protection", "text")
 		)
 		.option("crawler-protection", {
@@ -86,7 +84,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Enable rule to punish AI Scrapers and Crawlers via a link maze.",
 			choices: ["enabled", "disabled"],
 		})
-		.coerce("crawler-protection", (value: string | undefined) =>
+		.coerce("crawler-protection", (value) =>
 			resolveFileToken(value, "crawler-protection", "text")
 		)
 		.option("enable-js", {
@@ -153,7 +151,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Super Bot Fight Mode (SBFM) action to take on definitely automated requests.",
 			choices: ["allow", "block", "managed_challenge"],
 		})
-		.coerce("sbfm-definitely-automated", (value: string | undefined) =>
+		.coerce("sbfm-definitely-automated", (value) =>
 			resolveFileToken(value, "sbfm-definitely-automated", "text")
 		)
 		.option("sbfm-static-resource-protection", {
@@ -167,7 +165,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Super Bot Fight Mode (SBFM) action to take on verified bots requests.",
 			choices: ["allow", "block"],
 		})
-		.coerce("sbfm-verified-bots", (value: string | undefined) =>
+		.coerce("sbfm-verified-bots", (value) =>
 			resolveFileToken(value, "sbfm-verified-bots", "text")
 		)
 		.option("sbfm-likely-automated", {
@@ -176,7 +174,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Super Bot Fight Mode (SBFM) action to take on likely automated requests.",
 			choices: ["allow", "block", "managed_challenge"],
 		})
-		.coerce("sbfm-likely-automated", (value: string | undefined) =>
+		.coerce("sbfm-likely-automated", (value) =>
 			resolveFileToken(value, "sbfm-likely-automated", "text")
 		)
 		.option("auto-update-model", {

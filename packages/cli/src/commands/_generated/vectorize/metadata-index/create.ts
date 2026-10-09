@@ -38,7 +38,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Specifies the type of metadata property to index.",
 			choices: ["string", "number", "boolean"],
 		})
-		.coerce("index-type", (value: string | undefined) =>
+		.coerce("index-type", (value) =>
 			resolveFileToken(value, "index-type", "text")
 		)
 		.option("property-name", {

@@ -39,9 +39,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The status of the Page Rule.",
 			choices: ["active", "disabled"],
 		})
-		.coerce("status", (value: string | undefined) =>
-			resolveFileToken(value, "status", "text")
-		)
+		.coerce("status", (value) => resolveFileToken(value, "status", "text"))
 		.option("targets", {
 			type: "string",
 			description:

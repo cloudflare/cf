@@ -52,9 +52,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"The BGP mode for a CNI.\nOne of the following:\n* `dynamic_route_exchange`\n* `advertise_only`",
 			choices: ["dynamic_route_exchange", "advertise_only"],
 		})
-		.coerce("bgp-mode", (value: string | undefined) =>
-			resolveFileToken(value, "bgp-mode", "text")
-		)
+		.coerce("bgp-mode", (value) => resolveFileToken(value, "bgp-mode", "text"))
 		.option("cust-ip", {
 			type: "string",
 			description:

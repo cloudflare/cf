@@ -40,7 +40,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The type of test.",
 			choices: ["http", "traceroute"],
 		})
-		.coerce("data-kind", (value: string | undefined) =>
+		.coerce("data-kind", (value) =>
 			resolveFileToken(value, "data-kind", "text")
 		)
 		.option("data-method", {
@@ -48,7 +48,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The HTTP request method type.",
 			choices: ["GET"],
 		})
-		.coerce("data-method", (value: string | undefined) =>
+		.coerce("data-method", (value) =>
 			resolveFileToken(value, "data-method", "text")
 		)
 		.option("description", {

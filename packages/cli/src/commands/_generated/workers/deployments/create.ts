@@ -41,9 +41,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The strategy field",
 			choices: ["percentage"],
 		})
-		.coerce("strategy", (value: string | undefined) =>
-			resolveFileToken(value, "strategy", "text")
-		)
+		.coerce("strategy", (value) => resolveFileToken(value, "strategy", "text"))
 		.option("versions", {
 			type: "string",
 			description:

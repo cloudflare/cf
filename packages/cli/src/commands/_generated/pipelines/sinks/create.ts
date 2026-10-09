@@ -51,7 +51,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Filename generation strategy.",
 			choices: ["serial", "uuid", "uuid_v7", "ulid"],
 		})
-		.coerce("config-file-naming-strategy", (value: string | undefined) =>
+		.coerce("config-file-naming-strategy", (value) =>
 			resolveFileToken(value, "config-file-naming-strategy", "text")
 		)
 		.option("config-file-naming-suffix", {
@@ -99,7 +99,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The format.decimal_encoding field",
 			choices: ["number", "string", "bytes"],
 		})
-		.coerce("format-decimal-encoding", (value: string | undefined) =>
+		.coerce("format-decimal-encoding", (value) =>
 			resolveFileToken(value, "format-decimal-encoding", "text")
 		)
 		.option("format-timestamp-format", {
@@ -107,7 +107,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The format.timestamp_format field",
 			choices: ["rfc3339", "unix_millis"],
 		})
-		.coerce("format-timestamp-format", (value: string | undefined) =>
+		.coerce("format-timestamp-format", (value) =>
 			resolveFileToken(value, "format-timestamp-format", "text")
 		)
 		.option("format-unstructured", {
@@ -119,7 +119,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Specifies the compression applied to JSON sink output.",
 			choices: ["uncompressed", "gzip", "snappy", "zstd", "lz4"],
 		})
-		.coerce("format-compression", (value: string | undefined) =>
+		.coerce("format-compression", (value) =>
 			resolveFileToken(value, "format-compression", "text")
 		)
 		.option("format-type", {
@@ -127,7 +127,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The format.type field",
 			choices: ["json", "parquet"],
 		})
-		.coerce("format-type", (value: string | undefined) =>
+		.coerce("format-type", (value) =>
 			resolveFileToken(value, "format-type", "text")
 		)
 		.option("format-row-group-bytes", {
@@ -147,9 +147,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Specifies the type of sink.",
 			choices: ["r2", "r2_data_catalog", "basin_catalog"],
 		})
-		.coerce("type", (value: string | undefined) =>
-			resolveFileToken(value, "type", "text")
-		)
+		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

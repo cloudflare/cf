@@ -30,9 +30,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The action field",
 			choices: ["propose", "withdraw", "accept_default", "resume"],
 		})
-		.coerce("action", (value: string | undefined) =>
-			resolveFileToken(value, "action", "text")
-		)
+		.coerce("action", (value) => resolveFileToken(value, "action", "text"))
 		.option("price-usd-microcents", {
 			type: "number",
 			description:

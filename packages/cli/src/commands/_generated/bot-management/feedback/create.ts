@@ -47,9 +47,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Type of feedback report.",
 			choices: ["false_positive", "false_negative"],
 		})
-		.coerce("type", (value: string | undefined) =>
-			resolveFileToken(value, "type", "text")
-		)
+		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

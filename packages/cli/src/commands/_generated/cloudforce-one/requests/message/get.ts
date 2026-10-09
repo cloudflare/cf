@@ -51,7 +51,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Sort order (asc or desc).",
 			choices: ["asc", "desc"],
 		})
-		.coerce("sort-order", (value: string | undefined) =>
+		.coerce("sort-order", (value) =>
 			resolveFileToken(value, "sort-order", "text")
 		)
 		.option("dry-run", {

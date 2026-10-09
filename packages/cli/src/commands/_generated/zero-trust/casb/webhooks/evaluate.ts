@@ -40,7 +40,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"HMAC-Signing",
 			],
 		})
-		.coerce("authentication-type", (value: string | undefined) =>
+		.coerce("authentication-type", (value) =>
 			resolveFileToken(value, "authentication-type", "text")
 		)
 		.option("destination-url", {

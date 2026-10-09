@@ -54,9 +54,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The order field",
 			choices: ["asc", "desc"],
 		})
-		.coerce("order", (value: string | undefined) =>
-			resolveFileToken(value, "order", "text")
-		)
+		.coerce("order", (value) => resolveFileToken(value, "order", "text"))
 		.option("order-by", { type: "string", description: "The orderBy field" })
 		.option("page", { type: "number", description: "The page field" })
 		.option("page-size", { type: "number", description: "The pageSize field" })

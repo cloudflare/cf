@@ -36,7 +36,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["and", "or", "AND", "OR"],
 			default: "and",
 		})
-		.coerce("filter-combination", (value: string | undefined) =>
+		.coerce("filter-combination", (value) =>
 			resolveFileToken(value, "filter-combination", "text")
 		)
 		.option("filters", {

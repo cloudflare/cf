@@ -48,18 +48,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The kind of resource that the binding provides.",
 			choices: ["secret_text", "secret_key"],
 		})
-		.coerce("type", (value: string | undefined) =>
-			resolveFileToken(value, "type", "text")
-		)
+		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
 		.option("format", {
 			type: "string",
 			description:
 				"Data format of the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#format).",
 			choices: ["raw", "pkcs8", "spki", "jwk"],
 		})
-		.coerce("format", (value: string | undefined) =>
-			resolveFileToken(value, "format", "text")
-		)
+		.coerce("format", (value) => resolveFileToken(value, "format", "text"))
 		.option("key-base64", {
 			type: "string",
 			description:

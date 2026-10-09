@@ -71,7 +71,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"`inherit` uses the account `max_ttl_secs`. `override` uses this location's `ttl_secs`. `disabled` leaves returned TTLs unchanged.",
 			choices: ["inherit", "override", "disabled"],
 		})
-		.coerce("max-ttl-mode", (value: string | undefined) =>
+		.coerce("max-ttl-mode", (value) =>
 			resolveFileToken(value, "max-ttl-mode", "text")
 		)
 		.option("max-ttl-ttl-secs", {

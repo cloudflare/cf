@@ -50,7 +50,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"SLACK",
 			],
 		})
-		.coerce("application", (value: string | undefined) =>
+		.coerce("application", (value) =>
 			resolveFileToken(value, "application", "text")
 		)
 		.option("auth-method", {

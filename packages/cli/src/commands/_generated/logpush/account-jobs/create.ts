@@ -71,9 +71,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			],
 			default: "http_requests",
 		})
-		.coerce("dataset", (value: string | undefined) =>
-			resolveFileToken(value, "dataset", "text")
-		)
+		.coerce("dataset", (value) => resolveFileToken(value, "dataset", "text"))
 		.option("destination-conf", {
 			type: "string",
 			description:
@@ -102,7 +100,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["high", "low"],
 			default: "high",
 		})
-		.coerce("frequency", (value: string | undefined) =>
+		.coerce("frequency", (value) =>
 			resolveFileToken(value, "frequency", "text")
 		)
 		.option("kind", {
@@ -112,9 +110,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["edge"],
 			default: "",
 		})
-		.coerce("kind", (value: string | undefined) =>
-			resolveFileToken(value, "kind", "text")
-		)
+		.coerce("kind", (value) => resolveFileToken(value, "kind", "text"))
 		.option("logpull-options", {
 			type: "string",
 			description:
@@ -160,7 +156,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Specifies the output type, such as `ndjson` or `csv`. This sets default values for the rest of the settings, depending on the chosen output type. Some formatting rules, like string quoting, are different between output types.",
 			choices: ["ndjson", "csv"],
 		})
-		.coerce("output-options-output-type", (value: string | undefined) =>
+		.coerce("output-options-output-type", (value) =>
 			resolveFileToken(value, "output-options-output-type", "text")
 		)
 		.option("output-options-record-delimiter", {
@@ -191,7 +187,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"String to specify the format for timestamps, such as `unixnano`, `unix`, `rfc3339`, `rfc3339ms` or `rfc3339ns`.",
 			choices: ["unixnano", "unix", "rfc3339", "rfc3339ms", "rfc3339ns"],
 		})
-		.coerce("output-options-timestamp-format", (value: string | undefined) =>
+		.coerce("output-options-timestamp-format", (value) =>
 			resolveFileToken(value, "output-options-timestamp-format", "text")
 		)
 		.option("ownership-challenge", {

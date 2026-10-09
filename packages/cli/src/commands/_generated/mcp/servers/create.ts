@@ -39,7 +39,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Authentication method used to connect to the upstream MCP server.",
 			choices: ["oauth", "bearer", "unauthenticated"],
 		})
-		.coerce("auth-type", (value: string | undefined) =>
+		.coerce("auth-type", (value) =>
 			resolveFileToken(value, "auth-type", "text")
 		)
 		.option("client-secret", {

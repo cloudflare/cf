@@ -58,9 +58,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The type field",
 			choices: ["tcp", "http"],
 		})
-		.coerce("type", (value: string | undefined) =>
-			resolveFileToken(value, "type", "text")
-		)
+		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
 		.option("http-port", { type: "number", description: "The http_port field" })
 		.option("https-port", {
 			type: "number",
@@ -71,7 +69,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The app_protocol field",
 			choices: ["postgresql", "mysql"],
 		})
-		.coerce("app-protocol", (value: string | undefined) =>
+		.coerce("app-protocol", (value) =>
 			resolveFileToken(value, "app-protocol", "text")
 		)
 		.option("tcp-port", { type: "number", description: "The tcp_port field" })

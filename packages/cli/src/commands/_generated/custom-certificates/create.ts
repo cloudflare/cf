@@ -27,7 +27,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["ubiquitous", "optimal", "force"],
 			default: "ubiquitous",
 		})
-		.coerce("bundle-method", (value: string | undefined) =>
+		.coerce("bundle-method", (value) =>
 			resolveFileToken(value, "bundle-method", "text")
 		)
 		.option("certificate", {
@@ -46,15 +46,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["staging", "production"],
 			default: "production",
 		})
-		.coerce("deploy", (value: string | undefined) =>
-			resolveFileToken(value, "deploy", "text")
-		)
+		.coerce("deploy", (value) => resolveFileToken(value, "deploy", "text"))
 		.option("geo-restrictions-label", {
 			type: "string",
 			description: "The geo_restrictions.label field",
 			choices: ["us", "eu", "highest_security"],
 		})
-		.coerce("geo-restrictions-label", (value: string | undefined) =>
+		.coerce("geo-restrictions-label", (value) =>
 			resolveFileToken(value, "geo-restrictions-label", "text")
 		)
 		.option("policy", {
@@ -74,9 +72,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["legacy_custom", "sni_custom"],
 			default: "legacy_custom",
 		})
-		.coerce("type", (value: string | undefined) =>
-			resolveFileToken(value, "type", "text")
-		)
+		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

@@ -30,7 +30,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Desired validation method.",
 			choices: ["http", "cname", "txt", "email"],
 		})
-		.coerce("validation-method", (value: string | undefined) =>
+		.coerce("validation-method", (value) =>
 			resolveFileToken(value, "validation-method", "text")
 		)
 		.option("dry-run", {

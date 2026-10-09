@@ -31,9 +31,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["ip", "identity"],
 			default: "ip",
 		})
-		.coerce("kind", (value: string | undefined) =>
-			resolveFileToken(value, "kind", "text")
-		)
+		.coerce("kind", (value) => resolveFileToken(value, "kind", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

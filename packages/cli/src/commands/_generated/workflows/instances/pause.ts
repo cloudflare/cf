@@ -41,9 +41,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The status field",
 			choices: ["pause", "resume", "terminate", "restart"],
 		})
-		.coerce("status", (value: string | undefined) =>
-			resolveFileToken(value, "status", "text")
-		)
+		.coerce("status", (value) => resolveFileToken(value, "status", "text"))
 		.option("rollback", {
 			type: "boolean",
 			description: "Run rollback before terminating.",
@@ -58,7 +56,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The from.type field",
 			choices: ["do", "sleep", "waitForEvent"],
 		})
-		.coerce("from-type", (value: string | undefined) =>
+		.coerce("from-type", (value) =>
 			resolveFileToken(value, "from-type", "text")
 		)
 		.option("dry-run", {

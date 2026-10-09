@@ -30,9 +30,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Behavior of the content list.",
 			choices: ["block"],
 		})
-		.coerce("action", (value: string | undefined) =>
-			resolveFileToken(value, "action", "text")
-		)
+		.coerce("action", (value) => resolveFileToken(value, "action", "text"))
 		.option("entries", {
 			type: "string",
 			description:

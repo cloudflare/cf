@@ -62,9 +62,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["clear", "green", "amber", "amber-strict", "red", "white"],
 			default: "red",
 		})
-		.coerce("tlp", (value: string | undefined) =>
-			resolveFileToken(value, "tlp", "text")
-		)
+		.coerce("tlp", (value) => resolveFileToken(value, "tlp", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

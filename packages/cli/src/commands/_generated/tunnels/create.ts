@@ -32,7 +32,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["local", "cloudflare"],
 			default: "local",
 		})
-		.coerce("config-source", (value: string | undefined) =>
+		.coerce("config-source", (value) =>
 			resolveFileToken(value, "config-source", "text")
 		)
 		.option("name", {

@@ -29,7 +29,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Whether C2PA signing is enabled for image transformations.",
 			choices: ["off", "on"],
 		})
-		.coerce("value-c2pa", (value: string | undefined) =>
+		.coerce("value-c2pa", (value) =>
 			resolveFileToken(value, "value-c2pa", "text")
 		)
 		.option("value-transformations", {
@@ -38,7 +38,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				'Controls Image Transformations behavior:\n- "off": Feature disabled.\n- "on": Transformations enabled for same-zone images only.\n- "open": Transformations enabled for images from any origin.\n- "latest": Transformations enabled using the latest version.\n',
 			choices: ["off", "on", "open", "latest"],
 		})
-		.coerce("value-transformations", (value: string | undefined) =>
+		.coerce("value-transformations", (value) =>
 			resolveFileToken(value, "value-transformations", "text")
 		)
 		.option("dry-run", {

@@ -44,7 +44,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"When inbound trace context may be continued. Authenticated propagation is not supported yet.",
 			choices: ["accept", "authenticated", "reject"],
 		})
-		.coerce("propagation-policy", (value: string | undefined) =>
+		.coerce("propagation-policy", (value) =>
 			resolveFileToken(value, "propagation-policy", "text")
 		)
 		.option("sampling-ratio", {

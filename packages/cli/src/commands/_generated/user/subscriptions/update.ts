@@ -38,7 +38,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "How often the subscription is renewed automatically.",
 			choices: ["weekly", "monthly", "quarterly", "yearly"],
 		})
-		.coerce("frequency", (value: string | undefined) =>
+		.coerce("frequency", (value) =>
 			resolveFileToken(value, "frequency", "text")
 		)
 		.option("rate-plan-currency", {

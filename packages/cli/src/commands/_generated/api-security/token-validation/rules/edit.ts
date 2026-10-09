@@ -30,9 +30,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Action to take on requests that match operations included in `selector` and fail `expression`.",
 			choices: ["log", "block"],
 		})
-		.coerce("action", (value: string | undefined) =>
-			resolveFileToken(value, "action", "text")
-		)
+		.coerce("action", (value) => resolveFileToken(value, "action", "text"))
 		.option("description", {
 			type: "string",
 			description:

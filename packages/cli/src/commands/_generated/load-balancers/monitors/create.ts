@@ -107,9 +107,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["http", "https", "tcp", "udp_icmp", "icmp_ping", "smtp"],
 			default: "http",
 		})
-		.coerce("type", (value: string | undefined) =>
-			resolveFileToken(value, "type", "text")
-		)
+		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

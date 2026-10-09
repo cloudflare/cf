@@ -36,7 +36,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"User-defined classification for the insight. Can be 'false_positive', 'accept_risk', 'other', or null.",
 			choices: ["false_positive", "accept_risk", "other"],
 		})
-		.coerce("classification", (value: string | undefined) =>
+		.coerce("classification", (value) =>
 			resolveFileToken(value, "classification", "text")
 		)
 		.option("rationale", {

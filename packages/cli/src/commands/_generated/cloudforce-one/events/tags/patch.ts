@@ -96,9 +96,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"amber+strict",
 			],
 		})
-		.coerce("tlp", (value: string | undefined) =>
-			resolveFileToken(value, "tlp", "text")
-		)
+		.coerce("tlp", (value) => resolveFileToken(value, "tlp", "text"))
 		.option("value", { type: "string", description: "The value field" })
 		.option("dry-run", {
 			type: "boolean",

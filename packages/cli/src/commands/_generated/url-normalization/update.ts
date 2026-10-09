@@ -25,17 +25,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The scope of the URL normalization.",
 			choices: ["incoming", "both", "none"],
 		})
-		.coerce("scope", (value: string | undefined) =>
-			resolveFileToken(value, "scope", "text")
-		)
+		.coerce("scope", (value) => resolveFileToken(value, "scope", "text"))
 		.option("type", {
 			type: "string",
 			description: "The type of URL normalization performed by Cloudflare.",
 			choices: ["cloudflare", "rfc3986"],
 		})
-		.coerce("type", (value: string | undefined) =>
-			resolveFileToken(value, "type", "text")
-		)
+		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

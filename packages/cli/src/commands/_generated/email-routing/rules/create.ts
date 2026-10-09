@@ -52,9 +52,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["api", "wrangler"],
 			default: "api",
 		})
-		.coerce("source", (value: string | undefined) =>
-			resolveFileToken(value, "source", "text")
-		)
+		.coerce("source", (value) => resolveFileToken(value, "source", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

@@ -98,7 +98,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"If set, the event will override the waiting room's `turnstile_action` property while it is active. If null, the event will inherit it.",
 			choices: ["log", "infinite_queue"],
 		})
-		.coerce("turnstile-action", (value: string | undefined) =>
+		.coerce("turnstile-action", (value) =>
 			resolveFileToken(value, "turnstile-action", "text")
 		)
 		.option("turnstile-mode", {
@@ -112,7 +112,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"visible_managed",
 			],
 		})
-		.coerce("turnstile-mode", (value: string | undefined) =>
+		.coerce("turnstile-mode", (value) =>
 			resolveFileToken(value, "turnstile-mode", "text")
 		)
 		.option("dry-run", {

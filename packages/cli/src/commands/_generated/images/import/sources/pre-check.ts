@@ -46,9 +46,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The cloud storage vendor of the source bucket.",
 			choices: ["s3", "r2"],
 		})
-		.coerce("vendor", (value: string | undefined) =>
-			resolveFileToken(value, "vendor", "text")
-		)
+		.coerce("vendor", (value) => resolveFileToken(value, "vendor", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

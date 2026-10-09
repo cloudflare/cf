@@ -47,9 +47,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"abuse_ncsei",
 			],
 		})
-		.coerce("act", (value: string | undefined) =>
-			resolveFileToken(value, "act", "text")
-		)
+		.coerce("act", (value) => resolveFileToken(value, "act", "text"))
 		.option("comments", {
 			type: "string",
 			description:
@@ -127,7 +125,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.\n",
 			choices: ["send", "send-anon"],
 		})
-		.coerce("host-notification", (value: string | undefined) =>
+		.coerce("host-notification", (value) =>
 			resolveFileToken(value, "host-notification", "text")
 		)
 		.option("original-work", {
@@ -141,7 +139,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.\n",
 			choices: ["send", "send-anon", "none"],
 		})
-		.coerce("owner-notification", (value: string | undefined) =>
+		.coerce("owner-notification", (value) =>
 			resolveFileToken(value, "owner-notification", "text")
 		)
 		.option("signature", {
@@ -192,7 +190,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.\n",
 			choices: ["send", "send-anon"],
 		})
-		.coerce("ncmec-notification", (value: string | undefined) =>
+		.coerce("ncmec-notification", (value) =>
 			resolveFileToken(value, "ncmec-notification", "text")
 		)
 		.option("reg-who-request-reg-who-authorization-statement", {
@@ -220,10 +218,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The type of WHOIS data request per RDP procedure.",
 			choices: ["disclosure", "invalid_whois"],
 		})
-		.coerce(
-			"reg-who-request-reg-who-request-type",
-			(value: string | undefined) =>
-				resolveFileToken(value, "reg-who-request-reg-who-request-type", "text")
+		.coerce("reg-who-request-reg-who-request-type", (value) =>
+			resolveFileToken(value, "reg-who-request-reg-who-request-type", "text")
 		)
 		.option("reg-who-request-reg-who-requested-data-elements", {
 			type: "string",
@@ -236,14 +232,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The nature of the requestor per RDP 10.2.1.2.",
 			choices: ["government", "corporation", "individual"],
 		})
-		.coerce(
-			"reg-who-request-reg-who-requestor-type",
-			(value: string | undefined) =>
-				resolveFileToken(
-					value,
-					"reg-who-request-reg-who-requestor-type",
-					"text"
-				)
+		.coerce("reg-who-request-reg-who-requestor-type", (value) =>
+			resolveFileToken(value, "reg-who-request-reg-who-requestor-type", "text")
 		)
 		.option("ncsei-subject-representation", {
 			type: "boolean",

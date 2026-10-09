@@ -40,7 +40,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				'Signature type desired on certificate ("origin-rsa" (rsa), "origin-ecc" (ecdsa), or "keyless-certificate" (for Keyless SSL servers).',
 			choices: ["origin-rsa", "origin-ecc", "keyless-certificate"],
 		})
-		.coerce("request-type", (value: string | undefined) =>
+		.coerce("request-type", (value) =>
 			resolveFileToken(value, "request-type", "text")
 		)
 		.option("requested-validity", {

@@ -36,7 +36,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["none", "indexed", "all"],
 			default: "none",
 		})
-		.coerce("return-metadata", (value: string | undefined) =>
+		.coerce("return-metadata", (value) =>
 			resolveFileToken(value, "return-metadata", "text")
 		)
 		.option("return-values", {

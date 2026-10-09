@@ -45,9 +45,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The mailbox folder to scan, for API-scanning domains.",
 			choices: ["AllItems", "Inbox"],
 		})
-		.coerce("folder", (value: string | undefined) =>
-			resolveFileToken(value, "folder", "text")
-		)
+		.coerce("folder", (value) => resolveFileToken(value, "folder", "text"))
 		.option("integration-id", {
 			type: "string",
 			description:

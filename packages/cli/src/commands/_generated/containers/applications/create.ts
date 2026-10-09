@@ -99,7 +99,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Selects a scheduler-backed application. Use `default` when the Containers\nscheduler should maintain the requested number of instances and manage deployment\nconfiguration, placement, scaling, versions, and rollouts.\n",
 			choices: ["default", "durable_object"],
 		})
-		.coerce("scheduling-policy", (value: string | undefined) =>
+		.coerce("scheduling-policy", (value) =>
 			resolveFileToken(value, "scheduling-policy", "text")
 		)
 		.option("dry-run", {

@@ -48,7 +48,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The guardrails.prompt.P1 field",
 			choices: ["FLAG", "BLOCK"],
 		})
-		.coerce("guardrails-prompt-p1", (value: string | undefined) =>
+		.coerce("guardrails-prompt-p1", (value) =>
 			resolveFileToken(value, "guardrails-prompt-p1", "text")
 		)
 		.option("guardrails-prompt-s1", {
@@ -56,7 +56,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The guardrails.prompt.S1 field",
 			choices: ["FLAG", "BLOCK"],
 		})
-		.coerce("guardrails-prompt-s1", (value: string | undefined) =>
+		.coerce("guardrails-prompt-s1", (value) =>
 			resolveFileToken(value, "guardrails-prompt-s1", "text")
 		)
 		.option("guardrails-prompt-s10", {
@@ -64,7 +64,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The guardrails.prompt.S10 field",
 			choices: ["FLAG", "BLOCK"],
 		})
-		.coerce("guardrails-prompt-s10", (value: string | undefined) =>
+		.coerce("guardrails-prompt-s10", (value) =>
 			resolveFileToken(value, "guardrails-prompt-s10", "text")
 		)
 		.option("guardrails-prompt-s11", {
@@ -72,7 +72,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The guardrails.prompt.S11 field",
 			choices: ["FLAG", "BLOCK"],
 		})
-		.coerce("guardrails-prompt-s11", (value: string | undefined) =>
+		.coerce("guardrails-prompt-s11", (value) =>
 			resolveFileToken(value, "guardrails-prompt-s11", "text")
 		)
 		.option("guardrails-prompt-s12", {
@@ -80,7 +80,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The guardrails.prompt.S12 field",
 			choices: ["FLAG", "BLOCK"],
 		})
-		.coerce("guardrails-prompt-s12", (value: string | undefined) =>
+		.coerce("guardrails-prompt-s12", (value) =>
 			resolveFileToken(value, "guardrails-prompt-s12", "text")
 		)
 		.option("guardrails-prompt-s13", {
@@ -88,7 +88,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The guardrails.prompt.S13 field",
 			choices: ["FLAG", "BLOCK"],
 		})
-		.coerce("guardrails-prompt-s13", (value: string | undefined) =>
+		.coerce("guardrails-prompt-s13", (value) =>
 			resolveFileToken(value, "guardrails-prompt-s13", "text")
 		)
 		.option("guardrails-prompt-s2", {
@@ -96,7 +96,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The guardrails.prompt.S2 field",
 			choices: ["FLAG", "BLOCK"],
 		})
-		.coerce("guardrails-prompt-s2", (value: string | undefined) =>
+		.coerce("guardrails-prompt-s2", (value) =>
 			resolveFileToken(value, "guardrails-prompt-s2", "text")
 		)
 		.option("guardrails-prompt-s3", {
@@ -104,7 +104,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The guardrails.prompt.S3 field",
 			choices: ["FLAG", "BLOCK"],
 		})
-		.coerce("guardrails-prompt-s3", (value: string | undefined) =>
+		.coerce("guardrails-prompt-s3", (value) =>
 			resolveFileToken(value, "guardrails-prompt-s3", "text")
 		)
 		.option("guardrails-prompt-s4", {
@@ -112,7 +112,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The guardrails.prompt.S4 field",
 			choices: ["FLAG", "BLOCK"],
 		})
-		.coerce("guardrails-prompt-s4", (value: string | undefined) =>
+		.coerce("guardrails-prompt-s4", (value) =>
 			resolveFileToken(value, "guardrails-prompt-s4", "text")
 		)
 		.option("guardrails-prompt-s5", {
@@ -120,7 +120,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The guardrails.prompt.S5 field",
 			choices: ["FLAG", "BLOCK"],
 		})
-		.coerce("guardrails-prompt-s5", (value: string | undefined) =>
+		.coerce("guardrails-prompt-s5", (value) =>
 			resolveFileToken(value, "guardrails-prompt-s5", "text")
 		)
 		.option("guardrails-prompt-s6", {
@@ -128,7 +128,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The guardrails.prompt.S6 field",
 			choices: ["FLAG", "BLOCK"],
 		})
-		.coerce("guardrails-prompt-s6", (value: string | undefined) =>
+		.coerce("guardrails-prompt-s6", (value) =>
 			resolveFileToken(value, "guardrails-prompt-s6", "text")
 		)
 		.option("guardrails-prompt-s7", {
@@ -136,7 +136,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The guardrails.prompt.S7 field",
 			choices: ["FLAG", "BLOCK"],
 		})
-		.coerce("guardrails-prompt-s7", (value: string | undefined) =>
+		.coerce("guardrails-prompt-s7", (value) =>
 			resolveFileToken(value, "guardrails-prompt-s7", "text")
 		)
 		.option("guardrails-prompt-s8", {
@@ -144,7 +144,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The guardrails.prompt.S8 field",
 			choices: ["FLAG", "BLOCK"],
 		})
-		.coerce("guardrails-prompt-s8", (value: string | undefined) =>
+		.coerce("guardrails-prompt-s8", (value) =>
 			resolveFileToken(value, "guardrails-prompt-s8", "text")
 		)
 		.option("guardrails-prompt-s9", {
@@ -152,7 +152,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The guardrails.prompt.S9 field",
 			choices: ["FLAG", "BLOCK"],
 		})
-		.coerce("guardrails-prompt-s9", (value: string | undefined) =>
+		.coerce("guardrails-prompt-s9", (value) =>
 			resolveFileToken(value, "guardrails-prompt-s9", "text")
 		)
 		.option("guardrails-response-p1", {
@@ -160,7 +160,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The guardrails.response.P1 field",
 			choices: ["FLAG", "BLOCK"],
 		})
-		.coerce("guardrails-response-p1", (value: string | undefined) =>
+		.coerce("guardrails-response-p1", (value) =>
 			resolveFileToken(value, "guardrails-response-p1", "text")
 		)
 		.option("guardrails-response-s1", {
@@ -168,7 +168,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The guardrails.response.S1 field",
 			choices: ["FLAG", "BLOCK"],
 		})
-		.coerce("guardrails-response-s1", (value: string | undefined) =>
+		.coerce("guardrails-response-s1", (value) =>
 			resolveFileToken(value, "guardrails-response-s1", "text")
 		)
 		.option("guardrails-response-s10", {
@@ -176,7 +176,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The guardrails.response.S10 field",
 			choices: ["FLAG", "BLOCK"],
 		})
-		.coerce("guardrails-response-s10", (value: string | undefined) =>
+		.coerce("guardrails-response-s10", (value) =>
 			resolveFileToken(value, "guardrails-response-s10", "text")
 		)
 		.option("guardrails-response-s11", {
@@ -184,7 +184,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The guardrails.response.S11 field",
 			choices: ["FLAG", "BLOCK"],
 		})
-		.coerce("guardrails-response-s11", (value: string | undefined) =>
+		.coerce("guardrails-response-s11", (value) =>
 			resolveFileToken(value, "guardrails-response-s11", "text")
 		)
 		.option("guardrails-response-s12", {
@@ -192,7 +192,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The guardrails.response.S12 field",
 			choices: ["FLAG", "BLOCK"],
 		})
-		.coerce("guardrails-response-s12", (value: string | undefined) =>
+		.coerce("guardrails-response-s12", (value) =>
 			resolveFileToken(value, "guardrails-response-s12", "text")
 		)
 		.option("guardrails-response-s13", {
@@ -200,7 +200,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The guardrails.response.S13 field",
 			choices: ["FLAG", "BLOCK"],
 		})
-		.coerce("guardrails-response-s13", (value: string | undefined) =>
+		.coerce("guardrails-response-s13", (value) =>
 			resolveFileToken(value, "guardrails-response-s13", "text")
 		)
 		.option("guardrails-response-s2", {
@@ -208,7 +208,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The guardrails.response.S2 field",
 			choices: ["FLAG", "BLOCK"],
 		})
-		.coerce("guardrails-response-s2", (value: string | undefined) =>
+		.coerce("guardrails-response-s2", (value) =>
 			resolveFileToken(value, "guardrails-response-s2", "text")
 		)
 		.option("guardrails-response-s3", {
@@ -216,7 +216,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The guardrails.response.S3 field",
 			choices: ["FLAG", "BLOCK"],
 		})
-		.coerce("guardrails-response-s3", (value: string | undefined) =>
+		.coerce("guardrails-response-s3", (value) =>
 			resolveFileToken(value, "guardrails-response-s3", "text")
 		)
 		.option("guardrails-response-s4", {
@@ -224,7 +224,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The guardrails.response.S4 field",
 			choices: ["FLAG", "BLOCK"],
 		})
-		.coerce("guardrails-response-s4", (value: string | undefined) =>
+		.coerce("guardrails-response-s4", (value) =>
 			resolveFileToken(value, "guardrails-response-s4", "text")
 		)
 		.option("guardrails-response-s5", {
@@ -232,7 +232,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The guardrails.response.S5 field",
 			choices: ["FLAG", "BLOCK"],
 		})
-		.coerce("guardrails-response-s5", (value: string | undefined) =>
+		.coerce("guardrails-response-s5", (value) =>
 			resolveFileToken(value, "guardrails-response-s5", "text")
 		)
 		.option("guardrails-response-s6", {
@@ -240,7 +240,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The guardrails.response.S6 field",
 			choices: ["FLAG", "BLOCK"],
 		})
-		.coerce("guardrails-response-s6", (value: string | undefined) =>
+		.coerce("guardrails-response-s6", (value) =>
 			resolveFileToken(value, "guardrails-response-s6", "text")
 		)
 		.option("guardrails-response-s7", {
@@ -248,7 +248,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The guardrails.response.S7 field",
 			choices: ["FLAG", "BLOCK"],
 		})
-		.coerce("guardrails-response-s7", (value: string | undefined) =>
+		.coerce("guardrails-response-s7", (value) =>
 			resolveFileToken(value, "guardrails-response-s7", "text")
 		)
 		.option("guardrails-response-s8", {
@@ -256,7 +256,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The guardrails.response.S8 field",
 			choices: ["FLAG", "BLOCK"],
 		})
-		.coerce("guardrails-response-s8", (value: string | undefined) =>
+		.coerce("guardrails-response-s8", (value) =>
 			resolveFileToken(value, "guardrails-response-s8", "text")
 		)
 		.option("guardrails-response-s9", {
@@ -264,7 +264,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The guardrails.response.S9 field",
 			choices: ["FLAG", "BLOCK"],
 		})
-		.coerce("guardrails-response-s9", (value: string | undefined) =>
+		.coerce("guardrails-response-s9", (value) =>
 			resolveFileToken(value, "guardrails-response-s9", "text")
 		)
 		.option("id", {
@@ -284,7 +284,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The log_management_strategy field",
 			choices: ["STOP_INSERTING", "DELETE_OLDEST"],
 		})
-		.coerce("log-management-strategy", (value: string | undefined) =>
+		.coerce("log-management-strategy", (value) =>
 			resolveFileToken(value, "log-management-strategy", "text")
 		)
 		.option("logpush", { type: "boolean", description: "The logpush field" })
@@ -310,7 +310,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The rate_limiting_technique field",
 			choices: ["fixed", "sliding"],
 		})
-		.coerce("rate-limiting-technique", (value: string | undefined) =>
+		.coerce("rate-limiting-technique", (value) =>
 			resolveFileToken(value, "rate-limiting-technique", "text")
 		)
 		.option("retry-backoff", {
@@ -318,7 +318,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Backoff strategy for retry delays",
 			choices: ["constant", "linear", "exponential"],
 		})
-		.coerce("retry-backoff", (value: string | undefined) =>
+		.coerce("retry-backoff", (value) =>
 			resolveFileToken(value, "retry-backoff", "text")
 		)
 		.option("retry-delay", {
@@ -345,7 +345,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["postpaid", "unified"],
 			default: "postpaid",
 		})
-		.coerce("workers-ai-billing-mode", (value: string | undefined) =>
+		.coerce("workers-ai-billing-mode", (value) =>
 			resolveFileToken(value, "workers-ai-billing-mode", "text")
 		)
 		.option("zdr", { type: "boolean", description: "The zdr field" })

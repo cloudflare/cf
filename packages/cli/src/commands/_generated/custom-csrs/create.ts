@@ -46,9 +46,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["rsa2048", "p256v1"],
 			default: "rsa2048",
 		})
-		.coerce("key-type", (value: string | undefined) =>
-			resolveFileToken(value, "key-type", "text")
-		)
+		.coerce("key-type", (value) => resolveFileToken(value, "key-type", "text"))
 		.option("locality", {
 			type: "string",
 			description: "City or locality name.",

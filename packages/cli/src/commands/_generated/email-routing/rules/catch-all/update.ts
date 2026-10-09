@@ -42,9 +42,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Who manages the rule. `api` covers dashboard, generic API, and Terraform;\n`wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults\nto `api` when omitted on write.\n",
 			choices: ["api", "wrangler"],
 		})
-		.coerce("source", (value: string | undefined) =>
-			resolveFileToken(value, "source", "text")
-		)
+		.coerce("source", (value) => resolveFileToken(value, "source", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

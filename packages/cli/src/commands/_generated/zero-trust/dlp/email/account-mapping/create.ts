@@ -36,7 +36,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The auth_requirements.type field",
 			choices: ["Org", "NoAuth"],
 		})
-		.coerce("auth-requirements-type", (value: string | undefined) =>
+		.coerce("auth-requirements-type", (value) =>
 			resolveFileToken(value, "auth-requirements-type", "text")
 		)
 		.option("dry-run", {

@@ -39,9 +39,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The minTLS field",
 			choices: ["1.0", "1.1", "1.2", "1.3"],
 		})
-		.coerce("min-tls", (value: string | undefined) =>
-			resolveFileToken(value, "min-tls", "text")
-		)
+		.coerce("min-tls", (value) => resolveFileToken(value, "min-tls", "text"))
 		.option("zone-id", {
 			type: "string",
 			description:

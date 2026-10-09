@@ -26,9 +26,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				'Controls HTTP/2 Prioritization behavior:\n- "off": Use browser default prioritization.\n- "on": Use Cloudflare\'s optimized prioritization.\n- "custom": Use custom prioritization rules.\n',
 			choices: ["off", "on", "custom"],
 		})
-		.coerce("value", (value: string | undefined) =>
-			resolveFileToken(value, "value", "text")
-		)
+		.coerce("value", (value) => resolveFileToken(value, "value", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

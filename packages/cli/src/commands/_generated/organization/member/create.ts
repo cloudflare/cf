@@ -30,7 +30,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The member.status field",
 			choices: ["active", "canceled"],
 		})
-		.coerce("member-status", (value: string | undefined) =>
+		.coerce("member-status", (value) =>
 			resolveFileToken(value, "member-status", "text")
 		)
 		.option("member-user-email", {

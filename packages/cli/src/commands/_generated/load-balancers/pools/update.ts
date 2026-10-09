@@ -67,7 +67,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"The default policy to use when load shedding. A random policy randomly sheds a given percent of requests. A hash policy computes a hash over the CF-Connecting-IP address and sheds all requests originating from a percent of IPs.",
 			choices: ["random", "hash"],
 		})
-		.coerce("load-shedding-default-policy", (value: string | undefined) =>
+		.coerce("load-shedding-default-policy", (value) =>
 			resolveFileToken(value, "load-shedding-default-policy", "text")
 		)
 		.option("load-shedding-session-percent", {
@@ -81,7 +81,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Only the hash policy is supported for existing sessions (to avoid exponential decay).",
 			choices: ["hash"],
 		})
-		.coerce("load-shedding-session-policy", (value: string | undefined) =>
+		.coerce("load-shedding-session-policy", (value) =>
 			resolveFileToken(value, "load-shedding-session-policy", "text")
 		)
 		.option("longitude", {
@@ -145,7 +145,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"least_connections",
 			],
 		})
-		.coerce("origin-steering-policy", (value: string | undefined) =>
+		.coerce("origin-steering-policy", (value) =>
 			resolveFileToken(value, "origin-steering-policy", "text")
 		)
 		.option("origins", {

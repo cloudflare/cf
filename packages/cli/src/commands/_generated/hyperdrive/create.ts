@@ -47,7 +47,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"VERIFY_IDENTITY",
 			],
 		})
-		.coerce("mtls-sslmode", (value: string | undefined) =>
+		.coerce("mtls-sslmode", (value) =>
 			resolveFileToken(value, "mtls-sslmode", "text")
 		)
 		.option("name", {
@@ -82,7 +82,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The database integration provider used by this operation.",
 			choices: ["planetscale"],
 		})
-		.coerce("integration-provider", (value: string | undefined) =>
+		.coerce("integration-provider", (value) =>
 			resolveFileToken(value, "integration-provider", "text")
 		)
 		.option("integration-scheme", {
@@ -91,7 +91,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Specifies the URL scheme used to connect to your origin database.",
 			choices: ["postgres", "postgresql", "mysql"],
 		})
-		.coerce("integration-scheme", (value: string | undefined) =>
+		.coerce("integration-scheme", (value) =>
 			resolveFileToken(value, "integration-scheme", "text")
 		)
 		.option("dry-run", {

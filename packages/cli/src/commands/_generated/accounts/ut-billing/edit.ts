@@ -31,9 +31,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				'Enables Unique Transformations billing for the account.\nNote: once enabled, this setting cannot be set back to "off".\n',
 			choices: ["on"],
 		})
-		.coerce("value", (value: string | undefined) =>
-			resolveFileToken(value, "value", "text")
-		)
+		.coerce("value", (value) => resolveFileToken(value, "value", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

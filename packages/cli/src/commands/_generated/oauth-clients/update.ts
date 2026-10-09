@@ -90,7 +90,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"The authentication method the client uses at the token endpoint.",
 			choices: ["none", "client_secret_basic", "client_secret_post"],
 		})
-		.coerce("token-endpoint-auth-method", (value: string | undefined) =>
+		.coerce("token-endpoint-auth-method", (value) =>
 			resolveFileToken(value, "token-endpoint-auth-method", "text")
 		)
 		.option("tos-uri", {
@@ -103,7 +103,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Promote the OAuth client from private to public visibility. Only `public` is accepted; demotion to `private` is not supported. Promotion requires a non-empty client name, logo URI, verified client URI host, and at least one non-identity scope.",
 			choices: ["public"],
 		})
-		.coerce("visibility", (value: string | undefined) =>
+		.coerce("visibility", (value) =>
 			resolveFileToken(value, "visibility", "text")
 		)
 		.option("dry-run", {

@@ -39,9 +39,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Cloud vendor hosting the origin. Must be one of the supported vendors.",
 			choices: ["aws", "azure", "gcp", "oci"],
 		})
-		.coerce("vendor", (value: string | undefined) =>
-			resolveFileToken(value, "vendor", "text")
-		)
+		.coerce("vendor", (value) => resolveFileToken(value, "vendor", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

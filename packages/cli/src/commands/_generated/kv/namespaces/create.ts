@@ -31,7 +31,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Specify the jurisdiction to restrict the KV namespace to durably store data within. Can only be set at namespace creation time.",
 			choices: ["eu", "fedramp", "us"],
 		})
-		.coerce("jurisdiction", (value: string | undefined) =>
+		.coerce("jurisdiction", (value) =>
 			resolveFileToken(value, "jurisdiction", "text")
 		)
 		.option("namespace-mode", {
@@ -40,7 +40,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"The mode of the Workers KV namespace. Specify `instant` when creating a namespace to create a KV Instant namespace. Omit this field when creating a namespace to create a classic namespace. Currently, `instant` is the only supported explicit value.",
 			choices: ["instant"],
 		})
-		.coerce("namespace-mode", (value: string | undefined) =>
+		.coerce("namespace-mode", (value) =>
 			resolveFileToken(value, "namespace-mode", "text")
 		)
 		.option("title", {

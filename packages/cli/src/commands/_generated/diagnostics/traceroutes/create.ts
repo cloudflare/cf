@@ -36,7 +36,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Type of packet sent.",
 			choices: ["icmp", "tcp", "udp", "gre", "gre+icmp"],
 		})
-		.coerce("options-packet-type", (value: string | undefined) =>
+		.coerce("options-packet-type", (value) =>
 			resolveFileToken(value, "options-packet-type", "text")
 		)
 		.option("options-packets-per-ttl", {

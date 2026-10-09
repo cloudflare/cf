@@ -44,7 +44,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The destination.provider field",
 			choices: ["r2"],
 		})
-		.coerce("destination-provider", (value: string | undefined) =>
+		.coerce("destination-provider", (value) =>
 			resolveFileToken(value, "destination-provider", "text")
 		)
 		.option("destination-secret-access-key", {
@@ -66,7 +66,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The source.provider field",
 			choices: ["aws", "gcs", "s3", "azure"],
 		})
-		.coerce("source-provider", (value: string | undefined) =>
+		.coerce("source-provider", (value) =>
 			resolveFileToken(value, "source-provider", "text")
 		)
 		.option("source-region", {

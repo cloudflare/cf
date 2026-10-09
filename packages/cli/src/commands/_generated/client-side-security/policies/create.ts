@@ -28,9 +28,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The action to take if the expression matches",
 			choices: ["allow", "log", "add_reporting_directives"],
 		})
-		.coerce("action", (value: string | undefined) =>
-			resolveFileToken(value, "action", "text")
-		)
+		.coerce("action", (value) => resolveFileToken(value, "action", "text"))
 		.option("description", {
 			type: "string",
 			description: "A description for the policy",

@@ -39,7 +39,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The indicator_type field",
 			choices: ["domain", "ipv4", "ipv6", "url"],
 		})
-		.coerce("indicator-type", (value: string | undefined) =>
+		.coerce("indicator-type", (value) =>
 			resolveFileToken(value, "indicator-type", "text")
 		)
 		.option("ip", {

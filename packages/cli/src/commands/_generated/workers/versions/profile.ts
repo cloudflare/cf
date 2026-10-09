@@ -55,7 +55,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["cpu", "heap"],
 			default: "cpu",
 		})
-		.coerce("profile-type", (value: string | undefined) =>
+		.coerce("profile-type", (value) =>
 			resolveFileToken(value, "profile-type", "text")
 		)
 		.option("dry-run", {

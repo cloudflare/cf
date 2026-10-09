@@ -38,7 +38,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "type of check to perform",
 			choices: ["icmp"],
 		})
-		.coerce("check-type", (value: string | undefined) =>
+		.coerce("check-type", (value) =>
 			resolveFileToken(value, "check-type", "text")
 		)
 		.option("endpoint", {

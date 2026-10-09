@@ -45,7 +45,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The next_action field",
 			choices: ["INDEX"],
 		})
-		.coerce("next-action", (value: string | undefined) =>
+		.coerce("next-action", (value) =>
 			resolveFileToken(value, "next-action", "text")
 		)
 		.option("wait-for-completion", {

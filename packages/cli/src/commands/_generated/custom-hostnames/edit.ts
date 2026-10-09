@@ -40,7 +40,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"A ubiquitous bundle has the highest probability of being verified everywhere, even by clients using outdated or unusual trust stores. An optimal bundle uses the shortest chain and newest intermediates. And the force bundle verifies the chain, but does not otherwise modify it.",
 			choices: ["ubiquitous", "optimal", "force"],
 		})
-		.coerce("ssl-bundle-method", (value: string | undefined) =>
+		.coerce("ssl-bundle-method", (value) =>
 			resolveFileToken(value, "ssl-bundle-method", "text")
 		)
 		.option("ssl-certificate-authority", {
@@ -48,7 +48,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The Certificate Authority that will issue the certificate.",
 			choices: ["digicert", "google", "lets_encrypt", "ssl_com"],
 		})
-		.coerce("ssl-certificate-authority", (value: string | undefined) =>
+		.coerce("ssl-certificate-authority", (value) =>
 			resolveFileToken(value, "ssl-certificate-authority", "text")
 		)
 		.option("ssl-cloudflare-branding", {
@@ -74,7 +74,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Domain control validation (DCV) method used for this hostname.",
 			choices: ["http", "txt", "email"],
 		})
-		.coerce("ssl-method", (value: string | undefined) =>
+		.coerce("ssl-method", (value) =>
 			resolveFileToken(value, "ssl-method", "text")
 		)
 		.option("ssl-settings-ciphers", {
@@ -88,7 +88,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Whether or not Early Hints is enabled.",
 			choices: ["on", "off"],
 		})
-		.coerce("ssl-settings-early-hints", (value: string | undefined) =>
+		.coerce("ssl-settings-early-hints", (value) =>
 			resolveFileToken(value, "ssl-settings-early-hints", "text")
 		)
 		.option("ssl-settings-http2", {
@@ -96,7 +96,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Whether or not HTTP2 is enabled.",
 			choices: ["on", "off"],
 		})
-		.coerce("ssl-settings-http2", (value: string | undefined) =>
+		.coerce("ssl-settings-http2", (value) =>
 			resolveFileToken(value, "ssl-settings-http2", "text")
 		)
 		.option("ssl-settings-min-tls-version", {
@@ -104,7 +104,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The minimum TLS version supported.",
 			choices: ["1.0", "1.1", "1.2", "1.3"],
 		})
-		.coerce("ssl-settings-min-tls-version", (value: string | undefined) =>
+		.coerce("ssl-settings-min-tls-version", (value) =>
 			resolveFileToken(value, "ssl-settings-min-tls-version", "text")
 		)
 		.option("ssl-settings-tls-1-3", {
@@ -112,7 +112,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Whether or not TLS 1.3 is enabled.",
 			choices: ["on", "off"],
 		})
-		.coerce("ssl-settings-tls-1-3", (value: string | undefined) =>
+		.coerce("ssl-settings-tls-1-3", (value) =>
 			resolveFileToken(value, "ssl-settings-tls-1-3", "text")
 		)
 		.option("ssl-type", {
@@ -121,9 +121,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Level of validation to be used for this hostname. Domain validation (dv) must be used.",
 			choices: ["dv"],
 		})
-		.coerce("ssl-type", (value: string | undefined) =>
-			resolveFileToken(value, "ssl-type", "text")
-		)
+		.coerce("ssl-type", (value) => resolveFileToken(value, "ssl-type", "text"))
 		.option("ssl-wildcard", {
 			type: "boolean",
 			description: "Indicates whether the certificate covers a wildcard.",

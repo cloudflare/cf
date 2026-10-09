@@ -38,7 +38,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The pattern.validation field",
 			choices: ["luhn"],
 		})
-		.coerce("pattern-validation", (value: string | undefined) =>
+		.coerce("pattern-validation", (value) =>
 			resolveFileToken(value, "pattern-validation", "text")
 		)
 		.option("profile-id", {

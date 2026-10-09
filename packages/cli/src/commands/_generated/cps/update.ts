@@ -36,7 +36,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"zh-TW",
 			],
 		})
-		.coerce("language-locale", (value: string | undefined) =>
+		.coerce("language-locale", (value) =>
 			resolveFileToken(value, "language-locale", "text")
 		)
 		.option("dry-run", {

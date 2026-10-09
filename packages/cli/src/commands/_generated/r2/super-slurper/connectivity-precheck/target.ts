@@ -34,7 +34,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The jurisdiction field",
 			choices: ["default", "eu", "us", "fedramp"],
 		})
-		.coerce("jurisdiction", (value: string | undefined) =>
+		.coerce("jurisdiction", (value) =>
 			resolveFileToken(value, "jurisdiction", "text")
 		)
 		.option("secret-access-key-id", {
@@ -50,9 +50,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The vendor field",
 			choices: ["r2"],
 		})
-		.coerce("vendor", (value: string | undefined) =>
-			resolveFileToken(value, "vendor", "text")
-		)
+		.coerce("vendor", (value) => resolveFileToken(value, "vendor", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

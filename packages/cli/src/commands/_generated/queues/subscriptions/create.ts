@@ -33,7 +33,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Type of destination",
 			choices: ["queues.queue"],
 		})
-		.coerce("destination-type", (value: string | undefined) =>
+		.coerce("destination-type", (value) =>
 			resolveFileToken(value, "destination-type", "text")
 		)
 		.option("enabled", {
@@ -61,7 +61,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"workflows.workflow",
 			],
 		})
-		.coerce("source-type", (value: string | undefined) =>
+		.coerce("source-type", (value) =>
 			resolveFileToken(value, "source-type", "text")
 		)
 		.option("source-model-name", {

@@ -34,9 +34,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["active", "disabled"],
 			default: "disabled",
 		})
-		.coerce("status", (value: string | undefined) =>
-			resolveFileToken(value, "status", "text")
-		)
+		.coerce("status", (value) => resolveFileToken(value, "status", "text"))
 		.option("targets", {
 			type: "string",
 			description:

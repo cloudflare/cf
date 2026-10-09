@@ -42,7 +42,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Audio signal pathway within an audio file that carries a specific sound source.",
 			choices: ["mono", "stereo"],
 		})
-		.coerce("audio-config-channel", (value: string | undefined) =>
+		.coerce("audio-config-channel", (value) =>
 			resolveFileToken(value, "audio-config-channel", "text")
 		)
 		.option("audio-config-codec", {
@@ -51,7 +51,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.",
 			choices: ["MP3", "AAC"],
 		})
-		.coerce("audio-config-codec", (value: string | undefined) =>
+		.coerce("audio-config-codec", (value) =>
 			resolveFileToken(value, "audio-config-codec", "text")
 		)
 		.option("audio-config-export-file", {
@@ -67,7 +67,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The metadata is presented in the form of ID3 tags.",
 			choices: ["ID3"],
 		})
-		.coerce("interactive-config-type", (value: string | undefined) =>
+		.coerce("interactive-config-type", (value) =>
 			resolveFileToken(value, "interactive-config-type", "text")
 		)
 		.option("max-seconds", {
@@ -97,7 +97,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Codec using which the recording will be encoded.",
 			choices: ["H264", "VP8", "VP9"],
 		})
-		.coerce("video-config-codec", (value: string | undefined) =>
+		.coerce("video-config-codec", (value) =>
 			resolveFileToken(value, "video-config-codec", "text")
 		)
 		.option("video-config-export-file", {
@@ -113,7 +113,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Position of the watermark",
 			choices: ["left top", "right top", "left bottom", "right bottom"],
 		})
-		.coerce("video-config-watermark-position", (value: string | undefined) =>
+		.coerce("video-config-watermark-position", (value) =>
 			resolveFileToken(value, "video-config-watermark-position", "text")
 		)
 		.option("video-config-watermark-size-height", {

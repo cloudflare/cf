@@ -38,7 +38,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"distribution",
 			],
 		})
-		.coerce("chart-type", (value: string | undefined) =>
+		.coerce("chart-type", (value) =>
 			resolveFileToken(value, "chart-type", "text")
 		)
 		.option("compare", {
@@ -52,7 +52,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Value-axis bucketing for chartType 'distribution'. Omitted or 'log': geometric buckets, best for heavy-tailed latency. 'linear': fixed-width buckets, clearer for narrow or additive ranges. Ignored for other chartTypes. The response echoes the scheme used in distribution.bucketMode.",
 			choices: ["log", "linear"],
 		})
-		.coerce("distribution-scale", (value: string | undefined) =>
+		.coerce("distribution-scale", (value) =>
 			resolveFileToken(value, "distribution-scale", "text")
 		)
 		.option("granularity", {
@@ -99,7 +99,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Logical operator for combining top-level filters: 'and' (all must match) or 'or' (any must match). Defaults to 'and'.",
 			choices: ["and", "or", "AND", "OR"],
 		})
-		.coerce("parameters-filter-combination", (value: string | undefined) =>
+		.coerce("parameters-filter-combination", (value) =>
 			resolveFileToken(value, "parameters-filter-combination", "text")
 		)
 		.option("parameters-limit", {
@@ -123,7 +123,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Sort direction: 'asc' for ascending, 'desc' for descending.",
 			choices: ["asc", "desc"],
 		})
-		.coerce("parameters-order-by-order", (value: string | undefined) =>
+		.coerce("parameters-order-by-order", (value) =>
 			resolveFileToken(value, "parameters-order-by-order", "text")
 		)
 		.option("parameters-order-by-value", {
@@ -160,9 +160,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			],
 			default: "calculations",
 		})
-		.coerce("view", (value: string | undefined) =>
-			resolveFileToken(value, "view", "text")
-		)
+		.coerce("view", (value) => resolveFileToken(value, "view", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

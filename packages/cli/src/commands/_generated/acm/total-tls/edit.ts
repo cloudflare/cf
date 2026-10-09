@@ -25,7 +25,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"The Certificate Authority that Total TLS certificates will be issued through.",
 			choices: ["google", "lets_encrypt", "ssl_com"],
 		})
-		.coerce("certificate-authority", (value: string | undefined) =>
+		.coerce("certificate-authority", (value) =>
 			resolveFileToken(value, "certificate-authority", "text")
 		)
 		.option("enabled", {

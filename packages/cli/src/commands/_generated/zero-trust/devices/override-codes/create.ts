@@ -41,17 +41,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Whether the code applies to every device in the account or one physical device.",
 			choices: ["account", "device"],
 		})
-		.coerce("scope", (value: string | undefined) =>
-			resolveFileToken(value, "scope", "text")
-		)
+		.coerce("scope", (value) => resolveFileToken(value, "scope", "text"))
 		.option("type", {
 			type: "string",
 			description: "The feature that the override code applies to.",
 			choices: ["uninstall_protection"],
 		})
-		.coerce("type", (value: string | undefined) =>
-			resolveFileToken(value, "type", "text")
-		)
+		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

@@ -51,7 +51,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"me",
 			],
 		})
-		.coerce("location-hint", (value: string | undefined) =>
+		.coerce("location-hint", (value) =>
 			resolveFileToken(value, "location-hint", "text")
 		)
 		.option("params", {

@@ -46,9 +46,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Specify the type of content list entry to block.",
 			choices: ["cid", "content_path"],
 		})
-		.coerce("type", (value: string | undefined) =>
-			resolveFileToken(value, "type", "text")
-		)
+		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

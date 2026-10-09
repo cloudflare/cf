@@ -107,7 +107,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"zone_aop_custom_certificate_expiration_type",
 			],
 		})
-		.coerce("alert-type", (value: string | undefined) =>
+		.coerce("alert-type", (value) =>
 			resolveFileToken(value, "alert-type", "text")
 		)
 		.option("description", {

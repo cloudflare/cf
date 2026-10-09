@@ -45,10 +45,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"code_review",
 			],
 		})
-		.coerce(
-			"ai-config-summarization-summary-type",
-			(value: string | undefined) =>
-				resolveFileToken(value, "ai-config-summarization-summary-type", "text")
+		.coerce("ai-config-summarization-summary-type", (value) =>
+			resolveFileToken(value, "ai-config-summarization-summary-type", "text")
 		)
 		.option("ai-config-summarization-text-format", {
 			type: "string",
@@ -56,10 +54,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Determines the text format of the summary, such as plain text or markdown.",
 			choices: ["plain_text", "markdown"],
 		})
-		.coerce(
-			"ai-config-summarization-text-format",
-			(value: string | undefined) =>
-				resolveFileToken(value, "ai-config-summarization-text-format", "text")
+		.coerce("ai-config-summarization-text-format", (value) =>
+			resolveFileToken(value, "ai-config-summarization-text-format", "text")
 		)
 		.option("ai-config-summarization-word-limit", {
 			type: "number",
@@ -88,7 +84,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"nl",
 			],
 		})
-		.coerce("ai-config-transcription-language", (value: string | undefined) =>
+		.coerce("ai-config-transcription-language", (value) =>
 			resolveFileToken(value, "ai-config-transcription-language", "text")
 		)
 		.option("ai-config-transcription-profanity-filter", {
@@ -120,10 +116,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Audio signal pathway within an audio file that carries a specific sound source.",
 			choices: ["mono", "stereo"],
 		})
-		.coerce(
-			"recording-config-audio-config-channel",
-			(value: string | undefined) =>
-				resolveFileToken(value, "recording-config-audio-config-channel", "text")
+		.coerce("recording-config-audio-config-channel", (value) =>
+			resolveFileToken(value, "recording-config-audio-config-channel", "text")
 		)
 		.option("recording-config-audio-config-codec", {
 			type: "string",
@@ -131,10 +125,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis.",
 			choices: ["MP3", "AAC"],
 		})
-		.coerce(
-			"recording-config-audio-config-codec",
-			(value: string | undefined) =>
-				resolveFileToken(value, "recording-config-audio-config-codec", "text")
+		.coerce("recording-config-audio-config-codec", (value) =>
+			resolveFileToken(value, "recording-config-audio-config-codec", "text")
 		)
 		.option("recording-config-audio-config-export-file", {
 			type: "boolean",
@@ -164,10 +156,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Codec using which the recording will be encoded.",
 			choices: ["H264", "VP8", "VP9"],
 		})
-		.coerce(
-			"recording-config-video-config-codec",
-			(value: string | undefined) =>
-				resolveFileToken(value, "recording-config-video-config-codec", "text")
+		.coerce("recording-config-video-config-codec", (value) =>
+			resolveFileToken(value, "recording-config-video-config-codec", "text")
 		)
 		.option("recording-config-video-config-export-file", {
 			type: "boolean",
@@ -182,14 +172,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Position of the watermark",
 			choices: ["left top", "right top", "left bottom", "right bottom"],
 		})
-		.coerce(
-			"recording-config-video-config-watermark-position",
-			(value: string | undefined) =>
-				resolveFileToken(
-					value,
-					"recording-config-video-config-watermark-position",
-					"text"
-				)
+		.coerce("recording-config-video-config-watermark-position", (value) =>
+			resolveFileToken(
+				value,
+				"recording-config-video-config-watermark-position",
+				"text"
+			)
 		)
 		.option("recording-config-video-config-watermark-url", {
 			type: "string",

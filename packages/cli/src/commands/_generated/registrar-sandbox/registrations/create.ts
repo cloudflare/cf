@@ -148,7 +148,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["off", "redaction"],
 			default: "redaction",
 		})
-		.coerce("privacy-mode", (value: string | undefined) =>
+		.coerce("privacy-mode", (value) =>
 			resolveFileToken(value, "privacy-mode", "text")
 		)
 		.option("years", {

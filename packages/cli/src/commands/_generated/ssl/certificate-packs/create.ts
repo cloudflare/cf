@@ -26,7 +26,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Certificate Authority selected for the order.  For information on any certificate authority specific details or restrictions [see this page for more details](https://developers.cloudflare.com/ssl/reference/certificate-authorities).",
 			choices: ["google", "lets_encrypt", "ssl_com"],
 		})
-		.coerce("certificate-authority", (value: string | undefined) =>
+		.coerce("certificate-authority", (value) =>
 			resolveFileToken(value, "certificate-authority", "text")
 		)
 		.option("cloudflare-branding", {
@@ -45,15 +45,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Type of certificate pack.",
 			choices: ["advanced"],
 		})
-		.coerce("type", (value: string | undefined) =>
-			resolveFileToken(value, "type", "text")
-		)
+		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
 		.option("validation-method", {
 			type: "string",
 			description: "Validation Method selected for the order.",
 			choices: ["txt", "http", "email"],
 		})
-		.coerce("validation-method", (value: string | undefined) =>
+		.coerce("validation-method", (value) =>
 			resolveFileToken(value, "validation-method", "text")
 		)
 		.option("validity-days", {

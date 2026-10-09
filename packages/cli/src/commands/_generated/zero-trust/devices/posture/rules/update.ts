@@ -51,7 +51,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Operating system.",
 			choices: ["windows", "linux", "mac", "android", "ios", "chromeos"],
 		})
-		.coerce("input-operating-system", (value: string | undefined) =>
+		.coerce("input-operating-system", (value) =>
 			resolveFileToken(value, "input-operating-system", "text")
 		)
 		.option("input-path", { type: "string", description: "File path." })
@@ -67,7 +67,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Operator.",
 			choices: ["<", "<=", ">", ">=", "=="],
 		})
-		.coerce("input-operator", (value: string | undefined) =>
+		.coerce("input-operator", (value) =>
 			resolveFileToken(value, "input-operator", "text")
 		)
 		.option("input-os-distro-name", {
@@ -145,7 +145,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"error",
 			],
 		})
-		.coerce("input-compliance-status", (value: string | undefined) =>
+		.coerce("input-compliance-status", (value) =>
 			resolveFileToken(value, "input-compliance-status", "text")
 		)
 		.option("input-connection-id", {
@@ -169,7 +169,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"For more details on state, please refer to the Crowdstrike documentation.",
 			choices: ["online", "offline", "unknown"],
 		})
-		.coerce("input-state", (value: string | undefined) =>
+		.coerce("input-state", (value) =>
 			resolveFileToken(value, "input-state", "text")
 		)
 		.option("input-version-operator", {
@@ -177,7 +177,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Version Operator.",
 			choices: ["<", "<=", ">", ">=", "=="],
 		})
-		.coerce("input-version-operator", (value: string | undefined) =>
+		.coerce("input-version-operator", (value) =>
 			resolveFileToken(value, "input-version-operator", "text")
 		)
 		.option("input-auth-state", {
@@ -191,7 +191,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Count Operator.",
 			choices: ["<", "<=", ">", ">=", "=="],
 		})
-		.coerce("input-count-operator", (value: string | undefined) =>
+		.coerce("input-count-operator", (value) =>
 			resolveFileToken(value, "input-count-operator", "text")
 		)
 		.option("input-issue-count", {
@@ -209,7 +209,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"For more details on risk level, refer to the Tanium documentation.",
 			choices: ["low", "medium", "high", "critical"],
 		})
-		.coerce("input-risk-level", (value: string | undefined) =>
+		.coerce("input-risk-level", (value) =>
 			resolveFileToken(value, "input-risk-level", "text")
 		)
 		.option("input-score-operator", {
@@ -217,7 +217,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Score Operator.",
 			choices: ["<", "<=", ">", ">=", "=="],
 		})
-		.coerce("input-score-operator", (value: string | undefined) =>
+		.coerce("input-score-operator", (value) =>
 			resolveFileToken(value, "input-score-operator", "text")
 		)
 		.option("input-total-score", {
@@ -242,7 +242,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Network status of device.",
 			choices: ["connected", "disconnected", "disconnecting", "connecting"],
 		})
-		.coerce("input-network-status", (value: string | undefined) =>
+		.coerce("input-network-status", (value) =>
 			resolveFileToken(value, "input-network-status", "text")
 		)
 		.option("input-operational-state", {
@@ -258,7 +258,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"db_corruption",
 			],
 		})
-		.coerce("input-operational-state", (value: string | undefined) =>
+		.coerce("input-operational-state", (value) =>
 			resolveFileToken(value, "input-operational-state", "text")
 		)
 		.option("input-score", {
@@ -309,9 +309,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"custom_s2s",
 			],
 		})
-		.coerce("type", (value: string | undefined) =>
-			resolveFileToken(value, "type", "text")
-		)
+		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

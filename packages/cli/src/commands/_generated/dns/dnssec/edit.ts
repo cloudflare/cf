@@ -38,9 +38,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Status of DNSSEC, based on user-desired state and presence of necessary records.",
 			choices: ["active", "disabled"],
 		})
-		.coerce("status", (value: string | undefined) =>
-			resolveFileToken(value, "status", "text")
-		)
+		.coerce("status", (value) => resolveFileToken(value, "status", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

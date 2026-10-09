@@ -30,9 +30,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Mark state of operation in API Discovery\n  * `review` - Mark operation as for review\n  * `ignored` - Mark operation as ignored\n",
 			choices: ["review", "ignored"],
 		})
-		.coerce("state", (value: string | undefined) =>
-			resolveFileToken(value, "state", "text")
-		)
+		.coerce("state", (value) => resolveFileToken(value, "state", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

@@ -29,7 +29,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Configures the SameSite attribute on the waiting room cookie. Value `auto` will be translated to `lax` or `none` depending if **Always Use HTTPS** is enabled. Note that when using value `none`, the secure attribute cannot be set to `never`.",
 			choices: ["auto", "lax", "none", "strict"],
 		})
-		.coerce("cookie-attributes-samesite", (value: string | undefined) =>
+		.coerce("cookie-attributes-samesite", (value) =>
 			resolveFileToken(value, "cookie-attributes-samesite", "text")
 		)
 		.option("cookie-attributes-secure", {
@@ -38,7 +38,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Configures the Secure attribute on the waiting room cookie. Value `always` indicates that the Secure attribute will be set in the Set-Cookie header, `never` indicates that the Secure attribute will not be set, and `auto` will set the Secure attribute depending if **Always Use HTTPS** is enabled.",
 			choices: ["auto", "always", "never"],
 		})
-		.coerce("cookie-attributes-secure", (value: string | undefined) =>
+		.coerce("cookie-attributes-secure", (value) =>
 			resolveFileToken(value, "cookie-attributes-secure", "text")
 		)
 		.option("cookie-suffix", {
@@ -100,7 +100,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			],
 			default: "en-US",
 		})
-		.coerce("default-template-language", (value: string | undefined) =>
+		.coerce("default-template-language", (value) =>
 			resolveFileToken(value, "default-template-language", "text")
 		)
 		.option("description", {
@@ -160,7 +160,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["fifo", "random", "passthrough", "reject"],
 			default: "fifo",
 		})
-		.coerce("queueing-method", (value: string | undefined) =>
+		.coerce("queueing-method", (value) =>
 			resolveFileToken(value, "queueing-method", "text")
 		)
 		.option("queueing-status-code", {
@@ -192,7 +192,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["log", "infinite_queue"],
 			default: "log",
 		})
-		.coerce("turnstile-action", (value: string | undefined) =>
+		.coerce("turnstile-action", (value) =>
 			resolveFileToken(value, "turnstile-action", "text")
 		)
 		.option("turnstile-mode", {
@@ -207,7 +207,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			],
 			default: "invisible",
 		})
-		.coerce("turnstile-mode", (value: string | undefined) =>
+		.coerce("turnstile-mode", (value) =>
 			resolveFileToken(value, "turnstile-mode", "text")
 		)
 		.option("dry-run", {

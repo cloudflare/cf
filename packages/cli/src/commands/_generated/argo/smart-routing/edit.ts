@@ -25,9 +25,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Specifies the enablement value of Argo Smart Routing.",
 			choices: ["on", "off"],
 		})
-		.coerce("value", (value: string | undefined) =>
-			resolveFileToken(value, "value", "text")
-		)
+		.coerce("value", (value) => resolveFileToken(value, "value", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

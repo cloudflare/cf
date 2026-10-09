@@ -26,7 +26,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["ubiquitous", "optimal", "force"],
 			default: "ubiquitous",
 		})
-		.coerce("bundle-method", (value: string | undefined) =>
+		.coerce("bundle-method", (value) =>
 			resolveFileToken(value, "bundle-method", "text")
 		)
 		.option("certificate", {

@@ -52,14 +52,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Whether the user may disable the browser extension proxy.",
 			choices: ["unlocked", "locked"],
 		})
-		.coerce(
-			"browser-extension-config-proxy-control",
-			(value: string | undefined) =>
-				resolveFileToken(
-					value,
-					"browser-extension-config-proxy-control",
-					"text"
-				)
+		.coerce("browser-extension-config-proxy-control", (value) =>
+			resolveFileToken(value, "browser-extension-config-proxy-control", "text")
 		)
 		.option("browser-extension-config-proxy-enabled", {
 			type: "boolean",

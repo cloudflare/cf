@@ -43,7 +43,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Source control provider.",
 			choices: ["github", "gitlab", "gitlab_internal", "origin"],
 		})
-		.coerce("provider-type", (value: string | undefined) =>
+		.coerce("provider-type", (value) =>
 			resolveFileToken(value, "provider-type", "text")
 		)
 		.option("repo-id", {

@@ -44,14 +44,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"anything_goes",
 			],
 		})
-		.coerce(
-			"ai-search-options-cache-cache-threshold",
-			(value: string | undefined) =>
-				resolveFileToken(
-					value,
-					"ai-search-options-cache-cache-threshold",
-					"text"
-				)
+		.coerce("ai-search-options-cache-cache-threshold", (value) =>
+			resolveFileToken(value, "ai-search-options-cache-cache-threshold", "text")
 		)
 		.option("ai-search-options-cache-enabled", {
 			type: "boolean",
@@ -91,14 +85,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The ai_search_options.retrieval.fusion_method field",
 			choices: ["max", "rrf"],
 		})
-		.coerce(
-			"ai-search-options-retrieval-fusion-method",
-			(value: string | undefined) =>
-				resolveFileToken(
-					value,
-					"ai-search-options-retrieval-fusion-method",
-					"text"
-				)
+		.coerce("ai-search-options-retrieval-fusion-method", (value) =>
+			resolveFileToken(
+				value,
+				"ai-search-options-retrieval-fusion-method",
+				"text"
+			)
 		)
 		.option("ai-search-options-retrieval-keyword-match-mode", {
 			type: "string",
@@ -106,14 +98,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Controls which documents are candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term, ranked by BM25 relevance. When omitted, falls back to the instance-level retrieval_options.keyword_match_mode, then to 'and'.",
 			choices: ["and", "or"],
 		})
-		.coerce(
-			"ai-search-options-retrieval-keyword-match-mode",
-			(value: string | undefined) =>
-				resolveFileToken(
-					value,
-					"ai-search-options-retrieval-keyword-match-mode",
-					"text"
-				)
+		.coerce("ai-search-options-retrieval-keyword-match-mode", (value) =>
+			resolveFileToken(
+				value,
+				"ai-search-options-retrieval-keyword-match-mode",
+				"text"
+			)
 		)
 		.option("ai-search-options-retrieval-match-threshold", {
 			type: "number",
@@ -128,14 +118,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The ai_search_options.retrieval.retrieval_type field",
 			choices: ["vector", "keyword", "hybrid"],
 		})
-		.coerce(
-			"ai-search-options-retrieval-retrieval-type",
-			(value: string | undefined) =>
-				resolveFileToken(
-					value,
-					"ai-search-options-retrieval-retrieval-type",
-					"text"
-				)
+		.coerce("ai-search-options-retrieval-retrieval-type", (value) =>
+			resolveFileToken(
+				value,
+				"ai-search-options-retrieval-retrieval-type",
+				"text"
+			)
 		)
 		.option("ai-search-options-retrieval-return-on-failure", {
 			type: "boolean",

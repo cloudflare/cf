@@ -64,15 +64,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The vendor field",
 			choices: ["s3", "gcs", "r2"],
 		})
-		.coerce("vendor", (value: string | undefined) =>
-			resolveFileToken(value, "vendor", "text")
-		)
+		.coerce("vendor", (value) => resolveFileToken(value, "vendor", "text"))
 		.option("jurisdiction", {
 			type: "string",
 			description: "The jurisdiction field",
 			choices: ["default", "eu", "us", "fedramp"],
 		})
-		.coerce("jurisdiction", (value: string | undefined) =>
+		.coerce("jurisdiction", (value) =>
 			resolveFileToken(value, "jurisdiction", "text")
 		)
 		.option("dry-run", {

@@ -44,9 +44,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				'The amount of time that the rule threshold must be exceeded to send an alert notification. The final value must be equivalent to one of the following 8 values ["1m","5m","10m","15m","20m","30m","45m","60m"].',
 			choices: ["1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"],
 		})
-		.coerce("duration", (value: string | undefined) =>
-			resolveFileToken(value, "duration", "text")
-		)
+		.coerce("duration", (value) => resolveFileToken(value, "duration", "text"))
 		.option("name", {
 			type: "string",
 			description:
@@ -63,7 +61,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Prefix match type to be applied for a prefix auto advertisement when using an advanced_ddos rule.",
 			choices: ["exact", "subnet", "supernet"],
 		})
-		.coerce("prefix-match", (value: string | undefined) =>
+		.coerce("prefix-match", (value) =>
 			resolveFileToken(value, "prefix-match", "text")
 		)
 		.option("prefixes", {
@@ -76,15 +74,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "MNM rule type.",
 			choices: ["threshold", "zscore", "advanced_ddos"],
 		})
-		.coerce("type", (value: string | undefined) =>
-			resolveFileToken(value, "type", "text")
-		)
+		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
 		.option("zscore-sensitivity", {
 			type: "string",
 			description: "Level of sensitivity set for zscore rules.",
 			choices: ["low", "medium", "high"],
 		})
-		.coerce("zscore-sensitivity", (value: string | undefined) =>
+		.coerce("zscore-sensitivity", (value) =>
 			resolveFileToken(value, "zscore-sensitivity", "text")
 		)
 		.option("zscore-target", {
@@ -92,7 +88,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Target of the zscore rule analysis.",
 			choices: ["bits", "packets"],
 		})
-		.coerce("zscore-target", (value: string | undefined) =>
+		.coerce("zscore-target", (value) =>
 			resolveFileToken(value, "zscore-target", "text")
 		)
 		.option("dry-run", {

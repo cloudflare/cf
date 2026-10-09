@@ -58,7 +58,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Sort order (asc or desc).",
 			choices: ["asc", "desc"],
 		})
-		.coerce("sort-order", (value: string | undefined) =>
+		.coerce("sort-order", (value) =>
 			resolveFileToken(value, "sort-order", "text")
 		)
 		.option("status", {
@@ -73,9 +73,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"declined",
 			],
 		})
-		.coerce("status", (value: string | undefined) =>
-			resolveFileToken(value, "status", "text")
-		)
+		.coerce("status", (value) => resolveFileToken(value, "status", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

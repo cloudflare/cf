@@ -41,9 +41,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["text", "json"],
 			default: "text",
 		})
-		.coerce("type", (value: string | undefined) =>
-			resolveFileToken(value, "type", "text")
-		)
+		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
 		.option("with-metadata", {
 			type: "boolean",
 			description: "Whether to include metadata in the response.",

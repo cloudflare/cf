@@ -33,7 +33,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The token_type field",
 			choices: ["JWT"],
 		})
-		.coerce("token-type", (value: string | undefined) =>
+		.coerce("token-type", (value) =>
 			resolveFileToken(value, "token-type", "text")
 		)
 		.option("dry-run", {

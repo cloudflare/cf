@@ -461,7 +461,7 @@ describe("file-backed enum arguments", () => {
 
 		expect(builder).toContain('"choices":["first","second"]');
 		expect(builder).toContain(
-			'.coerce("selection", (value: string | undefined) => resolveFileToken(value, "selection", "text"))'
+			'.coerce("selection", (value) => resolveFileToken(value, "selection", "text"))'
 		);
 		expect(builder).not.toContain('.coerce("sort"');
 		expect(builder).not.toContain('.coerce("description"');

@@ -45,7 +45,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Set a Flag to describe how to combine the filters on the query.",
 			choices: ["and", "or", "AND", "OR"],
 		})
-		.coerce("parameters-filter-combination", (value: string | undefined) =>
+		.coerce("parameters-filter-combination", (value) =>
 			resolveFileToken(value, "parameters-filter-combination", "text")
 		)
 		.option("parameters-limit", {
@@ -66,7 +66,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Set the order of the results",
 			choices: ["asc", "desc"],
 		})
-		.coerce("parameters-order-by-order", (value: string | undefined) =>
+		.coerce("parameters-order-by-order", (value) =>
 			resolveFileToken(value, "parameters-order-by-order", "text")
 		)
 		.option("parameters-order-by-value", {

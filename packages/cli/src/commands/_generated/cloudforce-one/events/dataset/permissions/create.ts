@@ -38,9 +38,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The role field",
 			choices: ["read", "write"],
 		})
-		.coerce("role", (value: string | undefined) =>
-			resolveFileToken(value, "role", "text")
-		)
+		.coerce("role", (value) => resolveFileToken(value, "role", "text"))
 		.option("subject-id", {
 			type: "string",
 			description: "The subjectId field",
@@ -50,7 +48,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The subjectType field",
 			choices: ["account", "group"],
 		})
-		.coerce("subject-type", (value: string | undefined) =>
+		.coerce("subject-type", (value) =>
 			resolveFileToken(value, "subject-type", "text")
 		)
 		.option("dry-run", {

@@ -40,7 +40,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The update_mode field",
 			choices: ["AUTO", "MANUAL"],
 		})
-		.coerce("update-mode", (value: string | undefined) =>
+		.coerce("update-mode", (value) =>
 			resolveFileToken(value, "update-mode", "text")
 		)
 		.option("dry-run", {

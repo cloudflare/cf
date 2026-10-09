@@ -39,9 +39,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Specify the target gateway of the hostname.",
 			choices: ["ethereum", "ipfs", "ipfs_universal_path"],
 		})
-		.coerce("target", (value: string | undefined) =>
-			resolveFileToken(value, "target", "text")
-		)
+		.coerce("target", (value) => resolveFileToken(value, "target", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

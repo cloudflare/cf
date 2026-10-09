@@ -50,7 +50,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Specifies the desired compression algorithm and format.",
 			choices: ["none", "gzip", "deflate"],
 		})
-		.coerce("destination-compression-type", (value: string | undefined) =>
+		.coerce("destination-compression-type", (value) =>
 			resolveFileToken(value, "destination-compression-type", "text")
 		)
 		.option("destination-credentials-access-key-id", {
@@ -70,7 +70,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Specifies the format of data to deliver.",
 			choices: ["json"],
 		})
-		.coerce("destination-format", (value: string | undefined) =>
+		.coerce("destination-format", (value) =>
 			resolveFileToken(value, "destination-format", "text")
 		)
 		.option("destination-path-bucket", {
@@ -90,7 +90,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Specifies the type of destination.",
 			choices: ["r2"],
 		})
-		.coerce("destination-type", (value: string | undefined) =>
+		.coerce("destination-type", (value) =>
 			resolveFileToken(value, "destination-type", "text")
 		)
 		.option("name", {

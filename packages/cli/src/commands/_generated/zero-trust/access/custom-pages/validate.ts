@@ -37,9 +37,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Custom page type.",
 			choices: ["identity_denied", "forbidden", "login", "interstitial"],
 		})
-		.coerce("type", (value: string | undefined) =>
-			resolveFileToken(value, "type", "text")
-		)
+		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
 		.option("contract-version", {
 			type: "number",
 			description: "Contract version to validate against; omit for the latest.",

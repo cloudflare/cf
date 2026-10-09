@@ -40,7 +40,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The guardrails.mode field",
 			choices: ["readonly"],
 		})
-		.coerce("guardrails-mode", (value: string | undefined) =>
+		.coerce("guardrails-mode", (value) =>
 			resolveFileToken(value, "guardrails-mode", "text")
 		)
 		.option("target-id", {

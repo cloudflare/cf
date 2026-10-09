@@ -47,7 +47,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The git_repository.provider_type field",
 			choices: ["github", "gitlab", "gitlab_internal", "origin"],
 		})
-		.coerce("git-repository-provider-type", (value: string | undefined) =>
+		.coerce("git-repository-provider-type", (value) =>
 			resolveFileToken(value, "git-repository-provider-type", "text")
 		)
 		.option("git-repository-repo-id", {

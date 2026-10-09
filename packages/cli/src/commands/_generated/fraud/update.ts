@@ -25,14 +25,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"The type of criterion. Currently only `status_code` is supported.",
 			choices: ["status_code"],
 		})
-		.coerce(
-			"authentication-settings-failure-criteria-kind",
-			(value: string | undefined) =>
-				resolveFileToken(
-					value,
-					"authentication-settings-failure-criteria-kind",
-					"text"
-				)
+		.coerce("authentication-settings-failure-criteria-kind", (value) =>
+			resolveFileToken(
+				value,
+				"authentication-settings-failure-criteria-kind",
+				"text"
+			)
 		)
 		.option("authentication-settings-failure-criteria-status-codes", {
 			type: "string",
@@ -46,14 +44,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"The type of criterion. Currently only `status_code` is supported.",
 			choices: ["status_code"],
 		})
-		.coerce(
-			"authentication-settings-success-criteria-kind",
-			(value: string | undefined) =>
-				resolveFileToken(
-					value,
-					"authentication-settings-success-criteria-kind",
-					"text"
-				)
+		.coerce("authentication-settings-success-criteria-kind", (value) =>
+			resolveFileToken(
+				value,
+				"authentication-settings-success-criteria-kind",
+				"text"
+			)
 		)
 		.option("authentication-settings-success-criteria-status-codes", {
 			type: "string",
@@ -66,7 +62,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Whether Fraud User Profiles is enabled for the zone.",
 			choices: ["enabled", "disabled"],
 		})
-		.coerce("user-profiles", (value: string | undefined) =>
+		.coerce("user-profiles", (value) =>
 			resolveFileToken(value, "user-profiles", "text")
 		)
 		.option("username-expressions", {

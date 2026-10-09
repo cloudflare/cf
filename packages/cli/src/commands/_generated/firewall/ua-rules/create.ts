@@ -25,7 +25,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"The configuration target. You must set the target to `ua` when specifying a user agent in the rule.",
 			choices: ["ua"],
 		})
-		.coerce("configuration-target", (value: string | undefined) =>
+		.coerce("configuration-target", (value) =>
 			resolveFileToken(value, "configuration-target", "text")
 		)
 		.option("configuration-value", {

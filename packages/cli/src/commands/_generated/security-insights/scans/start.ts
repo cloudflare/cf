@@ -37,7 +37,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"configuration_suggestion",
 			],
 		})
-		.coerce("issue-type", (value: string | undefined) =>
+		.coerce("issue-type", (value) =>
 			resolveFileToken(value, "issue-type", "text")
 		)
 		.option("issue-class", {

@@ -66,7 +66,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The source.resourceType field",
 			choices: ["article"],
 		})
-		.coerce("source-resource-type", (value: string | undefined) =>
+		.coerce("source-resource-type", (value) =>
 			resolveFileToken(value, "source-resource-type", "text")
 		)
 		.option("source-system", {
@@ -74,7 +74,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The source.system field",
 			choices: ["threat-signals"],
 		})
-		.coerce("source-system", (value: string | undefined) =>
+		.coerce("source-system", (value) =>
 			resolveFileToken(value, "source-system", "text")
 		)
 		.option("source-title", {

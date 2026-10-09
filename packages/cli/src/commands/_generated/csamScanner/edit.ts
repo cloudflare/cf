@@ -24,9 +24,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The feature identifier.",
 			choices: ["csam_scanner"],
 		})
-		.coerce("id", (value: string | undefined) =>
-			resolveFileToken(value, "id", "text")
-		)
+		.coerce("id", (value) => resolveFileToken(value, "id", "text"))
 		.option("value-email", {
 			type: "string",
 			description:

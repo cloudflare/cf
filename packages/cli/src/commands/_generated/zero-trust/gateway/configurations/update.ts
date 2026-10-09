@@ -104,7 +104,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Specify whether to redirect users to a Cloudflare-hosted block page or a customer-provided URI.",
 			choices: ["customized_block_page", "redirect_uri"],
 		})
-		.coerce("settings-block-page-mode", (value: string | undefined) =>
+		.coerce("settings-block-page-mode", (value) =>
 			resolveFileToken(value, "settings-block-page-mode", "text")
 		)
 		.option("settings-block-page-name", {
@@ -127,14 +127,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Specify the inspection mode as either `deep` or `shallow`.",
 			choices: ["deep", "shallow"],
 		})
-		.coerce(
-			"settings-body-scanning-inspection-mode",
-			(value: string | undefined) =>
-				resolveFileToken(
-					value,
-					"settings-body-scanning-inspection-mode",
-					"text"
-				)
+		.coerce("settings-body-scanning-inspection-mode", (value) =>
+			resolveFileToken(value, "settings-body-scanning-inspection-mode", "text")
 		)
 		.option("settings-browser-isolation-non-identity-enabled", {
 			type: "boolean",
@@ -181,7 +175,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Define the proxy inspection mode.   1. static: Gateway applies static inspection to HTTP on TCP(80). With TLS decryption on, Gateway inspects HTTPS traffic on TCP(443) and UDP(443).   2. dynamic: Gateway applies protocol detection to inspect HTTP and HTTPS traffic on any port. TLS decryption must remain on to inspect HTTPS traffic.",
 			choices: ["static", "dynamic"],
 		})
-		.coerce("settings-inspection-mode", (value: string | undefined) =>
+		.coerce("settings-inspection-mode", (value) =>
 			resolveFileToken(value, "settings-inspection-mode", "text")
 		)
 		.option("settings-max-ttl-secs", {
@@ -204,7 +198,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Specify the action to take when the system cannot scan the file.",
 			choices: ["allow", "block"],
 		})
-		.coerce("settings-sandbox-fallback-action", (value: string | undefined) =>
+		.coerce("settings-sandbox-fallback-action", (value) =>
 			resolveFileToken(value, "settings-sandbox-fallback-action", "text")
 		)
 		.option("settings-tls-decrypt-enabled", {

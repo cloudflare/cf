@@ -29,7 +29,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Specify the location to restrict the D1 database to run and store data. If this option is present, the location hint is ignored.",
 			choices: ["eu", "fedramp", "us"],
 		})
-		.coerce("jurisdiction", (value: string | undefined) =>
+		.coerce("jurisdiction", (value) =>
 			resolveFileToken(value, "jurisdiction", "text")
 		)
 		.option("name", { type: "string", description: "D1 database name." })
@@ -39,7 +39,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Specify the region to create the D1 primary, if available. If this option is omitted, the D1 will be created as close as possible to the current user.",
 			choices: ["wnam", "enam", "weur", "eeur", "apac", "oc"],
 		})
-		.coerce("primary-location-hint", (value: string | undefined) =>
+		.coerce("primary-location-hint", (value) =>
 			resolveFileToken(value, "primary-location-hint", "text")
 		)
 		.option("read-replication-mode", {
@@ -48,7 +48,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"The read replication mode for the database. Use 'auto' to create replicas and allow D1 automatically place them around the world, or 'disabled' to not use any database replicas (it can take a few hours for all replicas to be deleted).",
 			choices: ["auto", "disabled"],
 		})
-		.coerce("read-replication-mode", (value: string | undefined) =>
+		.coerce("read-replication-mode", (value) =>
 			resolveFileToken(value, "read-replication-mode", "text")
 		)
 		.option("dry-run", {

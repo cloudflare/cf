@@ -22,7 +22,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Specifies the enablement value of Cache Reserve.",
 			choices: ["on", "off"],
 		})
-		.coerce("cache-reserve-value", (value: string | undefined) =>
+		.coerce("cache-reserve-value", (value) =>
 			resolveFileToken(value, "cache-reserve-value", "text")
 		)
 		.option("regional-tiered-cache-value", {
@@ -30,7 +30,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Specifies the enablement value of Regional Tiered Cache.",
 			choices: ["on", "off"],
 		})
-		.coerce("regional-tiered-cache-value", (value: string | undefined) =>
+		.coerce("regional-tiered-cache-value", (value) =>
 			resolveFileToken(value, "regional-tiered-cache-value", "text")
 		)
 		.option("smart-routing-value", {
@@ -38,7 +38,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Specifies the enablement value of Smart Routing.",
 			choices: ["on", "off"],
 		})
-		.coerce("smart-routing-value", (value: string | undefined) =>
+		.coerce("smart-routing-value", (value) =>
 			resolveFileToken(value, "smart-routing-value", "text")
 		)
 		.option("smart-tiered-cache-value", {
@@ -46,7 +46,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Specifies the enablement value of Smart Tiered Cache.",
 			choices: ["on", "off"],
 		})
-		.coerce("smart-tiered-cache-value", (value: string | undefined) =>
+		.coerce("smart-tiered-cache-value", (value) =>
 			resolveFileToken(value, "smart-tiered-cache-value", "text")
 		)
 		.option("dry-run", {

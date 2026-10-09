@@ -26,9 +26,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				'Controls Binary AST behavior:\n- "off": Feature disabled.\n- "on": Binary AST enabled.\n- "latest": Binary AST enabled using the latest version.\n',
 			choices: ["off", "on", "latest"],
 		})
-		.coerce("value", (value: string | undefined) =>
-			resolveFileToken(value, "value", "text")
-		)
+		.coerce("value", (value) => resolveFileToken(value, "value", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

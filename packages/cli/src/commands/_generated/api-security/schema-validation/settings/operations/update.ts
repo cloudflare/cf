@@ -31,7 +31,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				'When set, this applies a mitigation action to this operation\n\n  - `"log"` - log request when request does not conform to schema for this operation\n  - `"block"` - deny access to the site when request does not conform to schema for this operation\n  - `"none"` - will skip mitigation for this operation\n  - `null` - clears any mitigation action\n',
 			choices: ["log", "block", "none"],
 		})
-		.coerce("mitigation-action", (value: string | undefined) =>
+		.coerce("mitigation-action", (value) =>
 			resolveFileToken(value, "mitigation-action", "text")
 		)
 		.option("dry-run", {

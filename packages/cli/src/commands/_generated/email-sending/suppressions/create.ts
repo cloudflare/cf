@@ -45,7 +45,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Blocks the recipient for every sending domain of the account.",
 			choices: ["account", "sending_domain"],
 		})
-		.coerce("scope-type", (value: string | undefined) =>
+		.coerce("scope-type", (value) =>
 			resolveFileToken(value, "scope-type", "text")
 		)
 		.option("scope-value", {

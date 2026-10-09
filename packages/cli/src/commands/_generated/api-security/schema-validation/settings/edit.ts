@@ -25,10 +25,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				'The default mitigation action used\nMitigation actions are as follows:\n\n  - `"log"` - log request when request does not conform to schema\n  - `"block"` - deny access to the site when request does not conform to schema\n  - `"none"` - skip running schema validation\n',
 			choices: ["none", "log", "block"],
 		})
-		.coerce(
-			"validation-default-mitigation-action",
-			(value: string | undefined) =>
-				resolveFileToken(value, "validation-default-mitigation-action", "text")
+		.coerce("validation-default-mitigation-action", (value) =>
+			resolveFileToken(value, "validation-default-mitigation-action", "text")
 		)
 		.option("validation-override-mitigation-action", {
 			type: "string",
@@ -36,10 +34,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				'When set, this overrides both zone level and operation level mitigation actions.\n\n  - `"none"` - skip running schema validation entirely for the request\n  - `null` - clears any existing override\n',
 			choices: ["none"],
 		})
-		.coerce(
-			"validation-override-mitigation-action",
-			(value: string | undefined) =>
-				resolveFileToken(value, "validation-override-mitigation-action", "text")
+		.coerce("validation-override-mitigation-action", (value) =>
+			resolveFileToken(value, "validation-override-mitigation-action", "text")
 		)
 		.option("dry-run", {
 			type: "boolean",

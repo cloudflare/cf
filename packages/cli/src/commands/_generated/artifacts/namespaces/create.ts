@@ -31,7 +31,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["unrestricted", "us", "eu", "fedramp"],
 			default: "unrestricted",
 		})
-		.coerce("jurisdiction", (value: string | undefined) =>
+		.coerce("jurisdiction", (value) =>
 			resolveFileToken(value, "jurisdiction", "text")
 		)
 		.option("namespace", { type: "string", description: "The namespace field" })

@@ -44,7 +44,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The pattern.validation field",
 			choices: ["luhn"],
 		})
-		.coerce("pattern-validation", (value: string | undefined) =>
+		.coerce("pattern-validation", (value) =>
 			resolveFileToken(value, "pattern-validation", "text")
 		)
 		.option("type", {
@@ -52,9 +52,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The type field",
 			choices: ["custom", "predefined", "integration"],
 		})
-		.coerce("type", (value: string | undefined) =>
-			resolveFileToken(value, "type", "text")
-		)
+		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
 		.option("enabled", { type: "boolean", description: "The enabled field" })
 		.option("dry-run", {
 			type: "boolean",

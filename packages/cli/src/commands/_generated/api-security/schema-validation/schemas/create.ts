@@ -28,9 +28,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The kind of the schema",
 			choices: ["openapi_v3"],
 		})
-		.coerce("kind", (value: string | undefined) =>
-			resolveFileToken(value, "kind", "text")
-		)
+		.coerce("kind", (value) => resolveFileToken(value, "kind", "text"))
 		.option("name", {
 			type: "string",
 			description: "A human-readable name for the schema",

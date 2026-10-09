@@ -32,7 +32,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Specifies the type of metric to use calculating distance.",
 			choices: ["cosine", "euclidean", "dot-product"],
 		})
-		.coerce("config-metric", (value: string | undefined) =>
+		.coerce("config-metric", (value) =>
 			resolveFileToken(value, "config-metric", "text")
 		)
 		.option("config-preset", {
@@ -46,7 +46,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"cohere/embed-multilingual-v2.0",
 			],
 		})
-		.coerce("config-preset", (value: string | undefined) =>
+		.coerce("config-preset", (value) =>
 			resolveFileToken(value, "config-preset", "text")
 		)
 		.option("description", {

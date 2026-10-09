@@ -151,7 +151,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"WHOIS privacy mode to apply after transfer completes. Defaults to\nthe extension's default privacy mode (typically `redaction`).\n",
 			choices: ["off", "redaction"],
 		})
-		.coerce("privacy-mode", (value: string | undefined) =>
+		.coerce("privacy-mode", (value) =>
 			resolveFileToken(value, "privacy-mode", "text")
 		)
 		.option("dry-run", {

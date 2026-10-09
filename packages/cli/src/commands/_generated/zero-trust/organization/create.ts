@@ -106,10 +106,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Defines when a PIN is required to use the SSH key. Valid values: `never` (no PIN required), `once` (PIN required once per session), `always` (PIN required for each use).",
 			choices: ["never", "once", "always"],
 		})
-		.coerce(
-			"mfa-piv-key-requirements-pin-policy",
-			(value: string | undefined) =>
-				resolveFileToken(value, "mfa-piv-key-requirements-pin-policy", "text")
+		.coerce("mfa-piv-key-requirements-pin-policy", (value) =>
+			resolveFileToken(value, "mfa-piv-key-requirements-pin-policy", "text")
 		)
 		.option("mfa-piv-key-requirements-require-fips-device", {
 			type: "boolean",
@@ -134,10 +132,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Defines when physical touch is required to use the SSH key. Valid values: `never` (no touch required), `always` (touch required for each use), `cached` (touch cached for 15 seconds).",
 			choices: ["never", "always", "cached"],
 		})
-		.coerce(
-			"mfa-piv-key-requirements-touch-policy",
-			(value: string | undefined) =>
-				resolveFileToken(value, "mfa-piv-key-requirements-touch-policy", "text")
+		.coerce("mfa-piv-key-requirements-touch-policy", (value) =>
+			resolveFileToken(value, "mfa-piv-key-requirements-touch-policy", "text")
 		)
 		.option("mfa-required-for-all-apps", {
 			type: "boolean",
@@ -155,7 +151,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The action applied to an inactive service token.",
 			choices: ["disable", "delete"],
 		})
-		.coerce("service-token-inactivity-action", (value: string | undefined) =>
+		.coerce("service-token-inactivity-action", (value) =>
 			resolveFileToken(value, "service-token-inactivity-action", "text")
 		)
 		.option("service-token-inactivity-enabled", {

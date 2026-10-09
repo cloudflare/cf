@@ -56,9 +56,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to 1.0.",
 			choices: ["1.0", "1.1", "1.2", "1.3"],
 		})
-		.coerce("min-tls", (value: string | undefined) =>
-			resolveFileToken(value, "min-tls", "text")
-		)
+		.coerce("min-tls", (value) => resolveFileToken(value, "min-tls", "text"))
 		.option("zone-id", {
 			type: "string",
 			description: "Zone ID of the custom domain.",

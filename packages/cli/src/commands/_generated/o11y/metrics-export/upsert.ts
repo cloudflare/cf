@@ -42,7 +42,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The requester.requesterType field",
 			choices: ["workers"],
 		})
-		.coerce("requester-requester-type", (value: string | undefined) =>
+		.coerce("requester-requester-type", (value) =>
 			resolveFileToken(value, "requester-requester-type", "text")
 		)
 		.option("resources", {

@@ -60,7 +60,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance,\nthis setting can determine the clearance level to be set\n",
 			choices: ["no_clearance", "jschallenge", "managed", "interactive"],
 		})
-		.coerce("clearance-level", (value: string | undefined) =>
+		.coerce("clearance-level", (value) =>
 			resolveFileToken(value, "clearance-level", "text")
 		)
 		.option("domains", {
@@ -89,9 +89,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["world", "china"],
 			default: "world",
 		})
-		.coerce("region", (value: string | undefined) =>
-			resolveFileToken(value, "region", "text")
-		)
+		.coerce("region", (value) => resolveFileToken(value, "region", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

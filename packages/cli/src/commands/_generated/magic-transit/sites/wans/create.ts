@@ -36,7 +36,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["low", "mid", "high"],
 			default: "mid",
 		})
-		.coerce("health-check-rate", (value: string | undefined) =>
+		.coerce("health-check-rate", (value) =>
 			resolveFileToken(value, "health-check-rate", "text")
 		)
 		.option("load-balance-inner-flows", {

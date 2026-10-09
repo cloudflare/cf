@@ -120,7 +120,7 @@ export function generateBuilderLines(
 		);
 		if (arg.fromFile && arg.choices?.length) {
 			builderLines.push(
-				`.coerce(${JSON.stringify(optName)}, (value: string | undefined) => resolveFileToken(value, ${JSON.stringify(optName)}, ${JSON.stringify(arg.fromFile.format)}))`
+				`.coerce(${JSON.stringify(optName)}, (value) => resolveFileToken(value, ${JSON.stringify(optName)}, ${JSON.stringify(arg.fromFile.format)}))`
 			);
 		}
 	}

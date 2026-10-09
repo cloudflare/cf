@@ -35,7 +35,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Location of the bucket.",
 			choices: ["apac", "eeur", "enam", "weur", "wnam", "oc"],
 		})
-		.coerce("location-hint", (value: string | undefined) =>
+		.coerce("location-hint", (value) =>
 			resolveFileToken(value, "location-hint", "text")
 		)
 		.option("name", { type: "string", description: "Name of the bucket." })
@@ -46,7 +46,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["Standard", "InfrequentAccess"],
 			default: "Standard",
 		})
-		.coerce("storage-class", (value: string | undefined) =>
+		.coerce("storage-class", (value) =>
 			resolveFileToken(value, "storage-class", "text")
 		)
 		.option("dry-run", {

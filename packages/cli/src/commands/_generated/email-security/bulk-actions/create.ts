@@ -31,9 +31,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"The action the job performs on every message matching the search parameters.",
 			choices: ["MOVE", "RELEASE"],
 		})
-		.coerce("action", (value: string | undefined) =>
-			resolveFileToken(value, "action", "text")
-		)
+		.coerce("action", (value) => resolveFileToken(value, "action", "text"))
 		.option("comment", {
 			type: "string",
 			description: "Optional note describing the job.",
@@ -49,7 +47,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"RecoverableItemsPurges",
 			],
 		})
-		.coerce("destination", (value: string | undefined) =>
+		.coerce("destination", (value) =>
 			resolveFileToken(value, "destination", "text")
 		)
 		.option("expected-disposition", {
@@ -68,7 +66,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"NONE",
 			],
 		})
-		.coerce("expected-disposition", (value: string | undefined) =>
+		.coerce("expected-disposition", (value) =>
 			resolveFileToken(value, "expected-disposition", "text")
 		)
 		.option("search-params-action-log", {
@@ -95,7 +93,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"move_failed",
 			],
 		})
-		.coerce("search-params-delivery-status", (value: string | undefined) =>
+		.coerce("search-params-delivery-status", (value) =>
 			resolveFileToken(value, "search-params-delivery-status", "text")
 		)
 		.option("search-params-detections-only", {
@@ -133,7 +131,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"NONE",
 			],
 		})
-		.coerce("search-params-final-disposition", (value: string | undefined) =>
+		.coerce("search-params-final-disposition", (value) =>
 			resolveFileToken(value, "search-params-final-disposition", "text")
 		)
 		.option("search-params-message-action", {
@@ -141,7 +139,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Message actions to filter by.",
 			choices: ["PREVIEW", "QUARANTINE_RELEASED", "MOVED"],
 		})
-		.coerce("search-params-message-action", (value: string | undefined) =>
+		.coerce("search-params-message-action", (value) =>
 			resolveFileToken(value, "search-params-message-action", "text")
 		)
 		.option("search-params-message-id", {

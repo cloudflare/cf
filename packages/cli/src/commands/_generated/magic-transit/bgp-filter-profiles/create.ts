@@ -39,7 +39,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Action to take when a route matches one of the targets in this profile",
 			choices: ["allow", "deny"],
 		})
-		.coerce("match-action", (value: string | undefined) =>
+		.coerce("match-action", (value) =>
 			resolveFileToken(value, "match-action", "text")
 		)
 		.option("name", {

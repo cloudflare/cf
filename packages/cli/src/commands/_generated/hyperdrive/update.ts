@@ -66,7 +66,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"VERIFY_IDENTITY",
 			],
 		})
-		.coerce("mtls-sslmode", (value: string | undefined) =>
+		.coerce("mtls-sslmode", (value) =>
 			resolveFileToken(value, "mtls-sslmode", "text")
 		)
 		.option("name", {

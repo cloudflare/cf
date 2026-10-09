@@ -42,9 +42,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The kind of the ruleset.",
 			choices: ["managed", "custom", "root", "zone"],
 		})
-		.coerce("kind", (value: string | undefined) =>
-			resolveFileToken(value, "kind", "text")
-		)
+		.coerce("kind", (value) => resolveFileToken(value, "kind", "text"))
 		.option("phase", {
 			type: "string",
 			description: "The phase of the ruleset.",
@@ -75,9 +73,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"magic_transit_ratelimit",
 			],
 		})
-		.coerce("phase", (value: string | undefined) =>
-			resolveFileToken(value, "phase", "text")
-		)
+		.coerce("phase", (value) => resolveFileToken(value, "phase", "text"))
 		.option("rules", {
 			type: "string",
 			description:

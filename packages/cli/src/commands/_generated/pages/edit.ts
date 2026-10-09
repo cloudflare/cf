@@ -91,14 +91,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The usage model for Pages Functions.",
 			choices: ["standard", "bundled", "unbound"],
 		})
-		.coerce(
-			"deployment-configs-preview-usage-model",
-			(value: string | undefined) =>
-				resolveFileToken(
-					value,
-					"deployment-configs-preview-usage-model",
-					"text"
-				)
+		.coerce("deployment-configs-preview-usage-model", (value) =>
+			resolveFileToken(value, "deployment-configs-preview-usage-model", "text")
 		)
 		.option("deployment-configs-preview-wrangler-config-hash", {
 			type: "string",
@@ -145,14 +139,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The usage model for Pages Functions.",
 			choices: ["standard", "bundled", "unbound"],
 		})
-		.coerce(
-			"deployment-configs-production-usage-model",
-			(value: string | undefined) =>
-				resolveFileToken(
-					value,
-					"deployment-configs-production-usage-model",
-					"text"
-				)
+		.coerce("deployment-configs-production-usage-model", (value) =>
+			resolveFileToken(
+				value,
+				"deployment-configs-production-usage-model",
+				"text"
+			)
 		)
 		.option("deployment-configs-production-wrangler-config-hash", {
 			type: "string",
@@ -216,14 +208,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Controls whether commits to preview branches trigger a preview deployment.",
 			choices: ["all", "none", "custom"],
 		})
-		.coerce(
-			"source-config-preview-deployment-setting",
-			(value: string | undefined) =>
-				resolveFileToken(
-					value,
-					"source-config-preview-deployment-setting",
-					"text"
-				)
+		.coerce("source-config-preview-deployment-setting", (value) =>
+			resolveFileToken(
+				value,
+				"source-config-preview-deployment-setting",
+				"text"
+			)
 		)
 		.option("source-config-production-branch", {
 			type: "string",
@@ -247,7 +237,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The source control management provider.",
 			choices: ["github", "gitlab"],
 		})
-		.coerce("source-type", (value: string | undefined) =>
+		.coerce("source-type", (value) =>
 			resolveFileToken(value, "source-type", "text")
 		)
 		.option("dry-run", {

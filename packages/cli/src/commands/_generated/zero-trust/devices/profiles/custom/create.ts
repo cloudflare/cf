@@ -52,14 +52,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Whether the user may disable the browser extension proxy.",
 			choices: ["unlocked", "locked"],
 		})
-		.coerce(
-			"browser-extension-config-proxy-control",
-			(value: string | undefined) =>
-				resolveFileToken(
-					value,
-					"browser-extension-config-proxy-control",
-					"text"
-				)
+		.coerce("browser-extension-config-proxy-control", (value) =>
+			resolveFileToken(value, "browser-extension-config-proxy-control", "text")
 		)
 		.option("browser-extension-config-proxy-enabled", {
 			type: "boolean",
@@ -165,7 +159,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["warp", "browser_extension"],
 			default: "warp",
 		})
-		.coerce("profile-type", (value: string | undefined) =>
+		.coerce("profile-type", (value) =>
 			resolveFileToken(value, "profile-type", "text")
 		)
 		.option("register-interface-ip-with-dns", {

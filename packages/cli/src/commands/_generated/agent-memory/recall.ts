@@ -48,7 +48,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Verbosity of the synthesized answer. Defaults to 'medium'.",
 			choices: ["short", "medium", "long"],
 		})
-		.coerce("response-length", (value: string | undefined) =>
+		.coerce("response-length", (value) =>
 			resolveFileToken(value, "response-length", "text")
 		)
 		.option("thinking-level", {
@@ -56,7 +56,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Recall intensity / search depth. Defaults to 'low'.",
 			choices: ["low", "medium", "high"],
 		})
-		.coerce("thinking-level", (value: string | undefined) =>
+		.coerce("thinking-level", (value) =>
 			resolveFileToken(value, "thinking-level", "text")
 		)
 		.option("dry-run", {

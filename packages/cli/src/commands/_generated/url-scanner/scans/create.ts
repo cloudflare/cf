@@ -230,9 +230,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"ZW",
 			],
 		})
-		.coerce("country", (value: string | undefined) =>
-			resolveFileToken(value, "country", "text")
-		)
+		.coerce("country", (value) => resolveFileToken(value, "country", "text"))
 		.option("customagent", {
 			type: "string",
 			description: "The customagent field",
@@ -252,7 +250,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["Public", "Unlisted"],
 			default: "Public",
 		})
-		.coerce("visibility", (value: string | undefined) =>
+		.coerce("visibility", (value) =>
 			resolveFileToken(value, "visibility", "text")
 		)
 		.option("dry-run", {

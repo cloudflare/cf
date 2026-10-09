@@ -68,7 +68,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Quality of screen share ",
 			choices: ["hd", "vga", "qvga", "fhd", "uhd"],
 		})
-		.coerce("config-media-screenshare-quality", (value: string | undefined) =>
+		.coerce("config-media-screenshare-quality", (value) =>
 			resolveFileToken(value, "config-media-screenshare-quality", "text")
 		)
 		.option("config-media-video-frame-rate", {
@@ -80,7 +80,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Video quality of participants",
 			choices: ["hd", "vga", "qvga", "fhd", "uhd"],
 		})
-		.coerce("config-media-video-quality", (value: string | undefined) =>
+		.coerce("config-media-video-quality", (value) =>
 			resolveFileToken(value, "config-media-video-quality", "text")
 		)
 		.option("config-media-video-simulcast", {
@@ -93,7 +93,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Type of the meeting",
 			choices: ["GROUP_CALL", "WEBINAR", "AUDIO_ROOM", "LIVESTREAM"],
 		})
-		.coerce("config-view-type", (value: string | undefined) =>
+		.coerce("config-view-type", (value) =>
 			resolveFileToken(value, "config-view-type", "text")
 		)
 		.option("name", { type: "string", description: "Name of the preset" })
@@ -201,34 +201,28 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Can produce audio",
 			choices: ["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"],
 		})
-		.coerce(
-			"permissions-media-audio-can-produce",
-			(value: string | undefined) =>
-				resolveFileToken(value, "permissions-media-audio-can-produce", "text")
+		.coerce("permissions-media-audio-can-produce", (value) =>
+			resolveFileToken(value, "permissions-media-audio-can-produce", "text")
 		)
 		.option("permissions-media-screenshare-can-produce", {
 			type: "string",
 			description: "Can produce screen share video",
 			choices: ["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"],
 		})
-		.coerce(
-			"permissions-media-screenshare-can-produce",
-			(value: string | undefined) =>
-				resolveFileToken(
-					value,
-					"permissions-media-screenshare-can-produce",
-					"text"
-				)
+		.coerce("permissions-media-screenshare-can-produce", (value) =>
+			resolveFileToken(
+				value,
+				"permissions-media-screenshare-can-produce",
+				"text"
+			)
 		)
 		.option("permissions-media-video-can-produce", {
 			type: "string",
 			description: "Can produce video",
 			choices: ["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"],
 		})
-		.coerce(
-			"permissions-media-video-can-produce",
-			(value: string | undefined) =>
-				resolveFileToken(value, "permissions-media-video-can-produce", "text")
+		.coerce("permissions-media-video-can-produce", (value) =>
+			resolveFileToken(value, "permissions-media-video-can-produce", "text")
 		)
 		.option("permissions-pin-participant", {
 			type: "boolean",
@@ -263,7 +257,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Type of the recording peer",
 			choices: ["RECORDER", "LIVESTREAMER", "NONE"],
 		})
-		.coerce("permissions-recorder-type", (value: string | undefined) =>
+		.coerce("permissions-recorder-type", (value) =>
 			resolveFileToken(value, "permissions-recorder-type", "text")
 		)
 		.option("permissions-show-participant-list", {
@@ -275,7 +269,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The permissions.stage_access field",
 			choices: ["ALLOWED", "NOT_ALLOWED", "CAN_REQUEST"],
 		})
-		.coerce("permissions-stage-access", (value: string | undefined) =>
+		.coerce("permissions-stage-access", (value) =>
 			resolveFileToken(value, "permissions-stage-access", "text")
 		)
 		.option("permissions-stage-enabled", {
@@ -291,7 +285,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Waiting room type",
 			choices: ["SKIP", "ON_PRIVILEGED_USER_ENTRY", "SKIP_ON_ACCEPT"],
 		})
-		.coerce("permissions-waiting-room-type", (value: string | undefined) =>
+		.coerce("permissions-waiting-room-type", (value) =>
 			resolveFileToken(value, "permissions-waiting-room-type", "text")
 		)
 		.option("ui-design-tokens-border-radius", {
@@ -299,7 +293,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The ui.design_tokens.border_radius field",
 			choices: ["sharp", "rounded", "extra-rounded", "circular"],
 		})
-		.coerce("ui-design-tokens-border-radius", (value: string | undefined) =>
+		.coerce("ui-design-tokens-border-radius", (value) =>
 			resolveFileToken(value, "ui-design-tokens-border-radius", "text")
 		)
 		.option("ui-design-tokens-border-width", {
@@ -307,7 +301,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The ui.design_tokens.border_width field",
 			choices: ["none", "thin", "fat"],
 		})
-		.coerce("ui-design-tokens-border-width", (value: string | undefined) =>
+		.coerce("ui-design-tokens-border-width", (value) =>
 			resolveFileToken(value, "ui-design-tokens-border-width", "text")
 		)
 		.option("ui-design-tokens-colors-danger", {
@@ -355,7 +349,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The ui.design_tokens.theme field",
 			choices: ["darkest", "dark", "light"],
 		})
-		.coerce("ui-design-tokens-theme", (value: string | undefined) =>
+		.coerce("ui-design-tokens-theme", (value) =>
 			resolveFileToken(value, "ui-design-tokens-theme", "text")
 		)
 		.option("dry-run", {

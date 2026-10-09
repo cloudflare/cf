@@ -39,9 +39,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The custom page state.",
 			choices: ["default", "customized"],
 		})
-		.coerce("state", (value: string | undefined) =>
-			resolveFileToken(value, "state", "text")
-		)
+		.coerce("state", (value) => resolveFileToken(value, "state", "text"))
 		.option("url", {
 			type: "string",
 			description: "The URL associated with the custom page.",

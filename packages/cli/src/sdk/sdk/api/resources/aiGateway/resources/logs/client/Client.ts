@@ -79,7 +79,7 @@ export class LogsClient {
             cached,
             model,
             model_type: modelType,
-            provider,
+            provider: aiGatewayProvider,
             request_content_type: requestContentType,
             response_content_type: responseContentType,
         } = request;
@@ -109,7 +109,7 @@ export class LogsClient {
             cached,
             model,
             model_type: modelType,
-            provider,
+            provider: aiGatewayProvider,
             request_content_type: requestContentType,
             response_content_type: responseContentType,
         };

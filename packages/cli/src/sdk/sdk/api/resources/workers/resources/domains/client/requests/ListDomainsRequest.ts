@@ -8,7 +8,9 @@
  *         zone_name: "example.com",
  *         service: "my-worker",
  *         hostname: "app.example.com",
- *         environment: "production"
+ *         environment: "production",
+ *         previews_enabled: false,
+ *         enabled: true
  *     }
  */
 export interface ListDomainsRequest {
@@ -24,4 +26,8 @@ export interface ListDomainsRequest {
     hostname?: string;
     /** Worker environment associated with the domain. */
     environment?: string;
+    /** Whether previews are routable for the domain. */
+    previews_enabled?: boolean;
+    /** Whether the configured hostname is routable for the domain. */
+    enabled?: boolean;
 }

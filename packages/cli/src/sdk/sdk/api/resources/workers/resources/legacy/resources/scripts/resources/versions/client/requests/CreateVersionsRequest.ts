@@ -18,7 +18,7 @@ export interface CreateVersionsRequest {
     account_id: string;
     /** Name of the script. */
     script_name: string;
-    /** When set to "strict", the upload will fail if any `inherit` type bindings cannot be resolved against the previous version of the Worker. Without this, unresolvable inherit bindings are silently dropped. */
+    /** When set to "strict", the upload will fail with error 10057 if any `inherit` type bindings cannot be resolved against the latest uploaded version of the Worker, which may not be the deployed version. Without this, unresolvable inherit bindings are silently dropped. */
     bindings_inherit?: "strict";
     /** An array of modules (often JavaScript files) comprising a Worker script. At least one module must be present and referenced in the metadata as `main_module` or `body_part` by filename.<br/>Possible Content-Type(s) are: `application/javascript+module`, `text/javascript+module`, `application/javascript`, `text/javascript`, `text/x-python`, `text/x-python-requirement`, `application/wasm`, `text/plain`, `application/octet-stream`, `application/source-map`. */
     files?: core.file.Uploadable[] | undefined;

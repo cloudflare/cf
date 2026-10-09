@@ -39,7 +39,9 @@ export class DomainsClient {
      *         zone_name: "example.com",
      *         service: "my-worker",
      *         hostname: "app.example.com",
-     *         environment: "production"
+     *         environment: "production",
+     *         previews_enabled: false,
+     *         enabled: true
      *     })
      */
     public list(
@@ -53,13 +55,24 @@ export class DomainsClient {
         request: CloudflareApi.workers.ListDomainsRequest,
         requestOptions?: DomainsClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.workers.ListDomainsResponse>> {
-        const { account_id: accountId, zone_id: zoneId, zone_name: zoneName, service, hostname, environment } = request;
+        const {
+            account_id: accountId,
+            zone_id: zoneId,
+            zone_name: zoneName,
+            service,
+            hostname,
+            environment,
+            previews_enabled: previewsEnabled,
+            enabled,
+        } = request;
         const _queryParams: Record<string, unknown> = {
             zone_id: zoneId,
             zone_name: zoneName,
             service,
             hostname,
             environment,
+            previews_enabled: previewsEnabled,
+            enabled,
         };
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -122,7 +135,9 @@ export class DomainsClient {
      * @example
      *     await client.workers.domains.update({
      *         account_id: "account_id",
+     *         enabled: true,
      *         hostname: "app.example.com",
+     *         previews_enabled: false,
      *         service: "my-worker",
      *         zone_id: "593c9c94de529bbbfaac7c53ced0447d",
      *         zone_name: "example.com"

@@ -6,7 +6,9 @@ import * as CloudflareApi from "../../../../../../index.js";
  * @example
  *     {
  *         account_id: "account_id",
+ *         enabled: true,
  *         hostname: "app.example.com",
+ *         previews_enabled: false,
  *         service: "my-worker",
  *         zone_id: "593c9c94de529bbbfaac7c53ced0447d",
  *         zone_name: "example.com"

@@ -12,7 +12,7 @@ export interface UpdateScriptsRequest {
     account_id: string;
     /** Name of the script. */
     script_name: string;
-    /** When set to "strict", the upload will fail if any `inherit` type bindings cannot be resolved against the previous version of the Worker. Without this, unresolvable inherit bindings are silently dropped. */
+    /** When set to "strict", the upload will fail with error 10057 if any `inherit` type bindings cannot be resolved against the latest uploaded version of the Worker, which may not be the deployed version. Without this, unresolvable inherit bindings are silently dropped. */
     bindings_inherit?: "strict";
     metadata?: UpdateScriptsRequest.Metadata;
 }

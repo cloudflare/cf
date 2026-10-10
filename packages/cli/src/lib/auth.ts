@@ -262,7 +262,7 @@ export function createCloudflareClientWithToken(
 	clientTimeouts.set(client, options.timeout ?? API_TIMEOUT_MS);
 	if (options.timeout === undefined) {
 		// SDK passthrough requests inherit the client's timeout. Use a separate
-		// client for uploads so typed API calls retain their 30-second deadline.
+		// client for uploads so typed API calls retain their standard deadline.
 		uploadClients.set(
 			client,
 			new CloudflareApiClient({

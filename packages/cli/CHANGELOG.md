@@ -1,5 +1,14 @@
 # cf
 
+## 1.0.0-beta.15
+
+### Minor Changes
+
+- 22f028d: Update the generated command surface and vendored Forge packages for
+  Forge OpenAPI release `0adf409896a721b233f4fb9fe61655d34ebb166c`.
+- 909e52e: Update the generated command surface and vendored Forge packages for
+  Forge OpenAPI release `3fad73eb27c381031c09ccdfa28ef9352029cd5a`.
+
 ## 1.0.0-beta.14
 
 ### Minor Changes

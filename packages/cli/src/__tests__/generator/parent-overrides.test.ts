@@ -40,7 +40,6 @@ describe("parent presentation overrides", () => {
 				name: "fixture",
 				description: "Schema description",
 				methods: [],
-				globalCliArgs: [],
 				hideCommand: true,
 			});
 			const files = new Map(

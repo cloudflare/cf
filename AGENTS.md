@@ -724,7 +724,6 @@ over adding switches in cf src/.
 | `x-fern-ignore`                                                                    | live   | Drop the operation entirely                                                                                  |
 | `x-forge-hidden`                                                                   | live   | Hide the top-level root when every included operation is marked; selected descendant help remains visible    |
 | `x-forge-internal`                                                                 | live   | Explicitly retain a selected internal operation                                                              |
-| `x-forge-globals`                                                                  | live   | Per-product global flags                                                                                     |
 | `x-forge-epilogue`                                                                 | live   | Help-screen epilogue                                                                                         |
 | `x-forge-args` / `x-forge-params`                                                  | live   | Full argument/parameter overrides                                                                            |
 | `x-sensitive: true`                                                                | live   | Mark a request field for masked prompting and secret-only stdin ingestion                                    |

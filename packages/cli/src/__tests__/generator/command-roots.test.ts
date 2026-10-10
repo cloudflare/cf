@@ -14,7 +14,6 @@ describe("hand-written command roots", () => {
 			name: "previews",
 			description: "Manage Worker Previews",
 			methods: [],
-			globalCliArgs: [],
 			hideCommand: false,
 		});
 		// Access has a presentation override, but does not opt into fallback creation.
@@ -33,7 +32,6 @@ describe("hand-written command roots", () => {
 					status: "generally-available",
 				},
 			],
-			globalCliArgs: [],
 			hideCommand: false,
 		};
 		const roots = withHandWrittenCommandRoots(

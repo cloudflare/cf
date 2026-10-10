@@ -1,2 +1,2 @@
-/** Default timeout for API calls (90 seconds). */
-export const API_TIMEOUT_MS = 90_000;
+/** Default timeout for API calls (60 seconds). */
+export const API_TIMEOUT_MS = 60_000;

@@ -107,7 +107,7 @@ describe("fetchRawBytes", () => {
 			try {
 				await fetchRawBytes("/accounts/abc/anything");
 
-				expect(timeout).toHaveBeenCalledWith(90_000);
+				expect(timeout).toHaveBeenCalledWith(60_000);
 				expect(signal).toBeInstanceOf(AbortSignal);
 				expect(signal?.aborted).toBe(false);
 			} finally {
@@ -116,7 +116,7 @@ describe("fetchRawBytes", () => {
 		});
 
 		it.each([{ duration_ms: 50_000 }, JSON.stringify({ duration_ms: 50_000 })])(
-			"gives JSON profile captures a 90-second deadline (%j)",
+			"gives JSON profile captures a 60-second deadline (%j)",
 			async (body) => {
 				process.env.CLOUDFLARE_API_TOKEN = "prod-token";
 				const timeout = vi.spyOn(AbortSignal, "timeout");
@@ -131,7 +131,7 @@ describe("fetchRawBytes", () => {
 							contentType: "application/json",
 						})
 					).resolves.toEqual(bytes);
-					expect(timeout).toHaveBeenCalledWith(90_000);
+					expect(timeout).toHaveBeenCalledWith(60_000);
 				} finally {
 					timeout.mockRestore();
 				}

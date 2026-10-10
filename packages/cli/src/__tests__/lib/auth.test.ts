@@ -232,7 +232,7 @@ describe("createCommandClient", () => {
 					return new Promise<Response>((resolve, reject) => {
 						const timer = setTimeout(
 							() => resolve(new Response(null, { status: 204 })),
-							91_000
+							61_000
 						);
 						init?.signal?.addEventListener(
 							"abort",
@@ -254,7 +254,7 @@ describe("createCommandClient", () => {
 					{ body: Buffer.from("data") }
 				);
 				await started;
-				await vi.advanceTimersByTimeAsync(91_000);
+				await vi.advanceTimersByTimeAsync(61_000);
 				await expect(request).resolves.toBeNull();
 			} finally {
 				vi.useRealTimers();

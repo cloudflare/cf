@@ -1,7 +1,7 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { runInTempDir } from "@cloudflare/workers-utils/test-helpers";
-import { beforeEach, describe, expect, it } from "vite-plus/test";
+import { afterEach, beforeEach, describe, expect, it } from "vite-plus/test";
 import {
 	clearLoadedProjectSettings,
 	findCloudflareConfig,
@@ -103,5 +103,102 @@ describe("project settings", () => {
 		);
 
 		await expect(loadProjectSettings()).rejects.toThrow();
+	});
+});
+
+describe("project settings on Bun", () => {
+	runInTempDir();
+
+	beforeEach(() => {
+		clearLoadedProjectSettings();
+		Object.defineProperty(process.versions, "bun", {
+			value: "1.4.2",
+			configurable: true,
+		});
+	});
+
+	afterEach(() => {
+		delete (process.versions as Record<string, string | undefined>)["bun"];
+		clearLoadedProjectSettings();
+	});
+
+	it("loads account settings with a native import", async () => {
+		const configPath = join(process.cwd(), "cloudflare.config.ts");
+		writeFileSync(
+			configPath,
+			`export default {
+	accountId: "bun-account",
+	complianceRegion: "fedramp-high",
+};`
+		);
+
+		await expect(loadProjectSettings()).resolves.toEqual({
+			path: configPath,
+			settings: {
+				accountId: "bun-account",
+				complianceRegion: "fedramp-high",
+			},
+		});
+	});
+
+	it("passes the selected mode to function-form settings", async () => {
+		const configPath = join(process.cwd(), "cloudflare.config.ts");
+		writeFileSync(
+			configPath,
+			`export default ({ mode }) => ({
+	accountId: mode,
+});`
+		);
+		setProjectConfigMode("staging");
+
+		await expect(loadProjectSettings()).resolves.toEqual({
+			path: configPath,
+			settings: {
+				accountId: "staging",
+			},
+		});
+	});
+
+	it("re-evaluates the config when the mode changes", async () => {
+		const configPath = join(process.cwd(), "cloudflare.config.ts");
+		writeFileSync(
+			configPath,
+			`export default ({ mode }) => ({
+	accountId: mode ?? "default-account",
+});`
+		);
+
+		await expect(loadProjectSettings()).resolves.toMatchObject({
+			settings: { accountId: "default-account" },
+		});
+		setProjectConfigMode("staging");
+		await expect(loadProjectSettings()).resolves.toEqual({
+			path: configPath,
+			settings: { accountId: "staging" },
+		});
+	});
+
+	it("rejects a config without a default export", async () => {
+		writeFileSync(
+			join(process.cwd(), "cloudflare.config.ts"),
+			`export const accountId = "bun-account";`
+		);
+
+		await expect(loadProjectSettings()).rejects.toThrow(
+			"does not have a default export"
+		);
+	});
+
+	it("surfaces settings validation errors", async () => {
+		writeFileSync(
+			join(process.cwd(), "cloudflare.config.ts"),
+			`export default {
+	accountId: 42,
+};`
+		);
+
+		await expect(loadProjectSettings()).rejects.toThrow(
+			"Invalid cloudflare.config.ts"
+		);
 	});
 });

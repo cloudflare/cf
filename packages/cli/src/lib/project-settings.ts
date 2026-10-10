@@ -1,6 +1,11 @@
+import { randomUUID } from "node:crypto";
 import { statSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
-import type { ParsedInputSettingsConfig } from "@cloudflare/config";
+import { pathToFileURL } from "node:url";
+import type {
+	ConfigContext,
+	ParsedInputSettingsConfig,
+} from "@cloudflare/config";
 
 export const CLOUDFLARE_CONFIG_FILENAME = "cloudflare.config.ts";
 
@@ -59,29 +64,71 @@ export async function loadProjectSettings(
 		return null;
 	}
 
-	const { loadAndParseConfigSettings } = await import("@cloudflare/config");
-	const loaded = await loadAndParseConfigSettings(configPath, {
-		isPreview,
-		mode: projectConfigMode,
-	});
-	if (!loaded.result.success) {
-		const issues = loaded.result.error.issues
-			.map((issue) => {
-				const path = issue.path
-					.filter((segment) => typeof segment !== "symbol")
-					.join(".");
-				return `  - ${path ? `${path}: ` : ""}${issue.message}`;
-			})
-			.join("\n");
-		throw new Error(`Invalid ${CLOUDFLARE_CONFIG_FILENAME}:\n${issues}`);
-	}
+	const context: ConfigContext = { isPreview, mode: projectConfigMode };
+	const result: LoadedProjectSettings = isBun()
+		? {
+				path: configPath,
+				settings: await loadSettingsOnBun(configPath, context),
+			}
+		: await loadSettingsOnNode(configPath, context);
+	loadedSettings = { startDir: resolvedStartDir, isPreview, result };
+	return result;
+}
 
-	const result: LoadedProjectSettings = {
+function isBun(): boolean {
+	return typeof process !== "undefined" && process.versions.bun !== undefined;
+}
+
+async function loadSettingsOnNode(
+	configPath: string,
+	context: ConfigContext
+): Promise<LoadedProjectSettings> {
+	const { loadAndParseConfigSettings } = await import("@cloudflare/config");
+	const loaded = await loadAndParseConfigSettings(configPath, context);
+	if (!loaded.result.success) {
+		throw invalidConfigError(loaded.result.error.issues);
+	}
+	return {
 		path: configPath,
 		settings: loaded.result.data,
 	};
-	loadedSettings = { startDir: resolvedStartDir, isPreview, result };
-	return result;
+}
+
+// Bun runs TypeScript directly, so the Node module-hooks loader in
+// `@cloudflare/config` (which throws on Bun) is unnecessary there. Import the
+// file natively and reuse the same settings validation instead.
+async function loadSettingsOnBun(
+	configPath: string,
+	context: ConfigContext
+): Promise<ParsedInputSettingsConfig | undefined> {
+	const { resolveAndParseConfigSettings } = await import("@cloudflare/config");
+	const url = `${pathToFileURL(configPath).href}?cf-no-cache=${randomUUID()}`;
+	const mod = await import(url);
+	if (!("default" in mod)) {
+		throw new Error(
+			`The config file "${configPath}" does not have a default export. Export your configuration with \`export default defineConfig({ ... })\`.`
+		);
+	}
+	const result = await resolveAndParseConfigSettings(mod.default, context);
+	if (!result.success) {
+		throw invalidConfigError(result.error.issues);
+	}
+
+	return result.data;
+}
+
+function invalidConfigError(
+	issues: { path: (string | number | symbol)[]; message: string }[]
+): Error {
+	const rendered = issues
+		.map((issue) => {
+			const path = issue.path
+				.filter((segment) => typeof segment !== "symbol")
+				.join(".");
+			return `  - ${path ? `${path}: ` : ""}${issue.message}`;
+		})
+		.join("\n");
+	return new Error(`Invalid ${CLOUDFLARE_CONFIG_FILENAME}:\n${rendered}`);
 }
 
 export function getLoadedProjectSettings(

@@ -4,9 +4,10 @@ import {
 	readBuildOutput,
 } from "@cloudflare/build-output-utils";
 import { runInTempDir, seed } from "@cloudflare/workers-utils/test-helpers";
-import { describe, expect, it } from "vite-plus/test";
+import { afterEach, describe, expect, it, vi } from "vite-plus/test";
 import {
 	BuildOutputConfigError,
+	DEPENDENCIES_INSTRUMENTATION_ENV_VAR,
 	parseWorkerConfig,
 	selectBuildOutputWorker,
 	validateBuildOutputMode,
@@ -312,5 +313,71 @@ describe("build output", () => {
 		expect(() => parseWorkerConfig(worker, parsedRootConfig)).toThrow(
 			BuildOutputConfigError
 		);
+	});
+
+	describe("dependencies instrumentation env opt-out", () => {
+		afterEach(() => {
+			vi.unstubAllEnvs();
+		});
+
+		async function parseSeededWorker() {
+			await seed({
+				".cloudflare/output/v0/config.json": rootConfig,
+				".cloudflare/output/v0/workers/default/worker.config.json":
+					JSON.stringify({
+						name: "my-worker",
+						compatibilityDate: "2026-04-25",
+					}),
+				".cloudflare/output/v0/workers/default/bundle/index.js": "",
+			});
+
+			const {
+				rootConfig: parsedRootConfig,
+				workers: { default: worker },
+			} = await readBuildOutput(process.cwd());
+			return parseWorkerConfig(worker, parsedRootConfig);
+		}
+
+		it("leaves instrumentation unset when the env var is absent", async () => {
+			vi.stubEnv(DEPENDENCIES_INSTRUMENTATION_ENV_VAR, undefined);
+
+			const { wranglerConfig } = await parseSeededWorker();
+
+			expect(wranglerConfig.dependencies_instrumentation).toBeUndefined();
+		});
+
+		it.each(["false", "0", "no", "FALSE", "False"])(
+			"disables instrumentation when the env var is %s",
+			async (value) => {
+				vi.stubEnv(DEPENDENCIES_INSTRUMENTATION_ENV_VAR, value);
+
+				const { wranglerConfig } = await parseSeededWorker();
+
+				expect(wranglerConfig.dependencies_instrumentation).toEqual({
+					enabled: false,
+				});
+			}
+		);
+
+		it.each(["true", "1", "yes"])(
+			"enables instrumentation when the env var is %s",
+			async (value) => {
+				vi.stubEnv(DEPENDENCIES_INSTRUMENTATION_ENV_VAR, value);
+
+				const { wranglerConfig } = await parseSeededWorker();
+
+				expect(wranglerConfig.dependencies_instrumentation).toEqual({
+					enabled: true,
+				});
+			}
+		);
+
+		it("rejects an unrecognized value", async () => {
+			vi.stubEnv(DEPENDENCIES_INSTRUMENTATION_ENV_VAR, "sometimes");
+
+			await expect(parseSeededWorker()).rejects.toThrow(
+				`Invalid ${DEPENDENCIES_INSTRUMENTATION_ENV_VAR} value "sometimes"`
+			);
+		});
 	});
 });

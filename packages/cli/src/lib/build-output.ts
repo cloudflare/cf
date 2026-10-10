@@ -20,6 +20,9 @@ export interface ParsedWorkerConfig {
 	builtConfig: BuildOutputWorker["config"];
 }
 
+export const DEPENDENCIES_INSTRUMENTATION_ENV_VAR =
+	"CLOUDFLARE_DEPENDENCIES_INSTRUMENTATION";
+
 export function validateBuildOutputMode(
 	requestedMode: string | undefined,
 	builtMode: string | undefined
@@ -132,11 +135,50 @@ export function parseWorkerConfig(
 	);
 	restoreContainerReferences(validatedConfig, containerReferences);
 	const { containers: _containers, ...wranglerConfig } = validatedConfig;
+	applyDependenciesInstrumentationEnvOverride(wranglerConfig);
 
 	return {
 		wranglerConfig,
 		builtConfig,
 	};
+}
+
+/**
+ * Honor CLOUDFLARE_DEPENDENCIES_INSTRUMENTATION as an opt-out (or explicit
+ * opt-in) for the npm package metadata uploads carry. `cloudflare.config.ts`
+ * has no equivalent of Wrangler's `dependencies_instrumentation` yet, so
+ * without this a migrated project silently opts back in on every deploy.
+ */
+function applyDependenciesInstrumentationEnvOverride(
+	wranglerConfig: ContainerlessConfig
+): void {
+	const raw = process.env[DEPENDENCIES_INSTRUMENTATION_ENV_VAR];
+	if (raw === undefined || raw === "") {
+		return;
+	}
+
+	switch (raw.toLowerCase()) {
+		case "false":
+		case "0":
+		case "no":
+			wranglerConfig.dependencies_instrumentation = {
+				...wranglerConfig.dependencies_instrumentation,
+				enabled: false,
+			};
+			return;
+		case "true":
+		case "1":
+		case "yes":
+			wranglerConfig.dependencies_instrumentation = {
+				...wranglerConfig.dependencies_instrumentation,
+				enabled: true,
+			};
+			return;
+		default:
+			throw new BuildOutputConfigError(
+				`Invalid ${DEPENDENCIES_INSTRUMENTATION_ENV_VAR} value "${raw}". Valid values are: true, false, 1, 0, yes, no.`
+			);
+	}
 }
 
 export function validateWranglerConfig(

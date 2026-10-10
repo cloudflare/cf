@@ -303,4 +303,33 @@ describe("cf migrate", () => {
 		);
 		expect(std.out).toContain("Migration requires follow-up work.");
 	});
+
+	it.each([
+		"dependencies_instrumentation",
+		"env.staging.dependencies_instrumentation",
+	])("points at the env opt-out when %s is dropped", async (sourcePath) => {
+		await seed({ "wrangler.json": "{}" });
+
+		migrateWranglerToCf.mockResolvedValue({
+			changedFiles: ["cloudflare.config.ts"],
+			followUps: [
+				{
+					blocking: true,
+					code: "unsupported-field",
+					docsUrl: "https://developers.cloudflare.com/workers/",
+					message:
+						"The dependency instrumentation is not supported by the new config and was not migrated.",
+					sourcePath,
+				},
+			],
+			status: "needs-intervention",
+		});
+
+		const result = await runCf(["migrate"]);
+
+		expect(result.exitCode).toBe(1);
+		expect(std.out).toContain(
+			"Set CLOUDFLARE_DEPENDENCIES_INSTRUMENTATION=false to leave package metadata out of uploads."
+		);
+	});
 });

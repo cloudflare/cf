@@ -6,6 +6,7 @@ import {
 	type WranglerToCfMigrationOptions,
 	type WranglerToCfMigrationResult,
 } from "@cloudflare/codemods";
+import { DEPENDENCIES_INSTRUMENTATION_ENV_VAR } from "./build-output.js";
 import { CliExit } from "./cli-exit.js";
 import { success, theme, warning } from "./ui/index.js";
 
@@ -129,12 +130,27 @@ function printFollowUps(
 			? `${theme.code(followUp.sourcePath)}: `
 			: "";
 		log(`${theme.muted(connector)} ${severity} ${source}${followUp.message}`);
+		const indent = `${isLast ? " " : "│"}  └─`;
 		if (followUp.docsUrl) {
+			log(`${theme.muted(indent)} ${theme.muted(followUp.docsUrl)}`);
+		}
+		if (isDependenciesInstrumentationFollowUp(followUp)) {
 			log(
-				`${theme.muted(`${isLast ? " " : "│"}  └─`)} ${theme.muted(followUp.docsUrl)}`
+				`${theme.muted(indent)} ${theme.muted(`Set ${DEPENDENCIES_INSTRUMENTATION_ENV_VAR}=false to leave package metadata out of uploads.`)}`
 			);
 		}
 	}
+}
+
+// The new config has no `dependencies_instrumentation` field yet, so the
+// migration drops it. Point at the environment opt-out until the field exists.
+function isDependenciesInstrumentationFollowUp(
+	followUp: MigrationFollowUp
+): boolean {
+	return (
+		followUp.sourcePath === "dependencies_instrumentation" ||
+		followUp.sourcePath?.endsWith(".dependencies_instrumentation") === true
+	);
 }
 
 function printResult(

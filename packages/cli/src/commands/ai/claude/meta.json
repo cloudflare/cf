@@ -1,0 +1,24 @@
+{
+	"command": "cf ai claude",
+	"name": "claude",
+	"fullPath": ["ai", "claude"],
+	"category": "action",
+	"description": "Run Claude Code through an Access-protected AI Gateway.",
+	"usage": "cf ai claude --endpoint <domain> [-- <claude-arguments>]",
+	"arguments": [],
+	"options": [
+		{
+			"name": "endpoint",
+			"type": "string",
+			"required": true,
+			"description": "Access-protected AI Gateway custom domain"
+		},
+		{
+			"name": "dry-run",
+			"type": "boolean",
+			"required": false,
+			"description": "Parse arguments and show the command without executing it",
+			"default": false
+		}
+	]
+}

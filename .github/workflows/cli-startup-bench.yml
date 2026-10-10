@@ -127,7 +127,7 @@ jobs:
             report.md
 
       - name: Sticky PR comment
-        if: github.event_name == 'pull_request' && steps.changes.outputs.buildable == 'true'
+        if: github.event_name == 'pull_request' && steps.changes.outputs.buildable == 'true' && github.event.pull_request.head.repo.full_name == github.event.pull_request.base.repo.full_name
         uses: marocchino/sticky-pull-request-comment@0ea0beb66eb9baf113663a64ec522f60e49231c0 # v2
         with:
           header: cf-startup-bench

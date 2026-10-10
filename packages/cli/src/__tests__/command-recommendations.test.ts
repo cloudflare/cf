@@ -54,6 +54,86 @@ describe("command recommendations", () => {
 		);
 
 		expect(stderr()).not.toContain("Did you mean");
+		expect(stderr()).not.toContain("cf <command> [options]");
+		expect(stderr()).toMatch(
+			/Unknown command: unrecognizable[\s\S]*For more information, run cf --help/
+		);
+	});
+
+	it.each(["--help", "-h"])(
+		"rejects an unknown top-level command with %s",
+		async (help) => {
+			await expect(runCf(["malformed", help])).rejects.toThrow(
+				"Unknown command: malformed"
+			);
+
+			expect(output.stdout()).toBe("");
+			expect(stderr()).toContain("Unknown command: malformed");
+			expect(stderr()).toContain("For more information, run cf --help");
+		}
+	);
+
+	it("lists global flags when several unknown root flags are supplied", async () => {
+		await expect(
+			runCf(["--unknown-first", "--unknown-second"])
+		).rejects.toThrow("Unknown arguments:");
+		expect(stderr()).toContain("Global flags:");
+		expect(stderr()).toContain("--profile");
+		expect(stderr()).toContain("For more information, run cf --help");
+	});
+
+	it("rejects an unknown command after a global option value", async () => {
+		await expect(
+			runCf(["--profile", "example", "unrecognizable", "--help"])
+		).rejects.toThrow("Unknown command: unrecognizable");
+	});
+
+	it.each([
+		["workers", "malformed"],
+		["r2", "buckets", "unrecognizable"],
+	])("rejects an unknown nested command in %j with --help", async (...path) => {
+		const unknown = path.at(-1);
+		const parent = path.slice(0, -1).join(" ");
+		await expect(runCf([...path, "--help"])).rejects.toThrow(
+			`Unknown command: ${unknown}`
+		);
+
+		expect(output.stdout()).toBe("");
+		expect(stderr()).toContain(`For more information, run cf ${parent} --help`);
+	});
+
+	it("shows the parent help hint for an unknown nested command", async () => {
+		await expect(runCf(["workers", "malformed"])).rejects.toThrow(
+			"Unknown command: malformed"
+		);
+
+		expect(stderr()).not.toContain("cf workers\n");
+		expect(stderr()).toMatch(
+			/Unknown command: malformed[\s\S]*For more information, run cf workers --help/
+		);
+	});
+
+	it("shows the leaf help hint after an invalid flag", async () => {
+		await expect(runCf(["workers", "list", "--malformed"])).rejects.toThrow(
+			"Unknown argument: malformed"
+		);
+
+		expect(stderr()).not.toContain("List all Workers for an account.");
+		expect(stderr()).toMatch(
+			/Unknown argument: malformed[\s\S]*For more information, run cf workers list --help/
+		);
+	});
+
+	it("shows the root help hint for an invalid global flag", async () => {
+		await expect(runCf(["--malformed"])).rejects.toThrow(
+			"Unknown argument: malformed"
+		);
+
+		expect(stderr()).toContain("For more information, run cf --help");
+		expect(stderr()).toContain("Global flags:");
+		expect(stderr()).toContain("-q, --quiet");
+		expect(stderr()).toContain("--persist-to");
+		expect(stderr()).toContain("-h, --help");
 	});
 
 	it("does not suggest hidden commands", async () => {
@@ -69,6 +149,23 @@ describe("command recommendations", () => {
 		expect(stderr()).not.toContain("Did you mean");
 	});
 
+	it.each([
+		[["r2", "buckets"], "cf r2 buckets"],
+		[["r2", "buckets", "get", "example"], "cf r2 buckets get"],
+		[["init", "./example"], "cf init"],
+		[["ai", "run"], "cf ai run"],
+		[
+			["registrar", "registrations", "create"],
+			"cf registrar registrations create",
+		],
+	])("keeps valid help successful for %j", async (path, heading) => {
+		await expect(runCf([...path, "--help"])).resolves.toEqual({
+			exitCode: 0,
+		});
+
+		expect(output.stdout()).toContain(heading);
+	});
+
 	it("keeps group help behavior when a subcommand is missing", async () => {
 		await expect(runCf(["r2", "buckets"])).resolves.toEqual({ exitCode: 0 });
 
@@ -82,5 +179,8 @@ describe("command recommendations", () => {
 		);
 
 		expect(stderr()).not.toContain("Did you mean");
+		expect(stderr()).toContain(
+			"For more information, run cf r2 buckets get --help"
+		);
 	});
 });

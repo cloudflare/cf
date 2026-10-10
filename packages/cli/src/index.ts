@@ -10,6 +10,7 @@ import {
 	rootCommandName,
 	rootHandWrittenCommands,
 } from "./commands/hand-written.js";
+import { isLeafCommand } from "./commands/is-leaf-command.js";
 import { detectAgentContext } from "./lib/agent-context.js";
 import { hasQuietFlag } from "./lib/args.js";
 import { CliExit } from "./lib/cli-exit.js";
@@ -94,6 +95,40 @@ const GLOBAL_OPTIONS = {
 	},
 } satisfies Record<string, Options>;
 
+function globalOptionNames(name: string, option: Options): string[] {
+	const alias = option.alias;
+	return [
+		name,
+		...(Array.isArray(alias) ? alias : alias === undefined ? [] : [alias]),
+	];
+}
+
+function flagToken(name: string): string {
+	return name.length === 1 ? `-${name}` : `--${name}`;
+}
+
+const ROOT_OPTION_NAMES = new Set([
+	"help",
+	"h",
+	"version",
+	"v",
+	...Object.entries<Options>(GLOBAL_OPTIONS).flatMap(([name, option]) =>
+		globalOptionNames(name, option)
+	),
+]);
+
+const GLOBAL_FLAGS_LIST = [
+	...Object.entries<Options>(GLOBAL_OPTIONS).map(
+		([name, option]) =>
+			`  ${globalOptionNames(name, option)
+				.sort((left, right) => left.length - right.length)
+				.map(flagToken)
+				.join(", ")}`
+	),
+	"  -h, --help",
+	"  -v, --version",
+].join("\n");
+
 function globalFlagTakesValue(arg: string, nextArg?: string): boolean {
 	return Object.entries<Options>(GLOBAL_OPTIONS).some(([name, option]) => {
 		if (
@@ -103,14 +138,8 @@ function globalFlagTakesValue(arg: string, nextArg?: string): boolean {
 		) {
 			return false;
 		}
-		const alias = option.alias;
-		const aliases = Array.isArray(alias)
-			? alias
-			: alias === undefined
-				? []
-				: [alias];
-		return [name, ...aliases].some(
-			(flag) => arg === (flag.length === 1 ? `-${flag}` : `--${flag}`)
+		return globalOptionNames(name, option).some(
+			(flag) => arg === flagToken(flag)
 		);
 	});
 }
@@ -288,6 +317,19 @@ function resolvedCommandName(yargsInstance: unknown): string | undefined {
 	} catch {
 		return undefined;
 	}
+}
+
+class CliUsageError extends Error {
+	constructor(
+		message: string,
+		readonly helpCommand: string
+	) {
+		super(message);
+	}
+}
+
+function helpCommandFor(command: string | undefined): string {
+	return `cf${command ? ` ${command}` : ""} --help`;
 }
 
 function excludesTelemetry(command: string): boolean {
@@ -649,6 +691,21 @@ export function buildCli(rawArgs: string[], options: BuildCliOptions = {}) {
 			if (err) {
 				throw err;
 			}
+			// Yargs checks the missing command before strict options. Let its
+			// next validation report an unknown global flag when one is present.
+			if (msg === "You need to specify a command" && cli.parsed) {
+				const hasUnknownOption = Object.keys(cli.parsed.argv).some(
+					(name) =>
+						name !== "_" &&
+						name !== "$0" &&
+						!ROOT_OPTION_NAMES.has(
+							name.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`)
+						)
+				);
+				if (hasUnknownOption) {
+					return;
+				}
+			}
 			// Yargs considers hidden commands when matching recommendations.
 			// Its usage list contains only commands visible at the current depth,
 			// so let parsing continue to the normal unknown-command failure when
@@ -682,21 +739,31 @@ export function buildCli(rawArgs: string[], options: BuildCliOptions = {}) {
 				yargsInstance.showHelp("log");
 				return;
 			}
-			// Anything else (notably yargs' default "Not enough non-option
-			// arguments" from a *leaf* command invoked without its
-			// required positional) is a genuine usage error. Print the
-			// command's help first so the user sees valid usage, then
-			// throw so the error block renders below it (closer to the
-			// prompt).
-			yargsInstance.showHelp("error");
-			throw new Error(msg);
+			throw new CliUsageError(msg, helpCommandFor(resolvedCommand));
 		});
 
 	// Every depth can replace `.usage()`, so add the notice at the point
 	// yargs emits help rather than relying on a root-level usage string.
 	const showHelp = cli.showHelp.bind(cli);
-	cli.showHelp = (level?: string | ((help: string) => void)) =>
-		showHelp((help) => {
+	cli.showHelp = (level?: string | ((help: string) => void)) => {
+		// Yargs bypasses strict command validation for automatic --help.
+		// Compare its parsed positionals with the command it resolved. A leaf
+		// may also have positional values, such as a bucket name or model.
+		if (typeof level === "function") {
+			const parsed = cli.parsed as false | { argv: { _: unknown[] } };
+			const resolved = resolvedCommandName(cli);
+			const next = parsed && parsed.argv._[resolved?.split(" ").length ?? 0];
+			if (
+				(typeof next === "string" || typeof next === "number") &&
+				(resolved === undefined || !isLeafCommand(resolved))
+			) {
+				throw new CliUsageError(
+					`Unknown command: ${next}`,
+					helpCommandFor(resolved)
+				);
+			}
+		}
+		return showHelp((help) => {
 			const command = resolvedCommandName(cli);
 			if (command !== undefined) {
 				onCommandResolved?.(command);
@@ -711,6 +778,7 @@ export function buildCli(rawArgs: string[], options: BuildCliOptions = {}) {
 				console.error(message);
 			}
 		});
+	};
 	const getHelp = cli.getHelp.bind(cli);
 	cli.getHelp = async () =>
 		decorateHelp(await getHelp(), resolvedCommandName(cli));
@@ -808,6 +876,20 @@ export async function main(): Promise<void> {
 	// flows through unchanged so explicit exit codes (e.g. from
 	// `--help` early-exits) survive.
 	try {
+		// Like Wrangler, check unknown top-level commands before yargs handles
+		// --help, since yargs skips strict command validation for help requests.
+		const rootCommand = commandPath(args, 1)[0];
+		if (
+			(args.includes("--help") || args.includes("-h")) &&
+			rootCommand !== undefined &&
+			!HAND_WRITTEN_ROOTS.has(rootCommand) &&
+			!generatedCommands.some(({ command }) => command.command === rootCommand)
+		) {
+			throw new CliUsageError(
+				`Unknown command: ${rootCommand}`,
+				helpCommandFor(undefined)
+			);
+		}
 		await cli.parse(hideBin(process.argv));
 		await reportHelpShown(helpShown);
 	} catch (err) {
@@ -830,7 +912,22 @@ export async function main(): Promise<void> {
 			err,
 			resolvedCommand ?? resolvedCommandName(cli)
 		);
-		throw handleError(err);
+		const handledError = handleError(err);
+		if (err instanceof CliUsageError) {
+			if (
+				err.helpCommand === "cf --help" &&
+				/^Unknown arguments?:/.test(err.message)
+			) {
+				console.error(`\nGlobal flags:\n${GLOBAL_FLAGS_LIST}`);
+			}
+			console.error(
+				"\n" +
+					theme.italic(
+						`For more information, run ${theme.code(err.helpCommand)}`
+					)
+			);
+		}
+		throw handledError;
 	} finally {
 		dispose();
 		// Miniflare keeps workerd and a loopback server alive. The disposer is

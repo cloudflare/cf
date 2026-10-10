@@ -545,7 +545,7 @@ packages:
     hasBin: true
 
   '@cloudflare/forge@file:vendor/cloudflare-forge-0.1.0.tgz':
-    resolution: {integrity: sha512-yweK06TrmjGoZpIuUv++x1u1XxS3gONdnQ4thJPQDJybe4o0HVGsEj2Cof/YH+H5DOQoDsF3PKWKG14wYkqMww==, tarball: file:vendor/cloudflare-forge-0.1.0.tgz}
+    resolution: {integrity: sha512-Jbhr3famsnIgtHOdl5a9jFmVtyW9Yw+UsaN87uo8XuV4tYAFgFRVeK/N1FmGHJGL5SZnwgZivN5XIfGB15Tehg==, tarball: file:vendor/cloudflare-forge-0.1.0.tgz}
     version: 0.1.0
     engines: {node: '>=22'}
 

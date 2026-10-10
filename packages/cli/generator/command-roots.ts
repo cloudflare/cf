@@ -25,7 +25,6 @@ export function withHandWrittenCommandRoots(
 			name: override.parent,
 			description: override.describe,
 			methods: [],
-			globalCliArgs: [],
 			hideCommand: !override.expose,
 		});
 	}

@@ -283,7 +283,6 @@ export const transformer: TransformerFn = async (forge: Forge) => {
 		name: "access",
 		description: "Access protected applications and services",
 		methods: [],
-		globalCliArgs: [],
 		hideCommand: false,
 	};
 	const commandSchemas: Array<[string, Schema.command]> = [

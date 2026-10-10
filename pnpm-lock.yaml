@@ -539,7 +539,7 @@ packages:
     resolution: {integrity: sha512-87zwEhdT0k26tiLe8F4sdo6MZvfoHDji3GzoPn480aJwgD4OBobEz4Z/Tjf2QVsDyFNhX0+L1rgZQnIErTWEqA==}
 
   '@cloudflare/forge-transformer-sdk-ts@file:vendor/cloudflare-forge-transformer-sdk-ts-0.1.0.tgz':
-    resolution: {integrity: sha512-uISWNZcHhLbySO68k+ASHwlXOmWgQ5gBbrNBJojpuGHZkligNjl1SbMHQrnCBJH+kIqZ/YuMU24ZNKz6vzLnGA==, tarball: file:vendor/cloudflare-forge-transformer-sdk-ts-0.1.0.tgz}
+    resolution: {integrity: sha512-73ECL5zUjVxktaWoS0sOe6MRAOKCDdX39NEZHEiPF4zVU0IrlI3i3xx9VEz8tg1BeKQktBsERyotMEvKqUJMEQ==, tarball: file:vendor/cloudflare-forge-transformer-sdk-ts-0.1.0.tgz}
     version: 0.1.0
     engines: {node: '>=22'}
     hasBin: true

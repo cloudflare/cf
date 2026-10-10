@@ -97,17 +97,46 @@ describe("fetchRawBytes", () => {
 
 		it("applies the standard API timeout", async () => {
 			process.env.CLOUDFLARE_API_TOKEN = "prod-token";
+			const timeout = vi.spyOn(AbortSignal, "timeout");
 			let signal: AbortSignal | undefined;
 			globalThis.fetch = (async (_input, init) => {
 				signal = init?.signal ?? undefined;
 				return new Response("", { status: 200 });
 			}) as typeof globalThis.fetch;
 
-			await fetchRawBytes("/accounts/abc/anything");
+			try {
+				await fetchRawBytes("/accounts/abc/anything");
 
-			expect(signal).toBeInstanceOf(AbortSignal);
-			expect(signal?.aborted).toBe(false);
+				expect(timeout).toHaveBeenCalledWith(90_000);
+				expect(signal).toBeInstanceOf(AbortSignal);
+				expect(signal?.aborted).toBe(false);
+			} finally {
+				timeout.mockRestore();
+			}
 		});
+
+		it.each([{ duration_ms: 50_000 }, JSON.stringify({ duration_ms: 50_000 })])(
+			"gives JSON profile captures a 90-second deadline (%j)",
+			async (body) => {
+				process.env.CLOUDFLARE_API_TOKEN = "prod-token";
+				const timeout = vi.spyOn(AbortSignal, "timeout");
+				const bytes = Buffer.from([0, 255, 128, 65]);
+				globalThis.fetch = async () => new Response(bytes);
+
+				try {
+					await expect(
+						fetchRawBytes("/accounts/abc/capture", {
+							method: "POST",
+							body,
+							contentType: "application/json",
+						})
+					).resolves.toEqual(bytes);
+					expect(timeout).toHaveBeenCalledWith(90_000);
+				} finally {
+					timeout.mockRestore();
+				}
+			}
+		);
 
 		it("omits the request deadline for binary uploads", async () => {
 			process.env.CLOUDFLARE_API_TOKEN = "prod-token";

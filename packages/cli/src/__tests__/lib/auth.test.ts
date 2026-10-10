@@ -174,6 +174,48 @@ describe("createCommandClient", () => {
 			).rejects.toThrow("Request timed out after 10ms");
 		});
 
+		it("lets JSON requests finish after a 50-second operation", async () => {
+			vi.useFakeTimers();
+			let startRequest: () => void = () => {
+				throw new Error("Request did not start");
+			};
+			const started = new Promise<void>((resolve) => {
+				startRequest = resolve;
+			});
+			const client = createCloudflareClientWithToken({
+				apiToken: "test-token",
+				fetch: async (_url, init) => {
+					startRequest();
+					return new Promise<Response>((resolve, reject) => {
+						const timer = setTimeout(
+							() => resolve(new Response(null, { status: 204 })),
+							50_000
+						);
+						init?.signal?.addEventListener(
+							"abort",
+							() => {
+								clearTimeout(timer);
+								reject(init.signal?.reason);
+							},
+							{ once: true }
+						);
+					});
+				},
+			});
+
+			try {
+				const request = requestApi(client, "POST", "/capture", {
+					body: { duration_ms: 50_000 },
+				});
+				const result = expect(request).resolves.toBeNull();
+				await started;
+				await vi.advanceTimersByTimeAsync(50_000);
+				await result;
+			} finally {
+				vi.useRealTimers();
+			}
+		});
+
 		it("lets binary uploads continue past the standard API deadline", async () => {
 			vi.useFakeTimers();
 			let startRequest: () => void = () => {
@@ -190,7 +232,7 @@ describe("createCommandClient", () => {
 					return new Promise<Response>((resolve, reject) => {
 						const timer = setTimeout(
 							() => resolve(new Response(null, { status: 204 })),
-							31_000
+							91_000
 						);
 						init?.signal?.addEventListener(
 							"abort",
@@ -212,7 +254,7 @@ describe("createCommandClient", () => {
 					{ body: Buffer.from("data") }
 				);
 				await started;
-				await vi.advanceTimersByTimeAsync(31_000);
+				await vi.advanceTimersByTimeAsync(91_000);
 				await expect(request).resolves.toBeNull();
 			} finally {
 				vi.useRealTimers();

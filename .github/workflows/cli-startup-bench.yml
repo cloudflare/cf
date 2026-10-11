@@ -16,8 +16,8 @@ on:
 permissions:
   contents: read
   # Needed so the sticky-comment step can post on PRs from same-repo branches.
-  # Fork PRs run with read-only token and will skip the comment (the job
-  # summary still has the numbers).
+  # Fork PRs run with a read-only token; comment failures are non-fatal
+  # (the job summary still has the numbers).
   pull-requests: write
 
 concurrency:
@@ -127,10 +127,7 @@ jobs:
             report.md
 
       - name: Sticky PR comment
-        if: |
-          github.event_name == 'pull_request' &&
-          steps.changes.outputs.buildable == 'true' &&
-          github.event.pull_request.head.repo.full_name == github.event.pull_request.base.repo.full_name
+        if: github.event_name == 'pull_request' && steps.changes.outputs.buildable == 'true'
         # Commenting is best-effort; permissions can still be restricted.
         continue-on-error: true
         uses: marocchino/sticky-pull-request-comment@0ea0beb66eb9baf113663a64ec522f60e49231c0 # v2

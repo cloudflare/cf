@@ -82,6 +82,26 @@ describe("--local flag middleware", () => {
 		}
 	);
 
+	it.each([
+		["dev", "--persist-to", "state"],
+		["--persist-to", "state", "dev"],
+		["dev", "--persist-to=state"],
+		["dev", "--persist-to", ""],
+	])("rejects unsupported cf dev arguments: %j", async (...args) => {
+		await expect(runCf(args)).rejects.toThrow(
+			"--persist-to is not supported by cf dev."
+		);
+	});
+
+	it.each(["--help", "-h"])(
+		"allows cf dev --persist-to with %s",
+		async (help) => {
+			await expect(
+				runCf(["dev", "--persist-to", "state", help])
+			).resolves.toEqual({ exitCode: 0 });
+		}
+	);
+
 	it("leaves unknown commands with --local to yargs", async () => {
 		await expect(runCf(["typoo", "--local"])).rejects.toThrow(
 			"Unknown command: typoo"

@@ -596,6 +596,7 @@ export function buildCli(rawArgs: string[], options: BuildCliOptions = {}) {
 			}
 			setProjectConfigMode(argv.mode);
 			const rootCommand = String(argv._[0] ?? "");
+			const persistTo = argv.persistTo ?? argv["persist-to"];
 			if (
 				!argv.help &&
 				((rootCommand === "dev" && localWasSpecified) ||
@@ -604,11 +605,15 @@ export function buildCli(rawArgs: string[], options: BuildCliOptions = {}) {
 				throw new Error(`--local is not supported by cf ${rootCommand}.`);
 			}
 
-			if (argv.persistTo === "") {
+			if (!argv.help && rootCommand === "dev" && persistTo !== undefined) {
+				throw new Error("--persist-to is not supported by cf dev.");
+			}
+
+			if (persistTo === "") {
 				throw new Error("--persist-to requires a non-empty directory.");
 			}
 
-			if (argv.persistTo !== undefined && !argv.local) {
+			if (persistTo !== undefined && !argv.local) {
 				throw new Error("--persist-to can only be used with --local.");
 			}
 

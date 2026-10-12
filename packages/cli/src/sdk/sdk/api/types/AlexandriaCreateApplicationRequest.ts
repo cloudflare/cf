@@ -5,6 +5,7 @@ import * as CloudflareApi from "../index.js";
 /**
  * Defines a custom application. At least one hostname or IP subnet is required.
  * Support domains and port/protocol pairs do not satisfy this requirement.
+ * A NUL character (U+0000) in any string value returns `400`.
  */
 export type AlexandriaCreateApplicationRequest =
     | ({

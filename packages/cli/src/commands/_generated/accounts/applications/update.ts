@@ -58,7 +58,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("body", {
 			type: "string",
 			description:
-				"Update the network matchers for the application. The service preserves omitted matcher lists; send an empty array to clear a list. The resulting application must contain at least one hostname or IP subnet. Support domains and port/protocol pairs do not satisfy this requirement. ",
+				"Update the network matchers for the application. The service preserves omitted matcher lists; send an empty array to clear a list. The resulting application must contain at least one hostname or IP subnet. Support domains and port/protocol pairs do not satisfy this requirement. A NUL character (U+0000) in any string value returns \`400\`. ",
 		});
 }
 

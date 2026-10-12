@@ -35,6 +35,9 @@ export class ApplicationsClient {
      * relevance and uses the same filters, fields, and pagination as listing.
      * `lookup` cannot be combined with `search`.
      *
+     * Invalid UTF-8 or a NUL character (U+0000) in any query parameter name or value
+     * returns `400`.
+     *
      * The authenticated principal must have access to the account identified by
      * `account_id`.
      *
@@ -210,6 +213,121 @@ export class ApplicationsClient {
             _response.rawResponse,
             "POST",
             "/accounts/{account_id}/resource-library/applications",
+        );
+    }
+
+    /**
+     * Find complete application names mentioned in a rule sentence, ignoring case.
+     * Lookup does not correct misspellings. Matches are ranked by relevance.
+     *
+     * This endpoint takes the rule sentence in the request body, so the text stays out
+     * of URLs and request logs. Use it instead of the `lookup` query parameter on the
+     * list endpoint when the text may contain sensitive content.
+     *
+     * `fields`, `limit`, and `filter` work the same way as on the list endpoint and are
+     * passed as query parameters. Results are not paged: `offset`, `order_by`, `search`,
+     * and `lookup` query parameters return `400`. Unknown request body properties also
+     * return `400`. Invalid UTF-8 or a NUL character (U+0000) in any query parameter
+     * name or value returns `400`.
+     *
+     * The authenticated principal must have access to the account identified by
+     * `account_id`.
+     *
+     * @param {CloudflareApi.accounts.AlexandriaLookupApplicationsRequest} request
+     * @param {ApplicationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link CloudflareApi.ForbiddenError}
+     * @throws {@link CloudflareApi.BadGatewayError}
+     * @throws {@link CloudflareApi.ServiceUnavailableError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
+     * @example
+     *     await client.accounts.applications.lookup({
+     *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
+     *         filter: "supported:GATEWAY",
+     *         fields: "id,name",
+     *         lookup: "block access to Google Chat"
+     *     })
+     */
+    public lookup(
+        request: CloudflareApi.accounts.AlexandriaLookupApplicationsRequest,
+        requestOptions?: ApplicationsClient.RequestOptions,
+    ): core.HttpResponsePromise<CloudflareApi.accounts.LookupApplicationsResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__lookup(request, requestOptions));
+    }
+
+    private async __lookup(
+        request: CloudflareApi.accounts.AlexandriaLookupApplicationsRequest,
+        requestOptions?: ApplicationsClient.RequestOptions,
+    ): Promise<core.WithRawResponse<CloudflareApi.accounts.LookupApplicationsResponse>> {
+        const { account_id: accountId, filter, limit, fields, ..._body } = request;
+        const _queryParams: Record<string, unknown> = {
+            filter,
+            limit,
+            fields,
+        };
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.CloudflareApiEnvironment.Default,
+                `accounts/${core.url.encodePathParam(accountId)}/resource-library/applications/lookup`,
+            ),
+            method: "POST",
+            headers: _headers,
+            contentType: "application/json",
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
+            requestType: "json",
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return {
+                data: _response.body as CloudflareApi.accounts.LookupApplicationsResponse,
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 403:
+                    throw new CloudflareApiErrors.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                case 502:
+                    throw new CloudflareApiErrors.BadGatewayError(_response.error.body as unknown, _response.rawResponse);
+                case 503:
+                    throw new CloudflareApiErrors.ServiceUnavailableError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
+                default:
+                    throw new errors.CloudflareApiError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(
+            _response.error,
+            _response.rawResponse,
+            "POST",
+            "/accounts/{account_id}/resource-library/applications/lookup",
         );
     }
 

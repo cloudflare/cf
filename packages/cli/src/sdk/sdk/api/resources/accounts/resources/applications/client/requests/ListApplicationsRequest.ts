@@ -44,9 +44,11 @@ export interface ListApplicationsRequest {
     /**
      * Find complete, case-insensitive application name mentions in a phrase or
      * rule sentence. Misspelled names do not match. Returns matching applications
-     * ranked by relevance. Must be between 2 and 1000 characters. Uses the same
+     * ranked by relevance. Must be between 2 and 1000 characters, with no control
+     * characters other than tab and line breaks. Uses the same
      * filters, fields, and pagination as listing. `search` cannot be combined
      * with lookup. Results are ranked by relevance, so `order_by` is ignored.
+     * To keep the text out of URLs, send it to `POST .../applications/lookup` instead.
      */
     lookup?: string;
     /**

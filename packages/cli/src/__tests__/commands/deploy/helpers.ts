@@ -309,6 +309,7 @@ export function mockWorkerUpload(
 	captured: UploadCapture = {},
 	opts?: {
 		dispatchNamespace?: string;
+		deploymentId?: string | null;
 		onRequest?: (request: Request) => void;
 	}
 ): UploadCapture {
@@ -342,7 +343,10 @@ export function mockWorkerUpload(
 						id: "test-script-id",
 						etag: "test-etag",
 						pipeline_hash: "test-pipeline-hash",
-						deployment_id: "test-version-id",
+						deployment_id:
+							opts?.deploymentId === undefined
+								? "test-version-id"
+								: opts.deploymentId,
 						tag: "test-tag",
 						default_environment: {
 							script: {

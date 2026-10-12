@@ -11,6 +11,7 @@ import {
 	downgradeOptionalParents,
 	isBody,
 	isWorkerName,
+	multipartFileFlagDescription,
 	options as optionArgs,
 	positionals,
 	scalar,
@@ -329,6 +330,16 @@ class Walk {
 					["type", "string"],
 					["required", false],
 					["description", "Path to a file to upload as the request body"],
+				])
+			);
+		}
+		for (const { field, flag } of derived.multipartFileFields) {
+			optionMetas.push(
+				obj([
+					["name", flag],
+					["type", "string"],
+					["required", false],
+					["description", multipartFileFlagDescription(field)],
 				])
 			);
 		}

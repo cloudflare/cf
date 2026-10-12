@@ -3,6 +3,7 @@ import {
 	fileFormat,
 	hasChoices,
 	isBody,
+	multipartFileFlagDescription,
 	options as optionArgs,
 	positionals,
 } from "../args.js";
@@ -145,6 +146,14 @@ export function builderLines(ctx: Ctx): string[] {
 		lines.push(`        type: '${type}',`);
 		lines.push(`        description: '${escapeSingle(f.description)}',`);
 		lines.push("      })");
+	}
+	for (const { field, flag } of d.multipartFileFields) {
+		lines.push(
+			option(flag, [
+				["type", "string"],
+				["description", multipartFileFlagDescription(field)],
+			])
+		);
 	}
 	for (const arg of d.args) {
 		if (!isBody(arg) || arg.positional) {

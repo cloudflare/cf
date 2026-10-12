@@ -1,6 +1,6 @@
+import operation from "../../_operations/zones/origin-tls-compliance-modes/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/zones.ts
@@ -32,9 +32,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request =
-	SdkRequest<"zone-cache-settings-delete-origin-tls-compliance-modes-setting">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete",
@@ -75,9 +72,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.zones.originTlsComplianceModes.delete({
-						zone_id: zoneId,
-					} satisfies Request)
+					client.send(operation, { zone_id: zoneId })
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

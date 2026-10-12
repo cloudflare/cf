@@ -1,6 +1,6 @@
+import operation from "../_operations/ai/list-markdown-supported-formats.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * list-markdown-supported-formats command
  * @generated from apis/overlays/ai.ts
@@ -30,8 +30,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"workers-ai-get-to-markdown-supported">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "list-markdown-supported-formats",
@@ -63,9 +61,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.ai.listMarkdownSupportedFormats({
-						account_id: accountId,
-					} satisfies Request)
+					client.send(operation, { account_id: accountId })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

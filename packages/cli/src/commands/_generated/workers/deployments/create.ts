@@ -1,6 +1,6 @@
+import operation from "../../_operations/workers/deployments/create.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * create command
  * @generated from apis/overlays/workers.ts
@@ -60,10 +60,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"worker-deployments-create-deployment">;
-type Body = Request["body"];
-type Query = SdkQuery<"worker-deployments-create-deployment">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "create",
 	describe: "Create Worker Deployment",
@@ -78,7 +74,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					force: argv["bypass-deployment-checks"],
 				};
 				if (argv.dryRun) {
@@ -107,19 +103,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv["worker"] = scriptName;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const qs = new URLSearchParams(
 						Object.entries(queryParams)
 							.filter(([, v]) => v !== undefined)
 							.map(([k, v]) => [k, String(v)])
 					).toString();
 					const result = await withProgress(`Creating`, async () =>
-						client.workers.deployments.create({
+						client.send(operation, {
 							body: bodyData,
 							account_id: accountId,
 							script_name: scriptName,
 							...queryParams,
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
@@ -138,7 +134,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					strategy: argv["strategy"],
 					versions: parseObjectArray(argv["versions"], "versions"),
 				});
@@ -148,12 +144,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						.map(([k, v]) => [k, String(v)])
 				).toString();
 				const result = await withProgress(`Creating`, async () =>
-					client.workers.deployments.create({
+					client.send(operation, {
 						body: bodyData,
 						account_id: accountId,
 						script_name: scriptName,
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

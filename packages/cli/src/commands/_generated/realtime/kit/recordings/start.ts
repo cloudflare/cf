@@ -1,6 +1,6 @@
+import operation from "../../../_operations/realtime/kit/recordings/start.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * start command
  * @generated from apis/overlays/realtime.ts
@@ -161,9 +161,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"start_recording">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "start <app-id>",
 	describe: "Start recording a meeting",
@@ -266,13 +263,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
-						client.realtime.kit.recordings.start({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							account_id: accountId,
 							app_id: argv["app-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
@@ -285,7 +282,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					allow_multiple_recordings: argv["allow-multiple-recordings"],
 					audio_config: {
 						channel: argv["audio-config-channel"],
@@ -341,11 +338,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					},
 				});
 				const result = await withProgress(`Creating`, async () =>
-					client.realtime.kit.recordings.start({
-						...bodyData,
+					client.send(operation, {
+						body: bodyData,
 						account_id: accountId,
 						app_id: argv["app-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

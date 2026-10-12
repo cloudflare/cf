@@ -1,6 +1,6 @@
+import operation from "../../_operations/basin-catalog/credentials/status.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * status command
  * @generated from apis/overlays/basin-catalog.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"basin-get-credential-status">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "status <bucket-name>",
 	describe: "Get Basin Catalog credential status",
@@ -68,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.basinCatalog.credentials.status({
+					client.send(operation, {
 						account_id: accountId,
 						bucket_name: argv["bucket-name"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

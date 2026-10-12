@@ -1,6 +1,6 @@
+import operation from "../../_operations/brand-protection/queries/undismiss.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * undismiss command
  * @generated from apis/overlays/brand-protection.ts
@@ -41,8 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"post_UndismissMatch">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "undismiss <domain-id>",
 	describe: "Undismiss a match",
@@ -76,11 +74,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Creating`, async () =>
-					client.brandProtection.queries.undismiss({
+					client.send(operation, {
 						account_id: accountId,
 						query_id: argv["query-id"],
 						domain_id: argv["domain-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

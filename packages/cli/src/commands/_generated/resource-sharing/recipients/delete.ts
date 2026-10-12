@@ -1,6 +1,6 @@
+import operation from "../../_operations/resource-sharing/recipients/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/resource-sharing.ts
@@ -48,8 +48,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"share-recipient-delete">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <recipient-id>",
 	describe: "Trigger a recipient removal from a share",
@@ -94,11 +92,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.resourceSharing.recipients.delete({
+					client.send(operation, {
 						account_id: accountId,
 						share_id: argv["share-id"],
 						recipient_id: argv["recipient-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

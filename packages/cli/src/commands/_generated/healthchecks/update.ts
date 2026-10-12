@@ -1,6 +1,6 @@
+import operation from "../_operations/healthchecks/update.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * update command
  * @generated from apis/overlays/healthchecks.ts
@@ -142,9 +142,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"health-checks-update-health-check">;
-type Body = Request["body"];
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update <healthcheck-id>",
 	describe: "Update Health Check",
@@ -239,13 +236,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.healthchecks.update({
+						client.send(operation, {
 							body: bodyData,
 							zone_id: zoneId,
 							healthcheck_id: argv["healthcheck-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
@@ -264,7 +261,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					address: resolveFileToken(
 						argv["address"] as string | undefined,
 						"address",
@@ -315,11 +312,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					),
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.healthchecks.update({
+					client.send(operation, {
 						body: bodyData,
 						zone_id: zoneId,
 						healthcheck_id: argv["healthcheck-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

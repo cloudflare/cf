@@ -1,6 +1,6 @@
+import operation from "../../../_operations/o11y/issues/automations/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/o11y.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"issues.automations.get">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <automationId>",
 	describe: "Get an issue automation",
@@ -70,10 +68,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.observability.issues.automations.get({
+					client.send(operation, {
 						account_id: accountId,
 						automationId: argv["automation-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

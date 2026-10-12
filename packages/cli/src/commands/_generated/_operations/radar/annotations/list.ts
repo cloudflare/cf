@@ -1,0 +1,30 @@
+/** @generated from radar-get-annotations */
+export default {
+	method: "GET",
+	path: () => "/radar/annotations",
+	query: [
+		"limit",
+		"offset",
+		"dateRange",
+		"dateStart",
+		"dateEnd",
+		"dataSource",
+		"eventType",
+		"outageType",
+		"outageCause",
+		"tags",
+		"query",
+		"asn",
+		"location",
+		"geoId",
+		"origin",
+		"tld",
+		"ca",
+		"log",
+		"bot",
+		"format",
+	],
+	errors: {
+		400: "BadRequestError",
+	},
+} as const;

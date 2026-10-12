@@ -1,6 +1,6 @@
+import operation from "../../_operations/builds/tokens/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/builds.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"deleteBuildToken">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <build-token-uuid>",
 	describe: "Delete a build token",
@@ -83,10 +81,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.builds.tokens.delete({
+					client.send(operation, {
 						account_id: accountId,
 						build_token_uuid: argv["build-token-uuid"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

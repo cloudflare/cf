@@ -1,13 +1,12 @@
+import operation from "../../../_operations/organizations/logs/audit/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/organizations.ts
  */
 import type { Argv, CommandModule } from "yargs";
 import { createCommandClient } from "#lib/auth.js";
-import { withArgTypes } from "#lib/cli-types.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
@@ -217,33 +216,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		});
 }
 
-type Request = SdkRequest<"audit-logs-v2-get-organization-audit-logs">;
-type Query = SdkQuery<"audit-logs-v2-get-organization-audit-logs">;
+type Args = InferArgs<typeof builder>;
 
-const typedBuilder = withArgTypes<
-	{
-		"action-result": Query["action_result"];
-		"action-type": Query["action_type"];
-		"actor-context": Query["actor_context"];
-		"actor-type": Query["actor_type"];
-		"raw-status-code": Query["raw_status_code"];
-		"resource-scope": Query["resource_scope"];
-		"action-result-not": Query["action_result.not"];
-		"action-type-not": Query["action_type.not"];
-		"actor-context-not": Query["actor_context.not"];
-		"actor-type-not": Query["actor_type.not"];
-		"raw-status-code-not": Query["raw_status_code.not"];
-		"resource-scope-not": Query["resource_scope.not"];
-		direction: Query["direction"];
-	},
-	typeof builder
->(builder);
-
-type Args = InferArgs<typeof typedBuilder>;
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <organization-id>",
 	describe: "Get organization audit logs (Version 2)",
-	builder: typedBuilder,
+	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -254,7 +232,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					action_result: argv["action-result"],
 					action_type: argv["action-type"],
 					actor_context: argv["actor-context"],
@@ -313,10 +291,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const client = await createCommandClient(argv);
 
 				const result = await withProgress(`Loading`, async () =>
-					client.organizations.logs.audit.get({
+					client.send(operation, {
 						organization_id: argv["organization-id"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

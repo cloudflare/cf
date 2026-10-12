@@ -1,6 +1,6 @@
+import operation from "../../_operations/pay-per-crawl/terms/get-signature-link.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get-signature-link command
  * @generated from apis/overlays/pay-per-crawl.ts
@@ -30,8 +30,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"pay-per-crawl.getTermsSignatureLink">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get-signature-link",
@@ -63,9 +61,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.payPerCrawl.terms.getSignatureLink({
-						account_id: accountId,
-					} satisfies Request)
+					client.send(operation, { account_id: accountId })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

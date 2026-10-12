@@ -1,6 +1,6 @@
+import operation from "../../_operations/magic-cloud-networking/cloud-integrations/update.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * update command
  * @generated from apis/overlays/magic-cloud-networking.ts
@@ -66,9 +66,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"providers-update">;
-type Body = Request["body"];
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update <provider-id>",
@@ -140,20 +137,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.magicCloudNetworking.cloudIntegrations.update({
+						client.send(operation, {
 							body: bodyData,
 							account_id: accountId,
 							provider_id: argv["provider-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					aws_arn: resolveFileToken(
 						argv["aws-arn"] as string | undefined,
 						"aws-arn",
@@ -191,11 +188,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					),
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.magicCloudNetworking.cloudIntegrations.update({
+					client.send(operation, {
 						body: bodyData,
 						account_id: accountId,
 						provider_id: argv["provider-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

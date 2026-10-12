@@ -1,6 +1,6 @@
+import operation from "../_operations/fieldExtractors/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/fieldExtractors.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"deleteFieldExtractor">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <extractor>",
 	describe: "Delete Field Extractor",
@@ -81,10 +79,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.fieldExtractors.delete({
+					client.send(operation, {
 						account_id: accountId,
 						extractor: argv["extractor"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

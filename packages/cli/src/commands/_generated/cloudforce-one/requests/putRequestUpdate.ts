@@ -1,6 +1,6 @@
+import operation from "../../_operations/cloudforce-one/requests/putRequestUpdate.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * putRequestUpdate command
  * @generated from apis/overlays/cloudforce-one.ts
@@ -12,7 +12,6 @@ import {
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
-import { withArgTypes } from "#lib/cli-types.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -97,21 +96,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		});
 }
 
-type Request = SdkRequest<"put_RequestUpdate">;
-type Body = Request;
+type Args = InferArgs<typeof builder>;
 
-const typedBuilder = withArgTypes<
-	{
-		"project-type": Request["project_type"];
-	},
-	typeof builder
->(builder);
-
-type Args = InferArgs<typeof typedBuilder>;
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "putRequestUpdate <request-id>",
 	describe: "Update an RFI",
-	builder: typedBuilder,
+	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -178,21 +168,21 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.cloudforceOne.requests.putRequestUpdate({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							account_id: accountId,
 							project_type: argv["project-type"],
 							request_id: argv["request-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					description: resolveFileToken(
 						argv["description"] as string | undefined,
 						"description",
@@ -227,12 +217,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					tlp: argv["tlp"],
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.cloudforceOne.requests.putRequestUpdate({
-						...bodyData,
+					client.send(operation, {
+						body: bodyData,
 						account_id: accountId,
 						project_type: argv["project-type"],
 						request_id: argv["request-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

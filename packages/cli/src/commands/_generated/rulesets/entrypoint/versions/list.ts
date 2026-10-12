@@ -1,6 +1,5 @@
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * list command
  * @generated from apis/overlays/rulesets.ts
@@ -10,6 +9,7 @@ import {
 	createCommandClient,
 	getAccountId,
 	getZoneId,
+	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -36,9 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request =
-	SdkRequest<"generated:get:/{account_or_zone}/{account_or_zone_id}/rulesets/phases/{ruleset_phase}/entrypoint/versions">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "list",
@@ -92,11 +89,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Loading`, async () =>
-					client.rulesets.entrypoint.versions.list({
-						account_or_zone: accountOrZone,
-						account_or_zone_id: accountOrZoneId,
-						phase: argv["phase"],
-					} satisfies Request)
+					requestApi<unknown>(
+						client,
+						"GET",
+						`/${accountOrZone}/${accountOrZoneId}/rulesets/phases/${encodeURIComponent(String(argv["phase"]))}/entrypoint/versions`
+					)
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

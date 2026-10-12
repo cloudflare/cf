@@ -1,13 +1,12 @@
+import operation from "../../../../_operations/spectrum/analytics/events/summaries/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/spectrum.ts
  */
 import type { Argv, CommandModule } from "yargs";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { withArgTypes } from "#lib/cli-types.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
@@ -55,23 +54,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		});
 }
 
-type Request =
-	SdkRequest<"spectrum-analytics-(-summary)-get-analytics-summary">;
-type Query = SdkQuery<"spectrum-analytics-(-summary)-get-analytics-summary">;
+type Args = InferArgs<typeof builder>;
 
-const typedBuilder = withArgTypes<
-	{
-		dimensions: Query["dimensions"];
-		metrics: Query["metrics"];
-	},
-	typeof builder
->(builder);
-
-type Args = InferArgs<typeof typedBuilder>;
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get",
 	describe: "Get analytics summary",
-	builder: typedBuilder,
+	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -82,7 +70,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					dimensions: argv["dimensions"],
 					sort: argv["sort"],
 					until: argv["until"],
@@ -110,10 +98,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.spectrum.analytics.events.summaries.get({
-						zone_id: zoneId,
-						...queryParams,
-					} satisfies Request)
+					client.send(operation, { zone_id: zoneId, ...queryParams })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

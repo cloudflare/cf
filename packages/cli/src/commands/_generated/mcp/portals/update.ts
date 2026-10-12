@@ -1,6 +1,6 @@
+import operation from "../../_operations/mcp/portals/update.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * update command
  * @generated from apis/overlays/mcp.ts
@@ -76,9 +76,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"mcp-portals-api-update-portals">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update <id>",
 	describe: "Update an MCP Portal",
@@ -138,20 +135,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.mcp.portals.update({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							account_id: accountId,
 							id: argv["id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					allow_code_mode: argv["allow-code-mode"],
 					code_mode: argv["code-mode"],
 					description: resolveFileToken(
@@ -173,11 +170,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					servers: parseObjectArray(argv["servers"], "servers"),
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.mcp.portals.update({
-						...bodyData,
+					client.send(operation, {
+						body: bodyData,
 						account_id: accountId,
 						id: argv["id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

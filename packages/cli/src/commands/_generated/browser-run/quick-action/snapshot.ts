@@ -1,6 +1,6 @@
+import operation from "../../_operations/browser-run/quick-action/snapshot.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * snapshot command
  * @generated from apis/overlays/browser-run.ts
@@ -12,7 +12,6 @@ import {
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
-import { withArgTypes } from "#lib/cli-types.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -304,22 +303,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		});
 }
 
-type Request = SdkRequest<"brapi-post_Snapshot">;
-type Body = Request["body"];
-type Query = SdkQuery<"brapi-post_Snapshot">;
+type Args = InferArgs<typeof builder>;
 
-const typedBuilder = withArgTypes<
-	{
-		browser: Query["browser"];
-	},
-	typeof builder
->(builder);
-
-type Args = InferArgs<typeof typedBuilder>;
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "snapshot",
 	describe: "Get HTML content and screenshot.",
-	builder: typedBuilder,
+	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -345,7 +334,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					cacheTTL: argv["cache-ttl"],
 					browser: argv["browser"],
 				};
@@ -473,25 +462,25 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const qs = new URLSearchParams(
 						Object.entries(queryParams)
 							.filter(([, v]) => v !== undefined)
 							.map(([k, v]) => [k, String(v)])
 					).toString();
 					const result = await withProgress(`Creating`, async () =>
-						client.browserRun.quickAction.snapshot({
+						client.send(operation, {
 							body: bodyData,
 							account_id: accountId,
 							...queryParams,
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					actionTimeout: argv["action-timeout"],
 					addScriptTag: parseObjectArray(
 						argv["add-script-tag"],
@@ -591,11 +580,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						.map(([k, v]) => [k, String(v)])
 				).toString();
 				const result = await withProgress(`Creating`, async () =>
-					client.browserRun.quickAction.snapshot({
+					client.send(operation, {
 						body: bodyData,
 						account_id: accountId,
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

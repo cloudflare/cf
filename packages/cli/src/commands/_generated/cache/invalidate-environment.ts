@@ -1,6 +1,6 @@
+import operation from "../_operations/cache/invalidate-environment.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * invalidate-environment command
  * @generated from apis/overlays/cache.ts
@@ -42,9 +42,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"zone-environment-invalidate">;
-type Body = Request["body"];
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "invalidate-environment <environment-id>",
@@ -92,13 +89,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Deleting`, async () =>
-						client.cache.invalidateEnvironment({
+						client.send(operation, {
 							body: bodyData,
 							zone_id: zoneId,
 							environment_id: argv["environment-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Deleted` });
 					return;

@@ -1,6 +1,6 @@
+import operation from "../_operations/custom-certificates/edit.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * edit command
  * @generated from apis/overlays/custom-certificates.ts
@@ -80,9 +80,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"custom-ssl-for-a-zone-edit-ssl-configuration">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "edit <custom-certificate-id>",
 	describe: "Edit SSL Configuration",
@@ -155,20 +152,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.customCertificates.edit({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							zone_id: zoneId,
 							custom_certificate_id: argv["custom-certificate-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					bundle_method: argv["bundle-method"],
 					certificate: resolveFileToken(
 						argv["certificate"] as string | undefined,
@@ -196,11 +193,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					),
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.customCertificates.edit({
-						...bodyData,
+					client.send(operation, {
+						body: bodyData,
 						zone_id: zoneId,
 						custom_certificate_id: argv["custom-certificate-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

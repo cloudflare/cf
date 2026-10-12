@@ -1,6 +1,6 @@
+import operation from "../../_operations/resource-sharing/excluded-recipients/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/resource-sharing.ts
@@ -41,8 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"share-excluded-recipients-get-by-id">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <excluded-recipient-id>",
 	describe: "Get share excluded recipient by ID",
@@ -78,11 +76,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.resourceSharing.excludedRecipients.get({
+					client.send(operation, {
 						account_id: accountId,
 						share_id: argv["share-id"],
 						excluded_recipient_id: argv["excluded-recipient-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

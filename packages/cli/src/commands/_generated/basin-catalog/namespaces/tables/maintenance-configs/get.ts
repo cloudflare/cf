@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/basin-catalog/namespaces/tables/maintenance-configs/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/basin-catalog.ts
@@ -47,8 +47,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"basin-get-table-maintenance-config">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <table-name>",
 	describe: "Get table maintenance configuration",
@@ -84,12 +82,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.basinCatalog.namespaces.tables.maintenanceConfigs.get({
+					client.send(operation, {
 						account_id: accountId,
 						bucket_name: argv["bucket-name"],
 						namespace: argv["namespace"],
 						table_name: argv["table-name"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

@@ -1,6 +1,6 @@
+import operation from "../../_operations/addressing/regional_hostnames/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/addressing.ts
@@ -38,8 +38,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"dls-zone-regional-hostnames-delete">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <hostname>",
@@ -81,10 +79,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.addressing.regionalHostnames.delete({
+					client.send(operation, {
 						zone_id: zoneId,
 						hostname: argv["hostname"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

@@ -1,0 +1,31 @@
+/** @generated from Organization_listOrganizations */
+export default {
+	method: "GET",
+	path: () => "/organizations",
+	query: [
+		"id",
+		"name",
+		"name.startsWith",
+		"name.endsWith",
+		"name.contains",
+		"containing.account",
+		"containing.user",
+		"containing.organization",
+		"parent.id",
+		"page_token",
+		"page_size",
+	],
+	joined: [
+		"id",
+		"name",
+		"name.startsWith",
+		"name.endsWith",
+		"name.contains",
+		"containing.account",
+		"containing.user",
+		"containing.organization",
+		"parent.id",
+		"page_token",
+		"page_size",
+	],
+} as const;

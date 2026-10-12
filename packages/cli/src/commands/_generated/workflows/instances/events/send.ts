@@ -1,6 +1,6 @@
+import operation from "../../../_operations/workflows/instances/events/send.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * send command
  * @generated from apis/overlays/workflows.ts
@@ -47,8 +47,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"wor-send-event-workflow-instance">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "send <event-type>",
 	describe: "Send event to instance",
@@ -83,12 +81,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Creating`, async () =>
-					client.workflows.instances.events.send({
+					client.send(operation, {
 						account_id: accountId,
 						workflow_name: argv["workflow-name"],
 						instance_id: argv["instance-id"],
 						event_type: argv["event-type"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

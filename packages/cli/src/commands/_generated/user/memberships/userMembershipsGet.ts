@@ -1,6 +1,6 @@
+import operation from "../../_operations/user/memberships/userMembershipsGet.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * userMembershipsGet command
  * @generated from apis/overlays/user.ts
@@ -31,8 +31,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"user-memberships-get">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "userMembershipsGet <membership-id>",
 	describe: "Get User Membership",
@@ -62,9 +60,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const client = await createCommandClient(argv);
 
 				const result = await withProgress(`Loading`, async () =>
-					client.user.memberships.userMembershipsGet({
-						membership_id: argv["membership-id"],
-					} satisfies Request)
+					client.send(operation, { membership_id: argv["membership-id"] })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

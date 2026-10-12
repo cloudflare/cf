@@ -1,6 +1,6 @@
+import operation from "../../../_operations/cloudforce-one/requests/messages/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/cloudforce-one.ts
@@ -46,8 +46,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"get_MessageRead">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <message-id>",
 	describe: "Read a single message for an RFI request",
@@ -82,12 +80,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.cloudforceOne.requests.messages.get({
+					client.send(operation, {
 						account_id: accountId,
 						project_type: argv["project-type"],
 						request_id: argv["request-id"],
 						message_id: argv["message-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

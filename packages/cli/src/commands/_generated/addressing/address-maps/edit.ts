@@ -1,6 +1,6 @@
+import operation from "../../_operations/addressing/address-maps/edit.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * edit command
  * @generated from apis/overlays/addressing.ts
@@ -57,10 +57,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"ip-address-management-address-maps-update-address-map">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "edit <address-map-id>",
 	describe: "Update Address Map",
@@ -109,20 +105,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.addressing.addressMaps.edit({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							account_id: accountId,
 							address_map_id: argv["address-map-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					default_sni: resolveFileToken(
 						argv["default-sni"] as string | undefined,
 						"default-sni",
@@ -136,11 +132,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					enabled: argv["enabled"],
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.addressing.addressMaps.edit({
-						...bodyData,
+					client.send(operation, {
+						body: bodyData,
 						account_id: accountId,
 						address_map_id: argv["address-map-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

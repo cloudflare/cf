@@ -1,13 +1,12 @@
+import operation from "../../_operations/client-side-security/connections/list.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * list command
  * @generated from apis/overlays/client-side-security.ts
  */
 import type { Argv, CommandModule } from "yargs";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { withArgTypes } from "#lib/cli-types.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
@@ -85,23 +84,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		});
 }
 
-type Request = SdkRequest<"page-shield-list-connections">;
-type Query = SdkQuery<"page-shield-list-connections">;
+type Args = InferArgs<typeof builder>;
 
-const typedBuilder = withArgTypes<
-	{
-		"order-by": Query["order_by"];
-		direction: Query["direction"];
-		export: Query["export"];
-	},
-	typeof builder
->(builder);
-
-type Args = InferArgs<typeof typedBuilder>;
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "list",
 	describe: "List detected connections",
-	builder: typedBuilder,
+	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -119,7 +107,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					exclude_urls: argv["exclude-urls"],
 					urls: argv["urls"],
 					hosts: argv["hosts"],
@@ -153,10 +141,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.clientSideSecurity.connections.list({
-						zone_id: zoneId,
-						...queryParams,
-					} satisfies Request)
+					client.send(operation, { zone_id: zoneId, ...queryParams })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

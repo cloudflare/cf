@@ -1,6 +1,6 @@
+import operation from "../../_operations/magic-transit/ipsec-tunnels/psk-generate.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * psk-generate command
  * @generated from apis/overlays/magic-transit.ts
@@ -36,9 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"magic-ipsec-tunnels-generate-pre-shared-key-(-psk)-for-ipsec-tunnels">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "psk-generate <ipsec-tunnel-id>",
 	describe: "Generate Pre-Shared Key (PSK) for IPsec tunnels",
@@ -71,10 +68,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Creating`, async () =>
-					client.magicTransit.ipsecTunnels.pskGenerate({
+					client.send(operation, {
 						account_id: accountId,
 						ipsec_tunnel_id: argv["ipsec-tunnel-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

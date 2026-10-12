@@ -1,6 +1,6 @@
+import operation from "../../_operations/containers/applications/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/containers.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"deleteApplication">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <application-id>",
@@ -89,10 +87,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.containers.applications.delete({
+					client.send(operation, {
 						account_id: accountId,
 						application_id: argv["application-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

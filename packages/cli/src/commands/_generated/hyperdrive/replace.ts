@@ -1,6 +1,6 @@
+import operation from "../_operations/hyperdrive/replace.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * replace command
  * @generated from apis/overlays/hyperdrive.ts
@@ -169,9 +169,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"update-hyperdrive">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "replace <hyperdrive-id>",
 	describe: "Replace Hyperdrive",
@@ -284,13 +281,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.hyperdrive.replace({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							account_id: accountId,
 							hyperdrive_id: argv["hyperdrive-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
@@ -329,7 +326,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					caching: {
 						disabled: argv["caching-disabled"],
 						max_age: argv["caching-max-age"],
@@ -395,11 +392,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					origin_connection_limit: argv["origin-connection-limit"],
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.hyperdrive.replace({
-						...bodyData,
+					client.send(operation, {
+						body: bodyData,
 						account_id: accountId,
 						hyperdrive_id: argv["hyperdrive-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

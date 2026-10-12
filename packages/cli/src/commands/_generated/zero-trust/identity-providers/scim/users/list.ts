@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/zero-trust/identity-providers/scim/users/list.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * list command
  * @generated from apis/overlays/zero-trust.ts
@@ -63,9 +63,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"access-identity-providers-list-scim-user-resources">;
-type Query = SdkQuery<"access-identity-providers-list-scim-user-resources">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "list",
 	describe: "List SCIM User resources",
@@ -80,7 +77,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					cf_resource_id: argv["cf-resource-id"],
 					idp_resource_id: argv["idp-resource-id"],
 					username: argv["username"],
@@ -110,11 +107,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.zeroTrust.identityProviders.scim.users.list({
+					client.send(operation, {
 						account_id: accountId,
 						identity_provider_id: argv["identity-provider-id"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

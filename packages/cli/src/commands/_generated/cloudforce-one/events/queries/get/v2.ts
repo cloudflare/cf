@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/cloudforce-one/events/queries/get/v2.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * v2 command
  * @generated from apis/overlays/cloudforce-one.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"get_EventQueryRead">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "v2 <query-id>",
 	describe: "Read a saved event query",
@@ -68,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.cloudforceOne.events.queries.get.v2({
+					client.send(operation, {
 						account_id: accountId,
 						query_id: argv["query-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

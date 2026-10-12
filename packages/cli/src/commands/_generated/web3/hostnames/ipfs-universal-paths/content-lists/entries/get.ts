@@ -1,6 +1,6 @@
+import operation from "../../../../../_operations/web3/hostnames/ipfs-universal-paths/content-lists/entries/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/web3.ts
@@ -35,9 +35,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request =
-	SdkRequest<"web3-hostname-ipfs-universal-path-gateway-content-list-entry-details">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <content-list-entry-identifier>",
@@ -78,12 +75,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.web3.hostnames.ipfsUniversalPaths.contentLists.entries.get({
+					client.send(operation, {
 						zone_id: zoneId,
 						identifier: argv["identifier"],
 						content_list_entry_identifier:
 							argv["content-list-entry-identifier"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

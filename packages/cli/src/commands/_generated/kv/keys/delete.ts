@@ -1,6 +1,6 @@
+import operation from "../../_operations/kv/keys/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/kv.ts
@@ -49,8 +49,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"workers-kv-namespace-delete-key-value-pair">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <key-name>",
 	describe: "Delete a key-value pair",
@@ -95,11 +93,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.kv.keys.delete({
+					client.send(operation, {
 						account_id: accountId,
 						namespace_id: argv["namespace-id"],
 						key_name: argv["key-name"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

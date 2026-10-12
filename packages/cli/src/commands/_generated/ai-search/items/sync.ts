@@ -1,6 +1,5 @@
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * sync command
  * @generated from apis/overlays/ai-search.ts
@@ -9,9 +8,10 @@ import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
+	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, setNestedValue } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -66,9 +66,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"ai-search-namespace-instance-sync-item">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "sync <item-id>",
 	describe: "Sync Item.",
@@ -110,15 +107,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.aiSearch.items.sync({
-							...bodyData,
-							account_id: accountId,
-							namespace: argv["namespace"],
-							"instance-id": argv["instance-id"],
-							item_id: argv["item-id"],
-						} satisfies Request)
+						requestApi<unknown>(
+							client,
+							"PATCH",
+							`/accounts/${accountId}/ai-search/namespaces/${encodeURIComponent(String(argv["namespace"]))}/instances/${encodeURIComponent(String(argv["instance-id"]))}/items/${encodeURIComponent(String(argv["item-id"]))}`,
+							{ body: bodyData }
+						)
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
@@ -132,18 +128,22 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
-					next_action: argv["next-action"],
-					wait_for_completion: argv["wait-for-completion"],
-				});
+				const bodyData: Record<string, unknown> = {};
+				if (argv["next-action"] !== undefined)
+					setNestedValue(bodyData, ["next_action"], argv["next-action"]);
+				if (argv["wait-for-completion"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["wait_for_completion"],
+						argv["wait-for-completion"]
+					);
 				const result = await withProgress(`Updating`, async () =>
-					client.aiSearch.items.sync({
-						...bodyData,
-						account_id: accountId,
-						namespace: argv["namespace"],
-						"instance-id": argv["instance-id"],
-						item_id: argv["item-id"],
-					} satisfies Request)
+					requestApi<unknown>(
+						client,
+						"PATCH",
+						`/accounts/${accountId}/ai-search/namespaces/${encodeURIComponent(String(argv["namespace"]))}/instances/${encodeURIComponent(String(argv["instance-id"]))}/items/${encodeURIComponent(String(argv["item-id"]))}`,
+						{ body: bodyData }
+					)
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

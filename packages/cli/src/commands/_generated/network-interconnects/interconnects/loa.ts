@@ -1,6 +1,6 @@
+import operation from "../../_operations/network-interconnects/interconnects/loa.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * loa command
  * @generated from apis/overlays/network-interconnects.ts
@@ -41,9 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"get_interconnect_loa">;
-type Query = SdkQuery<"get_interconnect_loa">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "loa <icon>",
 	describe:
@@ -59,7 +56,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					name: argv["name"],
 				};
 				if (argv.dryRun) {
@@ -79,11 +76,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.networkInterconnects.interconnects.loa({
+					client.send(operation, {
 						account_id: accountId,
 						icon: argv["icon"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

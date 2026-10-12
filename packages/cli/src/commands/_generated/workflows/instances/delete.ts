@@ -1,6 +1,6 @@
+import operation from "../../_operations/workflows/instances/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/workflows.ts
@@ -49,8 +49,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"wor-delete-workflow-instance">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <instance-id>",
 	describe: "Delete a workflow instance",
@@ -90,11 +88,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.workflows.instances.delete({
+					client.send(operation, {
 						account_id: accountId,
 						workflow_name: argv["workflow-name"],
 						instance_id: argv["instance-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

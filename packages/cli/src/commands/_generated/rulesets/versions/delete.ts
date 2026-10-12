@@ -1,6 +1,5 @@
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/rulesets.ts
@@ -10,6 +9,7 @@ import {
 	createCommandClient,
 	getAccountId,
 	getZoneId,
+	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -54,11 +54,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"generated:delete:/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}/versions/{ruleset_version}">;
-type Query =
-	SdkQuery<"generated:delete:/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}/versions/{ruleset_version}">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <ruleset-version>",
 	describe: "Delete an account or zone ruleset version",
@@ -74,7 +69,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					dry_run: argv["validate-only"],
 				};
 				if (argv.dryRun) {
@@ -122,13 +117,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.rulesets.versions.delete({
-						account_or_zone: accountOrZone,
-						account_or_zone_id: accountOrZoneId,
-						id: argv["id"],
-						ruleset_version: argv["ruleset-version"],
-						...queryParams,
-					} satisfies Request)
+					requestApi<unknown>(
+						client,
+						"DELETE",
+						`/${accountOrZone}/${accountOrZoneId}/rulesets/${encodeURIComponent(String(argv["id"]))}/versions/${encodeURIComponent(String(argv["ruleset-version"]))}`,
+						{ query: queryParams }
+					)
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

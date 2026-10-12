@@ -1,6 +1,6 @@
+import operation from "../../_operations/queues/consumers/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/queues.ts
@@ -48,8 +48,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"queues-delete-consumer">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <consumer-id>",
 	describe: "Delete Queue Consumer",
@@ -89,11 +87,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.queues.consumers.delete({
+					client.send(operation, {
 						account_id: accountId,
 						queue_id: argv["queue-id"],
 						consumer_id: argv["consumer-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

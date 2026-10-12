@@ -1,6 +1,6 @@
+import operation from "../../_operations/kv/metadata/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/kv.ts
@@ -42,8 +42,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"workers-kv-namespace-read-the-metadata-for-a-key">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <key-name>",
 	describe: "Get a key's metadata",
@@ -77,11 +75,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.kv.metadata.get({
+					client.send(operation, {
 						account_id: accountId,
 						namespace_id: argv["namespace-id"],
 						key_name: argv["key-name"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

@@ -1,6 +1,6 @@
+import operation from "../../_operations/containers/registries/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/containers.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"deleteImageRegistry">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <domain>",
 	describe: "Delete a registry from the account",
@@ -86,10 +84,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.containers.registries.delete({
+					client.send(operation, {
 						account_id: accountId,
 						domain: argv["domain"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

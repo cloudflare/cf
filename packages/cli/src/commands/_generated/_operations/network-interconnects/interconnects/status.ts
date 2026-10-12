@@ -1,0 +1,13 @@
+/** @generated from get_interconnect_status */
+import { path } from "#api";
+
+export default {
+	method: "GET",
+	path: (request: Record<string, unknown>) =>
+		path`/accounts/${request.account_id}/cni/interconnects/${request.icon}/status`,
+	errors: {
+		400: "BadRequestError",
+		404: "NotFoundError",
+		500: "InternalServerError",
+	},
+} as const;

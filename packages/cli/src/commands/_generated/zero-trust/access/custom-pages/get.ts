@@ -1,6 +1,6 @@
+import operation from "../../../_operations/zero-trust/access/custom-pages/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/zero-trust.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"access-custom-pages-get-a-custom-page">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <custom-page-id>",
 	describe: "Get a custom page",
@@ -70,10 +68,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.zeroTrust.access.customPages.get({
+					client.send(operation, {
 						account_id: accountId,
 						custom_page_id: argv["custom-page-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

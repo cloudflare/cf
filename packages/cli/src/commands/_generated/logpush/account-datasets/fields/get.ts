@@ -1,6 +1,6 @@
+import operation from "../../../_operations/logpush/account-datasets/fields/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/logpush.ts
@@ -37,9 +37,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request =
-	SdkRequest<"generated:get:/{account_or_zone}/{account_or_zone_id}/logpush/datasets/{dataset_id}/fields">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <dataset-id>",
@@ -93,11 +90,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Loading`, async () =>
-					client.logpush.accountDatasets.fields.get({
+					client.send(operation, {
 						account_or_zone: accountOrZone,
 						account_or_zone_id: accountOrZoneId,
 						dataset_id: argv["dataset-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

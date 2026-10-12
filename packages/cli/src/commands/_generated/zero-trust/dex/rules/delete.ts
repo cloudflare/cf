@@ -1,6 +1,6 @@
+import operation from "../../../_operations/zero-trust/dex/rules/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/zero-trust.ts
@@ -41,8 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"delete-dex-rule">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <rule-id>",
 	describe: "Delete a DEX Rule",
@@ -79,10 +77,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.zeroTrust.dex.rules.delete({
+					client.send(operation, {
 						account_id: accountId,
 						rule_id: argv["rule-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

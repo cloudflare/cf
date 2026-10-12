@@ -1,6 +1,5 @@
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/kv.ts
@@ -49,10 +48,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"workers-kv-namespace-delete-multiple-key-value-pairs">;
-type Body = Request["body"];
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <namespace-id>",
 	describe: "Delete multiple key-value pairs",
@@ -95,7 +90,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody(argv.body);
 					if (Array.isArray(bodyData) && bodyData.length > 10000) {
 						const total = Math.ceil(bodyData.length / 10000);
 						let result: unknown = null;

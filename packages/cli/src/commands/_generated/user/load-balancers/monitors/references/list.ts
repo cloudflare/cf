@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/user/load-balancers/monitors/references/list.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * list command
  * @generated from apis/overlays/user.ts
@@ -31,8 +31,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"load-balancer-monitors-list-monitor-references">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "list",
 	describe: "List Monitor References",
@@ -60,9 +58,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const client = await createCommandClient(argv);
 
 				const result = await withProgress(`Loading`, async () =>
-					client.user.loadBalancers.monitors.references.list({
-						monitor_id: argv["monitor-id"],
-					} satisfies Request)
+					client.send(operation, { monitor_id: argv["monitor-id"] })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

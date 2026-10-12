@@ -1,6 +1,6 @@
+import operation from "../../_operations/magic-cloud-networking/cloud-integrations/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/magic-cloud-networking.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"providers-delete">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <provider-id>",
 	describe: "Delete Cloud Integration",
@@ -81,10 +79,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.magicCloudNetworking.cloudIntegrations.delete({
+					client.send(operation, {
 						account_id: accountId,
 						provider_id: argv["provider-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

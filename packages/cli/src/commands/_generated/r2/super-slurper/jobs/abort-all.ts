@@ -1,6 +1,6 @@
+import operation from "../../../_operations/r2/super-slurper/jobs/abort-all.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * abort-all command
  * @generated from apis/overlays/r2.ts
@@ -37,8 +37,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"slurper-abort-all-jobs">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "abort-all",
@@ -81,9 +79,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.r2.superSlurper.jobs.abortAll({
-						account_id: accountId,
-					} satisfies Request)
+					client.send(operation, { account_id: accountId })
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

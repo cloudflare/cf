@@ -1,6 +1,6 @@
+import operation from "../../_operations/origin-tls-client-auth/hostname-certificates/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/origin-tls-client-auth.ts
@@ -37,9 +37,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request =
-	SdkRequest<"per-hostname-authenticated-origin-pull-delete-hostname-client-certificate">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <certificate-id>",
@@ -81,10 +78,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.originTlsClientAuth.hostnameCertificates.delete({
+					client.send(operation, {
 						zone_id: zoneId,
 						certificate_id: argv["certificate-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

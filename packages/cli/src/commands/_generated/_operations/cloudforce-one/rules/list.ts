@@ -1,0 +1,20 @@
+/** @generated from cloudforce-one-list-rules */
+import { path } from "#api";
+
+export default {
+	method: "GET",
+	path: (request: Record<string, unknown>) =>
+		path`/accounts/${request.account_id}/cloudforce-one/rules`,
+	query: [
+		"namespace",
+		"path",
+		"recursive",
+		"search",
+		"is_public",
+		"limit",
+		"offset",
+	],
+	errors: {
+		401: "UnauthorizedError",
+	},
+} as const;

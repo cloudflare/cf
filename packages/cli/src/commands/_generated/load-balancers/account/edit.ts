@@ -1,6 +1,6 @@
+import operation from "../../_operations/load-balancers/account/edit.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * edit command
  * @generated from apis/overlays/load-balancers.ts
@@ -194,10 +194,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"generated:patch:/{account_or_zone}/{account_or_zone_id}/load_balancers/{load_balancer_id}">;
-type Body = Request["body"];
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "edit <load-balancer-id>",
 	describe: "Patch account or zone Load Balancer",
@@ -316,21 +312,21 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.loadBalancers.account.edit({
+						client.send(operation, {
 							body: bodyData,
 							account_or_zone: accountOrZone,
 							account_or_zone_id: accountOrZoneId,
 							load_balancer_id: argv["load-balancer-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					adaptive_routing: {
 						failover_across_pools:
 							argv["adaptive-routing-failover-across-pools"],
@@ -378,12 +374,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					ttl: argv["ttl"],
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.loadBalancers.account.edit({
+					client.send(operation, {
 						body: bodyData,
 						account_or_zone: accountOrZone,
 						account_or_zone_id: accountOrZoneId,
 						load_balancer_id: argv["load-balancer-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

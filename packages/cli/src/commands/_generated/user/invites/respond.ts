@@ -1,12 +1,12 @@
+import operation from "../../_operations/user/invites/respond.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * respond command
  * @generated from apis/overlays/user.ts
  */
 import type { Argv, CommandModule } from "yargs";
-import { createCommandClient, requestApi } from "#lib/auth.js";
+import { createCommandClient } from "#lib/auth.js";
 import { parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { formatOutput } from "#lib/output.js";
@@ -33,9 +33,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"user'-s-invites-respond-to-invitation">;
-type Body = Request;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "respond <invite-id>",
@@ -65,25 +62,22 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const client = await createCommandClient(argv);
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.user.invites.respond({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							invite_id: argv["invite-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
 
-				const result = await withProgress(`Updating`, async () =>
-					requestApi<unknown>(
-						client,
-						"PATCH",
-						`/user/invites/${encodeURIComponent(String(argv["invite-id"]))}`
-					)
-				);
-				formatOutput(result, { successLabel: `Updated` });
+				if (argv.body === undefined) {
+					throw new Error(
+						"--body is required for this command. Pass --body '<json>' or --body @path/to/file.json."
+					);
+				}
 			}
 		),
 };

@@ -1,6 +1,6 @@
+import operation from "../_operations/stream/storage-usage.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * storage-usage command
  * @generated from apis/overlays/stream.ts
@@ -35,9 +35,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"stream-videos-storage-usage">;
-type Query = SdkQuery<"stream-videos-storage-usage">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "storage-usage",
 	describe: "Storage use",
@@ -52,7 +49,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					creator: argv["creator"],
 				};
 				if (argv.dryRun) {
@@ -72,10 +69,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.stream.storageUsage({
-						account_id: accountId,
-						...queryParams,
-					} satisfies Request)
+					client.send(operation, { account_id: accountId, ...queryParams })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

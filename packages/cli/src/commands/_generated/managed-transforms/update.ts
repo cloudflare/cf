@@ -1,6 +1,6 @@
+import operation from "../_operations/managed-transforms/update.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * update command
  * @generated from apis/overlays/managed-transforms.ts
@@ -41,9 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"updateManagedTransforms">;
-type Body = Request;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update",
@@ -91,19 +88,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.managedTransforms.update({
-							...bodyData,
-							zone_id: zoneId,
-						} satisfies Request)
+						client.send(operation, { body: bodyData, zone_id: zoneId })
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					managed_request_headers: parseObjectArray(
 						argv["managed-request-headers"],
 						"managed-request-headers"
@@ -114,10 +108,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					),
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.managedTransforms.update({
-						...bodyData,
-						zone_id: zoneId,
-					} satisfies Request)
+					client.send(operation, { body: bodyData, zone_id: zoneId })
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

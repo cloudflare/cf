@@ -1,6 +1,6 @@
+import operation from "../../_operations/builds/workers/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/builds.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"deleteWorkerBuild">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <script-tag>",
 	describe: "Delete Worker build configuration",
@@ -86,10 +84,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.builds.workers.delete({
+					client.send(operation, {
 						account_id: accountId,
 						script_tag: argv["script-tag"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

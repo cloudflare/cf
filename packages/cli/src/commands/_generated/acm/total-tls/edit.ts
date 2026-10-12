@@ -1,6 +1,6 @@
+import operation from "../../_operations/acm/total-tls/edit.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * edit command
  * @generated from apis/overlays/acm.ts
@@ -46,9 +46,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"total-tls-enable-or-disable-total-tls">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "edit",
 	describe: "Enable or Disable Total TLS",
@@ -89,12 +86,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
-						client.acm.totalTls.edit({
-							...bodyData,
-							zone_id: zoneId,
-						} satisfies Request)
+						client.send(operation, { body: bodyData, zone_id: zoneId })
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
@@ -106,15 +100,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					certificate_authority: argv["certificate-authority"],
 					enabled: argv["enabled"],
 				});
 				const result = await withProgress(`Creating`, async () =>
-					client.acm.totalTls.edit({
-						...bodyData,
-						zone_id: zoneId,
-					} satisfies Request)
+					client.send(operation, { body: bodyData, zone_id: zoneId })
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

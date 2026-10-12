@@ -1,6 +1,6 @@
+import operation from "../../_operations/workers-vpc/services/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/workers-vpc.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"connectivity-services-get">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <service-id>",
 	describe: "Get Workers VPC connectivity service",
@@ -68,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.workersVpc.services.get({
+					client.send(operation, {
 						account_id: accountId,
 						service_id: argv["service-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

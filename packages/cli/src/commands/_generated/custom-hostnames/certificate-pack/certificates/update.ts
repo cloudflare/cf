@@ -1,6 +1,6 @@
+import operation from "../../../_operations/custom-hostnames/certificate-pack/certificates/update.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * update command
  * @generated from apis/overlays/custom-hostnames.ts
@@ -56,10 +56,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"custom-hostname-for-a-zone-edit-custom-certificate-custom-hostname">;
-type Body = Request["body"];
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update <certificate-id>",
 	describe: "Replace Custom Certificate and Custom Key In Custom Hostname",
@@ -112,15 +108,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.customHostnames.certificatePack.certificates.update({
+						client.send(operation, {
 							body: bodyData,
 							zone_id: zoneId,
 							custom_hostname_id: argv["custom-hostname-id"],
 							certificate_pack_id: argv["certificate-pack-id"],
 							certificate_id: argv["certificate-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
@@ -140,7 +136,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					custom_certificate: resolveFileToken(
 						argv["custom-certificate"] as string | undefined,
 						"custom-certificate",
@@ -153,13 +149,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					),
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.customHostnames.certificatePack.certificates.update({
+					client.send(operation, {
 						body: bodyData,
 						zone_id: zoneId,
 						custom_hostname_id: argv["custom-hostname-id"],
 						certificate_pack_id: argv["certificate-pack-id"],
 						certificate_id: argv["certificate-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

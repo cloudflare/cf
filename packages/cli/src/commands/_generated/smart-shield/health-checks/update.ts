@@ -1,6 +1,6 @@
+import operation from "../../_operations/smart-shield/health-checks/update.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * update command
  * @generated from apis/overlays/smart-shield.ts
@@ -155,9 +155,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"smart-shield-update-health-check">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update <healthcheck-id>",
 	describe: "Update Health Check",
@@ -264,13 +261,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.smartShield.healthChecks.update({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							zone_id: zoneId,
 							healthcheck_id: argv["healthcheck-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
@@ -292,7 +289,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					errors: parseObjectArray(argv["errors"], "errors"),
 					messages: parseObjectArray(argv["messages"], "messages"),
 					result: {
@@ -348,11 +345,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					success: argv["success"],
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.smartShield.healthChecks.update({
-						...bodyData,
+					client.send(operation, {
+						body: bodyData,
 						zone_id: zoneId,
 						healthcheck_id: argv["healthcheck-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

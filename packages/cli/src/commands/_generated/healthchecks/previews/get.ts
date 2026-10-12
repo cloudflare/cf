@@ -1,6 +1,6 @@
+import operation from "../../_operations/healthchecks/previews/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/healthchecks.ts
@@ -30,8 +30,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"health-checks-health-check-preview-details">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <healthcheck-id>",
@@ -67,10 +65,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.healthchecks.previews.get({
+					client.send(operation, {
 						zone_id: zoneId,
 						healthcheck_id: argv["healthcheck-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

@@ -1,6 +1,6 @@
+import operation from "../../../_operations/zero-trust/dlp/sensitivity-levels/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/zero-trust.ts
@@ -41,8 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"dlp-sensitivity-levels-read">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <sensitivity-level-id>",
 	describe: "Retrieve a specific sensitivity level.",
@@ -80,11 +78,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.zeroTrust.dlp.sensitivityLevels.get({
+					client.send(operation, {
 						account_id: accountId,
 						sensitivity_group_id: argv["sensitivity-group-id"],
 						sensitivity_level_id: argv["sensitivity-level-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

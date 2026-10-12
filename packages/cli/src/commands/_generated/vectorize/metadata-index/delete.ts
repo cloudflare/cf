@@ -1,6 +1,6 @@
+import operation from "../../_operations/vectorize/metadata-index/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/vectorize.ts
@@ -54,9 +54,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"vectorize-delete-metadata-index">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <index-name>",
 	describe: "Delete Metadata Index",
@@ -108,13 +105,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Deleting`, async () =>
-						client.vectorize.metadataIndex.delete({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							account_id: accountId,
 							index_name: argv["index-name"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Deleted` });
 					return;
@@ -127,7 +124,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					propertyName: resolveFileToken(
 						argv["property-name"] as string | undefined,
 						"property-name",
@@ -135,11 +132,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					),
 				});
 				const result = await withProgress(`Deleting`, async () =>
-					client.vectorize.metadataIndex.delete({
-						...bodyData,
+					client.send(operation, {
+						body: bodyData,
 						account_id: accountId,
 						index_name: argv["index-name"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

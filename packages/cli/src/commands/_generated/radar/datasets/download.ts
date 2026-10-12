@@ -1,6 +1,6 @@
+import operation from "../../_operations/radar/datasets/download.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * download command
  * @generated from apis/overlays/radar.ts
@@ -8,7 +8,6 @@ import type { SdkQuery, SdkRequest } from "#sdk";
 import type { Argv, CommandModule } from "yargs";
 import { createCommandClient } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
-import { withArgTypes } from "#lib/cli-types.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
@@ -39,22 +38,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		});
 }
 
-type Request = SdkRequest<"radar-post-reports-dataset-download-url">;
-type Body = Request;
-type Query = SdkQuery<"radar-post-reports-dataset-download-url">;
+type Args = InferArgs<typeof builder>;
 
-const typedBuilder = withArgTypes<
-	{
-		format: Query["format"];
-	},
-	typeof builder
->(builder);
-
-type Args = InferArgs<typeof typedBuilder>;
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "download",
 	describe: "Get dataset download URL",
-	builder: typedBuilder,
+	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -65,7 +54,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					format: argv["format"],
 				};
 				if (argv.dryRun) {
@@ -88,17 +77,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const client = await createCommandClient(argv);
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const qs = new URLSearchParams(
 						Object.entries(queryParams)
 							.filter(([, v]) => v !== undefined)
 							.map(([k, v]) => [k, String(v)])
 					).toString();
 					const result = await withProgress(`Creating`, async () =>
-						client.radar.datasets.download({
-							...bodyData,
-							...queryParams,
-						} satisfies Request)
+						client.send(operation, { body: bodyData, ...queryParams })
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
@@ -110,7 +96,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					datasetId: argv["dataset-id"],
 				});
 				const qs = new URLSearchParams(
@@ -119,10 +105,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						.map(([k, v]) => [k, String(v)])
 				).toString();
 				const result = await withProgress(`Creating`, async () =>
-					client.radar.datasets.download({
-						...bodyData,
-						...queryParams,
-					} satisfies Request)
+					client.send(operation, { body: bodyData, ...queryParams })
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

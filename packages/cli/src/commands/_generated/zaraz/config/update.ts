@@ -1,6 +1,6 @@
+import operation from "../../_operations/zaraz/config/update.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * update command
  * @generated from apis/overlays/zaraz.ts
@@ -190,9 +190,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"put-zones-zone_identifier-zaraz-config">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update",
 	describe: "Update Zaraz configuration",
@@ -366,12 +363,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.zaraz.config.update({
-							...bodyData,
-							zone_id: zoneId,
-						} satisfies Request)
+						client.send(operation, { body: bodyData, zone_id: zoneId })
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
@@ -415,7 +409,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					analytics: {
 						defaultPurpose: resolveFileToken(
 							argv["analytics-default-purpose"] as string | undefined,
@@ -532,10 +526,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					zarazVersion: argv["zaraz-version"],
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.zaraz.config.update({
-						...bodyData,
-						zone_id: zoneId,
-					} satisfies Request)
+					client.send(operation, { body: bodyData, zone_id: zoneId })
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

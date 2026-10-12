@@ -1,6 +1,6 @@
+import operation from "../_operations/tunnels/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/tunnels.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"cloudflare-tunnel-delete-a-cloudflare-tunnel">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <tunnel-id>",
 	describe: "Delete a Cloudflare Tunnel",
@@ -86,10 +84,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.tunnels.delete({
+					client.send(operation, {
 						account_id: accountId,
 						tunnel_id: argv["tunnel-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

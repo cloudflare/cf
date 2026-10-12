@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/cloudforce-one/events/tags/categories/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/cloudforce-one.ts
@@ -32,9 +32,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"get_TagCategoryList">;
-type Query = SdkQuery<"get_TagCategoryList">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get",
 	describe: "Lists all tag categories (SoT)",
@@ -49,7 +46,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					search: argv["search"],
 				};
 				if (argv.dryRun) {
@@ -69,10 +66,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.cloudforceOne.events.tags.categories.get({
-						account_id: accountId,
-						...queryParams,
-					} satisfies Request)
+					client.send(operation, { account_id: accountId, ...queryParams })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

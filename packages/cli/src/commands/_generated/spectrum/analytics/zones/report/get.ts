@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/spectrum/analytics/zones/report/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/spectrum.ts
@@ -40,8 +40,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Query = SdkQuery<"spectrum-analytics-get-zones-report">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get",
 	describe: "Get zones bandwidth report",
@@ -56,7 +54,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					since: argv["since"],
 					until: argv["until"],
 					cdn_traffic: argv["cdn-traffic"],
@@ -75,7 +73,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const client = await createCommandClient(argv);
 
 				const result = await withProgress(`Loading`, async () =>
-					client.spectrum.analytics.zones.report.get(queryParams)
+					client.send(operation, queryParams)
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

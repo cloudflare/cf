@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/realtime/kit/meetings/active/mute.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * mute command
  * @generated from apis/overlays/realtime.ts
@@ -57,9 +57,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"MuteParticipants">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "mute <meeting-id>",
 	describe: "Mute participants of an active session",
@@ -100,31 +97,31 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
-						client.realtime.kit.meetings.active.mute({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							account_id: accountId,
 							app_id: argv["app-id"],
 							meeting_id: argv["meeting-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					custom_participant_ids: argv["custom-participant-ids"],
 					participant_ids: argv["participant-ids"],
 				});
 				const result = await withProgress(`Creating`, async () =>
-					client.realtime.kit.meetings.active.mute({
-						...bodyData,
+					client.send(operation, {
+						body: bodyData,
 						account_id: accountId,
 						app_id: argv["app-id"],
 						meeting_id: argv["meeting-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

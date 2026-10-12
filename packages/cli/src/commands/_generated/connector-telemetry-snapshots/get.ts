@@ -1,6 +1,6 @@
+import operation from "../_operations/connector-telemetry-snapshots/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/connector-telemetry-snapshots.ts
@@ -41,8 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"mconn-connector-telemetry-snapshots-get">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <snapshot-t>",
 	describe: "Get Snapshot",
@@ -76,11 +74,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.connectorTelemetrySnapshots.get({
+					client.send(operation, {
 						account_id: accountId,
 						connector_id: argv["connector-id"],
 						snapshot_t: argv["snapshot-t"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/realtime/kit/sessions/participants/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/realtime.ts
@@ -51,9 +51,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"GetParticipantDetails">;
-type Query = SdkQuery<"GetParticipantDetails">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <participant-id>",
 	describe: "Fetch details of a participant",
@@ -68,7 +65,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					include_peer_events: argv["include-peer-events"],
 				};
 				if (argv.dryRun) {
@@ -92,13 +89,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.realtime.kit.sessions.participants.get({
+					client.send(operation, {
 						account_id: accountId,
 						app_id: argv["app-id"],
 						session_id: argv["session-id"],
 						participant_id: argv["participant-id"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

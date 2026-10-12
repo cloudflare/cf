@@ -1,6 +1,6 @@
+import operation from "../../../_operations/waiting-rooms/events/details/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/waiting-rooms.ts
@@ -35,8 +35,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"waiting-room-preview-active-event-details">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <event-id>",
@@ -73,11 +71,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.waitingRooms.events.details.get({
+					client.send(operation, {
 						zone_id: zoneId,
 						waiting_room_id: argv["waiting-room-id"],
 						event_id: argv["event-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

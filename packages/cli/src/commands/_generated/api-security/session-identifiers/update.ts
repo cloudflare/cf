@@ -1,6 +1,6 @@
+import operation from "../../_operations/api-security/session-identifiers/update.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * update command
  * @generated from apis/overlays/api-security.ts
@@ -41,10 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"api-shield-settings-set-configuration-properties">;
-type Body = Request["body"];
-type Query = SdkQuery<"api-shield-settings-set-configuration-properties">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update",
 	describe: "Update session identifier settings",
@@ -59,7 +55,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					normalize: argv["normalize"],
 				};
 				if (argv.dryRun) {
@@ -91,18 +87,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const qs = new URLSearchParams(
 						Object.entries(queryParams)
 							.filter(([, v]) => v !== undefined)
 							.map(([k, v]) => [k, String(v)])
 					).toString();
 					const result = await withProgress(`Updating`, async () =>
-						client.apiSecurity.sessionIdentifiers.update({
+						client.send(operation, {
 							body: bodyData,
 							zone_id: zoneId,
 							...queryParams,
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
@@ -114,7 +110,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					auth_id_characteristics: parseObjectArray(
 						argv["auth-id-characteristics"],
 						"auth-id-characteristics"
@@ -126,11 +122,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						.map(([k, v]) => [k, String(v)])
 				).toString();
 				const result = await withProgress(`Updating`, async () =>
-					client.apiSecurity.sessionIdentifiers.update({
+					client.send(operation, {
 						body: bodyData,
 						zone_id: zoneId,
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

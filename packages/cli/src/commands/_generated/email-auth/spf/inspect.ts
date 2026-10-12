@@ -1,6 +1,6 @@
+import operation from "../../_operations/email-auth/spf/inspect.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * inspect command
  * @generated from apis/overlays/email-auth.ts
@@ -31,9 +31,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"inspect_spf">;
-type Query = SdkQuery<"inspect_spf">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "inspect",
 	describe: "Inspect SPF Record",
@@ -48,7 +45,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					id: argv["id"],
 				};
 				if (argv.dryRun) {
@@ -71,10 +68,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.emailAuth.spf.inspect({
-						zone_id: zoneId,
-						...queryParams,
-					} satisfies Request)
+					client.send(operation, { zone_id: zoneId, ...queryParams })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

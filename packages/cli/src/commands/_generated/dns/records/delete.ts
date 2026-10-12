@@ -1,6 +1,6 @@
+import operation from "../../_operations/dns/records/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/dns.ts
@@ -37,8 +37,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"dns-records-for-a-zone-delete-dns-record">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <dns-record-id>",
@@ -80,10 +78,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.dns.records.delete({
+					client.send(operation, {
 						zone_id: zoneId,
 						dns_record_id: argv["dns-record-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

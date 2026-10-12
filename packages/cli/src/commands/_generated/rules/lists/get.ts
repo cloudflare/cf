@@ -1,6 +1,6 @@
+import operation from "../../_operations/rules/lists/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/rules.ts
@@ -34,8 +34,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"lists-get-a-list">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <list-id>",
 	describe: "Get a list",
@@ -66,10 +64,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.rules.lists.get({
+					client.send(operation, {
 						account_id: accountId,
 						list_id: argv["list-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

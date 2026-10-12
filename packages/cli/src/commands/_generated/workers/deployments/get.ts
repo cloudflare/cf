@@ -1,6 +1,6 @@
+import operation from "../../_operations/workers/deployments/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/workers.ts
@@ -42,8 +42,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"worker-deployments-get-deployment">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <deployment-id>",
 	describe: "Get Worker Deployment",
@@ -79,11 +77,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv["worker"] = scriptName;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.workers.deployments.get({
+					client.send(operation, {
 						account_id: accountId,
 						script_name: scriptName,
 						deployment_id: argv["deployment-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

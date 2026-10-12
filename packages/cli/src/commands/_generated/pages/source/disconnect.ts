@@ -1,6 +1,6 @@
+import operation from "../../_operations/pages/source/disconnect.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * disconnect command
  * @generated from apis/overlays/pages.ts
@@ -44,8 +44,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"pages-project-disconnect-project-source">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "disconnect <project-name>",
 	describe: "Disconnect a Git repository",
@@ -82,10 +80,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.pages.source.disconnect({
+					client.send(operation, {
 						account_id: accountId,
 						project_name: argv["project-name"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

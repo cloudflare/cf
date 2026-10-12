@@ -1,6 +1,6 @@
+import operation from "../../_operations/tunnels/connectors/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/tunnels.ts
@@ -41,8 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"cloudflare-tunnel-get-cloudflare-tunnel-connector">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <connector-id>",
 	describe: "Get Cloudflare Tunnel connector",
@@ -76,11 +74,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.tunnels.connectors.get({
+					client.send(operation, {
 						account_id: accountId,
 						tunnel_id: argv["tunnel-id"],
 						connector_id: argv["connector-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

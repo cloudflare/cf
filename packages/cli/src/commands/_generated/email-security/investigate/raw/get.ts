@@ -1,6 +1,6 @@
+import operation from "../../../_operations/email-security/investigate/raw/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/email-security.ts
@@ -37,8 +37,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"email_security_get_message_raw">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <investigate-id>",
 	describe: "Get raw email content",
@@ -71,10 +69,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.emailSecurity.investigate.raw.get({
+					client.send(operation, {
 						account_id: accountId,
 						investigate_id: argv["investigate-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

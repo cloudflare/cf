@@ -1,6 +1,6 @@
+import operation from "../../_operations/o11y/issues/ungroup.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * ungroup command
  * @generated from apis/overlays/o11y.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"issues.groups.delete">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "ungroup <groupId>",
 	describe: "Dissolve an issue group",
@@ -81,10 +79,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.observability.issues.ungroup({
+					client.send(operation, {
 						account_id: accountId,
 						groupId: argv["group-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

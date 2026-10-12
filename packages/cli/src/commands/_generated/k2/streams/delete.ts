@@ -1,6 +1,6 @@
+import operation from "../../_operations/k2/streams/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/k2.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"deleteV4AccountsByAccount_idK2StreamsByStream_id">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <stream-id>",
 	describe: "Delete K2 stream",
@@ -81,10 +79,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.k2.streams.delete({
+					client.send(operation, {
 						account_id: accountId,
 						stream_id: argv["stream-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

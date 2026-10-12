@@ -1,6 +1,6 @@
+import operation from "../../../_operations/zero-trust/casb/webhooks/evaluate-existing.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * evaluate-existing command
  * @generated from apis/overlays/zero-trust.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"EvaluateExistingWebhook">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "evaluate-existing <webhook-id>",
 	describe: "Test an existing webhook configuration",
@@ -68,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Creating`, async () =>
-					client.zeroTrust.casb.webhooks.evaluateExisting({
+					client.send(operation, {
 						account_id: accountId,
 						webhook_id: argv["webhook-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

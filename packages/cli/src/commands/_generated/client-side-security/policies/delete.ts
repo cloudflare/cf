@@ -1,6 +1,6 @@
+import operation from "../../_operations/client-side-security/policies/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/client-side-security.ts
@@ -37,8 +37,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"page-shield-delete-policy">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <policy-id>",
@@ -85,10 +83,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.clientSideSecurity.policies.delete({
+					client.send(operation, {
 						zone_id: zoneId,
 						policy_id: argv["policy-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

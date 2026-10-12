@@ -1,6 +1,6 @@
+import operation from "../_operations/images/stats.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * stats command
  * @generated from apis/overlays/images.ts
@@ -30,8 +30,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"cloudflare-images-images-usage-statistics">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "stats",
@@ -63,7 +61,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.images.stats({ account_id: accountId } satisfies Request)
+					client.send(operation, { account_id: accountId })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

@@ -1,6 +1,5 @@
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * create command
  * @generated from apis/overlays/ai-search.ts
@@ -9,9 +8,10 @@ import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
+	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, setNestedValue } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -50,9 +50,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"ai-search-namespace-instance-create-job">;
-type Body = Request;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "create <instance-id>",
@@ -97,34 +94,38 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
-						client.aiSearch.jobs.create({
-							...bodyData,
-							account_id: accountId,
-							namespace: argv["namespace"],
-							"instance-id": argv["instance-id"],
-						} satisfies Request)
+						requestApi<unknown>(
+							client,
+							"POST",
+							`/accounts/${accountId}/ai-search/namespaces/${encodeURIComponent(String(argv["namespace"]))}/instances/${encodeURIComponent(String(argv["instance-id"]))}/jobs`,
+							{ body: bodyData }
+						)
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
-					description: resolveFileToken(
-						argv["description"] as string | undefined,
-						"description",
-						"text"
-					),
-				});
+				const bodyData: Record<string, unknown> = {};
+				if (argv["description"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["description"],
+						resolveFileToken(
+							argv["description"] as string | undefined,
+							"description",
+							"text"
+						)
+					);
 				const result = await withProgress(`Creating`, async () =>
-					client.aiSearch.jobs.create({
-						...bodyData,
-						account_id: accountId,
-						namespace: argv["namespace"],
-						"instance-id": argv["instance-id"],
-					} satisfies Request)
+					requestApi<unknown>(
+						client,
+						"POST",
+						`/accounts/${accountId}/ai-search/namespaces/${encodeURIComponent(String(argv["namespace"]))}/instances/${encodeURIComponent(String(argv["instance-id"]))}/jobs`,
+						{ body: bodyData }
+					)
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

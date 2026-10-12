@@ -1,6 +1,6 @@
+import operation from "../../../_operations/intel/indicator-feeds/providers/create.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * create command
  * @generated from apis/overlays/intel.ts
@@ -44,9 +44,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"custom-indicator-feeds-create-provider">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "create <account-id-path>",
 	describe: "Create indicator feed provider",
@@ -87,12 +84,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const client = await createCommandClient(argv);
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.intel.indicatorFeeds.providers.create({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							account_id_path: argv["account-id-path"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
@@ -110,7 +107,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					account_id: argv["account-id"],
 					name: resolveFileToken(
 						argv["name"] as string | undefined,
@@ -119,10 +116,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					),
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.intel.indicatorFeeds.providers.create({
-						...bodyData,
+					client.send(operation, {
+						body: bodyData,
 						account_id_path: argv["account-id-path"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

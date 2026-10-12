@@ -1,6 +1,5 @@
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * update command
  * @generated from apis/overlays/rulesets.ts
@@ -10,9 +9,15 @@ import {
 	createCommandClient,
 	getAccountId,
 	getZoneId,
+	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
+import {
+	compactBody,
+	parseBody,
+	parseObjectArray,
+	setNestedValue,
+} from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -61,12 +66,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"generated:put:/{account_or_zone}/{account_or_zone_id}/rulesets/phases/{ruleset_phase}/entrypoint">;
-type Body = Request;
-type Query =
-	SdkQuery<"generated:put:/{account_or_zone}/{account_or_zone_id}/rulesets/phases/{ruleset_phase}/entrypoint">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update <phase>",
 	describe: "Update an account or zone entry point ruleset",
@@ -81,7 +80,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					dry_run: argv["validate-only"],
 				};
 				if (argv.dryRun) {
@@ -139,52 +138,60 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const qs = new URLSearchParams(
 						Object.entries(queryParams)
 							.filter(([, v]) => v !== undefined)
 							.map(([k, v]) => [k, String(v)])
 					).toString();
 					const result = await withProgress(`Updating`, async () =>
-						client.rulesets.entrypoint.update({
-							...bodyData,
-							account_or_zone: accountOrZone,
-							account_or_zone_id: accountOrZoneId,
-							phase: argv["phase"],
-							...queryParams,
-						} satisfies Request)
+						requestApi<unknown>(
+							client,
+							"PUT",
+							`/${accountOrZone}/${accountOrZoneId}/rulesets/phases/${encodeURIComponent(String(argv["phase"]))}/entrypoint${qs ? "?" + qs : ""}`,
+							{ body: bodyData }
+						)
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
-					description: resolveFileToken(
-						argv["description"] as string | undefined,
-						"description",
-						"text"
-					),
-					name: resolveFileToken(
-						argv["name"] as string | undefined,
-						"name",
-						"text"
-					),
-					rules: parseObjectArray(argv["rules"], "rules"),
-				});
+				const bodyData: Record<string, unknown> = {};
+				if (argv["description"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["description"],
+						resolveFileToken(
+							argv["description"] as string | undefined,
+							"description",
+							"text"
+						)
+					);
+				if (argv["name"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["name"],
+						resolveFileToken(argv["name"] as string | undefined, "name", "text")
+					);
+				if (argv["rules"] !== undefined)
+					setNestedValue(
+						bodyData,
+						["rules"],
+						parseObjectArray(argv["rules"], "rules")
+					);
 				const qs = new URLSearchParams(
 					Object.entries(queryParams)
 						.filter(([, v]) => v !== undefined)
 						.map(([k, v]) => [k, String(v)])
 				).toString();
 				const result = await withProgress(`Updating`, async () =>
-					client.rulesets.entrypoint.update({
-						...bodyData,
-						account_or_zone: accountOrZone,
-						account_or_zone_id: accountOrZoneId,
-						phase: argv["phase"],
-						...queryParams,
-					} satisfies Request)
+					requestApi<unknown>(
+						client,
+						"PUT",
+						`/${accountOrZone}/${accountOrZoneId}/rulesets/phases/${encodeURIComponent(String(argv["phase"]))}/entrypoint${qs ? "?" + qs : ""}`,
+						{ body: bodyData }
+					)
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

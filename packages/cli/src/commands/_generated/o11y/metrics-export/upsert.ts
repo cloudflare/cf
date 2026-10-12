@@ -1,3 +1,4 @@
+import operation from "../../_operations/o11y/metrics-export/upsert.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
@@ -8,15 +9,9 @@ import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
-	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import {
-	compactBody,
-	parseBody,
-	parseObjectArray,
-	setNestedValue,
-} from "#lib/body-parser.js";
+import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -109,12 +104,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv.body) {
 					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
-						requestApi<unknown>(
-							client,
-							"POST",
-							`/accounts/${accountId}/workers/observability/metricsexport`,
-							{ body: bodyData }
-						)
+						client.send(operation, { body: bodyData, account_id: accountId })
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
@@ -139,36 +129,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData: Record<string, unknown> = {};
-				if (argv["requester-requester-id"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["requester", "requesterId"],
-						resolveFileToken(
+				const bodyData = compactBody({
+					requester: {
+						requesterId: resolveFileToken(
 							argv["requester-requester-id"] as string | undefined,
 							"requester-requester-id",
 							"text"
-						)
-					);
-				if (argv["requester-requester-type"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["requester", "requesterType"],
-						argv["requester-requester-type"]
-					);
-				if (argv["resources"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["resources"],
-						parseObjectArray(argv["resources"], "resources")
-					);
+						),
+						requesterType: argv["requester-requester-type"],
+					},
+					resources: parseObjectArray(argv["resources"], "resources"),
+				});
 				const result = await withProgress(`Creating`, async () =>
-					requestApi<unknown>(
-						client,
-						"POST",
-						`/accounts/${accountId}/workers/observability/metricsexport`,
-						{ body: Object.keys(bodyData).length > 0 ? bodyData : undefined }
-					)
+					client.send(operation, { body: bodyData, account_id: accountId })
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

@@ -1,6 +1,6 @@
+import operation from "../../_operations/billing/usage/get-info-v1.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get-info-v1 command
  * @generated from apis/overlays/billing.ts
@@ -30,8 +30,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"billable-usage-get-v1-account-usage-info">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get-info-v1",
@@ -63,9 +61,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.billing.usage.getInfoV1({
-						account_id: accountId,
-					} satisfies Request)
+					client.send(operation, { account_id: accountId })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

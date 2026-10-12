@@ -1,6 +1,6 @@
+import operation from "../../_operations/workers-vpc/services/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/workers-vpc.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"connectivity-services-delete">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <service-id>",
 	describe: "Delete Workers VPC connectivity service",
@@ -86,10 +84,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.workersVpc.services.delete({
+					client.send(operation, {
 						account_id: accountId,
 						service_id: argv["service-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

@@ -1,0 +1,17 @@
+/** @generated from flagship_evaluate_flag_post */
+import { path } from "#api";
+
+export default {
+	method: "POST",
+	path: (request: Record<string, unknown>) =>
+		path`/accounts/${request.account_id}/flagship/apps/${request.app_id}/evaluate`,
+	body: "json",
+	errors: {
+		400: "BadRequestError",
+		401: "UnauthorizedError",
+		403: "ForbiddenError",
+		404: "NotFoundError",
+		500: "InternalServerError",
+		503: "ServiceUnavailableError",
+	},
+} as const;

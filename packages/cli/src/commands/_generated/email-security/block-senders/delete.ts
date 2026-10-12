@@ -1,6 +1,6 @@
+import operation from "../../_operations/email-security/block-senders/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/email-security.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"email_security_delete_blocked_sender">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <pattern-id>",
 	describe: "Delete a blocked email sender",
@@ -86,10 +84,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.emailSecurity.blockSenders.delete({
+					client.send(operation, {
 						account_id: accountId,
 						pattern_id: argv["pattern-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

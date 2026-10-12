@@ -1,6 +1,6 @@
+import operation from "../../_operations/cloudforce-one/rules/deleteAll.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * deleteAll command
  * @generated from apis/overlays/cloudforce-one.ts
@@ -38,8 +38,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"cloudforce-one-delete-all-rules">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "deleteAll",
 	describe: "Delete all rules",
@@ -76,9 +74,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.cloudforceOne.rules.deleteAll({
-						account_id: accountId,
-					} satisfies Request)
+					client.send(operation, { account_id: accountId })
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

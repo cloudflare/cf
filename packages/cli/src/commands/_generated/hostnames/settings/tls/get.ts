@@ -1,6 +1,6 @@
+import operation from "../../../_operations/hostnames/settings/tls/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/hostnames.ts
@@ -31,8 +31,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"per-hostname-tls-settings-list">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <setting-id>",
@@ -68,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.hostnames.settings.tls.get({
+					client.send(operation, {
 						zone_id: zoneId,
 						setting_id: argv["setting-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

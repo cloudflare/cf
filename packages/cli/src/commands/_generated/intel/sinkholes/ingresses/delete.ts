@@ -1,6 +1,6 @@
+import operation from "../../../_operations/intel/sinkholes/ingresses/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/intel.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"sinkhole-config-delete-ingress">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <ingress-id>",
 	describe: "Delete an ingress rule",
@@ -86,11 +84,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.intel.sinkholes.ingresses.delete({
+					client.send(operation, {
 						zone_id: zoneId,
 						sinkhole_id: argv["sinkhole-id"],
 						ingress_id: argv["ingress-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/stream/videos/captions/language/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/stream.ts
@@ -48,9 +48,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"stream-subtitles/-captions-delete-captions-or-subtitles">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <language>",
 	describe: "Delete captions or subtitles",
@@ -95,11 +92,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.stream.videos.captions.language.delete({
+					client.send(operation, {
 						account_id: accountId,
 						identifier: argv["identifier"],
 						language: argv["language"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

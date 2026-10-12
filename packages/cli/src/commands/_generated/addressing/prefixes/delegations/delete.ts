@@ -1,6 +1,6 @@
+import operation from "../../../_operations/addressing/prefixes/delegations/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/addressing.ts
@@ -48,9 +48,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"ip-address-management-prefix-delegation-delete-prefix-delegation">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <delegation-id>",
 	describe: "Delete Prefix Delegation",
@@ -90,11 +87,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.addressing.prefixes.delegations.delete({
+					client.send(operation, {
 						account_id: accountId,
 						prefix_id: argv["prefix-id"],
 						delegation_id: argv["delegation-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

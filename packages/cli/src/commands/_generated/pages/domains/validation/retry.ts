@@ -1,6 +1,6 @@
+import operation from "../../../_operations/pages/domains/validation/retry.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * retry command
  * @generated from apis/overlays/pages.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"pages-domains-patch-domain">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "retry <domain-name>",
 	describe: "Retry custom domain validation",
@@ -78,11 +76,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Updating`, async () =>
-					client.pages.domains.validation.retry({
+					client.send(operation, {
 						account_id: accountId,
 						project_name: argv["project-name"],
 						domain_name: argv["domain-name"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

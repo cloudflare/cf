@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/api-security/schema-validation/settings/operations/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/api-security.ts
@@ -37,8 +37,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"schema-validation-delete-per-operation-setting">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <operation-id>",
@@ -86,10 +84,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.apiSecurity.schemaValidation.settings.operations.delete({
+					client.send(operation, {
 						zone_id: zoneId,
 						operation_id: argv["operation-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

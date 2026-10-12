@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/web3/hostnames/ipfs-universal-paths/content-lists/update.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * update command
  * @generated from apis/overlays/web3.ts
@@ -49,10 +49,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"web3-hostname-update-ipfs-universal-path-gateway-content-list">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update <identifier>",
 	describe: "Update IPFS Universal Path Gateway Content List",
@@ -95,13 +91,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.web3.hostnames.ipfsUniversalPaths.contentLists.update({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							zone_id: zoneId,
 							identifier: argv["identifier"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
@@ -120,16 +116,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					action: argv["action"],
 					entries: parseObjectArray(argv["entries"], "entries"),
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.web3.hostnames.ipfsUniversalPaths.contentLists.update({
-						...bodyData,
+					client.send(operation, {
+						body: bodyData,
 						zone_id: zoneId,
 						identifier: argv["identifier"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

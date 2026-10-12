@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/custom-pages/assets/delete/custom/asset.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * asset command
  * @generated from apis/overlays/custom-pages.ts
@@ -44,9 +44,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request =
-	SdkRequest<"generated:delete:/{account_or_zone}/{account_or_zone_id}/custom_pages/assets/{asset_name}">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "asset <asset-name>",
@@ -106,11 +103,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.customPages.assets.delete.custom.asset({
+					client.send(operation, {
 						account_or_zone: accountOrZone,
 						account_or_zone_id: accountOrZoneId,
 						asset_name: argv["asset-name"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

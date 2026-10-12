@@ -1,6 +1,6 @@
+import operation from "../../../_operations/dns/zone-transfers/tsigs/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/dns.ts
@@ -41,8 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"secondary-dns-(-tsig)-delete-tsig">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <tsig-id>",
 	describe: "Delete TSIG",
@@ -79,10 +77,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.dns.zoneTransfers.tsigs.delete({
+					client.send(operation, {
 						account_id: accountId,
 						tsig_id: argv["tsig-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

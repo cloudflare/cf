@@ -1,6 +1,6 @@
+import operation from "../../_operations/rum/site-info/list-zone-tags.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * list-zone-tags command
  * @generated from apis/overlays/rum.ts
@@ -30,8 +30,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"web-analytics-list-zone-tags">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "list-zone-tags",
@@ -63,9 +61,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.rum.siteInfo.listZoneTags({
-						account_id: accountId,
-					} satisfies Request)
+					client.send(operation, { account_id: accountId })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

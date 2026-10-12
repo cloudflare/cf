@@ -1,6 +1,5 @@
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * purge-cache command
  * @generated from apis/overlays/ai-search.ts
@@ -9,6 +8,7 @@ import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
+	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -40,8 +40,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"ai-search-namespace-purge-instance-cache">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "purge-cache <instance-id>",
@@ -76,11 +74,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Creating`, async () =>
-					client.aiSearch.purgeCache({
-						account_id: accountId,
-						namespace: argv["namespace"],
-						"instance-id": argv["instance-id"],
-					} satisfies Request)
+					requestApi<unknown>(
+						client,
+						"POST",
+						`/accounts/${accountId}/ai-search/namespaces/${encodeURIComponent(String(argv["namespace"]))}/instances/${encodeURIComponent(String(argv["instance-id"]))}/purge_cache`
+					)
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

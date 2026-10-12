@@ -1,6 +1,6 @@
+import operation from "../../_operations/scim/users/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/scim.ts
@@ -37,8 +37,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"scim-users-get">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <user-id>",
 	describe: "Get SCIM User",
@@ -69,10 +67,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.scim.users.get({
+					client.send(operation, {
 						account_id: accountId,
 						user_id: argv["user-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

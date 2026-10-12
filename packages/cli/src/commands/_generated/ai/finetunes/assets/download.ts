@@ -1,6 +1,6 @@
+import operation from "../../../_operations/ai/finetunes/assets/download.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * download command
  * @generated from apis/overlays/ai.ts
@@ -41,8 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"workers-ai-download-finetune-asset">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "download <file-name>",
 	describe: "Download a Finetune Asset",
@@ -76,11 +74,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.ai.finetunes.assets.download({
+					client.send(operation, {
 						account_id: accountId,
 						finetune_id: argv["finetune-id"],
 						file_name: argv["file-name"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

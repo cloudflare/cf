@@ -1,6 +1,6 @@
+import operation from "../../../_operations/cloudforce-one/scans/results/getBanners.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * getBanners command
  * @generated from apis/overlays/cloudforce-one.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"get_GetBanners">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "getBanners <config-id>",
 	describe: "Get the Latest Banner Grab Result",
@@ -68,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.cloudforceOne.scans.results.getBanners({
+					client.send(operation, {
 						account_id: accountId,
 						config_id: argv["config-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

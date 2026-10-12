@@ -1,6 +1,6 @@
+import operation from "../../_operations/waiting-rooms/events/create.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * create command
  * @generated from apis/overlays/waiting-rooms.ts
@@ -128,9 +128,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"waiting-room-create-event">;
-type Body = Request["body"];
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "create <waiting-room-id>",
 	describe: "Create event",
@@ -220,13 +217,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
-						client.waitingRooms.events.create({
+						client.send(operation, {
 							body: bodyData,
 							zone_id: zoneId,
 							waiting_room_id: argv["waiting-room-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
@@ -251,7 +248,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					custom_page_html: resolveFileToken(
 						argv["custom-page-html"] as string | undefined,
 						"custom-page-html",
@@ -297,11 +294,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					turnstile_mode: argv["turnstile-mode"],
 				});
 				const result = await withProgress(`Creating`, async () =>
-					client.waitingRooms.events.create({
+					client.send(operation, {
 						body: bodyData,
 						zone_id: zoneId,
 						waiting_room_id: argv["waiting-room-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

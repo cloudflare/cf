@@ -1,0 +1,9 @@
+/** @generated from zero-trust-gateway-proxy-endpoints-list-proxy-endpoints */
+import { path } from "#api";
+
+export default {
+	method: "GET",
+	path: (request: Record<string, unknown>) =>
+		path`/accounts/${request.account_id}/gateway/proxy_endpoints`,
+	query: ["filter", "search", "order_by", "direction"],
+} as const;

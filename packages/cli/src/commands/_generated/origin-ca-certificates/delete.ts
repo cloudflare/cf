@@ -1,6 +1,6 @@
+import operation from "../_operations/origin-ca-certificates/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/origin-ca-certificates.ts
@@ -38,8 +38,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"origin-ca-revoke-certificate">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <certificate-id>",
 	describe: "Revoke Certificate",
@@ -75,9 +73,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.originCaCertificates.delete({
-						certificate_id: argv["certificate-id"],
-					} satisfies Request)
+					client.send(operation, { certificate_id: argv["certificate-id"] })
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

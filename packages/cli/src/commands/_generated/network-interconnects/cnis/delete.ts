@@ -1,6 +1,6 @@
+import operation from "../../_operations/network-interconnects/cnis/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/network-interconnects.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"delete_cni">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <cni>",
 	describe: "Delete a specified CNI object",
@@ -81,10 +79,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.networkInterconnects.cnis.delete({
-						account_id: accountId,
-						cni: argv["cni"],
-					} satisfies Request)
+					client.send(operation, { account_id: accountId, cni: argv["cni"] })
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

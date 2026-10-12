@@ -1,0 +1,31 @@
+/** @generated from radar-get-dns-timeseries */
+export default {
+	method: "GET",
+	path: () => "/radar/dns/timeseries",
+	query: [
+		"aggInterval",
+		"name",
+		"dateRange",
+		"dateStart",
+		"dateEnd",
+		"asn",
+		"location",
+		"continent",
+		"cacheHit",
+		"nodata",
+		"protocol",
+		"queryType",
+		"responseCode",
+		"responseTtl",
+		"dnssec",
+		"dnssecAware",
+		"dnssecE2e",
+		"ipVersion",
+		"matchingAnswer",
+		"tld",
+		"format",
+	],
+	errors: {
+		400: "BadRequestError",
+	},
+} as const;

@@ -1,6 +1,6 @@
+import operation from "../../_operations/ai/finetunes/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/ai.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"workers-ai-delete-finetune">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <finetune-id>",
 	describe: "Delete a Finetune",
@@ -81,10 +79,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.ai.finetunes.delete({
+					client.send(operation, {
 						account_id: accountId,
 						finetune_id: argv["finetune-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

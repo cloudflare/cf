@@ -1,6 +1,6 @@
+import operation from "../../../_operations/dls/regional_services/prefix_bindings/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/dls.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"publicDeletePrefixBinding">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <binding-id>",
 	describe: "Delete a DLS prefix binding",
@@ -81,10 +79,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.dls.regionalServices.prefixBindings.delete({
+					client.send(operation, {
 						account_id: accountId,
 						binding_id: argv["binding-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

@@ -1,6 +1,6 @@
+import operation from "../../_operations/firewall/lockdowns/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/firewall.ts
@@ -37,8 +37,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"zone-lockdown-delete-a-zone-lockdown-rule">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <lock-downs-id>",
@@ -85,10 +83,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.firewall.lockdowns.delete({
+					client.send(operation, {
 						zone_id: zoneId,
 						lock_downs_id: argv["lock-downs-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

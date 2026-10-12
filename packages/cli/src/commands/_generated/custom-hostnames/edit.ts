@@ -1,6 +1,6 @@
+import operation from "../_operations/custom-hostnames/edit.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * edit command
  * @generated from apis/overlays/custom-hostnames.ts
@@ -139,9 +139,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"custom-hostname-for-a-zone-edit-custom-hostname">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "edit <custom-hostname-id>",
 	describe: "Edit Custom Hostname",
@@ -234,20 +231,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.customHostnames.edit({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							zone_id: zoneId,
 							custom_hostname_id: argv["custom-hostname-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					custom_origin_server: resolveFileToken(
 						argv["custom-origin-server"] as string | undefined,
 						"custom-origin-server",
@@ -290,11 +287,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					},
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.customHostnames.edit({
-						...bodyData,
+					client.send(operation, {
+						body: bodyData,
 						zone_id: zoneId,
 						custom_hostname_id: argv["custom-hostname-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

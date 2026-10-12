@@ -1,6 +1,6 @@
+import operation from "../../../_operations/cloudforce-one/requests/assets/upload.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * upload command
  * @generated from apis/overlays/cloudforce-one.ts
@@ -13,7 +13,6 @@ import {
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { parseBody } from "#lib/body-parser.js";
-import { withArgTypes } from "#lib/cli-types.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { readFileForFlag, resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -61,20 +60,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		});
 }
 
-type Request = SdkRequest<"post_DashboardAssetUpload">;
+type Args = InferArgs<typeof builder>;
 
-const typedBuilder = withArgTypes<
-	{
-		"project-type": Request["project_type"];
-	},
-	typeof builder
->(builder);
-
-type Args = InferArgs<typeof typedBuilder>;
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "upload <request-id>",
 	describe: "Upload asset to request (Customer)",
-	builder: typedBuilder,
+	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -180,11 +171,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Creating`, async () =>
-					client.cloudforceOne.requests.assets.upload({
+					client.send(operation, {
 						account_id: accountId,
 						project_type: argv["project-type"],
 						request_id: argv["request-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

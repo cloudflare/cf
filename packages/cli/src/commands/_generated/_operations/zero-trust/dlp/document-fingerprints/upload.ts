@@ -1,0 +1,10 @@
+/** @generated from dlp-document-fingerprints-upload */
+import { path } from "#api";
+
+export default {
+	method: "PUT",
+	path: (request: Record<string, unknown>) =>
+		path`/accounts/${request.account_id}/dlp/document_fingerprints/${request.document_fingerprint_id}`,
+	pathParams: ["account_id", "document_fingerprint_id"],
+	body: "form",
+} as const;

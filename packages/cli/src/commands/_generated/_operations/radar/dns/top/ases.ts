@@ -1,0 +1,31 @@
+/** @generated from radar-get-dns-top-ases */
+export default {
+	method: "GET",
+	path: () => "/radar/dns/top/ases",
+	query: [
+		"limit",
+		"name",
+		"dateRange",
+		"dateStart",
+		"dateEnd",
+		"asn",
+		"location",
+		"continent",
+		"domain",
+		"cacheHit",
+		"nodata",
+		"protocol",
+		"queryType",
+		"responseCode",
+		"responseTtl",
+		"dnssec",
+		"dnssecAware",
+		"dnssecE2e",
+		"ipVersion",
+		"matchingAnswer",
+		"format",
+	],
+	errors: {
+		404: "NotFoundError",
+	},
+} as const;

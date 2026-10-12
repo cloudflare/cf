@@ -1,6 +1,6 @@
+import operation from "../../../_operations/magic-transit/pcaps/ownership/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/magic-transit.ts
@@ -43,9 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"magic-pcap-collection-delete-buckets-for-full-packet-captures">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <ownership-id>",
 	describe: "Delete buckets for full packet captures",
@@ -82,10 +79,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.magicTransit.pcaps.ownership.delete({
+					client.send(operation, {
 						account_id: accountId,
 						ownership_id: argv["ownership-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

@@ -1,0 +1,24 @@
+/** @generated from radar-get-leaked-credential-checks-summary */
+import { path } from "#api";
+
+export default {
+	method: "GET",
+	path: (request: Record<string, unknown>) =>
+		path`/radar/leaked_credential_checks/summary/${request.dimension}`,
+	query: [
+		"name",
+		"dateRange",
+		"dateStart",
+		"dateEnd",
+		"asn",
+		"location",
+		"continent",
+		"botClass",
+		"compromised",
+		"limitPerGroup",
+		"format",
+	],
+	errors: {
+		400: "BadRequestError",
+	},
+} as const;

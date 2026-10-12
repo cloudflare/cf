@@ -1,6 +1,6 @@
+import operation from "../../../_operations/cloudforce-one/threat-signals/feeds/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/cloudforce-one.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"rssFeedDelete">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <feed-id>",
 	describe: "Delete Threat Signals feed",
@@ -81,10 +79,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.cloudforceOne.threatSignals.feeds.delete({
+					client.send(operation, {
 						account_id: accountId,
 						feed_id: argv["feed-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

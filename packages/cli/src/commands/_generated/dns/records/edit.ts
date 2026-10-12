@@ -1,6 +1,6 @@
+import operation from "../../_operations/dns/records/edit.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * edit command
  * @generated from apis/overlays/dns.ts
@@ -41,10 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"dns-records-for-a-zone-patch-dns-record">;
-type Body = Request["body"];
-type Query = SdkQuery<"dns-records-for-a-zone-patch-dns-record">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "edit <dns-record-id>",
 	describe: "Update DNS Record",
@@ -59,7 +55,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					include_shadow_metadata: argv["include-shadow-metadata"],
 				};
 				if (argv.dryRun) {
@@ -84,19 +80,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const qs = new URLSearchParams(
 						Object.entries(queryParams)
 							.filter(([, v]) => v !== undefined)
 							.map(([k, v]) => [k, String(v)])
 					).toString();
 					const result = await withProgress(`Updating`, async () =>
-						client.dns.records.edit({
+						client.send(operation, {
 							body: bodyData,
 							zone_id: zoneId,
 							dns_record_id: argv["dns-record-id"],
 							...queryParams,
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;

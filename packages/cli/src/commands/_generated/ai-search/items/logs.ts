@@ -1,6 +1,5 @@
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * logs command
  * @generated from apis/overlays/ai-search.ts
@@ -9,6 +8,7 @@ import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
+	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -48,9 +48,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"ai-search-namespace-instance-logs-item">;
-type Query = SdkQuery<"ai-search-namespace-instance-logs-item">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "logs <item-id>",
 	describe: "Item Logs.",
@@ -65,7 +62,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					limit: argv["limit"],
 					cursor: argv["cursor"],
 				};
@@ -90,13 +87,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.aiSearch.items.logs({
-						account_id: accountId,
-						namespace: argv["namespace"],
-						"instance-id": argv["instance-id"],
-						item_id: argv["item-id"],
-						...queryParams,
-					} satisfies Request)
+					requestApi<unknown>(
+						client,
+						"GET",
+						`/accounts/${accountId}/ai-search/namespaces/${encodeURIComponent(String(argv["namespace"]))}/instances/${encodeURIComponent(String(argv["instance-id"]))}/items/${encodeURIComponent(String(argv["item-id"]))}/logs`,
+						{ query: queryParams }
+					)
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

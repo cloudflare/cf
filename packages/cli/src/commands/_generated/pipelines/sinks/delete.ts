@@ -1,6 +1,6 @@
+import operation from "../../_operations/pipelines/sinks/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/pipelines.ts
@@ -41,9 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"deleteV4AccountsByAccount_idPipelinesV1SinksBySink_id">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <sink-id>",
 	describe: "Delete Sink",
@@ -80,10 +77,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.pipelines.sinks.delete({
+					client.send(operation, {
 						account_id: accountId,
 						sink_id: argv["sink-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

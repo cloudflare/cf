@@ -1,6 +1,6 @@
+import operation from "../../_operations/user/tokens/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/user.ts
@@ -31,8 +31,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"user-api-tokens-token-details">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <token-id>",
 	describe: "Token Details",
@@ -60,9 +58,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const client = await createCommandClient(argv);
 
 				const result = await withProgress(`Loading`, async () =>
-					client.user.tokens.get({
-						token_id: argv["token-id"],
-					} satisfies Request)
+					client.send(operation, { token_id: argv["token-id"] })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

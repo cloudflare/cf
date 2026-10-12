@@ -128,7 +128,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 				const result = await withProgress(`Creating`, async () =>
 					requestApi<unknown>(client, "POST", `/accounts`, {
-						body: Object.keys(bodyData).length > 0 ? bodyData : undefined,
+						body: bodyData,
 						headers: Object.keys(headers).length > 0 ? headers : undefined,
 					})
 				);

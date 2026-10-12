@@ -1,6 +1,6 @@
+import operation from "../../../_operations/accounts/billing/payment-methods/setDefault.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * setDefault command
  * @generated from apis/overlays/accounts.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"account-billing-set-default-payment-method">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "setDefault <payment-method-id>",
 	describe: "Set Default Payment Method",
@@ -70,10 +68,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Creating`, async () =>
-					client.accounts.billing.paymentMethods.setDefault({
+					client.send(operation, {
 						account_id: accountId,
 						payment_method_id: argv["payment-method-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

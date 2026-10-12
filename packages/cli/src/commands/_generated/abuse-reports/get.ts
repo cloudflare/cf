@@ -1,6 +1,5 @@
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/abuse-reports.ts
@@ -9,6 +8,7 @@ import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
+	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -35,8 +35,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"GetAbuseReport">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <report-id>",
@@ -68,10 +66,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.abuseReports.get({
-						account_id: accountId,
-						"report-id": argv["report-id"],
-					} satisfies Request)
+					requestApi<unknown>(
+						client,
+						"GET",
+						`/accounts/${accountId}/abuse-reports/${encodeURIComponent(String(argv["report-id"]))}`
+					)
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

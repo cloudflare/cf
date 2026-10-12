@@ -1,13 +1,12 @@
+import operation from "../../../../_operations/radar/attacks/layer3/top/attacks.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery } from "#sdk";
 /**
  * attacks command
  * @generated from apis/overlays/radar.ts
  */
 import type { Argv, CommandModule } from "yargs";
 import { createCommandClient } from "#lib/auth.js";
-import { withArgTypes } from "#lib/cli-types.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
@@ -94,25 +93,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		});
 }
 
-type Query = SdkQuery<"radar-get-attacks-layer3-top-attacks">;
+type Args = InferArgs<typeof builder>;
 
-const typedBuilder = withArgTypes<
-	{
-		"ip-version": Query["ipVersion"];
-		protocol: Query["protocol"];
-		"limit-direction": Query["limitDirection"];
-		magnitude: Query["magnitude"];
-		normalization: Query["normalization"];
-		format: Query["format"];
-	},
-	typeof builder
->(builder);
-
-type Args = InferArgs<typeof typedBuilder>;
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "attacks",
 	describe: "Get top layer 3 attack pairs (origin and target locations)",
-	builder: typedBuilder,
+	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -129,7 +115,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					limit: argv["limit"],
 					name: argv["name"],
 					dateRange: argv["date-range"],
@@ -159,7 +145,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const client = await createCommandClient(argv);
 
 				const result = await withProgress(`Loading`, async () =>
-					client.radar.attacks.layer3.top.attacks(queryParams)
+					client.send(operation, queryParams)
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

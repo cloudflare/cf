@@ -1,6 +1,6 @@
+import operation from "../../_operations/workers/versions/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/workers.ts
@@ -49,8 +49,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"deleteWorkerVersion">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <version-id>",
 	describe: "Delete Worker Version",
@@ -95,11 +93,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.workers.versions.delete({
+					client.send(operation, {
 						account_id: accountId,
 						worker_id: argv["worker-id"],
 						version_id: argv["version-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

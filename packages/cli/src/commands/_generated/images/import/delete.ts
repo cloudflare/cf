@@ -1,6 +1,6 @@
+import operation from "../../_operations/images/import/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/images.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"cloudflare-images-sourcingkit-delete-migration">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <migration-id>",
 	describe: "Delete a sourcing kit migration",
@@ -86,10 +84,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.images.import.delete({
+					client.send(operation, {
 						account_id: accountId,
 						migration_id: argv["migration-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

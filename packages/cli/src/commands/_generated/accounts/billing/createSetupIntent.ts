@@ -1,6 +1,6 @@
+import operation from "../../_operations/accounts/billing/createSetupIntent.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * createSetupIntent command
  * @generated from apis/overlays/accounts.ts
@@ -30,8 +30,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"account-billing-create-setup-intent">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "createSetupIntent",
@@ -63,9 +61,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Creating`, async () =>
-					client.accounts.billing.createSetupIntent({
-						account_id: accountId,
-					} satisfies Request)
+					client.send(operation, { account_id: accountId })
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

@@ -1,6 +1,5 @@
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * cancel command
  * @generated from apis/overlays/ai-search.ts
@@ -9,9 +8,10 @@ import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
+	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, setNestedValue } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -65,9 +65,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"ai-search-namespace-instance-change-job-status">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "cancel <job-id>",
 	describe: "Cancel an indexing job.",
@@ -119,15 +116,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Deleting`, async () =>
-						client.aiSearch.jobs.cancel({
-							...bodyData,
-							account_id: accountId,
-							namespace: argv["namespace"],
-							"instance-id": argv["instance-id"],
-							job_id: argv["job-id"],
-						} satisfies Request)
+						requestApi<unknown>(
+							client,
+							"PATCH",
+							`/accounts/${accountId}/ai-search/namespaces/${encodeURIComponent(String(argv["namespace"]))}/instances/${encodeURIComponent(String(argv["instance-id"]))}/jobs/${encodeURIComponent(String(argv["job-id"]))}`,
+							{ body: bodyData }
+						)
 					);
 					formatOutput(result, { successLabel: `Deleted` });
 					return;
@@ -141,17 +137,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
-					action: argv["action"],
-				});
+				const bodyData: Record<string, unknown> = {};
+				if (argv["action"] !== undefined)
+					setNestedValue(bodyData, ["action"], argv["action"]);
 				const result = await withProgress(`Deleting`, async () =>
-					client.aiSearch.jobs.cancel({
-						...bodyData,
-						account_id: accountId,
-						namespace: argv["namespace"],
-						"instance-id": argv["instance-id"],
-						job_id: argv["job-id"],
-					} satisfies Request)
+					requestApi<unknown>(
+						client,
+						"PATCH",
+						`/accounts/${accountId}/ai-search/namespaces/${encodeURIComponent(String(argv["namespace"]))}/instances/${encodeURIComponent(String(argv["instance-id"]))}/jobs/${encodeURIComponent(String(argv["job-id"]))}`,
+						{ body: bodyData }
+					)
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

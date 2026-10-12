@@ -1,6 +1,6 @@
+import operation from "../../_operations/ai-gateway/logs/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/ai-gateway.ts
@@ -41,8 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"aig-config-get-gateway-log-detail">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <id>",
 	describe: "Get Gateway Log Detail",
@@ -76,11 +74,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.aiGateway.logs.get({
+					client.send(operation, {
 						account_id: accountId,
 						gateway_id: argv["gateway-id"],
 						id: argv["id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

@@ -1,6 +1,6 @@
+import operation from "../../_operations/smart-shield/cache-reserve-clear/clear.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * clear command
  * @generated from apis/overlays/smart-shield.ts
@@ -32,8 +32,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"smart-shield-settings-start-cache-reserve-clear">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "clear",
@@ -79,9 +77,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.smartShield.cacheReserveClear.clear({
-						zone_id: zoneId,
-					} satisfies Request)
+					client.send(operation, { zone_id: zoneId })
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

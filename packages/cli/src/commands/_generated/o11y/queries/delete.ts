@@ -1,6 +1,6 @@
+import operation from "../../_operations/o11y/queries/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/o11y.ts
@@ -41,8 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"queries.delete">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <queryId>",
 	describe: "Delete query",
@@ -79,10 +77,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.observability.queries.delete({
+					client.send(operation, {
 						account_id: accountId,
 						queryId: argv["query-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

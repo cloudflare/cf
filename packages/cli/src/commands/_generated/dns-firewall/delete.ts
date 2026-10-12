@@ -1,6 +1,6 @@
+import operation from "../_operations/dns-firewall/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/dns-firewall.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"dns-firewall-delete-dns-firewall-cluster">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <dns-firewall-id>",
 	describe: "Delete DNS Firewall Cluster",
@@ -83,10 +81,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.dnsFirewall.delete({
+					client.send(operation, {
 						account_id: accountId,
 						dns_firewall_id: argv["dns-firewall-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

@@ -1,0 +1,31 @@
+/** @generated from radar-get-http-timeseries */
+export default {
+	method: "GET",
+	path: () => "/radar/http/timeseries",
+	query: [
+		"aggInterval",
+		"name",
+		"dateRange",
+		"dateStart",
+		"dateEnd",
+		"asn",
+		"location",
+		"continent",
+		"geoId",
+		"normalization",
+		"apiTraffic",
+		"botClass",
+		"contentType",
+		"deviceType",
+		"httpProtocol",
+		"httpVersion",
+		"ipVersion",
+		"os",
+		"tlsVersion",
+		"browserFamily",
+		"format",
+	],
+	errors: {
+		400: "BadRequestError",
+	},
+} as const;

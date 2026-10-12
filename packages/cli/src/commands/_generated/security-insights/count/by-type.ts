@@ -1,6 +1,6 @@
+import operation from "../../_operations/security-insights/count/by-type.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * by-type command
  * @generated from apis/overlays/security-insights.ts
@@ -12,7 +12,6 @@ import {
 	getZoneId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { withArgTypes } from "#lib/cli-types.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
@@ -38,25 +37,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		});
 }
 
-type Request =
-	SdkRequest<"generated:get:/{account_or_zone}/{account_or_zone_id}/security-center/insights/type">;
-type Query =
-	SdkQuery<"generated:get:/{account_or_zone}/{account_or_zone_id}/security-center/insights/type">;
+type Args = InferArgs<typeof builder>;
 
-const typedBuilder = withArgTypes<
-	{
-		"issue-type": Query["issue_type"];
-		source: Query["source"];
-		severity: Query["severity"];
-	},
-	typeof builder
->(builder);
-
-type Args = InferArgs<typeof typedBuilder>;
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "by-type",
 	describe: "Retrieves Security Center Insight Counts by Type",
-	builder: typedBuilder,
+	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -67,7 +53,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					dismissed: argv["dismissed"],
 					issue_class: argv["issue-class"],
 					issue_type: argv["issue-type"],
@@ -114,11 +100,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Loading`, async () =>
-					client.securityInsights.count.byType({
+					client.send(operation, {
 						account_or_zone: accountOrZone,
 						account_or_zone_id: accountOrZoneId,
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

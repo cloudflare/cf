@@ -1,0 +1,8 @@
+/** @generated from agent-memory-session-delete */
+import { path } from "#api";
+
+export default {
+	method: "DELETE",
+	path: (request: Record<string, unknown>) =>
+		path`/accounts/${request.account_id}/agent-memory/namespaces/${request.namespace_name}/profiles/${request.profile_name}/sessions/${request.session_id}`,
+} as const;

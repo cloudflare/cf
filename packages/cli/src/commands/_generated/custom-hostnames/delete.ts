@@ -1,6 +1,6 @@
+import operation from "../_operations/custom-hostnames/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/custom-hostnames.ts
@@ -37,9 +37,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request =
-	SdkRequest<"custom-hostname-for-a-zone-delete-custom-hostname-(-and-any-issued-ssl-certificates)">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <custom-hostname-id>",
@@ -81,10 +78,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.customHostnames.delete({
+					client.send(operation, {
 						zone_id: zoneId,
 						custom_hostname_id: argv["custom-hostname-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

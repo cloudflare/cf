@@ -1,6 +1,6 @@
+import operation from "../_operations/client-certificates/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/client-certificates.ts
@@ -37,9 +37,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request =
-	SdkRequest<"client-certificate-for-a-zone-delete-client-certificate">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <client-certificate-id>",
@@ -83,10 +80,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.clientCertificates.delete({
+					client.send(operation, {
 						zone_id: zoneId,
 						client_certificate_id: argv["client-certificate-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

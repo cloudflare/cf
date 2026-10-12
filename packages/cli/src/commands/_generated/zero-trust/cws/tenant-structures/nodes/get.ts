@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/zero-trust/cws/tenant-structures/nodes/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/zero-trust.ts
@@ -41,8 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"cws-get-tenant-node">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <node-id>",
 	describe: "Get a tenant node by ID",
@@ -76,11 +74,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.zeroTrust.cws.tenantStructures.nodes.get({
+					client.send(operation, {
 						account_id: accountId,
 						structure_id: argv["structure-id"],
 						node_id: argv["node-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

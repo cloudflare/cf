@@ -1,6 +1,6 @@
+import operation from "../../_operations/addressing/address-maps/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/addressing.ts
@@ -43,9 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"ip-address-management-address-maps-delete-address-map">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <address-map-id>",
 	describe: "Delete Address Map",
@@ -84,10 +81,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.addressing.addressMaps.delete({
+					client.send(operation, {
 						account_id: accountId,
 						address_map_id: argv["address-map-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

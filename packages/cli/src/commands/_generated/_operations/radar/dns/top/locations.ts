@@ -1,0 +1,32 @@
+/** @generated from radar-get-dns-top-locations */
+export default {
+	method: "GET",
+	path: () => "/radar/dns/top/locations",
+	query: [
+		"limit",
+		"name",
+		"dateRange",
+		"dateStart",
+		"dateEnd",
+		"asn",
+		"location",
+		"continent",
+		"domain",
+		"cacheHit",
+		"nodata",
+		"protocol",
+		"queryType",
+		"responseCode",
+		"responseTtl",
+		"dnssec",
+		"dnssecAware",
+		"dnssecE2e",
+		"ipVersion",
+		"matchingAnswer",
+		"tld",
+		"format",
+	],
+	errors: {
+		404: "NotFoundError",
+	},
+} as const;

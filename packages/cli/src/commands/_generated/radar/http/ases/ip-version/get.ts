@@ -1,13 +1,12 @@
+import operation from "../../../../_operations/radar/http/ases/ip-version/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/radar.ts
  */
 import type { Argv, CommandModule } from "yargs";
 import { createCommandClient } from "#lib/auth.js";
-import { withArgTypes } from "#lib/cli-types.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
@@ -107,29 +106,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		});
 }
 
-type Request = SdkRequest<"radar-get-http-top-ases-by-ip-version">;
-type Query = SdkQuery<"radar-get-http-top-ases-by-ip-version">;
+type Args = InferArgs<typeof builder>;
 
-const typedBuilder = withArgTypes<
-	{
-		"bot-class": Query["botClass"];
-		"device-type": Query["deviceType"];
-		"http-protocol": Query["httpProtocol"];
-		"http-version": Query["httpVersion"];
-		os: Query["os"];
-		"tls-version": Query["tlsVersion"];
-		"browser-family": Query["browserFamily"];
-		format: Query["format"];
-		"ip-version": Request["ip_version"];
-	},
-	typeof builder
->(builder);
-
-type Args = InferArgs<typeof typedBuilder>;
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <ip-version>",
 	describe: "Get top ASes by HTTP requests for an IP version",
-	builder: typedBuilder,
+	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
@@ -140,7 +122,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					limit: argv["limit"],
 					name: argv["name"],
 					dateRange: argv["date-range"],
@@ -173,10 +155,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const client = await createCommandClient(argv);
 
 				const result = await withProgress(`Loading`, async () =>
-					client.radar.http.ases.ipVersion.get({
+					client.send(operation, {
 						ip_version: argv["ip-version"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

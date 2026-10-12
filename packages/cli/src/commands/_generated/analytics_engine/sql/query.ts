@@ -1,6 +1,6 @@
+import operation from "../../_operations/analytics_engine/sql/query.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * query command
  * @generated from apis/overlays/analytics_engine.ts
@@ -41,8 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"analytics-engine-sql-query-post">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "query",
@@ -105,9 +103,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Loading`, async () =>
-					client.analyticsEngine.sql.query({
-						account_id: accountId,
-					} satisfies Request)
+					client.send(operation, { account_id: accountId })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

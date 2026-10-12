@@ -1,3 +1,4 @@
+import operation from "../../../../../_operations/user/load-balancers/pools/edit/pools/pools.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
@@ -5,8 +6,8 @@ import type { ArgClassification } from "#lib/telemetry/index.js";
  * @generated from apis/overlays/user.ts
  */
 import type { Argv, CommandModule } from "yargs";
-import { createCommandClient, requestApi } from "#lib/auth.js";
-import { compactBody, parseBody, setNestedValue } from "#lib/body-parser.js";
+import { createCommandClient } from "#lib/auth.js";
+import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { formatOutput } from "#lib/output.js";
@@ -75,30 +76,22 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv.body) {
 					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						requestApi<unknown>(client, "PATCH", `/user/load_balancers/pools`, {
-							body: bodyData,
-						})
+						client.send(operation, { body: bodyData })
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData: Record<string, unknown> = {};
-				if (argv["notification-email"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["notification_email"],
-						resolveFileToken(
-							argv["notification-email"] as string | undefined,
-							"notification-email",
-							"text"
-						)
-					);
+				const bodyData = compactBody({
+					notification_email: resolveFileToken(
+						argv["notification-email"] as string | undefined,
+						"notification-email",
+						"text"
+					),
+				});
 				const result = await withProgress(`Updating`, async () =>
-					requestApi<unknown>(client, "PATCH", `/user/load_balancers/pools`, {
-						body: Object.keys(bodyData).length > 0 ? bodyData : undefined,
-					})
+					client.send(operation, { body: bodyData })
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

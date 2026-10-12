@@ -1,6 +1,6 @@
+import operation from "../../../_operations/custom-hostnames/certificate-pack/certificates/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/custom-hostnames.ts
@@ -48,9 +48,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"custom-hostname-for-a-zone-delete_single_certificate_and_key_in_a_custom_hostname">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <certificate-id>",
 	describe: "Delete Single Certificate And Key For Custom Hostname",
@@ -93,12 +90,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.customHostnames.certificatePack.certificates.delete({
+					client.send(operation, {
 						zone_id: zoneId,
 						custom_hostname_id: argv["custom-hostname-id"],
 						certificate_pack_id: argv["certificate-pack-id"],
 						certificate_id: argv["certificate-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

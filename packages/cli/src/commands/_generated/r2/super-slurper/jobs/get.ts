@@ -1,6 +1,6 @@
+import operation from "../../../_operations/r2/super-slurper/jobs/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/r2.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"slurper-get-job">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <job-id>",
 	describe: "Get job details",
@@ -68,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.r2.superSlurper.jobs.get({
+					client.send(operation, {
 						account_id: accountId,
 						job_id: argv["job-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

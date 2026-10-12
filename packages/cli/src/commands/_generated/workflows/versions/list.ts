@@ -1,6 +1,6 @@
+import operation from "../../_operations/workflows/versions/list.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * list command
  * @generated from apis/overlays/workflows.ts
@@ -38,9 +38,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"wor-list-workflow-versions">;
-type Query = SdkQuery<"wor-list-workflow-versions">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "list",
 	describe: "List deployed Workflow versions",
@@ -55,7 +52,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					per_page: argv["per-page"],
 					page: argv["page"],
 				};
@@ -78,11 +75,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.workflows.versions.list({
+					client.send(operation, {
 						account_id: accountId,
 						workflow_name: argv["workflow-name"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

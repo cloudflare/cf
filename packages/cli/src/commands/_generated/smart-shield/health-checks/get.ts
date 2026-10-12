@@ -1,6 +1,6 @@
+import operation from "../../_operations/smart-shield/health-checks/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/smart-shield.ts
@@ -30,8 +30,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"smart-shield-health-check-details">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <healthcheck-id>",
@@ -67,10 +65,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.smartShield.healthChecks.get({
+					client.send(operation, {
 						zone_id: zoneId,
 						healthcheck_id: argv["healthcheck-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

@@ -1,6 +1,6 @@
+import operation from "../../_operations/dns/records/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/dns.ts
@@ -36,9 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"dns-records-for-a-zone-dns-record-details">;
-type Query = SdkQuery<"dns-records-for-a-zone-dns-record-details">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <dns-record-id>",
 	describe: "DNS Record Details",
@@ -53,7 +50,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					include_shadow_metadata: argv["include-shadow-metadata"],
 				};
 				if (argv.dryRun) {
@@ -77,11 +74,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.dns.records.get({
+					client.send(operation, {
 						zone_id: zoneId,
 						dns_record_id: argv["dns-record-id"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

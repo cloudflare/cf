@@ -1,6 +1,6 @@
+import operation from "../../../_operations/cloudforce-one/events/tags/get-by-id.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get-by-id command
  * @generated from apis/overlays/cloudforce-one.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"get_TagDetail">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get-by-id <tag-uuid>",
 	describe: "Gets a tag by UUID (SoT)",
@@ -68,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.cloudforceOne.events.tags.getById({
+					client.send(operation, {
 						account_id: accountId,
 						tag_uuid: argv["tag-uuid"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

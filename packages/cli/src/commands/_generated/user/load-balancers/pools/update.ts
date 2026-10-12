@@ -1,6 +1,6 @@
+import operation from "../../../_operations/user/load-balancers/pools/update.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * update command
  * @generated from apis/overlays/user.ts
@@ -166,9 +166,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"load-balancer-pools-update-pool">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update <pool-id>",
 	describe: "Update Pool",
@@ -263,12 +260,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const client = await createCommandClient(argv);
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.user.loadBalancers.pools.update({
-							...bodyData,
-							pool_id: argv["pool-id"],
-						} satisfies Request)
+						client.send(operation, { body: bodyData, pool_id: argv["pool-id"] })
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
@@ -286,7 +280,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					check_regions: argv["check-regions"],
 					description: resolveFileToken(
 						argv["description"] as string | undefined,
@@ -341,10 +335,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					origins: parseObjectArray(argv["origins"], "origins"),
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.user.loadBalancers.pools.update({
-						...bodyData,
-						pool_id: argv["pool-id"],
-					} satisfies Request)
+					client.send(operation, { body: bodyData, pool_id: argv["pool-id"] })
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

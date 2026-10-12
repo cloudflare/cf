@@ -1,6 +1,6 @@
+import operation from "../../_operations/workflows/versions/graph.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * graph command
  * @generated from apis/overlays/workflows.ts
@@ -41,8 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"wor-describe-workflow-versions-graph">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "graph <version-id>",
 	describe: "Get Workflow version graph",
@@ -76,11 +74,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.workflows.versions.graph({
+					client.send(operation, {
 						account_id: accountId,
 						workflow_name: argv["workflow-name"],
 						version_id: argv["version-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

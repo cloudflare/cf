@@ -1,6 +1,6 @@
+import operation from "../../../_operations/zero-trust/devices/ip-profiles/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/zero-trust.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"get-ip-profile">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <profile-id>",
 	describe: "Get IP profile",
@@ -68,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.zeroTrust.devices.ipProfiles.get({
+					client.send(operation, {
 						account_id: accountId,
 						profile_id: argv["profile-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

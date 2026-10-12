@@ -1,6 +1,6 @@
+import operation from "../../_operations/tenant/entitlement/list.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * list command
  * @generated from apis/overlays/tenant.ts
@@ -32,8 +32,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"Tenants_listEntitlements">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "list",
 	describe: "List tenant entitlements",
@@ -61,9 +59,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const client = await createCommandClient(argv);
 
 				const result = await withProgress(`Loading`, async () =>
-					client.tenant.entitlement.list({
-						tenant_id: argv["tenant-id"],
-					} satisfies Request)
+					client.send(operation, { tenant_id: argv["tenant-id"] })
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

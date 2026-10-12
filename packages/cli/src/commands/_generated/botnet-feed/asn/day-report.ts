@@ -1,6 +1,6 @@
+import operation from "../../_operations/botnet-feed/asn/day-report.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * day-report command
  * @generated from apis/overlays/botnet-feed.ts
@@ -37,9 +37,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"botnet-threat-feed-get-day-report">;
-type Query = SdkQuery<"botnet-threat-feed-get-day-report">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "day-report <asn-id>",
 	describe: "Get daily report",
@@ -54,7 +51,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					date: argv["date"],
 				};
 				if (argv.dryRun) {
@@ -74,11 +71,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.botnetFeed.asn.dayReport({
+					client.send(operation, {
 						account_id: accountId,
 						asn_id: argv["asn-id"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

@@ -1,6 +1,6 @@
+import operation from "../../_operations/waiting-rooms/events/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/waiting-rooms.ts
@@ -42,8 +42,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"waiting-room-delete-event">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <event-id>",
@@ -91,11 +89,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.waitingRooms.events.delete({
+					client.send(operation, {
 						zone_id: zoneId,
 						waiting_room_id: argv["waiting-room-id"],
 						event_id: argv["event-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

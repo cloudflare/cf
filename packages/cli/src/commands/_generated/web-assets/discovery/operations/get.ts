@@ -1,6 +1,6 @@
+import operation from "../../../_operations/web-assets/discovery/operations/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/web-assets.ts
@@ -30,9 +30,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request =
-	SdkRequest<"api-shield-api-discovery-retrieve-discovered-operation-by-id">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <discovery-id>",
@@ -68,10 +65,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.webAssets.discovery.operations.get({
+					client.send(operation, {
 						zone_id: zoneId,
 						discovery_id: argv["discovery-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

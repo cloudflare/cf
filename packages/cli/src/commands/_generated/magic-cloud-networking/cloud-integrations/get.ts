@@ -1,6 +1,6 @@
+import operation from "../../_operations/magic-cloud-networking/cloud-integrations/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/magic-cloud-networking.ts
@@ -37,9 +37,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"providers-read">;
-type Query = SdkQuery<"providers-read">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <provider-id>",
 	describe: "Read Cloud Integration",
@@ -54,7 +51,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					status: argv["status"],
 				};
 				if (argv.dryRun) {
@@ -74,11 +71,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.magicCloudNetworking.cloudIntegrations.get({
+					client.send(operation, {
 						account_id: accountId,
 						provider_id: argv["provider-id"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

@@ -1,6 +1,6 @@
+import operation from "../../_operations/pages/deployments/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/pages.ts
@@ -55,9 +55,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"pages-deployment-delete-deployment">;
-type Query = SdkQuery<"pages-deployment-delete-deployment">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <deployment-id>",
 	describe: "Delete a Pages deployment",
@@ -73,7 +70,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					force: argv["allow-aliased"],
 				};
 				if (argv.dryRun) {
@@ -101,12 +98,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.pages.deployments.delete({
+					client.send(operation, {
 						account_id: accountId,
 						project_name: argv["project-name"],
 						deployment_id: argv["deployment-id"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

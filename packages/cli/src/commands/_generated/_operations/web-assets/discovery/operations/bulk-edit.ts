@@ -1,0 +1,9 @@
+/** @generated from api-shield-api-patch-discovered-operations */
+import { path } from "#api";
+
+export default {
+	method: "PATCH",
+	path: (request: Record<string, unknown>) =>
+		path`/zones/${request.zone_id}/api_gateway/discovery/operations`,
+	body: "json",
+} as const;

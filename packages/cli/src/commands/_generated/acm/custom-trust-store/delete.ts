@@ -1,6 +1,6 @@
+import operation from "../../_operations/acm/custom-trust-store/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/acm.ts
@@ -37,8 +37,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"custom-origin-trust-store-delete">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <custom-origin-trust-store-id>",
@@ -82,10 +80,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.acm.customTrustStore.delete({
+					client.send(operation, {
 						zone_id: zoneId,
 						custom_origin_trust_store_id: argv["custom-origin-trust-store-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

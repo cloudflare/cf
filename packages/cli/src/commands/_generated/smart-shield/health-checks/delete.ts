@@ -1,6 +1,6 @@
+import operation from "../../_operations/smart-shield/health-checks/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/smart-shield.ts
@@ -37,8 +37,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"smart-shield-delete-health-check">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <healthcheck-id>",
@@ -80,10 +78,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.smartShield.healthChecks.delete({
+					client.send(operation, {
 						zone_id: zoneId,
 						healthcheck_id: argv["healthcheck-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

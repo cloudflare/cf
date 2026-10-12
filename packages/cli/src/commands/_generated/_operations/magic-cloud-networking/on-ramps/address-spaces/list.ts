@@ -1,0 +1,15 @@
+/** @generated from onramps-mwan-addr-space-read */
+import { path } from "#api";
+
+export default {
+	method: "GET",
+	path: (request: Record<string, unknown>) =>
+		path`/accounts/${request.account_id}/magic/cloud/onramps/magic_wan_address_space`,
+	errors: {
+		400: "BadRequestError",
+		401: "UnauthorizedError",
+		403: "ForbiddenError",
+		404: "NotFoundError",
+		500: "InternalServerError",
+	},
+} as const;

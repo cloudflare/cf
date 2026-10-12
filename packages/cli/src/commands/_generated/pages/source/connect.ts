@@ -1,6 +1,6 @@
+import operation from "../../_operations/pages/source/connect.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * connect command
  * @generated from apis/overlays/pages.ts
@@ -125,9 +125,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"pages-project-connect-project-source">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "connect <project-name>",
 	describe: "Connect a Git repository",
@@ -214,13 +211,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
-						client.pages.source.connect({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							account_id: accountId,
 							project_name: argv["project-name"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
@@ -310,7 +307,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					config: {
 						deployments_enabled: argv["source-config-deployments-enabled"],
 						owner: resolveFileToken(
@@ -353,11 +350,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					type: argv["type"],
 				});
 				const result = await withProgress(`Creating`, async () =>
-					client.pages.source.connect({
-						...bodyData,
+					client.send(operation, {
+						body: bodyData,
 						account_id: accountId,
 						project_name: argv["project-name"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

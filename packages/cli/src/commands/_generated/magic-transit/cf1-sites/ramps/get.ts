@@ -1,6 +1,6 @@
+import operation from "../../../_operations/magic-transit/cf1-sites/ramps/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/magic-transit.ts
@@ -41,8 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"magic-cf1-sites-get-cf1-site-ramp">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <ramp-id>",
 	describe: "Get CF1 Site Ramp",
@@ -76,11 +74,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.magicTransit.cf1Sites.ramps.get({
+					client.send(operation, {
 						account_id: accountId,
 						cf1_site_id: argv["cf1-site-id"],
 						ramp_id: argv["ramp-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

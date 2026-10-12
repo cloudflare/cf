@@ -1,6 +1,6 @@
+import operation from "../../../_operations/r2/buckets/local-uploads/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/r2.ts
@@ -36,8 +36,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"r2-get-bucket-local-uploads-configuration">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <bucket-name>",
 	describe: "Get Local Uploads Configuration",
@@ -68,10 +66,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.r2.buckets.localUploads.get({
+					client.send(operation, {
 						account_id: accountId,
 						bucket_name: argv["bucket-name"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

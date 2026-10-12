@@ -1,6 +1,6 @@
+import operation from "../../../_operations/network/routes/cidr/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/network.ts
@@ -43,8 +43,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"tunnel-route-delete-a-tunnel-route">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <route-id>",
 	describe: "Delete a tunnel route",
@@ -86,10 +84,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.network.routes.cidr.delete({
+					client.send(operation, {
 						account_id: accountId,
 						route_id: argv["route-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

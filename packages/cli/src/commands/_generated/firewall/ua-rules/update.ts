@@ -1,6 +1,6 @@
+import operation from "../../_operations/firewall/ua-rules/update.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * update command
  * @generated from apis/overlays/firewall.ts
@@ -60,10 +60,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"user-agent-blocking-rules-update-a-user-agent-blocking-rule">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update <ua-rule-id>",
 	describe: "Update a User Agent Blocking rule",
@@ -117,20 +113,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Updating`, async () =>
-						client.firewall.uaRules.update({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							zone_id: zoneId,
 							ua_rule_id: argv["ua-rule-id"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					configuration: {
 						target: argv["configuration-target"],
 						value: resolveFileToken(
@@ -147,11 +143,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					paused: argv["paused"],
 				});
 				const result = await withProgress(`Updating`, async () =>
-					client.firewall.uaRules.update({
-						...bodyData,
+					client.send(operation, {
+						body: bodyData,
 						zone_id: zoneId,
 						ua_rule_id: argv["ua-rule-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Updated` });
 			}

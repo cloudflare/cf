@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/custom-pages/assets/list/custom/assets.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * assets command
  * @generated from apis/overlays/custom-pages.ts
@@ -40,11 +40,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"generated:get:/{account_or_zone}/{account_or_zone_id}/custom_pages/assets">;
-type Query =
-	SdkQuery<"generated:get:/{account_or_zone}/{account_or_zone_id}/custom_pages/assets">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "assets",
 	describe: "List custom assets",
@@ -59,7 +54,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					page: argv["page"],
 					per_page: argv["per-page"],
 				};
@@ -101,11 +96,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Loading`, async () =>
-					client.customPages.assets.list.custom.assets({
+					client.send(operation, {
 						account_or_zone: accountOrZone,
 						account_or_zone_id: accountOrZoneId,
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

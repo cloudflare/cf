@@ -1,6 +1,6 @@
+import operation from "../../../_operations/zero-trust/access/users/revoke.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * revoke command
  * @generated from apis/overlays/zero-trust.ts
@@ -62,10 +62,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request =
-	SdkRequest<"generated:post:/{account_or_zone}/{account_or_zone_id}/access/organizations/revoke_user">;
-type Body = Request;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "revoke",
@@ -146,13 +142,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Deleting`, async () =>
-						client.zeroTrust.access.users.revoke({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							account_or_zone: accountOrZone,
 							account_or_zone_id: accountOrZoneId,
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Deleted` });
 					return;
@@ -165,7 +161,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					devices: argv["devices"],
 					email: resolveFileToken(
 						argv["email"] as string | undefined,
@@ -180,11 +176,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					warp_session_reauth: argv["warp-session-reauth"],
 				});
 				const result = await withProgress(`Deleting`, async () =>
-					client.zeroTrust.access.users.revoke({
-						...bodyData,
+					client.send(operation, {
+						body: bodyData,
 						account_or_zone: accountOrZone,
 						account_or_zone_id: accountOrZoneId,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

@@ -1,6 +1,6 @@
+import operation from "../../../../_operations/stream/videos/captions/language/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/stream.ts
@@ -41,9 +41,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request =
-	SdkRequest<"stream-subtitles/-captions-get-caption-or-subtitle-for-language">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <language>",
 	describe: "List captions or subtitles for a provided language",
@@ -77,11 +74,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.stream.videos.captions.language.get({
+					client.send(operation, {
 						account_id: accountId,
 						identifier: argv["identifier"],
 						language: argv["language"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

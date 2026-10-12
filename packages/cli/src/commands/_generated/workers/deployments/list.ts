@@ -1,6 +1,6 @@
+import operation from "../../_operations/workers/deployments/list.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * list command
  * @generated from apis/overlays/workers.ts
@@ -47,9 +47,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"worker-deployments-list-deployments">;
-type Query = SdkQuery<"worker-deployments-list-deployments">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "list",
 	describe: "List Worker Deployments",
@@ -64,7 +61,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					since: argv["since"],
 					until: argv["until"],
 					page: argv["page"],
@@ -89,11 +86,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv["worker"] = scriptName;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.workers.deployments.list({
+					client.send(operation, {
 						account_id: accountId,
 						script_name: scriptName,
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

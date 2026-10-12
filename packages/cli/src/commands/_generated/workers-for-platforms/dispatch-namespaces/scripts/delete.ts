@@ -1,6 +1,6 @@
+import operation from "../../../_operations/workers-for-platforms/dispatch-namespaces/scripts/delete.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/workers-for-platforms.ts
@@ -53,9 +53,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"namespace-worker-script-delete-worker">;
-type Query = SdkQuery<"namespace-worker-script-delete-worker">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <script-name>",
 	describe: "Delete Workers for Platforms Script",
@@ -71,7 +68,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			},
 			argv as Record<string, unknown>,
 			async () => {
-				const queryParams: Query = {
+				const queryParams: Record<string, unknown> = {
 					force: argv["delete-with-references"],
 				};
 				if (argv.dryRun) {
@@ -105,12 +102,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.workersForPlatforms.dispatchNamespaces.scripts.delete({
+					client.send(operation, {
 						account_id: accountId,
 						dispatch_namespace: argv["dispatch-namespace"],
 						script_name: argv["script-name"],
 						...queryParams,
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

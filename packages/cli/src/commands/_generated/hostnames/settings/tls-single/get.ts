@@ -1,6 +1,6 @@
+import operation from "../../../_operations/hostnames/settings/tls-single/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/hostnames.ts
@@ -37,8 +37,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"per-hostname-tls-settings-get">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <hostname>",
 	describe: "Get TLS setting for hostname",
@@ -74,11 +72,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.zoneId = zoneId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.hostnames.settings.tlsSingle.get({
+					client.send(operation, {
 						zone_id: zoneId,
 						setting_id: argv["setting-id"],
 						hostname: argv["hostname"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

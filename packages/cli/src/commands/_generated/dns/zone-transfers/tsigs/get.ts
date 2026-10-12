@@ -1,6 +1,6 @@
+import operation from "../../../_operations/dns/zone-transfers/tsigs/get.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * get command
  * @generated from apis/overlays/dns.ts
@@ -34,8 +34,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"secondary-dns-(-tsig)-tsig-details">;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <tsig-id>",
 	describe: "TSIG Details",
@@ -66,10 +64,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					client.dns.zoneTransfers.tsigs.get({
+					client.send(operation, {
 						account_id: accountId,
 						tsig_id: argv["tsig-id"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

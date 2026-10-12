@@ -1,6 +1,6 @@
+import operation from "../../_operations/accounts/subscriptions/createCancelReason.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * createCancelReason command
  * @generated from apis/overlays/accounts.ts
@@ -51,9 +51,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 
 type Args = InferArgs<typeof builder>;
 
-type Request = SdkRequest<"account-subscriptions-create-cancel-reason">;
-type Body = Request;
-
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "createCancelReason <subscription-identifier>",
 	describe: "Create Cancel Reason",
@@ -99,20 +96,20 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request>(argv.body);
+					const bodyData = parseBody(argv.body);
 					const result = await withProgress(`Creating`, async () =>
-						client.accounts.subscriptions.createCancelReason({
-							...bodyData,
+						client.send(operation, {
+							body: bodyData,
 							account_id: accountId,
 							subscription_identifier: argv["subscription-identifier"],
-						} satisfies Request)
+						})
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
 
 				// Assemble request body from individual flags
-				const bodyData = compactBody<Body>({
+				const bodyData = compactBody({
 					other: resolveFileToken(
 						argv["other"] as string | undefined,
 						"other",
@@ -121,11 +118,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					reason_code: argv["reason-code"],
 				});
 				const result = await withProgress(`Creating`, async () =>
-					client.accounts.subscriptions.createCancelReason({
-						...bodyData,
+					client.send(operation, {
+						body: bodyData,
 						account_id: accountId,
 						subscription_identifier: argv["subscription-identifier"],
-					} satisfies Request)
+					})
 				);
 				formatOutput(result, { successLabel: `Created` });
 			}

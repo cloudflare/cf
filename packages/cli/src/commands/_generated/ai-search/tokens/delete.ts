@@ -1,6 +1,5 @@
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
 /**
  * delete command
  * @generated from apis/overlays/ai-search.ts
@@ -9,6 +8,7 @@ import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
+	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -42,8 +42,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
-
-type Request = SdkRequest<"ai-search-delete-tokens">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <token-id>",
@@ -86,10 +84,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					client.aiSearch.tokens.delete({
-						account_id: accountId,
-						"token-id": argv["token-id"],
-					} satisfies Request)
+					requestApi<unknown>(
+						client,
+						"DELETE",
+						`/accounts/${accountId}/ai-search/tokens/${encodeURIComponent(String(argv["token-id"]))}`
+					)
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

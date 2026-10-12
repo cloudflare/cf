@@ -1,0 +1,31 @@
+/** @generated from radar-get-ct-timeseries */
+export default {
+	method: "GET",
+	path: () => "/radar/ct/timeseries",
+	query: [
+		"aggInterval",
+		"name",
+		"dateRange",
+		"dateStart",
+		"dateEnd",
+		"ca",
+		"caOwner",
+		"duration",
+		"entryType",
+		"expirationStatus",
+		"hasIps",
+		"hasWildcards",
+		"log",
+		"logApi",
+		"logOperator",
+		"publicKeyAlgorithm",
+		"signatureAlgorithm",
+		"tld",
+		"validationLevel",
+		"uniqueEntries",
+		"format",
+	],
+	errors: {
+		400: "BadRequestError",
+	},
+} as const;

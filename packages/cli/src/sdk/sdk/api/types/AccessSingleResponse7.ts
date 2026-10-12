@@ -7,5 +7,5 @@ export interface AccessSingleResponse7 {
     messages: CloudflareApi.AccessMessages;
     /** Whether the API call was successful. */
     success: true;
-    result?: CloudflareApi.AccessCertificates2 | undefined;
+    result?: CloudflareApi.AccessCertificates | undefined;
 }

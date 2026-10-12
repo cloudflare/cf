@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
-import * as CloudflareApi from "../../../index.js";
+import type * as CloudflareApi from "../../../index.js";
 
 export declare namespace UrlNormalizationClient {
     export type Options = BaseClientOptions;
@@ -28,6 +28,9 @@ export class UrlNormalizationClient {
      *
      * @param {CloudflareApi.GetUrlNormalizationRequest} request
      * @param {UrlNormalizationClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.urlNormalization.get({
@@ -96,6 +99,9 @@ export class UrlNormalizationClient {
      *
      * @param {CloudflareApi.UpdateUrlNormalizationRequest} request
      * @param {UrlNormalizationClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.urlNormalization.update({
@@ -171,6 +177,9 @@ export class UrlNormalizationClient {
      *
      * @param {CloudflareApi.DeleteUrlNormalizationRequest} request
      * @param {UrlNormalizationClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.urlNormalization.delete({

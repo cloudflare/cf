@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 
 export declare namespace CorsClient {
     export type Options = BaseClientOptions;
@@ -31,6 +31,9 @@ export class CorsClient {
      *
      * @param {CloudflareApi.r2.buckets.GetCorsRequest} request
      * @param {CorsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.r2.buckets.cors.get({
@@ -101,6 +104,9 @@ export class CorsClient {
      *
      * @param {CloudflareApi.r2.buckets.UpdateCorsRequest} request
      * @param {CorsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.r2.buckets.cors.update({
@@ -176,6 +182,9 @@ export class CorsClient {
      *
      * @param {CloudflareApi.r2.buckets.DeleteCorsRequest} request
      * @param {CorsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.r2.buckets.cors.delete({

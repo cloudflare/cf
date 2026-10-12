@@ -1,4 +1,4 @@
-import { describe, it } from "vitest";
+import { describe, it } from "vite-plus/test";
 
 // Skipped: the `local` block in this file exercises wrangler's
 // `--local` mode for AI (miniflare-backed `getAIFetcher` that proxies

@@ -8,7 +8,8 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
+import * as CloudflareApiErrors from "../../../../../errors/index.js";
 import { CacheClient } from "../resources/cache/client/Client.js";
 import { EnvironmentVariablesClient } from "../resources/environmentVariables/client/Client.js";
 
@@ -42,11 +43,13 @@ export class TriggersClient {
      * @param {TriggersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.UnauthorizedError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.builds.triggers.create({
      *         account_id: "account-123",
-     *         branch_excludes: ["branch_excludes"],
+     *         branch_excludes: [],
      *         branch_includes: ["main"],
      *         build_command: "npm run build",
      *         build_token_uuid: "build_token_uuid",
@@ -103,7 +106,7 @@ export class TriggersClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new CloudflareApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -129,6 +132,8 @@ export class TriggersClient {
      *
      * @throws {@link CloudflareApi.UnauthorizedError}
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.builds.triggers.delete({
@@ -177,9 +182,9 @@ export class TriggersClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new CloudflareApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -205,6 +210,8 @@ export class TriggersClient {
      *
      * @throws {@link CloudflareApi.UnauthorizedError}
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.builds.triggers.update({
@@ -256,9 +263,9 @@ export class TriggersClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new CloudflareApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -283,6 +290,8 @@ export class TriggersClient {
      * @param {TriggersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.UnauthorizedError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.builds.triggers.list({
@@ -334,7 +343,7 @@ export class TriggersClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 401:
-                    throw new CloudflareApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,

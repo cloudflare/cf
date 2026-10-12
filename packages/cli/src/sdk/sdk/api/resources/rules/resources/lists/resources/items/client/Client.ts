@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 
 export declare namespace ItemsClient {
     export type Options = BaseClientOptions;
@@ -31,6 +31,9 @@ export class ItemsClient {
      *
      * @param {CloudflareApi.rules.lists.ListItemsRequest} request
      * @param {ItemsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.rules.lists.items.list({
@@ -109,12 +112,15 @@ export class ItemsClient {
     /**
      * Appends new items to the list.
      *
-     * This operation is asynchronous. To get current the operation status, invoke the `Get bulk operation status` endpoint with the returned `operation_id`.
+     * This operation is asynchronous. To get the current operation status, invoke the `Get bulk operation status` endpoint with the returned `operation_id`.
      *
      * There is a limit of 1 pending bulk operation per account. If an outstanding bulk operation is in progress, the request will be rejected.
      *
      * @param {CloudflareApi.rules.lists.CreateItemsRequest} request
      * @param {ItemsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.rules.lists.items.create({
@@ -188,12 +194,15 @@ export class ItemsClient {
     /**
      * Removes all existing items from the list and adds the provided items to the list.
      *
-     * This operation is asynchronous. To get current the operation status, invoke the `Get bulk operation status` endpoint with the returned `operation_id`.
+     * This operation is asynchronous. To get the current operation status, invoke the `Get bulk operation status` endpoint with the returned `operation_id`.
      *
      * There is a limit of 1 pending bulk operation per account. If an outstanding bulk operation is in progress, the request will be rejected.
      *
      * @param {CloudflareApi.rules.lists.UpdateItemsRequest} request
      * @param {ItemsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.rules.lists.items.update({
@@ -267,12 +276,15 @@ export class ItemsClient {
     /**
      * Removes one or more items from a list.
      *
-     * This operation is asynchronous. To get current the operation status, invoke the `Get bulk operation status` endpoint with the returned `operation_id`.
+     * This operation is asynchronous. To get the current operation status, invoke the `Get bulk operation status` endpoint with the returned `operation_id`.
      *
      * There is a limit of 1 pending bulk operation per account. If an outstanding bulk operation is in progress, the request will be rejected.
      *
      * @param {CloudflareApi.rules.lists.DeleteItemsRequest} request
      * @param {ItemsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.rules.lists.items.delete({
@@ -345,6 +357,9 @@ export class ItemsClient {
      *
      * @param {CloudflareApi.rules.lists.GetItemsRequest} request
      * @param {ItemsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.rules.lists.items.get({

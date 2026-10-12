@@ -10,7 +10,7 @@
 // test is converted to `it.skip(...)` with an empty body.
 
 // eslint-disable-next-line no-restricted-imports
-import { describe, it, test } from "vitest";
+import { describe, it, test } from "vite-plus/test";
 
 describe("Zones", () => {
 	describe("getHostFromUrl", () => {

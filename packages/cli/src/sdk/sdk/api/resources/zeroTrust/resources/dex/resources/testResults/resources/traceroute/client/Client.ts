@@ -10,7 +10,7 @@ import { mergeHeaders } from "../../../../../../../../../../core/headers.js";
 import * as environments from "../../../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../../../index.js";
 import { NetworkPathClient } from "../resources/networkPath/client/Client.js";
 import { PercentilesClient } from "../resources/percentiles/client/Client.js";
 
@@ -42,6 +42,9 @@ export class TracerouteClient {
      *
      * @param {CloudflareApi.zeroTrust.dex.testResults.GetTracerouteRequest} request
      * @param {TracerouteClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dex.testResults.traceroute.get({

@@ -8,7 +8,8 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
+import * as CloudflareApiErrors from "../../../../../errors/index.js";
 import { IngressesClient } from "../resources/ingresses/client/Client.js";
 
 export declare namespace SinkholesClient {
@@ -34,6 +35,9 @@ export class SinkholesClient {
      *
      * @param {CloudflareApi.intel.ListSinkholesRequest} request
      * @param {SinkholesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.intel.sinkholes.list({
@@ -102,6 +106,9 @@ export class SinkholesClient {
      *
      * @param {CloudflareApi.intel.CreateSinkholesRequest} request
      * @param {SinkholesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.intel.sinkholes.create({
@@ -177,6 +184,9 @@ export class SinkholesClient {
      * @param {CloudflareApi.intel.GetSinkholesRequest} request
      * @param {SinkholesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.intel.sinkholes.get({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -245,6 +255,9 @@ export class SinkholesClient {
      *
      * @param {CloudflareApi.intel.UpdateSinkholesRequest} request
      * @param {SinkholesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.intel.sinkholes.update({
@@ -319,6 +332,8 @@ export class SinkholesClient {
      * @param {SinkholesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.ConflictError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.intel.sinkholes.delete({
@@ -367,7 +382,7 @@ export class SinkholesClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 409:
-                    throw new CloudflareApi.ConflictError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.ConflictError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,

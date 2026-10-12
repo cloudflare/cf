@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 
 export declare namespace RampsClient {
     export type Options = BaseClientOptions;
@@ -31,6 +31,9 @@ export class RampsClient {
      *
      * @param {CloudflareApi.magicTransit.cf1Sites.ListRampsRequest} request
      * @param {RampsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.cf1Sites.ramps.list({
@@ -100,6 +103,9 @@ export class RampsClient {
      *
      * @param {CloudflareApi.magicTransit.cf1Sites.CreateRampsRequest} request
      * @param {RampsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.cf1Sites.ramps.create({
@@ -177,6 +183,9 @@ export class RampsClient {
      * @param {CloudflareApi.magicTransit.cf1Sites.GetRampsRequest} request
      * @param {RampsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.cf1Sites.ramps.get({
      *         account_id: "account_id",
@@ -243,6 +252,9 @@ export class RampsClient {
      *
      * @param {CloudflareApi.magicTransit.cf1Sites.DeleteRampsRequest} request
      * @param {RampsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.cf1Sites.ramps.delete({

@@ -19,7 +19,7 @@ export interface GetIndicatorsRequest {
     account_id: string;
     /** Tag UUID. */
     tag_uuid: string;
-    /** Dataset UUIDs to scope to (repeat the param for multiple), or one standalone scope: 'all'/'*', 'analytics' for isAnalytics=true datasets, or 'operational' for isAnalytics=false datasets. Analytics datasets do not expose tag associations, so 'analytics' returns an empty result. Omit to search all readable datasets. */
+    /** Dataset UUIDs to scope to (repeat the param for multiple), or one standalone scope value: 'all'/'*' or 'operational' for readable intelligence datasets (isAnalytics=false), or 'analytics' for readable analytics datasets (isAnalytics=true). Analytics datasets do not expose tag associations, so 'analytics' returns an empty result. Omit for 'all'. */
     datasetIds?: string | string[];
     page?: number;
     pageSize?: number;

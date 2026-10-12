@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * create command
+ * @generated from apis/overlays/zero-trust.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -11,14 +19,6 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * create command
- * @generated from apis/overlays/zero-trust.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -28,6 +28,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("client-default", {
 			type: "boolean",
 			description: "Indicate whether this location is the default location.",
+			default: false,
+		})
+		.option("dns64-enabled", {
+			type: "boolean",
+			description:
+				"Enable DNS64 synthesis for DNS queries matched to this location. When updating a location, omitting this field resets it to false.",
 			default: false,
 		})
 		.option("dns-destination-ips-id", {
@@ -71,6 +77,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"`inherit` uses the account `max_ttl_secs`. `override` uses this location's `ttl_secs`. `disabled` leaves returned TTLs unchanged.",
 			choices: ["inherit", "override", "disabled"],
 		})
+		.coerce("max-ttl-mode", (value) =>
+			resolveFileToken(value, "max-ttl-mode", "text")
+		)
 		.option("max-ttl-ttl-secs", {
 			type: "number",
 			description:
@@ -127,6 +136,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				classification: {
 					safeFlags: [
 						"client-default",
+						"dns64-enabled",
 						"ecs-support",
 						"endpoints-doh-enabled",
 						"endpoints-doh-require-token",
@@ -153,6 +163,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								? parseBody(argv.body)
 								: compactBody({
 										client_default: argv["client-default"],
+										dns64_enabled: argv["dns64-enabled"],
 										dns_destination_ips_id: resolveFileToken(
 											argv["dns-destination-ips-id"] as string | undefined,
 											"dns-destination-ips-id",
@@ -175,11 +186,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											},
 										},
 										max_ttl: {
-											mode: resolveFileToken(
-												argv["max-ttl-mode"] as string | undefined,
-												"max-ttl-mode",
-												"text"
-											),
+											mode: argv["max-ttl-mode"],
 											ttl_secs: argv["max-ttl-ttl-secs"],
 										},
 										name: resolveFileToken(
@@ -217,6 +224,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
 					client_default: argv["client-default"],
+					dns64_enabled: argv["dns64-enabled"],
 					dns_destination_ips_id: resolveFileToken(
 						argv["dns-destination-ips-id"] as string | undefined,
 						"dns-destination-ips-id",
@@ -239,11 +247,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						},
 					},
 					max_ttl: {
-						mode: resolveFileToken(
-							argv["max-ttl-mode"] as string | undefined,
-							"max-ttl-mode",
-							"text"
-						),
+						mode: argv["max-ttl-mode"],
 						ttl_secs: argv["max-ttl-ttl-secs"],
 					},
 					name: resolveFileToken(

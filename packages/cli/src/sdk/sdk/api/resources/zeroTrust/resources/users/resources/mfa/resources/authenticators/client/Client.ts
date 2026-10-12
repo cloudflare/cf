@@ -10,7 +10,7 @@ import { mergeHeaders } from "../../../../../../../../../../core/headers.js";
 import * as environments from "../../../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../../../index.js";
 
 export declare namespace AuthenticatorsClient {
     export type Options = BaseClientOptions;
@@ -26,10 +26,13 @@ export class AuthenticatorsClient {
     }
 
     /**
-     * Deletes a specific MFA device, including a PIV key or FIDO2 key enrollment, for a user. This action is only available if MFA is turned on for the organization. Successful deletion revokes the enrollment and returns a null result.
+     * Deletes a specific MFA device or passkey, including a PIV key or FIDO2 key enrollment, for a user. Admin deletion remains available when MFA is disabled. Successful deletion revokes the enrollment and returns a null result.
      *
      * @param {CloudflareApi.zeroTrust.users.mfa.DeleteAuthenticatorsRequest} request
      * @param {AuthenticatorsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.users.mfa.authenticators.delete({

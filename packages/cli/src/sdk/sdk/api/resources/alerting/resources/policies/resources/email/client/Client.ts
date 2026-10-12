@@ -7,7 +7,7 @@ import { mergeHeaders } from "../../../../../../../../core/headers.js";
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 
 export declare namespace EmailClient {
     export type Options = BaseClientOptions;
@@ -27,6 +27,9 @@ export class EmailClient {
      *
      * @param {CloudflareApi.alerting.policies.DetailsEmailRequest} request
      * @param {EmailClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.alerting.policies.email.details({
@@ -98,6 +101,9 @@ export class EmailClient {
      *
      * @param {CloudflareApi.alerting.policies.UnsubscribeEmailRequest} request
      * @param {EmailClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.alerting.policies.email.unsubscribe({

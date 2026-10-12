@@ -1,8 +1,6 @@
 export * as bulk from "./bulk/index.js";
 export * from "./bulk/client/requests/index.js";
 export * from "./bulk/types/index.js";
-export * as bulkDeprecated from "./bulkDeprecated/index.js";
-export * from "./bulkDeprecated/client/requests/index.js";
 export * as keys from "./keys/index.js";
 export * from "./keys/client/requests/index.js";
 export * from "./keys/types/index.js";

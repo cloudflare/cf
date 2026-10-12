@@ -7,5 +7,5 @@ export interface AccessSingleResponse17 {
     messages: CloudflareApi.AccessMessages;
     /** Whether the API call was successful. */
     success: true;
-    result?: CloudflareApi.AccessGroups3 | undefined;
+    result?: CloudflareApi.AccessIdentityProviders2 | undefined;
 }

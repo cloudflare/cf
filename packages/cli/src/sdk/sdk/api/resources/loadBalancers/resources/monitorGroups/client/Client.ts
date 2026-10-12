@@ -8,7 +8,8 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
+import * as CloudflareApiErrors from "../../../../../errors/index.js";
 import { ReferencesClient } from "../resources/references/client/Client.js";
 
 export declare namespace MonitorGroupsClient {
@@ -34,6 +35,9 @@ export class MonitorGroupsClient {
      *
      * @param {CloudflareApi.loadBalancers.ListMonitorGroupsRequest} request
      * @param {MonitorGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.loadBalancers.monitorGroups.list({
@@ -104,6 +108,8 @@ export class MonitorGroupsClient {
      * @param {MonitorGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.PreconditionFailedError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.loadBalancers.monitorGroups.create({
@@ -166,7 +172,7 @@ export class MonitorGroupsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 412:
-                    throw new CloudflareApi.PreconditionFailedError(
+                    throw new CloudflareApiErrors.PreconditionFailedError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -192,6 +198,9 @@ export class MonitorGroupsClient {
      *
      * @param {CloudflareApi.loadBalancers.GetMonitorGroupsRequest} request
      * @param {MonitorGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.loadBalancers.monitorGroups.get({
@@ -263,6 +272,8 @@ export class MonitorGroupsClient {
      * @param {MonitorGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.PreconditionFailedError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.loadBalancers.monitorGroups.update({
@@ -326,7 +337,7 @@ export class MonitorGroupsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 412:
-                    throw new CloudflareApi.PreconditionFailedError(
+                    throw new CloudflareApiErrors.PreconditionFailedError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -354,6 +365,8 @@ export class MonitorGroupsClient {
      * @param {MonitorGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.PreconditionFailedError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.loadBalancers.monitorGroups.delete({
@@ -405,7 +418,7 @@ export class MonitorGroupsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 412:
-                    throw new CloudflareApi.PreconditionFailedError(
+                    throw new CloudflareApiErrors.PreconditionFailedError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -433,6 +446,8 @@ export class MonitorGroupsClient {
      * @param {MonitorGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.PreconditionFailedError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.loadBalancers.monitorGroups.edit({
@@ -496,7 +511,7 @@ export class MonitorGroupsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 412:
-                    throw new CloudflareApi.PreconditionFailedError(
+                    throw new CloudflareApiErrors.PreconditionFailedError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );

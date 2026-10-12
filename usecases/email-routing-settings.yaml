@@ -1,9 +1,0 @@
-description: "Show Email Routing settings for a zone"
-command: "wrangler email routing settings <domain>"
-status: "direct"
-sourceCommands:
-  - "wrangler email routing settings <domain>"
-cfReplacementFlow:
-  - "cf email-routing settings get --zone <zone>"
-notes:
-  - "Wrangler accepts domain/zone-id. cf can use global --zone for zone resolution where generated command is zone-scoped."

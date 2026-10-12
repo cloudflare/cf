@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 import { EditClient } from "../resources/edit/client/Client.js";
 import { HealthClient } from "../resources/health/client/Client.js";
 import { PreviewClient } from "../resources/preview/client/Client.js";
@@ -55,6 +55,9 @@ export class PoolsClient {
      *
      * @param {CloudflareApi.user.loadBalancers.ListPoolsRequest} request
      * @param {PoolsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.user.loadBalancers.pools.list()
@@ -124,6 +127,9 @@ export class PoolsClient {
      * @param {CloudflareApi.user.loadBalancers.CreatePoolsRequest} request
      * @param {PoolsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.user.loadBalancers.pools.create({
      *         name: "primary-dc-1",
@@ -186,6 +192,9 @@ export class PoolsClient {
      *
      * @param {CloudflareApi.user.loadBalancers.GetPoolsRequest} request
      * @param {PoolsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.user.loadBalancers.pools.get({
@@ -251,6 +260,9 @@ export class PoolsClient {
      *
      * @param {CloudflareApi.user.loadBalancers.UpdatePoolsRequest} request
      * @param {PoolsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.user.loadBalancers.pools.update({
@@ -321,6 +333,9 @@ export class PoolsClient {
      *
      * @param {CloudflareApi.user.loadBalancers.DeletePoolsRequest} request
      * @param {PoolsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.user.loadBalancers.pools.delete({

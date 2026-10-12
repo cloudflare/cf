@@ -8,7 +8,8 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
-import * as CloudflareApi from "../../../index.js";
+import type * as CloudflareApi from "../../../index.js";
+import * as CloudflareApiErrors from "../../../errors/index.js";
 import { ItemsClient } from "../resources/items/client/Client.js";
 import { JobsClient } from "../resources/jobs/client/Client.js";
 import { NamespaceClient } from "../resources/namespace/client/Client.js";
@@ -54,13 +55,17 @@ export class AiSearchClient {
      * @param {AiSearchClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link CloudflareApi.PaymentRequiredError}
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.TooManyRequestsError}
+     * @throws {@link CloudflareApi.BadGatewayError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiSearch.multiChatCompletions({
      *         account_id: "c3dc5f0b34a14ff8e1b3ec04895e1b22",
-     *         name: "my-namespace",
+     *         namespace: "my-namespace",
      *         ai_search_options: {
      *             instance_ids: ["my-ai-search"]
      *         },
@@ -78,7 +83,7 @@ export class AiSearchClient {
         request: CloudflareApi.MultiChatCompletionsAiSearchRequest,
         requestOptions?: AiSearchClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.MultiChatCompletionsAiSearchResponse>> {
-        const { account_id: accountId, name, ..._body } = request;
+        const { account_id: accountId, namespace, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -90,7 +95,7 @@ export class AiSearchClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(name)}/chat/completions`,
+                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(namespace)}/chat/completions`,
             ),
             method: "POST",
             headers: _headers,
@@ -114,14 +119,21 @@ export class AiSearchClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
-                case 404:
-                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
-                case 429:
-                    throw new CloudflareApi.TooManyRequestsError(
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 402:
+                    throw new CloudflareApiErrors.PaymentRequiredError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
+                case 404:
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 429:
+                    throw new CloudflareApiErrors.TooManyRequestsError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
+                case 502:
+                    throw new CloudflareApiErrors.BadGatewayError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -135,7 +147,7 @@ export class AiSearchClient {
             _response.error,
             _response.rawResponse,
             "POST",
-            "/accounts/{account_id}/ai-search/namespaces/{name}/chat/completions",
+            "/accounts/{account_id}/ai-search/namespaces/{namespace}/chat/completions",
         );
     }
 
@@ -146,11 +158,13 @@ export class AiSearchClient {
      * @param {AiSearchClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiSearch.list({
      *         account_id: "c3dc5f0b34a14ff8e1b3ec04895e1b22",
-     *         name: "my-namespace",
+     *         namespace: "my-namespace",
      *         page: 1,
      *         per_page: 20
      *     })
@@ -168,12 +182,11 @@ export class AiSearchClient {
     ): Promise<core.WithRawResponse<CloudflareApi.ListAiSearchResponse>> {
         const {
             account_id: accountId,
-            name,
+            namespace,
             page,
             per_page: perPage,
             search,
             hostname,
-            namespace,
             order_by: orderBy,
             order_by_direction: orderByDirection,
         } = request;
@@ -182,7 +195,6 @@ export class AiSearchClient {
             per_page: perPage,
             search,
             hostname,
-            namespace,
             order_by: orderBy != null ? orderBy : undefined,
             order_by_direction: orderByDirection != null ? orderByDirection : undefined,
         };
@@ -197,7 +209,7 @@ export class AiSearchClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(name)}/instances`,
+                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(namespace)}/instances`,
             ),
             method: "GET",
             headers: _headers,
@@ -219,7 +231,7 @@ export class AiSearchClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -233,12 +245,12 @@ export class AiSearchClient {
             _response.error,
             _response.rawResponse,
             "GET",
-            "/accounts/{account_id}/ai-search/namespaces/{name}/instances",
+            "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances",
         );
     }
 
     /**
-     * Create a new AI Search instance with the given configuration. If type is omitted or null, a non-blank HTTP(S) source infers web-crawler and an existing R2 bucket source infers r2. A missing or blank source without a type creates a managed upload-only instance. Search for Agents instances require the default namespace.
+     * Create a new AI Search instance with the given configuration. If type is omitted or null, a non-blank HTTP(S) source infers web-crawler and any other source infers r2; r2 sources must name an existing bucket. A missing or blank source without a type creates a managed upload-only instance.
      *
      * @param {CloudflareApi.CreateAiSearchRequest} request
      * @param {AiSearchClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -246,11 +258,13 @@ export class AiSearchClient {
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.ConflictError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiSearch.create({
      *         account_id: "c3dc5f0b34a14ff8e1b3ec04895e1b22",
-     *         name: "my-namespace",
+     *         namespace: "my-namespace",
      *         id: "my-ai-search"
      *     })
      */
@@ -265,7 +279,7 @@ export class AiSearchClient {
         request: CloudflareApi.CreateAiSearchRequest,
         requestOptions?: AiSearchClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.CreateAiSearchResponse>> {
-        const { account_id: accountId, name, ..._body } = request;
+        const { account_id: accountId, namespace, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -277,7 +291,7 @@ export class AiSearchClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(name)}/instances`,
+                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(namespace)}/instances`,
             ),
             method: "POST",
             headers: _headers,
@@ -298,11 +312,11 @@ export class AiSearchClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new CloudflareApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 409:
-                    throw new CloudflareApi.ConflictError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.ConflictError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -316,7 +330,7 @@ export class AiSearchClient {
             _response.error,
             _response.rawResponse,
             "POST",
-            "/accounts/{account_id}/ai-search/namespaces/{name}/instances",
+            "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances",
         );
     }
 
@@ -327,12 +341,14 @@ export class AiSearchClient {
      * @param {AiSearchClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiSearch.get({
      *         account_id: "c3dc5f0b34a14ff8e1b3ec04895e1b22",
-     *         name: "my-namespace",
-     *         id: "my-ai-search"
+     *         namespace: "my-namespace",
+     *         "instance-id": "my-ai-search"
      *     })
      */
     public get(
@@ -346,7 +362,7 @@ export class AiSearchClient {
         request: CloudflareApi.GetAiSearchRequest,
         requestOptions?: AiSearchClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.GetAiSearchResponse>> {
-        const { account_id: accountId, name, id } = request;
+        const { account_id: accountId, namespace, "instance-id": instanceId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -358,7 +374,7 @@ export class AiSearchClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(name)}/instances/${core.url.encodePathParam(id)}`,
+                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(namespace)}/instances/${core.url.encodePathParam(instanceId)}`,
             ),
             method: "GET",
             headers: _headers,
@@ -376,7 +392,7 @@ export class AiSearchClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 404:
-                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -390,12 +406,12 @@ export class AiSearchClient {
             _response.error,
             _response.rawResponse,
             "GET",
-            "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}",
+            "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{instance-id}",
         );
     }
 
     /**
-     * Update an AI Search instance. Submitting Search for Agents metadata requires the default namespace; omitting or removing it is allowed elsewhere. Submit Search for Agents metadata and restrictive or unknown public endpoint changes or custom domains in separate PUT requests, even when resubmitting unchanged metadata.
+     * Update the configuration of an AI Search instance.
      *
      * @param {CloudflareApi.UpdateAiSearchRequest} request
      * @param {AiSearchClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -403,12 +419,14 @@ export class AiSearchClient {
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.ConflictError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiSearch.update({
      *         account_id: "c3dc5f0b34a14ff8e1b3ec04895e1b22",
-     *         name: "my-namespace",
-     *         id: "my-ai-search"
+     *         namespace: "my-namespace",
+     *         "instance-id": "my-ai-search"
      *     })
      */
     public update(
@@ -422,7 +440,7 @@ export class AiSearchClient {
         request: CloudflareApi.UpdateAiSearchRequest,
         requestOptions?: AiSearchClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.UpdateAiSearchResponse>> {
-        const { account_id: accountId, name, id, ..._body } = request;
+        const { account_id: accountId, namespace, "instance-id": instanceId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -434,7 +452,7 @@ export class AiSearchClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(name)}/instances/${core.url.encodePathParam(id)}`,
+                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(namespace)}/instances/${core.url.encodePathParam(instanceId)}`,
             ),
             method: "PUT",
             headers: _headers,
@@ -455,11 +473,11 @@ export class AiSearchClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 409:
-                    throw new CloudflareApi.ConflictError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.ConflictError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -473,7 +491,7 @@ export class AiSearchClient {
             _response.error,
             _response.rawResponse,
             "PUT",
-            "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}",
+            "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{instance-id}",
         );
     }
 
@@ -485,12 +503,14 @@ export class AiSearchClient {
      *
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.ConflictError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiSearch.delete({
      *         account_id: "c3dc5f0b34a14ff8e1b3ec04895e1b22",
-     *         name: "my-namespace",
-     *         id: "my-ai-search"
+     *         namespace: "my-namespace",
+     *         "instance-id": "my-ai-search"
      *     })
      */
     public delete(
@@ -504,7 +524,7 @@ export class AiSearchClient {
         request: CloudflareApi.DeleteAiSearchRequest,
         requestOptions?: AiSearchClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.DeleteAiSearchResponse>> {
-        const { account_id: accountId, name, id } = request;
+        const { account_id: accountId, namespace, "instance-id": instanceId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -516,7 +536,7 @@ export class AiSearchClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(name)}/instances/${core.url.encodePathParam(id)}`,
+                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(namespace)}/instances/${core.url.encodePathParam(instanceId)}`,
             ),
             method: "DELETE",
             headers: _headers,
@@ -534,9 +554,9 @@ export class AiSearchClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 404:
-                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 409:
-                    throw new CloudflareApi.ConflictError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.ConflictError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -550,12 +570,12 @@ export class AiSearchClient {
             _response.error,
             _response.rawResponse,
             "DELETE",
-            "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}",
+            "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{instance-id}",
         );
     }
 
     /**
-     * Moves an instance from its current namespace to the specified target namespace. Use 'default' with --destination-namespace to move the instance back to the default namespace. Fails with 400 if the target namespace already has an instance with the same id (ids must be unique within a namespace — the same id can exist in different namespaces). Search for Agents instances cannot move to another namespace.
+     * Moves an instance from its current namespace to the specified target namespace. Use 'default' with --destination-namespace to move the instance back to the default namespace. Fails with 400 if the target namespace already has an instance with the same id (ids must be unique within a namespace — the same id can exist in different namespaces).
      *
      * @param {CloudflareApi.MoveAiSearchRequest} request
      * @param {AiSearchClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -563,12 +583,14 @@ export class AiSearchClient {
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.ConflictError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiSearch.move({
      *         account_id: "c3dc5f0b34a14ff8e1b3ec04895e1b22",
-     *         name: "production",
-     *         id: "my-blog",
+     *         "source-namespace": "production",
+     *         "instance-id": "my-blog",
      *         new_namespace: "staging"
      *     })
      */
@@ -583,7 +605,12 @@ export class AiSearchClient {
         request: CloudflareApi.MoveAiSearchRequest,
         requestOptions?: AiSearchClient.RequestOptions,
     ): Promise<core.WithRawResponse<Record<string, unknown>>> {
-        const { account_id: accountId, name, id, ..._body } = request;
+        const {
+            account_id: accountId,
+            "source-namespace": sourceNamespace,
+            "instance-id": instanceId,
+            ..._body
+        } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -595,7 +622,7 @@ export class AiSearchClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(name)}/instances/${core.url.encodePathParam(id)}`,
+                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(sourceNamespace)}/instances/${core.url.encodePathParam(instanceId)}`,
             ),
             method: "PATCH",
             headers: _headers,
@@ -616,11 +643,11 @@ export class AiSearchClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 409:
-                    throw new CloudflareApi.ConflictError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.ConflictError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -634,7 +661,7 @@ export class AiSearchClient {
             _response.error,
             _response.rawResponse,
             "PATCH",
-            "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}",
+            "/accounts/{account_id}/ai-search/namespaces/{source-namespace}/instances/{instance-id}",
         );
     }
 
@@ -645,14 +672,18 @@ export class AiSearchClient {
      * @param {AiSearchClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link CloudflareApi.PaymentRequiredError}
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.TooManyRequestsError}
+     * @throws {@link CloudflareApi.BadGatewayError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiSearch.chatCompletions({
      *         account_id: "c3dc5f0b34a14ff8e1b3ec04895e1b22",
-     *         name: "my-namespace",
-     *         id: "my-ai-search",
+     *         namespace: "my-namespace",
+     *         "instance-id": "my-ai-search",
      *         messages: []
      *     })
      */
@@ -667,7 +698,7 @@ export class AiSearchClient {
         request: CloudflareApi.ChatCompletionsAiSearchRequest,
         requestOptions?: AiSearchClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.ChatCompletionsAiSearchResponse>> {
-        const { account_id: accountId, name, id, ..._body } = request;
+        const { account_id: accountId, namespace, "instance-id": instanceId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -679,7 +710,7 @@ export class AiSearchClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(name)}/instances/${core.url.encodePathParam(id)}/chat/completions`,
+                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(namespace)}/instances/${core.url.encodePathParam(instanceId)}/chat/completions`,
             ),
             method: "POST",
             headers: _headers,
@@ -703,14 +734,21 @@ export class AiSearchClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
-                case 404:
-                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
-                case 429:
-                    throw new CloudflareApi.TooManyRequestsError(
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 402:
+                    throw new CloudflareApiErrors.PaymentRequiredError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
+                case 404:
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 429:
+                    throw new CloudflareApiErrors.TooManyRequestsError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
+                case 502:
+                    throw new CloudflareApiErrors.BadGatewayError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -724,7 +762,7 @@ export class AiSearchClient {
             _response.error,
             _response.rawResponse,
             "POST",
-            "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/chat/completions",
+            "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{instance-id}/chat/completions",
         );
     }
 
@@ -735,12 +773,14 @@ export class AiSearchClient {
      * @param {AiSearchClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiSearch.purgeCache({
      *         account_id: "account_id",
-     *         name: "my-namespace",
-     *         id: "my-ai-search"
+     *         namespace: "my-namespace",
+     *         "instance-id": "my-ai-search"
      *     })
      */
     public purgeCache(
@@ -754,7 +794,7 @@ export class AiSearchClient {
         request: CloudflareApi.PurgeCacheAiSearchRequest,
         requestOptions?: AiSearchClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.PurgeCacheAiSearchResponse>> {
-        const { account_id: accountId, name, id } = request;
+        const { account_id: accountId, namespace, "instance-id": instanceId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -766,7 +806,7 @@ export class AiSearchClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(name)}/instances/${core.url.encodePathParam(id)}/purge_cache`,
+                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(namespace)}/instances/${core.url.encodePathParam(instanceId)}/purge_cache`,
             ),
             method: "POST",
             headers: _headers,
@@ -787,7 +827,7 @@ export class AiSearchClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 404:
-                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -801,7 +841,7 @@ export class AiSearchClient {
             _response.error,
             _response.rawResponse,
             "POST",
-            "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/purge_cache",
+            "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{instance-id}/purge_cache",
         );
     }
 
@@ -814,12 +854,15 @@ export class AiSearchClient {
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.TooManyRequestsError}
+     * @throws {@link CloudflareApi.BadGatewayError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiSearch.search({
      *         account_id: "c3dc5f0b34a14ff8e1b3ec04895e1b22",
-     *         name: "my-namespace",
-     *         id: "my-ai-search"
+     *         namespace: "my-namespace",
+     *         "instance-id": "my-ai-search"
      *     })
      */
     public search(
@@ -833,7 +876,7 @@ export class AiSearchClient {
         request: CloudflareApi.SearchAiSearchRequest,
         requestOptions?: AiSearchClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.SearchAiSearchResponse>> {
-        const { account_id: accountId, name, id, ..._body } = request;
+        const { account_id: accountId, namespace, "instance-id": instanceId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -845,7 +888,7 @@ export class AiSearchClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(name)}/instances/${core.url.encodePathParam(id)}/search`,
+                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(namespace)}/instances/${core.url.encodePathParam(instanceId)}/search`,
             ),
             method: "POST",
             headers: _headers,
@@ -866,14 +909,16 @@ export class AiSearchClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 429:
-                    throw new CloudflareApi.TooManyRequestsError(
+                    throw new CloudflareApiErrors.TooManyRequestsError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
+                case 502:
+                    throw new CloudflareApiErrors.BadGatewayError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -887,7 +932,7 @@ export class AiSearchClient {
             _response.error,
             _response.rawResponse,
             "POST",
-            "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/search",
+            "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{instance-id}/search",
         );
     }
 
@@ -898,12 +943,14 @@ export class AiSearchClient {
      * @param {AiSearchClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiSearch.stats({
      *         account_id: "c3dc5f0b34a14ff8e1b3ec04895e1b22",
-     *         name: "my-namespace",
-     *         id: "my-ai-search"
+     *         namespace: "my-namespace",
+     *         "instance-id": "my-ai-search"
      *     })
      */
     public stats(
@@ -917,7 +964,7 @@ export class AiSearchClient {
         request: CloudflareApi.StatsAiSearchRequest,
         requestOptions?: AiSearchClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.StatsAiSearchResponse>> {
-        const { account_id: accountId, name, id } = request;
+        const { account_id: accountId, namespace, "instance-id": instanceId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -929,7 +976,7 @@ export class AiSearchClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(name)}/instances/${core.url.encodePathParam(id)}/stats`,
+                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(namespace)}/instances/${core.url.encodePathParam(instanceId)}/stats`,
             ),
             method: "GET",
             headers: _headers,
@@ -947,7 +994,7 @@ export class AiSearchClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 404:
-                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -961,7 +1008,7 @@ export class AiSearchClient {
             _response.error,
             _response.rawResponse,
             "GET",
-            "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/stats",
+            "/accounts/{account_id}/ai-search/namespaces/{namespace}/instances/{instance-id}/stats",
         );
     }
 
@@ -974,11 +1021,14 @@ export class AiSearchClient {
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.TooManyRequestsError}
+     * @throws {@link CloudflareApi.BadGatewayError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiSearch.multiSearch({
      *         account_id: "c3dc5f0b34a14ff8e1b3ec04895e1b22",
-     *         name: "my-namespace",
+     *         namespace: "my-namespace",
      *         ai_search_options: {
      *             instance_ids: ["my-ai-search"]
      *         }
@@ -995,7 +1045,7 @@ export class AiSearchClient {
         request: CloudflareApi.MultiSearchAiSearchRequest,
         requestOptions?: AiSearchClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.MultiSearchAiSearchResponse>> {
-        const { account_id: accountId, name, ..._body } = request;
+        const { account_id: accountId, namespace, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -1007,7 +1057,7 @@ export class AiSearchClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(name)}/search`,
+                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(namespace)}/search`,
             ),
             method: "POST",
             headers: _headers,
@@ -1031,14 +1081,16 @@ export class AiSearchClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 429:
-                    throw new CloudflareApi.TooManyRequestsError(
+                    throw new CloudflareApiErrors.TooManyRequestsError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
+                case 502:
+                    throw new CloudflareApiErrors.BadGatewayError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -1052,7 +1104,7 @@ export class AiSearchClient {
             _response.error,
             _response.rawResponse,
             "POST",
-            "/accounts/{account_id}/ai-search/namespaces/{name}/search",
+            "/accounts/{account_id}/ai-search/namespaces/{namespace}/search",
         );
     }
 }

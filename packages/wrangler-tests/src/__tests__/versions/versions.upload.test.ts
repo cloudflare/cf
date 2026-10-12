@@ -1,5 +1,5 @@
 import { seed } from "@cloudflare/workers-utils/test-helpers";
-import { describe, it, test } from "vitest";
+import { describe, it, test } from "vite-plus/test";
 import { mockAccountId, mockApiToken } from "../helpers/mock-account-id";
 import { runInTempDir } from "../helpers/run-in-tmp";
 import { runWrangler } from "../helpers/run-wrangler";
@@ -82,7 +82,7 @@ describe("versions upload", () => {
 		"should error when --script points to a directory even when positional path is a file"
 	);
 
-	test("should error when Build Output has no name", async ({ expect }) => {
+	test("should error when no name is provided", async ({ expect }) => {
 		await seedBuildOutput({ name: undefined });
 
 		await expect(

@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
-import * as CloudflareApi from "../../../index.js";
+import type * as CloudflareApi from "../../../index.js";
 import { ExpressionsClient } from "../resources/expressions/client/Client.js";
 
 export declare namespace ContentScanClient {
@@ -34,6 +34,9 @@ export class ContentScanClient {
      *
      * @param {CloudflareApi.GetContentScanRequest} request
      * @param {ContentScanClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.contentScan.get({
@@ -102,6 +105,9 @@ export class ContentScanClient {
      *
      * @param {CloudflareApi.UpdateContentScanRequest} request
      * @param {ContentScanClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.contentScan.update({

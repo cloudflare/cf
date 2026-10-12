@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * create command
+ * @generated from apis/overlays/bot-management.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -9,14 +17,6 @@ import {
 	promptForRequiredField,
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * create command
- * @generated from apis/overlays/bot-management.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -47,6 +47,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Type of feedback report.",
 			choices: ["false_positive", "false_negative"],
 		})
+		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -116,11 +117,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"subtype",
 											"text"
 										),
-										type: resolveFileToken(
-											argv["type"] as string | undefined,
-											"type",
-											"text"
-										),
+										type: argv["type"],
 									}),
 					});
 					return;
@@ -207,11 +204,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"subtype",
 						"text"
 					),
-					type: resolveFileToken(
-						argv["type"] as string | undefined,
-						"type",
-						"text"
-					),
+					type: argv["type"],
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.botManagement.feedback.create({

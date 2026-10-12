@@ -8,7 +8,8 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
+import * as CloudflareApiErrors from "../../../../../errors/index.js";
 
 export declare namespace CredentialsClient {
     export type Options = BaseClientOptions;
@@ -24,10 +25,12 @@ export class CredentialsClient {
     }
 
     /**
+     * @deprecated
+     *
      * Store authentication credentials for a catalog. These credentials are used
      * to authenticate with R2 storage when performing catalog operations.
      *
-     * @param {CloudflareApi.r2DataCatalog.R2DataCatalogCatalogCredentialRequest} request
+     * @param {CloudflareApi.r2DataCatalog.CreateCredentialsRequest} request
      * @param {CredentialsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
@@ -35,26 +38,30 @@ export class CredentialsClient {
      * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.r2DataCatalog.credentials.create({
      *         account_id: "account_id",
      *         bucket_name: "bucket_name",
-     *         token: "your-cloudflare-api-token-here"
+     *         body: {
+     *             token: "your-cloudflare-api-token-here"
+     *         }
      *     })
      */
     public create(
-        request: CloudflareApi.r2DataCatalog.R2DataCatalogCatalogCredentialRequest,
+        request: CloudflareApi.r2DataCatalog.CreateCredentialsRequest,
         requestOptions?: CredentialsClient.RequestOptions,
     ): core.HttpResponsePromise<Record<string, unknown> | null> {
         return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
     }
 
     private async __create(
-        request: CloudflareApi.r2DataCatalog.R2DataCatalogCatalogCredentialRequest,
+        request: CloudflareApi.r2DataCatalog.CreateCredentialsRequest,
         requestOptions?: CredentialsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Record<string, unknown> | null>> {
-        const { account_id: accountId, bucket_name: bucketName, ..._body } = request;
+        const { account_id: accountId, bucket_name: bucketName, body: _body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -87,15 +94,15 @@ export class CredentialsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new CloudflareApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new CloudflareApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 500:
-                    throw new CloudflareApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.InternalServerError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -110,6 +117,99 @@ export class CredentialsClient {
             _response.rawResponse,
             "POST",
             "/accounts/{account_id}/r2-catalog/{bucket_name}/credential",
+        );
+    }
+
+    /**
+     * @deprecated
+     *
+     * Check whether the configured catalog credentials are valid, invalid,
+     * or absent by probing authentication against the catalog.
+     *
+     * @param {CloudflareApi.r2DataCatalog.StatusCredentialsRequest} request
+     * @param {CredentialsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link CloudflareApi.UnauthorizedError}
+     * @throws {@link CloudflareApi.ForbiddenError}
+     * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
+     * @example
+     *     await client.r2DataCatalog.credentials.status({
+     *         account_id: "account_id",
+     *         bucket_name: "bucket_name"
+     *     })
+     */
+    public status(
+        request: CloudflareApi.r2DataCatalog.StatusCredentialsRequest,
+        requestOptions?: CredentialsClient.RequestOptions,
+    ): core.HttpResponsePromise<CloudflareApi.r2DataCatalog.StatusCredentialsResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__status(request, requestOptions));
+    }
+
+    private async __status(
+        request: CloudflareApi.r2DataCatalog.StatusCredentialsRequest,
+        requestOptions?: CredentialsClient.RequestOptions,
+    ): Promise<core.WithRawResponse<CloudflareApi.r2DataCatalog.StatusCredentialsResponse>> {
+        const { account_id: accountId, bucket_name: bucketName } = request;
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.CloudflareApiEnvironment.Default,
+                `accounts/${core.url.encodePathParam(accountId)}/r2-catalog/${core.url.encodePathParam(bucketName)}/credential/status`,
+            ),
+            method: "GET",
+            headers: _headers,
+            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return {
+                data: _response.body as CloudflareApi.r2DataCatalog.StatusCredentialsResponse,
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new CloudflareApiErrors.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                case 403:
+                    throw new CloudflareApiErrors.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                case 404:
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new CloudflareApiErrors.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                default:
+                    throw new errors.CloudflareApiError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(
+            _response.error,
+            _response.rawResponse,
+            "GET",
+            "/accounts/{account_id}/r2-catalog/{bucket_name}/credential/status",
         );
     }
 }

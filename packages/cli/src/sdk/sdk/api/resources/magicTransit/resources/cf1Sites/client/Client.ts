@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 import { RampsClient } from "../resources/ramps/client/Client.js";
 
 export declare namespace Cf1SitesClient {
@@ -34,6 +34,9 @@ export class Cf1SitesClient {
      *
      * @param {CloudflareApi.magicTransit.ListCf1SitesRequest} request
      * @param {Cf1SitesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.cf1Sites.list({
@@ -102,6 +105,9 @@ export class Cf1SitesClient {
      *
      * @param {CloudflareApi.magicTransit.CreateCf1SitesRequest} request
      * @param {Cf1SitesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.cf1Sites.create({
@@ -177,6 +183,9 @@ export class Cf1SitesClient {
      * @param {CloudflareApi.magicTransit.GetCf1SitesRequest} request
      * @param {Cf1SitesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.cf1Sites.get({
      *         account_id: "account_id",
@@ -243,6 +252,9 @@ export class Cf1SitesClient {
      * @param {CloudflareApi.magicTransit.DeleteCf1SitesRequest} request
      * @param {Cf1SitesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.cf1Sites.delete({
      *         account_id: "account_id",
@@ -308,6 +320,9 @@ export class Cf1SitesClient {
      *
      * @param {CloudflareApi.magicTransit.MagicCf1SiteUpdate} request
      * @param {Cf1SitesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.cf1Sites.update({

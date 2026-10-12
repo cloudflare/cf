@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * pre-check command
+ * @generated from apis/overlays/images.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -14,14 +22,6 @@ import {
 	promptForRequiredField,
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * pre-check command
- * @generated from apis/overlays/images.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -46,6 +46,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The cloud storage vendor of the source bucket.",
 			choices: ["s3", "r2"],
 		})
+		.coerce("vendor", (value) => resolveFileToken(value, "vendor", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -104,11 +105,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"region",
 											"text"
 										),
-										vendor: resolveFileToken(
-											argv["vendor"] as string | undefined,
-											"vendor",
-											"text"
-										),
+										vendor: argv["vendor"],
 									}),
 					});
 					return;
@@ -159,11 +156,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"region",
 						"text"
 					),
-					vendor: resolveFileToken(
-						argv["vendor"] as string | undefined,
-						"vendor",
-						"text"
-					),
+					vendor: argv["vendor"],
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.images.import.sources.preCheck({

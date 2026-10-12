@@ -1,9 +1,0 @@
-description: "List Vectorize indexes"
-command: "wrangler vectorize list"
-status: "direct"
-sourceCommands:
-  - "wrangler vectorize list"
-cfReplacementFlow:
-  - "cf vectorize list"
-notes:
-  - "cf outputs JSON by default."

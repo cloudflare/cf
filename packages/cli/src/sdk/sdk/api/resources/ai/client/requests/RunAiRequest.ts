@@ -11,10 +11,11 @@
  *     }
  */
 export interface RunAiRequest {
+    /** Cloudflare account ID used for this AI model request. */
     account_id: string;
-    /** Model-specific input data. Format varies by model type. */
+    /** JSON object containing the selected model's input fields, such as prompt or messages. Do not include model or options inside this object. */
     input: Record<string, unknown>;
-    /** The AI model to execute (e.g., openai/gpt-5.5, anthropic/claude-opus-4.7) */
+    /** The AI model to execute (e.g., @cf/google/gemma-4-26b-a4b-it, openai/gpt-5.5, anthropic/claude-opus-4.7) */
     model: string;
     options?: RunAiRequest.Options;
 }

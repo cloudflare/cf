@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkQuery, SdkRequest } from "#sdk";
+/**
+ * list command
+ * @generated from apis/overlays/abuse-reports.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -9,19 +17,11 @@ import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
-/**
- * list command
- * @generated from apis/overlays/abuse-reports.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 abuse-reports list\n\nList the abuse reports for a given account"
+			"$0 abuse-reports list\n\nList abuse reports made against domains or other content associated with the account. To list reports that the account submitted, use the submitted abuse reports endpoint instead."
 		)
 		.option("page", {
 			type: "number",
@@ -35,6 +35,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description:
 				"A property to sort by, followed by the order (id, cdate, domain, type, status)",
+		})
+		.option("search", {
+			type: "string",
+			description:
+				"Free-text search. Returns reports whose report ID starts with the term or whose domain contains the term, both case-insensitively. Surrounding whitespace is ignored, and an empty value is treated as absent. Combined with the other filters using AND.",
 		})
 		.option("domain", {
 			type: "string",
@@ -96,7 +101,7 @@ const typedBuilder = withArgTypes<
 type Args = InferArgs<typeof typedBuilder>;
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "list",
-	describe: "List abuse reports",
+	describe: "List abuse reports against the account",
 	builder: typedBuilder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
@@ -112,6 +117,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					page: argv["page"],
 					per_page: argv["per-page"],
 					sort: argv["sort"],
+					search: argv["search"],
 					domain: argv["domain"],
 					created_before: argv["created-before"],
 					created_after: argv["created-after"],

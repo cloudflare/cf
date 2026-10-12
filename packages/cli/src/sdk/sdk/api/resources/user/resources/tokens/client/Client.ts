@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 import { PermissionGroupsClient } from "../resources/permissionGroups/client/Client.js";
 
 export declare namespace TokensClient {
@@ -34,6 +34,9 @@ export class TokensClient {
      *
      * @param {CloudflareApi.user.ListTokensRequest} request
      * @param {TokensClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.user.tokens.list()
@@ -106,6 +109,9 @@ export class TokensClient {
      * @param {CloudflareApi.IamCreatePayload} request
      * @param {TokensClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.user.tokens.create({
      *         name: "readonly token",
@@ -113,9 +119,17 @@ export class TokensClient {
      *                 effect: "allow",
      *                 permission_groups: [{
      *                         id: "c8fed203ed3043cba015a93ad1616f1f",
+     *                         meta: {
+     *                             label: "load_balancer_admin",
+     *                             scopes: "com.cloudflare.api.account"
+     *                         },
      *                         name: "Zone Read"
      *                     }, {
      *                         id: "82e64a83756745bbbb1c9c2701bf816b",
+     *                         meta: {
+     *                             label: "fbm_user",
+     *                             scopes: "com.cloudflare.api.account"
+     *                         },
      *                         name: "Magic Network Monitoring"
      *                     }],
      *                 resources: {
@@ -180,6 +194,9 @@ export class TokensClient {
      *
      * @param {TokensClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.user.tokens.verify()
      */
@@ -237,6 +254,9 @@ export class TokensClient {
      *
      * @param {CloudflareApi.user.GetTokensRequest} request
      * @param {TokensClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.user.tokens.get({
@@ -297,6 +317,9 @@ export class TokensClient {
      *
      * @param {CloudflareApi.user.UpdateTokensRequest} request
      * @param {TokensClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.user.tokens.update({
@@ -362,6 +385,9 @@ export class TokensClient {
      * @param {CloudflareApi.user.DeleteTokensRequest} request
      * @param {TokensClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.user.tokens.delete({
      *         token_id: "token_id"
@@ -424,6 +450,9 @@ export class TokensClient {
      *
      * @param {CloudflareApi.user.RollTokensRequest} request
      * @param {TokensClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.user.tokens.roll({

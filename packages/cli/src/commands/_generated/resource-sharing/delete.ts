@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * delete command
+ * @generated from apis/overlays/resource-sharing.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -9,14 +17,6 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { confirmDelete } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * delete command
- * @generated from apis/overlays/resource-sharing.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -47,7 +47,7 @@ type Request = SdkRequest<"share-delete">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <share-id>",
-	describe: "Delete a share",
+	describe: "Trigger a share deletion",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(

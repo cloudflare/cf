@@ -1,3 +1,10 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+/**
+ * transfer-in command
+ * @generated from apis/overlays/registrar.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -11,13 +18,6 @@ import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-/**
- * transfer-in command
- * @generated from apis/overlays/registrar.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -151,6 +151,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"WHOIS privacy mode to apply after transfer completes. Defaults to\nthe extension's default privacy mode (typically `redaction`).\n",
 			choices: ["off", "redaction"],
 		})
+		.coerce("privacy-mode", (value) =>
+			resolveFileToken(value, "privacy-mode", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -310,9 +313,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 														"text"
 													),
 													organization: resolveFileToken(
-														argv["contacts-billing-postal-info-organization"] as
-															| string
-															| undefined,
+														argv[
+															"contacts-billing-postal-info-organization"
+														] as string | undefined,
 														"contacts-billing-postal-info-organization",
 														"text"
 													),
@@ -393,11 +396,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												},
 											},
 										},
-										privacy_mode: resolveFileToken(
-											argv["privacy-mode"] as string | undefined,
-											"privacy-mode",
-											"text"
-										),
+										privacy_mode: argv["privacy-mode"],
 									}),
 					});
 					return;
@@ -652,15 +651,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						)
 					);
 				if (argv["privacy-mode"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["privacy_mode"],
-						resolveFileToken(
-							argv["privacy-mode"] as string | undefined,
-							"privacy-mode",
-							"text"
-						)
-					);
+					setNestedValue(bodyData, ["privacy_mode"], argv["privacy-mode"]);
 				const result = await withProgress(`Creating`, async () =>
 					requestApi<unknown>(
 						client,

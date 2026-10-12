@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * update command
+ * @generated from apis/overlays/network-interconnects.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -11,14 +19,6 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * update command
- * @generated from apis/overlays/network-interconnects.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -39,7 +39,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			array: true,
 			description:
-				"Extra set of static prefixes to advertise to the customer's end of the session",
+				"Extra set of static prefixes to advertise to the customer's end of the session\nPrefixes containing host bits will be normalized to contain network bits only.\nDuplicates are not allowed.",
 		})
 		.option("bgp-md5-key", {
 			type: "string",
@@ -49,9 +49,10 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("bgp-mode", {
 			type: "string",
 			description:
-				"The BGP mode for a CNI.\n\nControls the customer-facing data path:\n* `DynamicRouteExchange` — Full BGP: routes flow through to conduit via CRE / bgp-bridge /\nbgp-bridge-receiver.\n* `AdvertiseOnly` — static advertisement via taserver, no routes exchanged with Conduit",
+				"The BGP mode for a CNI.\nOne of the following:\n* `dynamic_route_exchange`\n* `advertise_only`",
 			choices: ["dynamic_route_exchange", "advertise_only"],
 		})
+		.coerce("bgp-mode", (value) => resolveFileToken(value, "bgp-mode", "text"))
 		.option("cust-ip", {
 			type: "string",
 			description:
@@ -149,11 +150,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"text"
 											),
 										},
-										bgp_mode: resolveFileToken(
-											argv["bgp-mode"] as string | undefined,
-											"bgp-mode",
-											"text"
-										),
+										bgp_mode: argv["bgp-mode"],
 										cust_ip: resolveFileToken(
 											argv["cust-ip"] as string | undefined,
 											"cust-ip",
@@ -268,11 +265,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"text"
 						),
 					},
-					bgp_mode: resolveFileToken(
-						argv["bgp-mode"] as string | undefined,
-						"bgp-mode",
-						"text"
-					),
+					bgp_mode: argv["bgp-mode"],
 					cust_ip: resolveFileToken(
 						argv["cust-ip"] as string | undefined,
 						"cust-ip",

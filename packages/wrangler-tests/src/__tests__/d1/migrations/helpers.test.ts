@@ -8,7 +8,7 @@ import {
 	normalizeSqlLineEndings,
 	resolveMigrationsConfig,
 } from "cf/d1-migrations-bookkeeping";
-import { describe, it } from "vitest";
+import { describe, it } from "vite-plus/test";
 import { runInTempDir } from "../../helpers/run-in-tmp";
 import type { MigrationsConfig } from "cf/d1-migrations-bookkeeping";
 

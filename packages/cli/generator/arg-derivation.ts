@@ -15,7 +15,10 @@ import {
 	toKebabCase,
 } from "@cloudflare/forge";
 import { isWorkerNameArg } from "./arg-classification.js";
-import { bodyArgs, bodyParamArgType } from "./intermediate-representation.js";
+import {
+	bodyOptionArgs,
+	bodyParamArgType,
+} from "./intermediate-representation.js";
 import {
 	ACCOUNT_PATH_PARAMS,
 	ZONE_PATH_PARAMS,
@@ -115,7 +118,7 @@ export interface DerivedArgs {
 	 * throw for those.
 	 */
 	hasEmptyBody: boolean;
-	/** Mutating + at least one auto-emitted body-param flag. */
+	/** Mutating + at least one body field supplied by a flag or positional. */
 	hasBodyParams: boolean;
 	/** Op accepts at least one non-JSON content type (multipart, octet, etc.). */
 	hasFileUpload: boolean;
@@ -261,7 +264,8 @@ export function deriveArgsFromOp(
 		!(opInfo.requestBodyIsArray ?? false) &&
 		onlyJsonOrEmpty;
 
-	const hasBodyParams = bodyArgs(args).length > 0 && isMutating;
+	const hasBodyParams =
+		args.some((arg) => arg.origin.kind === "body") && isMutating;
 
 	const hasFileUpload = requestContentTypes.some(
 		(ct) => ct !== "application/json"
@@ -312,7 +316,7 @@ function findOptionalParentGroups(
 			hasCliDefault: boolean;
 		}[]
 	>();
-	for (const arg of bodyArgs(args)) {
+	for (const arg of bodyOptionArgs(args)) {
 		if (arg.origin.kind !== "body") continue;
 		const apiFieldPath = arg.origin.apiFieldPath;
 		if (apiFieldPath.length < 2) continue;
@@ -616,8 +620,9 @@ function deriveHeaderParams(args: {
  *   - `paramOverride.required` upgrade optional → required
  *   - `paramOverride.default` clear-on-null vs override-with-value
  *
- * Appends one body `ArgIR` per field to `args`, in spec order, so
- * downstream `bodyArgs(args)` walks them in declaration order.
+ * Appends one body `ArgIR` per field to `args`, in spec order. The
+ * `bodyOptionArgs` helper selects only the fields emitted as options;
+ * positional body fields remain in `args`.
  */
 function deriveBodyParams(args: {
 	args: ArgIR[];
@@ -692,10 +697,10 @@ function deriveBodyParams(args: {
 					? bp.enumValues
 					: undefined;
 
-		// `paramOverride.positional: true` promotes a top-level scalar
-		// body field to a positional. Booleans never promote (positionals
-		// can't take boolean values). Nested fields never promote (the
-		// CLI surface is flat).
+		// `paramOverride.positional: true` promotes a top-level scalar or
+		// scalar-array body field to a positional. Booleans and object
+		// arrays never promote. Nested fields never promote (the CLI
+		// surface is flat).
 		if (
 			bpOverride?.positional === true &&
 			bp.apiFieldPath.length === 1 &&
@@ -707,12 +712,20 @@ function deriveBodyParams(args: {
 				bp.description ??
 				`The ${bp.apiFieldPath[0]} field`;
 			const isRequired = bpOverride.required ?? bp.required ?? false;
-			const isNumber = bp.type === "number";
+			const positionalType = bodyParamArgType(
+				bpOverride?.array === true ? "array" : bp.type,
+				bp.itemType
+			);
 			out.push(
 				mkArg(
 					{
 						name: argName,
-						type: effectiveEnumValues ? "enum" : isNumber ? "number" : "string",
+						type:
+							positionalType === "array"
+								? "array"
+								: effectiveEnumValues
+									? "enum"
+									: positionalType,
 						...(effectiveEnumValues ? { choices: effectiveEnumValues } : {}),
 						required: isRequired,
 						positional: true,

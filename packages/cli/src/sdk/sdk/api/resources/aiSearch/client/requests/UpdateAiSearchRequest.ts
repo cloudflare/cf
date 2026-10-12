@@ -4,15 +4,15 @@
  * @example
  *     {
  *         account_id: "c3dc5f0b34a14ff8e1b3ec04895e1b22",
- *         name: "my-namespace",
- *         id: "my-ai-search"
+ *         namespace: "my-namespace",
+ *         "instance-id": "my-ai-search"
  *     }
  */
 export interface UpdateAiSearchRequest {
     account_id: string;
     /** Namespace name */
-    name: string;
-    id: string;
+    namespace: string;
+    "instance-id": string;
     ai_gateway_id?: string | null;
     /** A Workers AI model ID or an AI Gateway model ID compatible with the OpenAI Chat Completions API. An empty string uses the configured or default model. */
     ai_search_model?: string | null;
@@ -113,7 +113,25 @@ export namespace UpdateAiSearchRequest {
 
     export interface Metadata {
         created_from_aisearch_wizard?: boolean | undefined;
+        created_from_emdash_plugin?: Metadata.CreatedFromEmdashPlugin | undefined;
         worker_domain?: string | undefined;
+    }
+
+    export namespace Metadata {
+        export interface CreatedFromEmdashPlugin {
+            type: CreatedFromEmdashPlugin.Type;
+            version: string;
+            /** Accepts any additional properties */
+            [key: string]: any;
+        }
+
+        export namespace CreatedFromEmdashPlugin {
+            export const Type = {
+                Native: "native",
+                Rest: "rest",
+            } as const;
+            export type Type = (typeof Type)[keyof typeof Type];
+        }
     }
 
     export interface PublicEndpointParams {

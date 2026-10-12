@@ -5,7 +5,6 @@ import { normalizeClientOptionsWithAuth, type NormalizedClientOptionsWithAuth } 
 import * as core from "../../../../core/index.js";
 import * as environments from "../../../../environments.js";
 import { BulkClient } from "../resources/bulk/client/Client.js";
-import { BulkDeprecatedClient } from "../resources/bulkDeprecated/client/Client.js";
 import { KeysClient } from "../resources/keys/client/Client.js";
 import { MetadataClient } from "../resources/metadata/client/Client.js";
 import { NamespacesClient } from "../resources/namespaces/client/Client.js";
@@ -18,7 +17,6 @@ export class KvClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<KvClient.Options>;
     protected _namespaces: NamespacesClient | undefined;
     protected _bulk: BulkClient | undefined;
-    protected _bulkDeprecated: BulkDeprecatedClient | undefined;
     protected _keys: KeysClient | undefined;
     protected _metadata: MetadataClient | undefined;
 
@@ -32,10 +30,6 @@ export class KvClient {
 
     public get bulk(): BulkClient {
         return (this._bulk ??= new BulkClient(this._options));
-    }
-
-    public get bulkDeprecated(): BulkDeprecatedClient {
-        return (this._bulkDeprecated ??= new BulkDeprecatedClient(this._options));
     }
 
     public get keys(): KeysClient {

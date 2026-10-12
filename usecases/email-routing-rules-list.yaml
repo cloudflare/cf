@@ -1,9 +1,0 @@
-description: "List Email Routing rules"
-command: "wrangler email routing rules list <domain>"
-status: "direct"
-sourceCommands:
-  - "wrangler email routing rules list <domain>"
-cfReplacementFlow:
-  - "cf email-routing rules list --zone <zone>"
-notes:
-  - "Use --zone for domain/zone resolution in cf."

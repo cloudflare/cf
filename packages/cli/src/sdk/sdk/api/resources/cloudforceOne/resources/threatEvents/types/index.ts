@@ -5,6 +5,7 @@ export * from "./GetThreatEventsResponse.js";
 export * from "./ListThreatEventsRequestCache.js";
 export * from "./ListThreatEventsRequestFormat.js";
 export * from "./ListThreatEventsRequestOrder.js";
+export * from "./ListThreatEventsRequestSearchBranchesItemItem.js";
 export * from "./ListThreatEventsRequestSearchItem.js";
 export * from "./ListThreatEventsResponseItem.js";
 export * from "./SearchThreatEventsRequestCache.js";

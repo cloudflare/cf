@@ -6,10 +6,6 @@
  * result differs.
  */
 import fs from "node:fs";
-import { createCommandClient, getAccountId } from "#lib/auth.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { withProgress } from "#lib/progress.js";
-import { isId } from "#lib/resolve.js";
 import {
 	DEFAULT_MIGRATIONS_DIR,
 	DEFAULT_MIGRATIONS_TABLE,
@@ -24,6 +20,10 @@ import {
 import type { Cloudflare } from "#lib/auth.js";
 import type { MigrationsConfig } from "./bookkeeping.js";
 import type { Argv } from "yargs";
+import { createCommandClient, getAccountId } from "#lib/auth.js";
+import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
+import { withProgress } from "#lib/progress.js";
+import { isId } from "#lib/resolve.js";
 
 /**
  * `--dir` / `--pattern` — how migration files are discovered. All subcommands.

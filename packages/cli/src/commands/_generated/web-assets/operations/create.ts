@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * create command
+ * @generated from apis/overlays/web-assets.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -9,14 +17,6 @@ import {
 	promptForRequiredField,
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * create command
- * @generated from apis/overlays/web-assets.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -44,6 +44,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"TRACE",
 			],
 		})
+		.coerce("method", (value) => resolveFileToken(value, "method", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -98,11 +99,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"host",
 											"text"
 										),
-										method: resolveFileToken(
-											argv["method"] as string | undefined,
-											"method",
-											"text"
-										),
+										method: argv["method"],
 									}),
 					});
 					return;
@@ -166,11 +163,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"host",
 						"text"
 					),
-					method: resolveFileToken(
-						argv["method"] as string | undefined,
-						"method",
-						"text"
-					),
+					method: argv["method"],
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.webAssets.operations.create({

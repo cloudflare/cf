@@ -7,5 +7,5 @@ export interface AccessSingleResponse11 {
     messages: CloudflareApi.AccessMessages;
     /** Whether the API call was successful. */
     success: true;
-    result?: CloudflareApi.AccessCustomPage | undefined;
+    result?: CloudflareApi.AccessReusablePolicyResp | undefined;
 }

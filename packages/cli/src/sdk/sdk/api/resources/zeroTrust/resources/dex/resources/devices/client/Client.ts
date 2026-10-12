@@ -10,7 +10,7 @@ import { mergeHeaders } from "../../../../../../../../core/headers.js";
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 import { AggregatesClient } from "../resources/aggregates/client/Client.js";
 import { OverTimeClient } from "../resources/overTime/client/Client.js";
 
@@ -42,6 +42,9 @@ export class DevicesClient {
      *
      * @param {CloudflareApi.zeroTrust.dex.GetDevicesRequest} request
      * @param {DevicesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dex.devices.get({
@@ -129,6 +132,9 @@ export class DevicesClient {
      *
      * @param {CloudflareApi.zeroTrust.dex.ListDevicesRequest} request
      * @param {DevicesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dex.devices.list({

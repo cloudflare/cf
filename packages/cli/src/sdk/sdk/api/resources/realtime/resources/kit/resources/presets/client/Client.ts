@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 
 export declare namespace PresetsClient {
     export type Options = BaseClientOptions;
@@ -31,6 +31,9 @@ export class PresetsClient {
      *
      * @param {CloudflareApi.realtime.kit.ListPresetsRequest} request
      * @param {PresetsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.realtime.kit.presets.list({
@@ -109,6 +112,9 @@ export class PresetsClient {
      *
      * @param {CloudflareApi.realtime.kit.CreatePresetsRequest} request
      * @param {PresetsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.realtime.kit.presets.create({
@@ -293,6 +299,9 @@ export class PresetsClient {
      * @param {CloudflareApi.realtime.kit.GetPresetsRequest} request
      * @param {PresetsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.realtime.kit.presets.get({
      *         account_id: "account_id",
@@ -362,6 +371,9 @@ export class PresetsClient {
      *
      * @param {CloudflareApi.realtime.kit.ReplacePresetsRequest} request
      * @param {PresetsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.realtime.kit.presets.replace({
@@ -547,6 +559,9 @@ export class PresetsClient {
      * @param {CloudflareApi.realtime.kit.DeletePresetsRequest} request
      * @param {PresetsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.realtime.kit.presets.delete({
      *         account_id: "account_id",
@@ -616,6 +631,9 @@ export class PresetsClient {
      *
      * @param {CloudflareApi.realtime.kit.RealtimekitUpdatePreset} request
      * @param {PresetsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.realtime.kit.presets.update({

@@ -1,9 +1,0 @@
-description: "Delete an mTLS certificate by ID"
-command: "wrangler mtls-certificate delete --id <certificate-id>"
-status: "partial"
-sourceCommands:
-  - "wrangler mtls-certificate delete --id <certificate-id>"
-cfReplacementFlow:
-  - "cf mtls-certificates delete <certificate-id> --force"
-notes:
-  - "Some current generated delete commands may require an empty --body workaround; verify with cf schema."

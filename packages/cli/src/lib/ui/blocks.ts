@@ -127,7 +127,7 @@ export function errorBlock(
  * Word-wrap a plain (un-colored) string to `width` columns. Preserves
  * explicit newlines in the source.
  */
-function wrapPlain(text: string, width: number): string[] {
+export function wrapPlain(text: string, width: number): string[] {
 	const out: string[] = [];
 	for (const para of text.split("\n")) {
 		if (para.length <= width) {

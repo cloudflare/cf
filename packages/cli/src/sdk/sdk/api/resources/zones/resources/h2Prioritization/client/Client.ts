@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace H2PrioritizationClient {
     export type Options = BaseClientOptions;
@@ -30,6 +30,9 @@ export class H2PrioritizationClient {
      *
      * @param {CloudflareApi.zones.GetH2PrioritizationRequest} request
      * @param {H2PrioritizationClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zones.h2Prioritization.get({
@@ -100,6 +103,9 @@ export class H2PrioritizationClient {
      *
      * @param {CloudflareApi.zones.EditH2PrioritizationRequest} request
      * @param {H2PrioritizationClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zones.h2Prioritization.edit({

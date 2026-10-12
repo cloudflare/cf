@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace SinksClient {
     export type Options = BaseClientOptions;
@@ -28,6 +28,9 @@ export class SinksClient {
      *
      * @param {CloudflareApi.pipelines.ListSinksRequest} request
      * @param {SinksClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.pipelines.sinks.list({
@@ -107,6 +110,9 @@ export class SinksClient {
      * @param {CloudflareApi.pipelines.CreateSinksRequest} request
      * @param {SinksClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.pipelines.sinks.create({
      *         account_id: "account_id",
@@ -180,6 +186,9 @@ export class SinksClient {
      * @param {CloudflareApi.pipelines.GetSinksRequest} request
      * @param {SinksClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.pipelines.sinks.get({
      *         account_id: "account_id",
@@ -248,6 +257,9 @@ export class SinksClient {
      *
      * @param {CloudflareApi.pipelines.DeleteSinksRequest} request
      * @param {SinksClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.pipelines.sinks.delete({

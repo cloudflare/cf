@@ -1,9 +1,0 @@
-description: "Resume message delivery for a Queue"
-command: "wrangler queues resume-delivery <queue>"
-status: "partial"
-sourceCommands:
-  - "wrangler queues resume-delivery <queue>"
-cfReplacementFlow:
-  - "cf queues update <queue-id> --body @resume-delivery.json"
-notes:
-  - "No clearly named generated resume command was identified; this likely maps to queue settings update."

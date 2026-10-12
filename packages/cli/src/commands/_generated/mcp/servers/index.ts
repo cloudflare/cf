@@ -14,7 +14,8 @@ import type { CommandModule } from "yargs";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "servers",
-	describe: "Operations for servers",
+	describe:
+		"Manage upstream MCP servers, credentials, capabilities, and sync state",
 
 	builder: (yargs) => {
 		return yargs

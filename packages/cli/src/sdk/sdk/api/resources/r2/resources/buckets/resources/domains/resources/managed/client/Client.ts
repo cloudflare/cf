@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../../../cor
 import * as environments from "../../../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../../../index.js";
 
 export declare namespace ManagedClient {
     export type Options = BaseClientOptions;
@@ -31,6 +31,9 @@ export class ManagedClient {
      *
      * @param {CloudflareApi.r2.buckets.domains.ListManagedRequest} request
      * @param {ManagedClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.r2.buckets.domains.managed.list({
@@ -101,6 +104,9 @@ export class ManagedClient {
      *
      * @param {CloudflareApi.r2.buckets.domains.R2EditManagedDomainRequest} request
      * @param {ManagedClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.r2.buckets.domains.managed.update({

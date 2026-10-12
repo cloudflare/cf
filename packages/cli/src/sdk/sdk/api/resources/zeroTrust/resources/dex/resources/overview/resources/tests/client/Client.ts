@@ -10,7 +10,7 @@ import { mergeHeaders } from "../../../../../../../../../../core/headers.js";
 import * as environments from "../../../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../../../index.js";
 import { UniqueDevicesClient } from "../resources/uniqueDevices/client/Client.js";
 
 export declare namespace TestsClient {
@@ -36,6 +36,9 @@ export class TestsClient {
      *
      * @param {CloudflareApi.zeroTrust.dex.overview.ListTestsRequest} request
      * @param {TestsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dex.overview.tests.list({

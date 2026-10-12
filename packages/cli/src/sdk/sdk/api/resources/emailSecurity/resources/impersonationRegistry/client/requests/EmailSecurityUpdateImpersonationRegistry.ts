@@ -13,12 +13,20 @@ export interface EmailSecurityUpdateImpersonationRegistry {
     /** Account identifier tag. */
     account_id: CloudflareApi.EmailSecurityIdentifier;
     impersonation_registry_id: CloudflareApi.EmailSecurityImpersonationRegistryId;
+    /** Optional note describing the entry. */
     comments?: string | null;
+    /** Identifier of the directory the entry was synced from, when directory-synced. */
     directory_id?: number | null;
+    /** Identifier of the directory node the entry was synced from, when directory-synced. */
     directory_node_id?: number | null;
+    /** Email address (or pattern) of the protected identity. */
     email?: string;
+    /** Deprecated. External identifier of the directory node. */
     external_directory_node_id?: string | null;
+    /** Whether `email` is a regular expression instead of a literal address. */
     is_email_regex?: boolean;
+    /** Display name of the protected identity. */
     name?: string;
+    /** Source the entry was created from. */
     provenance?: string | null;
 }

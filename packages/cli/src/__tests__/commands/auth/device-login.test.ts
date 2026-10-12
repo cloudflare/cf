@@ -3,7 +3,7 @@ import {
 	mockConsoleMethods,
 	runInTempDir,
 } from "@cloudflare/workers-utils/test-helpers";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import { runCf } from "../../helpers/run-cf.js";
 
 const sharedAuth = vi.hoisted(() => ({
@@ -37,6 +37,13 @@ vi.mock("../../../lib/telemetry/dispatcher.js", () => ({
 		sendAdhocEvent: vi.fn(),
 	}),
 }));
+
+vi.mock("#sdk", () => {
+	throw new Error("Auth login must not load the SDK client.");
+});
+vi.mock("#sdk/client", () => {
+	throw new Error("Auth login must not load the SDK client.");
+});
 
 describe("cf auth device login", () => {
 	runInTempDir();

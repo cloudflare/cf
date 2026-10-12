@@ -8,7 +8,8 @@
  *     }
  */
 export interface CreateAppsRequest {
-    /** Cloudflare account ID. */
+    /** Cloudflare account ID that owns the Flagship app. */
     account_id: string;
+    /** Name of the Flagship app (1–64 letters, numbers, hyphens, or underscores). */
     name: string;
 }

@@ -7,6 +7,7 @@ import * as CloudflareApi from "../../../../index.js";
  *     {
  *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
  *         sort: "cdate,desc",
+ *         search: "example.com",
  *         domain: "example.com",
  *         created_before: "2009-11-10T23:00:00Z",
  *         created_after: "2009-11-10T23:00:00Z"
@@ -21,6 +22,8 @@ export interface ListAbuseReportsRequest {
     per_page?: number;
     /** A property to sort by, followed by the order (id, cdate, domain, type, status) */
     sort?: string;
+    /** Free-text search. Returns reports whose report ID starts with the term or whose domain contains the term, both case-insensitively. Surrounding whitespace is ignored, and an empty value is treated as absent. Combined with the other filters using AND. */
+    search?: string;
     /** Filter by domain name related to the abuse report */
     domain?: string;
     /** Returns reports created before the specified date */

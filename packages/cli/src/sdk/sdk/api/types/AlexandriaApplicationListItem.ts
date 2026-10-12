@@ -3,7 +3,7 @@
 import * as CloudflareApi from "../index.js";
 
 /**
- * Describes one application in a list response. This endpoint returns every property below unless the `fields` query parameter narrows the response, so treat all of them except `id` as optional.
+ * Describes one application in a list response. The response returns every property below unless `fields` narrows it. Treat all properties except `id` as optional.
  */
 export interface AlexandriaApplicationListItem {
     application_confidence_score?: CloudflareApi.AlexandriaApplicationConfidenceScore | undefined;

@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 
 export declare namespace IncomingClient {
     export type Options = BaseClientOptions;
@@ -31,6 +31,9 @@ export class IncomingClient {
      *
      * @param {CloudflareApi.dns.zoneTransfers.GetIncomingRequest} request
      * @param {IncomingClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.dns.zoneTransfers.incoming.get({
@@ -99,6 +102,9 @@ export class IncomingClient {
      *
      * @param {CloudflareApi.dns.zoneTransfers.CreateIncomingRequest} request
      * @param {IncomingClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.dns.zoneTransfers.incoming.create({
@@ -176,6 +182,9 @@ export class IncomingClient {
      * @param {CloudflareApi.dns.zoneTransfers.UpdateIncomingRequest} request
      * @param {IncomingClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.dns.zoneTransfers.incoming.update({
      *         zone_id: "zone_id",
@@ -251,6 +260,9 @@ export class IncomingClient {
      *
      * @param {CloudflareApi.dns.zoneTransfers.DeleteIncomingRequest} request
      * @param {IncomingClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.dns.zoneTransfers.incoming.delete({

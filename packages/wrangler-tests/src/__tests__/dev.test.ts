@@ -1,4 +1,4 @@
-import { describe, it } from "vitest";
+import { describe, it } from "vite-plus/test";
 
 // cf dev delegates to a project implementation. These tests exercise
 // Wrangler's internal startDevWorker / ConfigController / type-generation
@@ -172,7 +172,7 @@ describe("dev", () => {
 
 	describe("durable_objects", () => {
 		it.todo(
-			"should warn if there are remote Durable Objects, or missing migrations for local Durable Objects"
+			"should warn if there are remote Durable Objects, or a missing lifecycle for local Durable Objects"
 		);
 	});
 

@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace WatermarksClient {
     export type Options = BaseClientOptions;
@@ -28,6 +28,9 @@ export class WatermarksClient {
      *
      * @param {CloudflareApi.stream.ListWatermarksRequest} request
      * @param {WatermarksClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.stream.watermarks.list({
@@ -97,6 +100,9 @@ export class WatermarksClient {
      * @param {CloudflareApi.stream.CreateWatermarksRequest} request
      * @param {WatermarksClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.stream.watermarks.create({
      *         account_id: "account_id"
@@ -165,6 +171,9 @@ export class WatermarksClient {
      * @param {CloudflareApi.stream.GetWatermarksRequest} request
      * @param {WatermarksClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.stream.watermarks.get({
      *         account_id: "account_id",
@@ -230,6 +239,9 @@ export class WatermarksClient {
      *
      * @param {CloudflareApi.stream.DeleteWatermarksRequest} request
      * @param {WatermarksClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.stream.watermarks.delete({

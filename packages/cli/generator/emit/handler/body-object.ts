@@ -1,6 +1,6 @@
 import { argvKey } from "../../codegen/identifiers.js";
 import {
-	bodyArgs,
+	bodyOptionArgs,
 	isPathArg,
 	positionalArgs,
 } from "../../intermediate-representation.js";
@@ -49,7 +49,7 @@ export function emitBodyObject(ctx: EmitContext, indent: string): string[] {
 		}
 		node.value = value;
 	};
-	for (const arg of bodyArgs(ctx.derived.args)) {
+	for (const arg of bodyOptionArgs(ctx.derived.args)) {
 		if (arg.origin.kind !== "body") continue;
 		const read = argvKey(arg.name);
 		const value = emitBodyArgValue(arg, read);
@@ -82,7 +82,7 @@ export function emitBodyObject(ctx: EmitContext, indent: string): string[] {
 export function emitBodyArgValue(arg: ArgIR, read: string): string {
 	return arg.type === "object-array"
 		? `parseObjectArray(${read}, ${JSON.stringify(arg.name)})`
-		: arg.fromFile
+		: arg.fromFile && !arg.choices?.length
 			? `resolveFileToken(${read} as string | undefined, ${JSON.stringify(arg.name)}, ${JSON.stringify(arg.fromFile.format)})`
 			: read;
 }

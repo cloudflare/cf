@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkQuery, SdkRequest } from "#sdk";
+/**
+ * list command
+ * @generated from apis/overlays/flagship.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -8,14 +16,6 @@ import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
-/**
- * list command
- * @generated from apis/overlays/flagship.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -24,16 +24,16 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.option("app-id", {
 			type: "string",
-			description: "App identifier.",
+			description: "Flagship app ID returned when the app was created.",
 			demandOption: true,
 		})
 		.option("flag-key", {
 			type: "string",
-			description: "Flag key (slug).",
+			description: "Case-sensitive key identifying the flag within the app.",
 			demandOption: true,
 		})
 		.option("limit", {
-			type: "string",
+			type: "number",
 			description: "Max items to return (1–200).",
 		})
 		.option("cursor", {
@@ -54,7 +54,7 @@ type Query = SdkQuery<"flagship_get_flag_changelog">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "list",
-	describe: "Get flag changelog",
+	describe: "List flag changelog entries",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(

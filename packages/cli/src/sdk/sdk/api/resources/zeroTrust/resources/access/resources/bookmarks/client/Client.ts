@@ -10,7 +10,7 @@ import { mergeHeaders } from "../../../../../../../../core/headers.js";
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 
 export declare namespace BookmarksClient {
     export type Options = BaseClientOptions;
@@ -26,10 +26,15 @@ export class BookmarksClient {
     }
 
     /**
+     * @deprecated
+     *
      * Lists Bookmark applications.
      *
      * @param {CloudflareApi.zeroTrust.access.ListBookmarksRequest} request
      * @param {BookmarksClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.bookmarks.list({
@@ -94,10 +99,15 @@ export class BookmarksClient {
     }
 
     /**
+     * @deprecated
+     *
      * Fetches a single Bookmark application.
      *
      * @param {CloudflareApi.zeroTrust.access.GetBookmarksRequest} request
      * @param {BookmarksClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.bookmarks.get({
@@ -160,10 +170,15 @@ export class BookmarksClient {
     }
 
     /**
+     * @deprecated
+     *
      * Create a new Bookmark application.
      *
      * @param {CloudflareApi.zeroTrust.access.CreateBookmarksRequest} request
      * @param {BookmarksClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.bookmarks.create({
@@ -226,10 +241,15 @@ export class BookmarksClient {
     }
 
     /**
+     * @deprecated
+     *
      * Updates a configured Bookmark application.
      *
      * @param {CloudflareApi.zeroTrust.access.UpdateBookmarksRequest} request
      * @param {BookmarksClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.bookmarks.update({
@@ -292,10 +312,15 @@ export class BookmarksClient {
     }
 
     /**
+     * @deprecated
+     *
      * Deletes a Bookmark application.
      *
      * @param {CloudflareApi.zeroTrust.access.DeleteBookmarksRequest} request
      * @param {BookmarksClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.bookmarks.delete({

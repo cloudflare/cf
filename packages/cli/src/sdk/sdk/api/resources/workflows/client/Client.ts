@@ -7,7 +7,9 @@ import { mergeHeaders } from "../../../../core/headers.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
-import * as CloudflareApi from "../../../index.js";
+import type * as CloudflareApi from "../../../index.js";
+import * as CloudflareApiErrors from "../../../errors/index.js";
+import { ConcurrencyClient } from "../resources/concurrency/client/Client.js";
 import { InstancesClient } from "../resources/instances/client/Client.js";
 import { SettingsClient } from "../resources/settings/client/Client.js";
 import { VersionsClient } from "../resources/versions/client/Client.js";
@@ -20,12 +22,17 @@ export declare namespace WorkflowsClient {
 
 export class WorkflowsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<WorkflowsClient.Options>;
+    protected _concurrency: ConcurrencyClient | undefined;
     protected _settings: SettingsClient | undefined;
     protected _instances: InstancesClient | undefined;
     protected _versions: VersionsClient | undefined;
 
     constructor(options: WorkflowsClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
+    }
+
+    public get concurrency(): ConcurrencyClient {
+        return (this._concurrency ??= new ConcurrencyClient(this._options));
     }
 
     public get settings(): SettingsClient {
@@ -47,6 +54,8 @@ export class WorkflowsClient {
      * @param {WorkflowsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workflows.list({
@@ -103,7 +112,7 @@ export class WorkflowsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -129,6 +138,8 @@ export class WorkflowsClient {
      *
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workflows.get({
@@ -177,9 +188,9 @@ export class WorkflowsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -205,6 +216,8 @@ export class WorkflowsClient {
      *
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workflows.delete({
@@ -256,9 +269,9 @@ export class WorkflowsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,

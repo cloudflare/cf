@@ -1,8 +1,3 @@
-import { createCommandClient } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 import type { SdkRequest } from "#sdk";
@@ -11,11 +6,16 @@ import type { SdkRequest } from "#sdk";
  * @generated from apis/overlays/organization.ts
  */
 import type { Argv, CommandModule } from "yargs";
+import { createCommandClient } from "#lib/auth.js";
+import { formatDryRun } from "#lib/dry-run.js";
+import { formatOutput } from "#lib/output.js";
+import { withProgress } from "#lib/progress.js";
+import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 organization profile get <organization-id>\n\nGet an organizations profile if it exists. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)"
+			"$0 organization profile get <organization-id>\n\nGet an organizations profile if it exists. Authentication: A Global API key for a user with `com.cloudflare.api.tenant.unit.read` is required. User API Tokens are not currently supported."
 		)
 		.positional("organization-id", {
 			type: "string",

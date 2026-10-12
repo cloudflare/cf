@@ -9,7 +9,7 @@ import {
 	typedBuilderDeclaration,
 	typedSdkTypeAliases,
 } from "./emit/sdk-path.js";
-import { generateCommandMeta, type GeneratedCommandMeta } from "./metadata";
+import { generateCommandMeta, type GeneratedCommandMeta } from "./metadata.js";
 import { getTelemetrySafeFlags } from "./telemetry.js";
 import { escapeForSingleQuote } from "./util.js";
 import type { Schema } from "@cloudflare/forge";

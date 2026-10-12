@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 
 export declare namespace NetworksClient {
     export type Options = BaseClientOptions;
@@ -31,6 +31,9 @@ export class NetworksClient {
      *
      * @param {CloudflareApi.zeroTrust.devices.ListNetworksRequest} request
      * @param {NetworksClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.devices.networks.list({
@@ -99,6 +102,9 @@ export class NetworksClient {
      *
      * @param {CloudflareApi.zeroTrust.devices.CreateNetworksRequest} request
      * @param {NetworksClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.devices.networks.create({
@@ -175,6 +181,9 @@ export class NetworksClient {
      * @param {CloudflareApi.zeroTrust.devices.GetNetworksRequest} request
      * @param {NetworksClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.devices.networks.get({
      *         account_id: "account_id",
@@ -243,6 +252,9 @@ export class NetworksClient {
      *
      * @param {CloudflareApi.zeroTrust.devices.UpdateNetworksRequest} request
      * @param {NetworksClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.devices.networks.update({
@@ -315,6 +327,9 @@ export class NetworksClient {
      *
      * @param {CloudflareApi.zeroTrust.devices.DeleteNetworksRequest} request
      * @param {NetworksClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.devices.networks.delete({

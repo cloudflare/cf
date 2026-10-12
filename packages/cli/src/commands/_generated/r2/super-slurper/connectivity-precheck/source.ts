@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * source command
+ * @generated from apis/overlays/r2.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -14,14 +22,6 @@ import {
 	promptForRequiredField,
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * source command
- * @generated from apis/overlays/r2.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -64,11 +64,15 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The vendor field",
 			choices: ["s3", "gcs", "r2"],
 		})
+		.coerce("vendor", (value) => resolveFileToken(value, "vendor", "text"))
 		.option("jurisdiction", {
 			type: "string",
 			description: "The jurisdiction field",
 			choices: ["default", "eu", "us", "fedramp"],
 		})
+		.coerce("jurisdiction", (value) =>
+			resolveFileToken(value, "jurisdiction", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -192,17 +196,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"text"
 											),
 										},
-										vendor: resolveFileToken(
-											argv["vendor"] as string | undefined,
-											"vendor",
-											"text"
-										),
-										jurisdiction: resolveFileToken(
-											argv["jurisdiction"] as string | undefined,
-											"jurisdiction",
-											"text"
-										),
+										vendor: argv["vendor"],
+										jurisdiction: argv["jurisdiction"],
 									}),
+						sensitiveBodyPaths: [
+							["secret", "secretAccessKey"],
+							["secret", "privateKey"],
+						],
 					});
 					return;
 				}
@@ -280,16 +280,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"text"
 						),
 					},
-					vendor: resolveFileToken(
-						argv["vendor"] as string | undefined,
-						"vendor",
-						"text"
-					),
-					jurisdiction: resolveFileToken(
-						argv["jurisdiction"] as string | undefined,
-						"jurisdiction",
-						"text"
-					),
+					vendor: argv["vendor"],
+					jurisdiction: argv["jurisdiction"],
 				});
 				const result = await withProgress(`Updating`, async () =>
 					client.r2.superSlurper.connectivityPrecheck.source({

@@ -1,9 +1,0 @@
-description: "Download dashboard Pages settings into a Wrangler config file"
-command: "wrangler pages download config <project>"
-status: "gap"
-sourceCommands:
-  - "wrangler pages download config <project>"
-cfReplacementFlow:
-  - "No direct cf replacement."
-notes:
-  - "cf does not generate or maintain wrangler.json/jsonc/toml project config."

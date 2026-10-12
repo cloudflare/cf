@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * postRequestCreate command
+ * @generated from apis/overlays/cloudforce-one.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -11,14 +19,6 @@ import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * postRequestCreate command
- * @generated from apis/overlays/cloudforce-one.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -53,6 +53,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"critical",
 			],
 		})
+		.coerce("priority", (value) => resolveFileToken(value, "priority", "text"))
 		.option("request-type", {
 			type: "string",
 			description: "Optional request type for the request",
@@ -81,6 +82,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"amber+strict",
 			],
 		})
+		.coerce("tlp", (value) => resolveFileToken(value, "tlp", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -139,11 +141,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"event-id",
 											"text"
 										),
-										priority: resolveFileToken(
-											argv["priority"] as string | undefined,
-											"priority",
-											"text"
-										),
+										priority: argv["priority"],
 										request_type: resolveFileToken(
 											argv["request-type"] as string | undefined,
 											"request-type",
@@ -159,11 +157,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"title",
 											"text"
 										),
-										tlp: resolveFileToken(
-											argv["tlp"] as string | undefined,
-											"tlp",
-											"text"
-										),
+										tlp: argv["tlp"],
 									}),
 					});
 					return;
@@ -197,11 +191,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"event-id",
 						"text"
 					),
-					priority: resolveFileToken(
-						argv["priority"] as string | undefined,
-						"priority",
-						"text"
-					),
+					priority: argv["priority"],
 					request_type: resolveFileToken(
 						argv["request-type"] as string | undefined,
 						"request-type",
@@ -217,11 +207,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"title",
 						"text"
 					),
-					tlp: resolveFileToken(
-						argv["tlp"] as string | undefined,
-						"tlp",
-						"text"
-					),
+					tlp: argv["tlp"],
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.cloudforceOne.requests.postRequestCreate({

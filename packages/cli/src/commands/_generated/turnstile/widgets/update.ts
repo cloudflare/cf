@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * update command
+ * @generated from apis/overlays/turnstile.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -9,16 +17,11 @@ import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
-import { promptForRequiredField } from "#lib/prompt.js";
+import {
+	promptForRequiredEnumField,
+	promptForRequiredField,
+} from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * update command
- * @generated from apis/overlays/turnstile.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -41,6 +44,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"If Turnstile is embedded on a Cloudflare site and the widget should grant challenge clearance,\nthis setting can determine the clearance level to be set\n",
 			choices: ["no_clearance", "jschallenge", "managed", "interactive"],
 		})
+		.coerce("clearance-level", (value) =>
+			resolveFileToken(value, "clearance-level", "text")
+		)
 		.option("domains", {
 			type: "string",
 			array: true,
@@ -50,6 +56,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "boolean",
 			description: "Return the Ephemeral ID in /siteverify (ENT only).\n",
 		})
+		.option("widget-mode", {
+			type: "string",
+			description: "Widget Mode",
+			choices: ["non-interactive", "invisible", "managed"],
+		})
+		.coerce("widget-mode", (value) =>
+			resolveFileToken(value, "widget-mode", "text")
+		)
 		.option("name", {
 			type: "string",
 			description:
@@ -66,6 +80,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Region where this widget can be used. This cannot be changed after creation.\n",
 			choices: ["world", "china"],
 		})
+		.coerce("region", (value) => resolveFileToken(value, "region", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -95,6 +110,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"bot-fight-mode",
 						"clearance-level",
 						"ephemeral-id",
+						"widget-mode",
 						"offlabel",
 						"region",
 						"dry-run",
@@ -116,24 +132,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								? parseBody(argv.body)
 								: compactBody({
 										bot_fight_mode: argv["bot-fight-mode"],
-										clearance_level: resolveFileToken(
-											argv["clearance-level"] as string | undefined,
-											"clearance-level",
-											"text"
-										),
+										clearance_level: argv["clearance-level"],
 										domains: argv["domains"],
 										ephemeral_id: argv["ephemeral-id"],
+										mode: argv["widget-mode"],
 										name: resolveFileToken(
 											argv["name"] as string | undefined,
 											"name",
 											"text"
 										),
 										offlabel: argv["offlabel"],
-										region: resolveFileToken(
-											argv["region"] as string | undefined,
-											"region",
-											"text"
-										),
+										region: argv["region"],
 									}),
 					});
 					return;
@@ -159,6 +168,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"--domains is required (or pass --body with this field set)."
 					);
 				}
+				if (argv["widget-mode"] === undefined) {
+					argv["widget-mode"] = await promptForRequiredEnumField(
+						"widget-mode",
+						"Widget Mode",
+						["non-interactive", "invisible", "managed"] as const
+					);
+				}
 				if (argv["name"] === undefined) {
 					argv["name"] = await promptForRequiredField(
 						"name",
@@ -169,24 +185,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
 					bot_fight_mode: argv["bot-fight-mode"],
-					clearance_level: resolveFileToken(
-						argv["clearance-level"] as string | undefined,
-						"clearance-level",
-						"text"
-					),
+					clearance_level: argv["clearance-level"],
 					domains: argv["domains"],
 					ephemeral_id: argv["ephemeral-id"],
+					mode: argv["widget-mode"],
 					name: resolveFileToken(
 						argv["name"] as string | undefined,
 						"name",
 						"text"
 					),
 					offlabel: argv["offlabel"],
-					region: resolveFileToken(
-						argv["region"] as string | undefined,
-						"region",
-						"text"
-					),
+					region: argv["region"],
 				});
 				const result = await withProgress(`Updating`, async () =>
 					client.turnstile.widgets.update({

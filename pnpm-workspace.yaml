@@ -2,19 +2,42 @@ packages:
   - packages/*
   - fixtures/*
 
+patchedDependencies:
+  "@changesets/cli@2.31.0": patches/@changesets__cli@2.31.0.patch
+  "@cloudflare/containers-shared@*": patches/@cloudflare__containers-shared@0.21.1.patch
+  "@cloudflare/deploy-helpers@*": patches/@cloudflare__deploy-helpers@0.20.1.patch
+
 # Prevent transitive deps from pulling from git / tarball URLs.
 # Direct deps (vendor/*.tgz) are still allowed.
 blockExoticSubdeps: true
 
-# Allow newly published direct dependencies before pnpm's maturity cutoff.
+# Allow Cloudflare release batches before pnpm's maturity cutoff. Keep these
+# exclusions independent of the current package versions so Dependabot can
+# install a newly published batch without editing this list each time.
 minimumReleaseAgeExclude:
-  - "@cloudflare/codemods@0.2.1"
+  - "@cloudflare/*"
+  - miniflare
+  - workerd
+  - wrangler
 
-# pnpm 10 blocks install scripts by default; allowlist what needs them.
+# pnpm blocks install scripts by default; allowlist what needs them.
 allowBuilds:
+  "@scarf/scarf": false
   esbuild: true
+  msw: false
   # workerd's postinstall places the platform binary miniflare (`--local`)
   # execs. Nothing else in miniflare's tree has an install script.
   workerd: true
 
 gitChecks: false
+catalog:
+  vite: npm:@voidzero-dev/vite-plus-core@1.0.0
+  vite-plus: 1.0.0
+overrides:
+  vite@*: "catalog:"
+  vitest@*: 5.0.1
+peerDependencyRules:
+  allowAny:
+    - vite
+  allowedVersions:
+    vite: "*"

@@ -1,4 +1,5 @@
 import $mfa from "./mfa/index.js";
+import $passkeys from "./passkeys/index.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * users command group
@@ -11,7 +12,10 @@ const command: CommandModule<CommonYargsOptions> = {
 	describe: "Operations for users",
 
 	builder: (yargs) => {
-		return yargs.command($mfa).demandCommand(1, "Please specify a subcommand");
+		return yargs
+			.command($mfa)
+			.command($passkeys)
+			.demandCommand(1, "Please specify a subcommand");
 	},
 
 	handler: () => {},

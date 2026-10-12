@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace LockdownsClient {
     export type Options = BaseClientOptions;
@@ -28,6 +28,9 @@ export class LockdownsClient {
      *
      * @param {CloudflareApi.firewall.ListLockdownsRequest} request
      * @param {LockdownsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.firewall.lockdowns.list({
@@ -136,6 +139,9 @@ export class LockdownsClient {
      * @param {CloudflareApi.firewall.CreateLockdownsRequest} request
      * @param {LockdownsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.firewall.lockdowns.create({
      *         zone_id: "zone_id",
@@ -208,6 +214,9 @@ export class LockdownsClient {
      * @param {CloudflareApi.firewall.GetLockdownsRequest} request
      * @param {LockdownsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.firewall.lockdowns.get({
      *         zone_id: "zone_id",
@@ -273,6 +282,9 @@ export class LockdownsClient {
      *
      * @param {CloudflareApi.firewall.UpdateLockdownsRequest} request
      * @param {LockdownsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.firewall.lockdowns.update({
@@ -346,6 +358,9 @@ export class LockdownsClient {
      *
      * @param {CloudflareApi.firewall.DeleteLockdownsRequest} request
      * @param {LockdownsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.firewall.lockdowns.delete({

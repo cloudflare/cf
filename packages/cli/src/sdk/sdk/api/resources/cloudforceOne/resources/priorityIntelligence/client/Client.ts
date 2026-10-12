@@ -8,8 +8,10 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
+import * as CloudflareApiErrors from "../../../../../errors/index.js";
 import { ConstantsClient } from "../resources/constants/client/Client.js";
+import { FiltersClient } from "../resources/filters/client/Client.js";
 import { InterestsClient } from "../resources/interests/client/Client.js";
 import { QuotaClient } from "../resources/quota/client/Client.js";
 
@@ -22,6 +24,7 @@ export declare namespace PriorityIntelligenceClient {
 export class PriorityIntelligenceClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<PriorityIntelligenceClient.Options>;
     protected _constants: ConstantsClient | undefined;
+    protected _filters: FiltersClient | undefined;
     protected _interests: InterestsClient | undefined;
     protected _quota: QuotaClient | undefined;
 
@@ -31,6 +34,10 @@ export class PriorityIntelligenceClient {
 
     public get constants(): ConstantsClient {
         return (this._constants ??= new ConstantsClient(this._options));
+    }
+
+    public get filters(): FiltersClient {
+        return (this._filters ??= new FiltersClient(this._options));
     }
 
     public get interests(): InterestsClient {
@@ -46,6 +53,9 @@ export class PriorityIntelligenceClient {
      *
      * @param {CloudflareApi.cloudforceOne.ListPriorityIntelligenceRequest} request
      * @param {PriorityIntelligenceClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.priorityIntelligence.list({
@@ -122,6 +132,8 @@ export class PriorityIntelligenceClient {
      *
      * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.TooManyRequestsError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.priorityIntelligence.create({
@@ -173,9 +185,9 @@ export class PriorityIntelligenceClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 403:
-                    throw new CloudflareApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 429:
-                    throw new CloudflareApi.TooManyRequestsError(
+                    throw new CloudflareApiErrors.TooManyRequestsError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -203,6 +215,8 @@ export class PriorityIntelligenceClient {
      * @param {PriorityIntelligenceClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.priorityIntelligence.get({
@@ -251,7 +265,7 @@ export class PriorityIntelligenceClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 404:
-                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -276,6 +290,8 @@ export class PriorityIntelligenceClient {
      * @param {PriorityIntelligenceClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.priorityIntelligence.update({
@@ -327,7 +343,7 @@ export class PriorityIntelligenceClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 404:
-                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -352,6 +368,8 @@ export class PriorityIntelligenceClient {
      * @param {PriorityIntelligenceClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.priorityIntelligence.delete({
@@ -400,7 +418,7 @@ export class PriorityIntelligenceClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 404:
-                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,

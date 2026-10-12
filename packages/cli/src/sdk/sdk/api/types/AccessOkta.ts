@@ -49,6 +49,7 @@ export namespace AccessOkta {
         Pingone: "pingone",
         Yandex: "yandex",
         Cloudflare: "cloudflare",
+        Passkeys: "passkeys",
     } as const;
     export type Type = (typeof Type)[keyof typeof Type];
 }

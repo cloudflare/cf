@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../../../cor
 import * as environments from "../../../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../../../index.js";
 
 export declare namespace RulesClient {
     export type Options = BaseClientOptions;
@@ -35,6 +35,9 @@ export class RulesClient {
      *
      * @param {CloudflareApi.firewall.waf.packages.ListRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.firewall.waf.packages.rules.list({
@@ -138,6 +141,9 @@ export class RulesClient {
      * @param {CloudflareApi.firewall.waf.packages.GetRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.firewall.waf.packages.rules.get({
      *         zone_id: "zone_id",
@@ -208,6 +214,9 @@ export class RulesClient {
      *
      * @param {CloudflareApi.firewall.waf.packages.EditRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.firewall.waf.packages.rules.edit({

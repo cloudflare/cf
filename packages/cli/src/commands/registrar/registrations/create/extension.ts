@@ -1,3 +1,5 @@
+import type { Cloudflare } from "#lib/auth.js";
+import type { SchemaLookup } from "#lib/schema-cache.js";
 /** Per-extension registration-schema lookup. */
 import {
 	describeSchemaFailure,
@@ -5,8 +7,6 @@ import {
 	readCachedSchema,
 	writeCachedSchema,
 } from "#lib/schema-cache.js";
-import type { Cloudflare } from "#lib/auth.js";
-import type { SchemaLookup } from "#lib/schema-cache.js";
 
 const CACHE_NAMESPACE = "registrar-extension-schema";
 

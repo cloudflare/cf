@@ -1,16 +1,19 @@
 import {
+	handWrittenCommands,
 	leafOverrideHandWrittenCommands,
 	leafHandWrittenCommands,
+	parentOverrideHandWrittenCommands,
 	rootCommandName,
 	rootHandWrittenCommands,
 	subGroupHandWrittenCommands,
 } from "../src/commands/hand-written.js";
+import { withHandWrittenCommandRoots } from "./command-roots.js";
 import {
 	generateCommandFile,
 	generateGroupIndexFile,
 	generateResourceIndexFile,
 	isMethodGroup,
-} from "./generator";
+} from "./generator.js";
 import {
 	handWrittenLeafCommands,
 	handWrittenLeafOverrideDir,
@@ -25,9 +28,10 @@ import {
 	generateMetadataFile,
 	generateSchemaFile,
 	generateSchemaInfo,
+	validateHandWrittenDryRunMetadata,
 	type HandWrittenCommandMeta,
 	type SchemaInfo,
-} from "./metadata";
+} from "./metadata.js";
 import { errorMessage, escapeForSingleQuote } from "./util.js";
 /**
  * CLI Transformer
@@ -279,11 +283,13 @@ export const transformer: TransformerFn = async (forge: Forge) => {
 		name: "access",
 		description: "Access protected applications and services",
 		methods: [],
-		globalCliArgs: [],
 		hideCommand: false,
 	};
 	const commandSchemas: Array<[string, Schema.command]> = [
-		...forge.commands,
+		...withHandWrittenCommandRoots(
+			forge.commands,
+			parentOverrideHandWrittenCommands()
+		),
 		["access", accessSchema],
 	];
 
@@ -513,7 +519,7 @@ ${entries}
 		}
 	}
 	for (const command of rootHandWrittenCommands()) {
-		const name = command.command.split(/\s+/)[0];
+		const name = rootCommandName(command);
 		descriptions[name] = command.describe === false ? "" : command.describe;
 	}
 
@@ -599,6 +605,20 @@ ${entries}
 		});
 	}
 	handWrittenCommandMeta.sort((a, b) => a.command.localeCompare(b.command));
+	for (const command of handWrittenCommands) {
+		if (
+			command.kind !== "parentOverride" &&
+			command.dryRun !== "preview" &&
+			command.dryRun !== "native"
+		) {
+			generationErrors.push(
+				`Hand-written command in ${command.dir} must choose a dry-run strategy in src/commands/hand-written.ts.`
+			);
+		}
+	}
+	generationErrors.push(
+		...validateHandWrittenDryRunMetadata(handWrittenCommandMeta)
+	);
 	const handWrittenDescriptionKeys = new Set<string>();
 	for (const meta of handWrittenCommandMeta) {
 		for (let i = 1; i < meta.fullPath.length; i++) {

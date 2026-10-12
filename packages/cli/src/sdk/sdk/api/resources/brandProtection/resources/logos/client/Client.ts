@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace LogosClient {
     export type Options = BaseClientOptions;
@@ -28,6 +28,9 @@ export class LogosClient {
      *
      * @param {CloudflareApi.brandProtection.GetLogosRequest} request
      * @param {LogosClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.brandProtection.logos.get({
@@ -105,6 +108,9 @@ export class LogosClient {
      * @param {CloudflareApi.brandProtection.CreateLogosRequest} request
      * @param {LogosClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.brandProtection.logos.create({
      *         account_id: "account_id",
@@ -178,6 +184,9 @@ export class LogosClient {
      *
      * @param {CloudflareApi.brandProtection.DeleteLogosRequest} request
      * @param {LogosClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.brandProtection.logos.delete({

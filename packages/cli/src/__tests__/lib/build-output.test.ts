@@ -1,10 +1,10 @@
-import { join } from "node:path";
+import { join, resolve } from "node:path";
 import {
 	BuildOutputError,
 	readBuildOutput,
 } from "@cloudflare/build-output-utils";
 import { runInTempDir, seed } from "@cloudflare/workers-utils/test-helpers";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "vite-plus/test";
 import {
 	BuildOutputConfigError,
 	parseWorkerConfig,
@@ -70,7 +70,9 @@ describe("build output", () => {
 			compatibility_date: "2026-04-25",
 			compatibility_flags: ["nodejs_compat"],
 		});
-		expect(wranglerConfig.main).toMatch(/bundle\/index\.js$/);
+		expect(wranglerConfig.main).toBe(
+			resolve(".cloudflare/output/v0/workers/default/bundle/index.js")
+		);
 	});
 
 	it("keeps Build Output Containers separate from Worker validation", async () => {

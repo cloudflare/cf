@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
-import * as CloudflareApi from "../../../index.js";
+import type * as CloudflareApi from "../../../index.js";
 import { PrioritizeClient } from "../resources/prioritize/client/Client.js";
 
 export declare namespace CustomCertificatesClient {
@@ -34,6 +34,9 @@ export class CustomCertificatesClient {
      *
      * @param {CloudflareApi.ListCustomCertificatesRequest} request
      * @param {CustomCertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.customCertificates.list({
@@ -113,6 +116,9 @@ export class CustomCertificatesClient {
      * @param {CloudflareApi.CreateCustomCertificatesRequest} request
      * @param {CustomCertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.customCertificates.create({
      *         zone_id: "zone_id",
@@ -185,6 +191,9 @@ export class CustomCertificatesClient {
      * @param {CloudflareApi.GetCustomCertificatesRequest} request
      * @param {CustomCertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.customCertificates.get({
      *         zone_id: "zone_id",
@@ -254,6 +263,9 @@ export class CustomCertificatesClient {
      * @param {CloudflareApi.DeleteCustomCertificatesRequest} request
      * @param {CustomCertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.customCertificates.delete({
      *         zone_id: "zone_id",
@@ -322,6 +334,9 @@ export class CustomCertificatesClient {
      *
      * @param {CloudflareApi.EditCustomCertificatesRequest} request
      * @param {CustomCertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.customCertificates.edit({

@@ -7,5 +7,6 @@
  *     }
  */
 export interface ListMarkdownSupportedFormatsAiRequest {
+    /** Cloudflare account ID used for this AI model request. */
     account_id: string;
 }

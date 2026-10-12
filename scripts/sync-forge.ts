@@ -32,9 +32,7 @@ const REPO_ROOT = resolve(SCRIPT_DIR, "..");
 const VENDOR_DIR = join(REPO_ROOT, "vendor");
 const ROOT_PKG_JSON = join(REPO_ROOT, "package.json");
 const CLI_PKG_JSON = join(REPO_ROOT, "packages/cli/package.json");
-// oxlint-disable-next-line turbo/no-undeclared-env-vars -- script-local, not a turbo task
 const FORGE_REPO = process.env.FORGE_REPO ?? resolve(REPO_ROOT, "../forge");
-// oxlint-disable-next-line turbo/no-undeclared-env-vars -- script-local, not a turbo task
 const SKIP_PREBUILD = process.env.FORGE_SKIP_PREBUILD === "1";
 
 function fatal(msg: string): never {
@@ -169,7 +167,7 @@ updateJson(CLI_PKG_JSON, (pkg) => {
 console.log("Reinstalling and refreshing vendored tarball integrities...");
 run("pnpm", ["install", "--force", "--fix-lockfile"], REPO_ROOT);
 console.log("Reformatting updated package.json files...");
-run("pnpm", ["exec", "oxfmt", ROOT_PKG_JSON, CLI_PKG_JSON], REPO_ROOT);
+run("pnpm", ["exec", "vp", "fmt", ROOT_PKG_JSON, CLI_PKG_JSON], REPO_ROOT);
 
 console.log();
 console.log("Done. Review with: git diff");

@@ -1,9 +1,0 @@
-description: "List Queues"
-command: "wrangler queues list"
-status: "direct"
-sourceCommands:
-  - "wrangler queues list"
-cfReplacementFlow:
-  - "cf queues list"
-notes:
-  - "Pass generated page/per-page flags if needed."

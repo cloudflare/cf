@@ -1,2 +1,1 @@
-export type { EditSettingsRequest } from "./EditSettingsRequest.js";
-export type { UpdateSettingsRequest } from "./UpdateSettingsRequest.js";
+export type { AccessAppSettingsRequest } from "./AccessAppSettingsRequest.js";

@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 
 export declare namespace OutputsClient {
     export type Options = BaseClientOptions;
@@ -31,6 +31,9 @@ export class OutputsClient {
      *
      * @param {CloudflareApi.stream.liveInputs.ListOutputsRequest} request
      * @param {OutputsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.stream.liveInputs.outputs.list({
@@ -100,6 +103,9 @@ export class OutputsClient {
      *
      * @param {CloudflareApi.stream.liveInputs.StreamCreateOutputRequest} request
      * @param {OutputsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.stream.liveInputs.outputs.create({
@@ -171,6 +177,9 @@ export class OutputsClient {
      *
      * @param {CloudflareApi.stream.liveInputs.StreamUpdateOutputRequest} request
      * @param {OutputsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.stream.liveInputs.outputs.update({
@@ -247,6 +256,9 @@ export class OutputsClient {
      *
      * @param {CloudflareApi.stream.liveInputs.DeleteOutputsRequest} request
      * @param {OutputsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.stream.liveInputs.outputs.delete({

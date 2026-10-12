@@ -1,10 +1,3 @@
-import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { resolveFileToken } from "#lib/input-validation.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 import type { SdkRequest } from "#sdk";
@@ -13,6 +6,13 @@ import type { SdkRequest } from "#sdk";
  * @generated from apis/overlays/zones.ts
  */
 import type { Argv, CommandModule } from "yargs";
+import { createCommandClient, getZoneId } from "#lib/auth.js";
+import { compactBody, parseBody } from "#lib/body-parser.js";
+import { formatDryRun } from "#lib/dry-run.js";
+import { resolveFileToken } from "#lib/input-validation.js";
+import { formatOutput } from "#lib/output.js";
+import { withProgress } from "#lib/progress.js";
+import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -29,12 +29,18 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Whether C2PA signing is enabled for image transformations.",
 			choices: ["off", "on"],
 		})
+		.coerce("value-c2pa", (value) =>
+			resolveFileToken(value, "value-c2pa", "text")
+		)
 		.option("value-transformations", {
 			type: "string",
 			description:
 				'Controls Image Transformations behavior:\n- "off": Feature disabled.\n- "on": Transformations enabled for same-zone images only.\n- "open": Transformations enabled for images from any origin.\n- "latest": Transformations enabled using the latest version.\n',
 			choices: ["off", "on", "open", "latest"],
 		})
+		.coerce("value-transformations", (value) =>
+			resolveFileToken(value, "value-transformations", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -84,16 +90,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"value-allowed-origins",
 												"text"
 											),
-											c2pa: resolveFileToken(
-												argv["value-c2pa"] as string | undefined,
-												"value-c2pa",
-												"text"
-											),
-											transformations: resolveFileToken(
-												argv["value-transformations"] as string | undefined,
-												"value-transformations",
-												"text"
-											),
+											c2pa: argv["value-c2pa"],
+											transformations: argv["value-transformations"],
 										},
 									}),
 					});
@@ -125,16 +123,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"value-allowed-origins",
 							"text"
 						),
-						c2pa: resolveFileToken(
-							argv["value-c2pa"] as string | undefined,
-							"value-c2pa",
-							"text"
-						),
-						transformations: resolveFileToken(
-							argv["value-transformations"] as string | undefined,
-							"value-transformations",
-							"text"
-						),
+						c2pa: argv["value-c2pa"],
+						transformations: argv["value-transformations"],
 					},
 				});
 				const result = await withProgress(`Updating`, async () =>

@@ -1,9 +1,0 @@
-description: "Apply pending D1 migration files"
-command: "wrangler d1 migrations apply <database>"
-status: "partial"
-sourceCommands:
-  - "wrangler d1 migrations apply <database>"
-cfReplacementFlow:
-  - "For each migration file: cf d1 query <database-id> --sql @migrations/<file>.sql"
-notes:
-  - "This manual cf flow does not replace Wrangler's migration ordering, migration table updates, local mode, or backup/confirmation UX."

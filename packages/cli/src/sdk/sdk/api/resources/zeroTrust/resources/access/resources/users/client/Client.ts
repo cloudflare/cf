@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 import { ActiveSessionsClient } from "../resources/activeSessions/client/Client.js";
 import { FailedLoginsClient } from "../resources/failedLogins/client/Client.js";
 import { LastSeenIdentityClient } from "../resources/lastSeenIdentity/client/Client.js";
@@ -49,6 +49,9 @@ export class UsersClient {
      *
      * @param {CloudflareApi.zeroTrust.access.ListUsersRequest} request
      * @param {UsersClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.users.list({
@@ -129,6 +132,9 @@ export class UsersClient {
      * @param {CloudflareApi.zeroTrust.access.CreateUsersRequest} request
      * @param {UsersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.users.create({
      *         account_id: "account_id",
@@ -198,6 +204,9 @@ export class UsersClient {
      * @param {CloudflareApi.zeroTrust.access.GetUsersRequest} request
      * @param {UsersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.users.get({
      *         account_id: "account_id",
@@ -263,6 +272,9 @@ export class UsersClient {
      *
      * @param {CloudflareApi.zeroTrust.access.UpdateUsersRequest} request
      * @param {UsersClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.users.update({
@@ -335,6 +347,9 @@ export class UsersClient {
      * @param {CloudflareApi.zeroTrust.access.DeleteUsersRequest} request
      * @param {UsersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.users.delete({
      *         account_id: "account_id",
@@ -392,6 +407,79 @@ export class UsersClient {
             _response.rawResponse,
             "DELETE",
             "/accounts/{account_id}/access/users/{user_id}",
+        );
+    }
+
+    /**
+     * Revokes a user's access across all applications.
+     *
+     * @param {CloudflareApi.zeroTrust.access.RevokeUsersRequest} request
+     * @param {UsersClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
+     * @example
+     *     await client.zeroTrust.access.users.revoke({
+     *         account_or_zone: "account_or_zone",
+     *         account_or_zone_id: "account_or_zone_id",
+     *         email: "test@example.com"
+     *     })
+     */
+    public revoke(
+        request: CloudflareApi.zeroTrust.access.RevokeUsersRequest,
+        requestOptions?: UsersClient.RequestOptions,
+    ): core.HttpResponsePromise<boolean> {
+        return core.HttpResponsePromise.fromPromise(this.__revoke(request, requestOptions));
+    }
+
+    private async __revoke(
+        request: CloudflareApi.zeroTrust.access.RevokeUsersRequest,
+        requestOptions?: UsersClient.RequestOptions,
+    ): Promise<core.WithRawResponse<boolean>> {
+        const { account_or_zone: accountOrZone, account_or_zone_id: accountOrZoneId, ..._body } = request;
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.CloudflareApiEnvironment.Default,
+                `${core.url.encodePathParam(accountOrZone)}/${core.url.encodePathParam(accountOrZoneId)}/access/organizations/revoke_user`,
+            ),
+            method: "POST",
+            headers: _headers,
+            contentType: "application/json",
+            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
+            requestType: "json",
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return { data: _response.body as boolean, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            throw new errors.CloudflareApiError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
+        }
+
+        return handleNonStatusCodeError(
+            _response.error,
+            _response.rawResponse,
+            "POST",
+            "/{account_or_zone}/{account_or_zone_id}/access/organizations/revoke_user",
         );
     }
 }

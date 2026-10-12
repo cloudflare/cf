@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * update command
+ * @generated from apis/overlays/email-security.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -14,14 +22,6 @@ import {
 	promptForRequiredField,
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * update command
- * @generated from apis/overlays/email-security.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -34,7 +34,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			demandOption: true,
 		})
 		.option("comments", { type: "string", description: "The comments field" })
-		.option("is-regex", { type: "boolean", description: "The is_regex field" })
+		.option("is-regex", {
+			type: "boolean",
+			description:
+				"Whether `pattern` is a regular expression instead of a literal value.",
+		})
 		.option("pattern", {
 			type: "string",
 			description:
@@ -46,6 +50,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Type of pattern matching.\n- EMAIL: matches a full email address (e.g. `user@example.com`)\n- DOMAIN: matches a domain name (e.g. `example.com`)\n- IP: matches a plain IPv4 or IPv6 address (e.g. `1.2.3.4` or `2606:4700:4700::1111`) or CIDR block (e.g. `1.2.3.0/24` or `2606:4700:4700::/48`). The API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents.\n- UNKNOWN: deprecated; you cannot use this when creating or updating policies, but it may appear on existing entries.\n",
 			choices: ["EMAIL", "DOMAIN", "IP", "UNKNOWN"],
 		})
+		.coerce("pattern-type", (value) =>
+			resolveFileToken(value, "pattern-type", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -99,11 +106,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"pattern",
 											"text"
 										),
-										pattern_type: resolveFileToken(
-											argv["pattern-type"] as string | undefined,
-											"pattern-type",
-											"text"
-										),
+										pattern_type: argv["pattern-type"],
 									}),
 					});
 					return;
@@ -156,11 +159,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"pattern",
 						"text"
 					),
-					pattern_type: resolveFileToken(
-						argv["pattern-type"] as string | undefined,
-						"pattern-type",
-						"text"
-					),
+					pattern_type: argv["pattern-type"],
 				});
 				const result = await withProgress(`Updating`, async () =>
 					client.emailSecurity.blockSenders.update({

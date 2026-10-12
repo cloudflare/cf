@@ -8,5 +8,5 @@ export interface AccessResponseCollection10 {
     /** Whether the API call was successful. */
     success: true;
     result_info?: CloudflareApi.AccessResponseCollection10ResultInfo | undefined;
-    result?: CloudflareApi.AccessCustomPageWithoutHtml[] | undefined;
+    result?: CloudflareApi.AccessReusablePolicyResp[] | undefined;
 }

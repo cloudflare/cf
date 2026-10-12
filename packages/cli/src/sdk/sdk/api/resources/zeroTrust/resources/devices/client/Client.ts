@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 import { ClientVersionsClient } from "../resources/clientVersions/client/Client.js";
 import { DeploymentGroupsClient } from "../resources/deploymentGroups/client/Client.js";
 import { EmergencyDisconnectClient } from "../resources/emergencyDisconnect/client/Client.js";
@@ -88,6 +88,9 @@ export class DevicesClient {
      *
      * @param {CloudflareApi.zeroTrust.ListDevicesRequest} request
      * @param {DevicesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.devices.list({
@@ -207,6 +210,9 @@ export class DevicesClient {
      * @param {CloudflareApi.zeroTrust.GetDevicesRequest} request
      * @param {DevicesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.devices.get({
      *         account_id: "account_id",
@@ -283,6 +289,9 @@ export class DevicesClient {
      * @param {CloudflareApi.zeroTrust.DeleteDevicesRequest} request
      * @param {DevicesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.devices.delete({
      *         account_id: "account_id",
@@ -351,6 +360,9 @@ export class DevicesClient {
      *
      * @param {CloudflareApi.zeroTrust.TeamsDevicesPhysicalDeviceUpdateRequest} request
      * @param {DevicesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.devices.update({

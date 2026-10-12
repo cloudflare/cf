@@ -1,9 +1,0 @@
-description: "Export a D1 database schema and/or data"
-command: "wrangler d1 export <database> --output dump.sql"
-status: "partial"
-sourceCommands:
-  - "wrangler d1 export <database> --output dump.sql"
-cfReplacementFlow:
-  - "cf d1 export <database-id> --body @export-options.json"
-notes:
-  - "Wrangler manages polling, downloading, and writing the SQL dump file. cf exposes the underlying export API shape."

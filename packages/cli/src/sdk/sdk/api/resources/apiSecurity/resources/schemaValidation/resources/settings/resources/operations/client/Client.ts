@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../../../cor
 import * as environments from "../../../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../../../index.js";
 
 export declare namespace OperationsClient {
     export type Options = BaseClientOptions;
@@ -31,6 +31,9 @@ export class OperationsClient {
      *
      * @param {CloudflareApi.apiSecurity.schemaValidation.settings.ListOperationsRequest} request
      * @param {OperationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.apiSecurity.schemaValidation.settings.operations.list({
@@ -107,6 +110,9 @@ export class OperationsClient {
      *
      * @param {CloudflareApi.apiSecurity.schemaValidation.settings.BulkEditOperationsRequest} request
      * @param {OperationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.apiSecurity.schemaValidation.settings.operations.bulkEdit({
@@ -187,6 +193,9 @@ export class OperationsClient {
      * @param {CloudflareApi.apiSecurity.schemaValidation.settings.GetOperationsRequest} request
      * @param {OperationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.apiSecurity.schemaValidation.settings.operations.get({
      *         zone_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -255,6 +264,9 @@ export class OperationsClient {
      *
      * @param {CloudflareApi.apiSecurity.schemaValidation.settings.UpdateOperationsRequest} request
      * @param {OperationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.apiSecurity.schemaValidation.settings.operations.update({
@@ -327,6 +339,9 @@ export class OperationsClient {
      *
      * @param {CloudflareApi.apiSecurity.schemaValidation.settings.DeleteOperationsRequest} request
      * @param {OperationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.apiSecurity.schemaValidation.settings.operations.delete({

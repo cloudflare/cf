@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * create command
+ * @generated from apis/overlays/network-interconnects.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -11,14 +19,6 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * create command
- * @generated from apis/overlays/network-interconnects.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -48,6 +48,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"50G",
 			],
 		})
+		.coerce("bandwidth", (value) =>
+			resolveFileToken(value, "bandwidth", "text")
+		)
 		.option("pairing-key", {
 			type: "string",
 			description: "Pairing key provided by GCP",
@@ -120,11 +123,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"speed",
 											"text"
 										),
-										bandwidth: resolveFileToken(
-											argv["bandwidth"] as string | undefined,
-											"bandwidth",
-											"text"
-										),
+										bandwidth: argv["bandwidth"],
 										pairing_key: resolveFileToken(
 											argv["pairing-key"] as string | undefined,
 											"pairing-key",
@@ -181,11 +180,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"speed",
 						"text"
 					),
-					bandwidth: resolveFileToken(
-						argv["bandwidth"] as string | undefined,
-						"bandwidth",
-						"text"
-					),
+					bandwidth: argv["bandwidth"],
 					pairing_key: resolveFileToken(
 						argv["pairing-key"] as string | undefined,
 						"pairing-key",

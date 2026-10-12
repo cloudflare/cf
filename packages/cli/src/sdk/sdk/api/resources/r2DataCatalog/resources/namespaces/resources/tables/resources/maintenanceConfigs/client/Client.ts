@@ -11,7 +11,8 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../../../cor
 import * as environments from "../../../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../../../index.js";
+import * as CloudflareApiErrors from "../../../../../../../../../errors/index.js";
 
 export declare namespace MaintenanceConfigsClient {
     export type Options = BaseClientOptions;
@@ -27,6 +28,8 @@ export class MaintenanceConfigsClient {
     }
 
     /**
+     * @deprecated
+     *
      * Retrieve the maintenance configuration for a specific table,
      * including compaction settings.
      *
@@ -38,6 +41,8 @@ export class MaintenanceConfigsClient {
      * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.r2DataCatalog.namespaces.tables.maintenanceConfigs.get({
@@ -91,15 +96,15 @@ export class MaintenanceConfigsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new CloudflareApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new CloudflareApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 500:
-                    throw new CloudflareApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.InternalServerError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -118,10 +123,12 @@ export class MaintenanceConfigsClient {
     }
 
     /**
+     * @deprecated
+     *
      * Update the maintenance configuration for a specific table. This allows you to
      * enable or disable compaction and adjust target file sizes for optimization.
      *
-     * @param {CloudflareApi.r2DataCatalog.namespaces.tables.R2DataCatalogTableMaintenanceUpdateRequest} request
+     * @param {CloudflareApi.r2DataCatalog.namespaces.tables.UpdateMaintenanceConfigsRequest} request
      * @param {MaintenanceConfigsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
@@ -129,6 +136,8 @@ export class MaintenanceConfigsClient {
      * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.r2DataCatalog.namespaces.tables.maintenanceConfigs.update({
@@ -136,29 +145,37 @@ export class MaintenanceConfigsClient {
      *         bucket_name: "bucket_name",
      *         namespace: "my_namespace%1Fsub_namespace",
      *         table_name: "my_table",
-     *         compaction: {
-     *             state: "enabled",
-     *             target_size_mb: "256"
-     *         },
-     *         snapshot_expiration: {
-     *             max_snapshot_age: "14d",
-     *             min_snapshots_to_keep: 5,
-     *             state: "enabled"
+     *         body: {
+     *             compaction: {
+     *                 state: "enabled",
+     *                 target_size_mb: "256"
+     *             },
+     *             snapshot_expiration: {
+     *                 max_snapshot_age: "14d",
+     *                 min_snapshots_to_keep: 5,
+     *                 state: "enabled"
+     *             }
      *         }
      *     })
      */
     public update(
-        request: CloudflareApi.r2DataCatalog.namespaces.tables.R2DataCatalogTableMaintenanceUpdateRequest,
+        request: CloudflareApi.r2DataCatalog.namespaces.tables.UpdateMaintenanceConfigsRequest,
         requestOptions?: MaintenanceConfigsClient.RequestOptions,
     ): core.HttpResponsePromise<CloudflareApi.R2DataCatalogTableMaintenanceConfig> {
         return core.HttpResponsePromise.fromPromise(this.__update(request, requestOptions));
     }
 
     private async __update(
-        request: CloudflareApi.r2DataCatalog.namespaces.tables.R2DataCatalogTableMaintenanceUpdateRequest,
+        request: CloudflareApi.r2DataCatalog.namespaces.tables.UpdateMaintenanceConfigsRequest,
         requestOptions?: MaintenanceConfigsClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.R2DataCatalogTableMaintenanceConfig>> {
-        const { account_id: accountId, bucket_name: bucketName, namespace, table_name: tableName, ..._body } = request;
+        const {
+            account_id: accountId,
+            bucket_name: bucketName,
+            namespace,
+            table_name: tableName,
+            body: _body,
+        } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -194,15 +211,15 @@ export class MaintenanceConfigsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new CloudflareApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new CloudflareApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 500:
-                    throw new CloudflareApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.InternalServerError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -221,9 +238,11 @@ export class MaintenanceConfigsClient {
     }
 
     /**
+     * @deprecated
+     *
      * Queue maintenance for normal polling. This request does not start a run.
      *
-     * @param {CloudflareApi.r2DataCatalog.namespaces.tables.R2DataCatalogQueueMaintenanceRequest} request
+     * @param {CloudflareApi.r2DataCatalog.namespaces.tables.QueueMaintenanceConfigsRequest} request
      * @param {MaintenanceConfigsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
@@ -231,6 +250,8 @@ export class MaintenanceConfigsClient {
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.ConflictError}
      * @throws {@link CloudflareApi.TooManyRequestsError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.r2DataCatalog.namespaces.tables.maintenanceConfigs.queue({
@@ -238,18 +259,19 @@ export class MaintenanceConfigsClient {
      *         bucket_name: "bucket_name",
      *         namespace: "namespace",
      *         table_name: "table_name",
-     *         configuration_type: "compaction"
+     *         configuration_type: "compaction",
+     *         body: {}
      *     })
      */
     public queue(
-        request: CloudflareApi.r2DataCatalog.namespaces.tables.R2DataCatalogQueueMaintenanceRequest,
+        request: CloudflareApi.r2DataCatalog.namespaces.tables.QueueMaintenanceConfigsRequest,
         requestOptions?: MaintenanceConfigsClient.RequestOptions,
     ): core.HttpResponsePromise<CloudflareApi.R2DataCatalogQueueMaintenanceResponse> {
         return core.HttpResponsePromise.fromPromise(this.__queue(request, requestOptions));
     }
 
     private async __queue(
-        request: CloudflareApi.r2DataCatalog.namespaces.tables.R2DataCatalogQueueMaintenanceRequest,
+        request: CloudflareApi.r2DataCatalog.namespaces.tables.QueueMaintenanceConfigsRequest,
         requestOptions?: MaintenanceConfigsClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.R2DataCatalogQueueMaintenanceResponse>> {
         const {
@@ -258,7 +280,7 @@ export class MaintenanceConfigsClient {
             namespace,
             table_name: tableName,
             configuration_type: configurationType,
-            ..._body
+            body: _body,
         } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -295,15 +317,15 @@ export class MaintenanceConfigsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new CloudflareApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 409:
-                    throw new CloudflareApi.ConflictError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.ConflictError(_response.error.body as unknown, _response.rawResponse);
                 case 429:
-                    throw new CloudflareApi.TooManyRequestsError(
+                    throw new CloudflareApiErrors.TooManyRequestsError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );

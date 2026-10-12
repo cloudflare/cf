@@ -1,9 +1,3 @@
-import { createCommandClient } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { confirmDelete } from "#lib/prompt.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 import type { SdkRequest } from "#sdk";
@@ -12,11 +6,17 @@ import type { SdkRequest } from "#sdk";
  * @generated from apis/overlays/organization.ts
  */
 import type { Argv, CommandModule } from "yargs";
+import { createCommandClient } from "#lib/auth.js";
+import { formatDryRun } from "#lib/dry-run.js";
+import { formatOutput } from "#lib/output.js";
+import { withProgress } from "#lib/progress.js";
+import { confirmDelete } from "#lib/prompt.js";
+import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 organization delete <organization-id>\n\nDelete an organization. The organization MUST be empty before deleting. It must not contain any sub-organizations, accounts, members or users. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/) **Access Control:** Restricted to enterprise organizations."
+			"$0 organization delete <organization-id>\n\nDelete an organization. The organization MUST be empty before deleting. It must not contain any sub-organizations, accounts, members or users. Sub-organization deletion availability depends on the organization's capabilities. **Access Control:** Restricted to enterprise organizations. Authentication: A Global API key for a user with `com.cloudflare.api.tenant.unit.update` is required. User API Tokens are not currently supported."
 		)
 		.positional("organization-id", {
 			type: "string",
@@ -42,7 +42,7 @@ type Request = SdkRequest<"Organizations_delete">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <organization-id>",
-	describe: "Delete organization.",
+	describe: "Delete organization",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
@@ -72,7 +72,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (
 					!(await confirmDelete({
 						force: Boolean(argv.force),
-						message: `Are you sure? This action cannot be undone.`,
+						message: `Delete this empty organization? This action cannot be undone.`,
 					}))
 				) {
 					process.stderr.write("Aborted.\n");

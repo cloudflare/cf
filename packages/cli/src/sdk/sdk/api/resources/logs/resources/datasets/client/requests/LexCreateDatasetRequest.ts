@@ -23,9 +23,14 @@ export interface LexCreateDatasetRequest {
     fields?: CloudflareApi.LexLogField[];
     /**
      * Optional Logpush filter predicate to restrict which events are ingested.
-     * If provided, replaces the dataset's default filter entirely.
      * See [Logpush filters](https://developers.cloudflare.com/logs/reference/filters/)
      * for syntax and examples.
      */
     filter?: string;
+    /**
+     * Whether to filter attack traffic from the Logpush job. Defaults to
+     * `true` for supported datasets when omitted. Supported datasets are
+     * `http_requests`, `firewall_events`, and `network_analytics_logs`.
+     */
+    filter_attack_traffic?: boolean;
 }

@@ -7,5 +7,5 @@ export interface AccessSingleResponse13 {
     messages: CloudflareApi.AccessMessages;
     /** Whether the API call was successful. */
     success: true;
-    result?: CloudflareApi.AccessBookmarks | undefined;
+    result?: CloudflareApi.AccessKeyConfig | undefined;
 }

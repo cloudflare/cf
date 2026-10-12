@@ -13,7 +13,7 @@ export interface PagesDeploymentConfigValuesRequest {
         | undefined;
     /** Browser bindings used for Pages Functions. */
     browsers?: Record<string, Record<string, unknown> | null> | undefined;
-    /** The major version of the build image to use for Pages Functions. */
+    /** The major version of the build image to use for Pages Functions. Version 1 is retired and its projects are moved to version 3. Once a project's builds have been moved, a request that sets version 1 is rejected. */
     build_image_major_version?: number | undefined;
     /** Compatibility date used for Pages Functions. */
     compatibility_date?: string | undefined;

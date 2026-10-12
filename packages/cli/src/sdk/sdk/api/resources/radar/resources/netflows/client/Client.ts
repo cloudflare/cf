@@ -7,7 +7,8 @@ import { mergeHeaders } from "../../../../../../core/headers.js";
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
+import * as CloudflareApiErrors from "../../../../../errors/index.js";
 import { TopClient } from "../resources/top/client/Client.js";
 
 export declare namespace NetflowsClient {
@@ -29,104 +30,14 @@ export class NetflowsClient {
     }
 
     /**
-     * @deprecated
-     *
-     * Retrieves the distribution of network traffic (NetFlows) by HTTP vs other protocols.
-     *
-     * @param {CloudflareApi.radar.SummaryNetflowsRequest} request
-     * @param {NetflowsClient.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @throws {@link CloudflareApi.BadRequestError}
-     *
-     * @example
-     *     await client.radar.netflows.summary({
-     *         name: ["main_series"],
-     *         dateRange: ["7d"]
-     *     })
-     */
-    public summary(
-        request: CloudflareApi.radar.SummaryNetflowsRequest = {},
-        requestOptions?: NetflowsClient.RequestOptions,
-    ): core.HttpResponsePromise<CloudflareApi.radar.SummaryNetflowsResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__summary(request, requestOptions));
-    }
-
-    private async __summary(
-        request: CloudflareApi.radar.SummaryNetflowsRequest = {},
-        requestOptions?: NetflowsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<CloudflareApi.radar.SummaryNetflowsResponse>> {
-        const { name, dateRange, dateStart, dateEnd, asn, location, continent, geoId, format } = request;
-        const _queryParams: Record<string, unknown> = {
-            name,
-            dateRange,
-            dateStart: Array.isArray(dateStart)
-                ? dateStart.map((item) => item)
-                : dateStart != null
-                  ? dateStart
-                  : undefined,
-            dateEnd: Array.isArray(dateEnd) ? dateEnd.map((item) => item) : dateEnd != null ? dateEnd : undefined,
-            asn,
-            location,
-            continent,
-            geoId,
-            format: format != null ? format : undefined,
-        };
-        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
-        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
-            _authRequest.headers,
-            this._options?.headers,
-            requestOptions?.headers,
-        );
-        const _response = await (this._options.fetcher ?? core.fetcher)({
-            url: core.url.join(
-                (await core.Supplier.get(this._options.baseUrl)) ??
-                    (await core.Supplier.get(this._options.environment)) ??
-                    environments.CloudflareApiEnvironment.Default,
-                "radar/netflows/summary",
-            ),
-            method: "GET",
-            headers: _headers,
-            queryString: core.url
-                .queryBuilder()
-                .addMany(_queryParams)
-                .mergeAdditional(requestOptions?.queryParams)
-                .build(),
-            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
-            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
-            abortSignal: requestOptions?.abortSignal,
-            fetchFn: this._options?.fetch,
-            logging: this._options.logging,
-        });
-        if (_response.ok) {
-            return {
-                data: _response.body as CloudflareApi.radar.SummaryNetflowsResponse,
-                rawResponse: _response.rawResponse,
-            };
-        }
-
-        if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
-                default:
-                    throw new errors.CloudflareApiError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
-                        rawResponse: _response.rawResponse,
-                    });
-            }
-        }
-
-        return handleNonStatusCodeError(_response.error, _response.rawResponse, "GET", "/radar/netflows/summary");
-    }
-
-    /**
      * Retrieves the distribution of network traffic (NetFlows) by the specified dimension.
      *
      * @param {CloudflareApi.radar.SummaryV2NetflowsRequest} request
      * @param {NetflowsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.radar.netflows.summaryV2({
@@ -214,7 +125,7 @@ export class NetflowsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -239,6 +150,8 @@ export class NetflowsClient {
      * @param {NetflowsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.radar.netflows.timeseries({
@@ -325,7 +238,7 @@ export class NetflowsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -345,6 +258,8 @@ export class NetflowsClient {
      * @param {NetflowsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.radar.netflows.timeseriesGroups({
@@ -436,7 +351,7 @@ export class NetflowsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,

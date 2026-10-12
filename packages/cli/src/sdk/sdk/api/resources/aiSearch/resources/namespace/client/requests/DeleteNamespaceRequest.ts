@@ -4,10 +4,10 @@
  * @example
  *     {
  *         account_id: "c3dc5f0b34a14ff8e1b3ec04895e1b22",
- *         name: "production"
+ *         namespace: "production"
  *     }
  */
 export interface DeleteNamespaceRequest {
     account_id: string;
-    name: string;
+    namespace: string;
 }

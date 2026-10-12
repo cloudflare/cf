@@ -1,9 +1,0 @@
-description: "List vector IDs in a Vectorize index"
-command: "wrangler vectorize list-vectors <index>"
-status: "direct"
-sourceCommands:
-  - "wrangler vectorize list-vectors <index>"
-cfReplacementFlow:
-  - "cf vectorize list-vectors <index>"
-notes:
-  - "Pass generated pagination/count flags as needed."

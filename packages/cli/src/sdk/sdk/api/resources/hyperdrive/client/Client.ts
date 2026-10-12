@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
-import * as CloudflareApi from "../../../index.js";
+import type * as CloudflareApi from "../../../index.js";
 
 export declare namespace HyperdriveClient {
     export type Options = BaseClientOptions;
@@ -28,6 +28,9 @@ export class HyperdriveClient {
      *
      * @param {CloudflareApi.ListHyperdriveRequest} request
      * @param {HyperdriveClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.hyperdrive.list({
@@ -101,6 +104,9 @@ export class HyperdriveClient {
      *
      * @param {CloudflareApi.CreateHyperdriveRequest} request
      * @param {HyperdriveClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.hyperdrive.create({
@@ -184,6 +190,9 @@ export class HyperdriveClient {
      * @param {CloudflareApi.GetHyperdriveRequest} request
      * @param {HyperdriveClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.hyperdrive.get({
      *         account_id: "account_id",
@@ -248,10 +257,13 @@ export class HyperdriveClient {
     }
 
     /**
-     * Replaces and returns the specified Hyperdrive configuration. The request must include the name and complete origin connection details. Omitted caching settings are reset to their defaults, while omitted mTLS settings and origin connection limits are preserved. Use the update operation to modify only selected fields.
+     * Replaces and returns the specified Hyperdrive configuration. The request must include the name and complete origin connection details. Omitted caching settings are reset to their defaults, while omitted mTLS settings and origin connection limits are preserved. The integration association is set only during creation and cannot be changed; omit the integration field even when replacing an integration-backed configuration. Use the update operation to modify only selected fields.
      *
      * @param {CloudflareApi.HyperdriveHyperdriveConfig} request
      * @param {HyperdriveClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.hyperdrive.replace({
@@ -334,6 +346,9 @@ export class HyperdriveClient {
      * @param {CloudflareApi.DeleteHyperdriveRequest} request
      * @param {HyperdriveClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.hyperdrive.delete({
      *         account_id: "account_id",
@@ -395,10 +410,13 @@ export class HyperdriveClient {
     }
 
     /**
-     * Updates and returns the specified fields of the Hyperdrive configuration. Custom caching settings are not kept if caching is disabled.
+     * Updates and returns the specified fields of the Hyperdrive configuration. Custom caching settings are not kept if caching is disabled. For an integration-backed configuration, the integration association is preserved but cannot be changed; omit the integration field.
      *
      * @param {CloudflareApi.HyperdriveHyperdriveConfigPatch} request
      * @param {HyperdriveClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.hyperdrive.update({
@@ -472,6 +490,9 @@ export class HyperdriveClient {
      * @param {CloudflareApi.RestartHyperdriveRequest} request
      * @param {HyperdriveClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.hyperdrive.restart({
      *         account_id: "account_id",
@@ -541,10 +562,12 @@ export class HyperdriveClient {
      * @param {CloudflareApi.CreateDatabaseSignatureHyperdriveRequest} request
      * @param {HyperdriveClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.hyperdrive.createDatabaseSignature({
-     *         account_id: "account_id",
-     *         integration: "integration"
+     *         account_id: "account_id"
      *     })
      */
     public createDatabaseSignature(
@@ -558,7 +581,7 @@ export class HyperdriveClient {
         request: CloudflareApi.CreateDatabaseSignatureHyperdriveRequest,
         requestOptions?: HyperdriveClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.HyperdriveHyperdriveDatabaseSignatureResponse>> {
-        const { account_id: accountId, integration } = request;
+        const { account_id: accountId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -570,7 +593,7 @@ export class HyperdriveClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/hyperdrive/integrationsOperations/${core.url.encodePathParam(integration)}/createDatabaseSignature`,
+                `accounts/${core.url.encodePathParam(accountId)}/hyperdrive/integrationsOperations/planetScale/createDatabaseSignature`,
             ),
             method: "POST",
             headers: _headers,
@@ -600,7 +623,7 @@ export class HyperdriveClient {
             _response.error,
             _response.rawResponse,
             "POST",
-            "/accounts/{account_id}/hyperdrive/integrationsOperations/{integration}/createDatabaseSignature",
+            "/accounts/{account_id}/hyperdrive/integrationsOperations/planetScale/createDatabaseSignature",
         );
     }
 }

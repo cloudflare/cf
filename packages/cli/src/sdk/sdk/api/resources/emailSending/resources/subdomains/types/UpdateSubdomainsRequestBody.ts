@@ -4,7 +4,7 @@
  * At least one of `preview_enabled` or `drop_suppressed_recipients` must
  * be provided. A field omitted from the request body is left unchanged.
  */
-export type UpdateSubdomainsRequestBody = {
-    drop_suppressed_recipients: boolean | undefined;
-    preview_enabled: boolean | undefined;
-} & Record<string, unknown>;
+export type UpdateSubdomainsRequestBody = Record<string, unknown> & {
+    drop_suppressed_recipients?: boolean | undefined;
+    preview_enabled?: boolean | undefined;
+};

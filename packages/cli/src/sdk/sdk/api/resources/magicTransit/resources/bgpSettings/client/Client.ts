@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace BgpSettingsClient {
     export type Options = BaseClientOptions;
@@ -28,6 +28,9 @@ export class BgpSettingsClient {
      *
      * @param {CloudflareApi.magicTransit.GetBgpSettingsRequest} request
      * @param {BgpSettingsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.bgpSettings.get({
@@ -93,6 +96,9 @@ export class BgpSettingsClient {
      *
      * @param {CloudflareApi.magicTransit.MagicUpdateBgpSettingsRequest} request
      * @param {BgpSettingsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.bgpSettings.update({

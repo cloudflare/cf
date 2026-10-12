@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * create command
+ * @generated from apis/overlays/ai-search.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -11,14 +19,6 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * create command
- * @generated from apis/overlays/ai-search.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -30,8 +30,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Human-readable name for the credential.",
 			demandOption: true,
 		})
-		.option("cf-api-id", { type: "string", description: "The cf_api_id field" })
-		.option("cf-api-key", {
+		.option("api-token-id", {
+			type: "string",
+			description: "The cf_api_id field",
+		})
+		.option("api-token", {
 			type: "string",
 			description: "The cf_api_key field",
 		})
@@ -83,18 +86,19 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								? parseBody(argv.body)
 								: compactBody({
 										cf_api_id: resolveFileToken(
-											argv["cf-api-id"] as string | undefined,
-											"cf-api-id",
+											argv["api-token-id"] as string | undefined,
+											"api-token-id",
 											"text"
 										),
 										cf_api_key: resolveFileToken(
-											argv["cf-api-key"] as string | undefined,
-											"cf-api-key",
+											argv["api-token"] as string | undefined,
+											"api-token",
 											"text"
 										),
 										legacy: argv["legacy"],
 										name: argv["name"],
 									}),
+						sensitiveBodyPaths: [["cf_api_key"]],
 					});
 					return;
 				}
@@ -113,15 +117,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-				if (argv["cf-api-id"] === undefined) {
-					argv["cf-api-id"] = await promptForRequiredField(
-						"cf-api-id",
+				if (argv["api-token-id"] === undefined) {
+					argv["api-token-id"] = await promptForRequiredField(
+						"api-token-id",
 						"The cf_api_id field"
 					);
 				}
-				if (argv["cf-api-key"] === undefined) {
-					argv["cf-api-key"] = await promptForRequiredField(
-						"cf-api-key",
+				if (argv["api-token"] === undefined) {
+					argv["api-token"] = await promptForRequiredField(
+						"api-token",
 						"The cf_api_key field",
 						{ kind: "secret" }
 					);
@@ -130,13 +134,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
 					cf_api_id: resolveFileToken(
-						argv["cf-api-id"] as string | undefined,
-						"cf-api-id",
+						argv["api-token-id"] as string | undefined,
+						"api-token-id",
 						"text"
 					),
 					cf_api_key: resolveFileToken(
-						argv["cf-api-key"] as string | undefined,
-						"cf-api-key",
+						argv["api-token"] as string | undefined,
+						"api-token",
 						"text"
 					),
 					legacy: argv["legacy"],

@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace ExpressionsClient {
     export type Options = BaseClientOptions;
@@ -28,6 +28,9 @@ export class ExpressionsClient {
      *
      * @param {CloudflareApi.contentScan.ListExpressionsRequest} request
      * @param {ExpressionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.contentScan.expressions.list({
@@ -96,6 +99,9 @@ export class ExpressionsClient {
      *
      * @param {CloudflareApi.contentScan.CreateExpressionsRequest} request
      * @param {ExpressionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.contentScan.expressions.create({
@@ -171,6 +177,9 @@ export class ExpressionsClient {
      * @param {CloudflareApi.contentScan.DeleteExpressionsRequest} request
      * @param {ExpressionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.contentScan.expressions.delete({
      *         zone_id: "zone_id",
@@ -239,6 +248,9 @@ export class ExpressionsClient {
      *
      * @param {CloudflareApi.contentScan.UpdateExpressionsRequest} request
      * @param {ExpressionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.contentScan.expressions.update({

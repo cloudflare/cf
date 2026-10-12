@@ -1,6 +1,13 @@
 import { runInTempDir, seed } from "@cloudflare/workers-utils/test-helpers";
 import { http, HttpResponse } from "msw";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import {
+	afterEach,
+	beforeEach,
+	describe,
+	expect,
+	it,
+	vi,
+} from "vite-plus/test";
 import { server, setupMsw, TEST_BASE_URL } from "../helpers/msw.js";
 import { runCf } from "../helpers/run-cf.js";
 
@@ -260,7 +267,7 @@ describe("cf r2 buckets (network)", () => {
 			ENV
 		);
 
-		expect(exitCode).toBe(0);
+		expect(exitCode).toBe(1);
 		expect(stderr()).toMatch(/non-interactive; pass --force/);
 	});
 

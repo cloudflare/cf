@@ -1,7 +1,5 @@
 import fs from "node:fs";
 import path from "node:path";
-import { formatOutput } from "#lib/output.js";
-import { confirm } from "#lib/prompt.js";
 import { Minimatch } from "minimatch";
 import {
 	getNextMigrationNumber,
@@ -11,6 +9,8 @@ import {
 import { migrationsFileOptions } from "./shared.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { Argv, CommandModule } from "yargs";
+import { formatOutput } from "#lib/output.js";
+import { confirm } from "#lib/prompt.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return migrationsFileOptions(

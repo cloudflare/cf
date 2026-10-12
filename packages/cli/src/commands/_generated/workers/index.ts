@@ -1,11 +1,7 @@
-import $check from "#commands/workers/check/index.js";
-import $triggers from "#commands/workers/triggers/index.js";
-import $types from "#commands/workers/types/index.js";
 import $delete from "./delete.js";
 import $deployments from "./deployments/index.js";
 import $get from "./get.js";
 import $list from "./list.js";
-import $placement from "./placement/index.js";
 import $scripts from "./scripts/index.js";
 import $secrets from "./secrets/index.js";
 import $versions from "./versions/index.js";
@@ -15,6 +11,10 @@ import type { CommonYargsOptions } from "#lib/cli-types.js";
  * @generated from apis/overlays/workers.ts
  */
 import type { CommandModule } from "yargs";
+import $check from "#commands/workers/check/index.js";
+import $triggers from "#commands/workers/triggers/index.js";
+import $types from "#commands/workers/types/index.js";
+import { withHandWrittenDryRun } from "#lib/hand-written-dry-run.js";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "workers",
@@ -22,16 +22,15 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
-			.command($check)
+			.command(withHandWrittenDryRun($check, "preview"))
 			.command($delete)
 			.command($get)
 			.command($list)
-			.command($types)
+			.command(withHandWrittenDryRun($types, "preview"))
 			.command($deployments)
-			.command($placement)
 			.command($scripts)
 			.command($secrets)
-			.command($triggers)
+			.command(withHandWrittenDryRun($triggers, "native"))
 			.command($versions)
 			.demandCommand(1, "Please specify a subcommand");
 	},

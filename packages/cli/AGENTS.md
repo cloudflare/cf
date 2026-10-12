@@ -37,42 +37,44 @@ second consumer.
 
 ## Where to Edit
 
-| Task                        | Location                                                                                                     |
-| --------------------------- | ------------------------------------------------------------------------------------------------------------ |
-| Fix a generated command     | Overlay in `@cloudflare/forge` → regenerate                                                                  |
-| Hand-written root command   | `src/commands/{auth,build,cli,completions,dev,deploy,init,previews}/`, `schema.ts`, or `tools.ts`            |
-| Generated-tree exception    | `src/commands/{access,ai,registrar,d1,tunnels,workers}/` plus the central registry and generator integration |
-| Hand-written registry/meta  | `src/commands/hand-written.ts`, per-command `meta.json`, `generator/hand-written-overrides.ts`               |
-| Auth / token / OAuth        | `src/lib/auth.ts`, `src/lib/oauth/`                                                                          |
-| Runtime value resolution    | `src/lib/context.ts`, `src/lib/resolve.ts`, `src/lib/project-settings.ts`                                    |
-| Global CLI state            | `src/lib/state.ts`                                                                                           |
-| Local request routing       | `src/lib/local.ts`, `src/lib/local-runtime.ts`, `src/lib/registry.ts`                                        |
-| Build/deploy conversion     | `src/lib/{build-output,deploy-context,deploy-input}.ts`                                                      |
-| Help labels and flag groups | yargs configuration in `src/index.ts` (no custom renderer)                                                   |
-| Generator output shape      | `generator/index.ts`, `generator/generator.ts`                                                               |
-| Metadata JSON shape         | `generator/metadata.ts` and `generator/index.ts`                                                             |
-| Shell completions           | `src/commands/completions/index.ts` (`@bomb.sh/tab`, backed by complete `commands.json` metadata)            |
+| Task                        | Location                                                                                                              |
+| --------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| Fix a generated command     | Overlay in `@cloudflare/forge` → regenerate                                                                           |
+| Hand-written root command   | `src/commands/{auth,build,cli,completions,dev,deploy,init}/`, `schema.ts`, or `tools.ts`                              |
+| Generated-tree exception    | `src/commands/{access,ai,registrar,d1,previews,tunnels,workers}/` plus the central registry and generator integration |
+| Hand-written registry/meta  | `src/commands/hand-written.ts`, per-command `meta.json`, `generator/hand-written-overrides.ts`                        |
+| Auth / token / OAuth        | `src/lib/auth.ts`, `src/lib/oauth/`                                                                                   |
+| Runtime value resolution    | `src/lib/context.ts`, `src/lib/resolve.ts`, `src/lib/project-settings.ts`                                             |
+| Global CLI state            | `src/lib/state.ts`                                                                                                    |
+| Local request routing       | `src/lib/local.ts`, `src/lib/local-runtime.ts`, `src/lib/registry.ts`                                                 |
+| Build/deploy conversion     | `src/lib/{build-output,deploy-context,deploy-input}.ts`                                                               |
+| Help labels and flag groups | yargs configuration in `src/index.ts` (no custom renderer)                                                            |
+| Generator output shape      | `generator/index.ts`, `generator/generator.ts`                                                                        |
+| Metadata JSON shape         | `generator/metadata.ts` and `generator/index.ts`                                                                      |
+| Shell completions           | `src/commands/completions/index.ts` (`@bomb.sh/tab`, backed by complete `commands.json` metadata)                     |
 
 ## Build
 
 ```bash
 pnpm generate          # pinned public OpenAPI → matching SDK + commands
-pnpm build             # root: Turbo runs generate, then package tsdown build
+pnpm build             # generate, then Vite+ Pack build
 pnpm --filter cf dev   # tsx src/dev.ts (no generate, no bundle)
 pnpm --filter cf check:type
 pnpm --filter cf test
 ```
 
-Those commands are shown from the repository root. From this package directory,
-`pnpm build` runs `tsdown` only, while `pnpm dev`, `pnpm check:type`, and
-`pnpm test` run their package scripts directly.
+Those commands are shown from the repository root. Package scripts invoke
+Vite+ tasks declared in `vite.config.ts`. Build, type-check, and test tasks
+depend on generation, including when invoked from this package directory.
+Build and type-check tasks also build workspace dependencies first. `pnpm dev`
+starts the source entry without generation or bundling. Task caching is disabled.
 
 `pnpm generate` downloads the pinned Forge `openapi.forge.json` release asset,
 uses the committed matching SDK when its entrypoint exists and recorded
 revision is current, and regenerates the SDK when the entrypoint is missing,
 the pin changes, or a local bundle override is supplied. Generation initializes
 Forge from the finalized OpenAPI, then runs
-`transform(transformer) → finalize(...) → oxfmt`. Finalize clears
+`transform(transformer) → finalize(...) → vp fmt`. Finalize clears
 `src/commands/_generated/`; the post-step formats the emitted TypeScript.
 
 ## Hand-Written Commands
@@ -82,7 +84,9 @@ public AI Search endpoint, outside the platform API/SDK, and returns ranked
 JSON page metadata without authentication. Agents fetch returned URLs with
 `Accept: text/markdown` to read complete pages.
 
-`auth`, `complete`, `dev`, `build`, `deploy`, `migrate`, `previews`, `cli`, `schema`, and `tools` are root entries in `src/commands/hand-written.ts`, registered lazily by `src/index.ts`. `cf cli telemetry` is the telemetry-settings path. `cf migrate` uses `@cloudflare/codemods` to convert a Wrangler configuration to `cloudflare.config.ts` and report manual follow-up work. `cf dev` analyzes and, when needed, configures a project before running its canonical framework command, with an installed Cloudflare implementation as fallback. `cf build` follows the same routing and validates the resulting Build Output. `cf previews deploy [preview-name]` builds with Preview context and uploads the default Worker from the resulting Preview Build Output, or the one selected with `--worker`. `cf deploy`, `cf workers versions create`, and `cf workers triggers deploy` build first unless `--prebuilt` is passed, then read Build Output and call `@cloudflare/deploy-helpers`; trigger deployment applies only the configured triggers. Deploy-helper provisioning is enabled for supported bindings.
+`auth`, `complete`, `dev`, `build`, `deploy`, `migrate`, `cli`, `schema`, and `tools` are root entries in `src/commands/hand-written.ts`, registered lazily by `src/index.ts`. `cf cli telemetry` is the telemetry-settings path. `cf migrate` uses `@cloudflare/codemods` to convert a Wrangler configuration to `cloudflare.config.ts` and report manual follow-up work. `cf dev` analyzes and, when needed, configures a project before running its canonical framework command, with an installed Cloudflare implementation as fallback. `cf build` follows the same routing and validates the resulting Build Output. `cf previews deploy [preview-name]` builds with Preview context and uploads the default Worker from the resulting Preview Build Output, or the one selected with `--worker`. `cf deploy`, `cf workers versions create`, and `cf workers triggers deploy` build first unless `--prebuilt` is passed, then read Build Output and call `@cloudflare/deploy-helpers`; trigger deployment applies only the configured triggers. Deploy-helper provisioning is enabled for supported bindings.
+
+`previews` uses a generated group containing the hand-written `previews deploy` workflow. Its parent override opts into `createIfMissing`, so generation creates an empty API parent when the pinned schema has no Preview CLI operations. Future schema operations join the same group without colliding with a hand-written root.
 
 The registry's other entries are spliced into the generated tree via `generator/hand-written-overrides.ts`: leaf overrides for `cf ai run` and `cf registrar registrations create`; added leaves for `cf workers check`, `cf workers types`, nested `cf workers versions create`, `cf tunnels quick-start`, `cf tunnels run`, and the process-backed `cf access` workflows; and subgroups for `cf d1 migrations` and `cf workers triggers`. The cloudflared-backed Tunnel and Access leaves delegate to the cf-managed cloudflared binary alongside their generated API-backed operations. `cf workers check` profiles the default Worker emitted through Build Output, or the one selected with `--worker`. `cf workers types` is the bounded source-config exception: it validates the Worker in the nearest `cloudflare.config.ts` and writes `.cloudflare/types/index.d.ts`. Version creation remains a project-aware Build Output workflow while the raw upload operations are SDK-only. D1 migration apply targets a database identified by ID only, with `--dir` / `--pattern` / `--table` as flags rather than config; its bookkeeping is wire-compatible with `wrangler d1 migrations apply`.
 
@@ -152,7 +156,7 @@ Both outputs are tracked in git, owned by `pnpm generate`, and must not be hand-
 
 ## Formatting
 
-Generated TS is formatted by oxfmt as the last step of `pnpm generate`
+Generated TS is formatted by Vite+ as the last step of `pnpm generate`
 (see `generate.ts`). Historical `formatTypeScript()` calls inside forge's
 transformer are removed — forge stays formatter-agnostic.
 
@@ -172,8 +176,8 @@ transformer are removed — forge stays formatter-agnostic.
 - Never use `new Date()` in generated metadata — use `"build-time"` for
   deterministic output
 - Never reintroduce `tsc`. Type checking uses `tsgo`.
-- Never reintroduce `tsup` — `tsdown` is the bundler (chunked ESM,
-  cooperates with `lazy-command` dynamic imports).
+- Never reintroduce `tsup` — Vite+ Pack emits chunked ESM that cooperates
+  with `lazy-command` dynamic imports.
 
 ## Publishing
 
@@ -191,7 +195,7 @@ opens or updates a Version Packages PR while changesets are pending, then
 publishes to npm after that PR is merged. npm authentication uses
 trusted-publishing OIDC rather than a long-lived token.
 
-`tsdown` builds in production mode by default (sourcemaps off, minified) under the release workflows. The version in `package.json` is the source of truth for the public `cf` package.
+Vite+ Pack emits a minified bundle without source maps by default. The version in `package.json` is the source of truth for the public `cf` package.
 
 `containers/ssh` is a hand-written leaf that shares SSH options, authorization requests, and transport with Wrangler through `@cloudflare/containers-shared`. Keep product wiring in the command directory and implementation changes upstream.
 

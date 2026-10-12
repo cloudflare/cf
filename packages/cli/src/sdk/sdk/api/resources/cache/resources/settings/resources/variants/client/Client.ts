@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 
 export declare namespace VariantsClient {
     export type Options = BaseClientOptions;
@@ -31,6 +31,9 @@ export class VariantsClient {
      *
      * @param {CloudflareApi.cache.settings.GetVariantsRequest} request
      * @param {VariantsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cache.settings.variants.get({
@@ -100,6 +103,9 @@ export class VariantsClient {
      * @param {CloudflareApi.cache.settings.DeleteVariantsRequest} request
      * @param {VariantsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.cache.settings.variants.delete({
      *         zone_id: "zone_id"
@@ -164,6 +170,9 @@ export class VariantsClient {
      *
      * @param {CloudflareApi.cache.settings.EditVariantsRequest} request
      * @param {VariantsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cache.settings.variants.edit({

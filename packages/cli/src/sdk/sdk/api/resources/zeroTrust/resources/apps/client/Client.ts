@@ -4,7 +4,6 @@ import type { BaseClientOptions } from "../../../../../../BaseClient.js";
 import { normalizeClientOptionsWithAuth, type NormalizedClientOptionsWithAuth } from "../../../../../../BaseClient.js";
 import * as core from "../../../../../../core/index.js";
 import * as environments from "../../../../../../environments.js";
-import { PoliciesClient } from "../resources/policies/client/Client.js";
 import { ReviewClient } from "../resources/review/client/Client.js";
 
 export declare namespace AppsClient {
@@ -13,15 +12,10 @@ export declare namespace AppsClient {
 
 export class AppsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<AppsClient.Options>;
-    protected _policies: PoliciesClient | undefined;
     protected _review: ReviewClient | undefined;
 
     constructor(options: AppsClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
-    }
-
-    public get policies(): PoliciesClient {
-        return (this._policies ??= new PoliciesClient(this._options));
     }
 
     public get review(): ReviewClient {

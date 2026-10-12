@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 import { EligibleDevicesClient } from "../resources/eligibleDevices/client/Client.js";
 import { QuotaClient } from "../resources/quota/client/Client.js";
 import { ResultsClient } from "../resources/results/client/Client.js";
@@ -49,6 +49,9 @@ export class CommandsClient {
      *
      * @param {CloudflareApi.zeroTrust.dex.ListCommandsRequest} request
      * @param {CommandsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dex.commands.list({
@@ -145,6 +148,9 @@ export class CommandsClient {
      *
      * @param {CloudflareApi.zeroTrust.dex.CreateCommandsRequest} request
      * @param {CommandsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dex.commands.create({

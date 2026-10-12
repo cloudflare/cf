@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 import { CorsClient } from "../resources/cors/client/Client.js";
 import { DomainsClient } from "../resources/domains/client/Client.js";
 import { EventNotificationsClient } from "../resources/eventNotifications/client/Client.js";
@@ -18,7 +18,6 @@ import { LocalUploadsClient } from "../resources/localUploads/client/Client.js";
 import { LocksClient } from "../resources/locks/client/Client.js";
 import { MetricsClient } from "../resources/metrics/client/Client.js";
 import { SippyClient } from "../resources/sippy/client/Client.js";
-import { StorageClassMigrationJobsClient } from "../resources/storageClassMigrationJobs/client/Client.js";
 
 export declare namespace BucketsClient {
     export type Options = BaseClientOptions;
@@ -35,7 +34,6 @@ export class BucketsClient {
     protected _localUploads: LocalUploadsClient | undefined;
     protected _locks: LocksClient | undefined;
     protected _sippy: SippyClient | undefined;
-    protected _storageClassMigrationJobs: StorageClassMigrationJobsClient | undefined;
     protected _metrics: MetricsClient | undefined;
     protected _domains: DomainsClient | undefined;
 
@@ -71,10 +69,6 @@ export class BucketsClient {
         return (this._sippy ??= new SippyClient(this._options));
     }
 
-    public get storageClassMigrationJobs(): StorageClassMigrationJobsClient {
-        return (this._storageClassMigrationJobs ??= new StorageClassMigrationJobsClient(this._options));
-    }
-
     public get metrics(): MetricsClient {
         return (this._metrics ??= new MetricsClient(this._options));
     }
@@ -88,6 +82,9 @@ export class BucketsClient {
      *
      * @param {CloudflareApi.r2.ListBucketsRequest} request
      * @param {BucketsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.r2.buckets.list({
@@ -178,6 +175,9 @@ export class BucketsClient {
      * @param {CloudflareApi.r2.CreateBucketsRequest} request
      * @param {BucketsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.r2.buckets.create({
      *         account_id: "account_id",
@@ -248,6 +248,9 @@ export class BucketsClient {
      * @param {CloudflareApi.r2.GetBucketsRequest} request
      * @param {BucketsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.r2.buckets.get({
      *         account_id: "account_id",
@@ -314,6 +317,9 @@ export class BucketsClient {
      *
      * @param {CloudflareApi.r2.CreateByNameBucketsRequest} request
      * @param {BucketsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.r2.buckets.createByName({
@@ -390,6 +396,9 @@ export class BucketsClient {
      * @param {CloudflareApi.r2.DeleteBucketsRequest} request
      * @param {BucketsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.r2.buckets.delete({
      *         account_id: "account_id",
@@ -456,6 +465,9 @@ export class BucketsClient {
      *
      * @param {CloudflareApi.r2.EditBucketsRequest} request
      * @param {BucketsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.r2.buckets.edit({

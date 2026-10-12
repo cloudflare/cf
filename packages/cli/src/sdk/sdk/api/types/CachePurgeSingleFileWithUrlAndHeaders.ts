@@ -3,6 +3,12 @@
 import * as CloudflareApi from "../index.js";
 
 export interface CachePurgeSingleFileWithUrlAndHeaders {
-    /** For more information on purging files with URL and headers, please refer to [purge by single-file documentation page](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-single-file/). */
+    /**
+     * URLs with the request headers your cache key uses. Use this form when your cache key includes request headers, or the visitor's device type, country, or language: send the header values each URL was cached with, such as `CF-Device-Type`, `CF-IPCountry`, or `Accept-Language`.
+     *
+     * When you send the `Origin` header, include the scheme and hostname. Include the port unless it is the default for the scheme: 80 for `http`, 443 for `https`.
+     *
+     * See [Purge by single-file](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-single-file/).
+     */
     files?: CloudflareApi.CachePurgeSingleFileWithUrlAndHeadersFilesItem[] | undefined;
 }

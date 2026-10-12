@@ -14,7 +14,7 @@ import {
 	getCloudflareApiBaseUrl,
 	getCloudflareComplianceRegion,
 } from "@cloudflare/workers-utils";
-import { getAccountId, getAuthToken } from "../../lib/auth.js";
+import { getAuthToken } from "../../lib/auth-token.js";
 import { BuildOutputConfigError } from "../../lib/build-output-error.js";
 import {
 	buildOutputWorkerOption,
@@ -22,6 +22,7 @@ import {
 	selectBuildOutputWorker,
 	validateBuildOutputMode,
 } from "../../lib/build-output.js";
+import { getAccountId } from "../../lib/context.js";
 import { createDeployContext } from "../../lib/deploy-context.js";
 import { assembleBuildResult } from "../../lib/deploy-input.js";
 import { withCloudflareDotEnv } from "../../lib/dotenv.js";
@@ -201,6 +202,9 @@ const command: CommandModule<CommonYargsOptions, PreviewDeployArgs> = {
 	describe: "Deploy a Worker Preview",
 	builder,
 	handler: async (argv) => {
+		if (argv.local) {
+			throw new Error("--local is not supported by cf previews deploy.");
+		}
 		const result = await runPreviewDeploy(argv);
 		formatOutput(createPreviewDeployOutput(result), { quiet: argv.quiet });
 	},

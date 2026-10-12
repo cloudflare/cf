@@ -10,7 +10,7 @@ import { mergeHeaders } from "../../../../../../../../core/headers.js";
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 
 export declare namespace DownloadsClient {
     export type Options = BaseClientOptions;
@@ -30,6 +30,9 @@ export class DownloadsClient {
      *
      * @param {CloudflareApi.stream.videos.CreateDownloadsRequest} request
      * @param {DownloadsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.stream.videos.downloads.create({
@@ -100,6 +103,9 @@ export class DownloadsClient {
      *
      * @param {CloudflareApi.stream.videos.DeleteDownloadsRequest} request
      * @param {DownloadsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.stream.videos.downloads.delete({

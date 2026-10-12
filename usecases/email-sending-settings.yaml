@@ -1,9 +1,0 @@
-description: "Show Email Sending settings for a zone"
-command: "wrangler email sending settings <domain>"
-status: "direct"
-sourceCommands:
-  - "wrangler email sending settings <domain>"
-cfReplacementFlow:
-  - "cf email-sending settings --zone <zone>"
-notes:
-  - "Verify exact generated path."

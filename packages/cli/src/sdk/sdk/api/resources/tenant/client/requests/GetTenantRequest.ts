@@ -7,5 +7,6 @@
  *     }
  */
 export interface GetTenantRequest {
+    /** The ID of the tenant to retrieve. */
     tenant_id: string;
 }

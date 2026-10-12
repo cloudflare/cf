@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
-import * as CloudflareApi from "../../../index.js";
+import type * as CloudflareApi from "../../../index.js";
 
 export declare namespace KeylessCertificatesClient {
     export type Options = BaseClientOptions;
@@ -28,6 +28,9 @@ export class KeylessCertificatesClient {
      *
      * @param {CloudflareApi.ListKeylessCertificatesRequest} request
      * @param {KeylessCertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.keylessCertificates.list({
@@ -96,6 +99,9 @@ export class KeylessCertificatesClient {
      *
      * @param {CloudflareApi.CreateKeylessCertificatesRequest} request
      * @param {KeylessCertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.keylessCertificates.create({
@@ -171,6 +177,9 @@ export class KeylessCertificatesClient {
      * @param {CloudflareApi.GetKeylessCertificatesRequest} request
      * @param {KeylessCertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.keylessCertificates.get({
      *         zone_id: "zone_id",
@@ -240,6 +249,9 @@ export class KeylessCertificatesClient {
      * @param {CloudflareApi.DeleteKeylessCertificatesRequest} request
      * @param {KeylessCertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.keylessCertificates.delete({
      *         zone_id: "zone_id",
@@ -308,6 +320,9 @@ export class KeylessCertificatesClient {
      *
      * @param {CloudflareApi.EditKeylessCertificatesRequest} request
      * @param {KeylessCertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.keylessCertificates.edit({

@@ -1,11 +1,3 @@
-import { createCommandClient } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { resolveFileToken } from "#lib/input-validation.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { promptForRequiredEnumField } from "#lib/prompt.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 import type { SdkRequest } from "#sdk";
@@ -14,11 +6,19 @@ import type { SdkRequest } from "#sdk";
  * @generated from apis/overlays/organization.ts
  */
 import type { Argv, CommandModule } from "yargs";
+import { createCommandClient } from "#lib/auth.js";
+import { compactBody, parseBody } from "#lib/body-parser.js";
+import { formatDryRun } from "#lib/dry-run.js";
+import { resolveFileToken } from "#lib/input-validation.js";
+import { formatOutput } from "#lib/output.js";
+import { withProgress } from "#lib/progress.js";
+import { promptForRequiredEnumField } from "#lib/prompt.js";
+import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 organization invite update <member-code>\n\nAccept or reject an invitation to a specific organization. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)"
+			"$0 organization invite update <member-code>\n\nAccept or reject an invitation to a specific organization. Authentication: A Global API key for the invited user is required. User API Tokens are not currently supported. No additional permission is required; the invitation must belong to the authenticated user."
 		)
 		.positional("member-code", {
 			type: "string",
@@ -35,6 +35,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The status field",
 			choices: ["accept", "reject"],
 		})
+		.coerce("status", (value) => resolveFileToken(value, "status", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -80,11 +81,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										status: resolveFileToken(
-											argv["status"] as string | undefined,
-											"status",
-											"text"
-										),
+										status: argv["status"],
 									}),
 					});
 					return;
@@ -113,11 +110,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					status: resolveFileToken(
-						argv["status"] as string | undefined,
-						"status",
-						"text"
-					),
+					status: argv["status"],
 				});
 				const result = await withProgress(`Updating`, async () =>
 					client.organization.invite.update({

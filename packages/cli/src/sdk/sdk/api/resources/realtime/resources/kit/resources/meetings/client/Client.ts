@@ -11,7 +11,8 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
+import * as CloudflareApiErrors from "../../../../../../../errors/index.js";
 import { ActiveClient } from "../resources/active/client/Client.js";
 import { LivestreamClient } from "../resources/livestream/client/Client.js";
 import { ParticipantsClient } from "../resources/participants/client/Client.js";
@@ -49,6 +50,9 @@ export class MeetingsClient {
      *
      * @param {CloudflareApi.realtime.kit.ListMeetingsRequest} request
      * @param {MeetingsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.realtime.kit.meetings.list({
@@ -140,6 +144,9 @@ export class MeetingsClient {
      * @param {CloudflareApi.realtime.kit.CreateMeetingsRequest} request
      * @param {MeetingsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.realtime.kit.meetings.create({
      *         account_id: "account_id",
@@ -213,6 +220,8 @@ export class MeetingsClient {
      * @param {MeetingsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.realtime.kit.meetings.get({
@@ -272,7 +281,7 @@ export class MeetingsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 500:
-                    throw new CloudflareApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.InternalServerError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -295,6 +304,9 @@ export class MeetingsClient {
      *
      * @param {CloudflareApi.realtime.kit.ReplaceMeetingsRequest} request
      * @param {MeetingsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.realtime.kit.meetings.replace({
@@ -370,6 +382,8 @@ export class MeetingsClient {
      * @param {MeetingsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.realtime.kit.meetings.update({
@@ -425,7 +439,7 @@ export class MeetingsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 500:
-                    throw new CloudflareApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.InternalServerError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,

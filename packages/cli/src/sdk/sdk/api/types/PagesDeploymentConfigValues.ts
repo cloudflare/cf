@@ -11,7 +11,7 @@ export interface PagesDeploymentConfigValues {
     analytics_engine_datasets?: Record<string, PagesDeploymentConfigValues.AnalyticsEngineDatasets.Value> | undefined;
     /** Browser bindings used for Pages Functions. */
     browsers?: Record<string, Record<string, unknown> | null> | undefined;
-    /** The major version of the build image to use for Pages Functions. */
+    /** The major version of the build image to use for Pages Functions. Version 1 is retired and its projects are moved to version 3. Once a project's builds have been moved, this is the version the builds run on and `build_image_auto_upgrade` is set on the project. */
     build_image_major_version: number;
     /** Compatibility date used for Pages Functions. */
     compatibility_date: string;

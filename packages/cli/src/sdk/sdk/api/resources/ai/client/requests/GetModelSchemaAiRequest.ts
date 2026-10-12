@@ -4,11 +4,12 @@
  * @example
  *     {
  *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
- *         model: "model"
+ *         model: "@cf/meta/llama-3.1-8b-instruct"
  *     }
  */
 export interface GetModelSchemaAiRequest {
+    /** Cloudflare account ID used for this AI model request. */
     account_id: string;
-    /** Model Name */
+    /** AI model identifier, including its namespace and model name. */
     model: string;
 }

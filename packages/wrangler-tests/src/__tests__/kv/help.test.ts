@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, it, test } from "vitest";
+import { afterEach, beforeEach, describe, it, test } from "vite-plus/test";
 import { mockAccountId, mockApiToken } from "../helpers/mock-account-id";
 import { clearDialogs } from "../helpers/mock-dialogs";
 import { useMockIsTTY } from "../helpers/mock-istty";

@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * terminate command
+ * @generated from apis/overlays/workflows.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -11,14 +19,6 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { confirmDelete, promptForRequiredEnumField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * terminate command
- * @generated from apis/overlays/workflows.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -41,6 +41,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The status field",
 			choices: ["pause", "resume", "terminate", "restart"],
 		})
+		.coerce("status", (value) => resolveFileToken(value, "status", "text"))
 		.option("rollback", {
 			type: "boolean",
 			description: "Run rollback before terminating.",
@@ -55,6 +56,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The from.type field",
 			choices: ["do", "sleep", "waitForEvent"],
 		})
+		.coerce("from-type", (value) =>
+			resolveFileToken(value, "from-type", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -132,11 +136,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										status: resolveFileToken(
-											argv["status"] as string | undefined,
-											"status",
-											"text"
-										),
+										status: argv["status"],
 										rollback: argv["rollback"],
 										from: {
 											count: argv["from-count"],
@@ -145,11 +145,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"from-name",
 												"text"
 											),
-											type: resolveFileToken(
-												argv["from-type"] as string | undefined,
-												"from-type",
-												"text"
-											),
+											type: argv["from-type"],
 										},
 									}),
 					});
@@ -192,11 +188,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					status: resolveFileToken(
-						argv["status"] as string | undefined,
-						"status",
-						"text"
-					),
+					status: argv["status"],
 					rollback: argv["rollback"],
 					from: {
 						count: argv["from-count"],
@@ -205,11 +197,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"from-name",
 							"text"
 						),
-						type: resolveFileToken(
-							argv["from-type"] as string | undefined,
-							"from-type",
-							"text"
-						),
+						type: argv["from-type"],
 					},
 				});
 				const result = await withProgress(`Deleting`, async () =>

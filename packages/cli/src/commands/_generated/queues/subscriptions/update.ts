@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * update command
+ * @generated from apis/overlays/queues.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -10,14 +18,6 @@ import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * update command
- * @generated from apis/overlays/queues.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -38,6 +38,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Type of destination",
 			choices: ["queues.queue"],
 		})
+		.coerce("destination-type", (value) =>
+			resolveFileToken(value, "destination-type", "text")
+		)
 		.option("enabled", {
 			type: "boolean",
 			description: "Whether the subscription is active",
@@ -114,11 +117,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"destination-queue-id",
 												"text"
 											),
-											type: resolveFileToken(
-												argv["destination-type"] as string | undefined,
-												"destination-type",
-												"text"
-											),
+											type: argv["destination-type"],
 										},
 										enabled: argv["enabled"],
 										events: argv["events"],
@@ -156,11 +155,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"destination-queue-id",
 							"text"
 						),
-						type: resolveFileToken(
-							argv["destination-type"] as string | undefined,
-							"destination-type",
-							"text"
-						),
+						type: argv["destination-type"],
 					},
 					enabled: argv["enabled"],
 					events: argv["events"],

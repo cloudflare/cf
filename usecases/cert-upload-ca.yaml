@@ -1,9 +1,0 @@
-description: "Upload a certificate authority chain"
-command: "wrangler cert upload certificate-authority --ca-cert ca.pem"
-status: "partial"
-sourceCommands:
-  - "wrangler cert upload certificate-authority --ca-cert ca.pem"
-cfReplacementFlow:
-  - "cf mtls-certificates create --certificates @ca.pem --ca true"
-notes:
-  - "Confirm exact cf CA certificate fields with cf schema."

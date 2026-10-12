@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../../../cor
 import * as environments from "../../../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../../../index.js";
 
 export declare namespace GroupsClient {
     export type Options = BaseClientOptions;
@@ -35,6 +35,9 @@ export class GroupsClient {
      *
      * @param {CloudflareApi.firewall.waf.packages.ListGroupsRequest} request
      * @param {GroupsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.firewall.waf.packages.groups.list({
@@ -136,6 +139,9 @@ export class GroupsClient {
      * @param {CloudflareApi.firewall.waf.packages.GetGroupsRequest} request
      * @param {GroupsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.firewall.waf.packages.groups.get({
      *         zone_id: "zone_id",
@@ -206,6 +212,9 @@ export class GroupsClient {
      *
      * @param {CloudflareApi.firewall.waf.packages.EditGroupsRequest} request
      * @param {GroupsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.firewall.waf.packages.groups.edit({

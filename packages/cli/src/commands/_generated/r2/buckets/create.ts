@@ -1,3 +1,10 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+/**
+ * create command
+ * @generated from apis/overlays/r2.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -12,13 +19,6 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-/**
- * create command
- * @generated from apis/overlays/r2.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -35,6 +35,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Location of the bucket.",
 			choices: ["apac", "eeur", "enam", "weur", "wnam", "oc"],
 		})
+		.coerce("location-hint", (value) =>
+			resolveFileToken(value, "location-hint", "text")
+		)
 		.option("name", { type: "string", description: "Name of the bucket." })
 		.option("storage-class", {
 			type: "string",
@@ -43,6 +46,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["Standard", "InfrequentAccess"],
 			default: "Standard",
 		})
+		.coerce("storage-class", (value) =>
+			resolveFileToken(value, "storage-class", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -85,21 +91,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										locationHint: resolveFileToken(
-											argv["location-hint"] as string | undefined,
-											"location-hint",
-											"text"
-										),
+										locationHint: argv["location-hint"],
 										name: resolveFileToken(
 											argv["name"] as string | undefined,
 											"name",
 											"text"
 										),
-										storageClass: resolveFileToken(
-											argv["storage-class"] as string | undefined,
-											"storage-class",
-											"text"
-										),
+										storageClass: argv["storage-class"],
 									}),
 					});
 					return;
@@ -134,15 +132,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData: Record<string, unknown> = {};
 				if (argv["location-hint"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["locationHint"],
-						resolveFileToken(
-							argv["location-hint"] as string | undefined,
-							"location-hint",
-							"text"
-						)
-					);
+					setNestedValue(bodyData, ["locationHint"], argv["location-hint"]);
 				if (argv["name"] !== undefined)
 					setNestedValue(
 						bodyData,
@@ -150,15 +140,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						resolveFileToken(argv["name"] as string | undefined, "name", "text")
 					);
 				if (argv["storage-class"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["storageClass"],
-						resolveFileToken(
-							argv["storage-class"] as string | undefined,
-							"storage-class",
-							"text"
-						)
-					);
+					setNestedValue(bodyData, ["storageClass"], argv["storage-class"]);
 				const result = await withProgress(`Creating`, async () =>
 					requestApi<unknown>(
 						client,

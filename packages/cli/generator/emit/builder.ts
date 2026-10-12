@@ -55,6 +55,9 @@ export function generateBuilderLines(
 		// via the same kebab key (`argv["foo-bar"]`).
 		builderLines.push(`      .positional('${toKebabCase(arg.name)}', {`);
 		builderLines.push(`        type: '${argScalarType(arg)}',`);
+		if (arg.type === "array") {
+			builderLines.push(`        array: true,`);
+		}
 		const baseDesc = escapeForSingleQuote(arg.description);
 		const desc = arg.isZone ? `${baseDesc} (or use --zone flag)` : baseDesc;
 		builderLines.push(`        description: '${desc}',`);
@@ -115,6 +118,11 @@ export function generateBuilderLines(
 						: undefined,
 			})})`
 		);
+		if (arg.fromFile && arg.choices?.length) {
+			builderLines.push(
+				`.coerce(${JSON.stringify(optName)}, (value) => resolveFileToken(value, ${JSON.stringify(optName)}, ${JSON.stringify(arg.fromFile.format)}))`
+			);
+		}
 	}
 
 	// --dry-run: every command, even pure GETs.

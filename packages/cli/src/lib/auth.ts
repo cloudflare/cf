@@ -1,14 +1,13 @@
-import {
-	CloudflareApiClient,
-	CloudflareApiEnvironment,
-	CloudflareApiError,
-} from "#sdk";
-import { getAuthFromEnv } from "@cloudflare/workers-auth";
-import { getCloudflareApiBaseUrl } from "@cloudflare/workers-utils";
+import { getCloudflareApiBaseUrl } from "@cloudflare/workers-utils/compliance";
+import { API_TIMEOUT_MS } from "./api-constants.js";
+import { isUploadBody } from "./api-upload.js";
+import { getAuthToken } from "./auth-token.js";
 import { getComplianceRegion, resolveAccountIdSilent } from "./context.js";
-import { getValidToken as getOAuthToken } from "./oauth/index.js";
 import { getDefaultHeaders } from "./request-headers.js";
 import type { BaseClientOptions } from "#sdk";
+import { CloudflareApiClient } from "#sdk/client";
+import { CloudflareApiEnvironment } from "#sdk/environments";
+import { CloudflareApiError } from "#sdk/errors";
 
 // Re-export context helpers used by generated commands and hand-written paths.
 export { getAccountId, getWorkerName, getZoneId } from "./context.js";
@@ -27,8 +26,7 @@ export {
 	setProfile,
 } from "./oauth/index.js";
 
-/** Default timeout for API calls (30 seconds). */
-export const API_TIMEOUT_MS = 30_000;
+export { API_TIMEOUT_MS, getAuthToken };
 const DEFAULT_BASE_URL = CloudflareApiEnvironment.Default;
 
 type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
@@ -135,6 +133,8 @@ function passthroughUrl(
 }
 
 const clientBaseUrls = new WeakMap<CloudflareApiClient, string>();
+const clientTimeouts = new WeakMap<CloudflareApiClient, number>();
+const uploadClients = new WeakMap<CloudflareApiClient, CloudflareApiClient>();
 
 export async function requestApi<T>(
 	client: CloudflareApiClient,
@@ -158,13 +158,20 @@ export async function requestApi<T>(
 		}
 	}
 
+	const uploadClient =
+		options.timeout === undefined && isUploadBody(body)
+			? uploadClients.get(client)
+			: undefined;
+	const timeout =
+		options.timeout ?? clientTimeouts.get(client) ?? API_TIMEOUT_MS;
 	let response: Response;
 	try {
-		response = await client.fetch(
+		response = await (uploadClient ?? client).fetch(
 			url,
 			{ method, headers, body, signal: options.signal },
 			{
-				timeoutInSeconds: options.timeout ? options.timeout / 1000 : undefined,
+				timeoutInSeconds:
+					options.timeout === undefined ? undefined : options.timeout / 1000,
 				abortSignal: options.signal,
 			}
 		);
@@ -172,9 +179,14 @@ export async function requestApi<T>(
 		if (options.signal?.aborted) {
 			throw new Error("Request aborted");
 		}
-		if (error instanceof Error && error.name === "AbortError") {
+		if (
+			error === "timeout" ||
+			(error instanceof Error && error.name === "AbortError")
+		) {
 			throw new Error(
-				`Request timed out after ${options.timeout ?? API_TIMEOUT_MS}ms`
+				uploadClient
+					? "Request timed out"
+					: `Request timed out after ${timeout}ms`
 			);
 		}
 		if (error instanceof Error) {
@@ -247,41 +259,19 @@ export function createCloudflareClientWithToken(
 
 	const client = new CloudflareApiClient(clientOptions);
 	clientBaseUrls.set(client, baseURL);
+	clientTimeouts.set(client, options.timeout ?? API_TIMEOUT_MS);
+	if (options.timeout === undefined) {
+		// SDK passthrough requests inherit the client's timeout. Use a separate
+		// client for uploads so typed API calls retain their standard deadline.
+		uploadClients.set(
+			client,
+			new CloudflareApiClient({
+				...clientOptions,
+				timeoutInSeconds: undefined,
+			})
+		);
+	}
 	return client;
-}
-
-/**
- * Get the authentication token for the Cloudflare API.
- *
- * Resolution order:
- * 1. `CLOUDFLARE_API_TOKEN` environment variable (cf does not support the
- *    global API key + email pair, so `allowGlobalAuthKey` is `false`).
- * 2. cf's stored OAuth token (refreshed if expired).
- *
- * @throws Error if no authentication token is found.
- */
-export async function getAuthToken(): Promise<string> {
-	// Environment credential (scoped API token only).
-	const envAuth = getAuthFromEnv({ allowGlobalAuthKey: false });
-	if (envAuth && "apiToken" in envAuth) {
-		return envAuth.apiToken;
-	}
-
-	// cf's own OAuth token (refreshes if needed).
-	const cfToken = await getOAuthToken();
-	if (cfToken) {
-		return cfToken;
-	}
-
-	throw new Error(
-		`No authentication token found.
-
-Please set one of the following:
-  1. Set the CLOUDFLARE_API_TOKEN environment variable
-  2. Run 'cf auth login' to authenticate via OAuth
-
-For API tokens, visit: https://dash.cloudflare.com/profile/api-tokens`
-	);
 }
 
 /**

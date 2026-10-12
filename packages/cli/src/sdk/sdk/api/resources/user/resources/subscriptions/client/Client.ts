@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace SubscriptionsClient {
     export type Options = BaseClientOptions;
@@ -27,6 +27,9 @@ export class SubscriptionsClient {
      * Lists all of a user's subscriptions.
      *
      * @param {SubscriptionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.user.subscriptions.get()
@@ -85,6 +88,9 @@ export class SubscriptionsClient {
      *
      * @param {CloudflareApi.user.UpdateSubscriptionsRequest} request
      * @param {SubscriptionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.user.subscriptions.update({
@@ -154,6 +160,9 @@ export class SubscriptionsClient {
      *
      * @param {CloudflareApi.user.DeleteSubscriptionsRequest} request
      * @param {SubscriptionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.user.subscriptions.delete({

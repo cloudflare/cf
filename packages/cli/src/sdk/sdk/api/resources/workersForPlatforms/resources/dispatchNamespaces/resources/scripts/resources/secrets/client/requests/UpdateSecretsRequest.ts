@@ -24,7 +24,7 @@ export interface UpdateSecretsRequest {
     account_id: string;
     /** Name of the Workers for Platforms dispatch namespace. */
     dispatch_namespace: string;
-    /** Name of the script, used in URLs and route configuration. */
+    /** Name of the script. */
     script_name: string;
     body: CloudflareApi.WorkersSecret;
 }

@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 
 export declare namespace LabelsClient {
     export type Options = BaseClientOptions;
@@ -31,6 +31,9 @@ export class LabelsClient {
      *
      * @param {CloudflareApi.webAssets.operations.ApiShieldBulkPostLabelsOnOperationRequest} request
      * @param {LabelsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.webAssets.operations.labels.bulkCreate({
@@ -107,6 +110,9 @@ export class LabelsClient {
      *
      * @param {CloudflareApi.webAssets.operations.ApiShieldBulkPutLabelsOnOperationRequest} request
      * @param {LabelsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.webAssets.operations.labels.bulkUpdate({
@@ -190,6 +196,9 @@ export class LabelsClient {
      * @param {CloudflareApi.webAssets.operations.ApiShieldBulkDeleteLabelsOnOperationRequest} request
      * @param {LabelsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.webAssets.operations.labels.bulkDelete({
      *         zone_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -266,6 +275,9 @@ export class LabelsClient {
      * @param {CloudflareApi.webAssets.operations.ApiShieldPostLabelsOnOperationRequest} request
      * @param {LabelsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.webAssets.operations.labels.create({
      *         zone_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -338,6 +350,9 @@ export class LabelsClient {
      * @param {CloudflareApi.webAssets.operations.ApiShieldPutLabelsOnOperationRequest} request
      * @param {LabelsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.webAssets.operations.labels.update({
      *         zone_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -409,6 +424,9 @@ export class LabelsClient {
      *
      * @param {CloudflareApi.webAssets.operations.ApiShieldDeleteLabelsOnOperationRequest} request
      * @param {LabelsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.webAssets.operations.labels.delete({

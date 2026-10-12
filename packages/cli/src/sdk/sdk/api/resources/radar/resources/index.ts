@@ -61,4 +61,3 @@ export * from "./tlds/types/index.js";
 export * as trafficAnomalies from "./trafficAnomalies/index.js";
 export * from "./trafficAnomalies/client/requests/index.js";
 export * from "./trafficAnomalies/types/index.js";
-export * as verifiedBots from "./verifiedBots/index.js";

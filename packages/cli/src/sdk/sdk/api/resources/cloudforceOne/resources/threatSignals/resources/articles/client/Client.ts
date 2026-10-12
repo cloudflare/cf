@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 import { SkillsClient } from "../resources/skills/client/Client.js";
 import { TagsClient } from "../resources/tags/client/Client.js";
 
@@ -39,10 +39,13 @@ export class ArticlesClient {
     }
 
     /**
-     * List Threat Signals articles.
+     * Lists articles from the account's Threat Signals feeds.
      *
      * @param {CloudflareApi.cloudforceOne.threatSignals.ListArticlesRequest} request
      * @param {ArticlesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.threatSignals.articles.list({
@@ -153,10 +156,13 @@ export class ArticlesClient {
     }
 
     /**
-     * Bulk update Threat Signals article read status.
+     * Marks up to 50 Threat Signals articles as read or unread.
      *
      * @param {CloudflareApi.cloudforceOne.threatSignals.BulkMarkReadArticlesRequest} request
      * @param {ArticlesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.threatSignals.articles.bulkMarkRead({
@@ -168,14 +174,14 @@ export class ArticlesClient {
     public bulkMarkRead(
         request: CloudflareApi.cloudforceOne.threatSignals.BulkMarkReadArticlesRequest,
         requestOptions?: ArticlesClient.RequestOptions,
-    ): core.HttpResponsePromise<void> {
+    ): core.HttpResponsePromise<CloudflareApi.cloudforceOne.threatSignals.BulkMarkReadArticlesResponse> {
         return core.HttpResponsePromise.fromPromise(this.__bulkMarkRead(request, requestOptions));
     }
 
     private async __bulkMarkRead(
         request: CloudflareApi.cloudforceOne.threatSignals.BulkMarkReadArticlesRequest,
         requestOptions?: ArticlesClient.RequestOptions,
-    ): Promise<core.WithRawResponse<void>> {
+    ): Promise<core.WithRawResponse<CloudflareApi.cloudforceOne.threatSignals.BulkMarkReadArticlesResponse>> {
         const { account_id: accountId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -203,7 +209,10 @@ export class ArticlesClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: undefined, rawResponse: _response.rawResponse };
+            return {
+                data: _response.body as CloudflareApi.cloudforceOne.threatSignals.BulkMarkReadArticlesResponse,
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -223,10 +232,13 @@ export class ArticlesClient {
     }
 
     /**
-     * Get Threat Signals article.
+     * Retrieves a Threat Signals article with its summary, tags and indicator status.
      *
      * @param {CloudflareApi.cloudforceOne.threatSignals.GetArticlesRequest} request
      * @param {ArticlesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.threatSignals.articles.get({
@@ -237,14 +249,14 @@ export class ArticlesClient {
     public get(
         request: CloudflareApi.cloudforceOne.threatSignals.GetArticlesRequest,
         requestOptions?: ArticlesClient.RequestOptions,
-    ): core.HttpResponsePromise<void> {
+    ): core.HttpResponsePromise<CloudflareApi.cloudforceOne.threatSignals.GetArticlesResponse> {
         return core.HttpResponsePromise.fromPromise(this.__get(request, requestOptions));
     }
 
     private async __get(
         request: CloudflareApi.cloudforceOne.threatSignals.GetArticlesRequest,
         requestOptions?: ArticlesClient.RequestOptions,
-    ): Promise<core.WithRawResponse<void>> {
+    ): Promise<core.WithRawResponse<CloudflareApi.cloudforceOne.threatSignals.GetArticlesResponse>> {
         const { account_id: accountId, article_id: articleId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -269,7 +281,10 @@ export class ArticlesClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: undefined, rawResponse: _response.rawResponse };
+            return {
+                data: _response.body as CloudflareApi.cloudforceOne.threatSignals.GetArticlesResponse,
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -289,10 +304,13 @@ export class ArticlesClient {
     }
 
     /**
-     * Update Threat Signals article read status.
+     * Marks a Threat Signals article as read or unread.
      *
      * @param {CloudflareApi.cloudforceOne.threatSignals.MarkReadArticlesRequest} request
      * @param {ArticlesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.threatSignals.articles.markRead({
@@ -304,14 +322,14 @@ export class ArticlesClient {
     public markRead(
         request: CloudflareApi.cloudforceOne.threatSignals.MarkReadArticlesRequest,
         requestOptions?: ArticlesClient.RequestOptions,
-    ): core.HttpResponsePromise<void> {
+    ): core.HttpResponsePromise<CloudflareApi.cloudforceOne.threatSignals.MarkReadArticlesResponse> {
         return core.HttpResponsePromise.fromPromise(this.__markRead(request, requestOptions));
     }
 
     private async __markRead(
         request: CloudflareApi.cloudforceOne.threatSignals.MarkReadArticlesRequest,
         requestOptions?: ArticlesClient.RequestOptions,
-    ): Promise<core.WithRawResponse<void>> {
+    ): Promise<core.WithRawResponse<CloudflareApi.cloudforceOne.threatSignals.MarkReadArticlesResponse>> {
         const { account_id: accountId, article_id: articleId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -339,7 +357,10 @@ export class ArticlesClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: undefined, rawResponse: _response.rawResponse };
+            return {
+                data: _response.body as CloudflareApi.cloudforceOne.threatSignals.MarkReadArticlesResponse,
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -359,10 +380,13 @@ export class ArticlesClient {
     }
 
     /**
-     * Get Threat Signals article content.
+     * Retrieves the stored body of a Threat Signals article as plain text or HTML.
      *
      * @param {CloudflareApi.cloudforceOne.threatSignals.GetContentArticlesRequest} request
      * @param {ArticlesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.threatSignals.articles.getContent({
@@ -373,14 +397,14 @@ export class ArticlesClient {
     public getContent(
         request: CloudflareApi.cloudforceOne.threatSignals.GetContentArticlesRequest,
         requestOptions?: ArticlesClient.RequestOptions,
-    ): core.HttpResponsePromise<void> {
+    ): core.HttpResponsePromise<string> {
         return core.HttpResponsePromise.fromPromise(this.__getContent(request, requestOptions));
     }
 
     private async __getContent(
         request: CloudflareApi.cloudforceOne.threatSignals.GetContentArticlesRequest,
         requestOptions?: ArticlesClient.RequestOptions,
-    ): Promise<core.WithRawResponse<void>> {
+    ): Promise<core.WithRawResponse<string>> {
         const { account_id: accountId, article_id: articleId, format } = request;
         const _queryParams: Record<string, unknown> = {
             format: format != null ? format : undefined,
@@ -405,6 +429,7 @@ export class ArticlesClient {
                 .addMany(_queryParams)
                 .mergeAdditional(requestOptions?.queryParams)
                 .build(),
+            responseType: "text",
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -412,7 +437,7 @@ export class ArticlesClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: undefined, rawResponse: _response.rawResponse };
+            return { data: _response.body as string, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {

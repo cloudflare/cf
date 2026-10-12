@@ -7,7 +7,7 @@ import { mergeHeaders } from "../../../../../../core/headers.js";
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace KeysClient {
     export type Options = BaseClientOptions;
@@ -27,6 +27,9 @@ export class KeysClient {
      *
      * @param {CloudflareApi.images.ListKeysRequest} request
      * @param {KeysClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.images.keys.list({
@@ -95,6 +98,9 @@ export class KeysClient {
      *
      * @param {CloudflareApi.images.CreateKeysRequest} request
      * @param {KeysClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.images.keys.create({
@@ -165,6 +171,9 @@ export class KeysClient {
      *
      * @param {CloudflareApi.images.DeleteKeysRequest} request
      * @param {KeysClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.images.keys.delete({

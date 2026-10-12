@@ -17,30 +17,88 @@ export namespace ListActorsResponse {
 
     export namespace Tags {
         export interface Item {
+            activeDuration?: string | undefined;
+            activeDuration_annotated?: (Item.ActiveDurationAnnotated | null) | undefined;
+            actorCategory?: string | undefined;
+            actorCategory_annotated?: (Item.ActorCategoryAnnotated | null) | undefined;
             aliasGroupNames?: string[] | undefined;
+            aliasGroupNamesInternal?: string[] | undefined;
             /** Structured aliases ({ value, confidence 1-10, tlp }). Public: returned to all accounts with per-entry TLP filtering (entries with tlp: purple are removed for non-CFONE accounts). */
             aliases?: Item.Aliases.Item[] | undefined;
+            attributionOrganization?: string | undefined;
+            attributionOrganization_annotated?: (Item.AttributionOrganizationAnnotated | null) | undefined;
             categoryName?: string | undefined;
             categoryUuid?: string | undefined;
             /** Overall tag confidence (1-10). */
             confidence?: (number | null) | undefined;
+            createdAt?: string | undefined;
             dateOfDiscovery?: string | undefined;
             description?: string | undefined;
+            externalReferenceLinks?: string[] | undefined;
             /** Structured external references ({ url, description }). Public: returned to all accounts. */
             externalReferences?: Item.ExternalReferences.Item[] | undefined;
             externalReferences_annotated?: (Item.ExternalReferencesAnnotated.Item[] | null) | undefined;
+            /** Owner-private structured aliases ({ value, confidence 1-10, tlp }). Returned to the owning account and omitted from shared-catalog non-owner responses. */
+            internalAliases?: Item.InternalAliases.Item[] | undefined;
+            internalDescription?: string | undefined;
+            lastSeen?: string | undefined;
+            motive?: string | undefined;
+            motive_annotated?: (Item.MotiveAnnotated | null) | undefined;
+            opsecLevel?: string | undefined;
+            opsecLevel_annotated?: (Item.OpsecLevelAnnotated | null) | undefined;
             /** ISO country code (alpha-2 or alpha-3). Normalized to uppercase on read. Null when stored value is blank/whitespace. */
             originCountryISO?: (string | null) | undefined;
             originCountryISO_annotated?: (Item.OriginCountryIsoAnnotated | null) | undefined;
+            priority?: number | undefined;
+            priority_annotated?: (Item.PriorityAnnotated | null) | undefined;
             /** Parsed custom field values. Null when the tag has no custom fields. */
             properties?: (Record<string, unknown> | null) | undefined;
+            sophisticationLevel?: string | undefined;
+            sophisticationLevel_annotated?: (Item.SophisticationLevelAnnotated | null) | undefined;
             /** Tag-level TLP handling marking. */
             tlp?: (Item.Tlp | null) | undefined;
+            updatedAt?: string | undefined;
             uuid: string;
             value: string;
+            version?: number | undefined;
         }
 
         export namespace Item {
+            export interface ActiveDurationAnnotated {
+                tlp?: ActiveDurationAnnotated.Tlp | undefined;
+                value: string;
+            }
+
+            export namespace ActiveDurationAnnotated {
+                export const Tlp = {
+                    Red: "red",
+                    Amber: "amber",
+                    AmberStrict: "amber-strict",
+                    Green: "green",
+                    Clear: "clear",
+                    Purple: "purple",
+                } as const;
+                export type Tlp = (typeof Tlp)[keyof typeof Tlp];
+            }
+
+            export interface ActorCategoryAnnotated {
+                confidence?: number | undefined;
+                tlp?: ActorCategoryAnnotated.Tlp | undefined;
+                value: string;
+            }
+
+            export namespace ActorCategoryAnnotated {
+                export const Tlp = {
+                    Red: "red",
+                    Amber: "amber",
+                    AmberStrict: "amber-strict",
+                    Green: "green",
+                    Clear: "clear",
+                    Purple: "purple",
+                } as const;
+                export type Tlp = (typeof Tlp)[keyof typeof Tlp];
+            }
+
             export type Aliases = Aliases.Item[];
 
             export namespace Aliases {
@@ -61,6 +119,24 @@ export namespace ListActorsResponse {
                     } as const;
                     export type Tlp = (typeof Tlp)[keyof typeof Tlp];
                 }
+            }
+
+            export interface AttributionOrganizationAnnotated {
+                confidence?: number | undefined;
+                tlp?: AttributionOrganizationAnnotated.Tlp | undefined;
+                value: string;
+            }
+
+            export namespace AttributionOrganizationAnnotated {
+                export const Tlp = {
+                    Red: "red",
+                    Amber: "amber",
+                    AmberStrict: "amber-strict",
+                    Green: "green",
+                    Clear: "clear",
+                    Purple: "purple",
+                } as const;
+                export type Tlp = (typeof Tlp)[keyof typeof Tlp];
             }
 
             export type ExternalReferences = ExternalReferences.Item[];
@@ -93,6 +169,64 @@ export namespace ListActorsResponse {
                 }
             }
 
+            export type InternalAliases = InternalAliases.Item[];
+
+            export namespace InternalAliases {
+                export interface Item {
+                    confidence?: (number | null) | undefined;
+                    tlp?: (Item.Tlp | null) | undefined;
+                    value: string;
+                }
+
+                export namespace Item {
+                    export const Tlp = {
+                        Red: "red",
+                        Amber: "amber",
+                        AmberStrict: "amber-strict",
+                        Green: "green",
+                        Clear: "clear",
+                        Purple: "purple",
+                    } as const;
+                    export type Tlp = (typeof Tlp)[keyof typeof Tlp];
+                }
+            }
+
+            export interface MotiveAnnotated {
+                confidence?: number | undefined;
+                tlp?: MotiveAnnotated.Tlp | undefined;
+                value: string;
+            }
+
+            export namespace MotiveAnnotated {
+                export const Tlp = {
+                    Red: "red",
+                    Amber: "amber",
+                    AmberStrict: "amber-strict",
+                    Green: "green",
+                    Clear: "clear",
+                    Purple: "purple",
+                } as const;
+                export type Tlp = (typeof Tlp)[keyof typeof Tlp];
+            }
+
+            export interface OpsecLevelAnnotated {
+                confidence?: number | undefined;
+                tlp?: OpsecLevelAnnotated.Tlp | undefined;
+                value: string;
+            }
+
+            export namespace OpsecLevelAnnotated {
+                export const Tlp = {
+                    Red: "red",
+                    Amber: "amber",
+                    AmberStrict: "amber-strict",
+                    Green: "green",
+                    Clear: "clear",
+                    Purple: "purple",
+                } as const;
+                export type Tlp = (typeof Tlp)[keyof typeof Tlp];
+            }
+
             export interface OriginCountryIsoAnnotated {
                 confidence?: number | undefined;
                 tlp?: OriginCountryIsoAnnotated.Tlp | undefined;
@@ -100,6 +234,41 @@ export namespace ListActorsResponse {
             }
 
             export namespace OriginCountryIsoAnnotated {
+                export const Tlp = {
+                    Red: "red",
+                    Amber: "amber",
+                    AmberStrict: "amber-strict",
+                    Green: "green",
+                    Clear: "clear",
+                    Purple: "purple",
+                } as const;
+                export type Tlp = (typeof Tlp)[keyof typeof Tlp];
+            }
+
+            export interface PriorityAnnotated {
+                tlp?: PriorityAnnotated.Tlp | undefined;
+                value: number;
+            }
+
+            export namespace PriorityAnnotated {
+                export const Tlp = {
+                    Red: "red",
+                    Amber: "amber",
+                    AmberStrict: "amber-strict",
+                    Green: "green",
+                    Clear: "clear",
+                    Purple: "purple",
+                } as const;
+                export type Tlp = (typeof Tlp)[keyof typeof Tlp];
+            }
+
+            export interface SophisticationLevelAnnotated {
+                confidence?: number | undefined;
+                tlp?: SophisticationLevelAnnotated.Tlp | undefined;
+                value: string;
+            }
+
+            export namespace SophisticationLevelAnnotated {
                 export const Tlp = {
                     Red: "red",
                     Amber: "amber",

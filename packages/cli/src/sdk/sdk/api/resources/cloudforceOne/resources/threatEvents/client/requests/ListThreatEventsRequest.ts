@@ -17,13 +17,17 @@ export interface ListThreatEventsRequest {
     search?:
         | CloudflareApi.cloudforceOne.ListThreatEventsRequestSearchItem
         | CloudflareApi.cloudforceOne.ListThreatEventsRequestSearchItem[];
+    /** JSON-encoded. OR branches of structured search filters. Filters within a branch are AND'd, branches are OR'd, and the result is AND'd with `search`: `AND(search) AND OR(AND(branch 1), ...)`. Max 8 branches of 1-10 conditions each. Not supported for analytics datasets, and `indicator` filters are not yet supported inside branches. Cursor pages carry the original branches, so do not resend them with `cursor`. */
+    searchBranches?:
+        | CloudflareApi.cloudforceOne.ListThreatEventsRequestSearchBranchesItemItem[]
+        | CloudflareApi.cloudforceOne.ListThreatEventsRequestSearchBranchesItemItem[][];
     /** Page number (1-indexed) for offset-based pagination. Limited to offset of 100,000 records. For deep pagination, use cursor-based pagination instead. */
     page?: number;
     /** Number of results per page. Maximum 25,000. */
     pageSize?: number;
     orderBy?: string;
     order?: CloudflareApi.cloudforceOne.ListThreatEventsRequestOrder;
-    /** Dataset UUIDs to query, or one standalone scope value: 'all'/'*' for the legacy all-datasets behavior, 'analytics' for isAnalytics=true datasets, or 'operational' for isAnalytics=false datasets. If not provided, uses the default dataset. */
+    /** Dataset UUIDs to query, or one standalone scope value: 'all'/'*' or 'operational' for readable intelligence datasets (isAnalytics=false), or 'analytics' for readable analytics datasets (isAnalytics=true). Scope values query at most 50 datasets. If not provided, uses the default dataset. */
     datasetId?: string | string[];
     forceRefresh?: boolean;
     format?: CloudflareApi.cloudforceOne.ListThreatEventsRequestFormat;

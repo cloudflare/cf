@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 import { IpfsUniversalPathsClient } from "../resources/ipfsUniversalPaths/client/Client.js";
 
 export declare namespace HostnamesClient {
@@ -32,6 +32,9 @@ export class HostnamesClient {
     /**
      * @param {CloudflareApi.web3.ListHostnamesRequest} request
      * @param {HostnamesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.web3.hostnames.list({
@@ -98,6 +101,9 @@ export class HostnamesClient {
     /**
      * @param {CloudflareApi.web3.Web3CreateRequest} request
      * @param {HostnamesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.web3.hostnames.create({
@@ -167,6 +173,9 @@ export class HostnamesClient {
      * @param {CloudflareApi.web3.GetHostnamesRequest} request
      * @param {HostnamesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.web3.hostnames.get({
      *         zone_id: "zone_id",
@@ -230,6 +239,9 @@ export class HostnamesClient {
     /**
      * @param {CloudflareApi.web3.DeleteHostnamesRequest} request
      * @param {HostnamesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.web3.hostnames.delete({
@@ -297,6 +309,9 @@ export class HostnamesClient {
     /**
      * @param {CloudflareApi.web3.Web3ModifyRequest} request
      * @param {HostnamesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.web3.hostnames.edit({

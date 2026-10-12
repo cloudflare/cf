@@ -1,9 +1,0 @@
-description: "Create a Queue event subscription"
-command: "wrangler queues subscription create <queue>"
-status: "partial"
-sourceCommands:
-  - "wrangler queues subscription create <queue> --source <source> --events <events>"
-cfReplacementFlow:
-  - "cf queues subscriptions create --body @subscription.json"
-notes:
-  - "Wrangler uses queue-name destination shorthand and source-specific flags. cf likely requires the API destination/source object."

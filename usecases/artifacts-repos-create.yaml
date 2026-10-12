@@ -1,9 +1,0 @@
-description: "Create an Artifacts repository"
-command: "wrangler artifacts repos create <repo> --namespace <namespace>"
-status: "partial"
-sourceCommands:
-  - "wrangler artifacts repos create <repo> --namespace <namespace>"
-cfReplacementFlow:
-  - "cf artifacts repos create --namespace <namespace> --name <repo> --body @repo.json"
-notes:
-  - "Wrangler exposes repo metadata flags; cf likely follows API body/flags."

@@ -7,7 +7,7 @@ import { mergeHeaders } from "../../../../../../core/headers.js";
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 import { SubnetsClient } from "../resources/subnets/client/Client.js";
 
 export declare namespace AsnClient {
@@ -33,6 +33,9 @@ export class AsnClient {
      *
      * @param {CloudflareApi.intel.GetAsnRequest} request
      * @param {AsnClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.intel.asn.get({

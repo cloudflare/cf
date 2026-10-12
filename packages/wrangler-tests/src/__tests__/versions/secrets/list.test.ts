@@ -1,5 +1,5 @@
 import { http, HttpResponse } from "msw";
-import { describe, test } from "vitest";
+import { describe, test } from "vite-plus/test";
 import { mockAccountId, mockApiToken } from "../../helpers/mock-account-id";
 import { mockConsoleMethods } from "../../helpers/mock-console";
 import { createFetchResult, msw } from "../../helpers/msw";

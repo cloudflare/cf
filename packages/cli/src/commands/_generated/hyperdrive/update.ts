@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * update command
+ * @generated from apis/overlays/hyperdrive.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -10,19 +18,11 @@ import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * update command
- * @generated from apis/overlays/hyperdrive.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 hyperdrive update <hyperdrive-id>\n\nUpdates and returns the specified fields of the Hyperdrive configuration. Custom caching settings are not kept if caching is disabled."
+			"$0 hyperdrive update <hyperdrive-id>\n\nUpdates and returns the specified fields of the Hyperdrive configuration. Custom caching settings are not kept if caching is disabled. For an integration-backed configuration, the integration association is preserved but cannot be changed; omit the integration field."
 		)
 		.positional("hyperdrive-id", {
 			type: "string",
@@ -48,7 +48,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "Define CA certificate ID obtained after uploading CA cert.",
 		})
-		.option("mtls-mtls-certificate-id", {
+		.option("mtls-certificate-id", {
 			type: "string",
 			description:
 				"Define mTLS certificate ID obtained after uploading client cert.",
@@ -66,6 +66,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"VERIFY_IDENTITY",
 			],
 		})
+		.coerce("mtls-sslmode", (value) =>
+			resolveFileToken(value, "mtls-sslmode", "text")
+		)
 		.option("name", {
 			type: "string",
 			description:
@@ -133,15 +136,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"text"
 											),
 											mtls_certificate_id: resolveFileToken(
-												argv["mtls-mtls-certificate-id"] as string | undefined,
-												"mtls-mtls-certificate-id",
+												argv["mtls-certificate-id"] as string | undefined,
+												"mtls-certificate-id",
 												"text"
 											),
-											sslmode: resolveFileToken(
-												argv["mtls-sslmode"] as string | undefined,
-												"mtls-sslmode",
-												"text"
-											),
+											sslmode: argv["mtls-sslmode"],
 										},
 										name: resolveFileToken(
 											argv["name"] as string | undefined,
@@ -184,15 +183,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"text"
 						),
 						mtls_certificate_id: resolveFileToken(
-							argv["mtls-mtls-certificate-id"] as string | undefined,
-							"mtls-mtls-certificate-id",
+							argv["mtls-certificate-id"] as string | undefined,
+							"mtls-certificate-id",
 							"text"
 						),
-						sslmode: resolveFileToken(
-							argv["mtls-sslmode"] as string | undefined,
-							"mtls-sslmode",
-							"text"
-						),
+						sslmode: argv["mtls-sslmode"],
 					},
 					name: resolveFileToken(
 						argv["name"] as string | undefined,

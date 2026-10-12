@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace RecipientsClient {
     export type Options = BaseClientOptions;
@@ -28,6 +28,9 @@ export class RecipientsClient {
      *
      * @param {CloudflareApi.resourceSharing.GetRecipientsRequest} request
      * @param {RecipientsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.resourceSharing.recipients.get({
@@ -122,6 +125,9 @@ export class RecipientsClient {
      * @param {CloudflareApi.resourceSharing.DeleteRecipientsRequest} request
      * @param {RecipientsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.resourceSharing.recipients.delete({
      *         account_id: "account_id",
@@ -194,6 +200,9 @@ export class RecipientsClient {
      *
      * @param {CloudflareApi.resourceSharing.ListRecipientsRequest} request
      * @param {RecipientsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.resourceSharing.recipients.list({
@@ -287,6 +296,9 @@ export class RecipientsClient {
      * @param {CloudflareApi.resourceSharing.CreateRecipientsRequest} request
      * @param {RecipientsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.resourceSharing.recipients.create({
      *         account_id_path: "account_id_path",
@@ -367,6 +379,9 @@ export class RecipientsClient {
      *
      * @param {CloudflareApi.resourceSharing.UpdateRecipientsRequest} request
      * @param {RecipientsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.resourceSharing.recipients.update({

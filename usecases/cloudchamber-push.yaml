@@ -1,9 +1,0 @@
-description: "Push a Cloudchamber image"
-command: "wrangler cloudchamber push"
-status: "gap"
-sourceCommands:
-  - "wrangler cloudchamber push"
-cfReplacementFlow:
-  - "No direct cf replacement."
-notes:
-  - "Registry push orchestration is outside generated API command scope."

@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * get command
+ * @generated from apis/overlays/mesh.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -8,21 +16,11 @@ import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * get command
- * @generated from apis/overlays/mesh.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
-		.usage(
-			"$0 mesh nodes get <tunnel-id>\n\nFetches a single Warp Connector Tunnel."
-		)
-		.positional("tunnel-id", {
+		.usage("$0 mesh nodes get <node-id>\n\nFetches a single Mesh node.")
+		.positional("node-id", {
 			type: "string",
 			description: "UUID of the tunnel.",
 			demandOption: true,
@@ -39,8 +37,8 @@ type Args = InferArgs<typeof builder>;
 type Request = SdkRequest<"cloudflare-tunnel-get-a-warp-connector-tunnel">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "get <tunnel-id>",
-	describe: "Get a Warp Connector Tunnel",
+	command: "get <node-id>",
+	describe: "Get a Mesh node",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
@@ -57,8 +55,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf mesh nodes get",
 						method: "GET",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/warp_connector/${argv["tunnel-id"] == null ? "<tunnel-id>" : encodeURIComponent(String(argv["tunnel-id"]))}`,
-						pathParams: { "tunnel-id": String(argv["tunnel-id"] ?? "") },
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/warp_connector/${argv["node-id"] == null ? "<node-id>" : encodeURIComponent(String(argv["node-id"]))}`,
+						pathParams: { "node-id": String(argv["node-id"] ?? "") },
 						bodyKind: "none",
 					});
 					return;
@@ -70,7 +68,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const result = await withProgress(`Loading`, async () =>
 					client.mesh.nodes.get({
 						account_id: accountId,
-						tunnel_id: argv["tunnel-id"],
+						"node-id": argv["node-id"],
 					} satisfies Request)
 				);
 				formatOutput(result, { successLabel: `Loaded` });

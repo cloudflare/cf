@@ -1,3 +1,10 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+/**
+ * create command
+ * @generated from apis/overlays/registrar-sandbox.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -12,13 +19,6 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-/**
- * create command
- * @generated from apis/overlays/registrar-sandbox.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -148,6 +148,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["off", "redaction"],
 			default: "redaction",
 		})
+		.coerce("privacy-mode", (value) =>
+			resolveFileToken(value, "privacy-mode", "text")
+		)
 		.option("years", {
 			type: "number",
 			description:
@@ -307,9 +310,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 														"text"
 													),
 													organization: resolveFileToken(
-														argv["contacts-billing-postal-info-organization"] as
-															| string
-															| undefined,
+														argv[
+															"contacts-billing-postal-info-organization"
+														] as string | undefined,
 														"contacts-billing-postal-info-organization",
 														"text"
 													),
@@ -395,11 +398,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"domain-name",
 											"text"
 										),
-										privacy_mode: resolveFileToken(
-											argv["privacy-mode"] as string | undefined,
-											"privacy-mode",
-											"text"
-										),
+										privacy_mode: argv["privacy-mode"],
 										years: argv["years"],
 									}),
 					});
@@ -661,15 +660,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						)
 					);
 				if (argv["privacy-mode"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["privacy_mode"],
-						resolveFileToken(
-							argv["privacy-mode"] as string | undefined,
-							"privacy-mode",
-							"text"
-						)
-					);
+					setNestedValue(bodyData, ["privacy_mode"], argv["privacy-mode"]);
 				if (argv["years"] !== undefined)
 					setNestedValue(bodyData, ["years"], argv["years"]);
 				const result = await withProgress(`Creating`, async () =>

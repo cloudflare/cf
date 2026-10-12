@@ -3,13 +3,10 @@
 /**
  * @example
  *     {
- *         account_id: "account_id",
- *         integration: "integration"
+ *         account_id: "account_id"
  *     }
  */
 export interface CreateDatabaseSignatureHyperdriveRequest {
     /** The Cloudflare account ID. */
     account_id: string;
-    /** The database integration to authorize against. This value is case-insensitive. */
-    integration: string;
 }

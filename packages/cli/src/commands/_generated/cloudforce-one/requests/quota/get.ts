@@ -1,0 +1,88 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * get command
+ * @generated from apis/overlays/cloudforce-one.ts
+ */
+import type { Argv, CommandModule } from "yargs";
+import {
+	createCommandClient,
+	getAccountId,
+	resolveAccountIdSilent,
+} from "#lib/auth.js";
+import { withArgTypes } from "#lib/cli-types.js";
+import { formatDryRun } from "#lib/dry-run.js";
+import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
+import { formatOutput } from "#lib/output.js";
+import { withProgress } from "#lib/progress.js";
+import { runWithTelemetry } from "#lib/telemetry/index.js";
+
+function builder(yargs: Argv<CommonYargsOptions>) {
+	return yargs
+		.usage(
+			"$0 cloudforce-one requests quota get <project-type>\n\nReturns the account's token quota for the current anniversary quarter: total granted, used, remaining, and the quarter/anniversary boundaries."
+		)
+		.positional("project-type", {
+			type: "string",
+			description: "RFI project type",
+			demandOption: true,
+		})
+		.option("dry-run", {
+			type: "boolean",
+			description: "Validate and show what would happen without executing",
+			default: false,
+		});
+}
+
+type Request = SdkRequest<"get_RequestQuota">;
+
+const typedBuilder = withArgTypes<
+	{
+		"project-type": Request["project_type"];
+	},
+	typeof builder
+>(builder);
+
+type Args = InferArgs<typeof typedBuilder>;
+const command: CommandModule<CommonYargsOptions, Args> = {
+	command: "get <project-type>",
+	describe: "Get request token quota",
+	builder: typedBuilder,
+	handler: async (argv): Promise<void> =>
+		runWithTelemetry(
+			{
+				command: "cloudforce-one requests quota get",
+				classification: {
+					safeFlags: ["dry-run"],
+				} satisfies ArgClassification<Args>,
+			},
+			argv as Record<string, unknown>,
+			async () => {
+				if (argv.dryRun) {
+					const __cfDryRunAccountId = await resolveAccountIdSilent();
+					formatDryRun({
+						command: "cf cloudforce-one requests quota get",
+						method: "GET",
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/cloudforce-one/v2/requests/${argv["project-type"] == null ? "<project-type>" : encodeURIComponent(String(argv["project-type"]))}/quota`,
+						pathParams: { "project-type": String(argv["project-type"] ?? "") },
+						bodyKind: "none",
+					});
+					return;
+				}
+				const client = await createCommandClient(argv);
+				const accountId = argv.local ? LOCAL_ACCOUNT_ID : await getAccountId();
+				argv.accountId = accountId;
+
+				const result = await withProgress(`Loading`, async () =>
+					client.cloudforceOne.requests.quota.get({
+						account_id: accountId,
+						project_type: argv["project-type"],
+					} satisfies Request)
+				);
+				formatOutput(result, { successLabel: `Loaded` });
+			}
+		),
+};
+
+export default command;

@@ -3,12 +3,18 @@
 import * as CloudflareApi from "../index.js";
 
 export interface AnalyticsSqlIntrospectionDataset {
+    /** Present when `include_attributes` is true and the dataset supports attributes. Replaces `custom_attributes`, which is deprecated; while both exist, the two fields carry identical data. */
+    attributes?: CloudflareApi.AnalyticsSqlAttribute[] | undefined;
+    /** Human-readable dataset category from the catalogue metadata. */
+    category: string;
     /** Present when `include_columns` is true. */
     columns?: CloudflareApi.AnalyticsSqlIntrospectionColumn[] | undefined;
-    /** Present when `include_custom_attributes` is true and the dataset supports custom attributes. */
+    /** Present when `include_custom_attributes` is true and the dataset supports custom attributes. Deprecated in favor of `attributes`. */
     custom_attributes?: CloudflareApi.AnalyticsSqlCustomAttribute[] | undefined;
     /** Human-readable description of the dataset. */
     description: string;
+    /** Whether the dataset is de-emphasised in catalogue listings. A presentation hint only: a hidden dataset is still returned here and is just as queryable as any other. */
+    hidden: boolean;
     kind: CloudflareApi.AnalyticsSqlIntrospectionDatasetKind;
     /** Dataset name used in SQL queries. */
     name: string;

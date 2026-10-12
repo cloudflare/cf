@@ -1,6 +1,13 @@
 import { runInTempDir } from "@cloudflare/workers-utils/test-helpers";
 import { http, HttpResponse } from "msw";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import {
+	afterEach,
+	beforeEach,
+	describe,
+	expect,
+	it,
+	vi,
+} from "vite-plus/test";
 import { buildCli } from "../../index.js";
 import { captureOutput } from "../helpers/capture-output.js";
 import { server, setupMsw } from "../helpers/msw.js";
@@ -142,6 +149,24 @@ describe("cf docs search", () => {
 		{ success: true },
 		{ success: true, result: { chunks: [{}] } },
 		{ success: true, result: { chunks: [{ item: { key: 123 } }] } },
+		{ success: true, result: { chunks: [{ item: { key: "" } }] } },
+		{
+			success: true,
+			result: { chunks: [{ item: { key: "workers/", metadata: null } }] },
+		},
+		{
+			success: true,
+			result: {
+				chunks: [{ item: { key: "workers/", metadata: { title: 123 } } }],
+			},
+		},
+		{
+			success: true,
+			result: {
+				chunks: [{ item: { key: "workers/", metadata: { description: [] } } }],
+			},
+		},
+		{ success: false, error: 123 },
 	])("rejects malformed search results: %j", async (data) => {
 		respondWith(data);
 		await expect(runCf(["docs", "search", "workers"])).rejects.toThrow(
@@ -188,6 +213,16 @@ describe("cf docs search", () => {
 			"Cloudflare docs search timed out. Try again."
 		);
 		expect(output.stdout()).toBe("");
+	});
+
+	it("previews a dry run without searching or exposing the query", async () => {
+		await runCf(["docs", "search", "schedule a worker", "--dry-run"]);
+		expect(JSON.parse(output.stdout())).toEqual({
+			command: "cf docs search",
+			dryRun: true,
+			executed: false,
+			validated: "arguments only",
+		});
 	});
 
 	it.each([

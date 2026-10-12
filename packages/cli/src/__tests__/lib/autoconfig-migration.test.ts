@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vite-plus/test";
 import { prepareProject } from "../../lib/autoconfig.js";
 import type { AutoConfigDetails } from "@cloudflare/autoconfig";
 
@@ -42,6 +42,19 @@ describe("project preparation", () => {
 		expect(mocks.maybeMigrateWranglerProject).not.toHaveBeenCalled();
 	});
 
+	it("does not run setup for a configured project during a dry run", async () => {
+		const configuredDetails = { ...unconfiguredDetails, configured: true };
+		mocks.getDetailsForAutoConfig.mockResolvedValue(configuredDetails);
+
+		await expect(prepareProject("/project", { dryRun: true })).resolves.toEqual(
+			{
+				details: configuredDetails,
+			}
+		);
+		expect(mocks.maybeMigrateWranglerProject).not.toHaveBeenCalled();
+		expect(mocks.runAutoConfig).not.toHaveBeenCalled();
+	});
+
 	it("offers migration even when autoconfig cannot analyze the legacy project", async () => {
 		const configuredDetails = {
 			...unconfiguredDetails,
@@ -67,13 +80,48 @@ describe("project preparation", () => {
 		expect(mocks.runAutoConfig).not.toHaveBeenCalled();
 	});
 
-	it("runs autoconfig when migration is unavailable or declined", async () => {
+	it("runs framework setup when Wrangler config conversion did not run", async () => {
 		const configuration = {
 			scripts: {},
 			outputDir: "dist",
 			buildCommand: "npm run build",
 		};
-		mocks.getDetailsForAutoConfig.mockResolvedValue(unconfiguredDetails);
+		const configuredDetails = {
+			...unconfiguredDetails,
+			configured: true,
+			devCommand: "npx vite dev",
+			env: { CONFIGURED: "true" },
+		};
+		mocks.getDetailsForAutoConfig
+			.mockResolvedValueOnce(unconfiguredDetails)
+			.mockResolvedValueOnce(configuredDetails);
+		mocks.maybeMigrateWranglerProject.mockResolvedValue(false);
+		mocks.runAutoConfig.mockResolvedValue(configuration);
+
+		await expect(prepareProject("/project")).resolves.toEqual({
+			details: configuredDetails,
+			configuration,
+		});
+		expect(mocks.runAutoConfig).toHaveBeenCalledWith(
+			unconfiguredDetails,
+			expect.objectContaining({ runBuild: false })
+		);
+		expect(mocks.getDetailsForAutoConfig).toHaveBeenCalledTimes(2);
+	});
+
+	it("keeps the pre-setup details when the configured project cannot be analyzed", async () => {
+		const configuration = { scripts: {}, outputDir: "dist" };
+		mocks.getDetailsForAutoConfig
+			.mockResolvedValueOnce(unconfiguredDetails)
+			.mockRejectedValueOnce(
+				new (await import("@cloudflare/autoconfig")).AutoConfigDetectionError(
+					"not detected",
+					{
+						telemetryMessage: "not detected",
+						configured: false,
+					}
+				)
+			);
 		mocks.maybeMigrateWranglerProject.mockResolvedValue(false);
 		mocks.runAutoConfig.mockResolvedValue(configuration);
 
@@ -81,6 +129,49 @@ describe("project preparation", () => {
 			details: unconfiguredDetails,
 			configuration,
 		});
-		expect(mocks.runAutoConfig).toHaveBeenCalledOnce();
+	});
+
+	it("dry-runs framework setup when Wrangler config conversion did not run", async () => {
+		mocks.getDetailsForAutoConfig.mockResolvedValue(unconfiguredDetails);
+		mocks.maybeMigrateWranglerProject.mockResolvedValue(false);
+		mocks.runAutoConfig.mockResolvedValue({ buildCommand: "npm run build" });
+
+		await expect(
+			prepareProject("/project", { dryRun: true })
+		).resolves.toMatchObject({
+			details: unconfiguredDetails,
+			setupNeeded: true,
+		});
+		expect(mocks.runAutoConfig).toHaveBeenCalledWith(
+			unconfiguredDetails,
+			expect.objectContaining({ dryRun: true, runBuild: false })
+		);
+		expect(mocks.getDetailsForAutoConfig).toHaveBeenCalledOnce();
+		expect(mocks.maybeMigrateWranglerProject).toHaveBeenCalledWith(
+			"/project",
+			expect.any(Function),
+			undefined,
+			true
+		);
+	});
+
+	it("stops after an accepted Wrangler config conversion dry run", async () => {
+		mocks.getDetailsForAutoConfig.mockResolvedValue(unconfiguredDetails);
+		mocks.maybeMigrateWranglerProject.mockResolvedValue(true);
+
+		await expect(prepareProject("/project", { dryRun: true })).resolves.toEqual(
+			{
+				details: unconfiguredDetails,
+				setupNeeded: true,
+			}
+		);
+		expect(mocks.maybeMigrateWranglerProject).toHaveBeenCalledWith(
+			"/project",
+			expect.any(Function),
+			undefined,
+			true
+		);
+		expect(mocks.getDetailsForAutoConfig).toHaveBeenCalledOnce();
+		expect(mocks.runAutoConfig).not.toHaveBeenCalled();
 	});
 });

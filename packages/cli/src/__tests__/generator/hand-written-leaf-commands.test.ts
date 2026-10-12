@@ -1,4 +1,5 @@
-import { describe, expect, it } from "vitest";
+import assert from "node:assert/strict";
+import { describe, expect, it } from "vite-plus/test";
 import {
 	assertUniqueHandWrittenLeafCommandNames,
 	generateGroupIndexFile,
@@ -23,16 +24,36 @@ const accessSchema = {
 } as Parameters<typeof generateResourceIndexFile>[0];
 
 describe("hand-written leaf commands", () => {
+	it("keeps an existing explicit leaf override instead of its generated implementation", () => {
+		const generated = generateResourceIndexFile(
+			{
+				name: "ai",
+				description: "AI",
+				methods: [],
+				hideCommand: false,
+			},
+			["run"],
+			[]
+		);
+		expect(generated).toContain(
+			"import $run from '#commands/ai/run/index.js';"
+		);
+		expect(generated).not.toContain("import $run from './run.js';");
+		expect(generated).toContain(".command($run)");
+	});
+
 	it("registers a leaf command against its generated product", () => {
 		expect(handWrittenLeafCommands("workers")).toEqual([
 			{
 				kind: "leaf",
+				dryRun: "preview",
 				parent: "workers",
 				name: "check",
 				dir: "workers/check",
 			},
 			{
 				kind: "leaf",
+				dryRun: "preview",
 				parent: "workers",
 				name: "types",
 				dir: "workers/types",
@@ -41,6 +62,7 @@ describe("hand-written leaf commands", () => {
 		expect(handWrittenLeafCommands("workers/versions")).toEqual([
 			{
 				kind: "leaf",
+				dryRun: "native",
 				parent: "workers/versions",
 				name: "create",
 				dir: "workers/versions/create",
@@ -50,36 +72,42 @@ describe("hand-written leaf commands", () => {
 		expect(handWrittenLeafCommands("tunnels")).toEqual([
 			{
 				kind: "leaf",
+				dryRun: "preview",
 				parent: "tunnels",
 				name: "diag",
 				dir: "tunnels/diag",
 			},
 			{
 				kind: "leaf",
+				dryRun: "preview",
 				parent: "tunnels",
 				name: "login",
 				dir: "tunnels/login",
 			},
 			{
 				kind: "leaf",
+				dryRun: "preview",
 				parent: "tunnels",
 				name: "quick-start",
 				dir: "tunnels/quick-start",
 			},
 			{
 				kind: "leaf",
+				dryRun: "preview",
 				parent: "tunnels",
 				name: "ready",
 				dir: "tunnels/ready",
 			},
 			{
 				kind: "leaf",
+				dryRun: "preview",
 				parent: "tunnels",
 				name: "run",
 				dir: "tunnels/run",
 			},
 			{
 				kind: "leaf",
+				dryRun: "preview",
 				parent: "tunnels",
 				name: "tail",
 				dir: "tunnels/tail",
@@ -121,36 +149,42 @@ describe("hand-written leaf commands", () => {
 		expect(handWrittenLeafCommands("access")).toEqual([
 			{
 				kind: "leaf",
+				dryRun: "preview",
 				parent: "access",
 				name: "login",
 				dir: "access/login",
 			},
 			{
 				kind: "leaf",
+				dryRun: "preview",
 				parent: "access",
 				name: "token",
 				dir: "access/token",
 			},
 			{
 				kind: "leaf",
+				dryRun: "preview",
 				parent: "access",
 				name: "ssh-config",
 				dir: "access/ssh-config",
 			},
 			{
 				kind: "leaf",
+				dryRun: "preview",
 				parent: "access",
 				name: "ssh-gen",
 				dir: "access/ssh-gen",
 			},
 			{
 				kind: "leaf",
+				dryRun: "preview",
 				parent: "access",
 				name: "tcp",
 				dir: "access/tcp",
 			},
 			{
 				kind: "leaf",
+				dryRun: "preview",
 				parent: "access",
 				name: "curl",
 				dir: "access/curl",
@@ -193,6 +227,49 @@ describe("hand-written leaf commands", () => {
 		);
 		expect(generated).toContain(
 			"import $curl from '#commands/access/curl/index.js';"
+		);
+	});
+
+	it.each([
+		{ scenario: "before Preview API commands exist", leaves: [] },
+		{ scenario: "alongside a generated delete command", leaves: ["delete"] },
+	])("keeps Preview deployment $scenario", ({ leaves }) => {
+		const [registered] = handWrittenLeafCommands("previews");
+		assert(registered, "previews deploy is not registered");
+		expect(registered).toEqual({
+			kind: "leaf",
+			dryRun: "preview",
+			parent: "previews",
+			name: "deploy",
+			dir: "previews/deploy",
+		});
+		expect(
+			readHandWrittenLeafCommandMeta("previews", registered)
+		).toMatchObject({
+			command: "cf previews deploy",
+			fullPath: ["previews", "deploy"],
+		});
+		const generated = generateResourceIndexFile(
+			{
+				name: "previews",
+				description: "Schema Preview description",
+				methods: [],
+				hideCommand: false,
+			},
+			leaves,
+			[]
+		);
+		expect(generated).toContain(
+			"import $deploy from '#commands/previews/deploy/index.js';"
+		);
+		expect(generated).toContain("describe: 'Manage Worker Previews'");
+		if (leaves.length > 0) {
+			expect(generated).toContain(".command($delete)");
+		} else {
+			expect(generated).not.toContain(".command($delete)");
+		}
+		expect(generated).toContain(
+			".command(withHandWrittenDryRun($deploy, 'preview'))"
 		);
 	});
 
@@ -245,11 +322,15 @@ describe("hand-written leaf commands", () => {
 		expect(generated).toContain(
 			"import $types from '#commands/workers/types/index.js';"
 		);
-		expect(generated).toContain(".command($check)");
-		expect(generated).toContain(".command($types)");
-		expect(generated.indexOf(".command($check)")).toBeLessThan(
-			generated.indexOf(".command($versions)")
+		expect(generated).toContain(
+			".command(withHandWrittenDryRun($check, 'preview'))"
 		);
+		expect(generated).toContain(
+			".command(withHandWrittenDryRun($types, 'preview'))"
+		);
+		expect(
+			generated.indexOf(".command(withHandWrittenDryRun($check, 'preview'))")
+		).toBeLessThan(generated.indexOf(".command($versions)"));
 	});
 
 	it("splices a nested leaf into its generated group index", () => {
@@ -268,10 +349,12 @@ describe("hand-written leaf commands", () => {
 		expect(generated).toContain(
 			"import $create from '#commands/workers/versions/create/index.js';"
 		);
-		expect(generated).toContain(".command($create)");
-		expect(generated.indexOf(".command($create)")).toBeLessThan(
-			generated.indexOf(".command($delete)")
+		expect(generated).toContain(
+			".command(withHandWrittenDryRun($create, 'native'))"
 		);
+		expect(
+			generated.indexOf(".command(withHandWrittenDryRun($create, 'native'))")
+		).toBeLessThan(generated.indexOf(".command($delete)"));
 	});
 
 	it("fails clearly if the spec adds a leaf command with the same name", () => {

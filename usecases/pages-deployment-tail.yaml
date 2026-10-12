@@ -1,9 +1,0 @@
-description: "Tail logs for a Pages deployment"
-command: "wrangler pages deployment tail <deployment-id>"
-status: "gap"
-sourceCommands:
-  - "wrangler pages deployment tail <deployment-id>"
-cfReplacementFlow:
-  - "No direct cf replacement."
-notes:
-  - "This is a streaming log UX similar to wrangler tail, not simple API CRUD."

@@ -1,4 +1,4 @@
-import { describe, it } from "vitest";
+import { describe, it } from "vite-plus/test";
 
 describe.skip("containers schema", () => {
 	// These assert Wrangler's project configuration schema. cf does not parse it.

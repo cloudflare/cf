@@ -8,7 +8,8 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
-import * as CloudflareApi from "../../../index.js";
+import type * as CloudflareApi from "../../../index.js";
+import * as CloudflareApiErrors from "../../../errors/index.js";
 
 export declare namespace AccountTagsClient {
     export type Options = BaseClientOptions;
@@ -28,6 +29,9 @@ export class AccountTagsClient {
      *
      * @param {CloudflareApi.GetAccountTagsRequest} request
      * @param {AccountTagsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.accountTags.get({
@@ -111,12 +115,14 @@ export class AccountTagsClient {
     }
 
     /**
-     * Creates or updates tags for a specific account or zone-level resource.
+     * Creates or updates tags for a specific account or zone-level resource. Replaces all existing tags for the resource.
      *
      * @param {CloudflareApi.UpdateAccountTagsRequest} request
      * @param {AccountTagsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.PreconditionFailedError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.accountTags.update({
@@ -182,7 +188,7 @@ export class AccountTagsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 412:
-                    throw new CloudflareApi.PreconditionFailedError(
+                    throw new CloudflareApiErrors.PreconditionFailedError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -210,6 +216,8 @@ export class AccountTagsClient {
      * @param {AccountTagsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.PreconditionFailedError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.accountTags.delete({
@@ -272,7 +280,7 @@ export class AccountTagsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 412:
-                    throw new CloudflareApi.PreconditionFailedError(
+                    throw new CloudflareApiErrors.PreconditionFailedError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );

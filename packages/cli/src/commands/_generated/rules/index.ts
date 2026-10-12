@@ -8,8 +8,7 @@ import type { CommandModule } from "yargs";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "rules",
-	describe:
-		"Account-level IP lists, hostname lists, and other reusable lists referenced by Rulesets rules",
+	describe: "Resources used by Cloudflare rules and rulesets",
 
 	builder: (yargs) => {
 		return yargs

@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../../../cor
 import * as environments from "../../../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../../../index.js";
 
 export declare namespace AccountMappingClient {
     export type Options = BaseClientOptions;
@@ -31,6 +31,9 @@ export class AccountMappingClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.email.GetAccountMappingRequest} request
      * @param {AccountMappingClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.email.accountMapping.get({
@@ -96,6 +99,9 @@ export class AccountMappingClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.email.DlpUpdateAddinAccountMapping} request
      * @param {AccountMappingClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.email.accountMapping.create({

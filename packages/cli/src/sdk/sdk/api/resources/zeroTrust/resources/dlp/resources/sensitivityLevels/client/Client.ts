@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 
 export declare namespace SensitivityLevelsClient {
     export type Options = BaseClientOptions;
@@ -31,6 +31,9 @@ export class SensitivityLevelsClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.ListSensitivityLevelsRequest} request
      * @param {SensitivityLevelsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.sensitivityLevels.list({
@@ -100,6 +103,9 @@ export class SensitivityLevelsClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.CreateSensitivityLevelsRequest} request
      * @param {SensitivityLevelsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.sensitivityLevels.create({
@@ -173,6 +179,9 @@ export class SensitivityLevelsClient {
      * @param {CloudflareApi.zeroTrust.dlp.GetSensitivityLevelsRequest} request
      * @param {SensitivityLevelsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.dlp.sensitivityLevels.get({
      *         account_id: "account_id",
@@ -243,6 +252,9 @@ export class SensitivityLevelsClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.DlpSensitivityLevelUpdate} request
      * @param {SensitivityLevelsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.sensitivityLevels.update({
@@ -318,6 +330,9 @@ export class SensitivityLevelsClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.DeleteSensitivityLevelsRequest} request
      * @param {SensitivityLevelsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.sensitivityLevels.delete({

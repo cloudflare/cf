@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * create command
+ * @generated from apis/overlays/web3.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -9,14 +17,6 @@ import {
 	promptForRequiredField,
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * create command
- * @generated from apis/overlays/web3.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -39,6 +39,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Specify the target gateway of the hostname.",
 			choices: ["ethereum", "ipfs", "ipfs_universal_path"],
 		})
+		.coerce("target", (value) => resolveFileToken(value, "target", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -97,11 +98,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"name",
 											"text"
 										),
-										target: resolveFileToken(
-											argv["target"] as string | undefined,
-											"target",
-											"text"
-										),
+										target: argv["target"],
 									}),
 					});
 					return;
@@ -154,11 +151,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"name",
 						"text"
 					),
-					target: resolveFileToken(
-						argv["target"] as string | undefined,
-						"target",
-						"text"
-					),
+					target: argv["target"],
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.web3.hostnames.create({

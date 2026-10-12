@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkQuery, SdkRequest } from "#sdk";
+/**
+ * list command
+ * @generated from apis/overlays/email-security.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -8,14 +16,6 @@ import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
-/**
- * list command
- * @generated from apis/overlays/email-security.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -41,6 +41,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description:
 				"Deprecated, use `end` instead. End date in YYYY-MM-DD format.",
+		})
+		.option("page", {
+			type: "number",
+			description: "Current page within paginated list of results.",
+		})
+		.option("per-page", {
+			type: "number",
+			description: "The number of results per page. Maximum value is 1000.",
 		})
 		.option("dry-run", {
 			type: "boolean",
@@ -73,6 +81,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					end: argv["end"],
 					from_date: argv["from-date"],
 					to_date: argv["to-date"],
+					page: argv["page"],
+					per_page: argv["per-page"],
 				};
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();

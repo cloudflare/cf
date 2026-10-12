@@ -19,7 +19,7 @@ import * as CloudflareApi from "../../../../../../index.js";
 export interface CreateDeploymentsRequest {
     /** Identifier. */
     account_id: string;
-    /** Name of the script, used in URLs and route configuration. */
+    /** Name of the script. */
     script_name: string;
     /** If set to true, the deployment will be created even if normally blocked by something such rolling back to an older version when a secret has changed. */
     force?: boolean;

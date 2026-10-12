@@ -1,6 +1,6 @@
 import { http, HttpResponse } from "msw";
 // eslint-disable-next-line no-restricted-imports
-import { expect } from "vitest";
+import { expect } from "vite-plus/test";
 import { msw } from "../helpers/msw";
 
 // Types inlined from the original wrangler `queues/client` and

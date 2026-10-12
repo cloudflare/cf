@@ -1,9 +1,0 @@
-description: "Delete a Vectorize metadata filter index"
-command: "wrangler vectorize delete-metadata-index <index> --propertyName <name>"
-status: "direct"
-sourceCommands:
-  - "wrangler vectorize delete-metadata-index <index> --propertyName <name>"
-cfReplacementFlow:
-  - "cf vectorize metadata-index delete <index> --property-name <name> --force"
-notes:
-  - "cf should require explicit --force for destructive operations."

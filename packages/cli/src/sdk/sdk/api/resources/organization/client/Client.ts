@@ -4,11 +4,12 @@ import type { BaseClientOptions, BaseRequestOptions } from "../../../../BaseClie
 import { normalizeClientOptionsWithAuth, type NormalizedClientOptionsWithAuth } from "../../../../BaseClient.js";
 import * as core from "../../../../core/index.js";
 import { mergeHeaders } from "../../../../core/headers.js";
+import { toJson } from "../../../../core/json.js";
 import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
-import * as CloudflareApi from "../../../index.js";
+import type * as CloudflareApi from "../../../index.js";
 import { AccountClient } from "../resources/account/client/Client.js";
 import { InviteClient } from "../resources/invite/client/Client.js";
 import { MemberClient } from "../resources/member/client/Client.js";
@@ -54,10 +55,16 @@ export class OrganizationClient {
     }
 
     /**
-     * Retrieve a list of organizations a particular user has access to. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)
+     * Retrieve a list of organizations a particular user has access to.
+     *
+     * Authentication: Use a Global API key, or a User API Token with the `User Details Read` or
+     * `User Details Write` permission.
      *
      * @param {CloudflareApi.ListOrganizationRequest} request
      * @param {OrganizationClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.organization.list()
@@ -95,7 +102,13 @@ export class OrganizationClient {
             "containing.account": containingAccount,
             "containing.user": containingUser,
             "containing.organization": containingOrganization,
-            "parent.id": parentId != null ? parentId : undefined,
+            "parent.id": Array.isArray(parentId)
+                ? parentId.map((item) => (typeof item === "string" ? item : toJson(item)))
+                : parentId != null
+                  ? typeof parentId === "string"
+                      ? parentId
+                      : toJson(parentId)
+                  : undefined,
             page_token: pageToken,
             page_size: pageSize,
         };
@@ -155,10 +168,17 @@ export class OrganizationClient {
     }
 
     /**
-     * Create a new organization for a user. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)
+     * Create a new organization for a user. Sub-organization creation availability depends on
+     * the organization's capabilities.
+     *
+     * Authentication: Use a Global API key, or a User API Token with the `User Details Write`
+     * permission.
      *
      * @param {CloudflareApi.OrganizationsApiOrganization} request
      * @param {OrganizationClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.organization.create({
@@ -220,10 +240,17 @@ export class OrganizationClient {
     }
 
     /**
-     * Retrieve the details of a certain organization. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)
+     * Retrieve the details of a certain organization.
+     *
+     * Authentication: A Global API key for a user with
+     * `com.cloudflare.api.tenant.unit.read` is required. User API Tokens are not currently
+     * supported and return HTTP `403` with error code `10000`.
      *
      * @param {CloudflareApi.GetOrganizationRequest} request
      * @param {OrganizationClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.organization.get({
@@ -288,10 +315,17 @@ export class OrganizationClient {
     }
 
     /**
-     * Modify organization. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)
+     * Update an organization's name.
+     *
+     * Authentication: A Global API key for a user with
+     * `com.cloudflare.api.tenant.unit.update` is required. User API Tokens are not currently
+     * supported.
      *
      * @param {CloudflareApi.UpdateOrganizationRequest} request
      * @param {OrganizationClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.organization.update({
@@ -363,12 +397,20 @@ export class OrganizationClient {
 
     /**
      * Delete an organization. The organization MUST be empty before deleting.
-     * It must not contain any sub-organizations, accounts, members or users. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)
+     * It must not contain any sub-organizations, accounts, members or users. Sub-organization
+     * deletion availability depends on the organization's capabilities.
      *
      * **Access Control:** Restricted to enterprise organizations.
      *
+     * Authentication: A Global API key for a user with
+     * `com.cloudflare.api.tenant.unit.update` is required. User API Tokens are not currently
+     * supported.
+     *
      * @param {CloudflareApi.DeleteOrganizationRequest} request
      * @param {OrganizationClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.organization.delete({

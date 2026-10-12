@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 
 export declare namespace AclsClient {
     export type Options = BaseClientOptions;
@@ -31,6 +31,9 @@ export class AclsClient {
      *
      * @param {CloudflareApi.magicTransit.sites.ListAclsRequest} request
      * @param {AclsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.sites.acls.list({
@@ -100,6 +103,9 @@ export class AclsClient {
      *
      * @param {CloudflareApi.magicTransit.sites.MagicAclsAddSingleRequest} request
      * @param {AclsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.sites.acls.create({
@@ -177,6 +183,9 @@ export class AclsClient {
      * @param {CloudflareApi.magicTransit.sites.GetAclsRequest} request
      * @param {AclsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.sites.acls.get({
      *         account_id: "account_id",
@@ -243,6 +252,9 @@ export class AclsClient {
      *
      * @param {CloudflareApi.magicTransit.sites.UpdateAclsRequest} request
      * @param {AclsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.sites.acls.update({
@@ -315,6 +327,9 @@ export class AclsClient {
      * @param {CloudflareApi.magicTransit.sites.DeleteAclsRequest} request
      * @param {AclsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.sites.acls.delete({
      *         account_id: "account_id",
@@ -381,6 +396,9 @@ export class AclsClient {
      *
      * @param {CloudflareApi.magicTransit.sites.EditAclsRequest} request
      * @param {AclsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.sites.acls.edit({

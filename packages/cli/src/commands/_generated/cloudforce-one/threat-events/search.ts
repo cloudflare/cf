@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkQuery, SdkRequest } from "#sdk";
+/**
+ * search command
+ * @generated from apis/overlays/cloudforce-one.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -11,19 +19,11 @@ import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
-/**
- * search command
- * @generated from apis/overlays/cloudforce-one.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			'$0 cloudforce-one threat-events search\n\nUse `datasetId: ["all"]` or `datasetId: ["*"]` for the legacy all-datasets scope, `datasetId: ["analytics"]` for datasets with `isAnalytics=true`, or `datasetId: ["operational"]` for datasets with `isAnalytics=false` (limited to 50). Scope values must be used alone. When `datasetId` is unspecified, events are listed from the default Cloudforce One Threat Events dataset. To list existing datasets, use the [`List Datasets`](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/datasets/methods/list/) endpoint.'
+			"$0 cloudforce-one threat-events search\n\nUse one standalone `datasetId` scope value: 'all'/'*' or 'operational' for readable intelligence datasets (isAnalytics=false), or 'analytics' for readable analytics datasets (isAnalytics=true). Scope values query at most 50 datasets and must be used alone. When `datasetId` is unspecified, events are listed from the default Cloudforce One Threat Events dataset. To list existing datasets, use the [`List Datasets`](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/datasets/methods/list/) endpoint."
 		)
 		.option("force-refresh", { type: "boolean", description: "ForceRefresh" })
 		.option("format", {
@@ -47,13 +47,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			array: true,
 			description:
-				"Dataset UUIDs to query, or one standalone scope value: 'all'/'*' for the legacy all-datasets behavior, 'analytics' for isAnalytics=true datasets, or 'operational' for isAnalytics=false datasets. If not provided, uses the default dataset.",
+				"Dataset UUIDs to query, or one standalone scope value: 'all'/'*' or 'operational' for readable intelligence datasets (isAnalytics=false), or 'analytics' for readable analytics datasets (isAnalytics=true). Scope values query at most 50 datasets. If not provided, uses the default dataset.",
 		})
 		.option("order", {
 			type: "string",
 			description: "The order field",
 			choices: ["asc", "desc"],
 		})
+		.coerce("order", (value) => resolveFileToken(value, "order", "text"))
 		.option("order-by", { type: "string", description: "The orderBy field" })
 		.option("page", { type: "number", description: "The page field" })
 		.option("page-size", { type: "number", description: "The pageSize field" })
@@ -124,11 +125,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 										datasetId: argv["dataset-id"],
-										order: resolveFileToken(
-											argv["order"] as string | undefined,
-											"order",
-											"text"
-										),
+										order: argv["order"],
 										orderBy: resolveFileToken(
 											argv["order-by"] as string | undefined,
 											"order-by",
@@ -171,11 +168,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"text"
 					),
 					datasetId: argv["dataset-id"],
-					order: resolveFileToken(
-						argv["order"] as string | undefined,
-						"order",
-						"text"
-					),
+					order: argv["order"],
 					orderBy: resolveFileToken(
 						argv["order-by"] as string | undefined,
 						"order-by",

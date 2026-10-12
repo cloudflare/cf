@@ -1,9 +1,17 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * update command
+ * @generated from apis/overlays/zero-trust.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
 import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
@@ -14,14 +22,6 @@ import {
 	promptForRequiredField,
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * update command
- * @generated from apis/overlays/zero-trust.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -40,11 +40,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The type of test.",
 			choices: ["http", "traceroute"],
 		})
+		.coerce("data-kind", (value) =>
+			resolveFileToken(value, "data-kind", "text")
+		)
 		.option("data-method", {
 			type: "string",
 			description: "The HTTP request method type.",
 			choices: ["GET"],
 		})
+		.coerce("data-method", (value) =>
+			resolveFileToken(value, "data-method", "text")
+		)
 		.option("description", {
 			type: "string",
 			description: "Additional details about the test.",
@@ -60,6 +66,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("name", {
 			type: "string",
 			description: "The name of the DEX test. Must be unique.",
+		})
+		.option("target-policies", {
+			type: "string",
+			description:
+				"DEX rules targeted by this test. Provide as a JSON array of objects or @path/to/file.json.",
 		})
 		.option("targeted", { type: "boolean", description: "The targeted field" })
 		.option("dry-run", {
@@ -116,16 +127,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"data-host",
 												"text"
 											),
-											kind: resolveFileToken(
-												argv["data-kind"] as string | undefined,
-												"data-kind",
-												"text"
-											),
-											method: resolveFileToken(
-												argv["data-method"] as string | undefined,
-												"data-method",
-												"text"
-											),
+											kind: argv["data-kind"],
+											method: argv["data-method"],
 										},
 										description: resolveFileToken(
 											argv["description"] as string | undefined,
@@ -142,6 +145,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											argv["name"] as string | undefined,
 											"name",
 											"text"
+										),
+										target_policies: parseObjectArray(
+											argv["target-policies"],
+											"target-policies"
 										),
 										targeted: argv["targeted"],
 									}),
@@ -203,16 +210,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"data-host",
 							"text"
 						),
-						kind: resolveFileToken(
-							argv["data-kind"] as string | undefined,
-							"data-kind",
-							"text"
-						),
-						method: resolveFileToken(
-							argv["data-method"] as string | undefined,
-							"data-method",
-							"text"
-						),
+						kind: argv["data-kind"],
+						method: argv["data-method"],
 					},
 					description: resolveFileToken(
 						argv["description"] as string | undefined,
@@ -229,6 +228,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						argv["name"] as string | undefined,
 						"name",
 						"text"
+					),
+					target_policies: parseObjectArray(
+						argv["target-policies"],
+						"target-policies"
 					),
 					targeted: argv["targeted"],
 				});

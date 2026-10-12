@@ -1,9 +1,0 @@
-description: "Disable Email Routing for a zone"
-command: "wrangler email routing disable <domain>"
-status: "direct"
-sourceCommands:
-  - "wrangler email routing disable <domain>"
-cfReplacementFlow:
-  - "cf email-routing disable --zone <zone> --force"
-notes:
-  - "Use cf --force for non-interactive confirmation."

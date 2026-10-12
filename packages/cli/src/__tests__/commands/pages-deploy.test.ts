@@ -4,7 +4,7 @@ import {
 	mockConsoleMethods,
 	runInTempDir,
 } from "@cloudflare/workers-utils/test-helpers";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import { generateResourceIndexFile } from "../../../generator/emit/index-files.js";
 import {
 	handWrittenLeafCommands,
@@ -78,6 +78,7 @@ describe("pages deploy hand-written leaf", () => {
 	it("is registered against the pages product", () => {
 		expect(handWrittenLeafCommands("pages")).toContainEqual({
 			kind: "leaf",
+			dryRun: "preview",
 			parent: "pages",
 			name: "deploy",
 			dir: "pages/deploy",
@@ -117,7 +118,9 @@ describe("pages deploy hand-written leaf", () => {
 				required: false,
 			}),
 		]);
-		expect(meta.options).toEqual([]);
+		expect(meta.options).toEqual([
+			expect.objectContaining({ name: "dry-run", type: "boolean" }),
+		]);
 		expect(meta.operationId).toBeUndefined();
 	});
 });

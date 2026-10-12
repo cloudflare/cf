@@ -1,7 +1,7 @@
 /**
  * Single source of truth for the CLI version at runtime.
  *
- * JSON imports are statically inlined by both tsdown/rolldown (bundled
+ * JSON imports are statically inlined by Vite+ Pack/Rolldown (bundled
  * output) and Node/tsx (dev), so there is no need for a build-time
  * `define` sentinel or a runtime `createRequire` fallback.
  *

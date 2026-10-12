@@ -8,7 +8,8 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
+import * as CloudflareApiErrors from "../../../../../errors/index.js";
 import { ContentClient } from "../resources/content/client/Client.js";
 import { VersionsClient } from "../resources/versions/client/Client.js";
 
@@ -40,6 +41,9 @@ export class TransformersClient {
      *
      * @param {CloudflareApi.logpush.ListTransformersRequest} request
      * @param {TransformersClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.logpush.transformers.list({
@@ -108,6 +112,9 @@ export class TransformersClient {
      *
      * @param {CloudflareApi.logpush.LogpushTransformerCreateRequest} request
      * @param {TransformersClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.logpush.transformers.create({
@@ -178,6 +185,9 @@ export class TransformersClient {
      *
      * @param {CloudflareApi.logpush.LogpushTransformerPreviewRequest} request
      * @param {TransformersClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.logpush.transformers.preview({
@@ -257,6 +267,9 @@ export class TransformersClient {
      * @param {CloudflareApi.logpush.GetTransformersRequest} request
      * @param {TransformersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.logpush.transformers.get({
      *         account_id: "account_id",
@@ -322,6 +335,9 @@ export class TransformersClient {
      *
      * @param {CloudflareApi.logpush.LogpushTransformerUpdateRequest} request
      * @param {TransformersClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.logpush.transformers.update({
@@ -394,6 +410,8 @@ export class TransformersClient {
      * @param {TransformersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.ConflictError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.logpush.transformers.delete({
@@ -445,7 +463,7 @@ export class TransformersClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 409:
-                    throw new CloudflareApi.ConflictError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.ConflictError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,

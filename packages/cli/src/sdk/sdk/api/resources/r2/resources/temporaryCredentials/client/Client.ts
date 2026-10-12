@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace TemporaryCredentialsClient {
     export type Options = BaseClientOptions;
@@ -28,6 +28,9 @@ export class TemporaryCredentialsClient {
      *
      * @param {CloudflareApi.r2.R2TempAccessCredsRequest} request
      * @param {TemporaryCredentialsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.r2.temporaryCredentials.create({

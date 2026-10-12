@@ -3,15 +3,15 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"build:fixture": "vite build",
-		"check:type": "tsgo --noEmit"
+		"build:fixture": "vp build",
+		"check:type": "vp run task:check:type"
 	},
 	"devDependencies": {
-		"@cloudflare/vite-plugin": "2.0.0-beta.sha-805ec1ff3",
-		"@cloudflare/workers-types": "5.20260927.1",
+		"@cloudflare/vite-plugin": "2.0.0-beta.sha-91c870c02",
+		"@cloudflare/workers-types": "5.20261003.1",
 		"@typescript/native-preview": "latest",
 		"cf": "workspace:*",
-		"vite": "8.3.0",
-		"wrangler": "4.143.0"
+		"vite": "catalog:",
+		"wrangler": "4.149.0"
 	}
 }

@@ -5,13 +5,14 @@ import {
 	triggersDeploy,
 } from "@cloudflare/deploy-helpers";
 import { getCloudflareComplianceRegion } from "@cloudflare/workers-utils";
-import { getAccountId, getAuthToken } from "../../../lib/auth.js";
+import { getAuthToken } from "../../../lib/auth-token.js";
 import {
 	buildOutputWorkerOption,
 	parseWorkerConfig,
 	selectBuildOutputWorker,
 	validateBuildOutputMode,
 } from "../../../lib/build-output.js";
+import { getAccountId } from "../../../lib/context.js";
 import { createDeployContext } from "../../../lib/deploy-context.js";
 import { createTriggerProps } from "../../../lib/deploy-input.js";
 import { withCloudflareDotEnv } from "../../../lib/dotenv.js";
@@ -22,6 +23,9 @@ import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
+		.hide("local")
+		.hide("persist-to")
+		.epilogue("Local simulation (--local) is not supported by this command.")
 		.option("prebuilt", {
 			type: "boolean",
 			description:
@@ -46,8 +50,21 @@ const triggersDeployCommand: CommandModule<
 	describe: "Apply triggers (Routes, Workflows, Cron triggers etc.)",
 	builder,
 	handler: async (argv) => {
+		if (argv.local) {
+			throw new Error(
+				"--local is not supported by cf workers triggers deploy."
+			);
+		}
+
 		if (!argv.prebuilt) {
-			await runBuild(argv.mode, { worker: argv.worker });
+			const build = await runBuild(argv.mode, {
+				worker: argv.worker,
+				dryRun: argv["dry-run"],
+			});
+			if (build === "setup-needed") {
+				clack.log.success("--dry-run: exiting now.");
+				return;
+			}
 			clack.log.message("", { spacing: 0 });
 		}
 
@@ -91,9 +108,9 @@ async function deployTriggers(argv: TriggersDeployArgs): Promise<void> {
 	await triggersDeploy(
 		createTriggerProps(worker, wranglerConfig, accountId, argv)
 	);
-	clack.log.success(
-		argv["dry-run"] ? "Dry run complete" : "Trigger deploy complete"
-	);
+	if (!argv["dry-run"]) {
+		clack.log.success("Trigger deploy complete");
+	}
 }
 
 export default triggersDeployCommand;

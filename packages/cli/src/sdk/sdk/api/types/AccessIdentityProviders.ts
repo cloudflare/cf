@@ -17,4 +17,5 @@ export type AccessIdentityProviders =
     | CloudflareApi.AccessSaml
     | CloudflareApi.AccessYandex
     | CloudflareApi.AccessOnetimepin
-    | CloudflareApi.AccessCloudflare;
+    | CloudflareApi.AccessCloudflare
+    | CloudflareApi.AccessPasskeys;

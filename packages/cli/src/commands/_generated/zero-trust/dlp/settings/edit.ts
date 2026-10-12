@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * edit command
+ * @generated from apis/overlays/zero-trust.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -10,14 +18,6 @@ import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * edit command
- * @generated from apis/overlays/zero-trust.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -39,6 +39,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Masking level for payload logs.\n\n- `full`: The entire payload is masked.\n- `partial`: Only partial payload content is masked.\n- `clear`: No masking is applied to the payload content.\n- `default`: DLP uses its default masking behavior.",
 			choices: ["full", "partial", "clear", "default"],
 		})
+		.coerce("payload-logging-masking-level", (value) =>
+			resolveFileToken(value, "payload-logging-masking-level", "text")
+		)
 		.option("payload-logging-public-key", {
 			type: "string",
 			description:
@@ -94,13 +97,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										ai_context_analysis: argv["ai-context-analysis"],
 										ocr: argv["ocr"],
 										payload_logging: {
-											masking_level: resolveFileToken(
-												argv["payload-logging-masking-level"] as
-													| string
-													| undefined,
-												"payload-logging-masking-level",
-												"text"
-											),
+											masking_level: argv["payload-logging-masking-level"],
 											public_key: resolveFileToken(
 												argv["payload-logging-public-key"] as
 													| string
@@ -134,11 +131,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					ai_context_analysis: argv["ai-context-analysis"],
 					ocr: argv["ocr"],
 					payload_logging: {
-						masking_level: resolveFileToken(
-							argv["payload-logging-masking-level"] as string | undefined,
-							"payload-logging-masking-level",
-							"text"
-						),
+						masking_level: argv["payload-logging-masking-level"],
 						public_key: resolveFileToken(
 							argv["payload-logging-public-key"] as string | undefined,
 							"payload-logging-public-key",

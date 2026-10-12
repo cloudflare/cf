@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * update command
+ * @generated from apis/overlays/cache.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import { createCommandClient, getZoneId } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -9,14 +17,6 @@ import {
 	promptForRequiredField,
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * update command
- * @generated from apis/overlays/cache.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -39,6 +39,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Cloud vendor hosting the origin. Must be one of the supported vendors.",
 			choices: ["aws", "azure", "gcp", "oci"],
 		})
+		.coerce("vendor", (value) => resolveFileToken(value, "vendor", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -89,11 +90,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"region",
 											"text"
 										),
-										vendor: resolveFileToken(
-											argv["vendor"] as string | undefined,
-											"vendor",
-											"text"
-										),
+										vendor: argv["vendor"],
 									}),
 					});
 					return;
@@ -137,11 +134,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"region",
 						"text"
 					),
-					vendor: resolveFileToken(
-						argv["vendor"] as string | undefined,
-						"vendor",
-						"text"
-					),
+					vendor: argv["vendor"],
 				});
 				const result = await withProgress(`Updating`, async () =>
 					client.cache.originCloudRegions.update({

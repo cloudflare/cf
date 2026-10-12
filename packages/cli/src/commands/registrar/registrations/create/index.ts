@@ -1,3 +1,13 @@
+import { withTelemetry } from "../../../../lib/telemetry/index.js";
+import {
+	requireRegistrationAvailability,
+	type RegistrationPricing,
+} from "./availability.js";
+import { resolveRegistrationSchema } from "./extension.js";
+import { renderRegistrationReview } from "./review.js";
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { FlagDescriptor, JsonSchema } from "#lib/schema-flags.js";
+import type { Argv, CommandModule } from "yargs";
 /**
  * Hand-written because registration fields come from a per-extension schema
  * outside the OpenAPI spec.
@@ -35,16 +45,6 @@ import {
 	validateJsonSchema,
 } from "#lib/schema-flags.js";
 import { theme } from "#lib/ui/theme.js";
-import { withTelemetry } from "../../../../lib/telemetry/index.js";
-import {
-	requireRegistrationAvailability,
-	type RegistrationPricing,
-} from "./availability.js";
-import { resolveRegistrationSchema } from "./extension.js";
-import { renderRegistrationReview } from "./review.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { FlagDescriptor, JsonSchema } from "#lib/schema-flags.js";
-import type { Argv, CommandModule } from "yargs";
 
 /** The domain is cf's positional, not a schema-derived flag. */
 const DOMAIN_FIELD = ["domain_name"];

@@ -29,7 +29,7 @@ export interface ListInvestigateRequest {
     detections_only?: boolean;
     /** Dispositions to filter by. */
     final_disposition?: CloudflareApi.emailSecurity.ListInvestigateRequestFinalDisposition;
-    /** Metric to aggregate the results by, as used by the Email Security dashboard. */
+    /** Metric to aggregate the results by. */
     metric?: string;
     /** Message actions to filter by. */
     message_action?: CloudflareApi.emailSecurity.ListInvestigateRequestMessageAction;
@@ -49,7 +49,7 @@ export interface ListInvestigateRequest {
     subject?: string;
     /** Delivery status to filter by. */
     delivery_status?: CloudflareApi.EmailSecurityMessageDeliveryStatus;
-    /** Opaque cursor from a previous response's `result_info.next` or `result_info.previous` for cursor-based pagination. When omitted, the first page is returned. */
+    /** Pagination cursor from the previous response's `result_info`. */
     cursor?: string;
     /** The number of results per page. Maximum value is 1000. */
     per_page?: number;

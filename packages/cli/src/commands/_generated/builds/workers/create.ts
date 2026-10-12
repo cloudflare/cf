@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * create command
+ * @generated from apis/overlays/builds.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -14,14 +22,6 @@ import {
 	promptForRequiredField,
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * create command
- * @generated from apis/overlays/builds.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -47,6 +47,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The git_repository.provider_type field",
 			choices: ["github", "gitlab", "gitlab_internal", "origin"],
 		})
+		.coerce("git-repository-provider-type", (value) =>
+			resolveFileToken(value, "git-repository-provider-type", "text")
+		)
 		.option("git-repository-repo-id", {
 			type: "string",
 			description: "Provider-specific repository identifier.",
@@ -58,6 +61,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("git-repository-grant-id", {
 			type: "string",
 			description: "Grant ID required for grant-backed providers",
+		})
+		.option("previews-base-config-build-caching-enabled", {
+			type: "boolean",
+			description:
+				"Whether builds reuse cached dependencies and build artifacts.",
+			default: true,
 		})
 		.option("previews-base-config-build-command", {
 			type: "string",
@@ -81,9 +90,21 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			array: true,
 			description: "Path patterns that can start builds.",
 		})
+		.option("previews-base-config-root-directory", {
+			type: "string",
+			description:
+				"Repository directory in which build and deploy commands run.",
+			default: "/",
+		})
 		.option("previews-enabled", {
 			type: "boolean",
 			description: "Whether Previews are enabled for this Worker",
+		})
+		.option("production-settings-build-caching-enabled", {
+			type: "boolean",
+			description:
+				"Whether builds reuse cached dependencies and build artifacts.",
+			default: true,
 		})
 		.option("production-settings-build-command", {
 			type: "string",
@@ -106,6 +127,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			array: true,
 			description: "Path patterns that can start builds.",
+		})
+		.option("production-settings-root-directory", {
+			type: "string",
+			description:
+				"Repository directory in which build and deploy commands run.",
+			default: "/",
 		})
 		.option("script-tag", {
 			type: "string",
@@ -139,7 +166,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				classification: {
 					safeFlags: [
 						"git-repository-provider-type",
+						"previews-base-config-build-caching-enabled",
 						"previews-enabled",
+						"production-settings-build-caching-enabled",
 						"dry-run",
 					],
 				} satisfies ArgClassification<Args>,
@@ -178,13 +207,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"git-repository-provider-account-name",
 												"text"
 											),
-											provider_type: resolveFileToken(
-												argv["git-repository-provider-type"] as
-													| string
-													| undefined,
-												"git-repository-provider-type",
-												"text"
-											),
+											provider_type: argv["git-repository-provider-type"],
 											repo_id: resolveFileToken(
 												argv["git-repository-repo-id"] as string | undefined,
 												"git-repository-repo-id",
@@ -202,6 +225,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											),
 										},
 										previews_base_config: {
+											build_caching_enabled:
+												argv["previews-base-config-build-caching-enabled"],
 											build_command: resolveFileToken(
 												argv["previews-base-config-build-command"] as
 													| string
@@ -225,9 +250,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											),
 											path_excludes: argv["previews-base-config-path-excludes"],
 											path_includes: argv["previews-base-config-path-includes"],
+											root_directory: resolveFileToken(
+												argv["previews-base-config-root-directory"] as
+													| string
+													| undefined,
+												"previews-base-config-root-directory",
+												"text"
+											),
 										},
 										previews_enabled: argv["previews-enabled"],
 										production_settings: {
+											build_caching_enabled:
+												argv["production-settings-build-caching-enabled"],
 											build_command: resolveFileToken(
 												argv["production-settings-build-command"] as
 													| string
@@ -251,6 +285,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											),
 											path_excludes: argv["production-settings-path-excludes"],
 											path_includes: argv["production-settings-path-includes"],
+											root_directory: resolveFileToken(
+												argv["production-settings-root-directory"] as
+													| string
+													| undefined,
+												"production-settings-root-directory",
+												"text"
+											),
 										},
 										script_tag: resolveFileToken(
 											argv["script-tag"] as string | undefined,
@@ -390,11 +431,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"git-repository-provider-account-name",
 							"text"
 						),
-						provider_type: resolveFileToken(
-							argv["git-repository-provider-type"] as string | undefined,
-							"git-repository-provider-type",
-							"text"
-						),
+						provider_type: argv["git-repository-provider-type"],
 						repo_id: resolveFileToken(
 							argv["git-repository-repo-id"] as string | undefined,
 							"git-repository-repo-id",
@@ -412,6 +449,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						),
 					},
 					previews_base_config: {
+						build_caching_enabled:
+							argv["previews-base-config-build-caching-enabled"],
 						build_command: resolveFileToken(
 							argv["previews-base-config-build-command"] as string | undefined,
 							"previews-base-config-build-command",
@@ -431,9 +470,16 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						),
 						path_excludes: argv["previews-base-config-path-excludes"],
 						path_includes: argv["previews-base-config-path-includes"],
+						root_directory: resolveFileToken(
+							argv["previews-base-config-root-directory"] as string | undefined,
+							"previews-base-config-root-directory",
+							"text"
+						),
 					},
 					previews_enabled: argv["previews-enabled"],
 					production_settings: {
+						build_caching_enabled:
+							argv["production-settings-build-caching-enabled"],
 						build_command: resolveFileToken(
 							argv["production-settings-build-command"] as string | undefined,
 							"production-settings-build-command",
@@ -453,6 +499,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						),
 						path_excludes: argv["production-settings-path-excludes"],
 						path_includes: argv["production-settings-path-includes"],
+						root_directory: resolveFileToken(
+							argv["production-settings-root-directory"] as string | undefined,
+							"production-settings-root-directory",
+							"text"
+						),
 					},
 					script_tag: resolveFileToken(
 						argv["script-tag"] as string | undefined,

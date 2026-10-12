@@ -1,15 +1,3 @@
-import {
-	createCommandClient,
-	getAccountId,
-	resolveAccountIdSilent,
-} from "#lib/auth.js";
-import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { resolveFileToken } from "#lib/input-validation.js";
-import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 import type { SdkQuery, SdkRequest } from "#sdk";
@@ -18,6 +6,19 @@ import type { SdkQuery, SdkRequest } from "#sdk";
  * @generated from apis/overlays/browser-run.ts
  */
 import type { Argv, CommandModule } from "yargs";
+import {
+	createCommandClient,
+	getAccountId,
+	resolveAccountIdSilent,
+} from "#lib/auth.js";
+import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
+import { withArgTypes } from "#lib/cli-types.js";
+import { formatDryRun } from "#lib/dry-run.js";
+import { resolveFileToken } from "#lib/input-validation.js";
+import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
+import { formatOutput } from "#lib/output.js";
+import { withProgress } from "#lib/progress.js";
+import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -27,6 +28,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("cache-ttl", {
 			type: "number",
 			description: "Cache TTL default is 5s. Set to 0 to disable.",
+		})
+		.option("browser", {
+			type: "string",
+			description:
+				"Rendering backend. Set to `kitesurf` to use Kitesurf (beta).",
+			choices: ["kitesurf"],
 		})
 		.option("action-timeout", {
 			type: "number",
@@ -224,22 +231,29 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		});
 }
 
-type Args = InferArgs<typeof builder>;
-
 type Request = SdkRequest<"brapi-post_Scrape">;
 type Body = Request["body"];
 type Query = SdkQuery<"brapi-post_Scrape">;
 
+const typedBuilder = withArgTypes<
+	{
+		browser: Query["browser"];
+	},
+	typeof builder
+>(builder);
+
+type Args = InferArgs<typeof typedBuilder>;
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "scrape",
 	describe: "Scrape elements.",
-	builder,
+	builder: typedBuilder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
 			{
 				command: "browser-run quick-action scrape",
 				classification: {
 					safeFlags: [
+						"browser",
 						"best-attempt",
 						"set-java-script-enabled",
 						"viewport-has-touch",
@@ -255,6 +269,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			async () => {
 				const queryParams: Query = {
 					cacheTTL: argv["cache-ttl"],
+					browser: argv["browser"],
 				};
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
@@ -353,6 +368,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										},
 										waitForTimeout: argv["wait-for-timeout"],
 									}),
+						sensitiveBodyPaths: [["authenticate", "password"]],
 					});
 					return;
 				}

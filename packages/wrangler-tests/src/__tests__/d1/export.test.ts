@@ -1,5 +1,5 @@
 import { http, HttpResponse } from "msw";
-import { describe, it } from "vitest";
+import { describe, it } from "vite-plus/test";
 import { mockAccountId, mockApiToken } from "../helpers/mock-account-id";
 import { mockConsoleMethods } from "../helpers/mock-console";
 import { useMockIsTTY } from "../helpers/mock-istty";
@@ -62,7 +62,7 @@ describe("export", () => {
 	it.skip("should skip confirmation when --skip-confirmation flag is used", async () => {});
 	it.skip("should handle remote presigned URL errors", async () => {});
 	it.skip("should export locally without database_id", async () => {});
-	it.skip("should not export remotely without database_id", async () => {});
+	it.skip("should fail when database_id absent from config and not found in API", async () => {});
 	it.skip("should handle multiple tables", async () => {});
 
 	// cf-native coverage: a single POST against the export endpoint
@@ -70,7 +70,9 @@ describe("export", () => {
 	// (positional databaseId, --output-format=polling, body assembled
 	// from --dump-options-* flags) and that the response is printed
 	// verbatim.
-	it("should POST to the export endpoint and print the polling response", async ({
+	// Forge now explicitly ignores the D1 import/export operations, so cf no
+	// longer exposes this API-only approximation of Wrangler's polling flow.
+	it.skip("should POST to the export endpoint and print the polling response", async ({
 		expect,
 	}) => {
 		setIsTTY(false);

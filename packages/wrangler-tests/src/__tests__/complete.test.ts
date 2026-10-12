@@ -1,4 +1,4 @@
-import { describe, test } from "vitest";
+import { describe, test } from "vite-plus/test";
 
 // Tests wrangler's tab-completion subsystem. cf has its own
 // (`cf complete`, also backed by `@bomb.sh/tab` since this refactor).
@@ -27,13 +27,13 @@ describe("wrangler", () => {
 		describe.each(shells)("%s", () => {
 			test.skip("should output valid shell script");
 
-			test.skip("should reference cf complete");
+			test.skip("should reference wrangler complete");
 		});
 
 		describe("bash", () => {
 			test.skip("should generate valid bash syntax");
 
-			test.skip("should define completion function");
+			test.skip("should define __wrangler_complete function");
 
 			test.skip("should register completion with complete builtin");
 		});
@@ -43,7 +43,7 @@ describe("wrangler", () => {
 
 			test.skip("should start with #compdef directive");
 
-			test.skip("should define completion function");
+			test.skip("should define _wrangler function");
 
 			test.skip("should register with compdef");
 		});
@@ -51,7 +51,7 @@ describe("wrangler", () => {
 		describe("fish", () => {
 			test.skip("should generate valid fish syntax");
 
-			test.skip("should define completion helper function");
+			test.skip("should define __wrangler_perform_completion function");
 
 			test.skip("should register completion with complete builtin");
 

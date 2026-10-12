@@ -1,11 +1,3 @@
-import { createCommandClient } from "#lib/auth.js";
-import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { resolveFileToken } from "#lib/input-validation.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { promptForRequiredField } from "#lib/prompt.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 import type { SdkRequest } from "#sdk";
@@ -14,6 +6,14 @@ import type { SdkRequest } from "#sdk";
  * @generated from apis/overlays/cloudforce-one.ts
  */
 import type { Argv, CommandModule } from "yargs";
+import { createCommandClient } from "#lib/auth.js";
+import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
+import { formatDryRun } from "#lib/dry-run.js";
+import { resolveFileToken } from "#lib/input-validation.js";
+import { formatOutput } from "#lib/output.js";
+import { withProgress } from "#lib/progress.js";
+import { promptForRequiredField } from "#lib/prompt.js";
+import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -66,11 +66,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The source.resourceType field",
 			choices: ["article"],
 		})
+		.coerce("source-resource-type", (value) =>
+			resolveFileToken(value, "source-resource-type", "text")
+		)
 		.option("source-system", {
 			type: "string",
 			description: "The source.system field",
 			choices: ["threat-signals"],
 		})
+		.coerce("source-system", (value) =>
+			resolveFileToken(value, "source-system", "text")
+		)
 		.option("source-title", {
 			type: "string",
 			description:
@@ -222,16 +228,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"source-resource-id",
 												"text"
 											),
-											resourceType: resolveFileToken(
-												argv["source-resource-type"] as string | undefined,
-												"source-resource-type",
-												"text"
-											),
-											system: resolveFileToken(
-												argv["source-system"] as string | undefined,
-												"source-system",
-												"text"
-											),
+											resourceType: argv["source-resource-type"],
+											system: argv["source-system"],
 											title: resolveFileToken(
 												argv["source-title"] as string | undefined,
 												"source-title",
@@ -357,16 +355,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"source-resource-id",
 							"text"
 						),
-						resourceType: resolveFileToken(
-							argv["source-resource-type"] as string | undefined,
-							"source-resource-type",
-							"text"
-						),
-						system: resolveFileToken(
-							argv["source-system"] as string | undefined,
-							"source-system",
-							"text"
-						),
+						resourceType: argv["source-resource-type"],
+						system: argv["source-system"],
 						title: resolveFileToken(
 							argv["source-title"] as string | undefined,
 							"source-title",

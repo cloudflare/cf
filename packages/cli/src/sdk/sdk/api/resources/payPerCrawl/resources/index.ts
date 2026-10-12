@@ -3,7 +3,6 @@ export * from "./config/client/requests/index.js";
 export * as crawler from "./crawler/index.js";
 export * as crawlers from "./crawlers/index.js";
 export * from "./crawlers/client/requests/index.js";
-export * as payPerUse from "./payPerUse/index.js";
 export * as publisher from "./publisher/index.js";
 export * as terms from "./terms/index.js";
 export * from "./terms/client/requests/index.js";

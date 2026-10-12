@@ -1,6 +1,4 @@
 #!/usr/bin/env node
-/* oxlint-disable turbo/no-undeclared-env-vars -- standalone automation, not a turbo task */
-import { execFileSync, spawnSync } from "node:child_process";
 import {
 	mkdirSync,
 	mkdtempSync,
@@ -10,12 +8,13 @@ import {
 } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
+import timers from "node:timers/promises";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { x } from "tinyexec";
 
 const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(SCRIPT_DIR, "..");
 const GENERATOR_PATH = join(REPO_ROOT, "packages/cli/generate.ts");
-const CHANGESET_PATH = join(REPO_ROOT, ".changeset/update-forge.md");
 const FORGE_REPOSITORY = "cloudflare/forge";
 const OPENAPI_ASSET = "openapi.forge.json";
 const OPENAPI_VERSION_PATTERN =
@@ -29,8 +28,20 @@ const BASE_BRANCH = process.env.BASE_BRANCH ?? "main";
 const GITHUB_API_URL = process.env.GITHUB_API_URL ?? "https://api.github.com";
 const GITHUB_SERVER_URL = process.env.GITHUB_SERVER_URL ?? "https://github.com";
 const CF_GITHUB_TOKEN = process.env.GH_TOKEN ?? process.env.GITHUB_TOKEN;
-const FORGE_GITHUB_TOKEN =
-	process.env.FORGE_GITHUB_TOKEN ?? process.env.GITHUB_TOKEN;
+const GITHUB_ATTEMPTS = 3;
+const GITHUB_TIMEOUT_MS = 30_000;
+const TRANSIENT_ERROR_CODES = new Set([
+	"ECONNRESET",
+	"ECONNREFUSED",
+	"EAI_AGAIN",
+	"ETIMEDOUT",
+	"ENETUNREACH",
+	"EHOSTUNREACH",
+	"UND_ERR_SOCKET",
+	"UND_ERR_CONNECT_TIMEOUT",
+	"UND_ERR_HEADERS_TIMEOUT",
+	"UND_ERR_BODY_TIMEOUT",
+]);
 
 type JsonObject = Record<string, unknown>;
 type UpdatePullRequest = { number: number; headSha: string };
@@ -44,32 +55,66 @@ function isObject(value: unknown): value is JsonObject {
 	return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
-function run(
+function subprocessEnvironment(
+	environment: NodeJS.ProcessEnv
+): NodeJS.ProcessEnv {
+	// tinyexec merges env into process.env. Explicitly unset omitted keys so
+	// sanitized Forge environments cannot regain the cf credentials.
+	const normalizeKey = (key: string) =>
+		process.platform === "win32" ? key.toUpperCase() : key;
+	const values = new Map<string, string | undefined>();
+	for (const key of Object.keys(environment).sort()) {
+		const normalized = normalizeKey(key);
+		if (!values.has(normalized)) {
+			values.set(normalized, environment[key]);
+		}
+	}
+	const keys = new Set([
+		...Object.keys(process.env),
+		...Object.keys(environment),
+	]);
+	return Object.fromEntries(
+		[...keys].map((key) => [key, values.get(normalizeKey(key))])
+	);
+}
+
+export async function run(
 	command: string,
 	args: string[],
 	options: { cwd?: string; env?: NodeJS.ProcessEnv } = {}
-): void {
-	execFileSync(command, args, {
-		cwd: options.cwd ?? REPO_ROOT,
-		env: options.env ?? process.env,
-		stdio: "inherit",
+): Promise<void> {
+	// Let fetch's socket events and idle timers run during builds. tinyexec also
+	// resolves package-manager shims on Windows without shell argument quoting.
+	await x(command, args, {
+		throwOnError: true,
+		nodeOptions: {
+			cwd: options.cwd ?? REPO_ROOT,
+			env: subprocessEnvironment(options.env ?? process.env),
+			stdio: "inherit",
+		},
 	});
 }
 
-function output(command: string, args: string[], cwd = REPO_ROOT): string {
-	return execFileSync(command, args, {
-		cwd,
-		encoding: "utf8",
-		stdio: ["ignore", "pipe", "inherit"],
-	}).trim();
+async function output(
+	command: string,
+	args: string[],
+	cwd = REPO_ROOT,
+	environment: NodeJS.ProcessEnv = process.env
+): Promise<string> {
+	const result = await x(command, args, {
+		throwOnError: true,
+		nodeOptions: {
+			cwd,
+			env: subprocessEnvironment(environment),
+			stdio: ["ignore", "pipe", "inherit"],
+		},
+	});
+	return result.stdout.trim();
 }
 
-function githubGitEnvironment(
-	token: string,
-	environment: NodeJS.ProcessEnv = process.env
-): NodeJS.ProcessEnv {
+function githubGitEnvironment(token: string): NodeJS.ProcessEnv {
 	return {
-		...environment,
+		...process.env,
 		GIT_CONFIG_COUNT: "1",
 		GIT_CONFIG_KEY_0: "http.https://github.com/.extraheader",
 		GIT_CONFIG_VALUE_0: `AUTHORIZATION: basic ${Buffer.from(
@@ -78,12 +123,12 @@ function githubGitEnvironment(
 	};
 }
 
-function inferRepository(): string {
+async function inferRepository(): Promise<string> {
 	if (process.env.GITHUB_REPOSITORY) {
 		return process.env.GITHUB_REPOSITORY;
 	}
 
-	const remote = output("git", ["remote", "get-url", "origin"]);
+	const remote = await output("git", ["remote", "get-url", "origin"]);
 	const match = remote.match(/github\.com[/:]([^/]+\/[^/]+?)(?:\.git)?$/);
 	if (!match?.[1]) {
 		throw new Error(`Could not infer GitHub repository from origin: ${remote}`);
@@ -93,19 +138,108 @@ function inferRepository(): string {
 
 async function githubJson(
 	path: string,
-	init: RequestInit = {},
-	token = CF_GITHUB_TOKEN
+	init: RequestInit = {}
 ): Promise<unknown> {
-	const response = await githubResponse(path, init, token);
-	return response.status === 204 ? undefined : response.json();
+	return githubRequest(
+		path,
+		init,
+		CF_GITHUB_TOKEN,
+		"application/vnd.github+json",
+		readJson
+	);
 }
 
-async function githubResponse(
+export async function githubResponse(
 	path: string,
 	init: RequestInit = {},
-	token = CF_GITHUB_TOKEN,
+	token?: string,
 	accept = "application/vnd.github+json"
 ): Promise<Response> {
+	return githubRequest(path, init, token, accept, async (response) => response);
+}
+
+function readJson(response: Response): Promise<unknown> {
+	return response.status === 204 ? Promise.resolve(undefined) : response.json();
+}
+
+class GitHubRequestError extends Error {
+	readonly retryable: boolean;
+
+	constructor(message: string, retryable: boolean, cause?: unknown) {
+		super(message, { cause });
+		this.name = "GitHubRequestError";
+		this.retryable = retryable;
+	}
+}
+
+function isTransientTransportError(error: unknown): boolean {
+	if (!isObject(error)) {
+		return false;
+	}
+	if (typeof error.code === "string") {
+		return TRANSIENT_ERROR_CODES.has(error.code);
+	}
+	if (error.cause !== undefined) {
+		return isTransientTransportError(error.cause);
+	}
+	if (error instanceof AggregateError) {
+		return error.errors.some(isTransientTransportError);
+	}
+	return (
+		error instanceof Error &&
+		(error.name === "TimeoutError" ||
+			(error instanceof TypeError &&
+				["fetch failed", "terminated"].includes(error.message)))
+	);
+}
+
+export function formatError(error: unknown, seen = new Set<unknown>()): string {
+	if (!isObject(error)) {
+		return String(error);
+	}
+	if (seen.has(error)) {
+		return "[circular error cause]";
+	}
+	seen.add(error);
+	const name = typeof error.name === "string" ? error.name : "Error";
+	const message =
+		typeof error.message === "string" ? error.message : "Unknown error";
+	const code = typeof error.code === "string" ? ` (${error.code})` : "";
+	const details = [`${name}: ${message}${code}`];
+	if (error.cause !== undefined) {
+		details.push(`Caused by: ${formatError(error.cause, seen)}`);
+	}
+	if (error instanceof AggregateError) {
+		for (const nested of error.errors) {
+			details.push(`Caused by: ${formatError(nested, seen)}`);
+		}
+	}
+	// Select error fields explicitly: subprocess errors can also contain env
+	// credentials, and fetch errors can contain request headers or bodies.
+	return details.join("\n");
+}
+
+async function waitToRetry(error: unknown, attempt: number): Promise<void> {
+	const milliseconds = 1000 * 2 ** (attempt - 1);
+	console.warn(
+		`${formatError(error)}\nRetrying after ${milliseconds} ms (attempt ${attempt + 1}/${GITHUB_ATTEMPTS}).`
+	);
+	await timers.setTimeout(milliseconds);
+}
+
+async function githubRequest<T>(
+	path: string,
+	init: RequestInit,
+	token: string | undefined,
+	accept: string,
+	readResponse: (response: Response) => Promise<T>
+): Promise<T> {
+	const method = (init.method ?? "GET").toUpperCase();
+	// Our PATCH requests assign absolute PR fields and can be repeated. PR
+	// creation needs reconciliation before a POST can be repeated.
+	const attempts = ["GET", "HEAD", "PATCH"].includes(method)
+		? GITHUB_ATTEMPTS
+		: 1;
 	const headers = new Headers(init.headers);
 	headers.set("Accept", accept);
 	headers.set("X-GitHub-Api-Version", "2022-11-28");
@@ -117,17 +251,40 @@ async function githubResponse(
 		headers.set("Content-Type", "application/json");
 	}
 
-	const response = await fetch(`${GITHUB_API_URL}${path}`, {
-		...init,
-		headers,
-	});
-	if (!response.ok) {
-		const detail = await response.text();
-		throw new Error(
-			`GitHub API ${init.method ?? "GET"} ${path} failed (${response.status} ${response.statusText}): ${detail}`
-		);
+	for (let attempt = 1; ; attempt++) {
+		try {
+			const timeout = AbortSignal.timeout(GITHUB_TIMEOUT_MS);
+			const signal = init.signal
+				? AbortSignal.any([init.signal, timeout])
+				: timeout;
+			const response = await fetch(`${GITHUB_API_URL}${path}`, {
+				...init,
+				headers,
+				signal,
+			});
+			if (!response.ok) {
+				const detail = await response.text();
+				throw new GitHubRequestError(
+					`GitHub API ${method} ${path} failed (${response.status} ${response.statusText}): ${detail}`,
+					false
+				);
+			}
+			return await readResponse(response);
+		} catch (cause) {
+			const error =
+				cause instanceof GitHubRequestError
+					? cause
+					: new GitHubRequestError(
+							`GitHub API ${method} ${path} failed`,
+							!init.signal?.aborted && isTransientTransportError(cause),
+							cause
+						);
+			if (!error.retryable || attempt >= attempts) {
+				throw error;
+			}
+			await waitToRetry(error, attempt);
+		}
 	}
-	return response;
 }
 
 function extractOpenApiVersion(source: string, label: string): string {
@@ -138,15 +295,17 @@ function extractOpenApiVersion(source: string, label: string): string {
 	return match[1];
 }
 
-async function getLatestForgeRelease(): Promise<{
+export async function getLatestForgeRelease(): Promise<{
 	tag: string;
 	version: string;
 	assetId: number;
 }> {
-	const release = await githubJson(
+	const release = await githubRequest(
 		`/repos/${FORGE_REPOSITORY}/releases/latest`,
 		{},
-		FORGE_GITHUB_TOKEN
+		undefined,
+		"application/vnd.github+json",
+		readJson
 	);
 	if (!isObject(release) || typeof release.tag_name !== "string") {
 		throw new Error("Latest Forge release has no tag_name");
@@ -172,17 +331,38 @@ async function getLatestForgeRelease(): Promise<{
 	return { tag: release.tag_name, version: match[1], assetId: asset.id };
 }
 
-async function prepareForgeOpenApi(
+/**
+ * Forge is public, so its commands do not need the cf credentials used for
+ * branch updates and PR creation. Remove inherited GitHub tokens and injected
+ * Git authentication from their environment to avoid unnecessary credentials.
+ */
+export function getForgeEnvironment(
+	environment: NodeJS.ProcessEnv = process.env
+): NodeJS.ProcessEnv {
+	// Windows environment variable names are case-insensitive.
+	return Object.fromEntries(
+		Object.entries(environment).filter(([key]) => {
+			const name = key.toUpperCase();
+			return (
+				!["GH_TOKEN", "GITHUB_TOKEN", "FORGE_GITHUB_TOKEN"].includes(name) &&
+				name !== "GIT_CONFIG_PARAMETERS" &&
+				!/^GIT_CONFIG_(?:COUNT|KEY_\d+|VALUE_\d+)$/.test(name)
+			);
+		})
+	);
+}
+
+export async function prepareForgeOpenApi(
 	forgeDir: string,
 	assetId: number
 ): Promise<void> {
-	const response = await githubResponse(
+	const source = await githubRequest(
 		`/repos/${FORGE_REPOSITORY}/releases/assets/${assetId}`,
 		{},
-		FORGE_GITHUB_TOKEN,
-		"application/octet-stream"
+		undefined,
+		"application/octet-stream",
+		readJson
 	);
-	const source = (await response.json()) as unknown;
 	if (!isObject(source) || !isObject(source.paths)) {
 		throw new Error(`Forge release asset ${OPENAPI_ASSET} is not OpenAPI JSON`);
 	}
@@ -314,8 +494,8 @@ function updateOpenApiVersion(version: string): void {
 	);
 }
 
-function assertCleanWorktree(): void {
-	const status = output("git", ["status", "--porcelain"]);
+async function assertCleanWorktree(): Promise<void> {
+	const status = await output("git", ["status", "--porcelain"]);
 	if (status) {
 		throw new Error(
 			"Refusing to update Forge because the working tree is not clean"
@@ -324,8 +504,12 @@ function assertCleanWorktree(): void {
 }
 
 function writeChangeset(version: string): void {
+	const changesetPath = join(
+		REPO_ROOT,
+		`.changeset/update-forge-${version.slice(0, 12)}.md`
+	);
 	writeFileSync(
-		CHANGESET_PATH,
+		changesetPath,
 		`---
 "cf": minor
 ---
@@ -336,10 +520,10 @@ Forge OpenAPI release \`${version}\`.
 	);
 }
 
-function getRemoteBranchSha(
+async function getRemoteBranchSha(
 	environment: NodeJS.ProcessEnv = process.env
-): string | undefined {
-	const result = spawnSync(
+): Promise<string | undefined> {
+	const result = await x(
 		"git",
 		[
 			"ls-remote",
@@ -349,20 +533,18 @@ function getRemoteBranchSha(
 			`refs/heads/${UPDATE_BRANCH}`,
 		],
 		{
-			cwd: REPO_ROOT,
-			env: environment,
-			encoding: "utf8",
-			stdio: ["ignore", "pipe", "inherit"],
+			nodeOptions: {
+				cwd: REPO_ROOT,
+				env: subprocessEnvironment(environment),
+				stdio: ["ignore", "pipe", "inherit"],
+			},
 		}
 	);
-	if (result.error) {
-		throw result.error;
-	}
-	if (result.status === 2) {
+	if (result.exitCode === 2) {
 		return undefined;
 	}
-	if (result.status !== 0) {
-		throw new Error(`git ls-remote failed with status ${result.status}`);
+	if (result.exitCode !== 0) {
+		throw new Error(`git ls-remote failed with status ${result.exitCode}`);
 	}
 	const sha = result.stdout.trim().split(/\s+/, 1)[0];
 	if (!sha) {
@@ -371,7 +553,7 @@ function getRemoteBranchSha(
 	return sha;
 }
 
-async function createOrUpdatePullRequest(
+export async function createOrUpdatePullRequest(
 	repository: string,
 	prNumber: number | undefined,
 	title: string,
@@ -390,19 +572,46 @@ async function createOrUpdatePullRequest(
 		return;
 	}
 
-	const created = await githubJson(`/repos/${repository}/pulls`, {
-		method: "POST",
-		body: JSON.stringify({
-			base: BASE_BRANCH,
-			head: UPDATE_BRANCH,
-			title,
-			body,
-		}),
-	});
-	if (!isObject(created) || typeof created.html_url !== "string") {
-		throw new Error("Created pull request has no html_url");
+	for (let attempt = 1; ; attempt++) {
+		try {
+			const created = await githubJson(`/repos/${repository}/pulls`, {
+				method: "POST",
+				body: JSON.stringify({
+					base: BASE_BRANCH,
+					head: UPDATE_BRANCH,
+					title,
+					body,
+				}),
+			});
+			if (!isObject(created) || typeof created.html_url !== "string") {
+				throw new Error("Created pull request has no html_url");
+			}
+			console.log(created.html_url);
+			return;
+		} catch (error) {
+			if (!(error instanceof GitHubRequestError) || !error.retryable) {
+				throw error;
+			}
+			// GitHub may have created the PR even though its response was lost.
+			// Reconcile even the final attempt before reporting a failed creation.
+			if (attempt < GITHUB_ATTEMPTS) {
+				await waitToRetry(error, attempt);
+			}
+			const existing = await getOpenUpdatePullRequest(repository);
+			if (existing !== undefined) {
+				await createOrUpdatePullRequest(
+					repository,
+					existing.number,
+					title,
+					body
+				);
+				return;
+			}
+			if (attempt >= GITHUB_ATTEMPTS) {
+				throw error;
+			}
+		}
 	}
-	console.log(created.html_url);
 }
 
 async function closePullRequest(
@@ -428,7 +637,7 @@ async function main(): Promise<void> {
 	}
 
 	const checkOnly = args.has("--check");
-	const repository = inferRepository();
+	const repository = await inferRepository();
 	logStep("Checking the latest Forge release");
 	const { tag, version, assetId } = await getLatestForgeRelease();
 	const current = extractOpenApiVersion(
@@ -473,7 +682,7 @@ async function main(): Promise<void> {
 		updatePr !== undefined &&
 		managedUpdateCommit !== undefined
 	) {
-		const baseSha = output("git", ["rev-parse", "HEAD"]);
+		const baseSha = await output("git", ["rev-parse", "HEAD"]);
 		const proposedBaseSha = managedUpdateCommit.parentSha;
 		if (proposedBaseSha === baseSha) {
 			console.log(
@@ -494,29 +703,18 @@ async function main(): Promise<void> {
 	if (!CF_GITHUB_TOKEN) {
 		throw new Error("GH_TOKEN or GITHUB_TOKEN is required to update cf");
 	}
-	if (!FORGE_GITHUB_TOKEN) {
-		throw new Error("FORGE_GITHUB_TOKEN is required to update Forge");
-	}
-	assertCleanWorktree();
+	await assertCleanWorktree();
 
 	const tempRoot = mkdtempSync(
 		join(process.env.RUNNER_TEMP ?? tmpdir(), "cf-update-forge-")
 	);
 	const forgeDir = join(tempRoot, "forge");
 	let forgeSourceSha: string;
-	const forgeEnvironment = {
-		...process.env,
-		GH_TOKEN: FORGE_GITHUB_TOKEN,
-		GITHUB_TOKEN: FORGE_GITHUB_TOKEN,
-	};
-	const forgeCloneEnv = githubGitEnvironment(
-		FORGE_GITHUB_TOKEN,
-		forgeEnvironment
-	);
+	const forgeEnvironment = getForgeEnvironment();
 	const failedChecks: string[] = [];
 	try {
 		logStep(`Cloning Forge release ${tag}`);
-		run(
+		await run(
 			"git",
 			[
 				"clone",
@@ -528,12 +726,17 @@ async function main(): Promise<void> {
 				`https://github.com/${FORGE_REPOSITORY}.git`,
 				forgeDir,
 			],
-			{ env: forgeCloneEnv }
+			{ env: forgeEnvironment }
 		);
-		forgeSourceSha = output("git", ["rev-parse", "HEAD"], forgeDir);
+		forgeSourceSha = await output(
+			"git",
+			["rev-parse", "HEAD"],
+			forgeDir,
+			forgeEnvironment
+		);
 
 		logStep("Installing the Forge workspace");
-		run("pnpm", ["--dir", forgeDir, "install", "--frozen-lockfile"], {
+		await run("pnpm", ["--dir", forgeDir, "install", "--frozen-lockfile"], {
 			env: forgeEnvironment,
 		});
 
@@ -542,7 +745,7 @@ async function main(): Promise<void> {
 
 		logStep("Vendoring the Forge packages");
 		updateOpenApiVersion(version);
-		run("node", ["scripts/sync-forge.ts"], {
+		await run("node", ["scripts/sync-forge.ts"], {
 			env: { ...forgeEnvironment, FORGE_REPO: forgeDir },
 		});
 
@@ -550,7 +753,7 @@ async function main(): Promise<void> {
 		logStep("Regenerating the SDK and command surface");
 		let generated = true;
 		try {
-			run("pnpm", ["generate"], { env: forgeEnvironment });
+			await run("pnpm", ["generate"], { env: forgeEnvironment });
 		} catch {
 			generated = false;
 			failedChecks.push("pnpm generate");
@@ -559,14 +762,14 @@ async function main(): Promise<void> {
 
 		logStep("Validating the generated update");
 		try {
-			run("git", ["diff", "--check"]);
+			await run("git", ["diff", "--check"], { env: forgeEnvironment });
 		} catch {
 			failedChecks.push("git diff --check");
 			console.warn("Diff validation failed; continuing to open the update PR.");
 		}
 		if (generated) {
 			try {
-				run("pnpm", ["check"], { env: forgeEnvironment });
+				await run("pnpm", ["check"], { env: forgeEnvironment });
 			} catch {
 				failedChecks.push("pnpm check");
 				console.warn(
@@ -598,18 +801,22 @@ This PR is maintained automatically by [the Update Forge workflow](${GITHUB_SERV
 `;
 
 	logStep("Committing the generated update");
-	run("git", ["config", "user.name", "github-actions[bot]"]);
-	run("git", ["config", "user.email", UPDATE_COMMIT_EMAIL]);
-	run("git", ["add", "--all"]);
-	run("git", ["commit", "-m", title]);
+	await run("git", ["config", "user.name", "github-actions[bot]"]);
+	await run("git", ["config", "user.email", UPDATE_COMMIT_EMAIL]);
+	await run("git", ["add", "--all"]);
+	await run("git", ["commit", "-m", title]);
 
 	logStep(`Pushing ${UPDATE_BRANCH}`);
 	const cfGitEnvironment = githubGitEnvironment(CF_GITHUB_TOKEN);
-	const remoteSha = getRemoteBranchSha(cfGitEnvironment);
+	const remoteSha = await getRemoteBranchSha(cfGitEnvironment);
 	const lease = `--force-with-lease=refs/heads/${UPDATE_BRANCH}:${remoteSha ?? ""}`;
-	run("git", ["push", lease, "origin", `HEAD:refs/heads/${UPDATE_BRANCH}`], {
-		env: cfGitEnvironment,
-	});
+	await run(
+		"git",
+		["push", lease, "origin", `HEAD:refs/heads/${UPDATE_BRANCH}`],
+		{
+			env: cfGitEnvironment,
+		}
+	);
 
 	logStep("Creating or updating the pull request");
 	await createOrUpdatePullRequest(repository, updatePr?.number, title, body);
@@ -620,7 +827,12 @@ This PR is maintained automatically by [the Update Forge workflow](${GITHUB_SERV
 	}
 }
 
-main().catch((error: unknown) => {
-	console.error(error instanceof Error ? error.message : error);
-	process.exitCode = 1;
-});
+if (
+	process.argv[1] &&
+	resolve(process.argv[1]) === fileURLToPath(import.meta.url)
+) {
+	main().catch((error: unknown) => {
+		console.error(formatError(error));
+		process.exitCode = 1;
+	});
+}

@@ -8,25 +8,7 @@ import * as CloudflareApi from "../../../../index.js";
  *         zone_id: "zone_id",
  *         environment_id: "environment_id",
  *         body: {
- *             hosts: ["www.example.com", "images.example.com"]
- *         }
- *     }
- *
- * @example
- *     {
- *         zone_id: "zone_id",
- *         environment_id: "environment_id",
- *         body: {
- *             prefixes: ["www.example.com/foo", "images.example.com/bar/baz"]
- *         }
- *     }
- *
- * @example
- *     {
- *         zone_id: "zone_id",
- *         environment_id: "environment_id",
- *         body: {
- *             tags: ["a-cache-tag", "another-cache-tag"]
+ *             tags: ["product-1234", "homepage"]
  *         }
  *     }
  *
@@ -44,7 +26,25 @@ import * as CloudflareApi from "../../../../index.js";
  *         zone_id: "zone_id",
  *         environment_id: "environment_id",
  *         body: {
- *             files: ["http://www.example.com/css/styles.css", "http://www.example.com/js/index.js"]
+ *             hosts: ["www.example.com", "images.example.com"]
+ *         }
+ *     }
+ *
+ * @example
+ *     {
+ *         zone_id: "zone_id",
+ *         environment_id: "environment_id",
+ *         body: {
+ *             prefixes: ["www.example.com/blog/", "images.example.com/avatars/"]
+ *         }
+ *     }
+ *
+ * @example
+ *     {
+ *         zone_id: "zone_id",
+ *         environment_id: "environment_id",
+ *         body: {
+ *             files: ["https://www.example.com/css/styles.css", "https://www.example.com/js/index.js"]
  *         }
  *     }
  *
@@ -59,20 +59,22 @@ import * as CloudflareApi from "../../../../index.js";
  *                         "CF-Device-Type": "desktop",
  *                         "CF-IPCountry": "US"
  *                     },
- *                     url: "http://www.example.com/cat_picture.jpg"
+ *                     url: "https://www.example.com/cat_picture.jpg"
  *                 }, {
  *                     headers: {
  *                         "Accept-Language": "en-US",
  *                         "CF-Device-Type": "mobile",
- *                         "CF-IPCountry": "EU"
+ *                         "CF-IPCountry": "DE"
  *                     },
- *                     url: "http://www.example.com/dog_picture.jpg"
+ *                     url: "https://www.example.com/dog_picture.jpg"
  *                 }]
  *         }
  *     }
  */
 export interface PurgeEnvironmentCacheRequest {
+    /** The zone ID. */
     zone_id: string;
+    /** The environment ID, from Version Management. */
     environment_id: string;
     body: CloudflareApi.PurgeEnvironmentCacheRequestBody;
 }

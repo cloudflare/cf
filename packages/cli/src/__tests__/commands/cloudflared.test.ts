@@ -1,5 +1,5 @@
 import { spawnCloudflared } from "@cloudflare/workers-utils";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import { runCloudflared } from "../../commands/cloudflared.js";
 import { createChildProcessController } from "../../lib/process.js";
 import type { ChildProcess } from "node:child_process";

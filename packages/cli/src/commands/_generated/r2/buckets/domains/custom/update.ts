@@ -1,3 +1,10 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+/**
+ * update command
+ * @generated from apis/overlays/r2.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -11,13 +18,6 @@ import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-/**
- * update command
- * @generated from apis/overlays/r2.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -56,6 +56,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to previous value.",
 			choices: ["1.0", "1.1", "1.2", "1.3"],
 		})
+		.coerce("min-tls", (value) => resolveFileToken(value, "min-tls", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -103,11 +104,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								: compactBody({
 										ciphers: argv["ciphers"],
 										enabled: argv["enabled"],
-										minTLS: resolveFileToken(
-											argv["min-tls"] as string | undefined,
-											"min-tls",
-											"text"
-										),
+										minTLS: argv["min-tls"],
 									}),
 					});
 					return;
@@ -140,15 +137,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv["enabled"] !== undefined)
 					setNestedValue(bodyData, ["enabled"], argv["enabled"]);
 				if (argv["min-tls"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["minTLS"],
-						resolveFileToken(
-							argv["min-tls"] as string | undefined,
-							"min-tls",
-							"text"
-						)
-					);
+					setNestedValue(bodyData, ["minTLS"], argv["min-tls"]);
 				const result = await withProgress(`Updating`, async () =>
 					requestApi<unknown>(
 						client,

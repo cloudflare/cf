@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace UaRulesClient {
     export type Options = BaseClientOptions;
@@ -28,6 +28,9 @@ export class UaRulesClient {
      *
      * @param {CloudflareApi.firewall.ListUaRulesRequest} request
      * @param {UaRulesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.firewall.uaRules.list({
@@ -111,6 +114,9 @@ export class UaRulesClient {
      * @param {CloudflareApi.firewall.CreateUaRulesRequest} request
      * @param {UaRulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.firewall.uaRules.create({
      *         zone_id: "zone_id",
@@ -184,6 +190,9 @@ export class UaRulesClient {
      * @param {CloudflareApi.firewall.GetUaRulesRequest} request
      * @param {UaRulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.firewall.uaRules.get({
      *         zone_id: "zone_id",
@@ -252,6 +261,9 @@ export class UaRulesClient {
      *
      * @param {CloudflareApi.firewall.UpdateUaRulesRequest} request
      * @param {UaRulesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.firewall.uaRules.update({
@@ -328,6 +340,9 @@ export class UaRulesClient {
      *
      * @param {CloudflareApi.firewall.DeleteUaRulesRequest} request
      * @param {UaRulesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.firewall.uaRules.delete({

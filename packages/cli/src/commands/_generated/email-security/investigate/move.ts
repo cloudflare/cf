@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * move command
+ * @generated from apis/overlays/email-security.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -11,14 +19,6 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { promptForRequiredEnumField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * move command
- * @generated from apis/overlays/email-security.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -27,7 +27,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.option("destination", {
 			type: "string",
-			description: "The destination field",
+			description: "The mailbox folder to move messages to.",
 			choices: [
 				"Inbox",
 				"JunkEmail",
@@ -36,6 +36,28 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"RecoverableItemsPurges",
 			],
 		})
+		.coerce("destination", (value) =>
+			resolveFileToken(value, "destination", "text")
+		)
+		.option("expected-disposition", {
+			type: "string",
+			description: "Nonfunctional field. End of life: December 1, 2026.",
+			choices: [
+				"MALICIOUS",
+				"MALICIOUS-BEC",
+				"SUSPICIOUS",
+				"SPOOF",
+				"SPAM",
+				"BULK",
+				"ENCRYPTED",
+				"EXTERNAL",
+				"UNKNOWN",
+				"NONE",
+			],
+		})
+		.coerce("expected-disposition", (value) =>
+			resolveFileToken(value, "expected-disposition", "text")
+		)
 		.option("ids", {
 			type: "string",
 			array: true,
@@ -72,7 +94,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "email-security investigate move",
 				classification: {
-					safeFlags: ["destination", "dry-run"],
+					safeFlags: ["destination", "expected-disposition", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -89,11 +111,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										destination: resolveFileToken(
-											argv["destination"] as string | undefined,
-											"destination",
-											"text"
-										),
+										destination: argv["destination"],
+										expected_disposition: argv["expected-disposition"],
 										ids: argv["ids"],
 										postfix_ids: argv["postfix-ids"],
 									}),
@@ -118,7 +137,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv["destination"] === undefined) {
 					argv["destination"] = await promptForRequiredEnumField(
 						"destination",
-						"The destination field",
+						"The mailbox folder to move messages to.",
 						[
 							"Inbox",
 							"JunkEmail",
@@ -136,11 +155,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					destination: resolveFileToken(
-						argv["destination"] as string | undefined,
-						"destination",
-						"text"
-					),
+					destination: argv["destination"],
+					expected_disposition: argv["expected-disposition"],
 					ids: argv["ids"],
 					postfix_ids: argv["postfix-ids"],
 				});

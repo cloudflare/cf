@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace AppsClient {
     export type Options = BaseClientOptions;
@@ -28,6 +28,9 @@ export class AppsClient {
      *
      * @param {CloudflareApi.magicTransit.ListAppsRequest} request
      * @param {AppsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.apps.list({
@@ -96,6 +99,9 @@ export class AppsClient {
      *
      * @param {CloudflareApi.magicTransit.CreateAppsRequest} request
      * @param {AppsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.apps.create({
@@ -167,6 +173,9 @@ export class AppsClient {
      *
      * @param {CloudflareApi.magicTransit.UpdateAppsRequest} request
      * @param {AppsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.apps.update({
@@ -240,6 +249,9 @@ export class AppsClient {
      * @param {CloudflareApi.magicTransit.DeleteAppsRequest} request
      * @param {AppsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.apps.delete({
      *         account_id: "account_id",
@@ -296,78 +308,6 @@ export class AppsClient {
             _response.error,
             _response.rawResponse,
             "DELETE",
-            "/accounts/{account_id}/magic/apps/{account_app_id}",
-        );
-    }
-
-    /**
-     * Updates an Account App
-     *
-     * @param {CloudflareApi.magicTransit.EditAppsRequest} request
-     * @param {AppsClient.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @example
-     *     await client.magicTransit.apps.edit({
-     *         account_id: "account_id",
-     *         account_app_id: "account_app_id",
-     *         body: {
-     *             "key": "value"
-     *         }
-     *     })
-     */
-    public edit(
-        request: CloudflareApi.magicTransit.EditAppsRequest,
-        requestOptions?: AppsClient.RequestOptions,
-    ): core.HttpResponsePromise<CloudflareApi.MagicAccountApp> {
-        return core.HttpResponsePromise.fromPromise(this.__edit(request, requestOptions));
-    }
-
-    private async __edit(
-        request: CloudflareApi.magicTransit.EditAppsRequest,
-        requestOptions?: AppsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<CloudflareApi.MagicAccountApp>> {
-        const { account_id: accountId, account_app_id: accountAppId, body: _body } = request;
-        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
-        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
-            _authRequest.headers,
-            this._options?.headers,
-            requestOptions?.headers,
-        );
-        const _response = await (this._options.fetcher ?? core.fetcher)({
-            url: core.url.join(
-                (await core.Supplier.get(this._options.baseUrl)) ??
-                    (await core.Supplier.get(this._options.environment)) ??
-                    environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/magic/apps/${core.url.encodePathParam(accountAppId)}`,
-            ),
-            method: "PATCH",
-            headers: _headers,
-            contentType: "application/json",
-            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
-            requestType: "json",
-            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
-            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
-            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
-            abortSignal: requestOptions?.abortSignal,
-            fetchFn: this._options?.fetch,
-            logging: this._options.logging,
-        });
-        if (_response.ok) {
-            return { data: _response.body as CloudflareApi.MagicAccountApp, rawResponse: _response.rawResponse };
-        }
-
-        if (_response.error.reason === "status-code") {
-            throw new errors.CloudflareApiError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-                rawResponse: _response.rawResponse,
-            });
-        }
-
-        return handleNonStatusCodeError(
-            _response.error,
-            _response.rawResponse,
-            "PATCH",
             "/accounts/{account_id}/magic/apps/{account_app_id}",
         );
     }

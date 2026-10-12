@@ -28,6 +28,7 @@ export namespace GetSinksResponse {
     export const Type = {
         R2: "r2",
         R2DataCatalog: "r2_data_catalog",
+        BasinCatalog: "basin_catalog",
     } as const;
     export type Type = (typeof Type)[keyof typeof Type];
 }

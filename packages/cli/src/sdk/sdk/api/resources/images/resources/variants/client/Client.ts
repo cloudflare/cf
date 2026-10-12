@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace VariantsClient {
     export type Options = BaseClientOptions;
@@ -28,6 +28,9 @@ export class VariantsClient {
      *
      * @param {CloudflareApi.images.ListVariantsRequest} request
      * @param {VariantsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.images.variants.list({
@@ -96,6 +99,9 @@ export class VariantsClient {
      *
      * @param {CloudflareApi.images.CreateVariantsRequest} request
      * @param {VariantsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.images.variants.create({
@@ -177,6 +183,9 @@ export class VariantsClient {
      * @param {CloudflareApi.images.GetVariantsRequest} request
      * @param {VariantsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.images.variants.get({
      *         account_id: "account_id",
@@ -246,6 +255,9 @@ export class VariantsClient {
      * @param {CloudflareApi.images.DeleteVariantsRequest} request
      * @param {VariantsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.images.variants.delete({
      *         account_id: "account_id",
@@ -311,6 +323,9 @@ export class VariantsClient {
      *
      * @param {CloudflareApi.images.ImagesImageVariantPatchRequest} request
      * @param {VariantsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.images.variants.edit({

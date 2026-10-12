@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * get command
+ * @generated from apis/overlays/mesh.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -8,19 +16,11 @@ import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * get command
- * @generated from apis/overlays/mesh.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 mesh nodes configurations get <tunnel-id>\n\nGets the high-availability configuration for a WARP Connector tunnel."
+			"$0 mesh nodes configurations get <tunnel-id>\n\nGets the high-availability configuration for a Mesh node."
 		)
 		.positional("tunnel-id", {
 			type: "string",
@@ -41,7 +41,7 @@ type Request =
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <tunnel-id>",
-	describe: "Get WARP Connector HA configuration",
+	describe: "Get Mesh node HA configuration",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(

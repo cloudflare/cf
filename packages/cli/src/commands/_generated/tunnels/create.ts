@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * create command
+ * @generated from apis/overlays/tunnels.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -11,27 +19,22 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * create command
- * @generated from apis/overlays/tunnels.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
 			"$0 tunnels create\n\nCreates a remotely or locally managed Cloudflare Tunnel in an account. After creation, retrieve its token and run cloudflared to establish the connector connection."
 		)
-		.option("config-src", {
+		.option("config-source", {
 			type: "string",
 			description:
 				"Indicates if this is a locally or remotely configured tunnel. If `local`, manage the tunnel using a YAML file on the origin machine. If `cloudflare`, manage the tunnel on the Zero Trust dashboard.",
 			choices: ["local", "cloudflare"],
 			default: "local",
 		})
+		.coerce("config-source", (value) =>
+			resolveFileToken(value, "config-source", "text")
+		)
 		.option("name", {
 			type: "string",
 			description: "A user-friendly name for a tunnel.",
@@ -66,7 +69,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "tunnels create",
 				classification: {
-					safeFlags: ["config-src", "dry-run"],
+					safeFlags: ["config-source", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -83,11 +86,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										config_src: resolveFileToken(
-											argv["config-src"] as string | undefined,
-											"config-src",
-											"text"
-										),
+										config_src: argv["config-source"],
 										name: resolveFileToken(
 											argv["name"] as string | undefined,
 											"name",
@@ -99,6 +98,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 									}),
+						sensitiveBodyPaths: [["tunnel_secret"]],
 					});
 					return;
 				}
@@ -126,11 +126,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					config_src: resolveFileToken(
-						argv["config-src"] as string | undefined,
-						"config-src",
-						"text"
-					),
+					config_src: argv["config-source"],
 					name: resolveFileToken(
 						argv["name"] as string | undefined,
 						"name",

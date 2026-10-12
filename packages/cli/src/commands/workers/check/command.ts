@@ -1,5 +1,15 @@
 import { writeFile } from "node:fs/promises";
 import path from "node:path";
+import { readBuildOutput } from "@cloudflare/build-output-utils";
+import { createWorkerUploadForm } from "@cloudflare/deploy-helpers/create-worker-upload-form";
+import {
+	analyseBundle,
+	getBundleSize,
+	summarizeStartupProfile,
+} from "@cloudflare/deploy-helpers/startup-profile";
+import { getBindings } from "@cloudflare/workers-utils";
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { Argv, CommandModule } from "yargs";
 import { runBuild } from "#commands/build/index.js";
 import {
 	BuildOutputConfigError,
@@ -11,16 +21,6 @@ import {
 import { assembleBuildResult } from "#lib/deploy-input.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
-import { readBuildOutput } from "@cloudflare/build-output-utils";
-import { createWorkerUploadForm } from "@cloudflare/deploy-helpers/create-worker-upload-form";
-import {
-	analyseBundle,
-	getBundleSize,
-	summarizeStartupProfile,
-} from "@cloudflare/deploy-helpers/startup-profile";
-import { getBindings } from "@cloudflare/workers-utils";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { Argv, CommandModule } from "yargs";
 
 const DEFAULT_OUTFILE = "worker-startup.cpuprofile";
 

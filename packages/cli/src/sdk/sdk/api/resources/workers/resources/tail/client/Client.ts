@@ -7,7 +7,7 @@ import { mergeHeaders } from "../../../../../../core/headers.js";
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace TailClient {
     export type Options = BaseClientOptions;
@@ -27,6 +27,9 @@ export class TailClient {
      *
      * @param {CloudflareApi.workers.ListTailRequest} request
      * @param {TailClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workers.tail.list({
@@ -94,6 +97,9 @@ export class TailClient {
      * @param {CloudflareApi.workers.StartTailRequest} request
      * @param {TailClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workers.tail.start({
      *         account_id: "account_id",
@@ -159,6 +165,9 @@ export class TailClient {
      *
      * @param {CloudflareApi.workers.DeleteTailRequest} request
      * @param {TailClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workers.tail.delete({

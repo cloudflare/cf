@@ -1,7 +1,7 @@
 import { domainToASCII } from "node:url";
+import type { Cloudflare } from "#lib/auth.js";
 import { withProgress } from "#lib/progress.js";
 import { sanitizeTerminalText } from "#lib/ui/sanitize.js";
-import type { Cloudflare } from "#lib/auth.js";
 
 export interface RegistrationPricing {
 	currency: string;

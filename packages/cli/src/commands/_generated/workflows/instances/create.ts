@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * create command
+ * @generated from apis/overlays/workflows.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -10,14 +18,6 @@ import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * create command
- * @generated from apis/overlays/workflows.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -51,6 +51,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"me",
 			],
 		})
+		.coerce("location-hint", (value) =>
+			resolveFileToken(value, "location-hint", "text")
+		)
 		.option("params", {
 			type: "string",
 			description: "JSON-encoded event payload passed into the new instance.",
@@ -104,11 +107,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"instance-id",
 											"text"
 										),
-										location_hint: resolveFileToken(
-											argv["location-hint"] as string | undefined,
-											"location-hint",
-											"text"
-										),
+										location_hint: argv["location-hint"],
 										params: resolveFileToken(
 											argv["params"] as string | undefined,
 											"params",
@@ -142,11 +141,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"instance-id",
 						"text"
 					),
-					location_hint: resolveFileToken(
-						argv["location-hint"] as string | undefined,
-						"location-hint",
-						"text"
-					),
+					location_hint: argv["location-hint"],
 					params: resolveFileToken(
 						argv["params"] as string | undefined,
 						"params",

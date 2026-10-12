@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * update command
+ * @generated from apis/overlays/mesh.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -11,19 +19,11 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { promptForRequiredEnumField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * update command
- * @generated from apis/overlays/mesh.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 mesh nodes configurations update <tunnel-id>\n\nAdds or updates the high-availability configuration for a WARP Connector tunnel."
+			"$0 mesh nodes configurations update <tunnel-id>\n\nAdds or updates the high-availability configuration for a Mesh node."
 		)
 		.positional("tunnel-id", {
 			type: "string",
@@ -38,9 +38,10 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("ha-mode", {
 			type: "string",
 			description:
-				"High-availability mode for the WARP Connector tunnel. `none` means HA is enabled but no provider is configured yet (newly created tunnels default to this). `disabled` means HA is explicitly turned off. `aws` uses AWS ENI move for failover. `local` uses virtual IPs (VIPs) on the local interface.",
+				"High-availability mode for the Mesh node. `none` means HA is enabled but no provider is configured yet (newly created nodes default to this). `disabled` means HA is explicitly turned off. `aws` uses AWS ENI move for failover. `local` uses virtual IPs (VIPs) on the local interface.",
 			choices: ["none", "disabled", "aws", "local"],
 		})
+		.coerce("ha-mode", (value) => resolveFileToken(value, "ha-mode", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -60,7 +61,7 @@ type Body = Request;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update <tunnel-id>",
-	describe: "Update WARP Connector HA configuration",
+	describe: "Update Mesh node HA configuration",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
@@ -91,11 +92,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"text"
 											),
 										},
-										ha_mode: resolveFileToken(
-											argv["ha-mode"] as string | undefined,
-											"ha-mode",
-											"text"
-										),
+										ha_mode: argv["ha-mode"],
 									}),
 					});
 					return;
@@ -119,7 +116,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv["ha-mode"] === undefined) {
 					argv["ha-mode"] = await promptForRequiredEnumField(
 						"ha-mode",
-						"High-availability mode for the WARP Connector tunnel. \`none\` means HA is enabled but no provider is configured yet (newly created tunnels default to this). \`disabled\` means HA is explicitly turned off. \`aws\` uses AWS ENI move for failover. \`local\` uses virtual IPs (VIPs) on the local interface.",
+						"High-availability mode for the Mesh node. \`none\` means HA is enabled but no provider is configured yet (newly created nodes default to this). \`disabled\` means HA is explicitly turned off. \`aws\` uses AWS ENI move for failover. \`local\` uses virtual IPs (VIPs) on the local interface.",
 						["none", "disabled", "aws", "local"] as const
 					);
 				}
@@ -133,11 +130,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"text"
 						),
 					},
-					ha_mode: resolveFileToken(
-						argv["ha-mode"] as string | undefined,
-						"ha-mode",
-						"text"
-					),
+					ha_mode: argv["ha-mode"],
 				});
 				const result = await withProgress(`Updating`, async () =>
 					client.mesh.nodes.configurations.update({

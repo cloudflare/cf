@@ -1,9 +1,0 @@
-description: "List HTTP pull consumers for a Queue"
-command: "wrangler queues consumer http list <queue>"
-status: "partial"
-sourceCommands:
-  - "wrangler queues consumer http list <queue>"
-cfReplacementFlow:
-  - "cf queues consumers list --queue-id <queue-id>"
-notes:
-  - "Filter by HTTP-pull consumer type manually if needed."

@@ -10,7 +10,7 @@ import { mergeHeaders } from "../../../../../../../../core/headers.js";
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 
 export declare namespace PermissionGroupsClient {
     export type Options = BaseClientOptions;
@@ -26,10 +26,16 @@ export class PermissionGroupsClient {
     }
 
     /**
-     * Find all available permission groups for Account Owned API Tokens
+     * Find all available permission groups for Account Owned API Tokens.
+     * Each permission group indicates whether the caller can select it when
+     * creating a token. Token creation performs the authoritative permission
+     * check.
      *
      * @param {CloudflareApi.accounts.tokens.ListPermissionGroupsRequest} request
      * @param {PermissionGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.accounts.tokens.permissionGroups.list({

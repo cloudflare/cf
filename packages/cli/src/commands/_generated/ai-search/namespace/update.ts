@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * update command
+ * @generated from apis/overlays/ai-search.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -10,21 +18,13 @@ import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * update command
- * @generated from apis/overlays/ai-search.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 ai-search namespace update <name>\n\nUpdate the description and/or the public endpoint configuration of an existing namespace. The default namespace's description cannot be modified, but its public endpoint can."
+			"$0 ai-search namespace update <namespace>\n\nUpdate the description and/or the public endpoint configuration of an existing namespace. The default namespace's description cannot be modified, but its public endpoint can."
 		)
-		.positional("name", {
+		.positional("namespace", {
 			type: "string",
 			description: "Namespace to update.",
 			demandOption: true,
@@ -85,6 +85,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The public_endpoint_params.rate_limit.technique field",
 			choices: ["fixed", "sliding"],
 		})
+		.coerce("public-endpoint-params-rate-limit-technique", (value) =>
+			resolveFileToken(
+				value,
+				"public-endpoint-params-rate-limit-technique",
+				"text"
+			)
+		)
 		.option("public-endpoint-params-search-endpoint-disabled", {
 			type: "boolean",
 			description: "Disable search endpoint for this public endpoint",
@@ -106,7 +113,7 @@ type Request = SdkRequest<"ai-search-update-namespace">;
 type Body = Request;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "update <name>",
+	command: "update <namespace>",
 	describe: "Update a namespace",
 	builder,
 	handler: async (argv): Promise<void> =>
@@ -132,8 +139,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf ai-search namespace update",
 						method: "PUT",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/namespaces/${argv["name"] == null ? "<name>" : encodeURIComponent(String(argv["name"]))}`,
-						pathParams: { name: String(argv["name"] ?? "") },
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/namespaces/${argv["namespace"] == null ? "<namespace>" : encodeURIComponent(String(argv["namespace"]))}`,
+						pathParams: { namespace: String(argv["namespace"] ?? "") },
 						bodyKind: "json",
 						body:
 							argv.body !== undefined
@@ -175,13 +182,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 													argv["public-endpoint-params-rate-limit-period-ms"],
 												requests:
 													argv["public-endpoint-params-rate-limit-requests"],
-												technique: resolveFileToken(
-													argv["public-endpoint-params-rate-limit-technique"] as
-														| string
-														| undefined,
-													"public-endpoint-params-rate-limit-technique",
-													"text"
-												),
+												technique:
+													argv["public-endpoint-params-rate-limit-technique"],
 											},
 											search_endpoint: {
 												disabled:
@@ -204,7 +206,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						client.aiSearch.namespace.update({
 							...bodyData,
 							account_id: accountId,
-							name: argv["name"],
+							namespace: argv["namespace"],
 						} satisfies Request)
 					);
 					formatOutput(result, { successLabel: `Updated` });
@@ -244,13 +246,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						rate_limit: {
 							period_ms: argv["public-endpoint-params-rate-limit-period-ms"],
 							requests: argv["public-endpoint-params-rate-limit-requests"],
-							technique: resolveFileToken(
-								argv["public-endpoint-params-rate-limit-technique"] as
-									| string
-									| undefined,
-								"public-endpoint-params-rate-limit-technique",
-								"text"
-							),
+							technique: argv["public-endpoint-params-rate-limit-technique"],
 						},
 						search_endpoint: {
 							disabled: argv["public-endpoint-params-search-endpoint-disabled"],
@@ -261,7 +257,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					client.aiSearch.namespace.update({
 						...bodyData,
 						account_id: accountId,
-						name: argv["name"],
+						namespace: argv["namespace"],
 					} satisfies Request)
 				);
 				formatOutput(result, { successLabel: `Updated` });

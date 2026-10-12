@@ -6,11 +6,17 @@ import * as CloudflareApi from "../../../../../../../../index.js";
  * @example
  *     {
  *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
- *         investigate_id: "4Njp3P0STMz2c02Q-2024-01-05T10:00:00-12345678"
+ *         investigate_id: "4Njp3P0STMz2c02Q-2024-01-05T10:00:00-12345678",
+ *         page: 1,
+ *         per_page: 20
  *     }
  */
 export interface ListActionLogRequest {
     /** Account identifier tag. */
     account_id: CloudflareApi.EmailSecurityIdentifier;
     investigate_id: CloudflareApi.EmailSecurityInvestigateId;
+    /** Current page within paginated list of results. */
+    page?: number;
+    /** The number of results per page. Maximum value is 1000. */
+    per_page?: number;
 }

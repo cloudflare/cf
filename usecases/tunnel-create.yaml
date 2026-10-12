@@ -1,9 +1,0 @@
-description: "Create a remotely managed Cloudflare Tunnel"
-command: "wrangler tunnel create <name>"
-status: "direct"
-sourceCommands:
-  - "wrangler tunnel create <name>"
-cfReplacementFlow:
-  - "cf zero-trust tunnels cloudflared create --name <name> --config-src cloudflare"
-notes:
-  - "Wrangler tunnel maps into the Zero Trust cloudflared tunnel API product in cf."

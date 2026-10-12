@@ -28,9 +28,13 @@ import * as CloudflareApi from "../../../../../../index.js";
 export interface BatchBlockSendersRequest {
     /** Account identifier tag. */
     account_id: CloudflareApi.EmailSecurityIdentifier;
+    /** IDs of the blocked sender patterns to delete. */
     deletes: BatchBlockSendersRequest.Deletes.Item[];
+    /** Partial updates to apply — each entry carries the pattern's ID and only the fields to change. */
     patches: BatchBlockSendersRequest.Patches.Item[];
+    /** Blocked sender patterns to create. */
     posts: CloudflareApi.EmailSecurityCreateBlockedSender[];
+    /** Full replacements to apply — each entry carries the pattern's ID and every field of its new value. */
     puts: BatchBlockSendersRequest.Puts.Item[];
 }
 

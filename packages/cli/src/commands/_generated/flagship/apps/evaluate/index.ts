@@ -1,4 +1,3 @@
-import $create from "./create.js";
 import $get from "./get.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
@@ -12,10 +11,7 @@ const command: CommandModule<CommonYargsOptions> = {
 	describe: "Operations for apps.evaluate",
 
 	builder: (yargs) => {
-		return yargs
-			.command($create)
-			.command($get)
-			.demandCommand(1, "Please specify a subcommand");
+		return yargs.command($get).demandCommand(1, "Please specify a subcommand");
 	},
 
 	handler: () => {},

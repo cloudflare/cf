@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 
 export declare namespace AclsClient {
     export type Options = BaseClientOptions;
@@ -31,6 +31,9 @@ export class AclsClient {
      *
      * @param {CloudflareApi.dns.zoneTransfers.ListAclsRequest} request
      * @param {AclsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.dns.zoneTransfers.acls.list({
@@ -99,6 +102,9 @@ export class AclsClient {
      *
      * @param {CloudflareApi.dns.zoneTransfers.CreateAclsRequest} request
      * @param {AclsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.dns.zoneTransfers.acls.create({
@@ -170,6 +176,9 @@ export class AclsClient {
      * @param {CloudflareApi.dns.zoneTransfers.GetAclsRequest} request
      * @param {AclsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.dns.zoneTransfers.acls.get({
      *         account_id: "account_id",
@@ -235,6 +244,9 @@ export class AclsClient {
      *
      * @param {CloudflareApi.dns.zoneTransfers.UpdateAclsRequest} request
      * @param {AclsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.dns.zoneTransfers.acls.update({
@@ -308,6 +320,9 @@ export class AclsClient {
      *
      * @param {CloudflareApi.dns.zoneTransfers.DeleteAclsRequest} request
      * @param {AclsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.dns.zoneTransfers.acls.delete({

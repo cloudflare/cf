@@ -10,7 +10,7 @@ import { mergeHeaders } from "../../../../../../../../core/headers.js";
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 
 export declare namespace ConnectionsClient {
     export type Options = BaseClientOptions;
@@ -26,15 +26,18 @@ export class ConnectionsClient {
     }
 
     /**
-     * Fetches connection details for a WARP Connector Tunnel.
+     * Lists connection details for a Mesh node.
      *
      * @param {CloudflareApi.mesh.nodes.ListConnectionsRequest} request
      * @param {ConnectionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.mesh.nodes.connections.list({
      *         account_id: "account_id",
-     *         tunnel_id: "tunnel_id"
+     *         "node-id": "tunnel_id"
      *     })
      */
     public list(
@@ -48,7 +51,7 @@ export class ConnectionsClient {
         request: CloudflareApi.mesh.nodes.ListConnectionsRequest,
         requestOptions?: ConnectionsClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.mesh.nodes.ListConnectionsResponse>> {
-        const { account_id: accountId, tunnel_id: tunnelId } = request;
+        const { account_id: accountId, "node-id": nodeId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -60,7 +63,7 @@ export class ConnectionsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/warp_connector/${core.url.encodePathParam(tunnelId)}/connections`,
+                `accounts/${core.url.encodePathParam(accountId)}/warp_connector/${core.url.encodePathParam(nodeId)}/connections`,
             ),
             method: "GET",
             headers: _headers,
@@ -90,7 +93,7 @@ export class ConnectionsClient {
             _response.error,
             _response.rawResponse,
             "GET",
-            "/accounts/{account_id}/warp_connector/{tunnel_id}/connections",
+            "/accounts/{account_id}/warp_connector/{node-id}/connections",
         );
     }
 }

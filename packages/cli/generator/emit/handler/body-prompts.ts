@@ -13,7 +13,7 @@
  * (pre-computed at the top of `generateCommandFile`).
  */
 import { argvKey } from "../../codegen/identifiers.js";
-import { bodyArgs } from "../../intermediate-representation.js";
+import { bodyOptionArgs } from "../../intermediate-representation.js";
 import { escapeForSingleQuote } from "../../util.js";
 import type { EmitContext } from "../context.js";
 
@@ -22,7 +22,7 @@ export function emitBodyPrompts(ctx: EmitContext): string[] {
 	const lines: string[] = [];
 
 	if (derived.hasBodyParams) {
-		for (const arg of bodyArgs(derived.args)) {
+		for (const arg of bodyOptionArgs(derived.args)) {
 			if (!arg.required) continue;
 			const escDesc = escapeForSingleQuote(arg.description);
 			const read = argvKey(arg.name);

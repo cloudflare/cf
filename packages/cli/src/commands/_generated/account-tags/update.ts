@@ -1,3 +1,10 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+/**
+ * update command
+ * @generated from apis/overlays/account-tags.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -16,18 +23,11 @@ import {
 	promptForRequiredField,
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-/**
- * update command
- * @generated from apis/overlays/account-tags.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 account-tags update\n\nCreates or updates tags for a specific account or zone-level resource."
+			"$0 account-tags update\n\nCreates or updates tags for a specific account or zone-level resource. Replaces all existing tags for the resource."
 		)
 		.option("if-match", {
 			type: "string",
@@ -45,6 +45,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"worker_version",
 				"access_application",
 				"access_group",
+				"access_service_token",
 				"account",
 				"account_ruleset",
 				"ai_gateway",
@@ -56,6 +57,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"cws_policy_set",
 				"cws_workload",
 				"d1_database",
+				"device",
 				"durable_object_namespace",
 				"gateway_list",
 				"gateway_rule",
@@ -74,6 +76,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"worker",
 			],
 		})
+		.coerce("resource-type", (value) =>
+			resolveFileToken(value, "resource-type", "text")
+		)
 		.option("worker-id", {
 			type: "string",
 			description: "Worker ID is required only for worker_version resources",
@@ -135,11 +140,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"resource-id",
 											"text"
 										),
-										resource_type: resolveFileToken(
-											argv["resource-type"] as string | undefined,
-											"resource-type",
-											"text"
-										),
+										resource_type: argv["resource-type"],
 										worker_id: resolveFileToken(
 											argv["worker-id"] as string | undefined,
 											"worker-id",
@@ -195,6 +196,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"worker_version",
 							"access_application",
 							"access_group",
+							"access_service_token",
 							"account",
 							"account_ruleset",
 							"ai_gateway",
@@ -206,6 +208,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"cws_policy_set",
 							"cws_workload",
 							"d1_database",
+							"device",
 							"durable_object_namespace",
 							"gateway_list",
 							"gateway_rule",
@@ -250,15 +253,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						)
 					);
 				if (argv["resource-type"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["resource_type"],
-						resolveFileToken(
-							argv["resource-type"] as string | undefined,
-							"resource-type",
-							"text"
-						)
-					);
+					setNestedValue(bodyData, ["resource_type"], argv["resource-type"]);
 				if (argv["worker-id"] !== undefined)
 					setNestedValue(
 						bodyData,

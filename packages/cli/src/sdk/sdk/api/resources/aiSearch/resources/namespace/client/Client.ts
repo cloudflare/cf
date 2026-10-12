@@ -8,7 +8,8 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
+import * as CloudflareApiErrors from "../../../../../errors/index.js";
 
 export declare namespace NamespaceClient {
     export type Options = BaseClientOptions;
@@ -30,6 +31,8 @@ export class NamespaceClient {
      * @param {NamespaceClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiSearch.namespace.list({
@@ -92,7 +95,7 @@ export class NamespaceClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -119,6 +122,8 @@ export class NamespaceClient {
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.ForbiddenError}
      * @throws {@link CloudflareApi.ConflictError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiSearch.namespace.create({
@@ -173,11 +178,11 @@ export class NamespaceClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new CloudflareApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 409:
-                    throw new CloudflareApi.ConflictError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.ConflictError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -202,11 +207,13 @@ export class NamespaceClient {
      * @param {NamespaceClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiSearch.namespace.get({
      *         account_id: "c3dc5f0b34a14ff8e1b3ec04895e1b22",
-     *         name: "production"
+     *         namespace: "production"
      *     })
      */
     public get(
@@ -220,7 +227,7 @@ export class NamespaceClient {
         request: CloudflareApi.aiSearch.GetNamespaceRequest,
         requestOptions?: NamespaceClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.aiSearch.GetNamespaceResponse>> {
-        const { account_id: accountId, name } = request;
+        const { account_id: accountId, namespace } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -232,7 +239,7 @@ export class NamespaceClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(name)}`,
+                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(namespace)}`,
             ),
             method: "GET",
             headers: _headers,
@@ -253,7 +260,7 @@ export class NamespaceClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 404:
-                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -267,7 +274,7 @@ export class NamespaceClient {
             _response.error,
             _response.rawResponse,
             "GET",
-            "/accounts/{account_id}/ai-search/namespaces/{name}",
+            "/accounts/{account_id}/ai-search/namespaces/{namespace}",
         );
     }
 
@@ -280,11 +287,13 @@ export class NamespaceClient {
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.ConflictError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiSearch.namespace.update({
      *         account_id: "c3dc5f0b34a14ff8e1b3ec04895e1b22",
-     *         name: "production"
+     *         namespace: "production"
      *     })
      */
     public update(
@@ -298,7 +307,7 @@ export class NamespaceClient {
         request: CloudflareApi.aiSearch.UpdateNamespaceRequest,
         requestOptions?: NamespaceClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.aiSearch.UpdateNamespaceResponse>> {
-        const { account_id: accountId, name, ..._body } = request;
+        const { account_id: accountId, namespace, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -310,7 +319,7 @@ export class NamespaceClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(name)}`,
+                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(namespace)}`,
             ),
             method: "PUT",
             headers: _headers,
@@ -334,11 +343,11 @@ export class NamespaceClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 409:
-                    throw new CloudflareApi.ConflictError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.ConflictError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -352,7 +361,7 @@ export class NamespaceClient {
             _response.error,
             _response.rawResponse,
             "PUT",
-            "/accounts/{account_id}/ai-search/namespaces/{name}",
+            "/accounts/{account_id}/ai-search/namespaces/{namespace}",
         );
     }
 
@@ -364,11 +373,13 @@ export class NamespaceClient {
      *
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiSearch.namespace.delete({
      *         account_id: "c3dc5f0b34a14ff8e1b3ec04895e1b22",
-     *         name: "production"
+     *         namespace: "production"
      *     })
      */
     public delete(
@@ -382,7 +393,7 @@ export class NamespaceClient {
         request: CloudflareApi.aiSearch.DeleteNamespaceRequest,
         requestOptions?: NamespaceClient.RequestOptions,
     ): Promise<core.WithRawResponse<Record<string, unknown>>> {
-        const { account_id: accountId, name } = request;
+        const { account_id: accountId, namespace } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -394,7 +405,7 @@ export class NamespaceClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(name)}`,
+                `accounts/${core.url.encodePathParam(accountId)}/ai-search/namespaces/${core.url.encodePathParam(namespace)}`,
             ),
             method: "DELETE",
             headers: _headers,
@@ -412,9 +423,9 @@ export class NamespaceClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -428,7 +439,7 @@ export class NamespaceClient {
             _response.error,
             _response.rawResponse,
             "DELETE",
-            "/accounts/{account_id}/ai-search/namespaces/{name}",
+            "/accounts/{account_id}/ai-search/namespaces/{namespace}",
         );
     }
 }

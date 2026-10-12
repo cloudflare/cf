@@ -1,5 +1,5 @@
 import { http, HttpResponse } from "msw";
-import { describe, it } from "vitest";
+import { describe, it } from "vite-plus/test";
 import { mockAccountId, mockApiToken } from "../helpers/mock-account-id";
 import { mockConsoleMethods } from "../helpers/mock-console";
 import { createFetchResult, msw } from "../helpers/msw";
@@ -29,7 +29,7 @@ describe("pages project list", () => {
 		);
 
 		// cf emits JSON without requiring a --json switch.
-		await runWrangler("pages projects list");
+		await runWrangler("pages list");
 		expect(JSON.parse(std.out)).toEqual(projects);
 	});
 });

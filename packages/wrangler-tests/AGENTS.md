@@ -31,6 +31,9 @@ revision, inventory shape, and regeneration command are documented in
 
 ## Verification
 
-Run `pnpm generate` from the repository root after OpenAPI or Forge changes,
-then run `pnpm test` from this package. Tests import the CLI from TypeScript
-source rather than a previously built `dist/` bundle.
+Run `pnpm test` from this package. Its Vite+ task depends on CLI generation
+and the test-specific Vite+ Pack build, and tests import the resulting
+`../cli/dist/index.mjs`. The test build keeps mock-sensitive dependencies
+external while the normal production build bundles them. `pnpm test:watch`
+has the same prerequisites, run once before starting Vitest. Task caching is
+disabled.

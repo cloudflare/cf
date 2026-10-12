@@ -8,7 +8,8 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
+import * as CloudflareApiErrors from "../../../../../errors/index.js";
 import { BatchClient } from "../resources/batch/client/Client.js";
 import { EventsClient } from "../resources/events/client/Client.js";
 import { StatusClient } from "../resources/status/client/Client.js";
@@ -55,6 +56,8 @@ export class InstancesClient {
      *
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workflows.instances.list({
@@ -81,8 +84,8 @@ export class InstancesClient {
             cursor,
             direction,
             status,
-            date_start: dateStart,
-            date_end: dateEnd,
+            date_start: start,
+            date_end: end,
         } = request;
         const _queryParams: Record<string, unknown> = {
             page,
@@ -90,8 +93,8 @@ export class InstancesClient {
             cursor,
             direction: direction != null ? direction : undefined,
             status: status != null ? status : undefined,
-            date_start: dateStart != null ? dateStart : undefined,
-            date_end: dateEnd != null ? dateEnd : undefined,
+            date_start: start != null ? start : undefined,
+            date_end: end != null ? end : undefined,
         };
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -129,9 +132,9 @@ export class InstancesClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -157,6 +160,8 @@ export class InstancesClient {
      *
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workflows.instances.create({
@@ -211,9 +216,9 @@ export class InstancesClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -239,6 +244,8 @@ export class InstancesClient {
      *
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workflows.instances.get({
@@ -299,9 +306,9 @@ export class InstancesClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -326,6 +333,8 @@ export class InstancesClient {
      * @param {InstancesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workflows.instances.delete({
@@ -378,7 +387,7 @@ export class InstancesClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 404:
-                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -393,91 +402,6 @@ export class InstancesClient {
             _response.rawResponse,
             "DELETE",
             "/accounts/{account_id}/workflows/{workflow_name}/instances/{instance_id}",
-        );
-    }
-
-    /**
-     * Opens a WebSocket that streams workflow instance events.
-     *
-     * @param {CloudflareApi.workflows.SubscribeInstancesRequest} request
-     * @param {InstancesClient.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @throws {@link CloudflareApi.BadRequestError}
-     * @throws {@link CloudflareApi.NotFoundError}
-     *
-     * @example
-     *     await client.workflows.instances.subscribe({
-     *         account_id: "account_id",
-     *         workflow_name: "workflow_name",
-     *         instance_id: "instance_id"
-     *     })
-     */
-    public subscribe(
-        request: CloudflareApi.workflows.SubscribeInstancesRequest,
-        requestOptions?: InstancesClient.RequestOptions,
-    ): core.HttpResponsePromise<void> {
-        return core.HttpResponsePromise.fromPromise(this.__subscribe(request, requestOptions));
-    }
-
-    private async __subscribe(
-        request: CloudflareApi.workflows.SubscribeInstancesRequest,
-        requestOptions?: InstancesClient.RequestOptions,
-    ): Promise<core.WithRawResponse<void>> {
-        const { account_id: accountId, workflow_name: workflowName, instance_id: instanceId, cursor, filter } = request;
-        const _queryParams: Record<string, unknown> = {
-            cursor,
-            filter: Array.isArray(filter) ? filter.map((item) => item) : filter != null ? filter : undefined,
-        };
-        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
-        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
-            _authRequest.headers,
-            this._options?.headers,
-            requestOptions?.headers,
-        );
-        const _response = await (this._options.fetcher ?? core.fetcher)({
-            url: core.url.join(
-                (await core.Supplier.get(this._options.baseUrl)) ??
-                    (await core.Supplier.get(this._options.environment)) ??
-                    environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/workflows/${core.url.encodePathParam(workflowName)}/instances/${core.url.encodePathParam(instanceId)}/subscribe`,
-            ),
-            method: "GET",
-            headers: _headers,
-            queryString: core.url
-                .queryBuilder()
-                .addMany(_queryParams)
-                .mergeAdditional(requestOptions?.queryParams)
-                .build(),
-            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
-            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
-            abortSignal: requestOptions?.abortSignal,
-            fetchFn: this._options?.fetch,
-            logging: this._options.logging,
-        });
-        if (_response.ok) {
-            return { data: undefined, rawResponse: _response.rawResponse };
-        }
-
-        if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
-                case 404:
-                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
-                default:
-                    throw new errors.CloudflareApiError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
-                        rawResponse: _response.rawResponse,
-                    });
-            }
-        }
-
-        return handleNonStatusCodeError(
-            _response.error,
-            _response.rawResponse,
-            "GET",
-            "/accounts/{account_id}/workflows/{workflow_name}/instances/{instance_id}/subscribe",
         );
     }
 }

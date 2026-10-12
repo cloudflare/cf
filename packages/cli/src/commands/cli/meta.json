@@ -16,7 +16,15 @@
 				"description": "Search terms or a description of what you want to do"
 			}
 		],
-		"options": []
+		"options": [
+			{
+				"name": "dry-run",
+				"type": "boolean",
+				"required": false,
+				"description": "Parse arguments and show the command without executing it",
+				"default": false
+			}
+		]
 	},
 	{
 		"command": "cf cli telemetry status",
@@ -26,7 +34,15 @@
 		"description": "Check whether cf telemetry collection is enabled",
 		"usage": "cf cli telemetry status",
 		"arguments": [],
-		"options": []
+		"options": [
+			{
+				"name": "dry-run",
+				"type": "boolean",
+				"required": false,
+				"description": "Parse arguments and show the command without executing it",
+				"default": false
+			}
+		]
 	},
 	{
 		"command": "cf cli telemetry enable",
@@ -36,7 +52,15 @@
 		"description": "Enable cf telemetry collection",
 		"usage": "cf cli telemetry enable",
 		"arguments": [],
-		"options": []
+		"options": [
+			{
+				"name": "dry-run",
+				"type": "boolean",
+				"required": false,
+				"description": "Parse arguments and show the command without executing it",
+				"default": false
+			}
+		]
 	},
 	{
 		"command": "cf cli telemetry disable",
@@ -46,6 +70,14 @@
 		"description": "Disable cf telemetry collection",
 		"usage": "cf cli telemetry disable",
 		"arguments": [],
-		"options": []
+		"options": [
+			{
+				"name": "dry-run",
+				"type": "boolean",
+				"required": false,
+				"description": "Parse arguments and show the command without executing it",
+				"default": false
+			}
+		]
 	}
 ]

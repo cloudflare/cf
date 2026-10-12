@@ -1,5 +1,4 @@
 import $apptypes from "./app-types/index.js";
-import $auditsshsettings from "./audit-ssh-settings/index.js";
 import $categories from "./categories/index.js";
 import $certificates from "./certificates/index.js";
 import $configurations from "./configurations/index.js";
@@ -30,7 +29,6 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($create)
 			.command($list)
 			.command($apptypes)
-			.command($auditsshsettings)
 			.command($categories)
 			.command($certificates)
 			.command($configurations)

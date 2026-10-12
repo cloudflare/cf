@@ -5,6 +5,7 @@ import * as CloudflareApi from "../index.js";
 export interface FlagshipFlag {
     /** Variation the API serves when the flag is off, or when it's on but no rule matches the context. Must be a key in `variations`. */
     default_variation: string;
+    /** Optional operator-facing description. It does not affect flag evaluation. */
     description?: (string | null) | undefined;
     /** When false, the flag bypasses all rules and always serves `default_variation`. */
     enabled: boolean;

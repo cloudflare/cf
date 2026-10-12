@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../../../cor
 import * as environments from "../../../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../../../index.js";
 
 export declare namespace CredentialsClient {
     export type Options = BaseClientOptions;
@@ -31,6 +31,9 @@ export class CredentialsClient {
      *
      * @param {CloudflareApi.apiSecurity.tokenValidation.configurations.UpdateCredentialsRequest} request
      * @param {CredentialsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.apiSecurity.tokenValidation.configurations.credentials.update({
@@ -114,6 +117,9 @@ export class CredentialsClient {
      *
      * @param {CloudflareApi.apiSecurity.tokenValidation.configurations.ApiShieldCredentialsPatchRequest} request
      * @param {CredentialsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.apiSecurity.tokenValidation.configurations.credentials.edit({

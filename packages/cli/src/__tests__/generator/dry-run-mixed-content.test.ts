@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "vite-plus/test";
 import { emitDryRun } from "../../../generator/emit/handler/dry-run.js";
 import type { EmitContext } from "../../../generator/emit/context.js";
 

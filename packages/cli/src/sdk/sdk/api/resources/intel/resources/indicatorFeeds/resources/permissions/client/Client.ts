@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 
 export declare namespace PermissionsClient {
     export type Options = BaseClientOptions;
@@ -31,6 +31,9 @@ export class PermissionsClient {
      *
      * @param {CloudflareApi.intel.indicatorFeeds.CreatePermissionsRequest} request
      * @param {PermissionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.intel.indicatorFeeds.permissions.create({
@@ -104,6 +107,9 @@ export class PermissionsClient {
      * @param {CloudflareApi.intel.indicatorFeeds.DeletePermissionsRequest} request
      * @param {PermissionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.intel.indicatorFeeds.permissions.delete({
      *         account_id: "account_id",
@@ -175,6 +181,9 @@ export class PermissionsClient {
      *
      * @param {CloudflareApi.intel.indicatorFeeds.ListPermissionsRequest} request
      * @param {PermissionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.intel.indicatorFeeds.permissions.list({

@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../../../cor
 import * as environments from "../../../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../../../index.js";
 
 export declare namespace TagCategoriesClient {
     export type Options = BaseClientOptions;
@@ -27,10 +27,13 @@ export class TagCategoriesClient {
     }
 
     /**
-     * Get Threat Signals skill tag categories.
+     * Retrieves the tag categories the default tagging skill may choose tags from.
      *
      * @param {CloudflareApi.cloudforceOne.threatSignals.skills.GetTagCategoriesRequest} request
      * @param {TagCategoriesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.threatSignals.skills.tagCategories.get({
@@ -96,10 +99,13 @@ export class TagCategoriesClient {
     }
 
     /**
-     * Replace Threat Signals skill tag categories.
+     * Replaces the tag categories the default tagging skill may choose tags from.
      *
      * @param {CloudflareApi.cloudforceOne.threatSignals.skills.UpdateTagCategoriesRequest} request
      * @param {TagCategoriesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.threatSignals.skills.tagCategories.update({

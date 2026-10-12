@@ -1,8 +1,3 @@
-import { createCommandClient } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 import type { SdkRequest } from "#sdk";
@@ -11,15 +6,21 @@ import type { SdkRequest } from "#sdk";
  * @generated from apis/overlays/tenant.ts
  */
 import type { Argv, CommandModule } from "yargs";
+import { createCommandClient } from "#lib/auth.js";
+import { formatDryRun } from "#lib/dry-run.js";
+import { formatOutput } from "#lib/output.js";
+import { withProgress } from "#lib/progress.js";
+import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 tenant account-type list\n\nList of account types available for the Tenant to provision accounts."
+			"$0 tenant account-type list\n\nLists the account types this tenant is allowed to provision."
 		)
 		.option("tenant-id", {
 			type: "string",
-			description: "Tenant ID",
+			description:
+				"The ID of the tenant whose available account types to list.",
 			demandOption: true,
 		})
 		.option("dry-run", {
@@ -35,7 +36,7 @@ type Request = SdkRequest<"Tenants_validAccountTypes">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "list",
-	describe: "Get tenant account types",
+	describe: "List tenant account types",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(

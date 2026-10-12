@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * evaluate command
+ * @generated from apis/overlays/zero-trust.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -14,14 +22,6 @@ import {
 	promptForRequiredField,
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * evaluate command
- * @generated from apis/overlays/zero-trust.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -40,6 +40,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"HMAC-Signing",
 			],
 		})
+		.coerce("authentication-type", (value) =>
+			resolveFileToken(value, "authentication-type", "text")
+		)
 		.option("destination-url", {
 			type: "string",
 			description: "Target URL to send the test webhook event to.",
@@ -97,11 +100,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										authentication_type: resolveFileToken(
-											argv["authentication-type"] as string | undefined,
-											"authentication-type",
-											"text"
-										),
+										authentication_type: argv["authentication-type"],
 										destination_url: resolveFileToken(
 											argv["destination-url"] as string | undefined,
 											"destination-url",
@@ -114,6 +113,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 									}),
+						sensitiveBodyPaths: [["signing_secret"]],
 					});
 					return;
 				}
@@ -154,11 +154,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					authentication_type: resolveFileToken(
-						argv["authentication-type"] as string | undefined,
-						"authentication-type",
-						"text"
-					),
+					authentication_type: argv["authentication-type"],
 					destination_url: resolveFileToken(
 						argv["destination-url"] as string | undefined,
 						"destination-url",

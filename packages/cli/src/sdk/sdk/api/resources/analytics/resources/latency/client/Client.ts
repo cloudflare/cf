@@ -7,7 +7,7 @@ import { mergeHeaders } from "../../../../../../core/headers.js";
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 import { ColosClient } from "../resources/colos/client/Client.js";
 
 export declare namespace LatencyClient {
@@ -33,6 +33,9 @@ export class LatencyClient {
      *
      * @param {CloudflareApi.analytics.GetLatencyRequest} request
      * @param {LatencyClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.analytics.latency.get({

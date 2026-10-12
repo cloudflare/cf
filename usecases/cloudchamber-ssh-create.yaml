@@ -1,9 +1,0 @@
-description: "Create a Cloudchamber SSH key"
-command: "wrangler cloudchamber ssh create"
-status: "partial"
-sourceCommands:
-  - "wrangler cloudchamber ssh create"
-cfReplacementFlow:
-  - "cf cloudchamber ssh create --body @ssh-key.json"
-notes:
-  - "Wrangler may prompt/read public key files. cf likely sends body."

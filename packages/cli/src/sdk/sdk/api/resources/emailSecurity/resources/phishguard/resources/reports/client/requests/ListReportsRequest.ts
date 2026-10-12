@@ -9,7 +9,9 @@ import * as CloudflareApi from "../../../../../../../../index.js";
  *         start: "2020-08-01T00:00:00Z",
  *         end: "2020-09-01T00:00:00Z",
  *         from_date: "2020-08-01",
- *         to_date: "2020-09-01"
+ *         to_date: "2020-09-01",
+ *         page: 1,
+ *         per_page: 20
  *     }
  */
 export interface ListReportsRequest {
@@ -23,4 +25,8 @@ export interface ListReportsRequest {
     from_date?: string;
     /** Deprecated, use `end` instead. End date in YYYY-MM-DD format. */
     to_date?: string;
+    /** Current page within paginated list of results. */
+    page?: number;
+    /** The number of results per page. Maximum value is 1000. */
+    per_page?: number;
 }

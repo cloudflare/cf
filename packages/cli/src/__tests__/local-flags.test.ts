@@ -1,5 +1,5 @@
 import { runInTempDir } from "@cloudflare/workers-utils/test-helpers";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "vite-plus/test";
 import { runCf } from "./helpers/run-cf.js";
 
 /**
@@ -79,6 +79,26 @@ describe("--local flag middleware", () => {
 			await expect(runCf(["dev", flag])).rejects.toThrow(
 				"--local is not supported by cf dev."
 			);
+		}
+	);
+
+	it.each([
+		["dev", "--persist-to", "state"],
+		["--persist-to", "state", "dev"],
+		["dev", "--persist-to=state"],
+		["dev", "--persist-to", ""],
+	])("rejects unsupported cf dev arguments: %j", async (...args) => {
+		await expect(runCf(args)).rejects.toThrow(
+			"--persist-to is not supported by cf dev."
+		);
+	});
+
+	it.each(["--help", "-h"])(
+		"allows cf dev --persist-to with %s",
+		async (help) => {
+			await expect(
+				runCf(["dev", "--persist-to", "state", help])
+			).resolves.toEqual({ exitCode: 0 });
 		}
 	);
 

@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "vite-plus/test";
 import { getTelemetrySafeFlags } from "../../../generator/telemetry.js";
 import type { ArgIR } from "../../../generator/intermediate-representation.js";
 

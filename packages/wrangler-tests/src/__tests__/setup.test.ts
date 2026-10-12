@@ -1,4 +1,4 @@
-import { describe, test } from "vitest";
+import { describe, test } from "vite-plus/test";
 
 // `wrangler setup` is the wrangler-internal autoconfig wizard (uses
 // `../autoconfig/run`, `../output`, `../package-manager`,

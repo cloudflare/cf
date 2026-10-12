@@ -7,7 +7,7 @@ import { mergeHeaders } from "../../../../../../core/headers.js";
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 import { TestsClient } from "../resources/tests/client/Client.js";
 
 export declare namespace PagesClient {
@@ -33,6 +33,9 @@ export class PagesClient {
      *
      * @param {CloudflareApi.speed.ListPagesRequest} request
      * @param {PagesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.speed.pages.list({
@@ -101,6 +104,9 @@ export class PagesClient {
      *
      * @param {CloudflareApi.speed.TrendPagesRequest} request
      * @param {PagesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.speed.pages.trend({

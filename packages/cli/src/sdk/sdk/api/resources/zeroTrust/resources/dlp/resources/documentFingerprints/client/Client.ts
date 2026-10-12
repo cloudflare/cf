@@ -12,7 +12,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 
 export declare namespace DocumentFingerprintsClient {
     export type Options = BaseClientOptions;
@@ -32,6 +32,9 @@ export class DocumentFingerprintsClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.ListDocumentFingerprintsRequest} request
      * @param {DocumentFingerprintsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.documentFingerprints.list({
@@ -98,8 +101,11 @@ export class DocumentFingerprintsClient {
     /**
      * Creates a new document fingerprint for DLP scanning. Document fingerprints detect documents that are structurally similar to the uploaded sample.
      *
-     * @param {CloudflareApi.zeroTrust.dlp.CreateDocumentFingerprintsRequest} request
+     * @param {CloudflareApi.zeroTrust.dlp.DlpNewDocumentFingerprint} request
      * @param {DocumentFingerprintsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.documentFingerprints.create({
@@ -109,14 +115,14 @@ export class DocumentFingerprintsClient {
      *     })
      */
     public create(
-        request: CloudflareApi.zeroTrust.dlp.CreateDocumentFingerprintsRequest,
+        request: CloudflareApi.zeroTrust.dlp.DlpNewDocumentFingerprint,
         requestOptions?: DocumentFingerprintsClient.RequestOptions,
     ): core.HttpResponsePromise<CloudflareApi.DlpDocumentFingerprint> {
         return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
     }
 
     private async __create(
-        request: CloudflareApi.zeroTrust.dlp.CreateDocumentFingerprintsRequest,
+        request: CloudflareApi.zeroTrust.dlp.DlpNewDocumentFingerprint,
         requestOptions?: DocumentFingerprintsClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.DlpDocumentFingerprint>> {
         const { account_id: accountId, ..._body } = request;
@@ -170,6 +176,9 @@ export class DocumentFingerprintsClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.GetDocumentFingerprintsRequest} request
      * @param {DocumentFingerprintsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.documentFingerprints.get({
@@ -236,6 +245,9 @@ export class DocumentFingerprintsClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.DlpUpdateDocumentFingerprint} request
      * @param {DocumentFingerprintsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.documentFingerprints.update({
@@ -305,6 +317,9 @@ export class DocumentFingerprintsClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.UploadDocumentFingerprintsRequest} request
      * @param {DocumentFingerprintsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";
@@ -382,6 +397,9 @@ export class DocumentFingerprintsClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.DeleteDocumentFingerprintsRequest} request
      * @param {DocumentFingerprintsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.documentFingerprints.delete({

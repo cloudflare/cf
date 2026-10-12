@@ -1,10 +1,3 @@
-import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { resolveFileToken } from "#lib/input-validation.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 import type { SdkRequest } from "#sdk";
@@ -13,6 +6,13 @@ import type { SdkRequest } from "#sdk";
  * @generated from apis/overlays/email-routing.ts
  */
 import type { Argv, CommandModule } from "yargs";
+import { createCommandClient, getZoneId } from "#lib/auth.js";
+import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
+import { formatDryRun } from "#lib/dry-run.js";
+import { resolveFileToken } from "#lib/input-validation.js";
+import { formatOutput } from "#lib/output.js";
+import { withProgress } from "#lib/progress.js";
+import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -42,6 +42,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Who manages the rule. `api` covers dashboard, generic API, and Terraform;\n`wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults\nto `api` when omitted on write.\n",
 			choices: ["api", "wrangler"],
 		})
+		.coerce("source", (value) => resolveFileToken(value, "source", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -98,11 +99,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"owner-worker-tag",
 											"text"
 										),
-										source: resolveFileToken(
-											argv["source"] as string | undefined,
-											"source",
-											"text"
-										),
+										source: argv["source"],
 									}),
 					});
 					return;
@@ -150,11 +147,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"owner-worker-tag",
 						"text"
 					),
-					source: resolveFileToken(
-						argv["source"] as string | undefined,
-						"source",
-						"text"
-					),
+					source: argv["source"],
 				});
 				const result = await withProgress(`Updating`, async () =>
 					client.emailRouting.rules.catchAll.update({

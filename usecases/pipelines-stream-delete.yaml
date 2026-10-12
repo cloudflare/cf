@@ -1,9 +1,0 @@
-description: "Delete a Pipeline stream"
-command: "wrangler pipelines streams delete <stream>"
-status: "partial"
-sourceCommands:
-  - "wrangler pipelines streams delete <stream>"
-cfReplacementFlow:
-  - "cf pipelines streams delete <stream-id> --force"
-notes:
-  - "Use cf --force for non-interactive deletion."

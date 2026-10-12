@@ -1,10 +1,3 @@
-import { createCommandClient } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { resolveFileToken } from "#lib/input-validation.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 import type { SdkRequest } from "#sdk";
@@ -13,6 +6,13 @@ import type { SdkRequest } from "#sdk";
  * @generated from apis/overlays/cps.ts
  */
 import type { Argv, CommandModule } from "yargs";
+import { createCommandClient } from "#lib/auth.js";
+import { compactBody, parseBody } from "#lib/body-parser.js";
+import { formatDryRun } from "#lib/dry-run.js";
+import { resolveFileToken } from "#lib/input-validation.js";
+import { formatOutput } from "#lib/output.js";
+import { withProgress } from "#lib/progress.js";
+import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -36,6 +36,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"zh-TW",
 			],
 		})
+		.coerce("language-locale", (value) =>
+			resolveFileToken(value, "language-locale", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -78,11 +81,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										"language-locale": resolveFileToken(
-											argv["language-locale"] as string | undefined,
-											"language-locale",
-											"text"
-										),
+										"language-locale": argv["language-locale"],
 									}),
 					});
 					return;
@@ -100,11 +99,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					"language-locale": resolveFileToken(
-						argv["language-locale"] as string | undefined,
-						"language-locale",
-						"text"
-					),
+					"language-locale": argv["language-locale"],
 				});
 				const result = await withProgress(`Updating`, async () =>
 					client.cps.update({ ...bodyData } satisfies Request)

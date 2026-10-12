@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkQuery, SdkRequest } from "#sdk";
+/**
+ * getRequestList command
+ * @generated from apis/overlays/cloudforce-one.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -9,14 +17,6 @@ import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
-/**
- * getRequestList command
- * @generated from apis/overlays/cloudforce-one.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -54,7 +54,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				'JSON string object of metadata filters. Supports two formats: 1) Simple values for exact match (backward compatible): {"status": "open"} 2) Operator objects for advanced filtering: {"identifiers": {"operator": "contains_line", "value": "blah.com"}}. Available operators: \'eq\' (exact match, default), \'contains\' (substring match), \'contains_line\' (match complete line in newline-separated text). Date fields are automatically normalized to YYYY-MM-DD format.',
 		})
-		.option("order-by", { type: "string", description: "OrderBy" })
+		.option("order-by", {
+			type: "string",
+			description:
+				"Sort field. SOC Communications support customer-safe latest_activity ordering.",
+		})
 		.option("order", { type: "string", description: "Order" })
 		.option("dry-run", {
 			type: "boolean",

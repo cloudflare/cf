@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace SpeedBrainClient {
     export type Options = BaseClientOptions;
@@ -29,6 +29,9 @@ export class SpeedBrainClient {
      *
      * @param {CloudflareApi.zones.GetSpeedBrainRequest} request
      * @param {SpeedBrainClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zones.speedBrain.get({
@@ -98,6 +101,9 @@ export class SpeedBrainClient {
      *
      * @param {CloudflareApi.zones.EditSpeedBrainRequest} request
      * @param {SpeedBrainClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zones.speedBrain.edit({

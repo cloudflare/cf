@@ -34,7 +34,7 @@ process.on("warning", (warning) => {
 // main bundle is imported — so that when cf hands off to a project-local
 // copy, the global install never pays to load its (large) command tree.
 // The delegation logic lives in src/lib/delegate.ts and is emitted as a
-// small standalone chunk (see tsdown.config.ts `entry.delegate`).
+// small standalone chunk (see vite.config.ts `pack.entry.delegate`).
 const { maybeDelegateFromProcess } = await import("../dist/delegate.mjs");
 const delegation = await maybeDelegateFromProcess();
 if (delegation.delegated) {

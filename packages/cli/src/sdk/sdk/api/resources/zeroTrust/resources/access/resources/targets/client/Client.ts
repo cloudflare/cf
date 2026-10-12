@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 import { BulkClient } from "../resources/bulk/client/Client.js";
 
 export declare namespace TargetsClient {
@@ -38,6 +38,9 @@ export class TargetsClient {
      *
      * @param {CloudflareApi.zeroTrust.access.ListTargetsRequest} request
      * @param {TargetsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.targets.list({
@@ -157,6 +160,9 @@ export class TargetsClient {
      * @param {CloudflareApi.zeroTrust.access.CreateTargetsRequest} request
      * @param {TargetsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.targets.create({
      *         account_id: "account_id",
@@ -227,6 +233,9 @@ export class TargetsClient {
      * @param {CloudflareApi.zeroTrust.access.GetTargetsRequest} request
      * @param {TargetsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.targets.get({
      *         account_id: "account_id",
@@ -292,6 +301,9 @@ export class TargetsClient {
      *
      * @param {CloudflareApi.zeroTrust.access.UpdateTargetsRequest} request
      * @param {TargetsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.targets.update({
@@ -363,6 +375,9 @@ export class TargetsClient {
      *
      * @param {CloudflareApi.zeroTrust.access.DeleteTargetsRequest} request
      * @param {TargetsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.targets.delete({

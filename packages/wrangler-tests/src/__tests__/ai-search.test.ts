@@ -1,5 +1,5 @@
 import { http, HttpResponse } from "msw";
-import { afterEach, beforeEach, describe, it } from "vitest";
+import { afterEach, beforeEach, describe, it } from "vite-plus/test";
 import { mockAccountId, mockApiToken } from "./helpers/mock-account-id";
 import { mockConsoleMethods } from "./helpers/mock-console";
 import { clearDialogs, mockConfirm } from "./helpers/mock-dialogs";
@@ -102,7 +102,7 @@ describe("ai-search commands", () => {
 			expect,
 		}) => {
 			mockListInstances([MOCK_INSTANCE, MOCK_INSTANCE_2]);
-			await runWrangler("ai-search list --name default");
+			await runWrangler("ai-search list --namespace default");
 			expect(std.out).toContain(MOCK_INSTANCE.id);
 			expect(std.out).toContain(MOCK_INSTANCE_2.id);
 			expect(std.out).toContain(MOCK_INSTANCE.type);
@@ -125,7 +125,7 @@ describe("ai-search commands", () => {
 					{ once: true }
 				)
 			);
-			await runWrangler("ai-search list --name blog");
+			await runWrangler("ai-search list --namespace blog");
 			expect(capturedNamespace).toBe("blog");
 		});
 
@@ -166,7 +166,9 @@ describe("ai-search commands", () => {
 					{ once: true }
 				)
 			);
-			await runWrangler("ai-search list --name default --page 2 --per-page 5");
+			await runWrangler(
+				"ai-search list --namespace default --page 2 --per-page 5"
+			);
 			expect(capturedUrl?.searchParams.get("page")).toBe("2");
 			expect(capturedUrl?.searchParams.get("per_page")).toBe("5");
 		});
@@ -411,7 +413,7 @@ describe("ai-search commands", () => {
 	describe("get", () => {
 		it("should get instance details", async ({ expect }) => {
 			mockGetInstance(MOCK_INSTANCE);
-			await runWrangler("ai-search get my-instance --name default");
+			await runWrangler("ai-search get my-instance --namespace default");
 			expect(std.out).toContain("my-instance");
 			expect(std.out).toContain("r2");
 			expect(std.out).toContain("active");
@@ -453,7 +455,7 @@ describe("ai-search commands", () => {
 				)
 			);
 			await runWrangler(
-				"ai-search update my-instance --name default --chunk-size 256 --chunk-overlap 64 --max-num-results 10 --reranking --cache --score-threshold 0.5"
+				"ai-search update my-instance --namespace default --chunk-size 256 --chunk-overlap 64 --max-num-results 10 --reranking --cache --score-threshold 0.5"
 			);
 			expect(capturedBody).toMatchObject({
 				chunk_size: 256,
@@ -497,7 +499,7 @@ describe("ai-search commands", () => {
 				)
 			);
 			await runWrangler(
-				"ai-search update my-instance --name default --cache --score-threshold 0.75"
+				"ai-search update my-instance --namespace default --cache --score-threshold 0.75"
 			);
 			// Only the fields explicitly passed as flags should be sent;
 			// unpassed flags (incl. create-only required fields) are omitted
@@ -515,7 +517,7 @@ describe("ai-search commands", () => {
 				result: true,
 			});
 			const requests = mockDeleteInstance();
-			await runWrangler("ai-search delete my-instance --name default");
+			await runWrangler("ai-search delete my-instance --namespace default");
 			expect(requests.count).toBe(1);
 		});
 
@@ -525,13 +527,15 @@ describe("ai-search commands", () => {
 				result: false,
 			});
 			const requests = mockDeleteInstance();
-			await runWrangler("ai-search delete my-instance --name default");
+			await runWrangler("ai-search delete my-instance --namespace default");
 			expect(requests.count).toBe(0);
 		});
 
 		it("should delete with --force flag", async ({ expect }) => {
 			const requests = mockDeleteInstance();
-			await runWrangler("ai-search delete my-instance --name default --force");
+			await runWrangler(
+				"ai-search delete my-instance --namespace default --force"
+			);
 			expect(requests.count).toBe(1);
 		});
 		it.todo("should delete instance from custom namespace");
@@ -547,7 +551,7 @@ describe("ai-search commands", () => {
 
 		it("should display stats as JSON", async ({ expect }) => {
 			mockGetStats(MOCK_STATS);
-			await runWrangler("ai-search stats my-instance --name default");
+			await runWrangler("ai-search stats my-instance --namespace default");
 			const parsed = JSON.parse(std.out);
 			expect(parsed.queued).toBe(0);
 			expect(parsed.running).toBe(0);
@@ -594,7 +598,7 @@ describe("ai-search commands", () => {
 				)
 			);
 			await runWrangler(
-				'ai-search search my-instance "hello world" --name default'
+				'ai-search search my-instance "hello world" --namespace default'
 			);
 			// cf sends `{ ai_search_options, query }` rather than wrangler's
 			// `{ messages: [{ role, content }] }`. Same endpoint, different
@@ -605,267 +609,299 @@ describe("ai-search commands", () => {
 	});
 
 	describe("namespace", () => {
-		it("should list namespaces", async ({ expect }) => {
-			mockJson("get", "*/accounts/:accountId/ai-search/namespaces", [
-				MOCK_NAMESPACE,
-				MOCK_NAMESPACE_2,
-			]);
-			await runWrangler("ai-search namespace list");
-			expect(JSON.parse(std.out)).toEqual([MOCK_NAMESPACE, MOCK_NAMESPACE_2]);
-		});
+		describe("list", () => {
+			it("should list namespaces", async ({ expect }) => {
+				mockJson("get", "*/accounts/:accountId/ai-search/namespaces", [
+					MOCK_NAMESPACE,
+					MOCK_NAMESPACE_2,
+				]);
+				await runWrangler("ai-search namespace list");
+				expect(JSON.parse(std.out)).toEqual([MOCK_NAMESPACE, MOCK_NAMESPACE_2]);
+			});
 
-		it.skip("should list namespaces as JSON", async () => {});
-		it.skip("should warn when no namespaces exist", async () => {});
+			it.skip("should list namespaces as JSON", async () => {});
+			it.skip("should warn when no namespaces exist", async () => {});
 
-		it("should pass search and pagination params", async ({ expect }) => {
-			let capturedUrl: URL | undefined;
-			msw.use(
-				http.get(
-					"*/accounts/:accountId/ai-search/namespaces",
-					({ request }) => {
-						capturedUrl = new URL(request.url);
-						return HttpResponse.json(createFetchResult([]));
-					},
-					{ once: true }
-				)
-			);
-			await runWrangler(
-				"ai-search namespace list --page 3 --per-page 10 --search blog"
-			);
-			expect(capturedUrl?.searchParams.get("page")).toBe("3");
-			expect(capturedUrl?.searchParams.get("per_page")).toBe("10");
-			expect(capturedUrl?.searchParams.get("search")).toBe("blog");
-		});
-
-		it("should create a namespace", async ({ expect }) => {
-			let capturedBody: Record<string, unknown> | undefined;
-			msw.use(
-				http.post(
-					"*/accounts/:accountId/ai-search/namespaces",
-					async ({ request }) => {
-						capturedBody = (await request.json()) as Record<string, unknown>;
-						return HttpResponse.json(createFetchResult(MOCK_NAMESPACE_2));
-					},
-					{ once: true }
-				)
-			);
-			await runWrangler(
-				'ai-search namespace create blog --description "Blog content"'
-			);
-			expect(capturedBody).toMatchObject({
-				name: "blog",
-				description: "Blog content",
+			it("should pass search and pagination params", async ({ expect }) => {
+				let capturedUrl: URL | undefined;
+				msw.use(
+					http.get(
+						"*/accounts/:accountId/ai-search/namespaces",
+						({ request }) => {
+							capturedUrl = new URL(request.url);
+							return HttpResponse.json(createFetchResult([]));
+						},
+						{ once: true }
+					)
+				);
+				await runWrangler(
+					"ai-search namespace list --page 3 --per-page 10 --search blog"
+				);
+				expect(capturedUrl?.searchParams.get("page")).toBe("3");
+				expect(capturedUrl?.searchParams.get("per_page")).toBe("10");
+				expect(capturedUrl?.searchParams.get("search")).toBe("blog");
 			});
 		});
 
-		it("should create a namespace without description", async ({ expect }) => {
-			let capturedBody: Record<string, unknown> | undefined;
-			msw.use(
-				http.post(
-					"*/accounts/:accountId/ai-search/namespaces",
-					async ({ request }) => {
-						capturedBody = (await request.json()) as Record<string, unknown>;
-						return HttpResponse.json(createFetchResult(MOCK_NAMESPACE_2));
-					},
-					{ once: true }
-				)
-			);
-			await runWrangler("ai-search namespace create blog");
-			expect(capturedBody).not.toHaveProperty("description");
+		describe("create", () => {
+			it("should create a namespace", async ({ expect }) => {
+				let capturedBody: Record<string, unknown> | undefined;
+				msw.use(
+					http.post(
+						"*/accounts/:accountId/ai-search/namespaces",
+						async ({ request }) => {
+							capturedBody = (await request.json()) as Record<string, unknown>;
+							return HttpResponse.json(createFetchResult(MOCK_NAMESPACE_2));
+						},
+						{ once: true }
+					)
+				);
+				await runWrangler(
+					'ai-search namespace create blog --description "Blog content"'
+				);
+				expect(capturedBody).toMatchObject({
+					name: "blog",
+					description: "Blog content",
+				});
+			});
+
+			it("should create a namespace without description", async ({
+				expect,
+			}) => {
+				let capturedBody: Record<string, unknown> | undefined;
+				msw.use(
+					http.post(
+						"*/accounts/:accountId/ai-search/namespaces",
+						async ({ request }) => {
+							capturedBody = (await request.json()) as Record<string, unknown>;
+							return HttpResponse.json(createFetchResult(MOCK_NAMESPACE_2));
+						},
+						{ once: true }
+					)
+				);
+				await runWrangler("ai-search namespace create blog");
+				expect(capturedBody).not.toHaveProperty("description");
+			});
+
+			it.skip("should create a namespace as JSON", async () => {});
+
+			it("should error when name is missing", async ({ expect }) => {
+				await expect(runWrangler("ai-search namespace create")).rejects.toThrow(
+					"Not enough non-option arguments"
+				);
+			});
 		});
 
-		it.skip("should create a namespace as JSON", async () => {});
-
-		it("should error when name is missing", async ({ expect }) => {
-			await expect(runWrangler("ai-search namespace create")).rejects.toThrow(
-				"Not enough non-option arguments"
-			);
-		});
-
-		it("should get namespace details", async ({ expect }) => {
-			mockJson(
-				"get",
-				"*/accounts/:accountId/ai-search/namespaces/blog",
-				MOCK_NAMESPACE_2
-			);
-			await runWrangler("ai-search namespace get blog");
-			expect(JSON.parse(std.out)).toEqual(MOCK_NAMESPACE_2);
-		});
-
-		it.skip("should get namespace as JSON", async () => {});
-
-		it("should update a namespace description", async ({ expect }) => {
-			let capturedBody: Record<string, unknown> | undefined;
-			msw.use(
-				http.put(
+		describe("get", () => {
+			it("should get namespace details", async ({ expect }) => {
+				mockJson(
+					"get",
 					"*/accounts/:accountId/ai-search/namespaces/blog",
-					async ({ request }) => {
-						capturedBody = (await request.json()) as Record<string, unknown>;
-						return HttpResponse.json(createFetchResult(MOCK_NAMESPACE_2));
-					},
-					{ once: true }
-				)
-			);
-			await runWrangler(
-				'ai-search namespace update blog --description "Updated"'
-			);
-			expect(capturedBody).toEqual({ description: "Updated" });
-		});
-
-		it.todo("should error when no fields are provided");
-
-		it("should delete namespace with confirmation", async ({ expect }) => {
-			mockConfirm({
-				text: "This operation permanently deletes the namespace. Continue?",
-				result: true,
+					MOCK_NAMESPACE_2
+				);
+				await runWrangler("ai-search namespace get blog");
+				expect(JSON.parse(std.out)).toEqual(MOCK_NAMESPACE_2);
 			});
-			const requests = mockCountedDelete(
-				"*/accounts/:accountId/ai-search/namespaces/blog"
-			);
-			await runWrangler("ai-search namespace delete blog");
-			expect(requests.count).toBe(1);
+
+			it.skip("should get namespace as JSON", async () => {});
 		});
 
-		it("should cancel namespace deletion when not confirmed", async ({
-			expect,
-		}) => {
-			mockConfirm({
-				text: "This operation permanently deletes the namespace. Continue?",
-				result: false,
+		describe("update", () => {
+			it("should update a namespace description", async ({ expect }) => {
+				let capturedBody: Record<string, unknown> | undefined;
+				msw.use(
+					http.put(
+						"*/accounts/:accountId/ai-search/namespaces/blog",
+						async ({ request }) => {
+							capturedBody = (await request.json()) as Record<string, unknown>;
+							return HttpResponse.json(createFetchResult(MOCK_NAMESPACE_2));
+						},
+						{ once: true }
+					)
+				);
+				await runWrangler(
+					'ai-search namespace update blog --description "Updated"'
+				);
+				expect(capturedBody).toEqual({ description: "Updated" });
 			});
-			const requests = mockCountedDelete(
-				"*/accounts/:accountId/ai-search/namespaces/blog"
-			);
-			await runWrangler("ai-search namespace delete blog");
-			expect(requests.count).toBe(0);
+
+			it.todo("should error when no fields are provided");
 		});
 
-		it("should delete namespace with --force flag", async ({ expect }) => {
-			const requests = mockCountedDelete(
-				"*/accounts/:accountId/ai-search/namespaces/blog"
-			);
-			await runWrangler("ai-search namespace delete blog --force");
-			expect(requests.count).toBe(1);
+		describe("delete", () => {
+			it("should delete namespace with confirmation", async ({ expect }) => {
+				mockConfirm({
+					text: "This operation permanently deletes the namespace. Continue?",
+					result: true,
+				});
+				const requests = mockCountedDelete(
+					"*/accounts/:accountId/ai-search/namespaces/blog"
+				);
+				await runWrangler("ai-search namespace delete blog");
+				expect(requests.count).toBe(1);
+			});
+
+			it("should cancel namespace deletion when not confirmed", async ({
+				expect,
+			}) => {
+				mockConfirm({
+					text: "This operation permanently deletes the namespace. Continue?",
+					result: false,
+				});
+				const requests = mockCountedDelete(
+					"*/accounts/:accountId/ai-search/namespaces/blog"
+				);
+				await runWrangler("ai-search namespace delete blog");
+				expect(requests.count).toBe(0);
+			});
+
+			it("should delete namespace with --force flag", async ({ expect }) => {
+				const requests = mockCountedDelete(
+					"*/accounts/:accountId/ai-search/namespaces/blog"
+				);
+				await runWrangler("ai-search namespace delete blog --force");
+				expect(requests.count).toBe(1);
+			});
 		});
 	});
 
 	describe("jobs", () => {
-		it("should list jobs for an instance", async ({ expect }) => {
-			mockJson(
-				"get",
-				"*/accounts/:accountId/ai-search/namespaces/default/instances/my-instance/jobs",
-				[MOCK_JOB, MOCK_JOB_2]
-			);
-			await runWrangler("ai-search jobs list --name default --id my-instance");
-			expect(JSON.parse(std.out)).toEqual([MOCK_JOB, MOCK_JOB_2]);
-		});
-
-		it.skip("should list jobs as JSON", async () => {});
-
-		it("should route through the instance and namespace", async ({
-			expect,
-		}) => {
-			let captured: Record<string, string | readonly string[] | undefined> = {};
-			msw.use(
-				http.get(
-					"*/accounts/:accountId/ai-search/namespaces/:namespace/instances/:id/jobs",
-					({ params }) => {
-						captured = params;
-						return HttpResponse.json(createFetchResult([]));
-					},
-					{ once: true }
-				)
-			);
-			await runWrangler("ai-search jobs list --name blog --id my-instance");
-			expect(captured.namespace).toBe("blog");
-			expect(captured.id).toBe("my-instance");
-		});
-
-		it.skip("should warn when no jobs exist", async () => {});
-
-		it("should pass pagination params", async ({ expect }) => {
-			let capturedUrl: URL | undefined;
-			msw.use(
-				http.get(
+		describe("list", () => {
+			it("should list jobs for an instance", async ({ expect }) => {
+				mockJson(
+					"get",
 					"*/accounts/:accountId/ai-search/namespaces/default/instances/my-instance/jobs",
-					({ request }) => {
-						capturedUrl = new URL(request.url);
-						return HttpResponse.json(createFetchResult([]));
-					},
-					{ once: true }
-				)
-			);
-			await runWrangler(
-				"ai-search jobs list --name default --id my-instance --page 2 --per-page 5"
-			);
-			expect(capturedUrl?.searchParams.get("page")).toBe("2");
-			expect(capturedUrl?.searchParams.get("per_page")).toBe("5");
+					[MOCK_JOB, MOCK_JOB_2]
+				);
+				await runWrangler(
+					"ai-search jobs list --namespace default --instance-id my-instance"
+				);
+				expect(JSON.parse(std.out)).toEqual([MOCK_JOB, MOCK_JOB_2]);
+			});
+
+			it.skip("should list jobs as JSON", async () => {});
+
+			it("should route through the instance and namespace", async ({
+				expect,
+			}) => {
+				let captured: Record<string, string | readonly string[] | undefined> =
+					{};
+				msw.use(
+					http.get(
+						"*/accounts/:accountId/ai-search/namespaces/:namespace/instances/:id/jobs",
+						({ params }) => {
+							captured = params;
+							return HttpResponse.json(createFetchResult([]));
+						},
+						{ once: true }
+					)
+				);
+				await runWrangler(
+					"ai-search jobs list --namespace blog --instance-id my-instance"
+				);
+				expect(captured.namespace).toBe("blog");
+				expect(captured.id).toBe("my-instance");
+			});
+
+			it.skip("should warn when no jobs exist", async () => {});
+
+			it("should pass pagination params", async ({ expect }) => {
+				let capturedUrl: URL | undefined;
+				msw.use(
+					http.get(
+						"*/accounts/:accountId/ai-search/namespaces/default/instances/my-instance/jobs",
+						({ request }) => {
+							capturedUrl = new URL(request.url);
+							return HttpResponse.json(createFetchResult([]));
+						},
+						{ once: true }
+					)
+				);
+				await runWrangler(
+					"ai-search jobs list --namespace default --instance-id my-instance --page 2 --per-page 5"
+				);
+				expect(capturedUrl?.searchParams.get("page")).toBe("2");
+				expect(capturedUrl?.searchParams.get("per_page")).toBe("5");
+			});
 		});
 
-		it("should create a job with a description", async ({ expect }) => {
-			let capturedBody: Record<string, unknown> | undefined;
-			msw.use(
-				http.post(
-					"*/accounts/:accountId/ai-search/namespaces/default/instances/my-instance/jobs",
-					async ({ request }) => {
-						capturedBody = (await request.json()) as Record<string, unknown>;
-						return HttpResponse.json(createFetchResult(MOCK_JOB));
-					},
-					{ once: true }
-				)
-			);
-			await runWrangler(
-				'ai-search jobs create my-instance --name default --description "Manual reindex"'
-			);
-			expect(capturedBody).toEqual({ description: "Manual reindex" });
+		describe("create", () => {
+			it("should create a job with a description", async ({ expect }) => {
+				let capturedBody: Record<string, unknown> | undefined;
+				msw.use(
+					http.post(
+						"*/accounts/:accountId/ai-search/namespaces/default/instances/my-instance/jobs",
+						async ({ request }) => {
+							capturedBody = (await request.json()) as Record<string, unknown>;
+							return HttpResponse.json(createFetchResult(MOCK_JOB));
+						},
+						{ once: true }
+					)
+				);
+				await runWrangler(
+					'ai-search jobs create my-instance --namespace default --description "Manual reindex"'
+				);
+				expect(capturedBody).toEqual({ description: "Manual reindex" });
+			});
+
+			it("should create a job without a description", async ({ expect }) => {
+				let capturedBody: Record<string, unknown> | undefined;
+				msw.use(
+					http.post(
+						"*/accounts/:accountId/ai-search/namespaces/default/instances/my-instance/jobs",
+						async ({ request }) => {
+							capturedBody = (await request.json()) as Record<string, unknown>;
+							return HttpResponse.json(createFetchResult(MOCK_JOB));
+						},
+						{ once: true }
+					)
+				);
+				await runWrangler(
+					"ai-search jobs create my-instance --namespace default"
+				);
+				expect(capturedBody).toEqual({});
+			});
+
+			it.skip("should create a job as JSON", async () => {});
 		});
 
-		it("should create a job without a description", async ({ expect }) => {
-			let capturedBody: Record<string, unknown> | undefined;
-			msw.use(
-				http.post(
-					"*/accounts/:accountId/ai-search/namespaces/default/instances/my-instance/jobs",
-					async ({ request }) => {
-						capturedBody = (await request.json()) as Record<string, unknown>;
-						return HttpResponse.json(createFetchResult(MOCK_JOB));
-					},
-					{ once: true }
-				)
-			);
-			await runWrangler("ai-search jobs create my-instance --name default");
-			expect(capturedBody).toEqual({});
+		describe("get", () => {
+			it("should get job details", async ({ expect }) => {
+				mockJson(
+					"get",
+					"*/accounts/:accountId/ai-search/namespaces/default/instances/my-instance/jobs/job-001",
+					MOCK_JOB
+				);
+				await runWrangler(
+					"ai-search jobs get job-001 --namespace default --instance-id my-instance"
+				);
+				expect(JSON.parse(std.out)).toEqual(MOCK_JOB);
+			});
+
+			it.skip("should get a job as JSON", async () => {});
+			it.todo("should route through the job id in the URL");
+
+			it("should error when job id is missing", async ({ expect }) => {
+				await expect(
+					runWrangler(
+						"ai-search jobs get --namespace default --instance-id my-instance"
+					)
+				).rejects.toThrow("Not enough non-option arguments");
+			});
 		});
 
-		it.skip("should create a job as JSON", async () => {});
-
-		it("should get job details", async ({ expect }) => {
-			mockJson(
-				"get",
-				"*/accounts/:accountId/ai-search/namespaces/default/instances/my-instance/jobs/job-001",
-				MOCK_JOB
-			);
-			await runWrangler(
-				"ai-search jobs get job-001 --name default --id my-instance"
-			);
-			expect(JSON.parse(std.out)).toEqual(MOCK_JOB);
+		describe("cancel", () => {
+			it.todo("should cancel with confirmation");
+			it.todo("should send action=cancel in the PATCH body");
+			it.todo("should abort when not confirmed");
+			it.todo("should cancel with --force flag");
 		});
 
-		it.skip("should get a job as JSON", async () => {});
-		it.todo("should route through the job id in the URL");
-
-		it("should error when job id is missing", async ({ expect }) => {
-			await expect(
-				runWrangler("ai-search jobs get --name default --id my-instance")
-			).rejects.toThrow("Not enough non-option arguments");
+		describe("logs", () => {
+			it.todo("should list job logs");
+			it.skip("should list job logs as JSON", async () => {});
+			it.skip("should warn when no logs exist", async () => {});
 		});
-
-		it.todo("should cancel with confirmation");
-		it.todo("should send action=cancel in the PATCH body");
-		it.todo("should abort when not confirmed");
-		it.todo("should cancel with --force flag");
-		it.todo("should list job logs");
-		it.skip("should list job logs as JSON", async () => {});
-		it.skip("should warn when no logs exist", async () => {});
 	});
 });
 

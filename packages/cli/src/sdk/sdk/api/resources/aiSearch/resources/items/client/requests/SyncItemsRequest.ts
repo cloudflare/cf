@@ -4,18 +4,18 @@
  * @example
  *     {
  *         account_id: "c3dc5f0b34a14ff8e1b3ec04895e1b22",
- *         name: "my-namespace",
- *         id: "my-ai-search",
+ *         namespace: "my-namespace",
+ *         "instance-id": "my-ai-search",
  *         item_id: "item_id"
  *     }
  */
 export interface SyncItemsRequest {
     account_id: string;
     /** Namespace name */
-    name: string;
+    namespace: string;
     /** AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores. */
-    id: string;
+    "instance-id": string;
     item_id: string;
-    /** Wait for indexing to fully complete before responding. On RAGs with vector indexing enabled, this additionally waits for Vectorize ingestion confirmation (up to 40s) so the returned item reflects a queryable state. On timeout the item is returned in `running` state and the background alarm continues polling. Defaults to false. */
+    /** Wait for indexing before responding. After processing, vector-indexed instances use any time remaining in a 25s wait budget to confirm Vectorize ingestion. Processing itself is not interrupted and can exceed that budget. If confirmation times out, the current item state is returned and background indexing continues. Defaults to false. */
     wait_for_completion?: boolean;
 }

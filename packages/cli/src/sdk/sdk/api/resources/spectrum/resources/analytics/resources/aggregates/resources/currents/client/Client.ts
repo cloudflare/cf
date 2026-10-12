@@ -10,7 +10,7 @@ import { mergeHeaders } from "../../../../../../../../../../core/headers.js";
 import * as environments from "../../../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../../../index.js";
 
 export declare namespace CurrentsClient {
     export type Options = BaseClientOptions;
@@ -30,6 +30,9 @@ export class CurrentsClient {
      *
      * @param {CloudflareApi.spectrum.analytics.aggregates.GetCurrentsRequest} request
      * @param {CurrentsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.spectrum.analytics.aggregates.currents.get({

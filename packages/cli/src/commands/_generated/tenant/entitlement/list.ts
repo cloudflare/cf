@@ -1,8 +1,3 @@
-import { createCommandClient } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 import type { SdkRequest } from "#sdk";
@@ -11,15 +6,21 @@ import type { SdkRequest } from "#sdk";
  * @generated from apis/overlays/tenant.ts
  */
 import type { Argv, CommandModule } from "yargs";
+import { createCommandClient } from "#lib/auth.js";
+import { formatDryRun } from "#lib/dry-run.js";
+import { formatOutput } from "#lib/output.js";
+import { withProgress } from "#lib/progress.js";
+import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 tenant entitlement list\n\nList of innate entitlements available for the Tenant."
+			"$0 tenant entitlement list\n\nRetrieves the innate and custom entitlement allocations available to this tenant."
 		)
 		.option("tenant-id", {
 			type: "string",
-			description: "Tenant ID",
+			description:
+				"The ID of the tenant whose entitlement allocations to retrieve.",
 			demandOption: true,
 		})
 		.option("dry-run", {

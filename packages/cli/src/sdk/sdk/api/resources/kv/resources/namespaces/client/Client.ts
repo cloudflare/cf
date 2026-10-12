@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace NamespacesClient {
     export type Options = BaseClientOptions;
@@ -28,6 +28,9 @@ export class NamespacesClient {
      *
      * @param {CloudflareApi.kv.ListNamespacesRequest} request
      * @param {NamespacesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.kv.namespaces.list({
@@ -107,6 +110,9 @@ export class NamespacesClient {
      * @param {CloudflareApi.kv.WorkersKvCreateNamespaceBody} request
      * @param {NamespacesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.kv.namespaces.create({
      *         account_id: "account_id",
@@ -176,6 +182,9 @@ export class NamespacesClient {
      * @param {CloudflareApi.kv.GetNamespacesRequest} request
      * @param {NamespacesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.kv.namespaces.get({
      *         account_id: "account_id",
@@ -241,6 +250,9 @@ export class NamespacesClient {
      *
      * @param {CloudflareApi.kv.WorkersKvCreateRenameNamespaceBody} request
      * @param {NamespacesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.kv.namespaces.update({
@@ -311,6 +323,9 @@ export class NamespacesClient {
      *
      * @param {CloudflareApi.kv.DeleteNamespacesRequest} request
      * @param {NamespacesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.kv.namespaces.delete({

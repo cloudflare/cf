@@ -1,9 +1,0 @@
-description: "Make an arbitrary request to a Cloudchamber endpoint"
-command: "wrangler cloudchamber curl"
-status: "gap"
-sourceCommands:
-  - "wrangler cloudchamber curl"
-cfReplacementFlow:
-  - "No direct cf replacement."
-notes:
-  - "This is a local HTTP helper, not plain API CRUD."

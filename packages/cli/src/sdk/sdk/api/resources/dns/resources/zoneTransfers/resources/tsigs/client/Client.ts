@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 
 export declare namespace TsigsClient {
     export type Options = BaseClientOptions;
@@ -31,6 +31,9 @@ export class TsigsClient {
      *
      * @param {CloudflareApi.dns.zoneTransfers.ListTsigsRequest} request
      * @param {TsigsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.dns.zoneTransfers.tsigs.list({
@@ -99,6 +102,9 @@ export class TsigsClient {
      *
      * @param {CloudflareApi.dns.zoneTransfers.CreateTsigsRequest} request
      * @param {TsigsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.dns.zoneTransfers.tsigs.create({
@@ -173,6 +179,9 @@ export class TsigsClient {
      * @param {CloudflareApi.dns.zoneTransfers.GetTsigsRequest} request
      * @param {TsigsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.dns.zoneTransfers.tsigs.get({
      *         account_id: "account_id",
@@ -238,6 +247,9 @@ export class TsigsClient {
      *
      * @param {CloudflareApi.dns.zoneTransfers.UpdateTsigsRequest} request
      * @param {TsigsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.dns.zoneTransfers.tsigs.update({
@@ -312,6 +324,9 @@ export class TsigsClient {
      *
      * @param {CloudflareApi.dns.zoneTransfers.DeleteTsigsRequest} request
      * @param {TsigsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.dns.zoneTransfers.tsigs.delete({

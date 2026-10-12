@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 
 export declare namespace AudioTracksClient {
     export type Options = BaseClientOptions;
@@ -31,6 +31,9 @@ export class AudioTracksClient {
      *
      * @param {CloudflareApi.stream.videos.ListAudioTracksRequest} request
      * @param {AudioTracksClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.stream.videos.audioTracks.list({
@@ -100,6 +103,9 @@ export class AudioTracksClient {
      *
      * @param {CloudflareApi.stream.videos.StreamCopyAudioTrack} request
      * @param {AudioTracksClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.stream.videos.audioTracks.copy({
@@ -171,6 +177,9 @@ export class AudioTracksClient {
      * @param {CloudflareApi.stream.videos.DeleteAudioTracksRequest} request
      * @param {AudioTracksClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.stream.videos.audioTracks.delete({
      *         account_id: "account_id",
@@ -237,6 +246,9 @@ export class AudioTracksClient {
      *
      * @param {CloudflareApi.stream.videos.StreamEditAudioTrack} request
      * @param {AudioTracksClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.stream.videos.audioTracks.edit({

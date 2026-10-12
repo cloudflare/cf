@@ -7,15 +7,5 @@ import * as CloudflareApi from "../index.js";
  */
 export interface PagesSource {
     config: CloudflareApi.PagesSourceConfig;
-    /** The source control management provider. */
-    type: PagesSource.Type;
-}
-
-export namespace PagesSource {
-    /** The source control management provider. */
-    export const Type = {
-        Github: "github",
-        Gitlab: "gitlab",
-    } as const;
-    export type Type = (typeof Type)[keyof typeof Type];
+    type: CloudflareApi.PagesSourceType;
 }

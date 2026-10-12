@@ -1,3 +1,10 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+/**
+ * to-markdown command
+ * @generated from apis/overlays/ai.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -11,18 +18,11 @@ import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-/**
- * to-markdown command
- * @generated from apis/overlays/ai.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 ai to-markdown\n\nConverts uploaded files into Markdown format using Workers AI."
+			"$0 ai to-markdown\n\nConverts files uploaded as multipart form data into Markdown using Workers AI. Returns a conversion result for each file. Use the supported-formats endpoint to check accepted file types."
 		)
 		.option("dry-run", {
 			type: "boolean",
@@ -39,7 +39,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("files", {
 			type: "string",
-			description: "The files",
+			description: "Files to convert, supplied as multipart file uploads.",
 		});
 }
 
@@ -47,7 +47,7 @@ type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "to-markdown",
-	describe: "Convert Files into Markdown",
+	describe: "Convert uploaded files to Markdown",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(

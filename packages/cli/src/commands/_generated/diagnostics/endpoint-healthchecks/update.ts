@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * update command
+ * @generated from apis/overlays/diagnostics.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -14,14 +22,6 @@ import {
 	promptForRequiredField,
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * update command
- * @generated from apis/overlays/diagnostics.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -38,6 +38,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "type of check to perform",
 			choices: ["icmp"],
 		})
+		.coerce("check-type", (value) =>
+			resolveFileToken(value, "check-type", "text")
+		)
 		.option("endpoint", {
 			type: "string",
 			description: "the IP address of the host to perform checks against",
@@ -88,11 +91,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										check_type: resolveFileToken(
-											argv["check-type"] as string | undefined,
-											"check-type",
-											"text"
-										),
+										check_type: argv["check-type"],
 										endpoint: resolveFileToken(
 											argv["endpoint"] as string | undefined,
 											"endpoint",
@@ -139,11 +138,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					check_type: resolveFileToken(
-						argv["check-type"] as string | undefined,
-						"check-type",
-						"text"
-					),
+					check_type: argv["check-type"],
 					endpoint: resolveFileToken(
 						argv["endpoint"] as string | undefined,
 						"endpoint",

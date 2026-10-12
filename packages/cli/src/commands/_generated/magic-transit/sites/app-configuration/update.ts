@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * update command
+ * @generated from apis/overlays/magic-transit.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -10,14 +18,6 @@ import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * update command
- * @generated from apis/overlays/magic-transit.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -72,7 +72,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 type Request = SdkRequest<"magic-site-app-configs-update-app-config">;
-type Body = Request["body"];
+type Body = Request;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "update <app-config-id>",
@@ -125,10 +125,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody<Request>(argv.body);
 					const result = await withProgress(`Updating`, async () =>
 						client.magicTransit.sites.appConfiguration.update({
-							body: bodyData,
+							...bodyData,
 							account_id: accountId,
 							site_id: argv["site-id"],
 							app_config_id: argv["app-config-id"],
@@ -156,7 +156,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				});
 				const result = await withProgress(`Updating`, async () =>
 					client.magicTransit.sites.appConfiguration.update({
-						body: bodyData,
+						...bodyData,
 						account_id: accountId,
 						site_id: argv["site-id"],
 						app_config_id: argv["app-config-id"],

@@ -7,5 +7,5 @@ export interface AccessSingleResponse22 {
     messages: CloudflareApi.AccessMessages;
     /** Whether the API call was successful. */
     success: true;
-    result?: CloudflareApi.AccessPolicies | undefined;
+    result?: CloudflareApi.AccessApps | undefined;
 }

@@ -1,11 +1,3 @@
-import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { resolveFileToken } from "#lib/input-validation.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { promptForRequiredField } from "#lib/prompt.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 import type { SdkRequest } from "#sdk";
@@ -14,6 +6,14 @@ import type { SdkRequest } from "#sdk";
  * @generated from apis/overlays/custom-certificates.ts
  */
 import type { Argv, CommandModule } from "yargs";
+import { createCommandClient, getZoneId } from "#lib/auth.js";
+import { compactBody, parseBody } from "#lib/body-parser.js";
+import { formatDryRun } from "#lib/dry-run.js";
+import { resolveFileToken } from "#lib/input-validation.js";
+import { formatOutput } from "#lib/output.js";
+import { withProgress } from "#lib/progress.js";
+import { promptForRequiredField } from "#lib/prompt.js";
+import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -27,6 +27,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["ubiquitous", "optimal", "force"],
 			default: "ubiquitous",
 		})
+		.coerce("bundle-method", (value) =>
+			resolveFileToken(value, "bundle-method", "text")
+		)
 		.option("certificate", {
 			type: "string",
 			description:
@@ -43,11 +46,15 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["staging", "production"],
 			default: "production",
 		})
+		.coerce("deploy", (value) => resolveFileToken(value, "deploy", "text"))
 		.option("geo-restrictions-label", {
 			type: "string",
 			description: "The geo_restrictions.label field",
 			choices: ["us", "eu", "highest_security"],
 		})
+		.coerce("geo-restrictions-label", (value) =>
+			resolveFileToken(value, "geo-restrictions-label", "text")
+		)
 		.option("policy", {
 			type: "string",
 			description:
@@ -65,6 +72,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["legacy_custom", "sni_custom"],
 			default: "legacy_custom",
 		})
+		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -114,11 +122,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										bundle_method: resolveFileToken(
-											argv["bundle-method"] as string | undefined,
-											"bundle-method",
-											"text"
-										),
+										bundle_method: argv["bundle-method"],
 										certificate: resolveFileToken(
 											argv["certificate"] as string | undefined,
 											"certificate",
@@ -129,17 +133,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"custom-csr-id",
 											"text"
 										),
-										deploy: resolveFileToken(
-											argv["deploy"] as string | undefined,
-											"deploy",
-											"text"
-										),
+										deploy: argv["deploy"],
 										geo_restrictions: {
-											label: resolveFileToken(
-												argv["geo-restrictions-label"] as string | undefined,
-												"geo-restrictions-label",
-												"text"
-											),
+											label: argv["geo-restrictions-label"],
 										},
 										policy: resolveFileToken(
 											argv["policy"] as string | undefined,
@@ -151,12 +147,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"private-key",
 											"text"
 										),
-										type: resolveFileToken(
-											argv["type"] as string | undefined,
-											"type",
-											"text"
-										),
+										type: argv["type"],
 									}),
+						sensitiveBodyPaths: [["private_key"]],
 					});
 					return;
 				}
@@ -186,11 +179,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					bundle_method: resolveFileToken(
-						argv["bundle-method"] as string | undefined,
-						"bundle-method",
-						"text"
-					),
+					bundle_method: argv["bundle-method"],
 					certificate: resolveFileToken(
 						argv["certificate"] as string | undefined,
 						"certificate",
@@ -201,17 +190,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"custom-csr-id",
 						"text"
 					),
-					deploy: resolveFileToken(
-						argv["deploy"] as string | undefined,
-						"deploy",
-						"text"
-					),
+					deploy: argv["deploy"],
 					geo_restrictions: {
-						label: resolveFileToken(
-							argv["geo-restrictions-label"] as string | undefined,
-							"geo-restrictions-label",
-							"text"
-						),
+						label: argv["geo-restrictions-label"],
 					},
 					policy: resolveFileToken(
 						argv["policy"] as string | undefined,
@@ -223,11 +204,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"private-key",
 						"text"
 					),
-					type: resolveFileToken(
-						argv["type"] as string | undefined,
-						"type",
-						"text"
-					),
+					type: argv["type"],
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.customCertificates.create({

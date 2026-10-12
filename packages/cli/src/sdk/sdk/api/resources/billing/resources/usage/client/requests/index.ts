@@ -1,4 +1,4 @@
-export type { BillableUsageApiV2UsageQuery } from "./BillableUsageApiV2UsageQuery.js";
+export { BillableUsageApiV2UsageQuery } from "./BillableUsageApiV2UsageQuery.js";
 export type { GetAccountBillableMetricsUsageRequest } from "./GetAccountBillableMetricsUsageRequest.js";
 export type { GetAccountUsageV2UsageRequest } from "./GetAccountUsageV2UsageRequest.js";
 export type { GetInfoV1UsageRequest } from "./GetInfoV1UsageRequest.js";

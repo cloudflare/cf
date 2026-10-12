@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * create command
+ * @generated from apis/overlays/magic-transit.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -14,14 +22,6 @@ import {
 	promptForRequiredField,
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * create command
- * @generated from apis/overlays/magic-transit.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -39,6 +39,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Action to take when a route matches one of the targets in this profile",
 			choices: ["allow", "deny"],
 		})
+		.coerce("match-action", (value) =>
+			resolveFileToken(value, "match-action", "text")
+		)
 		.option("name", {
 			type: "string",
 			description: "Friendly name for the filter profile",
@@ -96,11 +99,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"description",
 											"text"
 										),
-										match_action: resolveFileToken(
-											argv["match-action"] as string | undefined,
-											"match-action",
-											"text"
-										),
+										match_action: argv["match-action"],
 										name: resolveFileToken(
 											argv["name"] as string | undefined,
 											"name",
@@ -152,11 +151,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"description",
 						"text"
 					),
-					match_action: resolveFileToken(
-						argv["match-action"] as string | undefined,
-						"match-action",
-						"text"
-					),
+					match_action: argv["match-action"],
 					name: resolveFileToken(
 						argv["name"] as string | undefined,
 						"name",

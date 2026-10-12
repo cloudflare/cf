@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 
 export declare namespace RetentionClient {
     export type Options = BaseClientOptions;
@@ -27,10 +27,15 @@ export class RetentionClient {
     }
 
     /**
+     * @deprecated
+     *
      * Gets log retention flag for Logpull API.
      *
      * @param {CloudflareApi.logs.control.GetRetentionRequest} request
      * @param {RetentionClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.logs.control.retention.get({
@@ -95,10 +100,15 @@ export class RetentionClient {
     }
 
     /**
+     * @deprecated
+     *
      * Updates log retention flag for Logpull API.
      *
      * @param {CloudflareApi.logs.control.CreateRetentionRequest} request
      * @param {RetentionClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.logs.control.retention.create({

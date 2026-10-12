@@ -5,6 +5,8 @@ export interface IamPermissionsGroupResponseCollectionResultItem {
     category?: IamPermissionsGroupResponseCollectionResultItem.Category | undefined;
     /** Public ID. */
     id?: string | undefined;
+    /** Whether the caller can select this permission group when creating a token. */
+    is_selectable?: boolean | undefined;
     /** Permission Group Name */
     name?: string | undefined;
     /** Resources to which the Permission Group is scoped */

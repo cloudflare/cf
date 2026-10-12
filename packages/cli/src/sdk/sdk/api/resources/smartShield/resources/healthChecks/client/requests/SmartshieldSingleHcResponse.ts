@@ -7,14 +7,8 @@ import * as CloudflareApi from "../../../../../../index.js";
  *     {
  *         zone_id: "zone_id",
  *         healthcheck_id: "healthcheck_id",
- *         errors: [{
- *                 code: 1,
- *                 message: "message"
- *             }],
- *         messages: [{
- *                 code: 1,
- *                 message: "message"
- *             }],
+ *         errors: [],
+ *         messages: [],
  *         result: {}
  *     }
  */

@@ -1,10 +1,3 @@
-import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { resolveFileToken } from "#lib/input-validation.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 import type { SdkRequest } from "#sdk";
@@ -13,6 +6,13 @@ import type { SdkRequest } from "#sdk";
  * @generated from apis/overlays/precursor.ts
  */
 import type { Argv, CommandModule } from "yargs";
+import { createCommandClient, getZoneId } from "#lib/auth.js";
+import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
+import { formatDryRun } from "#lib/dry-run.js";
+import { resolveFileToken } from "#lib/input-validation.js";
+import { formatOutput } from "#lib/output.js";
+import { withProgress } from "#lib/progress.js";
+import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -25,6 +25,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"The zone-level Precursor enforcement mode applied to requests that do\nnot match a more specific enforcement rule.\n",
 			choices: ["off", "min-friction", "max-security"],
 		})
+		.coerce("default-mode", (value) =>
+			resolveFileToken(value, "default-mode", "text")
+		)
 		.option("enforcement-rules", {
 			type: "string",
 			description:
@@ -73,11 +76,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										default_mode: resolveFileToken(
-											argv["default-mode"] as string | undefined,
-											"default-mode",
-											"text"
-										),
+										default_mode: argv["default-mode"],
 										enforcement_rules: parseObjectArray(
 											argv["enforcement-rules"],
 											"enforcement-rules"
@@ -106,11 +105,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					default_mode: resolveFileToken(
-						argv["default-mode"] as string | undefined,
-						"default-mode",
-						"text"
-					),
+					default_mode: argv["default-mode"],
 					enforcement_rules: parseObjectArray(
 						argv["enforcement-rules"],
 						"enforcement-rules"

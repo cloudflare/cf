@@ -4,12 +4,12 @@
  * @example
  *     {
  *         account_id: "account_id",
- *         tunnel_id: "tunnel_id"
+ *         "node-id": "tunnel_id"
  *     }
  */
 export interface DeleteNodesRequest {
     /** Cloudflare account ID */
     account_id: string;
     /** UUID of the tunnel. */
-    tunnel_id: string;
+    "node-id": string;
 }

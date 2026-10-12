@@ -1,5 +1,5 @@
 import { http, HttpResponse } from "msw";
-import { afterEach, beforeEach, describe, it } from "vitest";
+import { afterEach, beforeEach, describe, it } from "vite-plus/test";
 import { mockAccountId, mockApiToken } from "./helpers/mock-account-id";
 import { mockConsoleMethods } from "./helpers/mock-console";
 import { clearDialogs, mockConfirm } from "./helpers/mock-dialogs";
@@ -119,10 +119,10 @@ describe("turnstile widget commands", () => {
 		const request = mockWidgetCreate();
 
 		await runWrangler(
-			"turnstile widgets create --name Example --domains example.com --mode staging"
+			"turnstile widgets create --name Example --domains example.com --mode staging --widget-mode managed"
 		);
 
-		await expect(request).resolves.not.toHaveProperty("mode");
+		await expect(request).resolves.toHaveProperty("mode", "managed");
 	});
 
 	it.todo("splits comma-separated values in --domain");

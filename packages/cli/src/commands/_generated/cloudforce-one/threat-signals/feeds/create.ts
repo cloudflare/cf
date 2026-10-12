@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * create command
+ * @generated from apis/overlays/cloudforce-one.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -10,19 +18,11 @@ import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * create command
- * @generated from apis/overlays/cloudforce-one.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one threat-signals feeds create\n\nCreate Threat Signals feed."
+			"$0 cloudforce-one threat-signals feeds create\n\nSubscribes the account to a custom or curated Threat Signals feed."
 		)
 		.option("category-id", {
 			type: "string",
@@ -39,6 +39,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"ab02a976-0a20-5c76-a553-7f6325afacfe",
 			],
 		})
+		.coerce("category-id", (value) =>
+			resolveFileToken(value, "category-id", "text")
+		)
 		.option("curated-feed-id", {
 			type: "string",
 			description: "The curated_feed_id field",
@@ -101,11 +104,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										category_id: resolveFileToken(
-											argv["category-id"] as string | undefined,
-											"category-id",
-											"text"
-										),
+										category_id: argv["category-id"],
 										curated_feed_id: resolveFileToken(
 											argv["curated-feed-id"] as string | undefined,
 											"curated-feed-id",
@@ -150,11 +149,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					category_id: resolveFileToken(
-						argv["category-id"] as string | undefined,
-						"category-id",
-						"text"
-					),
+					category_id: argv["category-id"],
 					curated_feed_id: resolveFileToken(
 						argv["curated-feed-id"] as string | undefined,
 						"curated-feed-id",

@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * create command
+ * @generated from apis/overlays/abuse-reports.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -14,21 +22,13 @@ import {
 	promptForRequiredField,
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * create command
- * @generated from apis/overlays/abuse-reports.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 abuse-reports create <report-param>\n\nSubmit an abuse report of a particular type. Requires the abuse-reports entitlement on the account (Enterprise accounts have it by default; other accounts must request access) and an API token with the `Account > Abuse Reports > Edit` permission. If the account is not entitled, the request is rejected with an HTTP `401` response (see below)."
+			"$0 abuse-reports create <report-type>\n\nSubmit an abuse report of a particular type. Requires the abuse-reports entitlement on the account (Enterprise accounts have it by default; other accounts must request access) and an API token with the `Trust and Safety Write` permission. If the account is not entitled, the request is rejected with an HTTP `401` response (see below)."
 		)
-		.positional("report-param", {
+		.positional("report-type", {
 			type: "string",
 			description: "The report type to be submitted. Example: abuse_general",
 			demandOption: true,
@@ -47,6 +47,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"abuse_ncsei",
 			],
 		})
+		.coerce("act", (value) => resolveFileToken(value, "act", "text"))
 		.option("comments", {
 			type: "string",
 			description:
@@ -124,6 +125,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.\n",
 			choices: ["send", "send-anon"],
 		})
+		.coerce("host-notification", (value) =>
+			resolveFileToken(value, "host-notification", "text")
+		)
 		.option("original-work", {
 			type: "string",
 			description:
@@ -135,6 +139,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.\n",
 			choices: ["send", "send-anon", "none"],
 		})
+		.coerce("owner-notification", (value) =>
+			resolveFileToken(value, "owner-notification", "text")
+		)
 		.option("signature", {
 			type: "string",
 			description:
@@ -183,6 +190,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous.\n",
 			choices: ["send", "send-anon"],
 		})
+		.coerce("ncmec-notification", (value) =>
+			resolveFileToken(value, "ncmec-notification", "text")
+		)
 		.option("reg-who-request-reg-who-authorization-statement", {
 			type: "string",
 			description:
@@ -208,6 +218,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The type of WHOIS data request per RDP procedure.",
 			choices: ["disclosure", "invalid_whois"],
 		})
+		.coerce("reg-who-request-reg-who-request-type", (value) =>
+			resolveFileToken(value, "reg-who-request-reg-who-request-type", "text")
+		)
 		.option("reg-who-request-reg-who-requested-data-elements", {
 			type: "string",
 			array: true,
@@ -219,6 +232,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The nature of the requestor per RDP 10.2.1.2.",
 			choices: ["government", "corporation", "individual"],
 		})
+		.coerce("reg-who-request-reg-who-requestor-type", (value) =>
+			resolveFileToken(value, "reg-who-request-reg-who-requestor-type", "text")
+		)
 		.option("ncsei-subject-representation", {
 			type: "boolean",
 			description:
@@ -963,7 +979,7 @@ type Request = SdkRequest<"SubmitAbuseReport">;
 type Body = Request["body"];
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "create <report-param>",
+	command: "create <report-type>",
 	describe: "Submit an abuse report",
 	builder,
 	handler: async (argv): Promise<void> =>
@@ -992,18 +1008,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf abuse-reports create",
 						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/abuse-reports/${argv["report-param"] == null ? "<report-param>" : encodeURIComponent(String(argv["report-param"]))}`,
-						pathParams: { "report-param": String(argv["report-param"] ?? "") },
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/abuse-reports/${argv["report-type"] == null ? "<report-type>" : encodeURIComponent(String(argv["report-type"]))}`,
+						pathParams: { "report-type": String(argv["report-type"] ?? "") },
 						bodyKind: "json",
 						body:
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										act: resolveFileToken(
-											argv["act"] as string | undefined,
-											"act",
-											"text"
-										),
+										act: argv["act"],
 										comments: resolveFileToken(
 											argv["comments"] as string | undefined,
 											"comments",
@@ -1075,21 +1087,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"country",
 											"text"
 										),
-										host_notification: resolveFileToken(
-											argv["host-notification"] as string | undefined,
-											"host-notification",
-											"text"
-										),
+										host_notification: argv["host-notification"],
 										original_work: resolveFileToken(
 											argv["original-work"] as string | undefined,
 											"original-work",
 											"text"
 										),
-										owner_notification: resolveFileToken(
-											argv["owner-notification"] as string | undefined,
-											"owner-notification",
-											"text"
-										),
+										owner_notification: argv["owner-notification"],
 										signature: resolveFileToken(
 											argv["signature"] as string | undefined,
 											"signature",
@@ -1135,11 +1139,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"source-ips",
 											"text"
 										),
-										ncmec_notification: resolveFileToken(
-											argv["ncmec-notification"] as string | undefined,
-											"ncmec-notification",
-											"text"
-										),
+										ncmec_notification: argv["ncmec-notification"],
 										reg_who_request: {
 											reg_who_authorization_statement: resolveFileToken(
 												argv[
@@ -1161,22 +1161,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"reg-who-request-reg-who-legal-basis",
 												"text"
 											),
-											reg_who_request_type: resolveFileToken(
-												argv["reg-who-request-reg-who-request-type"] as
-													| string
-													| undefined,
-												"reg-who-request-reg-who-request-type",
-												"text"
-											),
+											reg_who_request_type:
+												argv["reg-who-request-reg-who-request-type"],
 											reg_who_requested_data_elements:
 												argv["reg-who-request-reg-who-requested-data-elements"],
-											reg_who_requestor_type: resolveFileToken(
-												argv["reg-who-request-reg-who-requestor-type"] as
-													| string
-													| undefined,
-												"reg-who-request-reg-who-requestor-type",
-												"text"
-											),
+											reg_who_requestor_type:
+												argv["reg-who-request-reg-who-requestor-type"],
 										},
 										ncsei_subject_representation:
 											argv["ncsei-subject-representation"],
@@ -1194,7 +1184,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						client.abuseReports.create({
 							body: bodyData,
 							account_id: accountId,
-							report_param: argv["report-param"],
+							"report-type": argv["report-type"],
 						} satisfies Request)
 					);
 					formatOutput(result, { successLabel: `Created` });
@@ -1476,11 +1466,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					act: resolveFileToken(
-						argv["act"] as string | undefined,
-						"act",
-						"text"
-					),
+					act: argv["act"],
 					comments: resolveFileToken(
 						argv["comments"] as string | undefined,
 						"comments",
@@ -1552,21 +1538,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"country",
 						"text"
 					),
-					host_notification: resolveFileToken(
-						argv["host-notification"] as string | undefined,
-						"host-notification",
-						"text"
-					),
+					host_notification: argv["host-notification"],
 					original_work: resolveFileToken(
 						argv["original-work"] as string | undefined,
 						"original-work",
 						"text"
 					),
-					owner_notification: resolveFileToken(
-						argv["owner-notification"] as string | undefined,
-						"owner-notification",
-						"text"
-					),
+					owner_notification: argv["owner-notification"],
 					signature: resolveFileToken(
 						argv["signature"] as string | undefined,
 						"signature",
@@ -1612,11 +1590,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"source-ips",
 						"text"
 					),
-					ncmec_notification: resolveFileToken(
-						argv["ncmec-notification"] as string | undefined,
-						"ncmec-notification",
-						"text"
-					),
+					ncmec_notification: argv["ncmec-notification"],
 					reg_who_request: {
 						reg_who_authorization_statement: resolveFileToken(
 							argv["reg-who-request-reg-who-authorization-statement"] as
@@ -1634,22 +1608,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"reg-who-request-reg-who-legal-basis",
 							"text"
 						),
-						reg_who_request_type: resolveFileToken(
-							argv["reg-who-request-reg-who-request-type"] as
-								| string
-								| undefined,
-							"reg-who-request-reg-who-request-type",
-							"text"
-						),
+						reg_who_request_type: argv["reg-who-request-reg-who-request-type"],
 						reg_who_requested_data_elements:
 							argv["reg-who-request-reg-who-requested-data-elements"],
-						reg_who_requestor_type: resolveFileToken(
-							argv["reg-who-request-reg-who-requestor-type"] as
-								| string
-								| undefined,
-							"reg-who-request-reg-who-requestor-type",
-							"text"
-						),
+						reg_who_requestor_type:
+							argv["reg-who-request-reg-who-requestor-type"],
 					},
 					ncsei_subject_representation: argv["ncsei-subject-representation"],
 				});
@@ -1657,7 +1620,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					client.abuseReports.create({
 						body: bodyData,
 						account_id: accountId,
-						report_param: argv["report-param"],
+						"report-type": argv["report-type"],
 					} satisfies Request)
 				);
 				formatOutput(result, { successLabel: `Created` });

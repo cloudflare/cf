@@ -8,5 +8,28 @@ export interface AccessResponseCollection18 {
     /** Whether the API call was successful. */
     success: true;
     result_info?: CloudflareApi.AccessResponseCollection18ResultInfo | undefined;
-    result?: CloudflareApi.AccessGroups3[] | undefined;
+    result?: AccessResponseCollection18.Result.Item[] | undefined;
+}
+
+export namespace AccessResponseCollection18 {
+    export type Result = Result.Item[];
+
+    export namespace Result {
+        export type Item =
+            | CloudflareApi.AccessAzureAd2
+            | CloudflareApi.AccessCentrify2
+            | CloudflareApi.AccessFacebook2
+            | CloudflareApi.AccessGithub2
+            | CloudflareApi.AccessGoogle2
+            | CloudflareApi.AccessGoogleApps2
+            | CloudflareApi.AccessLinkedin2
+            | CloudflareApi.AccessOidc2
+            | CloudflareApi.AccessOkta2
+            | CloudflareApi.AccessOnelogin2
+            | CloudflareApi.AccessPingone2
+            | CloudflareApi.AccessSaml2
+            | CloudflareApi.AccessYandex2
+            | CloudflareApi.AccessOnetimepin2
+            | CloudflareApi.AccessCloudflare2;
+    }
 }

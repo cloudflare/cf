@@ -9,6 +9,7 @@ export interface EmailSecurityBlockedSender {
     comments?: (string | null) | undefined;
     created_at?: CloudflareApi.EmailSecurityTimestamp | undefined;
     id?: CloudflareApi.EmailSecurityBlockedSenderId | undefined;
+    /** Whether `pattern` is a regular expression instead of a literal value. */
     is_regex?: boolean | undefined;
     /** Deprecated, use `modified_at` instead. End of life: November 1, 2026. */
     last_modified?: CloudflareApi.EmailSecurityTimestamp | undefined;

@@ -1,9 +1,0 @@
-description: "Disable Email Sending for a zone"
-command: "wrangler email sending disable <domain>"
-status: "direct"
-sourceCommands:
-  - "wrangler email sending disable <domain>"
-cfReplacementFlow:
-  - "cf email-sending disable --zone <zone> --force"
-notes:
-  - "Use cf --force for non-interactive confirmation."

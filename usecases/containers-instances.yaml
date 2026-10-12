@@ -1,9 +1,0 @@
-description: "List instances for a Containers application"
-command: "wrangler containers instances <application-id>"
-status: "partial"
-sourceCommands:
-  - "wrangler containers instances <application-id>"
-cfReplacementFlow:
-  - "cf containers instances list --application-id <application-id>"
-notes:
-  - "Wrangler has interactive pagination in TTYs. cf returns generated API JSON."

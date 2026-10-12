@@ -9,7 +9,7 @@ process.env.CLI_VERSION = "x.x.x";
 import { PassThrough } from "node:stream";
 import chalk from "chalk";
 import { passthrough } from "msw";
-import { afterAll, afterEach, beforeAll, beforeEach, vi } from "vitest";
+import { afterAll, afterEach, beforeAll, beforeEach, vi } from "vite-plus/test";
 import { msw } from "./helpers/msw";
 
 //turn off chalk for tests due to inconsistencies between operating systems
@@ -17,7 +17,6 @@ chalk.level = 0;
 
 // In general we don't want the ConfigController to watch the config files
 // as this tends to make the tests flaky.
-// eslint-disable-next-line turbo/no-undeclared-env-vars
 process.env.WRANGLER_CI_DISABLE_CONFIG_WATCHING = "true";
 
 /**
@@ -83,37 +82,6 @@ vi.mock("log-update", () => {
 	fn["done"] = () => {};
 	fn["createLogUpdate"] = () => fn;
 	return fn;
-});
-
-vi.mock("undici", async (importOriginal) => {
-	return {
-		...(await importOriginal<typeof import("undici")>()),
-		/**
-		 * Why do we have this hacky mock?
-		 *
-		 * MSW intercepts requests made via globalThis.fetch but not undici.fetch.
-		 * Since Wrangler imports fetch, FormData, Headers, Request, and Response from undici,
-		 * we need to replace them with their global equivalents so MSW can intercept and
-		 * properly handle requests (including parsing FormData bodies).
-		 *
-		 * We use getters so that we always get the up-to-date mocked versions that MSW provides.
-		 */
-		get fetch() {
-			return globalThis.fetch;
-		},
-		get FormData() {
-			return globalThis.FormData;
-		},
-		get Headers() {
-			return globalThis.Headers;
-		},
-		get Request() {
-			return globalThis.Request;
-		},
-		get Response() {
-			return globalThis.Response;
-		},
-	};
 });
 
 vi.mock("../package-manager", async (importOriginal) => {
@@ -280,19 +248,22 @@ vi.mock("prompts", async () => {
 	return { __esModule: true, default: vi.fn(promptsImpl) };
 });
 
-// `@clack/prompts` is intercepted via a vite alias (see vitest.config.mts
+// `@clack/prompts` is intercepted via a Vite alias (see vite.config.ts
 // → resolve.alias) — all imports across the workspace go to
 // `helpers/clack-mock.ts`, which consumes from the same mock-dialogs
 // queues `mockConfirm`/`mockPrompt`/`mockSelect` push to.
 
-vi.mock("execa", async (importOriginal) => {
-	const realModule = await importOriginal<typeof import("execa")>();
+vi.mock("tinyexec", async (importOriginal) => {
+	const realModule = await importOriginal<typeof import("tinyexec")>();
 	return {
 		...realModule,
-		execa: vi.fn((...args: Parameters<typeof realModule.execa>) => {
+		x: vi.fn((...args: Parameters<typeof realModule.x>) => {
 			return args[0] === "mockpm"
-				? Promise.resolve()
-				: realModule.execa(...args);
+				? Object.assign(
+						Promise.resolve({ stdout: "", stderr: "", exitCode: 0 }),
+						{ process: undefined, kill: () => false }
+					)
+				: realModule.x(...args);
 		}),
 	};
 });

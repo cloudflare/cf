@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 
 export declare namespace EntriesClient {
     export type Options = BaseClientOptions;
@@ -31,6 +31,9 @@ export class EntriesClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.ListEntriesRequest} request
      * @param {EntriesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.entries.list({
@@ -99,6 +102,9 @@ export class EntriesClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.DlpNewEntry} request
      * @param {EntriesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.entries.create({
@@ -173,6 +179,9 @@ export class EntriesClient {
      * @param {CloudflareApi.zeroTrust.dlp.GetEntriesRequest} request
      * @param {EntriesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.dlp.entries.get({
      *         account_id: "account_id",
@@ -241,6 +250,9 @@ export class EntriesClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.UpdateEntriesRequest} request
      * @param {EntriesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.entries.update({
@@ -314,6 +326,9 @@ export class EntriesClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.DeleteEntriesRequest} request
      * @param {EntriesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.entries.delete({

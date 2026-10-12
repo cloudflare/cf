@@ -6,11 +6,12 @@ import {
 	getDetailsForAutoConfig,
 	runAutoConfig,
 } from "@cloudflare/autoconfig";
-import { execa } from "execa";
 import { parse as parseShell } from "shell-quote";
+import { x } from "tinyexec";
 import { CliExit } from "./cli-exit.js";
 import { confirm, prompt, select } from "./dialog.js";
 import { isNonInteractiveOrCI } from "./interactive.js";
+import { createChildProcessController } from "./process.js";
 import { maybeApplyVinextCommandOverrides } from "./vinext.js";
 import { maybeMigrateWranglerProject } from "./wrangler-migration.js";
 import type {
@@ -22,6 +23,10 @@ import type {
 export type CommandOutput = "stdout" | "stderr" | "silent";
 export interface CommandOutputOptions {
 	output?: CommandOutput;
+}
+
+interface ProjectPreparationOptions extends CommandOutputOptions {
+	dryRun?: boolean;
 }
 
 export interface RunProjectCommandOptions extends CommandOutputOptions {
@@ -77,23 +82,36 @@ export async function analyzeProject(
 	}
 }
 
+/**
+ * Run framework autoconfig after detection, applying or dry-running setup
+ * without building.
+ */
 export async function configureProject(
 	details: AutoConfigDetails,
-	options: CommandOutputOptions = {}
+	options: ProjectPreparationOptions = {}
 ): Promise<AutoConfigSummary> {
 	return runAutoConfig(details, {
 		target: "cf",
 		context: createAutoConfigContext(options),
+		dryRun: options.dryRun,
 		runBuild: false,
 	});
 }
 
+/**
+ * Choose project setup before a build: an accepted Wrangler config conversion
+ * takes precedence over framework setup. After either route is applied, the
+ * returned details describe the configured project. In a dry run,
+ * `setupNeeded` means a setup route was selected but not applied, so callers
+ * must skip the build.
+ */
 export async function prepareProject(
 	cwd: string,
-	options: CommandOutputOptions = {}
+	options: ProjectPreparationOptions = {}
 ): Promise<{
 	details: AutoConfigDetails | undefined;
 	configuration?: AutoConfigSummary;
+	setupNeeded?: true;
 }> {
 	let details = await analyzeProject(cwd, options);
 	if (details?.configured) {
@@ -101,22 +119,34 @@ export async function prepareProject(
 	}
 
 	const context = createAutoConfigContext(options);
-	if (
-		await maybeMigrateWranglerProject(
-			cwd,
-			(text, confirmOptions) => context.dialogs.confirm(text, confirmOptions),
-			options.output
-		)
-	) {
+	const migrationRan = await maybeMigrateWranglerProject(
+		cwd,
+		(text, confirmOptions) => context.dialogs.confirm(text, confirmOptions),
+		options.output,
+		options.dryRun
+	);
+	if (migrationRan) {
+		if (options.dryRun) {
+			return { details, setupNeeded: true };
+		}
 		details = await analyzeProject(cwd, options);
 		return { details };
 	}
 
+	if (!details) {
+		return { details };
+	}
+
+	const configuration = await configureProject(details, options);
+	if (options.dryRun) {
+		return { details, configuration, setupNeeded: true };
+	}
+
+	// Setup can change which tools the project uses, so callers need the
+	// details of the configured project rather than the pre-setup analysis.
 	return {
-		details,
-		...(details
-			? { configuration: await configureProject(details, options) }
-			: {}),
+		details: (await analyzeProject(cwd, options)) ?? details,
+		configuration,
 	};
 }
 
@@ -150,20 +180,28 @@ export async function runProjectCommand(
 		);
 	}
 	const [file, ...commandArgs] = parseProjectCommand(command);
-	const subprocess = execa(file, [...commandArgs, ...(options.args ?? [])], {
-		cwd,
-		env: options.env,
-		stdio: [
-			"inherit",
-			output === "stderr"
-				? process.stderr
-				: output === "silent"
-					? "ignore"
-					: "inherit",
-			"inherit",
-		],
-		reject: false,
+	const subprocess = x(file, [...commandArgs, ...(options.args ?? [])], {
+		nodePath: false,
+		nodeOptions: {
+			cwd,
+			env: options.env,
+			// Inherited stdin/stderr preserve console Ctrl+C on Windows even
+			// with tinyexec's windowsHide default.
+			stdio: [
+				"inherit",
+				output === "stderr"
+					? process.stderr
+					: output === "silent"
+						? "ignore"
+						: "inherit",
+				"inherit",
+			],
+		},
 	});
+	// Retain the five-second SIGTERM fallback for framework commands.
+	const controller = subprocess.process
+		? createChildProcessController(subprocess.process)
+		: undefined;
 	let forwardedSignal: NodeJS.Signals | undefined;
 	const relay = (signal: NodeJS.Signals) => () => {
 		forwardedSignal ??= signal;
@@ -171,7 +209,11 @@ export async function runProjectCommand(
 		// Resending SIGINT would forcefully terminate the framework command
 		// before its own Ctrl+C handler can finish graceful shutdown.
 		if (shouldRelayProjectCommandSignal(signal)) {
-			subprocess.kill(signal);
+			if (signal === "SIGTERM" && controller) {
+				controller.terminate(signal);
+			} else {
+				subprocess.kill(signal);
+			}
 		}
 	};
 	const onSigInt = relay("SIGINT");
@@ -183,7 +225,7 @@ export async function runProjectCommand(
 		const result = await subprocess;
 		return normalizeProjectCommandExit(
 			result.exitCode,
-			result.signal,
+			subprocess.process?.signalCode ?? undefined,
 			forwardedSignal
 		);
 	} finally {

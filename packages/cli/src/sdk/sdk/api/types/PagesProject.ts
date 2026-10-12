@@ -4,6 +4,7 @@ import * as CloudflareApi from "../index.js";
 
 export interface PagesProject {
     build_config?: CloudflareApi.PagesBuildConfig | undefined;
+    build_image_auto_upgrade?: CloudflareApi.PagesProjectBuildImageAutoUpgrade | undefined;
     canonical_deployment: PagesProject.CanonicalDeployment;
     /** When the project was created. */
     created_on?: string | undefined;

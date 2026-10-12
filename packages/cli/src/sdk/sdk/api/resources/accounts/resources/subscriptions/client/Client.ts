@@ -8,7 +8,8 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
+import * as CloudflareApiErrors from "../../../../../errors/index.js";
 
 export declare namespace SubscriptionsClient {
     export type Options = BaseClientOptions;
@@ -28,6 +29,9 @@ export class SubscriptionsClient {
      *
      * @param {CloudflareApi.accounts.CancelDelayedDowngradeSubscriptionsRequest} request
      * @param {SubscriptionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.accounts.subscriptions.cancelDelayedDowngrade({
@@ -101,6 +105,8 @@ export class SubscriptionsClient {
      * @param {SubscriptionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.accounts.subscriptions.getByIdentifier({
@@ -152,7 +158,7 @@ export class SubscriptionsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 404:
-                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -175,6 +181,9 @@ export class SubscriptionsClient {
      *
      * @param {CloudflareApi.accounts.UpdateSubscriptionsRequest} request
      * @param {SubscriptionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.accounts.subscriptions.update({
@@ -249,6 +258,9 @@ export class SubscriptionsClient {
      * @param {CloudflareApi.accounts.DeleteSubscriptionsRequest} request
      * @param {SubscriptionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.accounts.subscriptions.delete({
      *         account_id: "account_id",
@@ -318,6 +330,9 @@ export class SubscriptionsClient {
      * @param {CloudflareApi.accounts.GetCancelReasonSubscriptionsRequest} request
      * @param {SubscriptionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.accounts.subscriptions.getCancelReason({
      *         account_id: "account_id",
@@ -386,6 +401,9 @@ export class SubscriptionsClient {
      *
      * @param {CloudflareApi.accounts.BillSubsApiCancelReasonRequest} request
      * @param {SubscriptionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.accounts.subscriptions.createCancelReason({
@@ -459,6 +477,9 @@ export class SubscriptionsClient {
      * @param {CloudflareApi.accounts.GetSubscriptionsRequest} request
      * @param {SubscriptionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.accounts.subscriptions.get({
      *         account_or_zone: "account_or_zone",
@@ -527,6 +548,9 @@ export class SubscriptionsClient {
      *
      * @param {CloudflareApi.accounts.CreateSubscriptionsRequest} request
      * @param {SubscriptionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.accounts.subscriptions.create({

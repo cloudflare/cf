@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace AppsClient {
     export type Options = BaseClientOptions;
@@ -28,6 +28,9 @@ export class AppsClient {
      *
      * @param {CloudflareApi.spectrum.ListAppsRequest} request
      * @param {AppsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.spectrum.apps.list({
@@ -108,6 +111,9 @@ export class AppsClient {
      * @param {CloudflareApi.spectrum.CreateAppsRequest} request
      * @param {AppsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.spectrum.apps.create({
      *         zone_id: "zone_id",
@@ -184,6 +190,9 @@ export class AppsClient {
      * @param {CloudflareApi.spectrum.GetAppsRequest} request
      * @param {AppsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.spectrum.apps.get({
      *         zone_id: "zone_id",
@@ -252,6 +261,9 @@ export class AppsClient {
      *
      * @param {CloudflareApi.spectrum.UpdateAppsRequest} request
      * @param {AppsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.spectrum.apps.update({
@@ -329,6 +341,9 @@ export class AppsClient {
      *
      * @param {CloudflareApi.spectrum.DeleteAppsRequest} request
      * @param {AppsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.spectrum.apps.delete({

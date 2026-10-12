@@ -5,10 +5,13 @@ import {
 	seed,
 } from "@cloudflare/workers-utils/test-helpers";
 import { http, HttpResponse } from "msw";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import { createMockDeployContext } from "../helpers/mock-deploy-context.js";
 import { createFetchResult, msw, setupMsw } from "../helpers/msw.js";
 import { runCf } from "../helpers/run-cf.js";
+// These integration tests need the real client. Collect its cold import graph
+// before per-test timers start; lightweight tests must not inherit this import.
+import "../../lib/auth.js";
 import {
 	ACCOUNT_ID,
 	buildDelegateWasCalled,
@@ -42,7 +45,48 @@ describe("cf workers versions create", () => {
 		await seedBuildDelegate();
 	});
 
-	it("builds, uploads a version, and passes bindings through", async () => {
+	it.each([
+		{ flags: [] },
+		{ flags: ["--prebuilt"] },
+		{ flags: ["--dry-run"] },
+		{ flags: ["--prebuilt", "--dry-run"] },
+	])(
+		"rejects --local before building or making API requests with $flags",
+		async ({ flags }) => {
+			const requests = recordRequests();
+			await seed({
+				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v0/workers/default/worker.config.json":
+					workerConfig(),
+				".cloudflare/output/v0/workers/default/bundle/index.js":
+					"export default { fetch() { return new Response('ok'); } }",
+			});
+
+			await expect(
+				runCf(["workers", "versions", "create", "--local", ...flags])
+			).rejects.toThrow(
+				"--local is not supported by cf workers versions create."
+			);
+
+			expect(buildDelegateWasCalled()).toBe(false);
+			expect(requests).toEqual([]);
+		}
+	);
+
+	it("explains the local-mode restriction in help without executing", async () => {
+		const requests = recordRequests();
+		await expect(
+			runCf(["workers", "versions", "create", "--local", "--help"])
+		).resolves.toEqual({ exitCode: 0 });
+
+		expect(std.out).toContain("Local simulation (--local) is not supported");
+		expect(std.out).not.toContain("Use local resource simulations");
+		expect(std.out).not.toContain("--persist-to");
+		expect(buildDelegateWasCalled()).toBe(false);
+		expect(requests).toEqual([]);
+	});
+
+	it("builds, uploads a version, and passes bindings through with --no-local", async () => {
 		const upload = mockWorkerUpload();
 
 		await seed({
@@ -59,7 +103,12 @@ describe("cf workers versions create", () => {
 				"export default { fetch() { return new Response('ok'); } }",
 		});
 
-		const { exitCode } = await runCf(["workers", "versions", "create"]);
+		const { exitCode } = await runCf([
+			"workers",
+			"versions",
+			"create",
+			"--no-local",
+		]);
 
 		expect(exitCode).toBe(0);
 

@@ -8,7 +8,7 @@ import {
 	mockConsoleMethods,
 	runInTempDir,
 } from "@cloudflare/workers-utils/test-helpers";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import { generateResourceIndexFile } from "../../../generator/emit/index-files.js";
 import {
 	handWrittenLeafCommands,
@@ -215,6 +215,7 @@ describe("containers build hand-written leaf", () => {
 	it("is registered against the containers product", () => {
 		expect(handWrittenLeafCommands("containers")).toContainEqual({
 			kind: "leaf",
+			dryRun: "preview",
 			parent: "containers",
 			name: "build",
 			dir: "containers/build",
@@ -264,6 +265,7 @@ describe("containers build hand-written leaf", () => {
 				type: "string",
 				required: false,
 			}),
+			expect.objectContaining({ name: "dry-run", type: "boolean" }),
 		]);
 		expect(meta.httpMethod).toBeUndefined();
 		expect(meta.apiPath).toBeUndefined();

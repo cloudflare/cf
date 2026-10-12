@@ -1,9 +1,0 @@
-description: "List R2 lifecycle rules"
-command: "wrangler r2 bucket lifecycle list <bucket>"
-status: "direct"
-sourceCommands:
-  - "wrangler r2 bucket lifecycle list <bucket>"
-cfReplacementFlow:
-  - "cf r2 buckets lifecycle get <bucket>"
-notes:
-  - "Lifecycle is modeled as a bucket-level config document in the API."

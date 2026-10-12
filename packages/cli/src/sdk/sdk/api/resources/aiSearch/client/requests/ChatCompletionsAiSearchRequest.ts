@@ -4,17 +4,17 @@
  * @example
  *     {
  *         account_id: "c3dc5f0b34a14ff8e1b3ec04895e1b22",
- *         name: "my-namespace",
- *         id: "my-ai-search",
+ *         namespace: "my-namespace",
+ *         "instance-id": "my-ai-search",
  *         messages: []
  *     }
  */
 export interface ChatCompletionsAiSearchRequest {
     account_id: string;
     /** Namespace name */
-    name: string;
+    namespace: string;
     /** AI Search instance ID. Lowercase alphanumeric, hyphens, and underscores. */
-    id: string;
+    "instance-id": string;
     ai_search_options?: ChatCompletionsAiSearchRequest.AiSearchOptions;
     messages: ChatCompletionsAiSearchRequest.Messages.Item[];
     /** A Workers AI model ID or an AI Gateway model ID compatible with the OpenAI Chat Completions API. An empty string uses the configured or default model. */

@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 
 export declare namespace ReserveClient {
     export type Options = BaseClientOptions;
@@ -31,6 +31,9 @@ export class ReserveClient {
      *
      * @param {CloudflareApi.cache.settings.GetReserveRequest} request
      * @param {ReserveClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cache.settings.reserve.get({
@@ -99,6 +102,9 @@ export class ReserveClient {
      *
      * @param {CloudflareApi.cache.settings.EditReserveRequest} request
      * @param {ReserveClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cache.settings.reserve.edit({
@@ -172,6 +178,9 @@ export class ReserveClient {
      * @param {CloudflareApi.cache.settings.StatusReserveRequest} request
      * @param {ReserveClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.cache.settings.reserve.status({
      *         zone_id: "zone_id"
@@ -239,6 +248,9 @@ export class ReserveClient {
      *
      * @param {CloudflareApi.cache.settings.ClearReserveRequest} request
      * @param {ReserveClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cache.settings.reserve.clear({

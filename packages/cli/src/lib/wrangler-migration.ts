@@ -192,10 +192,16 @@ export async function runWranglerMigration(
 	}
 }
 
+/**
+ * Offer to convert a Wrangler config before framework setup. Returns true
+ * only after the user accepts and the conversion command completes, including
+ * when it runs in dry-run mode.
+ */
 export async function maybeMigrateWranglerProject(
 	projectPath: string,
 	confirmMigration: ConfirmMigration,
-	output: MigrationOutput = "stdout"
+	output: MigrationOutput = "stdout",
+	dryRun = false
 ): Promise<boolean> {
 	const configPath = await findWranglerConfig(projectPath, {
 		failOnMultiple: false,
@@ -218,6 +224,6 @@ export async function maybeMigrateWranglerProject(
 	}
 
 	const bundler = await detectWranglerMigrationBundler(configPath);
-	await runWranglerMigration(configPath, { bundler, output });
+	await runWranglerMigration(configPath, { bundler, output, dryRun });
 	return true;
 }

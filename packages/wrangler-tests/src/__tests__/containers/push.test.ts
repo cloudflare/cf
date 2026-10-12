@@ -1,4 +1,4 @@
-import { describe, it } from "vitest";
+import { describe, it } from "vite-plus/test";
 
 describe.skip("containers push", () => {
 	// Image tagging and pushing are Docker-backed Wrangler operations.

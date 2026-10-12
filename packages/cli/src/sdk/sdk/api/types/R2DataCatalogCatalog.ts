@@ -3,7 +3,7 @@
 import * as CloudflareApi from "../index.js";
 
 /**
- * Contains R2 Data Catalog information.
+ * Contains catalog information.
  */
 export interface R2DataCatalogCatalog {
     /** Specifies the associated R2 bucket name. */

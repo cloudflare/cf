@@ -63,6 +63,7 @@ export type ZonesSettingValue =
     | CloudflareApi.ZonesTrueClientIpHeaderValue
     | CloudflareApi.ZonesWafValue
     | CloudflareApi.ZonesWebmcpEnabledValue
+    | CloudflareApi.ZonesWebmcpMcpUrlValue
     | CloudflareApi.ZonesWebmcpPacksValue
     | CloudflareApi.ZonesWebpValue
     | CloudflareApi.ZonesWebsocketsValue;

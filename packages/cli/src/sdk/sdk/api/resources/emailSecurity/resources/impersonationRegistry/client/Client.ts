@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace ImpersonationRegistryClient {
     export type Options = BaseClientOptions;
@@ -28,6 +28,9 @@ export class ImpersonationRegistryClient {
      *
      * @param {CloudflareApi.emailSecurity.ListImpersonationRegistryRequest} request
      * @param {ImpersonationRegistryClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailSecurity.impersonationRegistry.list({
@@ -111,6 +114,9 @@ export class ImpersonationRegistryClient {
      * @param {CloudflareApi.emailSecurity.EmailSecurityCreateImpersonationRegistry} request
      * @param {ImpersonationRegistryClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.emailSecurity.impersonationRegistry.create({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -185,6 +191,9 @@ export class ImpersonationRegistryClient {
      * @param {CloudflareApi.emailSecurity.GetImpersonationRegistryRequest} request
      * @param {ImpersonationRegistryClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.emailSecurity.impersonationRegistry.get({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -254,6 +263,9 @@ export class ImpersonationRegistryClient {
      * @param {CloudflareApi.emailSecurity.DeleteImpersonationRegistryRequest} request
      * @param {ImpersonationRegistryClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.emailSecurity.impersonationRegistry.delete({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -322,6 +334,9 @@ export class ImpersonationRegistryClient {
      *
      * @param {CloudflareApi.emailSecurity.EmailSecurityUpdateImpersonationRegistry} request
      * @param {ImpersonationRegistryClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailSecurity.impersonationRegistry.edit({

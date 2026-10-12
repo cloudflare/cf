@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 import { VerificationClient } from "../resources/verification/client/Client.js";
 
 export declare namespace DomainsClient {
@@ -34,6 +34,9 @@ export class DomainsClient {
      *
      * @param {CloudflareApi.emailSecurity.ListDomainsRequest} request
      * @param {DomainsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailSecurity.domains.list({
@@ -133,6 +136,9 @@ export class DomainsClient {
      * @param {CloudflareApi.emailSecurity.CreateDomainsRequest} request
      * @param {DomainsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.emailSecurity.domains.create({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -209,6 +215,9 @@ export class DomainsClient {
      *
      * @param {CloudflareApi.emailSecurity.BatchDomainsRequest} request
      * @param {DomainsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailSecurity.domains.batch({
@@ -301,6 +310,9 @@ export class DomainsClient {
      * @param {CloudflareApi.emailSecurity.GetDomainsRequest} request
      * @param {DomainsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.emailSecurity.domains.get({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -366,6 +378,9 @@ export class DomainsClient {
      *
      * @param {CloudflareApi.emailSecurity.UpdateDomainsRequest} request
      * @param {DomainsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailSecurity.domains.update({
@@ -442,6 +457,9 @@ export class DomainsClient {
      * @param {CloudflareApi.emailSecurity.DeleteDomainsRequest} request
      * @param {DomainsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.emailSecurity.domains.delete({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -510,6 +528,9 @@ export class DomainsClient {
      *
      * @param {CloudflareApi.emailSecurity.EditDomainsRequest} request
      * @param {DomainsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailSecurity.domains.edit({

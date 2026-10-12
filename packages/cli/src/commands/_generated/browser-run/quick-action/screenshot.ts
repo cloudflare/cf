@@ -1,3 +1,10 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+/**
+ * screenshot command
+ * @generated from apis/overlays/browser-run.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -16,13 +23,6 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { fetchRawBytes, writeRawOutput } from "#lib/raw-fetch.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-/**
- * screenshot command
- * @generated from apis/overlays/browser-run.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -32,6 +32,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("cache-ttl", {
 			type: "number",
 			description: "Cache TTL default is 5s. Set to 0 to disable.",
+		})
+		.option("browser", {
+			type: "string",
+			description:
+				"Rendering backend. Set to `kitesurf` to use Kitesurf (beta).",
+			choices: ["kitesurf"],
 		})
 		.option("action-timeout", {
 			type: "number",
@@ -320,6 +326,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				command: "browser-run quick-action screenshot",
 				classification: {
 					safeFlags: [
+						"browser",
 						"best-attempt",
 						"screenshot-options-capture-beyond-viewport",
 						"screenshot-options-from-surface",
@@ -342,6 +349,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			async () => {
 				const queryParams: Record<string, unknown> = {
 					cacheTTL: argv["cache-ttl"],
+					browser: argv["browser"],
 				};
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
@@ -463,6 +471,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										},
 										waitForTimeout: argv["wait-for-timeout"],
 									}),
+						sensitiveBodyPaths: [["authenticate", "password"]],
 					});
 					return;
 				}

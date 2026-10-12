@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * create command
+ * @generated from apis/overlays/artifacts.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -11,14 +19,6 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * create command
- * @generated from apis/overlays/artifacts.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -36,6 +36,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The scope field",
 			choices: ["read", "write"],
 		})
+		.coerce("scope", (value) => resolveFileToken(value, "scope", "text"))
 		.option("ttl", { type: "number", description: "The ttl field" })
 		.option("dry-run", {
 			type: "boolean",
@@ -84,11 +85,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"repo",
 											"text"
 										),
-										scope: resolveFileToken(
-											argv["scope"] as string | undefined,
-											"scope",
-											"text"
-										),
+										scope: argv["scope"],
 										ttl: argv["ttl"],
 									}),
 					});
@@ -121,11 +118,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"repo",
 						"text"
 					),
-					scope: resolveFileToken(
-						argv["scope"] as string | undefined,
-						"scope",
-						"text"
-					),
+					scope: argv["scope"],
 					ttl: argv["ttl"],
 				});
 				const result = await withProgress(`Creating`, async () =>

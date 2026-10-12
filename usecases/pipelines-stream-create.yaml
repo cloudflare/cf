@@ -1,9 +1,0 @@
-description: "Create a Pipeline stream"
-command: "wrangler pipelines streams create <stream>"
-status: "partial"
-sourceCommands:
-  - "wrangler pipelines streams create <stream> --schema-file <schema.json>"
-cfReplacementFlow:
-  - "cf pipelines streams create --name <stream> --body @stream.json"
-notes:
-  - "Wrangler reads schema files and exposes HTTP/auth/CORS flags. cf sends an API-shaped body."

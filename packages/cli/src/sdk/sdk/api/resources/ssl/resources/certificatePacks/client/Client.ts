@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 import { QuotaClient } from "../resources/quota/client/Client.js";
 
 export declare namespace CertificatePacksClient {
@@ -34,6 +34,9 @@ export class CertificatePacksClient {
      *
      * @param {CloudflareApi.ssl.ListCertificatePacksRequest} request
      * @param {CertificatePacksClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.ssl.certificatePacks.list({
@@ -113,6 +116,9 @@ export class CertificatePacksClient {
      * @param {CloudflareApi.ssl.CreateCertificatePacksRequest} request
      * @param {CertificatePacksClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.ssl.certificatePacks.create({
      *         zone_id: "zone_id",
@@ -191,6 +197,9 @@ export class CertificatePacksClient {
      * @param {CloudflareApi.ssl.GetCertificatePacksRequest} request
      * @param {CertificatePacksClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.ssl.certificatePacks.get({
      *         zone_id: "zone_id",
@@ -260,6 +269,9 @@ export class CertificatePacksClient {
      * @param {CloudflareApi.ssl.DeleteCertificatePacksRequest} request
      * @param {CertificatePacksClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.ssl.certificatePacks.delete({
      *         zone_id: "zone_id",
@@ -328,6 +340,9 @@ export class CertificatePacksClient {
      *
      * @param {CloudflareApi.ssl.EditCertificatePacksRequest} request
      * @param {CertificatePacksClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.ssl.certificatePacks.edit({

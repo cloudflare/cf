@@ -2,12 +2,13 @@ import $access from "./access/index.js";
 import $apps from "./apps/index.js";
 import $casb from "./casb/index.js";
 import $connectivitysettings from "./connectivity-settings/index.js";
+import $cws from "./cws/index.js";
 import $devices from "./devices/index.js";
 import $dex from "./dex/index.js";
 import $dlp from "./dlp/index.js";
 import $gateway from "./gateway/index.js";
 import $identityproviders from "./identity-providers/index.js";
-import $organizations from "./organizations/index.js";
+import $organization from "./organization/index.js";
 import $riskscoring from "./risk-scoring/index.js";
 import $seats from "./seats/index.js";
 import $users from "./users/index.js";
@@ -29,12 +30,13 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($apps)
 			.command($casb)
 			.command($connectivitysettings)
+			.command($cws)
 			.command($devices)
 			.command($dex)
 			.command($dlp)
 			.command($gateway)
 			.command($identityproviders)
-			.command($organizations)
+			.command($organization)
 			.command($riskscoring)
 			.command($seats)
 			.command($users)

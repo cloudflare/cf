@@ -9,7 +9,8 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
-import * as CloudflareApi from "../../../index.js";
+import type * as CloudflareApi from "../../../index.js";
+import * as CloudflareApiErrors from "../../../errors/index.js";
 import { FlowsClient } from "../resources/flows/client/Client.js";
 import { ImportClient } from "../resources/import/client/Client.js";
 import { KeysClient } from "../resources/keys/client/Client.js";
@@ -55,6 +56,9 @@ export class ImagesClient {
      *
      * @param {CloudflareApi.ImagesImageBasicUpload} request
      * @param {ImagesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";
@@ -151,6 +155,9 @@ export class ImagesClient {
      * @param {CloudflareApi.StatsImagesRequest} request
      * @param {ImagesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.images.stats({
      *         account_id: "account_id"
@@ -215,6 +222,9 @@ export class ImagesClient {
      *
      * @param {CloudflareApi.GetImagesRequest} request
      * @param {ImagesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.images.get({
@@ -282,6 +292,9 @@ export class ImagesClient {
      * @param {CloudflareApi.DeleteImagesRequest} request
      * @param {ImagesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.images.delete({
      *         account_id: "account_id",
@@ -348,6 +361,9 @@ export class ImagesClient {
      * @param {CloudflareApi.ImagesImagePatchRequest} request
      * @param {ImagesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.images.edit({
      *         account_id: "account_id",
@@ -413,6 +429,9 @@ export class ImagesClient {
 
     /**
      * Download an image from CF Images. For most images this will be the originally uploaded file. For larger images it can be a near-lossless version of the original.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      */
     public getBlob(
         request: CloudflareApi.GetBlobImagesRequest,
@@ -529,6 +548,8 @@ export class ImagesClient {
      * @param {ImagesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.images.list({
@@ -595,7 +616,7 @@ export class ImagesClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -618,6 +639,9 @@ export class ImagesClient {
      *
      * @param {CloudflareApi.ImagesImageDirectUploadRequestV2} request
      * @param {ImagesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";

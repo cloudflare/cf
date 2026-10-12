@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 
 export declare namespace OwnershipClient {
     export type Options = BaseClientOptions;
@@ -31,6 +31,9 @@ export class OwnershipClient {
      *
      * @param {CloudflareApi.magicTransit.pcaps.GetOwnershipRequest} request
      * @param {OwnershipClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.pcaps.ownership.get({
@@ -99,6 +102,9 @@ export class OwnershipClient {
      *
      * @param {CloudflareApi.magicTransit.pcaps.MagicVisibilityPcapsPcapsOwnershipRequest} request
      * @param {OwnershipClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.pcaps.ownership.create({
@@ -172,6 +178,9 @@ export class OwnershipClient {
      * @param {CloudflareApi.magicTransit.pcaps.MagicVisibilityPcapsPcapsOwnershipValidateRequest} request
      * @param {OwnershipClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.pcaps.ownership.validate({
      *         account_id: "account_id",
@@ -244,6 +253,9 @@ export class OwnershipClient {
      *
      * @param {CloudflareApi.magicTransit.pcaps.DeleteOwnershipRequest} request
      * @param {OwnershipClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.pcaps.ownership.delete({

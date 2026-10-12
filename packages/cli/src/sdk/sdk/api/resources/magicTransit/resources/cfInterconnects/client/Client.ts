@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace CfInterconnectsClient {
     export type Options = BaseClientOptions;
@@ -28,6 +28,9 @@ export class CfInterconnectsClient {
      *
      * @param {CloudflareApi.magicTransit.ListCfInterconnectsRequest} request
      * @param {CfInterconnectsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.cfInterconnects.list({
@@ -97,6 +100,9 @@ export class CfInterconnectsClient {
      *
      * @param {CloudflareApi.magicTransit.BulkUpdateCfInterconnectsRequest} request
      * @param {CfInterconnectsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.cfInterconnects.bulkUpdate({
@@ -173,6 +179,9 @@ export class CfInterconnectsClient {
      * @param {CloudflareApi.magicTransit.GetCfInterconnectsRequest} request
      * @param {CfInterconnectsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.cfInterconnects.get({
      *         account_id: "account_id",
@@ -246,6 +255,9 @@ export class CfInterconnectsClient {
      *
      * @param {CloudflareApi.magicTransit.MagicInterconnectTunnelUpdateRequest} request
      * @param {CfInterconnectsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.cfInterconnects.update({

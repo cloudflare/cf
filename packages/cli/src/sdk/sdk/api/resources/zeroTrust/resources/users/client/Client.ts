@@ -5,6 +5,7 @@ import { normalizeClientOptionsWithAuth, type NormalizedClientOptionsWithAuth } 
 import * as core from "../../../../../../core/index.js";
 import * as environments from "../../../../../../environments.js";
 import { MfaClient } from "../resources/mfa/client/Client.js";
+import { PasskeysClient } from "../resources/passkeys/client/Client.js";
 
 export declare namespace UsersClient {
     export type Options = BaseClientOptions;
@@ -12,10 +13,15 @@ export declare namespace UsersClient {
 
 export class UsersClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<UsersClient.Options>;
+    protected _passkeys: PasskeysClient | undefined;
     protected _mfa: MfaClient | undefined;
 
     constructor(options: UsersClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
+    }
+
+    public get passkeys(): PasskeysClient {
+        return (this._passkeys ??= new PasskeysClient(this._options));
     }
 
     public get mfa(): MfaClient {

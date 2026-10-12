@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * edit command
+ * @generated from apis/overlays/firewall.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -11,14 +19,6 @@ import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * edit command
- * @generated from apis/overlays/firewall.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -36,6 +36,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"The configuration target. You must set the target to `ip` when specifying an IP address in the rule.",
 			choices: ["ip", "ip6", "ip_range", "asn", "country"],
 		})
+		.coerce("configuration-target", (value) =>
+			resolveFileToken(value, "configuration-target", "text")
+		)
 		.option("configuration-value", {
 			type: "string",
 			description:
@@ -100,11 +103,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								? parseBody(argv.body)
 								: compactBody({
 										configuration: {
-											target: resolveFileToken(
-												argv["configuration-target"] as string | undefined,
-												"configuration-target",
-												"text"
-											),
+											target: argv["configuration-target"],
 											value: resolveFileToken(
 												argv["configuration-value"] as string | undefined,
 												"configuration-value",
@@ -153,11 +152,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
 					configuration: {
-						target: resolveFileToken(
-							argv["configuration-target"] as string | undefined,
-							"configuration-target",
-							"text"
-						),
+						target: argv["configuration-target"],
 						value: resolveFileToken(
 							argv["configuration-value"] as string | undefined,
 							"configuration-value",

@@ -1,9 +1,3 @@
-import { createCommandClient } from "#lib/auth.js";
-import { withArgTypes } from "#lib/cli-types.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 import type { SdkQuery } from "#sdk";
@@ -12,12 +6,29 @@ import type { SdkQuery } from "#sdk";
  * @generated from apis/overlays/user.ts
  */
 import type { Argv, CommandModule } from "yargs";
+import { createCommandClient } from "#lib/auth.js";
+import { withArgTypes } from "#lib/cli-types.js";
+import { formatDryRun } from "#lib/dry-run.js";
+import { formatOutput } from "#lib/output.js";
+import { withProgress } from "#lib/progress.js";
+import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
 			"$0 user firewall access-rules list\n\nFetches IP Access rules of the user. You can filter the results using several optional parameters."
 		)
+		.option("action", {
+			type: "string",
+			description: "The action to apply to a matched request.",
+			choices: [
+				"block",
+				"challenge",
+				"whitelist",
+				"js_challenge",
+				"managed_challenge",
+			],
+		})
 		.option("configuration-target", {
 			type: "string",
 			description: "Defines the target to search in existing rules.",
@@ -69,6 +80,7 @@ type Query = SdkQuery<"ip-access-rules-for-a-user-list-ip-access-rules">;
 
 const typedBuilder = withArgTypes<
 	{
+		action: Query["mode"];
 		"configuration-target": Query["configuration.target"];
 		match: Query["match"];
 		order: Query["order"];
@@ -88,6 +100,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				command: "user firewall access-rules list",
 				classification: {
 					safeFlags: [
+						"action",
 						"configuration-target",
 						"match",
 						"order",
@@ -99,6 +112,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			argv as Record<string, unknown>,
 			async () => {
 				const queryParams: Query = {
+					mode: argv["action"],
 					"configuration.target": argv["configuration-target"],
 					"configuration.value": argv["configuration-value"],
 					notes: argv["notes"],

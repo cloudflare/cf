@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace StreamsClient {
     export type Options = BaseClientOptions;
@@ -28,6 +28,9 @@ export class StreamsClient {
      *
      * @param {CloudflareApi.pipelines.ListStreamsRequest} request
      * @param {StreamsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.pipelines.streams.list({
@@ -108,6 +111,9 @@ export class StreamsClient {
      * @param {CloudflareApi.pipelines.CreateStreamsRequest} request
      * @param {StreamsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.pipelines.streams.create({
      *         account_id: "account_id",
@@ -180,6 +186,9 @@ export class StreamsClient {
      * @param {CloudflareApi.pipelines.GetStreamsRequest} request
      * @param {StreamsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.pipelines.streams.get({
      *         account_id: "account_id",
@@ -249,6 +258,9 @@ export class StreamsClient {
      * @param {CloudflareApi.pipelines.DeleteStreamsRequest} request
      * @param {StreamsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.pipelines.streams.delete({
      *         account_id: "account_id",
@@ -314,6 +326,9 @@ export class StreamsClient {
      *
      * @param {CloudflareApi.pipelines.UpdateStreamsRequest} request
      * @param {StreamsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.pipelines.streams.update({

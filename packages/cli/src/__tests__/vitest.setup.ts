@@ -1,5 +1,5 @@
 /**
- * Test setup. Loaded by vitest before any test files; vitest.config.mts
+ * Test setup. Loaded by Vitest before any test files; vite.config.ts
  * wires this in via `setupFiles`.
  *
  * Currently a no-op (kept as a hook for future test infrastructure —

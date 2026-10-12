@@ -8,7 +8,8 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
+import * as CloudflareApiErrors from "../../../../../errors/index.js";
 
 export declare namespace UsageClient {
     export type Options = BaseClientOptions;
@@ -30,6 +31,9 @@ export class UsageClient {
      *
      * @param {CloudflareApi.billing.GetV1UsageRequest} request
      * @param {UsageClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.billing.usage.getV1({
@@ -110,6 +114,9 @@ export class UsageClient {
      * @param {CloudflareApi.billing.GetInfoV1UsageRequest} request
      * @param {UsageClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.billing.usage.getInfoV1({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353"
@@ -181,14 +188,18 @@ export class UsageClient {
      * This includes all metered usage, including usage that falls within
      * free-tier allowances and may result in zero cost.
      *
-     * **Note:** Cost and pricing fields are not yet populated and
-     * will be absent from responses until billing integration is complete.
+     * **Note:** This endpoint serves `usage` records only; cost and pricing
+     * fields are absent from responses. To retrieve rated costs, use `POST`
+     * on the same path with `Metric: cost`.
      *
      * When `from` and `to` are omitted, defaults to the start of the current
      * month through today. The maximum date range is 31 days.
      *
      * @param {CloudflareApi.billing.GetAccountUsageV2UsageRequest} request
      * @param {UsageClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.billing.usage.getAccountUsageV2({
@@ -276,8 +287,8 @@ export class UsageClient {
      * This includes all metered usage, including usage that falls within
      * free-tier allowances and may result in zero cost.
      *
-     * **Note:** Cost and pricing fields are not yet populated and
-     * will be absent from responses until billing integration is complete.
+     * **Note:** Cost and pricing fields are populated only when `Metric`
+     * is `cost`; otherwise they are absent from responses.
      *
      * The request body is optional. When it is omitted, or when `TimePeriod`
      * is omitted, the range defaults to the start of the current month through
@@ -300,6 +311,9 @@ export class UsageClient {
      *
      * @param {CloudflareApi.billing.BillableUsageApiV2UsageQuery} request
      * @param {UsageClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.billing.usage.query({
@@ -377,6 +391,9 @@ export class UsageClient {
      *
      * @param {CloudflareApi.billing.GetAccountBillableMetricsUsageRequest} request
      * @param {UsageClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.billing.usage.getAccountBillableMetrics({
@@ -461,6 +478,8 @@ export class UsageClient {
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.UnauthorizedError}
      * @throws {@link CloudflareApi.ForbiddenError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.billing.usage.get({
@@ -528,11 +547,11 @@ export class UsageClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new CloudflareApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new CloudflareApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,

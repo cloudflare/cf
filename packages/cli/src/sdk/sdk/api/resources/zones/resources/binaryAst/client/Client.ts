@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace BinaryAstClient {
     export type Options = BaseClientOptions;
@@ -29,6 +29,9 @@ export class BinaryAstClient {
      *
      * @param {CloudflareApi.zones.GetBinaryAstRequest} request
      * @param {BinaryAstClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zones.binaryAst.get({
@@ -95,6 +98,9 @@ export class BinaryAstClient {
      *
      * @param {CloudflareApi.zones.EditBinaryAstRequest} request
      * @param {BinaryAstClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zones.binaryAst.edit({

@@ -1,9 +1,0 @@
-description: "Send a raw MIME email"
-command: "wrangler email sending send-raw"
-status: "partial"
-sourceCommands:
-  - "wrangler email sending send-raw --from <from> --to <to> --file message.eml"
-cfReplacementFlow:
-  - "cf email-sending send-raw --body @message.eml"
-notes:
-  - "Exact generated raw body/file handling should be verified. Wrangler has MIME/file ergonomics."

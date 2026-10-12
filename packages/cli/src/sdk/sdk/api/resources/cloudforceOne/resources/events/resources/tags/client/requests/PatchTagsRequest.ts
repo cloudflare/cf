@@ -29,7 +29,7 @@ export interface PatchTagsRequest {
     externalReferenceLinks?: string[];
     /** Structured external references ({ url, description }). Public: returned to all accounts. */
     externalReferences?: PatchTagsRequest.ExternalReferences.Item[];
-    /** Internal structured aliases ({ value, confidence 1-10, tlp }). CFONE-only: never returned to non-CFONE accounts. */
+    /** Owner-private structured aliases ({ value, confidence 1-10, tlp }). Returned to the owning account and omitted from shared-catalog non-owner responses. */
     internalAliases?: PatchTagsRequest.InternalAliases.Item[];
     internalDescription?: string;
     lastSeen?: string;

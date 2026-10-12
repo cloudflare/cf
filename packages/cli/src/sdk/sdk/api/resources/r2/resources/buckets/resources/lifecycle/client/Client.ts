@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 
 export declare namespace LifecycleClient {
     export type Options = BaseClientOptions;
@@ -31,6 +31,9 @@ export class LifecycleClient {
      *
      * @param {CloudflareApi.r2.buckets.GetLifecycleRequest} request
      * @param {LifecycleClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.r2.buckets.lifecycle.get({
@@ -98,6 +101,9 @@ export class LifecycleClient {
      *
      * @param {CloudflareApi.r2.buckets.UpdateLifecycleRequest} request
      * @param {LifecycleClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.r2.buckets.lifecycle.update({

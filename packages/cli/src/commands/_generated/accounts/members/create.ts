@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * create command
+ * @generated from apis/overlays/accounts.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -11,14 +19,6 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * create command
- * @generated from apis/overlays/accounts.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -40,6 +40,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Status of the member invitation. If not provided during creation, defaults to 'pending'.\nChanging from 'accepted' back to 'pending' will trigger a replacement of the member resource in Terraform.\n",
 			choices: ["accepted", "pending"],
 		})
+		.coerce("status", (value) => resolveFileToken(value, "status", "text"))
 		.option("policies", {
 			type: "string",
 			description:
@@ -95,11 +96,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 										roles: argv["roles"],
-										status: resolveFileToken(
-											argv["status"] as string | undefined,
-											"status",
-											"text"
-										),
+										status: argv["status"],
 										policies: parseObjectArray(argv["policies"], "policies"),
 									}),
 					});
@@ -135,11 +132,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"text"
 					),
 					roles: argv["roles"],
-					status: resolveFileToken(
-						argv["status"] as string | undefined,
-						"status",
-						"text"
-					),
+					status: argv["status"],
 					policies: parseObjectArray(argv["policies"], "policies"),
 				});
 				const result = await withProgress(`Creating`, async () =>

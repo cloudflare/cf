@@ -1,9 +1,0 @@
-description: "Show D1 database information"
-command: "wrangler d1 info <database>"
-status: "partial"
-sourceCommands:
-  - "wrangler d1 info <database>"
-cfReplacementFlow:
-  - "cf d1 get <database-id>"
-notes:
-  - "Wrangler resolves database names/bindings from config. cf generated commands generally require API IDs."

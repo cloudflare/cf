@@ -1,5 +1,6 @@
 import $create from "./create.js";
 import $delete from "./delete.js";
+import $federationgrants from "./federation-grants/index.js";
 import $get from "./get.js";
 import $list from "./list.js";
 import $samlcertificate from "./saml-certificate/index.js";
@@ -23,6 +24,7 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($get)
 			.command($list)
 			.command($update)
+			.command($federationgrants)
 			.command($samlcertificate)
 			.command($scim)
 			.demandCommand(1, "Please specify a subcommand");

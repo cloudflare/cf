@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace ObjectsClient {
     export type Options = BaseClientOptions;
@@ -30,6 +30,9 @@ export class ObjectsClient {
      *
      * @param {CloudflareApi.r2.ListObjectsRequest} request
      * @param {ObjectsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.r2.objects.list({
@@ -113,44 +116,31 @@ export class ObjectsClient {
     }
 
     /**
-     * Deletes objects from an R2 bucket. Three modes are supported:
+     * Deletes the listed objects from an R2 bucket. Provide a JSON array of 1 to 1000 object
+     * keys in the request body.
      *
-     * 1. **Delete by list** (default): Provide a JSON array of object keys in the request body.
-     *    All listed objects are deleted; per-key errors are reported in the response.
-     * 2. **Delete by prefix**: Provide a non-empty `prefix` query parameter and no request body
-     *    to delete every object whose key begins with that prefix.
-     * 3. **Empty bucket**: Provide the `prefix` query parameter with an empty value (`?prefix=`)
-     *    and no request body to delete all objects in the bucket.
+     * If any key cannot be deleted (for example, because it does not exist or is locked), the
+     * remaining keys are still deleted, but the response is HTTP 200 with `success: false`,
+     * `result: null` and one entry in `errors` per failed key. The entries in `errors` do not
+     * identify which key failed.
      *
-     * Prefix and empty-bucket requests return a job descriptor. Small jobs can finish
-     * synchronously and return `COMPLETED`; larger jobs continue in the background. Poll the
-     * returned `id` with the Get Bucket Job endpoint. Objects uploaded after a background job
-     * starts are not deleted by that job. Abort active multipart uploads before submitting the
-     * request; a synchronously completed job does not abort them. Avoid writing objects or
-     * starting multipart uploads while a bucket-emptying job is in progress.
-     *
-     * Each repeated or concurrent request creates a distinct job. The number of active jobs is
-     * limited per bucket; wait for an existing job to finish before retrying a request rejected
-     * with HTTP 429.
-     *
-     * A bucket cannot be emptied while event notifications are configured. Remove the event
-     * notification rules and retry requests rejected with HTTP 409 / error code 10034. To
-     * protect a bucket with R2 Data Catalog enabled, send the `cf-r2-data-catalog-check` header;
-     * a conflict is returned with HTTP 409 / error code 10081.
+     * To delete every object under a prefix, or to empty a bucket, create a `prefixDelete` job
+     * with the Create Bucket Job endpoint instead. The `prefix` query parameter on this endpoint
+     * is deprecated; it creates the same job, but responses to it carry a `Deprecation` header
+     * and a message pointing to Create Bucket Job.
      *
      * For most workloads, we recommend using R2's [S3-compatible API](https://developers.cloudflare.com/r2/api/s3/api/) or a [Worker with an R2 binding](https://developers.cloudflare.com/r2/api/workers/workers-api-reference/) instead.
      *
      * @param {CloudflareApi.r2.BulkDeleteObjectsRequest} request
      * @param {ObjectsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
-     * @throws {@link CloudflareApi.ConflictError}
-     * @throws {@link CloudflareApi.TooManyRequestsError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.r2.objects.bulkDelete({
      *         account_id: "account_id",
      *         bucket_name: "bucket_name",
-     *         prefix: "",
      *         body: ["path/to/object-a.txt", "path/to/object-b.txt"]
      *     })
      */
@@ -217,21 +207,11 @@ export class ObjectsClient {
         }
 
         if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 409:
-                    throw new CloudflareApi.ConflictError(_response.error.body as unknown, _response.rawResponse);
-                case 429:
-                    throw new CloudflareApi.TooManyRequestsError(
-                        _response.error.body as unknown,
-                        _response.rawResponse,
-                    );
-                default:
-                    throw new errors.CloudflareApiError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
-                        rawResponse: _response.rawResponse,
-                    });
-            }
+            throw new errors.CloudflareApiError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
         }
 
         return handleNonStatusCodeError(
@@ -246,6 +226,9 @@ export class ObjectsClient {
      * Retrieves an object from an R2 bucket. Returns the object body along with metadata headers.
      *
      * For most workloads, we recommend using R2's [S3-compatible API](https://developers.cloudflare.com/r2/api/s3/api/) or a [Worker with an R2 binding](https://developers.cloudflare.com/r2/api/workers/workers-api-reference/) instead.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      */
     public get(
         request: CloudflareApi.r2.GetObjectsRequest,
@@ -324,6 +307,9 @@ export class ObjectsClient {
      * @param {string} bucket_name
      * @param {string} object_key
      * @param {ObjectsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      */
     public put(
         uploadable: core.file.Uploadable,
@@ -399,6 +385,9 @@ export class ObjectsClient {
      *
      * @param {CloudflareApi.r2.DeleteObjectsRequest} request
      * @param {ObjectsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.r2.objects.delete({

@@ -1,5 +1,5 @@
 import { stderr, stdout } from "@cloudflare/cli-shared-helpers/streams";
-import { afterEach, beforeEach } from "vitest";
+import { afterEach, beforeEach } from "vite-plus/test";
 
 export function collectCLIOutput() {
 	const std = { out: "", err: "" };

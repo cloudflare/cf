@@ -3,6 +3,6 @@
 import * as CloudflareApi from "../index.js";
 
 /**
- * The WARP Connector Tunnel connections between your origin and Cloudflare's edge.
+ * The Mesh node connections between your origin and Cloudflare's edge.
  */
 export type TunnelWarpConnectorConnections = CloudflareApi.TunnelSchemasWarpConnectorConnection[];

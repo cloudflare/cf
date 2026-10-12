@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * top-n command
+ * @generated from apis/overlays/analytics.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -11,14 +19,6 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * top-n command
- * @generated from apis/overlays/analytics.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -34,7 +34,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "Start of the query time range (inclusive). RFC3339.",
 		})
-		.option("n", {
+		.option("limit", {
 			type: "number",
 			description: "Maximum number of integrations to return.",
 		})
@@ -90,7 +90,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"from",
 											"text"
 										),
-										n: argv["n"],
+										n: argv["limit"],
 										to: resolveFileToken(
 											argv["to"] as string | undefined,
 											"to",
@@ -126,9 +126,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"Start of the query time range (inclusive). RFC3339."
 					);
 				}
-				if (argv["n"] === undefined) {
+				if (argv["limit"] === undefined) {
 					throw new Error(
-						"--n is required (or pass --body with this field set)."
+						"--limit is required (or pass --body with this field set)."
 					);
 				}
 				if (argv["to"] === undefined) {
@@ -146,7 +146,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"from",
 						"text"
 					),
-					n: argv["n"],
+					n: argv["limit"],
 					to: resolveFileToken(argv["to"] as string | undefined, "to", "text"),
 				});
 				const result = await withProgress(`Creating`, async () =>

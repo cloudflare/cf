@@ -1,9 +1,3 @@
-import { createCommandClient } from "#lib/auth.js";
-import { withArgTypes } from "#lib/cli-types.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 import type { SdkQuery, SdkRequest } from "#sdk";
@@ -12,11 +6,17 @@ import type { SdkQuery, SdkRequest } from "#sdk";
  * @generated from apis/overlays/organization.ts
  */
 import type { Argv, CommandModule } from "yargs";
+import { createCommandClient } from "#lib/auth.js";
+import { withArgTypes } from "#lib/cli-types.js";
+import { formatDryRun } from "#lib/dry-run.js";
+import { formatOutput } from "#lib/output.js";
+import { withProgress } from "#lib/progress.js";
+import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 organization account list\n\nRetrieve a list of accounts that belong to a specific organization. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)"
+			"$0 organization account list\n\nRetrieve the accounts immediately attached to a specific organization. Accounts attached to sub-organizations are not included. Authentication: A Global API key for a user with `com.cloudflare.api.tenant.unit.read` is required. User API Tokens are not currently supported."
 		)
 		.option("organization-id", {
 			type: "string",
@@ -116,7 +116,7 @@ const typedBuilder = withArgTypes<
 type Args = InferArgs<typeof typedBuilder>;
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "list",
-	describe: "Get organization accounts",
+	describe: "List organization accounts",
 	builder: typedBuilder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(

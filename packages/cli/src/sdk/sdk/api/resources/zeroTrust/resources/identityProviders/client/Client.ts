@@ -8,7 +8,8 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
+import { FederationGrantsClient } from "../resources/federationGrants/client/Client.js";
 import { SamlCertificateClient } from "../resources/samlCertificate/client/Client.js";
 import { ScimClient } from "../resources/scim/client/Client.js";
 
@@ -21,6 +22,7 @@ export declare namespace IdentityProvidersClient {
 export class IdentityProvidersClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<IdentityProvidersClient.Options>;
     protected _samlCertificate: SamlCertificateClient | undefined;
+    protected _federationGrants: FederationGrantsClient | undefined;
     protected _scim: ScimClient | undefined;
 
     constructor(options: IdentityProvidersClient.Options = {}) {
@@ -29,6 +31,10 @@ export class IdentityProvidersClient {
 
     public get samlCertificate(): SamlCertificateClient {
         return (this._samlCertificate ??= new SamlCertificateClient(this._options));
+    }
+
+    public get federationGrants(): FederationGrantsClient {
+        return (this._federationGrants ??= new FederationGrantsClient(this._options));
     }
 
     public get scim(): ScimClient {
@@ -40,6 +46,9 @@ export class IdentityProvidersClient {
      *
      * @param {CloudflareApi.zeroTrust.ListIdentityProvidersRequest} request
      * @param {IdentityProvidersClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.identityProviders.list({
@@ -125,6 +134,9 @@ export class IdentityProvidersClient {
      * @param {CloudflareApi.zeroTrust.CreateIdentityProvidersRequest} request
      * @param {IdentityProvidersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.identityProviders.create({
      *         account_or_zone: "account_or_zone",
@@ -202,6 +214,9 @@ export class IdentityProvidersClient {
      * @param {CloudflareApi.zeroTrust.GetIdentityProvidersRequest} request
      * @param {IdentityProvidersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.identityProviders.get({
      *         account_or_zone: "account_or_zone",
@@ -275,6 +290,9 @@ export class IdentityProvidersClient {
      *
      * @param {CloudflareApi.zeroTrust.UpdateIdentityProvidersRequest} request
      * @param {IdentityProvidersClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.identityProviders.update({
@@ -358,6 +376,9 @@ export class IdentityProvidersClient {
      *
      * @param {CloudflareApi.zeroTrust.DeleteIdentityProvidersRequest} request
      * @param {IdentityProvidersClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.identityProviders.delete({

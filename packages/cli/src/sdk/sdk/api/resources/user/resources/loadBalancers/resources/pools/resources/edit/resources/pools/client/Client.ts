@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../../../../
 import * as environments from "../../../../../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../../../../../index.js";
 
 export declare namespace PoolsClient {
     export type Options = BaseClientOptions;
@@ -31,6 +31,9 @@ export class PoolsClient {
      *
      * @param {string} request
      * @param {PoolsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.user.loadBalancers.pools.edit.pools.pools("string")
@@ -94,6 +97,9 @@ export class PoolsClient {
      *
      * @param {CloudflareApi.user.loadBalancers.pools.edit.PoolPoolsRequest} request
      * @param {PoolsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.user.loadBalancers.pools.edit.pools.pool({

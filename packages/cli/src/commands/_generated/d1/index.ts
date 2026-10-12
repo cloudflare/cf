@@ -1,14 +1,12 @@
-import $migrations from "#commands/d1/migrations/index.js";
 import $create from "./create.js";
 import $delete from "./delete.js";
 import $edit from "./edit.js";
-import $export from "./export.js";
 import $get from "./get.js";
-import $import from "./import.js";
 import $list from "./list.js";
 import $query from "./query.js";
 import $raw from "./raw.js";
 import $timetravel from "./time-travel/index.js";
+import $undelete from "./undelete.js";
 import $update from "./update.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
@@ -16,6 +14,8 @@ import type { CommonYargsOptions } from "#lib/cli-types.js";
  * @generated from apis/overlays/d1.ts
  */
 import type { CommandModule } from "yargs";
+import $migrations from "#commands/d1/migrations/index.js";
+import { withHandWrittenDryRun } from "#lib/hand-written-dry-run.js";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "d1",
@@ -27,14 +27,13 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($create)
 			.command($delete)
 			.command($edit)
-			.command($export)
 			.command($get)
-			.command($import)
 			.command($list)
 			.command($query)
 			.command($raw)
+			.command($undelete)
 			.command($update)
-			.command($migrations)
+			.command(withHandWrittenDryRun($migrations, "preview"))
 			.command($timetravel)
 			.demandCommand(1, "Please specify a subcommand");
 	},

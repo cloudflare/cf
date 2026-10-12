@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace HoldsClient {
     export type Options = BaseClientOptions;
@@ -28,6 +28,9 @@ export class HoldsClient {
      *
      * @param {CloudflareApi.zones.GetHoldsRequest} request
      * @param {HoldsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zones.holds.get({
@@ -89,6 +92,9 @@ export class HoldsClient {
      *
      * @param {CloudflareApi.zones.CreateHoldsRequest} request
      * @param {HoldsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zones.holds.create({
@@ -162,6 +168,9 @@ export class HoldsClient {
      *
      * @param {CloudflareApi.zones.DeleteHoldsRequest} request
      * @param {HoldsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zones.holds.delete({
@@ -237,6 +246,9 @@ export class HoldsClient {
      *
      * @param {CloudflareApi.zones.EditHoldsRequest} request
      * @param {HoldsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zones.holds.edit({

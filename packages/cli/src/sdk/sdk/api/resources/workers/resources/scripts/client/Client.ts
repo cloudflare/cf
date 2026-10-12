@@ -7,7 +7,7 @@ import { mergeHeaders } from "../../../../../../core/headers.js";
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 import { SchedulesClient } from "../resources/schedules/client/Client.js";
 
 export declare namespace ScriptsClient {
@@ -33,6 +33,9 @@ export class ScriptsClient {
      *
      * @param {CloudflareApi.workers.SearchScriptsRequest} request
      * @param {ScriptsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workers.scripts.search({

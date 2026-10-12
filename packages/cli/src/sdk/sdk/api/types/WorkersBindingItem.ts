@@ -10,6 +10,7 @@ export type WorkersBindingItem =
     | CloudflareApi.WorkersBindingItem.AiSearch
     | CloudflareApi.WorkersBindingItem.AiSearchNamespace
     | CloudflareApi.WorkersBindingItem.AnalyticsEngine
+    | CloudflareApi.WorkersBindingItem.Artifacts
     | CloudflareApi.WorkersBindingItem.Assets
     | CloudflareApi.WorkersBindingItem.Browser
     | CloudflareApi.WorkersBindingItem.D1
@@ -59,6 +60,10 @@ export namespace WorkersBindingItem {
 
     export interface AnalyticsEngine extends CloudflareApi.WorkersBindingKindAnalyticsEngine {
         type: "analytics_engine";
+    }
+
+    export interface Artifacts extends CloudflareApi.WorkersBindingKindArtifacts {
+        type: "artifacts";
     }
 
     export interface Assets extends CloudflareApi.WorkersBindingKindAssets {
@@ -201,6 +206,7 @@ export namespace WorkersBindingItem {
         | CloudflareApi.WorkersBindingItem.AiSearch
         | CloudflareApi.WorkersBindingItem.AiSearchNamespace
         | CloudflareApi.WorkersBindingItem.AnalyticsEngine
+        | CloudflareApi.WorkersBindingItem.Artifacts
         | CloudflareApi.WorkersBindingItem.Assets
         | CloudflareApi.WorkersBindingItem.Browser
         | CloudflareApi.WorkersBindingItem.D1

@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * create command
+ * @generated from apis/overlays/zero-trust.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -11,14 +19,6 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { promptForRequiredEnumField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * create command
- * @generated from apis/overlays/zero-trust.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -36,6 +36,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The auth_requirements.type field",
 			choices: ["Org", "NoAuth"],
 		})
+		.coerce("auth-requirements-type", (value) =>
+			resolveFileToken(value, "auth-requirements-type", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -83,11 +86,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												argv[
 													"auth-requirements-allowed-microsoft-organizations"
 												],
-											type: resolveFileToken(
-												argv["auth-requirements-type"] as string | undefined,
-												"auth-requirements-type",
-												"text"
-											),
+											type: argv["auth-requirements-type"],
 										},
 									}),
 					});
@@ -121,11 +120,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					auth_requirements: {
 						allowed_microsoft_organizations:
 							argv["auth-requirements-allowed-microsoft-organizations"],
-						type: resolveFileToken(
-							argv["auth-requirements-type"] as string | undefined,
-							"auth-requirements-type",
-							"text"
-						),
+						type: argv["auth-requirements-type"],
 					},
 				});
 				const result = await withProgress(`Creating`, async () =>

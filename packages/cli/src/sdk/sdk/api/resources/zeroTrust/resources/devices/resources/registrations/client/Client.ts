@@ -10,7 +10,7 @@ import { mergeHeaders } from "../../../../../../../../core/headers.js";
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 import { OverrideCodesClient } from "../resources/overrideCodes/client/Client.js";
 
 export declare namespace RegistrationsClient {
@@ -36,6 +36,9 @@ export class RegistrationsClient {
      *
      * @param {CloudflareApi.zeroTrust.devices.ListRegistrationsRequest} request
      * @param {RegistrationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.devices.registrations.list({
@@ -153,6 +156,9 @@ export class RegistrationsClient {
      * @param {CloudflareApi.zeroTrust.devices.BulkDeleteRegistrationsRequest} request
      * @param {RegistrationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.devices.registrations.bulkDelete({
      *         account_id: "account_id",
@@ -229,6 +235,9 @@ export class RegistrationsClient {
      * @param {CloudflareApi.zeroTrust.devices.GetRegistrationsRequest} request
      * @param {RegistrationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.devices.registrations.get({
      *         account_id: "account_id",
@@ -304,6 +313,9 @@ export class RegistrationsClient {
      *
      * @param {CloudflareApi.zeroTrust.devices.DeleteRegistrationsRequest} request
      * @param {RegistrationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.devices.registrations.delete({

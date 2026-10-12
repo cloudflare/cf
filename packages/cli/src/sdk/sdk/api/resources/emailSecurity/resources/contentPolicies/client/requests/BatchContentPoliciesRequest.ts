@@ -30,9 +30,13 @@ import * as CloudflareApi from "../../../../../../index.js";
 export interface BatchContentPoliciesRequest {
     /** Account identifier tag. */
     account_id: CloudflareApi.EmailSecurityIdentifier;
+    /** IDs of the content policies to delete. */
     deletes: BatchContentPoliciesRequest.Deletes.Item[];
+    /** Partial updates to apply — each entry carries the policy's ID and only the fields to change. */
     patches: BatchContentPoliciesRequest.Patches.Item[];
+    /** Content policies to create. */
     posts: CloudflareApi.EmailSecurityCreateContentPolicy[];
+    /** Full replacements to apply — each entry carries the policy's ID and every field of its new value. */
     puts: BatchContentPoliciesRequest.Puts.Item[];
 }
 

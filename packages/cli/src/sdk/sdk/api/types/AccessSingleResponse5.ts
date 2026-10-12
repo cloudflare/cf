@@ -7,5 +7,5 @@ export interface AccessSingleResponse5 {
     messages: CloudflareApi.AccessMessages;
     /** Whether the API call was successful. */
     success: true;
-    result?: CloudflareApi.AccessCa | undefined;
+    result?: CloudflareApi.AccessUserPopulation | undefined;
 }

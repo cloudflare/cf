@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace ResourceGroupsClient {
     export type Options = BaseClientOptions;
@@ -28,6 +28,9 @@ export class ResourceGroupsClient {
      *
      * @param {CloudflareApi.iam.ListResourceGroupsRequest} request
      * @param {ResourceGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.iam.resourceGroups.list({
@@ -107,6 +110,9 @@ export class ResourceGroupsClient {
      * @param {CloudflareApi.iam.IamRequestCreateResourceGroup} request
      * @param {ResourceGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.iam.resourceGroups.create({
      *         account_id: "account_id",
@@ -182,6 +188,9 @@ export class ResourceGroupsClient {
      * @param {CloudflareApi.iam.GetResourceGroupsRequest} request
      * @param {ResourceGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.iam.resourceGroups.get({
      *         account_id: "account_id",
@@ -247,6 +256,9 @@ export class ResourceGroupsClient {
      *
      * @param {CloudflareApi.iam.IamRequestUpdateResourceGroup} request
      * @param {ResourceGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.iam.resourceGroups.update({
@@ -316,6 +328,9 @@ export class ResourceGroupsClient {
      *
      * @param {CloudflareApi.iam.DeleteResourceGroupsRequest} request
      * @param {ResourceGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.iam.resourceGroups.delete({

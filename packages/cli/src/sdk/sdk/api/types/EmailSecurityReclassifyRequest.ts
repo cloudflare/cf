@@ -3,11 +3,14 @@
 export interface EmailSecurityReclassifyRequest {
     /** Base64 encoded content of the EML file. */
     eml_content?: string | undefined;
+    /** Submission ID of the original user submission, when reclassifying an escalated user report. */
     escalated_submission_id?: string | undefined;
+    /** The disposition the message should have. */
     expected_disposition: EmailSecurityReclassifyRequest.ExpectedDisposition;
 }
 
 export namespace EmailSecurityReclassifyRequest {
+    /** The disposition the message should have. */
     export const ExpectedDisposition = {
         None: "NONE",
         Bulk: "BULK",

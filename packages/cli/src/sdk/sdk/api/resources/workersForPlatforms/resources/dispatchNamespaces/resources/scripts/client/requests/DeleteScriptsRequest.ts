@@ -13,7 +13,7 @@ export interface DeleteScriptsRequest {
     account_id: string;
     /** Name of the Workers for Platforms dispatch namespace. */
     dispatch_namespace: string;
-    /** Name of the script, used in URLs and route configuration. */
+    /** Name of the script. */
     script_name: string;
     /** If true, delete the script even when other Workers still reference it. Service bindings in those Workers may be left broken. Durable Object namespaces implemented by the deleted script are deleted even if other Workers reference them. */
     force?: boolean;

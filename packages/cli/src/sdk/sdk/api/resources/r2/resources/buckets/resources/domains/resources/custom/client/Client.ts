@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../../../cor
 import * as environments from "../../../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../../../index.js";
 
 export declare namespace CustomClient {
     export type Options = BaseClientOptions;
@@ -31,6 +31,9 @@ export class CustomClient {
      *
      * @param {CloudflareApi.r2.buckets.domains.ListCustomRequest} request
      * @param {CustomClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.r2.buckets.domains.custom.list({
@@ -101,6 +104,9 @@ export class CustomClient {
      *
      * @param {CloudflareApi.r2.buckets.domains.R2AddCustomDomainRequest} request
      * @param {CustomClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.r2.buckets.domains.custom.create({
@@ -183,6 +189,9 @@ export class CustomClient {
      * @param {CloudflareApi.r2.buckets.domains.GetCustomRequest} request
      * @param {CustomClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.r2.buckets.domains.custom.get({
      *         account_id: "account_id",
@@ -258,6 +267,9 @@ export class CustomClient {
      *
      * @param {CloudflareApi.r2.buckets.domains.R2EditCustomDomainRequest} request
      * @param {CustomClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.r2.buckets.domains.custom.update({
@@ -340,6 +352,9 @@ export class CustomClient {
      *
      * @param {CloudflareApi.r2.buckets.domains.DeleteCustomRequest} request
      * @param {CustomClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.r2.buckets.domains.custom.delete({

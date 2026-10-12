@@ -7,5 +7,26 @@ export interface AccessLastSeenIdentityResponse {
     messages: CloudflareApi.AccessMessages;
     /** Whether the API call was successful. */
     success: true;
-    result?: CloudflareApi.AccessIdentity | undefined;
+    result?: AccessLastSeenIdentityResponse.Result | undefined;
+}
+
+export namespace AccessLastSeenIdentityResponse {
+    export interface Result extends CloudflareApi.AccessIdentity {
+        /** Active passkey enrollments for the user. */
+        passkeys?: Result.Passkeys.Item[] | undefined;
+    }
+
+    export namespace Result {
+        export type Passkeys = Passkeys.Item[];
+
+        export namespace Passkeys {
+            export interface Item {
+                created_at?: string | undefined;
+                /** Authenticator ID used to delete the passkey. */
+                id?: string | undefined;
+                last_used_at?: string | undefined;
+                name?: string | undefined;
+            }
+        }
+    }
 }

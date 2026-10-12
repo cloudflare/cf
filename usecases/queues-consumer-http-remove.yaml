@@ -1,9 +1,0 @@
-description: "Remove an HTTP pull consumer from a Queue"
-command: "wrangler queues consumer http remove <queue>"
-status: "partial"
-sourceCommands:
-  - "wrangler queues consumer http remove <queue>"
-cfReplacementFlow:
-  - "cf queues consumers delete <consumer-id> --queue-id <queue-id> --force"
-notes:
-  - "Wrangler's command can infer the consumer from queue/type. cf may require a specific consumer ID."

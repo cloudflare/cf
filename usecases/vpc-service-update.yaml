@@ -1,9 +1,0 @@
-description: "Update a Workers VPC service"
-command: "wrangler vpc service update <service-id>"
-status: "partial"
-sourceCommands:
-  - "wrangler vpc service update <service-id>"
-cfReplacementFlow:
-  - "cf workers-vpc services update <service-id> --body @service-update.json"
-notes:
-  - "Use body form to avoid over-required generated flags where needed."

@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace ZoneCertificatesClient {
     export type Options = BaseClientOptions;
@@ -28,6 +28,9 @@ export class ZoneCertificatesClient {
      *
      * @param {CloudflareApi.originTlsClientAuth.ListZoneCertificatesRequest} request
      * @param {ZoneCertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.originTlsClientAuth.zoneCertificates.list({
@@ -96,6 +99,9 @@ export class ZoneCertificatesClient {
      *
      * @param {CloudflareApi.originTlsClientAuth.CreateZoneCertificatesRequest} request
      * @param {ZoneCertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.originTlsClientAuth.zoneCertificates.create({
@@ -170,6 +176,9 @@ export class ZoneCertificatesClient {
      * @param {CloudflareApi.originTlsClientAuth.GetZoneCertificatesRequest} request
      * @param {ZoneCertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.originTlsClientAuth.zoneCertificates.get({
      *         zone_id: "zone_id",
@@ -238,6 +247,9 @@ export class ZoneCertificatesClient {
      *
      * @param {CloudflareApi.originTlsClientAuth.DeleteZoneCertificatesRequest} request
      * @param {ZoneCertificatesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.originTlsClientAuth.zoneCertificates.delete({

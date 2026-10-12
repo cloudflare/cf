@@ -8,9 +8,8 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 import { ActionLogClient } from "../resources/actionLog/client/Client.js";
-import { BulkClient } from "../resources/bulk/client/Client.js";
 import { DetectionsClient } from "../resources/detections/client/Client.js";
 import { PreviewClient } from "../resources/preview/client/Client.js";
 import { RawClient } from "../resources/raw/client/Client.js";
@@ -24,7 +23,6 @@ export declare namespace InvestigateClient {
 
 export class InvestigateClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<InvestigateClient.Options>;
-    protected _bulk: BulkClient | undefined;
     protected _preview: PreviewClient | undefined;
     protected _actionLog: ActionLogClient | undefined;
     protected _detections: DetectionsClient | undefined;
@@ -33,10 +31,6 @@ export class InvestigateClient {
 
     constructor(options: InvestigateClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
-    }
-
-    public get bulk(): BulkClient {
-        return (this._bulk ??= new BulkClient(this._options));
     }
 
     public get preview(): PreviewClient {
@@ -64,6 +58,9 @@ export class InvestigateClient {
      *
      * @param {CloudflareApi.emailSecurity.ListInvestigateRequest} request
      * @param {InvestigateClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailSecurity.investigate.list({
@@ -185,6 +182,9 @@ export class InvestigateClient {
      * @param {CloudflareApi.emailSecurity.MoveInvestigateRequest} request
      * @param {InvestigateClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.emailSecurity.investigate.move({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -258,10 +258,13 @@ export class InvestigateClient {
      * @param {CloudflareApi.emailSecurity.ReleaseInvestigateRequest} request
      * @param {InvestigateClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.emailSecurity.investigate.release({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
-     *         body: ["4Njp3P0STMz2c02Q-2024-01-05T10:00:00-12345678"]
+     *         ids: ["4Njp3P0STMz2c02Q-2024-01-05T10:00:00-12345678"]
      *     })
      */
     public release(
@@ -275,7 +278,7 @@ export class InvestigateClient {
         request: CloudflareApi.emailSecurity.ReleaseInvestigateRequest,
         requestOptions?: InvestigateClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.emailSecurity.ReleaseInvestigateResponse>> {
-        const { account_id: accountId, body: _body } = request;
+        const { account_id: accountId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -329,6 +332,9 @@ export class InvestigateClient {
      *
      * @param {CloudflareApi.emailSecurity.GetInvestigateRequest} request
      * @param {InvestigateClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailSecurity.investigate.get({

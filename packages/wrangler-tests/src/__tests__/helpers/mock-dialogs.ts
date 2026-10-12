@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-restricted-imports
-import { expect } from "vitest";
+import { expect } from "vite-plus/test";
 
 /**
  * Shared queue-based dialog mocking.

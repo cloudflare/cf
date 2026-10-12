@@ -2,16 +2,16 @@
 
 import * as CloudflareApi from "../index.js";
 
-export type MagicCf1SiteRamp = {
+export type MagicCf1SiteRamp = Record<string, unknown> & {
     created_on: string;
-    description: string | undefined;
-    gre: CloudflareApi.MagicCf1SiteManagedRamp | undefined;
-    gre_interconnect: CloudflareApi.MagicCf1SiteManagedRamp | undefined;
+    description?: string | undefined;
+    gre?: CloudflareApi.MagicCf1SiteManagedRamp | undefined;
+    gre_interconnect?: CloudflareApi.MagicCf1SiteManagedRamp | undefined;
     id: CloudflareApi.MagicIdentifier;
-    ipsec: CloudflareApi.MagicCf1SiteManagedRamp | undefined;
-    mconn: CloudflareApi.MagicCf1SiteManagedRamp | undefined;
+    ipsec?: CloudflareApi.MagicCf1SiteManagedRamp | undefined;
+    mconn?: CloudflareApi.MagicCf1SiteManagedRamp | undefined;
     modified_on: string;
-    mpls_interconnect: CloudflareApi.MagicCf1SiteManagedRamp | undefined;
+    mpls_interconnect?: CloudflareApi.MagicCf1SiteManagedRamp | undefined;
     name: string;
     type: CloudflareApi.MagicCf1SiteRampType;
-} & Record<string, unknown>;
+};

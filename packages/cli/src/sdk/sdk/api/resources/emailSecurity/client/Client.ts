@@ -7,6 +7,7 @@ import * as environments from "../../../../environments.js";
 import { AllowPoliciesClient } from "../resources/allowPolicies/client/Client.js";
 import { AnalyticsClient } from "../resources/analytics/client/Client.js";
 import { BlockSendersClient } from "../resources/blockSenders/client/Client.js";
+import { BulkActionsClient } from "../resources/bulkActions/client/Client.js";
 import { ContentPoliciesClient } from "../resources/contentPolicies/client/Client.js";
 import { DomainsClient } from "../resources/domains/client/Client.js";
 import { ImpersonationRegistryClient } from "../resources/impersonationRegistry/client/Client.js";
@@ -24,6 +25,7 @@ export declare namespace EmailSecurityClient {
 export class EmailSecurityClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<EmailSecurityClient.Options>;
     protected _investigate: InvestigateClient | undefined;
+    protected _bulkActions: BulkActionsClient | undefined;
     protected _allowPolicies: AllowPoliciesClient | undefined;
     protected _blockSenders: BlockSendersClient | undefined;
     protected _contentPolicies: ContentPoliciesClient | undefined;
@@ -42,6 +44,10 @@ export class EmailSecurityClient {
 
     public get investigate(): InvestigateClient {
         return (this._investigate ??= new InvestigateClient(this._options));
+    }
+
+    public get bulkActions(): BulkActionsClient {
+        return (this._bulkActions ??= new BulkActionsClient(this._options));
     }
 
     public get allowPolicies(): AllowPoliciesClient {

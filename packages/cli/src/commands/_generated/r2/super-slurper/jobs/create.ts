@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * create command
+ * @generated from apis/overlays/r2.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -10,14 +18,6 @@ import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * create command
- * @generated from apis/overlays/r2.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -71,11 +71,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The source.vendor field",
 			choices: ["s3", "gcs", "r2"],
 		})
+		.coerce("source-vendor", (value) =>
+			resolveFileToken(value, "source-vendor", "text")
+		)
 		.option("source-jurisdiction", {
 			type: "string",
 			description: "The source.jurisdiction field",
 			choices: ["default", "eu", "us", "fedramp"],
 		})
+		.coerce("source-jurisdiction", (value) =>
+			resolveFileToken(value, "source-jurisdiction", "text")
+		)
 		.option("target-bucket", {
 			type: "string",
 			description: "The target.bucket field",
@@ -85,6 +91,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The target.jurisdiction field",
 			choices: ["default", "eu", "us", "fedramp"],
 		})
+		.coerce("target-jurisdiction", (value) =>
+			resolveFileToken(value, "target-jurisdiction", "text")
+		)
 		.option("target-secret-access-key-id", {
 			type: "string",
 			description: "The target.secret.accessKeyId field",
@@ -98,6 +107,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The target.vendor field",
 			choices: ["r2"],
 		})
+		.coerce("target-vendor", (value) =>
+			resolveFileToken(value, "target-vendor", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -287,16 +299,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 													"text"
 												),
 											},
-											vendor: resolveFileToken(
-												argv["source-vendor"] as string | undefined,
-												"source-vendor",
-												"text"
-											),
-											jurisdiction: resolveFileToken(
-												argv["source-jurisdiction"] as string | undefined,
-												"source-jurisdiction",
-												"text"
-											),
+											vendor: argv["source-vendor"],
+											jurisdiction: argv["source-jurisdiction"],
 										},
 										target: {
 											bucket: resolveFileToken(
@@ -304,11 +308,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"target-bucket",
 												"text"
 											),
-											jurisdiction: resolveFileToken(
-												argv["target-jurisdiction"] as string | undefined,
-												"target-jurisdiction",
-												"text"
-											),
+											jurisdiction: argv["target-jurisdiction"],
 											secret: {
 												accessKeyId: resolveFileToken(
 													argv["target-secret-access-key-id"] as
@@ -325,13 +325,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 													"text"
 												),
 											},
-											vendor: resolveFileToken(
-												argv["target-vendor"] as string | undefined,
-												"target-vendor",
-												"text"
-											),
+											vendor: argv["target-vendor"],
 										},
 									}),
+						sensitiveBodyPaths: [
+							["source", "secret", "secretAccessKey"],
+							["source", "secret", "privateKey"],
+							["target", "secret", "secretAccessKey"],
+						],
 					});
 					return;
 				}
@@ -398,16 +399,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								"text"
 							),
 						},
-						vendor: resolveFileToken(
-							argv["source-vendor"] as string | undefined,
-							"source-vendor",
-							"text"
-						),
-						jurisdiction: resolveFileToken(
-							argv["source-jurisdiction"] as string | undefined,
-							"source-jurisdiction",
-							"text"
-						),
+						vendor: argv["source-vendor"],
+						jurisdiction: argv["source-jurisdiction"],
 					},
 					target: {
 						bucket: resolveFileToken(
@@ -415,11 +408,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"target-bucket",
 							"text"
 						),
-						jurisdiction: resolveFileToken(
-							argv["target-jurisdiction"] as string | undefined,
-							"target-jurisdiction",
-							"text"
-						),
+						jurisdiction: argv["target-jurisdiction"],
 						secret: {
 							accessKeyId: resolveFileToken(
 								argv["target-secret-access-key-id"] as string | undefined,
@@ -432,11 +421,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								"text"
 							),
 						},
-						vendor: resolveFileToken(
-							argv["target-vendor"] as string | undefined,
-							"target-vendor",
-							"text"
-						),
+						vendor: argv["target-vendor"],
 					},
 				});
 				const result = await withProgress(`Creating`, async () =>

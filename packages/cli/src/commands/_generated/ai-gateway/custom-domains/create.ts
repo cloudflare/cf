@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * create command
+ * @generated from apis/overlays/ai-gateway.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -11,14 +19,6 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * create command
- * @generated from apis/overlays/ai-gateway.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -39,6 +39,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The minTLS field",
 			choices: ["1.0", "1.1", "1.2", "1.3"],
 		})
+		.coerce("min-tls", (value) => resolveFileToken(value, "min-tls", "text"))
 		.option("zone-id", {
 			type: "string",
 			description:
@@ -91,11 +92,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"domain",
 											"text"
 										),
-										minTLS: resolveFileToken(
-											argv["min-tls"] as string | undefined,
-											"min-tls",
-											"text"
-										),
+										minTLS: argv["min-tls"],
 										zone_id: resolveFileToken(
 											argv["zone-id"] as string | undefined,
 											"zone-id",
@@ -141,11 +138,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"domain",
 						"text"
 					),
-					minTLS: resolveFileToken(
-						argv["min-tls"] as string | undefined,
-						"min-tls",
-						"text"
-					),
+					minTLS: argv["min-tls"],
 					zone_id: resolveFileToken(
 						argv["zone-id"] as string | undefined,
 						"zone-id",

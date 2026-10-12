@@ -1,5 +1,4 @@
 import $actionlog from "./action-log/index.js";
-import $bulk from "./bulk/index.js";
 import $detections from "./detections/index.js";
 import $get from "./get.js";
 import $list from "./list.js";
@@ -27,7 +26,6 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($move)
 			.command($release)
 			.command($actionlog)
-			.command($bulk)
 			.command($detections)
 			.command($preview)
 			.command($raw)

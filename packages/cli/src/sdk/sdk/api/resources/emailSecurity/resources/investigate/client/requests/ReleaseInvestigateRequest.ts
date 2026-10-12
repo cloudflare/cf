@@ -6,11 +6,12 @@ import * as CloudflareApi from "../../../../../../index.js";
  * @example
  *     {
  *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
- *         body: ["4Njp3P0STMz2c02Q-2024-01-05T10:00:00-12345678"]
+ *         ids: ["4Njp3P0STMz2c02Q-2024-01-05T10:00:00-12345678"]
  *     }
  */
 export interface ReleaseInvestigateRequest {
     /** Account identifier tag. */
     account_id: CloudflareApi.EmailSecurityIdentifier;
-    body: CloudflareApi.EmailSecurityInvestigateId[];
+    /** Investigate IDs of the messages to release. */
+    ids: CloudflareApi.EmailSecurityInvestigateId[];
 }

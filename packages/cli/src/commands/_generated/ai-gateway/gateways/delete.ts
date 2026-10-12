@@ -1,7 +1,14 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * delete command
+ * @generated from apis/overlays/ai-gateway.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
-	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -10,13 +17,6 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { confirmDelete } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-/**
- * delete command
- * @generated from apis/overlays/ai-gateway.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -42,6 +42,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
+
+type Request = SdkRequest<"aig-config-delete-gateway">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "delete <gateway-id>",
@@ -84,11 +86,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				}
 
 				const result = await withProgress(`Deleting`, async () =>
-					requestApi<unknown>(
-						client,
-						"DELETE",
-						`/accounts/${accountId}/ai-gateway/gateways/${encodeURIComponent(String(argv["gateway-id"]))}`
-					)
+					client.aiGateway.gateways.delete({
+						account_id: accountId,
+						"gateway-id": argv["gateway-id"],
+					} satisfies Request)
 				);
 				formatOutput(result, { successLabel: `Deleted` });
 			}

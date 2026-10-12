@@ -1,9 +1,0 @@
-description: "List Workflows"
-command: "wrangler workflows list"
-status: "direct"
-sourceCommands:
-  - "wrangler workflows list"
-cfReplacementFlow:
-  - "cf workflows list"
-notes:
-  - "Wrangler's --local option is not covered by cf's remote API replacement."

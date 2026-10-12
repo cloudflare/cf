@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 
 export declare namespace DatasetsClient {
     export type Options = BaseClientOptions;
@@ -31,6 +31,9 @@ export class DatasetsClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.ListDatasetsRequest} request
      * @param {DatasetsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.datasets.list({
@@ -97,8 +100,11 @@ export class DatasetsClient {
     /**
      * Creates a new DLP (Data Loss Prevention) dataset for storing custom detection patterns. Datasets can contain exact match data, word lists, or EDM (Exact Data Match) configurations.
      *
-     * @param {CloudflareApi.zeroTrust.dlp.CreateDatasetsRequest} request
+     * @param {CloudflareApi.zeroTrust.dlp.DlpNewDataset} request
      * @param {DatasetsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.datasets.create({
@@ -107,14 +113,14 @@ export class DatasetsClient {
      *     })
      */
     public create(
-        request: CloudflareApi.zeroTrust.dlp.CreateDatasetsRequest,
+        request: CloudflareApi.zeroTrust.dlp.DlpNewDataset,
         requestOptions?: DatasetsClient.RequestOptions,
     ): core.HttpResponsePromise<CloudflareApi.DlpDatasetCreation> {
         return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
     }
 
     private async __create(
-        request: CloudflareApi.zeroTrust.dlp.CreateDatasetsRequest,
+        request: CloudflareApi.zeroTrust.dlp.DlpNewDataset,
         requestOptions?: DatasetsClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.DlpDatasetCreation>> {
         const { account_id: accountId, ..._body } = request;
@@ -168,6 +174,9 @@ export class DatasetsClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.GetDatasetsRequest} request
      * @param {DatasetsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.datasets.get({
@@ -232,8 +241,11 @@ export class DatasetsClient {
     /**
      * Updates the configuration of an existing DLP dataset, such as its name, description, or detection settings.
      *
-     * @param {CloudflareApi.zeroTrust.dlp.UpdateDatasetsRequest} request
+     * @param {CloudflareApi.zeroTrust.dlp.DlpDatasetUpdate} request
      * @param {DatasetsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.datasets.update({
@@ -242,14 +254,14 @@ export class DatasetsClient {
      *     })
      */
     public update(
-        request: CloudflareApi.zeroTrust.dlp.UpdateDatasetsRequest,
+        request: CloudflareApi.zeroTrust.dlp.DlpDatasetUpdate,
         requestOptions?: DatasetsClient.RequestOptions,
     ): core.HttpResponsePromise<CloudflareApi.DlpDataset> {
         return core.HttpResponsePromise.fromPromise(this.__update(request, requestOptions));
     }
 
     private async __update(
-        request: CloudflareApi.zeroTrust.dlp.UpdateDatasetsRequest,
+        request: CloudflareApi.zeroTrust.dlp.DlpDatasetUpdate,
         requestOptions?: DatasetsClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.DlpDataset>> {
         const { account_id: accountId, dataset_id: datasetId, ..._body } = request;
@@ -303,6 +315,9 @@ export class DatasetsClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.DeleteDatasetsRequest} request
      * @param {DatasetsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.datasets.delete({
@@ -369,6 +384,9 @@ export class DatasetsClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.PrepareUploadDatasetsRequest} request
      * @param {DatasetsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.datasets.prepareUpload({
@@ -441,6 +459,9 @@ export class DatasetsClient {
      * @param {string} dataset_id
      * @param {string} version
      * @param {DatasetsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      */
     public upload(
         uploadable: core.file.Uploadable,

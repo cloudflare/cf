@@ -10,7 +10,7 @@ import { mergeHeaders } from "../../../../../../../../core/headers.js";
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 
 export declare namespace IndicatorsClient {
     export type Options = BaseClientOptions;
@@ -26,10 +26,13 @@ export class IndicatorsClient {
     }
 
     /**
-     * List Threat Signals article indicators.
+     * Lists indicators of compromise extracted from the account's Threat Signals articles.
      *
      * @param {CloudflareApi.cloudforceOne.threatSignals.ListIndicatorsRequest} request
      * @param {IndicatorsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.threatSignals.indicators.list({

@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkQuery, SdkRequest } from "#sdk";
+/**
+ * get command
+ * @generated from apis/overlays/account-tags.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -10,14 +18,6 @@ import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
-/**
- * get command
- * @generated from apis/overlays/account-tags.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -35,6 +35,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: [
 				"access_application",
 				"access_group",
+				"access_service_token",
 				"account",
 				"account_ruleset",
 				"ai_gateway",
@@ -46,6 +47,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"cws_policy_set",
 				"cws_workload",
 				"d1_database",
+				"device",
 				"durable_object_namespace",
 				"gateway_list",
 				"gateway_rule",

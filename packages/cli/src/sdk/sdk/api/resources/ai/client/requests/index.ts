@@ -3,3 +3,4 @@ export type { ListMarkdownSupportedFormatsAiRequest } from "./ListMarkdownSuppor
 export type { RunAiRequest } from "./RunAiRequest.js";
 export type { RunModelAiRequest } from "./RunModelAiRequest.js";
 export type { ToMarkdownAiRequest } from "./ToMarkdownAiRequest.js";
+export type { WebsearchAiRequest } from "./WebsearchAiRequest.js";

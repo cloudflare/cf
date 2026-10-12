@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace IpsecTunnelsClient {
     export type Options = BaseClientOptions;
@@ -28,6 +28,9 @@ export class IpsecTunnelsClient {
      *
      * @param {CloudflareApi.magicTransit.ListIpsecTunnelsRequest} request
      * @param {IpsecTunnelsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.ipsecTunnels.list({
@@ -97,6 +100,9 @@ export class IpsecTunnelsClient {
      *
      * @param {CloudflareApi.magicTransit.CreateIpsecTunnelsRequest} request
      * @param {IpsecTunnelsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.ipsecTunnels.create({
@@ -172,6 +178,9 @@ export class IpsecTunnelsClient {
      * @param {CloudflareApi.magicTransit.BulkUpdateIpsecTunnelsRequest} request
      * @param {IpsecTunnelsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.ipsecTunnels.bulkUpdate({
      *         account_id: "account_id",
@@ -246,6 +255,9 @@ export class IpsecTunnelsClient {
      *
      * @param {CloudflareApi.magicTransit.MagicIpsecTunnelsPskRequest} request
      * @param {IpsecTunnelsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.ipsecTunnels.pskSet({
@@ -329,6 +341,9 @@ export class IpsecTunnelsClient {
      * @param {CloudflareApi.magicTransit.GetIpsecTunnelsRequest} request
      * @param {IpsecTunnelsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.ipsecTunnels.get({
      *         account_id: "account_id",
@@ -402,6 +417,9 @@ export class IpsecTunnelsClient {
      *
      * @param {CloudflareApi.magicTransit.UpdateIpsecTunnelsRequest} request
      * @param {IpsecTunnelsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.ipsecTunnels.update({
@@ -486,6 +504,9 @@ export class IpsecTunnelsClient {
      * @param {CloudflareApi.magicTransit.DeleteIpsecTunnelsRequest} request
      * @param {IpsecTunnelsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.ipsecTunnels.delete({
      *         account_id: "account_id",
@@ -559,6 +580,9 @@ export class IpsecTunnelsClient {
      *
      * @param {CloudflareApi.magicTransit.PskGenerateIpsecTunnelsRequest} request
      * @param {IpsecTunnelsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.ipsecTunnels.pskGenerate({

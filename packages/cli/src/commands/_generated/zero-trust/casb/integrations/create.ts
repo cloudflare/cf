@@ -1,3 +1,10 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+/**
+ * create command
+ * @generated from apis/overlays/zero-trust.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -15,13 +22,6 @@ import {
 	promptForRequiredField,
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-/**
- * create command
- * @generated from apis/overlays/zero-trust.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -50,6 +50,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"SLACK",
 			],
 		})
+		.coerce("application", (value) =>
+			resolveFileToken(value, "application", "text")
+		)
 		.option("auth-method", {
 			type: "string",
 			description: "Authentication method slug (uses default if omitted).",
@@ -116,11 +119,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								: argv.body !== undefined
 									? parseBody(argv.body)
 									: compactBody({
-											application: resolveFileToken(
-												argv["application"] as string | undefined,
-												"application",
-												"text"
-											),
+											application: argv["application"],
 											auth_method: resolveFileToken(
 												argv["auth-method"] as string | undefined,
 												"auth-method",
@@ -205,15 +204,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData: Record<string, unknown> = {};
 				if (argv["application"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["application"],
-						resolveFileToken(
-							argv["application"] as string | undefined,
-							"application",
-							"text"
-						)
-					);
+					setNestedValue(bodyData, ["application"], argv["application"]);
 				if (argv["auth-method"] !== undefined)
 					setNestedValue(
 						bodyData,

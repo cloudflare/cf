@@ -8,7 +8,8 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
+import * as CloudflareApiErrors from "../../../../../errors/index.js";
 
 export declare namespace RegistrationsClient {
     export type Options = BaseClientOptions;
@@ -73,6 +74,8 @@ export class RegistrationsClient {
      * @param {RegistrationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.registrarSandbox.registrations.check({
@@ -139,7 +142,7 @@ export class RegistrationsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -186,6 +189,8 @@ export class RegistrationsClient {
      * @param {RegistrationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.registrarSandbox.registrations.search({
@@ -247,7 +252,7 @@ export class RegistrationsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -276,6 +281,9 @@ export class RegistrationsClient {
      *
      * @param {CloudflareApi.registrarSandbox.ListRegistrationsRequest} request
      * @param {RegistrationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.registrarSandbox.registrations.list({
@@ -386,6 +394,9 @@ export class RegistrationsClient {
      *
      * @param {CloudflareApi.registrarSandbox.RegistrarApiSandboxRegistrationCreateRequest} request
      * @param {RegistrationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.registrarSandbox.registrations.create({
@@ -653,6 +664,9 @@ export class RegistrationsClient {
      * @param {CloudflareApi.registrarSandbox.GetRegistrationsRequest} request
      * @param {RegistrationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.registrarSandbox.registrations.get({
      *         account_id: "account_id",
@@ -732,6 +746,9 @@ export class RegistrationsClient {
      *
      * @param {CloudflareApi.registrarSandbox.RegistrarApiSandboxRegistrationUpdateRequest} request
      * @param {RegistrationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.registrarSandbox.registrations.update({
@@ -856,6 +873,9 @@ export class RegistrationsClient {
      * @param {CloudflareApi.registrarSandbox.GetRegistrationStatusRegistrationsRequest} request
      * @param {RegistrationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.registrarSandbox.registrations.getRegistrationStatus({
      *         account_id: "account_id",
@@ -934,6 +954,9 @@ export class RegistrationsClient {
      *
      * @param {CloudflareApi.registrarSandbox.GetUpdateStatusRegistrationsRequest} request
      * @param {RegistrationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.registrarSandbox.registrations.getUpdateStatus({

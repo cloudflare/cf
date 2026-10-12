@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace CustomTrustStoreClient {
     export type Options = BaseClientOptions;
@@ -28,6 +28,9 @@ export class CustomTrustStoreClient {
      *
      * @param {CloudflareApi.acm.ListCustomTrustStoreRequest} request
      * @param {CustomTrustStoreClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.acm.customTrustStore.list({
@@ -109,6 +112,9 @@ export class CustomTrustStoreClient {
      * @param {CloudflareApi.acm.CreateCustomTrustStoreRequest} request
      * @param {CustomTrustStoreClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.acm.customTrustStore.create({
      *         zone_id: "zone_id",
@@ -181,6 +187,9 @@ export class CustomTrustStoreClient {
      * @param {CloudflareApi.acm.GetCustomTrustStoreRequest} request
      * @param {CustomTrustStoreClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.acm.customTrustStore.get({
      *         zone_id: "zone_id",
@@ -249,6 +258,9 @@ export class CustomTrustStoreClient {
      *
      * @param {CloudflareApi.acm.DeleteCustomTrustStoreRequest} request
      * @param {CustomTrustStoreClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.acm.customTrustStore.delete({

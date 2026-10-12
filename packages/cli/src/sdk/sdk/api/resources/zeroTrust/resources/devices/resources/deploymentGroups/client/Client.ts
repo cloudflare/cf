@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 
 export declare namespace DeploymentGroupsClient {
     export type Options = BaseClientOptions;
@@ -31,6 +31,9 @@ export class DeploymentGroupsClient {
      *
      * @param {CloudflareApi.zeroTrust.devices.ListDeploymentGroupsRequest} request
      * @param {DeploymentGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.devices.deploymentGroups.list({
@@ -108,6 +111,9 @@ export class DeploymentGroupsClient {
      * @param {CloudflareApi.zeroTrust.devices.TeamsDevicesDeploymentGroupCreateRequest} request
      * @param {DeploymentGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.devices.deploymentGroups.create({
      *         account_id: "account_id",
@@ -183,6 +189,9 @@ export class DeploymentGroupsClient {
      * @param {CloudflareApi.zeroTrust.devices.GetDeploymentGroupsRequest} request
      * @param {DeploymentGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.devices.deploymentGroups.get({
      *         account_id: "account_id",
@@ -252,6 +261,9 @@ export class DeploymentGroupsClient {
      * @param {CloudflareApi.zeroTrust.devices.DeleteDeploymentGroupsRequest} request
      * @param {DeploymentGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.devices.deploymentGroups.delete({
      *         account_id: "account_id",
@@ -320,6 +332,9 @@ export class DeploymentGroupsClient {
      *
      * @param {CloudflareApi.zeroTrust.devices.TeamsDevicesDeploymentGroupUpdateRequest} request
      * @param {DeploymentGroupsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.devices.deploymentGroups.update({

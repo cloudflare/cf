@@ -3,29 +3,44 @@
 export interface EmailSecurityBulkSearchParams {
     /** Deprecated, use `GET /investigate/{investigate_id}/action_log` instead. End of life: November 1, 2026. */
     action_log?: boolean | undefined;
+    /** Alert ID of the detection to filter by. */
     alert_id?: (string | null) | undefined;
+    /** Delivery status to filter by. */
     delivery_status?: (string | null) | undefined;
+    /** Whether to include only detections in search results. */
     detections_only?: boolean | undefined;
+    /** Match messages that mention this domain — sender domain, recipient domain, or a domain in a link. */
     domain?: (string | null) | undefined;
     /** End of search date range. */
     end?: string | undefined;
+    /** Match messages whose subject line equals this value exactly. */
     exact_subject?: (string | null) | undefined;
+    /** Dispositions to filter by. */
     final_disposition?: (string | null) | undefined;
+    /** Message actions to filter by. */
     message_action?: (EmailSecurityBulkSearchParams.MessageAction | null) | undefined;
+    /** Message-ID header value to filter by. */
     message_id?: (string | null) | undefined;
+    /** Metric name to filter the search by. */
     metric?: (string | null) | undefined;
+    /** Space-delimited search term. Case-insensitive. */
     query?: (string | null) | undefined;
+    /** Match messages whose recipient is this email address or domain. */
     recipient?: (string | null) | undefined;
+    /** Match messages whose sender is this email address or domain. */
     sender?: (string | null) | undefined;
     /** Matches messages whose SMTP HELO server IP address equals this value. */
     smtp_helo_ip?: (string | null) | undefined;
     /** Beginning of search date range. */
     start?: string | undefined;
+    /** Match messages whose subject contains these keywords, in any order. */
     subject?: (string | null) | undefined;
+    /** Whether to search reclassification submissions instead of original messages. */
     submissions?: boolean | undefined;
 }
 
 export namespace EmailSecurityBulkSearchParams {
+    /** Message actions to filter by. */
     export const MessageAction = {
         Preview: "PREVIEW",
         QuarantineReleased: "QUARANTINE_RELEASED",

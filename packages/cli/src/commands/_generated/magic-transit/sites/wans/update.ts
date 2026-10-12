@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * update command
+ * @generated from apis/overlays/magic-transit.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -10,14 +18,6 @@ import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * update command
- * @generated from apis/overlays/magic-transit.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -33,6 +33,19 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "Identifier",
 			demandOption: true,
+		})
+		.option("health-check-rate", {
+			type: "string",
+			description:
+				"Magic WAN health check rate for tunnels created on this link.",
+			choices: ["low", "mid", "high"],
+		})
+		.coerce("health-check-rate", (value) =>
+			resolveFileToken(value, "health-check-rate", "text")
+		)
+		.option("load-balance-inner-flows", {
+			type: "boolean",
+			description: "The load_balance_inner_flows field",
 		})
 		.option("name", { type: "string", description: "The name field" })
 		.option("physport", { type: "number", description: "The physport field" })
@@ -97,7 +110,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "magic-transit sites wans update",
 				classification: {
-					safeFlags: ["dry-run"],
+					safeFlags: [
+						"health-check-rate",
+						"load-balance-inner-flows",
+						"dry-run",
+					],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -117,6 +134,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
+										health_check_rate: argv["health-check-rate"],
+										load_balance_inner_flows: argv["load-balance-inner-flows"],
 										name: resolveFileToken(
 											argv["name"] as string | undefined,
 											"name",
@@ -170,6 +189,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
+					health_check_rate: argv["health-check-rate"],
+					load_balance_inner_flows: argv["load-balance-inner-flows"],
 					name: resolveFileToken(
 						argv["name"] as string | undefined,
 						"name",

@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { getCfConfigPath } from "@cloudflare/workers-auth/cf";
 import { runInTempDir } from "@cloudflare/workers-utils/test-helpers";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "vite-plus/test";
 import { readState, updateState } from "../../lib/state.js";
 
 describe("state", () => {

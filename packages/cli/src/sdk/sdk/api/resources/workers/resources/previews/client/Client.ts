@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 import { DeploymentsClient } from "../resources/deployments/client/Client.js";
 
 export declare namespace PreviewsClient {
@@ -34,6 +34,9 @@ export class PreviewsClient {
      *
      * @param {CloudflareApi.workers.ListPreviewsRequest} request
      * @param {PreviewsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workers.previews.list({
@@ -125,6 +128,9 @@ export class PreviewsClient {
      * @param {CloudflareApi.workers.CreatePreviewsRequest} request
      * @param {PreviewsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workers.previews.create({
      *         account_id: "account_id",
@@ -215,6 +221,9 @@ export class PreviewsClient {
      * @param {CloudflareApi.workers.GetPreviewsRequest} request
      * @param {PreviewsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workers.previews.get({
      *         account_id: "account_id",
@@ -281,6 +290,9 @@ export class PreviewsClient {
      *
      * @param {CloudflareApi.workers.UpdatePreviewsRequest} request
      * @param {PreviewsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workers.previews.update({
@@ -369,87 +381,13 @@ export class PreviewsClient {
     }
 
     /**
-     * Delete a Preview.
-     *
-     * @param {CloudflareApi.workers.DeletePreviewsRequest} request
-     * @param {PreviewsClient.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @example
-     *     await client.workers.previews.delete({
-     *         account_id: "account_id",
-     *         worker_id: "worker_id",
-     *         preview_id: "preview_id"
-     *     })
-     */
-    public delete(
-        request: CloudflareApi.workers.DeletePreviewsRequest,
-        requestOptions?: PreviewsClient.RequestOptions,
-    ): core.HttpResponsePromise<CloudflareApi.WorkersApiResponseCommon> {
-        return core.HttpResponsePromise.fromPromise(this.__delete(request, requestOptions));
-    }
-
-    private async __delete(
-        request: CloudflareApi.workers.DeletePreviewsRequest,
-        requestOptions?: PreviewsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<CloudflareApi.WorkersApiResponseCommon>> {
-        const { account_id: accountId, worker_id: workerId, preview_id: previewId, force } = request;
-        const _queryParams: Record<string, unknown> = {
-            force,
-        };
-        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
-        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
-            _authRequest.headers,
-            this._options?.headers,
-            requestOptions?.headers,
-        );
-        const _response = await (this._options.fetcher ?? core.fetcher)({
-            url: core.url.join(
-                (await core.Supplier.get(this._options.baseUrl)) ??
-                    (await core.Supplier.get(this._options.environment)) ??
-                    environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/workers/workers/${core.url.encodePathParam(workerId)}/previews/${core.url.encodePathParam(previewId)}`,
-            ),
-            method: "DELETE",
-            headers: _headers,
-            queryString: core.url
-                .queryBuilder()
-                .addMany(_queryParams)
-                .mergeAdditional(requestOptions?.queryParams)
-                .build(),
-            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
-            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
-            abortSignal: requestOptions?.abortSignal,
-            fetchFn: this._options?.fetch,
-            logging: this._options.logging,
-        });
-        if (_response.ok) {
-            return {
-                data: _response.body as CloudflareApi.WorkersApiResponseCommon,
-                rawResponse: _response.rawResponse,
-            };
-        }
-
-        if (_response.error.reason === "status-code") {
-            throw new errors.CloudflareApiError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-                rawResponse: _response.rawResponse,
-            });
-        }
-
-        return handleNonStatusCodeError(
-            _response.error,
-            _response.rawResponse,
-            "DELETE",
-            "/accounts/{account_id}/workers/workers/{worker_id}/previews/{preview_id}",
-        );
-    }
-
-    /**
      * Perform a partial update on a Preview, where omitted properties are left unchanged.
      *
      * @param {CloudflareApi.workers.EditPreviewsRequest} request
      * @param {PreviewsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workers.previews.edit({

@@ -10,7 +10,7 @@ import { mergeHeaders } from "../../../../../../../../core/headers.js";
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 
 export declare namespace ReportsClient {
     export type Options = BaseClientOptions;
@@ -31,13 +31,18 @@ export class ReportsClient {
      * @param {CloudflareApi.emailSecurity.phishguard.ListReportsRequest} request
      * @param {ReportsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.emailSecurity.phishguard.reports.list({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
      *         start: "2020-08-01T00:00:00Z",
      *         end: "2020-09-01T00:00:00Z",
      *         from_date: "2020-08-01",
-     *         to_date: "2020-09-01"
+     *         to_date: "2020-09-01",
+     *         page: 1,
+     *         per_page: 20
      *     })
      */
     public list(
@@ -51,12 +56,22 @@ export class ReportsClient {
         request: CloudflareApi.emailSecurity.phishguard.ListReportsRequest,
         requestOptions?: ReportsClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.emailSecurity.phishguard.ListReportsResponse>> {
-        const { account_id: accountId, start, end, from_date: fromDate, to_date: toDate } = request;
+        const {
+            account_id: accountId,
+            start,
+            end,
+            from_date: fromDate,
+            to_date: toDate,
+            page,
+            per_page: perPage,
+        } = request;
         const _queryParams: Record<string, unknown> = {
             start: start != null ? start : undefined,
             end: end != null ? end : undefined,
             from_date: fromDate != null ? fromDate : undefined,
             to_date: toDate != null ? toDate : undefined,
+            page,
+            per_page: perPage,
         };
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(

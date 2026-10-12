@@ -6,7 +6,7 @@ import * as CloudflareApi from "../../../../../../index.js";
  * @example
  *     {
  *         account_or_zone: "account_or_zone",
- *         account_or_zone_id: "023e105f4ecef8ad9ca31a8372d0c353",
+ *         account_or_zone_id: "account_or_zone_id",
  *         metrics: "streamMinutesViewed",
  *         since: "2023-09-01T00:00:00Z",
  *         until: "2023-09-01T06:00:00Z",
@@ -17,7 +17,7 @@ import * as CloudflareApi from "../../../../../../index.js";
 export interface GetUsageRequest {
     account_or_zone: string;
     /** Standard Cloudflare hex account identifier. The API gateway translates this to an internal numeric ID before forwarding to the backend service. */
-    account_or_zone_id: CloudflareApi.UsageAnalyticsIdentifier;
+    account_or_zone_id: string;
     /** Comma-separated list of metrics to include in the response. Available metrics depend on the endpoint. Billing usage supports: streamMinutesViewed, rateLimitingRequestsAllowed, loadBalancingQueries, argoAcceleratedBytes, workersRequests, workersKVReads, imageResizingRequests, spectrumBytesTransferred, mediaUniqueTransformations. Stream/media usage supports: streamMinutesViewed. */
     metrics?: string;
     /** Start of the time range for the query (inclusive). ISO 8601 timestamp. Defaults to 6 hours before the current time. */

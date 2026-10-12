@@ -11,11 +11,11 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
-import { CasClient } from "../resources/cas/client/Client.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 import { PoliciesClient } from "../resources/policies/client/Client.js";
 import { PolicyTestsClient } from "../resources/policyTests/client/Client.js";
 import { SettingsClient } from "../resources/settings/client/Client.js";
+import { ShortLivedCertificatesClient } from "../resources/shortLivedCertificates/client/Client.js";
 import { UserPolicyChecksClient } from "../resources/userPolicyChecks/client/Client.js";
 
 export declare namespace ApplicationsClient {
@@ -26,9 +26,9 @@ export declare namespace ApplicationsClient {
 
 export class ApplicationsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<ApplicationsClient.Options>;
-    protected _policyTests: PolicyTestsClient | undefined;
-    protected _cas: CasClient | undefined;
     protected _policies: PoliciesClient | undefined;
+    protected _policyTests: PolicyTestsClient | undefined;
+    protected _shortLivedCertificates: ShortLivedCertificatesClient | undefined;
     protected _settings: SettingsClient | undefined;
     protected _userPolicyChecks: UserPolicyChecksClient | undefined;
 
@@ -36,16 +36,16 @@ export class ApplicationsClient {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 
+    public get policies(): PoliciesClient {
+        return (this._policies ??= new PoliciesClient(this._options));
+    }
+
     public get policyTests(): PolicyTestsClient {
         return (this._policyTests ??= new PolicyTestsClient(this._options));
     }
 
-    public get cas(): CasClient {
-        return (this._cas ??= new CasClient(this._options));
-    }
-
-    public get policies(): PoliciesClient {
-        return (this._policies ??= new PoliciesClient(this._options));
+    public get shortLivedCertificates(): ShortLivedCertificatesClient {
+        return (this._shortLivedCertificates ??= new ShortLivedCertificatesClient(this._options));
     }
 
     public get settings(): SettingsClient {
@@ -61,6 +61,9 @@ export class ApplicationsClient {
      *
      * @param {CloudflareApi.zeroTrust.access.ListApplicationsRequest} request
      * @param {ApplicationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.applications.list({
@@ -156,13 +159,17 @@ export class ApplicationsClient {
      * @param {CloudflareApi.zeroTrust.access.CreateApplicationsRequest} request
      * @param {ApplicationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.applications.create({
      *         account_or_zone: "account_or_zone",
      *         account_or_zone_id: "account_or_zone_id",
      *         body: {
-     *             domain: "test.example.com/admin",
-     *             type: "self_hosted"
+     *             oauth_configuration: {},
+     *             type: "end_user",
+     *             user_populations: ["f174e90a-fafe-4643-bbbc-4a0ed4fc8415"]
      *         }
      *     })
      */
@@ -228,6 +235,9 @@ export class ApplicationsClient {
      *
      * @param {CloudflareApi.zeroTrust.access.GetApplicationsRequest} request
      * @param {ApplicationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.applications.get({
@@ -296,14 +306,18 @@ export class ApplicationsClient {
      * @param {CloudflareApi.zeroTrust.access.UpdateApplicationsRequest} request
      * @param {ApplicationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.applications.update({
      *         account_or_zone: "account_or_zone",
      *         account_or_zone_id: "account_or_zone_id",
      *         app_id: "app_id",
      *         body: {
-     *             domain: "test.example.com/admin",
-     *             type: "self_hosted"
+     *             oauth_configuration: {},
+     *             type: "end_user",
+     *             user_populations: ["f174e90a-fafe-4643-bbbc-4a0ed4fc8415"]
      *         }
      *     })
      */
@@ -375,6 +389,9 @@ export class ApplicationsClient {
      * @param {CloudflareApi.zeroTrust.access.DeleteApplicationsRequest} request
      * @param {ApplicationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.applications.delete({
      *         account_or_zone: "account_or_zone",
@@ -444,6 +461,9 @@ export class ApplicationsClient {
      *
      * @param {CloudflareApi.zeroTrust.access.RevokeTokensApplicationsRequest} request
      * @param {ApplicationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.applications.revokeTokens({

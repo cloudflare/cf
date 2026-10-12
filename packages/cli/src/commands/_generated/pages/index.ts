@@ -1,11 +1,20 @@
-import $deploy from "#commands/pages/deploy/index.js";
-import $projects from "./projects/index.js";
+import $buildcache from "./build-cache/index.js";
+import $create from "./create.js";
+import $delete from "./delete.js";
+import $deployments from "./deployments/index.js";
+import $domains from "./domains/index.js";
+import $edit from "./edit.js";
+import $get from "./get.js";
+import $list from "./list.js";
+import $source from "./source/index.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * pages command
  * @generated from apis/overlays/pages.ts
  */
 import type { CommandModule } from "yargs";
+import $deploy from "#commands/pages/deploy/index.js";
+import { withHandWrittenDryRun } from "#lib/hand-written-dry-run.js";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "pages",
@@ -14,8 +23,16 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
-			.command($deploy)
-			.command($projects)
+			.command($create)
+			.command($delete)
+			.command(withHandWrittenDryRun($deploy, "preview"))
+			.command($edit)
+			.command($get)
+			.command($list)
+			.command($buildcache)
+			.command($deployments)
+			.command($domains)
+			.command($source)
 			.demandCommand(1, "Please specify a subcommand");
 	},
 

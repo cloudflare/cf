@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * query command
+ * @generated from apis/overlays/billing.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -10,21 +18,13 @@ import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * query command
- * @generated from apis/overlays/billing.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 billing usage query\n\nReturns cost and usage data for a single Cloudflare account, aligned with the [FinOps FOCUS v1.3](https://focus.finops.org/focus-specification/v1-3/) Cost and Usage dataset specification. This is the filterable counterpart to `GET` on the same path. It is a read-only operation and requires only the `#billing:read` permission; `POST` is used so that filter criteria can be supplied in a request body rather than in the query string. Each record represents one billable metric for one account on one day. This includes all metered usage, including usage that falls within free-tier allowances and may result in zero cost. **Note:** Cost and pricing fields are not yet populated and will be absent from responses until billing integration is complete. The request body is optional. When it is omitted, or when `TimePeriod` is omitted, the range defaults to the start of the current month through today. The maximum date range is 31 days. Filters of different kinds are combined with AND. Values within one tag filter are combined with OR. Filter values that do not match usage produce an empty result set. Results can be grouped by up to two groups, in any combination of dimension keys and resource-tag keys. Tag groups are returned in the `Tags` field. Usage without a requested tag remains in an untagged group, with that key omitted from `Tags`. Requests that use tag filtering or tag grouping return HTTP 400 when the underlying usage data source does not support tags. Requests that use dimension grouping return HTTP 400 when the underlying usage data source does not support dimensions."
+			"$0 billing usage query\n\nReturns cost and usage data for a single Cloudflare account, aligned with the [FinOps FOCUS v1.3](https://focus.finops.org/focus-specification/v1-3/) Cost and Usage dataset specification. This is the filterable counterpart to `GET` on the same path. It is a read-only operation and requires only the `#billing:read` permission; `POST` is used so that filter criteria can be supplied in a request body rather than in the query string. Each record represents one billable metric for one account on one day. This includes all metered usage, including usage that falls within free-tier allowances and may result in zero cost. **Note:** Cost and pricing fields are populated only when `Metric` is `cost`; otherwise they are absent from responses. The request body is optional. When it is omitted, or when `TimePeriod` is omitted, the range defaults to the start of the current month through today. The maximum date range is 31 days. Filters of different kinds are combined with AND. Values within one tag filter are combined with OR. Filter values that do not match usage produce an empty result set. Results can be grouped by up to two groups, in any combination of dimension keys and resource-tag keys. Tag groups are returned in the `Tags` field. Usage without a requested tag remains in an untagged group, with that key omitted from `Tags`. Requests that use tag filtering or tag grouping return HTTP 400 when the underlying usage data source does not support tags. Requests that use dimension grouping return HTTP 400 when the underlying usage data source does not support dimensions."
 		)
-		.option("filter-by-metric-ids", {
+		.option("filter-by-billable-metric-ids", {
 			type: "string",
 			array: true,
 			description:
@@ -41,6 +41,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Grouping definitions used to split result rows. At most two unique keys may be supplied. Provide as a JSON array of objects or @path/to/file.json.",
 		})
+		.option("metric", {
+			type: "string",
+			description:
+				"Type of cost/usage records to retrieve. `usage` returns unrated usage quantities. `cost` returns rated usage with cost and pricing fields; it is available only on `POST` account usage and only when the underlying usage data source is ClickHouse (other sources return an empty result set). Requests that combine `cost` with `GroupBy` or `FilterBy.Tags` return HTTP 400. Unrelated to `FilterBy.BillableMetricIds`. Defaults to `usage` when omitted.",
+			choices: ["usage", "cost"],
+			default: "usage",
+		})
+		.coerce("metric", (value) => resolveFileToken(value, "metric", "text"))
 		.option("time-period-from", {
 			type: "string",
 			description: "Start of the range (ISO 8601). Required if `To` is set.",
@@ -76,7 +84,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "billing usage query",
 				classification: {
-					safeFlags: ["dry-run"],
+					safeFlags: ["metric", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -94,10 +102,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								? parseBody(argv.body)
 								: compactBody({
 										FilterBy: {
-											MetricIds: argv["filter-by-metric-ids"],
+											BillableMetricIds: argv["filter-by-billable-metric-ids"],
 											ProductFamilyIds: argv["filter-by-product-family-ids"],
 										},
 										GroupBy: parseObjectArray(argv["group-by"], "group-by"),
+										Metric: argv["metric"],
 										TimePeriod: {
 											From: resolveFileToken(
 												argv["time-period-from"] as string | undefined,
@@ -133,10 +142,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
 					FilterBy: {
-						MetricIds: argv["filter-by-metric-ids"],
+						BillableMetricIds: argv["filter-by-billable-metric-ids"],
 						ProductFamilyIds: argv["filter-by-product-family-ids"],
 					},
 					GroupBy: parseObjectArray(argv["group-by"], "group-by"),
+					Metric: argv["metric"],
 					TimePeriod: {
 						From: resolveFileToken(
 							argv["time-period-from"] as string | undefined,

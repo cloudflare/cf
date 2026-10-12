@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 
 export declare namespace AccessRulesClient {
     export type Options = BaseClientOptions;
@@ -31,6 +31,9 @@ export class AccessRulesClient {
      *
      * @param {CloudflareApi.user.firewall.ListAccessRulesRequest} request
      * @param {AccessRulesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.user.firewall.accessRules.list({
@@ -52,7 +55,7 @@ export class AccessRulesClient {
         requestOptions?: AccessRulesClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.user.firewall.ListAccessRulesResponse>> {
         const {
-            mode,
+            mode: action,
             "configuration.target": configurationTarget,
             "configuration.value": configurationValue,
             notes,
@@ -63,7 +66,7 @@ export class AccessRulesClient {
             direction,
         } = request;
         const _queryParams: Record<string, unknown> = {
-            mode: mode != null ? mode : undefined,
+            mode: action != null ? action : undefined,
             "configuration.target": configurationTarget != null ? configurationTarget : undefined,
             "configuration.value": configurationValue,
             notes,
@@ -129,6 +132,9 @@ export class AccessRulesClient {
      *
      * @param {CloudflareApi.user.firewall.CreateAccessRulesRequest} request
      * @param {AccessRulesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.user.firewall.accessRules.create({
@@ -200,6 +206,9 @@ export class AccessRulesClient {
      * @param {CloudflareApi.user.firewall.GetAccessRulesRequest} request
      * @param {AccessRulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.user.firewall.accessRules.get({
      *         rule_id: "rule_id"
@@ -266,6 +275,9 @@ export class AccessRulesClient {
      *
      * @param {CloudflareApi.user.firewall.DeleteAccessRulesRequest} request
      * @param {AccessRulesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.user.firewall.accessRules.delete({
@@ -334,6 +346,9 @@ export class AccessRulesClient {
      *
      * @param {CloudflareApi.user.firewall.EditAccessRulesRequest} request
      * @param {AccessRulesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.user.firewall.accessRules.edit({

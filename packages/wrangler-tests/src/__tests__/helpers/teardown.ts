@@ -1,4 +1,4 @@
-import { afterEach } from "vitest";
+import { afterEach } from "vite-plus/test";
 
 export function useTeardown(): typeof teardown {
 	const teardownCallbacks: (() => void | Promise<void>)[] = [];

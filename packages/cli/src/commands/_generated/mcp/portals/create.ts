@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * create command
+ * @generated from apis/overlays/mcp.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -11,14 +19,6 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * create command
- * @generated from apis/overlays/mcp.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -36,6 +36,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Code Mode policy for this portal. `off`: Code Mode is unavailable; query parameters are ignored. `opt_in`: Code Mode is off by default; clients turn it on with `?codemode=search_and_execute`. `default_on`: Code Mode is on by default; clients can opt out with `?codemode=off`. `enforced`: Code Mode is always on; query parameters are ignored. Defaults to `opt_in` when omitted on create. If both `code_mode` and `allow_code_mode` are sent, they must be consistent or the request returns a 400.",
 			choices: ["off", "opt_in", "default_on", "enforced"],
 		})
+		.coerce("code-mode", (value) =>
+			resolveFileToken(value, "code-mode", "text")
+		)
 		.option("description", {
 			type: "string",
 			description: "Optional description of the MCP portal.",
@@ -111,11 +114,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								? parseBody(argv.body)
 								: compactBody({
 										allow_code_mode: argv["allow-code-mode"],
-										code_mode: resolveFileToken(
-											argv["code-mode"] as string | undefined,
-											"code-mode",
-											"text"
-										),
+										code_mode: argv["code-mode"],
 										description: resolveFileToken(
 											argv["description"] as string | undefined,
 											"description",
@@ -179,11 +178,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
 					allow_code_mode: argv["allow-code-mode"],
-					code_mode: resolveFileToken(
-						argv["code-mode"] as string | undefined,
-						"code-mode",
-						"text"
-					),
+					code_mode: argv["code-mode"],
 					description: resolveFileToken(
 						argv["description"] as string | undefined,
 						"description",

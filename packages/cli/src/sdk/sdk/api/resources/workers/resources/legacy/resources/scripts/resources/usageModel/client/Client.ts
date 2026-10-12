@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../../../cor
 import * as environments from "../../../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../../../index.js";
 
 export declare namespace UsageModelClient {
     export type Options = BaseClientOptions;
@@ -33,6 +33,9 @@ export class UsageModelClient {
      *
      * @param {CloudflareApi.workers.legacy.scripts.GetUsageModelRequest} request
      * @param {UsageModelClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workers.legacy.scripts.usageModel.get({
@@ -104,6 +107,9 @@ export class UsageModelClient {
      *
      * @param {CloudflareApi.workers.legacy.scripts.UpdateUsageModelRequest} request
      * @param {UsageModelClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workers.legacy.scripts.usageModel.update({

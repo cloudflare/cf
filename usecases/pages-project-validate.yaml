@@ -1,9 +1,0 @@
-description: "Validate a Pages project configuration"
-command: "wrangler pages project validate"
-status: "gap"
-sourceCommands:
-  - "wrangler pages project validate"
-cfReplacementFlow:
-  - "No direct cf replacement."
-notes:
-  - "Validation depends on Pages/Wrangler config parsing."

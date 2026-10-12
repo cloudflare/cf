@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 
 export declare namespace PeersClient {
     export type Options = BaseClientOptions;
@@ -31,6 +31,9 @@ export class PeersClient {
      *
      * @param {CloudflareApi.dns.zoneTransfers.ListPeersRequest} request
      * @param {PeersClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.dns.zoneTransfers.peers.list({
@@ -99,6 +102,9 @@ export class PeersClient {
      *
      * @param {CloudflareApi.dns.zoneTransfers.CreatePeersRequest} request
      * @param {PeersClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.dns.zoneTransfers.peers.create({
@@ -169,6 +175,9 @@ export class PeersClient {
      * @param {CloudflareApi.dns.zoneTransfers.GetPeersRequest} request
      * @param {PeersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.dns.zoneTransfers.peers.get({
      *         account_id: "account_id",
@@ -234,6 +243,9 @@ export class PeersClient {
      *
      * @param {CloudflareApi.dns.zoneTransfers.UpdatePeersRequest} request
      * @param {PeersClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.dns.zoneTransfers.peers.update({
@@ -306,6 +318,9 @@ export class PeersClient {
      *
      * @param {CloudflareApi.dns.zoneTransfers.DeletePeersRequest} request
      * @param {PeersClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.dns.zoneTransfers.peers.delete({

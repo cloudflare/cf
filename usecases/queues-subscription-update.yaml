@@ -1,9 +1,0 @@
-description: "Update a Queue event subscription"
-command: "wrangler queues subscription update <queue> --id <subscription-id>"
-status: "partial"
-sourceCommands:
-  - "wrangler queues subscription update <queue> --id <subscription-id>"
-cfReplacementFlow:
-  - "cf queues subscriptions update <subscription-id> --body @subscription-update.json"
-notes:
-  - "Wrangler exposes friendly name/events/enabled flags. cf may use body form for partial updates."

@@ -5,6 +5,8 @@ import * as errors from "../../errors/index.js";
 import * as CloudflareApi from "../index.js";
 
 export class ClientClosedRequestError extends errors.CloudflareApiError {
+    declare public readonly body: CloudflareApi.ClientClosedRequestErrorBody;
+
     constructor(body: CloudflareApi.ClientClosedRequestErrorBody, rawResponse?: core.RawResponse) {
         super({
             message: "ClientClosedRequestError",

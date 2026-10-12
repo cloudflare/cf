@@ -5,6 +5,8 @@ export interface AnalyticsSqlIntrospectionColumn {
     data_type: string;
     /** Human-readable description of the column. */
     description: string;
+    /** Whether the column is de-emphasised in column listings. A presentation hint only: a hidden column is still returned here, is still selectable by name, and is still included by `SELECT *`. */
+    hidden: boolean;
     /** Column name used in SQL queries. */
     name: string;
 }

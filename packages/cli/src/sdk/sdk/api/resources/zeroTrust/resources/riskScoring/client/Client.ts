@@ -7,7 +7,7 @@ import { mergeHeaders } from "../../../../../../core/headers.js";
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 import { BehavioursClient } from "../resources/behaviours/client/Client.js";
 import { IntegrationsClient } from "../resources/integrations/client/Client.js";
 import { SummaryClient } from "../resources/summary/client/Client.js";
@@ -45,6 +45,9 @@ export class RiskScoringClient {
      *
      * @param {CloudflareApi.zeroTrust.GetRiskScoringRequest} request
      * @param {RiskScoringClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.riskScoring.get({
@@ -111,6 +114,9 @@ export class RiskScoringClient {
      *
      * @param {CloudflareApi.zeroTrust.ResetRiskScoringRequest} request
      * @param {RiskScoringClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.riskScoring.reset({

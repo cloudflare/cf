@@ -11,7 +11,8 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
+import { NameserverSetsClient } from "../resources/nameserverSets/client/Client.js";
 import { ViewsClient } from "../resources/views/client/Client.js";
 
 export declare namespace AccountClient {
@@ -22,10 +23,15 @@ export declare namespace AccountClient {
 
 export class AccountClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<AccountClient.Options>;
+    protected _nameserverSets: NameserverSetsClient | undefined;
     protected _views: ViewsClient | undefined;
 
     constructor(options: AccountClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
+    }
+
+    public get nameserverSets(): NameserverSetsClient {
+        return (this._nameserverSets ??= new NameserverSetsClient(this._options));
     }
 
     public get views(): ViewsClient {
@@ -37,6 +43,9 @@ export class AccountClient {
      *
      * @param {CloudflareApi.dns.settings.GetAccountRequest} request
      * @param {AccountClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.dns.settings.account.get({
@@ -106,6 +115,9 @@ export class AccountClient {
      *
      * @param {CloudflareApi.dns.settings.DnsSettingsAccountSettingsPatch} request
      * @param {AccountClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.dns.settings.account.edit({

@@ -14,7 +14,7 @@ export interface ListRelationshipsRequest {
     account_id: string;
     /** Tag UUID. */
     tag_uuid: string;
-    /** Comma-separated dataset UUIDs to scope to, or one standalone scope: 'all'/'*', 'analytics' for isAnalytics=true datasets, or 'operational' for isAnalytics=false datasets. Analytics datasets do not expose tag associations, so 'analytics' returns an empty result. Omit for all. */
+    /** Comma-separated dataset UUIDs to scope to, or one standalone scope value: 'all'/'*' or 'operational' for readable intelligence datasets (isAnalytics=false), or 'analytics' for readable analytics datasets (isAnalytics=true). Analytics datasets do not expose tag associations, so 'analytics' returns an empty result. Omit for 'all'. */
     datasets?: string | string[];
     /** JSON array of {field, op, value} filters (same as indicator list search). */
     search?:

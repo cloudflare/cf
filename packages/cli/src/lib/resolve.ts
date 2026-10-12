@@ -6,7 +6,7 @@
 import type { Cloudflare } from "./auth.js";
 
 /**
- * Small in-memory TTL cache for resolver lookups (e.g. zone listings).
+ * Small in-memory TTL cache for resolver lookups (e.g. zone names).
  *
  * Used to avoid repeated API calls when a single cf invocation resolves
  * the same friendly name more than once, or when the SDK's per-process
@@ -136,14 +136,15 @@ export async function resolveZoneId(
 	}
 
 	// Otherwise, look up by name
-	const cacheKey = `zones:${accountId}`;
+	const zoneName = zoneIdOrName.toLowerCase();
+	const cacheKey = `zones:${accountId}:${zoneName}`;
 	const zones = await getCached<Zone[]>(cacheKey, async () => {
-		return (await client.zones.list({ "account.id": accountId })).result;
+		return (
+			await client.zones.list({ "account.id": accountId, name: zoneName })
+		).result;
 	});
 
-	const zone = zones.find(
-		(z) => z.name === zoneIdOrName || z.name === zoneIdOrName.toLowerCase()
-	);
+	const zone = zones.find((z) => z.name.toLowerCase() === zoneName);
 
 	if (!zone) {
 		throw new Error(`Zone not found: ${zoneIdOrName}`);

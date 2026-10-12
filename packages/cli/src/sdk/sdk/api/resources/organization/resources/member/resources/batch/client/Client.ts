@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 
 export declare namespace BatchClient {
     export type Options = BaseClientOptions;
@@ -29,8 +29,15 @@ export class BatchClient {
     /**
      * Batch create multiple memberships that grant access to a specific Organization.
      *
+     * Authentication: A Global API key for a user with
+     * `com.cloudflare.api.tenant.unit.member.create` is required. User API Tokens are not
+     * currently supported.
+     *
      * @param {CloudflareApi.organization.member.OrganizationsApiBatchCreateMembersRequest} request
      * @param {BatchClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.organization.member.batch.create({

@@ -8,7 +8,8 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
+import * as CloudflareApiErrors from "../../../../../errors/index.js";
 
 export declare namespace TokensClient {
     export type Options = BaseClientOptions;
@@ -30,6 +31,8 @@ export class TokensClient {
      * @param {TokensClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiSearch.tokens.list({
@@ -92,7 +95,7 @@ export class TokensClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -117,6 +120,8 @@ export class TokensClient {
      * @param {TokensClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiSearch.tokens.create({
@@ -173,7 +178,7 @@ export class TokensClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -199,11 +204,13 @@ export class TokensClient {
      *
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiSearch.tokens.get({
      *         account_id: "c3dc5f0b34a14ff8e1b3ec04895e1b22",
-     *         id: "62af0db3-c410-40b2-9ee3-0e93f6dd1de0"
+     *         "token-id": "62af0db3-c410-40b2-9ee3-0e93f6dd1de0"
      *     })
      */
     public get(
@@ -217,7 +224,7 @@ export class TokensClient {
         request: CloudflareApi.aiSearch.GetTokensRequest,
         requestOptions?: TokensClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.aiSearch.GetTokensResponse>> {
-        const { account_id: accountId, id } = request;
+        const { account_id: accountId, "token-id": tokenId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -229,7 +236,7 @@ export class TokensClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/ai-search/tokens/${core.url.encodePathParam(id)}`,
+                `accounts/${core.url.encodePathParam(accountId)}/ai-search/tokens/${core.url.encodePathParam(tokenId)}`,
             ),
             method: "GET",
             headers: _headers,
@@ -250,9 +257,9 @@ export class TokensClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -266,7 +273,7 @@ export class TokensClient {
             _response.error,
             _response.rawResponse,
             "GET",
-            "/accounts/{account_id}/ai-search/tokens/{id}",
+            "/accounts/{account_id}/ai-search/tokens/{token-id}",
         );
     }
 
@@ -278,11 +285,13 @@ export class TokensClient {
      *
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiSearch.tokens.update({
      *         account_id: "c3dc5f0b34a14ff8e1b3ec04895e1b22",
-     *         id: "62af0db3-c410-40b2-9ee3-0e93f6dd1de0",
+     *         "token-id": "62af0db3-c410-40b2-9ee3-0e93f6dd1de0",
      *         cf_api_id: "a1b2c3d4e5f6",
      *         cf_api_key: "abc123",
      *         name: "my-token"
@@ -299,7 +308,7 @@ export class TokensClient {
         request: CloudflareApi.aiSearch.UpdateTokensRequest,
         requestOptions?: TokensClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.aiSearch.UpdateTokensResponse>> {
-        const { account_id: accountId, id, ..._body } = request;
+        const { account_id: accountId, "token-id": tokenId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -311,7 +320,7 @@ export class TokensClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/ai-search/tokens/${core.url.encodePathParam(id)}`,
+                `accounts/${core.url.encodePathParam(accountId)}/ai-search/tokens/${core.url.encodePathParam(tokenId)}`,
             ),
             method: "PUT",
             headers: _headers,
@@ -335,9 +344,9 @@ export class TokensClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -351,7 +360,7 @@ export class TokensClient {
             _response.error,
             _response.rawResponse,
             "PUT",
-            "/accounts/{account_id}/ai-search/tokens/{id}",
+            "/accounts/{account_id}/ai-search/tokens/{token-id}",
         );
     }
 
@@ -364,11 +373,13 @@ export class TokensClient {
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.NotFoundError}
      * @throws {@link CloudflareApi.ConflictError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiSearch.tokens.delete({
      *         account_id: "c3dc5f0b34a14ff8e1b3ec04895e1b22",
-     *         id: "62af0db3-c410-40b2-9ee3-0e93f6dd1de0"
+     *         "token-id": "62af0db3-c410-40b2-9ee3-0e93f6dd1de0"
      *     })
      */
     public delete(
@@ -382,7 +393,7 @@ export class TokensClient {
         request: CloudflareApi.aiSearch.DeleteTokensRequest,
         requestOptions?: TokensClient.RequestOptions,
     ): Promise<core.WithRawResponse<Record<string, unknown>>> {
-        const { account_id: accountId, id } = request;
+        const { account_id: accountId, "token-id": tokenId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -394,7 +405,7 @@ export class TokensClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/ai-search/tokens/${core.url.encodePathParam(id)}`,
+                `accounts/${core.url.encodePathParam(accountId)}/ai-search/tokens/${core.url.encodePathParam(tokenId)}`,
             ),
             method: "DELETE",
             headers: _headers,
@@ -412,11 +423,11 @@ export class TokensClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
-                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 409:
-                    throw new CloudflareApi.ConflictError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.ConflictError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -430,7 +441,7 @@ export class TokensClient {
             _response.error,
             _response.rawResponse,
             "DELETE",
-            "/accounts/{account_id}/ai-search/tokens/{id}",
+            "/accounts/{account_id}/ai-search/tokens/{token-id}",
         );
     }
 }

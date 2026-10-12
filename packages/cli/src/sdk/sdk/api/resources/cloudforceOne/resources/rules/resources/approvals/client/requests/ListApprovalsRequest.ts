@@ -14,7 +14,7 @@ export interface ListApprovalsRequest {
     /** Cloudflare account ID. */
     account_id: string;
     /** Selects approval statuses. Repeat the parameter to OR-match statuses (for example, status=pending&status=rejected). Use status=all alone to disable status filtering. */
-    status?: CloudflareApi.cloudforceOne.rules.ListApprovalsRequestStatus;
+    status?: CloudflareApi.ListApprovalsRequestStatus;
     /** When true, returns the newest revision in each approval chain. */
     latest_only?: CloudflareApi.cloudforceOne.rules.ListApprovalsRequestLatestOnly;
     limit?: number;

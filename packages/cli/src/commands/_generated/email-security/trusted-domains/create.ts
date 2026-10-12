@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * create command
+ * @generated from apis/overlays/email-security.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -11,14 +19,6 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * create command
- * @generated from apis/overlays/email-security.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -31,13 +31,20 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Select to prevent recently registered domains from triggering a Suspicious or Malicious disposition.",
 		})
-		.option("is-regex", { type: "boolean", description: "The is_regex field" })
+		.option("is-regex", {
+			type: "boolean",
+			description:
+				"Whether `pattern` is a regular expression instead of a literal domain.",
+		})
 		.option("is-similarity", {
 			type: "boolean",
 			description:
 				"Select for partner or other approved domains that have similar spelling to your connected domains. Prevents listed domains from triggering a Spoof disposition.",
 		})
-		.option("pattern", { type: "string", description: "The pattern field" })
+		.option("pattern", {
+			type: "string",
+			description: "The domain pattern to trust, e.g. `example.com`.",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -130,7 +137,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv["pattern"] === undefined) {
 					argv["pattern"] = await promptForRequiredField(
 						"pattern",
-						"The pattern field"
+						"The domain pattern to trust, e.g. \`example.com\`."
 					);
 				}
 

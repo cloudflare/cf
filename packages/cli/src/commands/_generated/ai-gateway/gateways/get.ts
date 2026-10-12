@@ -1,7 +1,14 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * get command
+ * @generated from apis/overlays/ai-gateway.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
-	requestApi,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -9,13 +16,6 @@ import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-/**
- * get command
- * @generated from apis/overlays/ai-gateway.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -35,6 +35,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 }
 
 type Args = InferArgs<typeof builder>;
+
+type Request = SdkRequest<"aig-config-fetch-gateway">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <gateway-id>",
@@ -66,11 +68,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				const result = await withProgress(`Loading`, async () =>
-					requestApi<unknown>(
-						client,
-						"GET",
-						`/accounts/${accountId}/ai-gateway/gateways/${encodeURIComponent(String(argv["gateway-id"]))}`
-					)
+					client.aiGateway.gateways.get({
+						account_id: accountId,
+						"gateway-id": argv["gateway-id"],
+					} satisfies Request)
 				);
 				formatOutput(result, { successLabel: `Loaded` });
 			}

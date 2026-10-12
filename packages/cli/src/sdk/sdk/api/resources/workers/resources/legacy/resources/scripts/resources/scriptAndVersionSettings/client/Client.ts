@@ -11,7 +11,7 @@ import { toJson } from "../../../../../../../../../../core/json.js";
 import * as environments from "../../../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../../../index.js";
 
 export declare namespace ScriptAndVersionSettingsClient {
     export type Options = BaseClientOptions;
@@ -33,6 +33,9 @@ export class ScriptAndVersionSettingsClient {
      *
      * @param {CloudflareApi.workers.legacy.scripts.GetScriptAndVersionSettingsRequest} request
      * @param {ScriptAndVersionSettingsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workers.legacy.scripts.scriptAndVersionSettings.get({
@@ -104,6 +107,9 @@ export class ScriptAndVersionSettingsClient {
      *
      * @param {CloudflareApi.workers.legacy.scripts.EditScriptAndVersionSettingsRequest} request
      * @param {ScriptAndVersionSettingsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";

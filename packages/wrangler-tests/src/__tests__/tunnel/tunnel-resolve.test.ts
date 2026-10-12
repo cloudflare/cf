@@ -1,4 +1,4 @@
-import { describe, it } from "vitest";
+import { describe, it } from "vite-plus/test";
 
 // Tests wrangler's `tunnel/client.ts` `resolveTunnelId` helper, which
 // accepts either a UUID or a tunnel name and resolves the latter via

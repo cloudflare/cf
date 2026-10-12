@@ -3,7 +3,7 @@
 import * as CloudflareApi from "../index.js";
 
 /**
- * A Warp Connector Tunnel that connects your origin to Cloudflare's edge.
+ * A Mesh node that connects your origin to Cloudflare's edge.
  */
 export interface TunnelWarpConnectorTunnel {
     account_tag?: CloudflareApi.TunnelAccountId | undefined;

@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * update command
+ * @generated from apis/overlays/oauth-clients.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -10,14 +18,6 @@ import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * update command
- * @generated from apis/overlays/oauth-clients.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -90,6 +90,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"The authentication method the client uses at the token endpoint.",
 			choices: ["none", "client_secret_basic", "client_secret_post"],
 		})
+		.coerce("token-endpoint-auth-method", (value) =>
+			resolveFileToken(value, "token-endpoint-auth-method", "text")
+		)
 		.option("tos-uri", {
 			type: "string",
 			description: "URL that points to a terms of service document.",
@@ -100,6 +103,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Promote the OAuth client from private to public visibility. Only `public` is accepted; demotion to `private` is not supported. Promotion requires a non-empty client name, logo URI, verified client URI host, and at least one non-identity scope.",
 			choices: ["public"],
 		})
+		.coerce("visibility", (value) =>
+			resolveFileToken(value, "visibility", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -173,21 +179,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										redirect_uris: argv["redirect-uris"],
 										response_types: argv["response-types"],
 										scopes: argv["scopes"],
-										token_endpoint_auth_method: resolveFileToken(
-											argv["token-endpoint-auth-method"] as string | undefined,
-											"token-endpoint-auth-method",
-											"text"
-										),
+										token_endpoint_auth_method:
+											argv["token-endpoint-auth-method"],
 										tos_uri: resolveFileToken(
 											argv["tos-uri"] as string | undefined,
 											"tos-uri",
 											"text"
 										),
-										visibility: resolveFileToken(
-											argv["visibility"] as string | undefined,
-											"visibility",
-											"text"
-										),
+										visibility: argv["visibility"],
 									}),
 					});
 					return;
@@ -238,21 +237,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					redirect_uris: argv["redirect-uris"],
 					response_types: argv["response-types"],
 					scopes: argv["scopes"],
-					token_endpoint_auth_method: resolveFileToken(
-						argv["token-endpoint-auth-method"] as string | undefined,
-						"token-endpoint-auth-method",
-						"text"
-					),
+					token_endpoint_auth_method: argv["token-endpoint-auth-method"],
 					tos_uri: resolveFileToken(
 						argv["tos-uri"] as string | undefined,
 						"tos-uri",
 						"text"
 					),
-					visibility: resolveFileToken(
-						argv["visibility"] as string | undefined,
-						"visibility",
-						"text"
-					),
+					visibility: argv["visibility"],
 				});
 				const result = await withProgress(`Updating`, async () =>
 					client.oauthClients.update({

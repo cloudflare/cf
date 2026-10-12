@@ -1,4 +1,11 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import {
+	afterEach,
+	beforeEach,
+	describe,
+	expect,
+	it,
+	vi,
+} from "vite-plus/test";
 import { captureOutput } from "./helpers/capture-output.js";
 import { runCf } from "./helpers/run-cf.js";
 
@@ -23,7 +30,7 @@ describe("command recommendations", () => {
 	}
 
 	it.each([
-		["acount", "account"],
+		["acount", "accounts"],
 		["acces", "access"],
 	])("suggests close top-level command %s once", async (typo, command) => {
 		await expect(runCf([typo])).rejects.toThrow(`Did you mean ${command}?`);

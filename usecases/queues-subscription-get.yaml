@@ -1,9 +1,0 @@
-description: "Get a Queue event subscription"
-command: "wrangler queues subscription get <queue> --id <subscription-id>"
-status: "direct"
-sourceCommands:
-  - "wrangler queues subscription get <queue> --id <subscription-id>"
-cfReplacementFlow:
-  - "cf queues subscriptions get <subscription-id>"
-notes:
-  - "Wrangler includes queue context in the UX; API lookup is subscription-ID oriented."

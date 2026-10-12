@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 import { DeleteByClient } from "../resources/deleteBy/client/Client.js";
 import { GetByClient } from "../resources/getBy/client/Client.js";
 import { InsertClient } from "../resources/insert/client/Client.js";
@@ -60,6 +60,9 @@ export class DeprecatedIndexesClient {
      *
      * @param {CloudflareApi.vectorize.ListDeprecatedIndexesRequest} request
      * @param {DeprecatedIndexesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.vectorize.deprecatedIndexes.list({
@@ -130,6 +133,9 @@ export class DeprecatedIndexesClient {
      *
      * @param {CloudflareApi.vectorize.CreateDeprecatedIndexesRequest} request
      * @param {DeprecatedIndexesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.vectorize.deprecatedIndexes.create({
@@ -211,6 +217,9 @@ export class DeprecatedIndexesClient {
      * @param {CloudflareApi.vectorize.GetDeprecatedIndexesRequest} request
      * @param {DeprecatedIndexesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.vectorize.deprecatedIndexes.get({
      *         account_id: "account_id",
@@ -281,6 +290,9 @@ export class DeprecatedIndexesClient {
      *
      * @param {CloudflareApi.vectorize.VectorizeUpdateIndexRequest} request
      * @param {DeprecatedIndexesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.vectorize.deprecatedIndexes.update({
@@ -356,6 +368,9 @@ export class DeprecatedIndexesClient {
      *
      * @param {CloudflareApi.vectorize.DeleteDeprecatedIndexesRequest} request
      * @param {DeprecatedIndexesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.vectorize.deprecatedIndexes.delete({

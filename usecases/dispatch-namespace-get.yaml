@@ -1,9 +1,0 @@
-description: "Get a dispatch namespace"
-command: "wrangler dispatch-namespace get <namespace>"
-status: "direct"
-sourceCommands:
-  - "wrangler dispatch-namespace get <namespace>"
-cfReplacementFlow:
-  - "cf workers-for-platforms dispatch-namespaces get <namespace>"
-notes:
-  - "Command path differs but API concept is direct."

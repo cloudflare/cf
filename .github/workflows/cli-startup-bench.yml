@@ -16,15 +16,9 @@ on:
 permissions:
   contents: read
   # Needed so the sticky-comment step can post on PRs from same-repo branches.
-  # Fork PRs run with read-only token and will skip the comment (the job
-  # summary still has the numbers).
+  # Fork PRs run with a read-only token; comment failures are non-fatal
+  # (the job summary still has the numbers).
   pull-requests: write
-
-env:
-  # https://turborepo.dev/docs/telemetry — opt out at the workflow level so
-  # any direct `turbo` invocation inherits it (pnpm scripts already prefix
-  # this in package.json, but belt-and-braces).
-  TURBO_TELEMETRY_DISABLED: 1
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}-bench
@@ -89,8 +83,6 @@ jobs:
         if: github.event_name == 'pull_request' && steps.changes.outputs.buildable == 'true'
         working-directory: base
         run: pnpm build
-        env:
-          GITHUB_TOKEN: ${{ secrets.FORGE_GH_ACCESS_TOKEN }}
 
       - name: Install hyperfine
         if: steps.changes.outputs.buildable == 'true'
@@ -136,6 +128,8 @@ jobs:
 
       - name: Sticky PR comment
         if: github.event_name == 'pull_request' && steps.changes.outputs.buildable == 'true'
+        # Commenting is best-effort; permissions can still be restricted.
+        continue-on-error: true
         uses: marocchino/sticky-pull-request-comment@0ea0beb66eb9baf113663a64ec522f60e49231c0 # v2
         with:
           header: cf-startup-bench

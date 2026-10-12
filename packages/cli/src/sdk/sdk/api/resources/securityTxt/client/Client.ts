@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
-import * as CloudflareApi from "../../../index.js";
+import type * as CloudflareApi from "../../../index.js";
 
 export declare namespace SecurityTxtClient {
     export type Options = BaseClientOptions;
@@ -28,6 +28,9 @@ export class SecurityTxtClient {
      *
      * @param {CloudflareApi.GetSecurityTxtRequest} request
      * @param {SecurityTxtClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.securityTxt.get({
@@ -96,6 +99,9 @@ export class SecurityTxtClient {
      *
      * @param {CloudflareApi.UpdateSecurityTxtRequest} request
      * @param {SecurityTxtClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.securityTxt.update({
@@ -168,6 +174,9 @@ export class SecurityTxtClient {
      *
      * @param {CloudflareApi.DeleteSecurityTxtRequest} request
      * @param {SecurityTxtClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.securityTxt.delete({

@@ -4,6 +4,12 @@ import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return sharedUploadBuilder(yargs)
+		.option("provision", {
+			type: "boolean",
+			description:
+				"Automatically provision resources for bindings that need them",
+			default: true,
+		})
 		.option("dispatch-namespace", {
 			type: "string",
 			description:

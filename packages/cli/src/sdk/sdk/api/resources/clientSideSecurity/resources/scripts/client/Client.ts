@@ -7,7 +7,7 @@ import { mergeHeaders } from "../../../../../../core/headers.js";
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace ScriptsClient {
     export type Options = BaseClientOptions;
@@ -27,6 +27,9 @@ export class ScriptsClient {
      *
      * @param {CloudflareApi.clientSideSecurity.ListScriptsRequest} request
      * @param {ScriptsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.clientSideSecurity.scripts.list({
@@ -138,6 +141,9 @@ export class ScriptsClient {
      *
      * @param {CloudflareApi.clientSideSecurity.GetScriptsRequest} request
      * @param {ScriptsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.clientSideSecurity.scripts.get({

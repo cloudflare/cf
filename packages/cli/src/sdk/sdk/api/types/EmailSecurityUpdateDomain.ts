@@ -3,14 +3,24 @@
 import * as CloudflareApi from "../index.js";
 
 export interface EmailSecurityUpdateDomain {
+    /** Delivery modes to onboard the domain through. */
     allowed_delivery_modes?: CloudflareApi.EmailSecurityDeliveryMode[] | undefined;
+    /** Dispositions to drop instead of delivering, e.g. `["MALICIOUS", "SPAM"]`. */
     drop_dispositions?: CloudflareApi.EmailSecurityDispositionLabel[] | undefined;
+    /** The mailbox folder to scan, for API-scanning domains. */
     folder?: (CloudflareApi.EmailSecurityScannableFolder | null) | undefined;
+    /** Identifier of the CASB integration that authorizes this domain. The integration also enables API scanning, post-delivery actions, and directory sync. */
     integration_id?: (string | null) | undefined;
+    /** Source IP ranges mail is accepted from. Any other source is rejected. */
     ip_restrictions?: string[] | undefined;
+    /** Number of hops to trace back through received headers when reconstructing the original message (1-20). */
     lookback_hops?: number | undefined;
+    /** Regions that process messages for this domain, e.g. `["GLOBAL"]` or `["US"]`. */
     regions?: CloudflareApi.EmailSecurityRegion[] | undefined;
+    /** Require TLS on inbound connections. */
     require_tls_inbound?: boolean | undefined;
+    /** Require TLS on outbound connections. */
     require_tls_outbound?: boolean | undefined;
+    /** The mail transport hostname for MX/Inline delivery — the MX record Cloudflare delivers email to (e.g. `mx.example.com`). */
     transport?: string | undefined;
 }

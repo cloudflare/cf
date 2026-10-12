@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
-import * as CloudflareApi from "../../../index.js";
+import type * as CloudflareApi from "../../../index.js";
 import { ConfigClient } from "../resources/config/client/Client.js";
 import { ConnectionsClient } from "../resources/connections/client/Client.js";
 import { ConnectorsClient } from "../resources/connectors/client/Client.js";
@@ -58,6 +58,9 @@ export class TunnelsClient {
      *
      * @param {CloudflareApi.CreateTunnelsRequest} request
      * @param {TunnelsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.tunnels.create({
@@ -128,6 +131,9 @@ export class TunnelsClient {
      * @param {CloudflareApi.GetTunnelsRequest} request
      * @param {TunnelsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.tunnels.get({
      *         account_id: "account_id",
@@ -194,6 +200,9 @@ export class TunnelsClient {
      * @param {CloudflareApi.DeleteTunnelsRequest} request
      * @param {TunnelsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.tunnels.delete({
      *         account_id: "account_id",
@@ -259,6 +268,9 @@ export class TunnelsClient {
      *
      * @param {CloudflareApi.EditTunnelsRequest} request
      * @param {TunnelsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.tunnels.edit({
@@ -328,6 +340,9 @@ export class TunnelsClient {
      *
      * @param {CloudflareApi.ListTunnelsRequest} request
      * @param {TunnelsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.tunnels.list({

@@ -1,9 +1,0 @@
-description: "Update an R2 bucket's default storage class"
-command: "wrangler r2 bucket update storage-class <bucket> --storage-class <class>"
-status: "partial"
-sourceCommands:
-  - "wrangler r2 bucket update storage-class <bucket> --storage-class <class>"
-cfReplacementFlow:
-  - "cf r2 buckets edit <bucket> --cf-r2-storage-class <class>"
-notes:
-  - "cf exposes lower-level API/header names more directly."

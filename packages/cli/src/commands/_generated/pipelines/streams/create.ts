@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * create command
+ * @generated from apis/overlays/pipelines.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -11,14 +19,6 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * create command
- * @generated from apis/overlays/pipelines.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -28,11 +28,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The format.decimal_encoding field",
 			choices: ["number", "string", "bytes"],
 		})
+		.coerce("format-decimal-encoding", (value) =>
+			resolveFileToken(value, "format-decimal-encoding", "text")
+		)
 		.option("format-timestamp-format", {
 			type: "string",
 			description: "The format.timestamp_format field",
 			choices: ["rfc3339", "unix_millis"],
 		})
+		.coerce("format-timestamp-format", (value) =>
+			resolveFileToken(value, "format-timestamp-format", "text")
+		)
 		.option("format-unstructured", {
 			type: "boolean",
 			description: "The format.unstructured field",
@@ -42,11 +48,17 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The format.type field",
 			choices: ["json", "parquet"],
 		})
+		.coerce("format-type", (value) =>
+			resolveFileToken(value, "format-type", "text")
+		)
 		.option("format-compression", {
 			type: "string",
 			description: "The format.compression field",
 			choices: ["uncompressed", "snappy", "gzip", "zstd", "lz4"],
 		})
+		.coerce("format-compression", (value) =>
+			resolveFileToken(value, "format-compression", "text")
+		)
 		.option("format-row-group-bytes", {
 			type: "number",
 			description: "The format.row_group_bytes field",
@@ -206,27 +218,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								? parseBody(argv.body)
 								: compactBody({
 										format: {
-											decimal_encoding: resolveFileToken(
-												argv["format-decimal-encoding"] as string | undefined,
-												"format-decimal-encoding",
-												"text"
-											),
-											timestamp_format: resolveFileToken(
-												argv["format-timestamp-format"] as string | undefined,
-												"format-timestamp-format",
-												"text"
-											),
+											decimal_encoding: argv["format-decimal-encoding"],
+											timestamp_format: argv["format-timestamp-format"],
 											unstructured: argv["format-unstructured"],
-											type: resolveFileToken(
-												argv["format-type"] as string | undefined,
-												"format-type",
-												"text"
-											),
-											compression: resolveFileToken(
-												argv["format-compression"] as string | undefined,
-												"format-compression",
-												"text"
-											),
+											type: argv["format-type"],
+											compression: argv["format-compression"],
 											row_group_bytes: argv["format-row-group-bytes"],
 										},
 										http: {
@@ -276,27 +272,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
 					format: {
-						decimal_encoding: resolveFileToken(
-							argv["format-decimal-encoding"] as string | undefined,
-							"format-decimal-encoding",
-							"text"
-						),
-						timestamp_format: resolveFileToken(
-							argv["format-timestamp-format"] as string | undefined,
-							"format-timestamp-format",
-							"text"
-						),
+						decimal_encoding: argv["format-decimal-encoding"],
+						timestamp_format: argv["format-timestamp-format"],
 						unstructured: argv["format-unstructured"],
-						type: resolveFileToken(
-							argv["format-type"] as string | undefined,
-							"format-type",
-							"text"
-						),
-						compression: resolveFileToken(
-							argv["format-compression"] as string | undefined,
-							"format-compression",
-							"text"
-						),
+						type: argv["format-type"],
+						compression: argv["format-compression"],
 						row_group_bytes: argv["format-row-group-bytes"],
 					},
 					http: {

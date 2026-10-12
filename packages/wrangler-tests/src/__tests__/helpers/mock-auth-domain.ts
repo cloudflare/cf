@@ -1,4 +1,4 @@
-import { afterEach, beforeEach } from "vitest";
+import { afterEach, beforeEach } from "vite-plus/test";
 
 const ORIGINAL_WRANGLER_AUTH_DOMAIN = process.env.WRANGLER_AUTH_DOMAIN;
 

@@ -11,7 +11,8 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../../../cor
 import * as environments from "../../../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../../../index.js";
+import * as CloudflareApiErrors from "../../../../../../../../../errors/index.js";
 import { PollsClient } from "../resources/polls/client/Client.js";
 
 export declare namespace ActiveClient {
@@ -39,6 +40,8 @@ export class ActiveClient {
      * @param {ActiveClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.realtime.kit.meetings.active.get({
@@ -91,7 +94,7 @@ export class ActiveClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 404:
-                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -116,6 +119,8 @@ export class ActiveClient {
      * @param {ActiveClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.realtime.kit.meetings.active.kick({
@@ -171,7 +176,7 @@ export class ActiveClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 404:
-                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -194,6 +199,9 @@ export class ActiveClient {
      *
      * @param {CloudflareApi.realtime.kit.meetings.KickAllActiveRequest} request
      * @param {ActiveClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.realtime.kit.meetings.active.kickAll({
@@ -264,6 +272,9 @@ export class ActiveClient {
      *
      * @param {CloudflareApi.realtime.kit.meetings.MuteActiveRequest} request
      * @param {ActiveClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.realtime.kit.meetings.active.mute({
@@ -337,6 +348,9 @@ export class ActiveClient {
      *
      * @param {CloudflareApi.realtime.kit.meetings.MuteAllActiveRequest} request
      * @param {ActiveClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.realtime.kit.meetings.active.muteAll({

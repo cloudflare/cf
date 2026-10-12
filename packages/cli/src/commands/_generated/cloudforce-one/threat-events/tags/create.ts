@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * create command
+ * @generated from apis/overlays/cloudforce-one.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -11,19 +19,11 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * create command
- * @generated from apis/overlays/cloudforce-one.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one threat-events tags create\n\nCreates a new tag to be used accross threat events."
+			"$0 cloudforce-one threat-events tags create\n\nCreates an account-owned tag for threat events and returns its complete owner projection."
 		)
 		.option("alias-group-names", {
 			type: "string",
@@ -70,7 +70,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("internal-aliases", {
 			type: "string",
 			description:
-				"Internal structured aliases ({ value, confidence 1-10, tlp }). CFONE-only: never returned to non-CFONE accounts. Provide as a JSON array of objects or @path/to/file.json.",
+				"Owner-private structured aliases ({ value, confidence 1-10, tlp }). Returned to the owning account and omitted from shared-catalog non-owner responses. Provide as a JSON array of objects or @path/to/file.json.",
 		})
 		.option("internal-description", {
 			type: "string",
@@ -91,6 +91,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"amber+strict",
 			],
 		})
+		.coerce("tlp", (value) => resolveFileToken(value, "tlp", "text"))
 		.option("value", { type: "string", description: "The value field" })
 		.option("dry-run", {
 			type: "boolean",
@@ -172,11 +173,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"last-seen",
 											"text"
 										),
-										tlp: resolveFileToken(
-											argv["tlp"] as string | undefined,
-											"tlp",
-											"text"
-										),
+										tlp: argv["tlp"],
 										value: resolveFileToken(
 											argv["value"] as string | undefined,
 											"value",
@@ -248,11 +245,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"last-seen",
 						"text"
 					),
-					tlp: resolveFileToken(
-						argv["tlp"] as string | undefined,
-						"tlp",
-						"text"
-					),
+					tlp: argv["tlp"],
 					value: resolveFileToken(
 						argv["value"] as string | undefined,
 						"value",

@@ -1,10 +1,3 @@
-import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { resolveFileToken } from "#lib/input-validation.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 import type { SdkRequest } from "#sdk";
@@ -13,6 +6,13 @@ import type { SdkRequest } from "#sdk";
  * @generated from apis/overlays/web-assets.ts
  */
 import type { Argv, CommandModule } from "yargs";
+import { createCommandClient, getZoneId } from "#lib/auth.js";
+import { compactBody, parseBody } from "#lib/body-parser.js";
+import { formatDryRun } from "#lib/dry-run.js";
+import { resolveFileToken } from "#lib/input-validation.js";
+import { formatOutput } from "#lib/output.js";
+import { withProgress } from "#lib/progress.js";
+import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -30,6 +30,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Mark state of operation in API Discovery\n  * `review` - Mark operation as for review\n  * `ignored` - Mark operation as ignored\n",
 			choices: ["review", "ignored"],
 		})
+		.coerce("state", (value) => resolveFileToken(value, "state", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -74,11 +75,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										state: resolveFileToken(
-											argv["state"] as string | undefined,
-											"state",
-											"text"
-										),
+										state: argv["state"],
 									}),
 					});
 					return;
@@ -104,11 +101,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					state: resolveFileToken(
-						argv["state"] as string | undefined,
-						"state",
-						"text"
-					),
+					state: argv["state"],
 				});
 				const result = await withProgress(`Updating`, async () =>
 					client.webAssets.discovery.operations.edit({

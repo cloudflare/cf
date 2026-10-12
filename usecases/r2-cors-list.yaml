@@ -1,9 +1,0 @@
-description: "List R2 bucket CORS rules"
-command: "wrangler r2 bucket cors list <bucket>"
-status: "direct"
-sourceCommands:
-  - "wrangler r2 bucket cors list <bucket>"
-cfReplacementFlow:
-  - "cf r2 buckets cors get <bucket>"
-notes:
-  - "Command naming differs: Wrangler says list, the API/cf command may say get because CORS config is a single document."

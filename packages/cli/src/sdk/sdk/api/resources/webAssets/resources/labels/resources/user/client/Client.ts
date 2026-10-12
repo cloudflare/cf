@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 import { OperationsClient } from "../resources/operations/client/Client.js";
 
 export declare namespace UserClient {
@@ -37,6 +37,9 @@ export class UserClient {
      *
      * @param {CloudflareApi.webAssets.labels.BulkCreateUserRequest} request
      * @param {UserClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.webAssets.labels.user.bulkCreate({
@@ -112,6 +115,9 @@ export class UserClient {
      * @param {CloudflareApi.webAssets.labels.BulkDeleteUserRequest} request
      * @param {UserClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.webAssets.labels.user.bulkDelete({
      *         zone_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -183,6 +189,9 @@ export class UserClient {
      *
      * @param {CloudflareApi.webAssets.labels.GetUserRequest} request
      * @param {UserClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.webAssets.labels.user.get({
@@ -258,6 +267,9 @@ export class UserClient {
      * @param {CloudflareApi.webAssets.labels.ApiShieldPutLabelRequest} request
      * @param {UserClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.webAssets.labels.user.update({
      *         zone_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -327,6 +339,9 @@ export class UserClient {
      * @param {CloudflareApi.webAssets.labels.DeleteUserRequest} request
      * @param {UserClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.webAssets.labels.user.delete({
      *         zone_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -392,6 +407,9 @@ export class UserClient {
      *
      * @param {CloudflareApi.webAssets.labels.ApiShieldPatchLabelRequest} request
      * @param {UserClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.webAssets.labels.user.edit({

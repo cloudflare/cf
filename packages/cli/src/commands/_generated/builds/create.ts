@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * create command
+ * @generated from apis/overlays/builds.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -10,14 +18,6 @@ import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * create command
- * @generated from apis/overlays/builds.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -28,6 +28,18 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "Trigger UUID.",
 			demandOption: true,
+		})
+		.option("branch", {
+			type: "string",
+			description: "Git branch name (required if commit_hash not provided)",
+		})
+		.option("commit-hash", {
+			type: "string",
+			description: "Git commit hash (required if branch not provided)",
+		})
+		.option("seed-repo-branch", {
+			type: "string",
+			description: "Repository branch to seed.",
 		})
 		.option("seed-repo-owner", {
 			type: "string",
@@ -42,6 +54,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Source control provider for the seed repository.",
 			choices: ["github", "gitlab"],
 		})
+		.coerce("seed-repo-provider", (value) =>
+			resolveFileToken(value, "seed-repo-provider", "text")
+		)
 		.option("seed-repo-repository", {
 			type: "string",
 			description: "Repository name.",
@@ -57,6 +72,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.check((argv) => {
 			const groupSet = [
+				"seed-repo-branch",
 				"seed-repo-owner",
 				"seed-repo-path",
 				"seed-repo-provider",
@@ -109,7 +125,22 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
+										branch: resolveFileToken(
+											argv["branch"] as string | undefined,
+											"branch",
+											"text"
+										),
+										commit_hash: resolveFileToken(
+											argv["commit-hash"] as string | undefined,
+											"commit-hash",
+											"text"
+										),
 										seed_repo: {
+											branch: resolveFileToken(
+												argv["seed-repo-branch"] as string | undefined,
+												"seed-repo-branch",
+												"text"
+											),
 											owner: resolveFileToken(
 												argv["seed-repo-owner"] as string | undefined,
 												"seed-repo-owner",
@@ -120,11 +151,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"seed-repo-path",
 												"text"
 											),
-											provider: resolveFileToken(
-												argv["seed-repo-provider"] as string | undefined,
-												"seed-repo-provider",
-												"text"
-											),
+											provider: argv["seed-repo-provider"],
 											repository: resolveFileToken(
 												argv["seed-repo-repository"] as string | undefined,
 												"seed-repo-repository",
@@ -154,7 +181,22 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
+					branch: resolveFileToken(
+						argv["branch"] as string | undefined,
+						"branch",
+						"text"
+					),
+					commit_hash: resolveFileToken(
+						argv["commit-hash"] as string | undefined,
+						"commit-hash",
+						"text"
+					),
 					seed_repo: {
+						branch: resolveFileToken(
+							argv["seed-repo-branch"] as string | undefined,
+							"seed-repo-branch",
+							"text"
+						),
 						owner: resolveFileToken(
 							argv["seed-repo-owner"] as string | undefined,
 							"seed-repo-owner",
@@ -165,11 +207,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"seed-repo-path",
 							"text"
 						),
-						provider: resolveFileToken(
-							argv["seed-repo-provider"] as string | undefined,
-							"seed-repo-provider",
-							"text"
-						),
+						provider: argv["seed-repo-provider"],
 						repository: resolveFileToken(
 							argv["seed-repo-repository"] as string | undefined,
 							"seed-repo-repository",

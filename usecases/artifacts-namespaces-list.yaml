@@ -1,9 +1,0 @@
-description: "List Artifacts namespaces"
-command: "wrangler artifacts namespaces list"
-status: "partial"
-sourceCommands:
-  - "wrangler artifacts namespaces list"
-cfReplacementFlow:
-  - "cf artifacts namespaces list"
-notes:
-  - "Verify generated cf product coverage."

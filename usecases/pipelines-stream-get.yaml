@@ -1,9 +1,0 @@
-description: "Get Pipeline stream details"
-command: "wrangler pipelines streams get <stream>"
-status: "partial"
-sourceCommands:
-  - "wrangler pipelines streams get <stream>"
-cfReplacementFlow:
-  - "cf pipelines streams get <stream-id>"
-notes:
-  - "Wrangler may resolve by name; cf likely follows API ID shape."

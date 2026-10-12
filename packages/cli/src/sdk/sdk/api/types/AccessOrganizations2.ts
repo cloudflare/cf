@@ -12,6 +12,7 @@ export interface AccessOrganizations2 {
     is_ui_read_only?: CloudflareApi.AccessIsUiReadOnly2 | undefined;
     login_design?: CloudflareApi.AccessLoginDesign | undefined;
     name?: CloudflareApi.AccessName15 | undefined;
+    strict_service_token_auth?: CloudflareApi.AccessStrictServiceTokenAuth | undefined;
     ui_read_only_toggle_reason?: CloudflareApi.AccessUiReadOnlyToggleReason | undefined;
     updated_at?: CloudflareApi.AccessTimestamp | undefined;
     user_seat_expiration_inactive_time?: CloudflareApi.AccessUserSeatExpirationInactiveTime2 | undefined;

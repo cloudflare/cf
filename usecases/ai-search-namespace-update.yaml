@@ -1,9 +1,0 @@
-description: "Update AI Search namespace metadata"
-command: "wrangler ai-search namespace update <name>"
-status: "direct"
-sourceCommands:
-  - "wrangler ai-search namespace update <name> --description <text>"
-cfReplacementFlow:
-  - "cf ai-search namespaces update <name> --body @namespace-update.json"
-notes:
-  - "Use generated flags if they expose description directly."

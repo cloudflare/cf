@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 
 export declare namespace KeysClient {
     export type Options = BaseClientOptions;
@@ -31,6 +31,9 @@ export class KeysClient {
      *
      * @param {CloudflareApi.realtime.turn.ListKeysRequest} request
      * @param {KeysClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.realtime.turn.keys.list({
@@ -99,6 +102,9 @@ export class KeysClient {
      *
      * @param {CloudflareApi.realtime.turn.CreateKeysRequest} request
      * @param {KeysClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.realtime.turn.keys.create({
@@ -169,6 +175,9 @@ export class KeysClient {
      * @param {CloudflareApi.realtime.turn.GetKeysRequest} request
      * @param {KeysClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.realtime.turn.keys.get({
      *         account_id: "account_id",
@@ -234,6 +243,9 @@ export class KeysClient {
      *
      * @param {CloudflareApi.realtime.turn.UpdateKeysRequest} request
      * @param {KeysClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.realtime.turn.keys.update({
@@ -304,6 +316,9 @@ export class KeysClient {
      *
      * @param {CloudflareApi.realtime.turn.DeleteKeysRequest} request
      * @param {KeysClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.realtime.turn.keys.delete({

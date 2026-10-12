@@ -1,3 +1,5 @@
+import $invalidateenvironment from "./invalidate-environment.js";
+import $invalidate from "./invalidate.js";
 import $origincloudregions from "./origin-cloud-regions/index.js";
 import $purgeenvironment from "./purge-environment.js";
 import $purge from "./purge.js";
@@ -16,6 +18,8 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
+			.command($invalidate)
+			.command($invalidateenvironment)
 			.command($purge)
 			.command($purgeenvironment)
 			.command($origincloudregions)

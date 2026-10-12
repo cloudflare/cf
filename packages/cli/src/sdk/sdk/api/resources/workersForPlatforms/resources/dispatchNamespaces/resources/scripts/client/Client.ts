@@ -11,7 +11,7 @@ import { toJson } from "../../../../../../../../core/json.js";
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 import { AssetsClient } from "../resources/assets/client/Client.js";
 import { BindingsClient } from "../resources/bindings/client/Client.js";
 import { ContentClient } from "../resources/content/client/Client.js";
@@ -67,6 +67,9 @@ export class ScriptsClient {
      *
      * @param {CloudflareApi.workersForPlatforms.dispatchNamespaces.ListScriptsRequest} request
      * @param {ScriptsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workersForPlatforms.dispatchNamespaces.scripts.list({
@@ -144,6 +147,9 @@ export class ScriptsClient {
      *
      * @param {CloudflareApi.workersForPlatforms.dispatchNamespaces.BulkDeleteScriptsRequest} request
      * @param {ScriptsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workersForPlatforms.dispatchNamespaces.scripts.bulkDelete({
@@ -224,6 +230,9 @@ export class ScriptsClient {
      * @param {CloudflareApi.workersForPlatforms.dispatchNamespaces.GetScriptsRequest} request
      * @param {ScriptsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workersForPlatforms.dispatchNamespaces.scripts.get({
      *         account_id: "account_id",
@@ -293,6 +302,9 @@ export class ScriptsClient {
      *
      * @param {CloudflareApi.workersForPlatforms.dispatchNamespaces.UpdateScriptsRequest} request
      * @param {ScriptsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";
@@ -385,6 +397,9 @@ export class ScriptsClient {
      * @param {CloudflareApi.workersForPlatforms.dispatchNamespaces.DeleteScriptsRequest} request
      * @param {ScriptsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workersForPlatforms.dispatchNamespaces.scripts.delete({
      *         account_id: "account_id",
@@ -407,10 +422,10 @@ export class ScriptsClient {
             account_id: accountId,
             dispatch_namespace: dispatchNamespace,
             script_name: scriptName,
-            force,
+            force: deleteWithReferences,
         } = request;
         const _queryParams: Record<string, unknown> = {
-            force,
+            force: deleteWithReferences,
         };
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(

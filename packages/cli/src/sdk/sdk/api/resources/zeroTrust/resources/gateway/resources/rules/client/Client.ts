@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 
 export declare namespace RulesClient {
     export type Options = BaseClientOptions;
@@ -31,6 +31,9 @@ export class RulesClient {
      *
      * @param {CloudflareApi.zeroTrust.gateway.ListRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.gateway.rules.list({
@@ -110,6 +113,9 @@ export class RulesClient {
      * @param {CloudflareApi.zeroTrust.gateway.CreateRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.gateway.rules.create({
      *         account_id: "account_id",
@@ -179,6 +185,9 @@ export class RulesClient {
      *
      * @param {CloudflareApi.zeroTrust.gateway.BulkEditRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.gateway.rules.bulkEdit({
@@ -254,6 +263,9 @@ export class RulesClient {
      * @param {CloudflareApi.zeroTrust.gateway.ListTenantRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.gateway.rules.listTenant({
      *         account_id: "account_id"
@@ -322,6 +334,9 @@ export class RulesClient {
      * @param {CloudflareApi.zeroTrust.gateway.GetRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.gateway.rules.get({
      *         account_id: "account_id",
@@ -387,6 +402,9 @@ export class RulesClient {
      *
      * @param {CloudflareApi.zeroTrust.gateway.UpdateRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.gateway.rules.update({
@@ -459,6 +477,9 @@ export class RulesClient {
      * @param {CloudflareApi.zeroTrust.gateway.DeleteRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.gateway.rules.delete({
      *         account_id: "account_id",
@@ -524,6 +545,9 @@ export class RulesClient {
      *
      * @param {CloudflareApi.zeroTrust.gateway.EditRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.gateway.rules.edit({
@@ -593,6 +617,9 @@ export class RulesClient {
      *
      * @param {CloudflareApi.zeroTrust.gateway.ResetExpirationRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.gateway.rules.resetExpiration({

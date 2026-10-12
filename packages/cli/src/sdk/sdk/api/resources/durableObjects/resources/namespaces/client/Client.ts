@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 import { ObjectsClient } from "../resources/objects/client/Client.js";
 
 export declare namespace NamespacesClient {
@@ -34,6 +34,9 @@ export class NamespacesClient {
      *
      * @param {CloudflareApi.durableObjects.ListNamespacesRequest} request
      * @param {NamespacesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.durableObjects.namespaces.list({
@@ -111,6 +114,9 @@ export class NamespacesClient {
      * @param {CloudflareApi.durableObjects.QueryNamespacesRequest} request
      * @param {NamespacesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.durableObjects.namespaces.query({
      *         account_id: "account_id",
@@ -126,14 +132,14 @@ export class NamespacesClient {
     public query(
         request: CloudflareApi.durableObjects.QueryNamespacesRequest,
         requestOptions?: NamespacesClient.RequestOptions,
-    ): core.HttpResponsePromise<unknown> {
+    ): core.HttpResponsePromise<CloudflareApi.WorkersQueryResult> {
         return core.HttpResponsePromise.fromPromise(this.__query(request, requestOptions));
     }
 
     private async __query(
         request: CloudflareApi.durableObjects.QueryNamespacesRequest,
         requestOptions?: NamespacesClient.RequestOptions,
-    ): Promise<core.WithRawResponse<unknown>> {
+    ): Promise<core.WithRawResponse<CloudflareApi.WorkersQueryResult>> {
         const { account_id: accountId, id, body: _body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -161,7 +167,7 @@ export class NamespacesClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body, rawResponse: _response.rawResponse };
+            return { data: _response.body as CloudflareApi.WorkersQueryResult, rawResponse: _response.rawResponse };
         }
 
         if (_response.error.reason === "status-code") {

@@ -5,7 +5,7 @@ import {
 	seed,
 } from "@cloudflare/workers-utils/test-helpers";
 import { http, HttpResponse } from "msw";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import { createMockDeployContext } from "../helpers/mock-deploy-context.js";
 import { createFetchResult, msw, setupMsw } from "../helpers/msw.js";
 import { runCf } from "../helpers/run-cf.js";
@@ -65,6 +65,11 @@ describe("cf previews deploy Containers", () => {
 							updated_on: "2026-09-23T00:00:00Z",
 						})
 					)
+			),
+			http.get(
+				"*/accounts/:accountId/workers/workers/:workerName/previews/:previewId/deployments/latest",
+				() =>
+					HttpResponse.json(createFetchResult({ id: "previous-deployment-id" }))
 			),
 			http.post(
 				"*/accounts/:accountId/workers/workers/:workerName/previews/:previewId/deployments",
@@ -195,6 +200,11 @@ describe("cf previews deploy Containers", () => {
 							updated_on: "2026-09-23T00:00:00Z",
 						})
 					)
+			),
+			http.get(
+				"*/accounts/:accountId/workers/workers/:workerName/previews/:previewId/deployments/latest",
+				() =>
+					HttpResponse.json(createFetchResult({ id: "previous-deployment-id" }))
 			),
 			http.post(
 				"*/accounts/:accountId/workers/workers/:workerName/previews/:previewId/deployments",

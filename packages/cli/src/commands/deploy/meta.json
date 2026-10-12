@@ -47,6 +47,13 @@
 				"description": "Name of the Worker in the Build Output to use (defaults to the default Worker)"
 			},
 			{
+				"name": "provision",
+				"type": "boolean",
+				"required": false,
+				"description": "Automatically provision resources for bindings that need them",
+				"default": true
+			},
+			{
 				"name": "dispatch-namespace",
 				"type": "string",
 				"required": false,

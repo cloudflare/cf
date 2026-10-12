@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * update command
+ * @generated from apis/overlays/flagship.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -11,28 +19,20 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * update command
- * @generated from apis/overlays/flagship.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 flagship apps flags update <flag-key>\n\nReplaces the entire flag definition. Omitted fields are dropped, not preserved — read before writing. Each update appends a changelog entry."
+			"$0 flagship apps flags update <flag-key>\n\nReplaces the entire flag definition. Omitted fields are dropped, not preserved — read before writing. The path key identifies the flag and cannot be renamed by changing the body `key`. Each update appends a changelog entry."
 		)
 		.positional("flag-key", {
 			type: "string",
-			description: "Flag key (slug).",
+			description: "Case-sensitive key identifying the flag within the app.",
 			demandOption: true,
 		})
 		.option("app-id", {
 			type: "string",
-			description: "App identifier.",
+			description: "Flagship app ID returned when the app was created.",
 			demandOption: true,
 		})
 		.option("default-variation", {
@@ -42,7 +42,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("description", {
 			type: "string",
-			description: "The description field",
+			description:
+				"Optional operator-facing description. It does not affect flag evaluation.",
 		})
 		.option("enabled", {
 			type: "boolean",
@@ -65,6 +66,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Deprecated compatibility field. Omit it; the API ignores this value and infers the type from the flag's variations.",
 			choices: ["boolean", "string", "number", "json"],
 		})
+		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -127,11 +129,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 										rules: parseObjectArray(argv["rules"], "rules"),
-										type: resolveFileToken(
-											argv["type"] as string | undefined,
-											"type",
-											"text"
-										),
+										type: argv["type"],
 									}),
 					});
 					return;
@@ -195,11 +193,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"text"
 					),
 					rules: parseObjectArray(argv["rules"], "rules"),
-					type: resolveFileToken(
-						argv["type"] as string | undefined,
-						"type",
-						"text"
-					),
+					type: argv["type"],
 				});
 				const result = await withProgress(`Updating`, async () =>
 					client.flagship.apps.flags.update({

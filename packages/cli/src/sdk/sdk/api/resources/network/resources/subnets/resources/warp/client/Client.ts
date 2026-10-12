@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 
 export declare namespace WarpClient {
     export type Options = BaseClientOptions;
@@ -39,6 +39,9 @@ export class WarpClient {
      *
      * @param {CloudflareApi.network.subnets.CreateWarpRequest} request
      * @param {WarpClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.network.subnets.warp.create({
@@ -110,6 +113,9 @@ export class WarpClient {
      * @param {CloudflareApi.network.subnets.GetWarpRequest} request
      * @param {WarpClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.network.subnets.warp.get({
      *         account_id: "account_id",
@@ -175,6 +181,9 @@ export class WarpClient {
      *
      * @param {CloudflareApi.network.subnets.DeleteWarpRequest} request
      * @param {WarpClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.network.subnets.warp.delete({
@@ -248,6 +257,9 @@ export class WarpClient {
      *
      * @param {CloudflareApi.network.subnets.EditWarpRequest} request
      * @param {WarpClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.network.subnets.warp.edit({

@@ -1,4 +1,3 @@
-import $edit from "./edit.js";
 import $update from "./update.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
@@ -13,7 +12,6 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
-			.command($edit)
 			.command($update)
 			.demandCommand(1, "Please specify a subcommand");
 	},

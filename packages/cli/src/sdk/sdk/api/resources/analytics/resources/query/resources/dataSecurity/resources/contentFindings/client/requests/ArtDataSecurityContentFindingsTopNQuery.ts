@@ -6,11 +6,7 @@ import * as CloudflareApi from "../../../../../../../../../../index.js";
  * @example
  *     {
  *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
- *         filters: [{
- *                 name: "country",
- *                 op: "in",
- *                 values: ["US", "CA", "GB"]
- *             }],
+ *         filters: [],
  *         from: "2024-11-01T00:00:00Z",
  *         n: 10,
  *         to: "2024-11-08T00:00:00Z"

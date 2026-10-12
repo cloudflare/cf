@@ -1,3 +1,10 @@
+import { getCloudflareApiBaseUrl } from "@cloudflare/workers-utils/compliance";
+import { API_TIMEOUT_MS } from "./api-constants.js";
+import { isUploadBody } from "./api-upload.js";
+import { getAuthToken } from "./auth-token.js";
+import { getComplianceRegion } from "./context.js";
+import { createLocalFetch } from "./local.js";
+import { getDefaultHeaders } from "./request-headers.js";
 /**
  * Raw-output fetch helper.
  *
@@ -23,12 +30,7 @@
  * Throws a `CloudflareApiError` on non-2xx responses so the existing
  * `handleError` rendering still applies.
  */
-import { CloudflareApiError } from "#sdk";
-import { getCloudflareApiBaseUrl } from "@cloudflare/workers-utils";
-import { API_TIMEOUT_MS, getAuthToken } from "./auth.js";
-import { getComplianceRegion } from "./context.js";
-import { createLocalFetch } from "./local.js";
-import { getDefaultHeaders } from "./request-headers.js";
+import { CloudflareApiError } from "#sdk/errors";
 
 /**
  * Request body for a raw-output call. Mirrors the shapes the generated
@@ -162,7 +164,9 @@ export async function fetchRawBytes(
 		method,
 		headers,
 		...(body !== undefined ? { body } : {}),
-		signal: AbortSignal.timeout(API_TIMEOUT_MS),
+		...(isUploadBody(body)
+			? {}
+			: { signal: AbortSignal.timeout(API_TIMEOUT_MS) }),
 	});
 	if (!response.ok) {
 		// Try to extract an API-shaped error envelope for consistent

@@ -4,7 +4,7 @@ import {
 	isOAuthLoggedIn,
 	logout,
 	setProfile,
-} from "../../lib/auth.js";
+} from "../../lib/oauth/index.js";
 import { hint, info, theme, warning } from "../../lib/ui/index.js";
 import { assertNoProfileFlag } from "./profiles.js";
 import type { CommonYargsOptions } from "../../lib/cli-types.js";

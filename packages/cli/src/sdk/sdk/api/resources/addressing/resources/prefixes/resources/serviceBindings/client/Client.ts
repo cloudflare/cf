@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 
 export declare namespace ServiceBindingsClient {
     export type Options = BaseClientOptions;
@@ -32,6 +32,9 @@ export class ServiceBindingsClient {
      *
      * @param {CloudflareApi.addressing.prefixes.ListServiceBindingsRequest} request
      * @param {ServiceBindingsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.addressing.prefixes.serviceBindings.list({
@@ -102,6 +105,9 @@ export class ServiceBindingsClient {
      *
      * @param {CloudflareApi.addressing.prefixes.AddressingCreateBindingRequest} request
      * @param {ServiceBindingsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.addressing.prefixes.serviceBindings.create({
@@ -177,6 +183,9 @@ export class ServiceBindingsClient {
      * @param {CloudflareApi.addressing.prefixes.GetServiceBindingsRequest} request
      * @param {ServiceBindingsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.addressing.prefixes.serviceBindings.get({
      *         account_id: "account_id",
@@ -246,6 +255,9 @@ export class ServiceBindingsClient {
      *
      * @param {CloudflareApi.addressing.prefixes.DeleteServiceBindingsRequest} request
      * @param {ServiceBindingsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.addressing.prefixes.serviceBindings.delete({

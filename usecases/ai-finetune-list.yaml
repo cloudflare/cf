@@ -1,9 +1,0 @@
-description: "List Workers AI fine-tune files or adapters"
-command: "wrangler ai finetune list"
-status: "direct"
-sourceCommands:
-  - "wrangler ai finetune list"
-cfReplacementFlow:
-  - "cf ai finetunes list"
-notes:
-  - "Wrangler uses singular finetune namespace; cf generated surface may use plural finetunes."

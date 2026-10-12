@@ -23,9 +23,9 @@ export class CloudforceOneClient {
     protected _binaryStorage: BinaryStorageClient | undefined;
     protected _threatEvents: ThreatEventsClient | undefined;
     protected _events: EventsClient | undefined;
-    protected _requests: RequestsClient | undefined;
     protected _rules: RulesClient | undefined;
     protected _priorityIntelligence: PriorityIntelligenceClient | undefined;
+    protected _requests: RequestsClient | undefined;
     protected _threatSignals: ThreatSignalsClient | undefined;
     protected _credentialMonitor: CredentialMonitorClient | undefined;
     protected _scans: ScansClient | undefined;
@@ -46,16 +46,16 @@ export class CloudforceOneClient {
         return (this._events ??= new EventsClient(this._options));
     }
 
-    public get requests(): RequestsClient {
-        return (this._requests ??= new RequestsClient(this._options));
-    }
-
     public get rules(): RulesClient {
         return (this._rules ??= new RulesClient(this._options));
     }
 
     public get priorityIntelligence(): PriorityIntelligenceClient {
         return (this._priorityIntelligence ??= new PriorityIntelligenceClient(this._options));
+    }
+
+    public get requests(): RequestsClient {
+        return (this._requests ??= new RequestsClient(this._options));
     }
 
     public get threatSignals(): ThreatSignalsClient {

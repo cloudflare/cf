@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * multi-search command
+ * @generated from apis/overlays/ai-search.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -10,21 +18,13 @@ import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * multi-search command
- * @generated from apis/overlays/ai-search.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 ai-search multi-search <name> <query>\n\nPerforms a semantic search query against multiple AI Search instances in parallel, merging the retrieved results into a single ranked response."
+			"$0 ai-search multi-search <namespace> <query>\n\nPerforms a semantic search query against multiple AI Search instances in parallel, merging the retrieved results into a single ranked response."
 		)
-		.positional("name", {
+		.positional("namespace", {
 			type: "string",
 			description: "Namespace to use for this operation.",
 			demandOption: true,
@@ -43,6 +43,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"anything_goes",
 			],
 		})
+		.coerce("ai-search-options-cache-cache-threshold", (value) =>
+			resolveFileToken(value, "ai-search-options-cache-cache-threshold", "text")
+		)
 		.option("ai-search-options-cache-enabled", {
 			type: "boolean",
 			description: "The ai_search_options.cache.enabled field",
@@ -88,12 +91,26 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The ai_search_options.retrieval.fusion_method field",
 			choices: ["max", "rrf"],
 		})
+		.coerce("ai-search-options-retrieval-fusion-method", (value) =>
+			resolveFileToken(
+				value,
+				"ai-search-options-retrieval-fusion-method",
+				"text"
+			)
+		)
 		.option("ai-search-options-retrieval-keyword-match-mode", {
 			type: "string",
 			description:
 				"Controls which documents are candidates for BM25 scoring. 'and' restricts candidates to documents containing all query terms; 'or' includes any document containing at least one term, ranked by BM25 relevance. When omitted, falls back to the instance-level retrieval_options.keyword_match_mode, then to 'and'.",
 			choices: ["and", "or"],
 		})
+		.coerce("ai-search-options-retrieval-keyword-match-mode", (value) =>
+			resolveFileToken(
+				value,
+				"ai-search-options-retrieval-keyword-match-mode",
+				"text"
+			)
+		)
 		.option("ai-search-options-retrieval-match-threshold", {
 			type: "number",
 			description: "The ai_search_options.retrieval.match_threshold field",
@@ -109,6 +126,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The ai_search_options.retrieval.retrieval_type field",
 			choices: ["vector", "keyword", "hybrid"],
 		})
+		.coerce("ai-search-options-retrieval-retrieval-type", (value) =>
+			resolveFileToken(
+				value,
+				"ai-search-options-retrieval-retrieval-type",
+				"text"
+			)
+		)
 		.option("ai-search-options-retrieval-return-on-failure", {
 			type: "boolean",
 			description: "The ai_search_options.retrieval.return_on_failure field",
@@ -136,7 +160,7 @@ type Request = SdkRequest<"ai-search-namespace-multi-instance-search">;
 type Body = Request;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "multi-search <name> <query>",
+	command: "multi-search <namespace> <query>",
 	describe: "Multi-Instance Search",
 	builder,
 	handler: async (argv): Promise<void> =>
@@ -164,8 +188,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf ai-search multi-search",
 						method: "POST",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/namespaces/${argv["name"] == null ? "<name>" : encodeURIComponent(String(argv["name"]))}/search`,
-						pathParams: { name: String(argv["name"] ?? "") },
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/namespaces/${argv["namespace"] == null ? "<namespace>" : encodeURIComponent(String(argv["namespace"]))}/search`,
+						pathParams: { namespace: String(argv["namespace"] ?? "") },
 						bodyKind: "json",
 						body:
 							argv.body !== undefined
@@ -173,13 +197,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								: compactBody({
 										ai_search_options: {
 											cache: {
-												cache_threshold: resolveFileToken(
-													argv["ai-search-options-cache-cache-threshold"] as
-														| string
-														| undefined,
-													"ai-search-options-cache-cache-threshold",
-													"text"
-												),
+												cache_threshold:
+													argv["ai-search-options-cache-cache-threshold"],
 												enabled: argv["ai-search-options-cache-enabled"],
 											},
 											instance_ids: argv["ai-search-options-instance-ids"],
@@ -216,31 +235,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											retrieval: {
 												context_expansion:
 													argv["ai-search-options-retrieval-context-expansion"],
-												fusion_method: resolveFileToken(
-													argv["ai-search-options-retrieval-fusion-method"] as
-														| string
-														| undefined,
-													"ai-search-options-retrieval-fusion-method",
-													"text"
-												),
-												keyword_match_mode: resolveFileToken(
+												fusion_method:
+													argv["ai-search-options-retrieval-fusion-method"],
+												keyword_match_mode:
 													argv[
 														"ai-search-options-retrieval-keyword-match-mode"
-													] as string | undefined,
-													"ai-search-options-retrieval-keyword-match-mode",
-													"text"
-												),
+													],
 												match_threshold:
 													argv["ai-search-options-retrieval-match-threshold"],
 												max_num_results:
 													argv["ai-search-options-retrieval-max-num-results"],
-												retrieval_type: resolveFileToken(
-													argv["ai-search-options-retrieval-retrieval-type"] as
-														| string
-														| undefined,
-													"ai-search-options-retrieval-retrieval-type",
-													"text"
-												),
+												retrieval_type:
+													argv["ai-search-options-retrieval-retrieval-type"],
 												return_on_failure:
 													argv["ai-search-options-retrieval-return-on-failure"],
 											},
@@ -261,7 +267,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						client.aiSearch.multiSearch({
 							...bodyData,
 							account_id: accountId,
-							name: argv["name"],
+							namespace: argv["namespace"],
 						} satisfies Request)
 					);
 					formatOutput(result, { successLabel: `Created` });
@@ -277,13 +283,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const bodyData = compactBody<Body>({
 					ai_search_options: {
 						cache: {
-							cache_threshold: resolveFileToken(
-								argv["ai-search-options-cache-cache-threshold"] as
-									| string
-									| undefined,
-								"ai-search-options-cache-cache-threshold",
-								"text"
-							),
+							cache_threshold: argv["ai-search-options-cache-cache-threshold"],
 							enabled: argv["ai-search-options-cache-enabled"],
 						},
 						instance_ids: argv["ai-search-options-instance-ids"],
@@ -317,31 +317,15 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						retrieval: {
 							context_expansion:
 								argv["ai-search-options-retrieval-context-expansion"],
-							fusion_method: resolveFileToken(
-								argv["ai-search-options-retrieval-fusion-method"] as
-									| string
-									| undefined,
-								"ai-search-options-retrieval-fusion-method",
-								"text"
-							),
-							keyword_match_mode: resolveFileToken(
-								argv["ai-search-options-retrieval-keyword-match-mode"] as
-									| string
-									| undefined,
-								"ai-search-options-retrieval-keyword-match-mode",
-								"text"
-							),
+							fusion_method: argv["ai-search-options-retrieval-fusion-method"],
+							keyword_match_mode:
+								argv["ai-search-options-retrieval-keyword-match-mode"],
 							match_threshold:
 								argv["ai-search-options-retrieval-match-threshold"],
 							max_num_results:
 								argv["ai-search-options-retrieval-max-num-results"],
-							retrieval_type: resolveFileToken(
-								argv["ai-search-options-retrieval-retrieval-type"] as
-									| string
-									| undefined,
-								"ai-search-options-retrieval-retrieval-type",
-								"text"
-							),
+							retrieval_type:
+								argv["ai-search-options-retrieval-retrieval-type"],
 							return_on_failure:
 								argv["ai-search-options-retrieval-return-on-failure"],
 						},
@@ -353,7 +337,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					client.aiSearch.multiSearch({
 						...bodyData,
 						account_id: accountId,
-						name: argv["name"],
+						namespace: argv["namespace"],
 					} satisfies Request)
 				);
 				formatOutput(result, { successLabel: `Created` });

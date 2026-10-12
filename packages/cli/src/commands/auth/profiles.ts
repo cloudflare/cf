@@ -1,6 +1,6 @@
 import path from "node:path";
 import { getAuthFromEnv, validateProfileName } from "@cloudflare/workers-auth";
-import { getProfileStore, login, logout } from "../../lib/auth.js";
+import { getProfileStore, login, logout } from "../../lib/oauth/index.js";
 import { formatOutput } from "../../lib/output.js";
 import { hint, info, theme } from "../../lib/ui/index.js";
 import type { CommonYargsOptions } from "../../lib/cli-types.js";

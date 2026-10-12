@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 
 export declare namespace PoliciesClient {
     export type Options = BaseClientOptions;
@@ -31,6 +31,9 @@ export class PoliciesClient {
      *
      * @param {CloudflareApi.zeroTrust.access.ListPoliciesRequest} request
      * @param {PoliciesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.policies.list({
@@ -107,6 +110,9 @@ export class PoliciesClient {
      *
      * @param {CloudflareApi.zeroTrust.access.CreatePoliciesRequest} request
      * @param {PoliciesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.policies.create({
@@ -188,6 +194,9 @@ export class PoliciesClient {
      * @param {CloudflareApi.zeroTrust.access.GetPoliciesRequest} request
      * @param {PoliciesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.policies.get({
      *         account_id: "account_id",
@@ -256,6 +265,9 @@ export class PoliciesClient {
      *
      * @param {CloudflareApi.zeroTrust.access.UpdatePoliciesRequest} request
      * @param {PoliciesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.policies.update({
@@ -337,6 +349,9 @@ export class PoliciesClient {
      *
      * @param {CloudflareApi.zeroTrust.access.DeletePoliciesRequest} request
      * @param {PoliciesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.policies.delete({

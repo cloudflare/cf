@@ -3,6 +3,8 @@
 export interface BrexExtensionEventLogRow {
     action?: string | undefined;
     durationMs?: number | undefined;
+    /** Client-generated event ID. Use it to fetch a detection's trace. */
+    eventId?: string | undefined;
     eventName?: string | undefined;
     inventoryExtensionId?: string | undefined;
     inventoryExtensionName?: string | undefined;

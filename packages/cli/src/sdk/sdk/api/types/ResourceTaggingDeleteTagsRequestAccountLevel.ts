@@ -8,6 +8,7 @@ import * as CloudflareApi from "../index.js";
 export type ResourceTaggingDeleteTagsRequestAccountLevel =
     | CloudflareApi.ResourceTaggingDeleteTagsRequestAccountLevel.AccessApplication
     | CloudflareApi.ResourceTaggingDeleteTagsRequestAccountLevel.AccessGroup
+    | CloudflareApi.ResourceTaggingDeleteTagsRequestAccountLevel.AccessServiceToken
     | CloudflareApi.ResourceTaggingDeleteTagsRequestAccountLevel.Account
     | CloudflareApi.ResourceTaggingDeleteTagsRequestAccountLevel.AccountRuleset
     | CloudflareApi.ResourceTaggingDeleteTagsRequestAccountLevel.AiGateway
@@ -19,6 +20,7 @@ export type ResourceTaggingDeleteTagsRequestAccountLevel =
     | CloudflareApi.ResourceTaggingDeleteTagsRequestAccountLevel.CwsPolicySet
     | CloudflareApi.ResourceTaggingDeleteTagsRequestAccountLevel.CwsWorkload
     | CloudflareApi.ResourceTaggingDeleteTagsRequestAccountLevel.D1Database
+    | CloudflareApi.ResourceTaggingDeleteTagsRequestAccountLevel.Device
     | CloudflareApi.ResourceTaggingDeleteTagsRequestAccountLevel.DurableObjectNamespace
     | CloudflareApi.ResourceTaggingDeleteTagsRequestAccountLevel.GatewayList
     | CloudflareApi.ResourceTaggingDeleteTagsRequestAccountLevel.GatewayRule
@@ -44,6 +46,10 @@ export namespace ResourceTaggingDeleteTagsRequestAccountLevel {
 
     export interface AccessGroup extends CloudflareApi.ResourceTaggingDeleteTagsRequestAccountLevelBase {
         resource_type: "access_group";
+    }
+
+    export interface AccessServiceToken extends CloudflareApi.ResourceTaggingDeleteTagsRequestAccountLevelBase {
+        resource_type: "access_service_token";
     }
 
     export interface Account extends CloudflareApi.ResourceTaggingDeleteTagsRequestAccountLevelBase {
@@ -88,6 +94,10 @@ export namespace ResourceTaggingDeleteTagsRequestAccountLevel {
 
     export interface D1Database extends CloudflareApi.ResourceTaggingDeleteTagsRequestAccountLevelBase {
         resource_type: "d1_database";
+    }
+
+    export interface Device extends CloudflareApi.ResourceTaggingDeleteTagsRequestAccountLevelBase {
+        resource_type: "device";
     }
 
     export interface DurableObjectNamespace extends CloudflareApi.ResourceTaggingDeleteTagsRequestAccountLevelBase {

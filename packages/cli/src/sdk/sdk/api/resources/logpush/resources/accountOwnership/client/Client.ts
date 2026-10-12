@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 import { ValidateClient } from "../resources/validate/client/Client.js";
 
 export declare namespace AccountOwnershipClient {
@@ -34,6 +34,9 @@ export class AccountOwnershipClient {
      *
      * @param {CloudflareApi.logpush.CreateAccountOwnershipRequest} request
      * @param {AccountOwnershipClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.logpush.accountOwnership.create({

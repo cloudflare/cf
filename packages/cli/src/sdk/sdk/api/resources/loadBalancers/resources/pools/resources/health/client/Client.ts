@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 
 export declare namespace HealthClient {
     export type Options = BaseClientOptions;
@@ -31,6 +31,9 @@ export class HealthClient {
      *
      * @param {CloudflareApi.loadBalancers.pools.GetHealthRequest} request
      * @param {HealthClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.loadBalancers.pools.health.get({
@@ -100,6 +103,9 @@ export class HealthClient {
      *
      * @param {CloudflareApi.loadBalancers.pools.CreateHealthRequest} request
      * @param {HealthClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.loadBalancers.pools.health.create({

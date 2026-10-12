@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace DetectionsClient {
     export type Options = BaseClientOptions;
@@ -28,6 +28,9 @@ export class DetectionsClient {
      *
      * @param {CloudflareApi.leakedCredentialChecks.ListDetectionsRequest} request
      * @param {DetectionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.leakedCredentialChecks.detections.list({
@@ -96,6 +99,9 @@ export class DetectionsClient {
      *
      * @param {CloudflareApi.leakedCredentialChecks.CreateDetectionsRequest} request
      * @param {DetectionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.leakedCredentialChecks.detections.create({
@@ -169,6 +175,9 @@ export class DetectionsClient {
      * @param {CloudflareApi.leakedCredentialChecks.GetDetectionsRequest} request
      * @param {DetectionsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.leakedCredentialChecks.detections.get({
      *         zone_id: "zone_id",
@@ -237,6 +246,9 @@ export class DetectionsClient {
      *
      * @param {CloudflareApi.leakedCredentialChecks.UpdateDetectionsRequest} request
      * @param {DetectionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.leakedCredentialChecks.detections.update({
@@ -310,6 +322,9 @@ export class DetectionsClient {
      *
      * @param {CloudflareApi.leakedCredentialChecks.DeleteDetectionsRequest} request
      * @param {DetectionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.leakedCredentialChecks.detections.delete({

@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace RoutesClient {
     export type Options = BaseClientOptions;
@@ -28,6 +28,9 @@ export class RoutesClient {
      *
      * @param {CloudflareApi.workers.ListRoutesRequest} request
      * @param {RoutesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workers.routes.list({
@@ -96,6 +99,9 @@ export class RoutesClient {
      *
      * @param {CloudflareApi.workers.CreateRoutesRequest} request
      * @param {RoutesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workers.routes.create({
@@ -168,6 +174,9 @@ export class RoutesClient {
      * @param {CloudflareApi.workers.GetRoutesRequest} request
      * @param {RoutesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workers.routes.get({
      *         zone_id: "zone_id",
@@ -233,6 +242,9 @@ export class RoutesClient {
      *
      * @param {CloudflareApi.workers.UpdateRoutesRequest} request
      * @param {RoutesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workers.routes.update({
@@ -305,6 +317,9 @@ export class RoutesClient {
      *
      * @param {CloudflareApi.workers.DeleteRoutesRequest} request
      * @param {RoutesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workers.routes.delete({

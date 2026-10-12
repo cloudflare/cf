@@ -1,3 +1,10 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+/**
+ * create command
+ * @generated from apis/overlays/stream.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -11,13 +18,6 @@ import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-/**
- * create command
- * @generated from apis/overlays/stream.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -67,6 +67,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Specifies the recording behavior for the live input. Set this value to `off` to prevent a recording. Set the value to `automatic` to begin a recording and transition to on-demand after Stream Live stops receiving input.",
 			choices: ["off", "automatic"],
 		})
+		.coerce("recording-mode", (value) =>
+			resolveFileToken(value, "recording-mode", "text")
+		)
 		.option("recording-require-signed-urls", {
 			type: "boolean",
 			description:
@@ -139,11 +142,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											allowedOrigins: argv["recording-allowed-origins"],
 											hideLiveViewerCount:
 												argv["recording-hide-live-viewer-count"],
-											mode: resolveFileToken(
-												argv["recording-mode"] as string | undefined,
-												"recording-mode",
-												"text"
-											),
+											mode: argv["recording-mode"],
 											requireSignedURLs: argv["recording-require-signed-urls"],
 											timeoutSeconds: argv["recording-timeout-seconds"],
 										},
@@ -214,11 +213,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					setNestedValue(
 						bodyData,
 						["recording", "mode"],
-						resolveFileToken(
-							argv["recording-mode"] as string | undefined,
-							"recording-mode",
-							"text"
-						)
+						argv["recording-mode"]
 					);
 				if (argv["recording-require-signed-urls"] !== undefined)
 					setNestedValue(

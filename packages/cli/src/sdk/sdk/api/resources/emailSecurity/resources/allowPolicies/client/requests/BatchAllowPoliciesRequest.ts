@@ -36,9 +36,13 @@ import * as CloudflareApi from "../../../../../../index.js";
 export interface BatchAllowPoliciesRequest {
     /** Account identifier tag. */
     account_id: CloudflareApi.EmailSecurityIdentifier;
+    /** IDs of the allow policies to delete. */
     deletes: BatchAllowPoliciesRequest.Deletes.Item[];
+    /** Partial updates to apply — each entry carries the policy's ID and only the fields to change. */
     patches: BatchAllowPoliciesRequest.Patches.Item[];
+    /** Allow policies to create. */
     posts: CloudflareApi.EmailSecurityCreateAllowPolicy[];
+    /** Full replacements to apply — each entry carries the policy's ID and every field of its new value. */
     puts: BatchAllowPoliciesRequest.Puts.Item[];
 }
 

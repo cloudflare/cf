@@ -7,9 +7,8 @@ import { mergeHeaders } from "../../../../../../core/headers.js";
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
-import { SummaryClient } from "../resources/summary/client/Client.js";
-import { TimeseriesGroupsClient } from "../resources/timeseriesGroups/client/Client.js";
+import type * as CloudflareApi from "../../../../../index.js";
+import * as CloudflareApiErrors from "../../../../../errors/index.js";
 import { TopClient } from "../resources/top/client/Client.js";
 
 export declare namespace DnsClient {
@@ -20,20 +19,10 @@ export declare namespace DnsClient {
 
 export class DnsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<DnsClient.Options>;
-    protected _summary: SummaryClient | undefined;
-    protected _timeseriesGroups: TimeseriesGroupsClient | undefined;
     protected _top: TopClient | undefined;
 
     constructor(options: DnsClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
-    }
-
-    public get summary(): SummaryClient {
-        return (this._summary ??= new SummaryClient(this._options));
-    }
-
-    public get timeseriesGroups(): TimeseriesGroupsClient {
-        return (this._timeseriesGroups ??= new TimeseriesGroupsClient(this._options));
     }
 
     public get top(): TopClient {
@@ -47,6 +36,8 @@ export class DnsClient {
      * @param {DnsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.radar.dns.summaryV2({
@@ -175,7 +166,7 @@ export class DnsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -200,6 +191,8 @@ export class DnsClient {
      * @param {DnsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.radar.dns.timeseries({
@@ -325,7 +318,7 @@ export class DnsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -345,6 +338,8 @@ export class DnsClient {
      * @param {DnsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.BadRequestError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.radar.dns.timeseriesGroupsV2({
@@ -477,7 +472,7 @@ export class DnsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,

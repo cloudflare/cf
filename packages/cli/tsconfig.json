@@ -15,6 +15,6 @@
 		"noUncheckedIndexedAccess": true,
 		"types": ["node"]
 	},
-	"include": ["src/**/*", "tsdown.config.ts"],
+	"include": ["src/**/*", "vite.config.ts"],
 	"exclude": ["node_modules", "dist", "generator", "generate.ts"]
 }

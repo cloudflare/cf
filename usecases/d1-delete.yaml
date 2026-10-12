@@ -1,9 +1,0 @@
-description: "Delete a D1 database"
-command: "wrangler d1 delete <database>"
-status: "partial"
-sourceCommands:
-  - "wrangler d1 delete <database>"
-cfReplacementFlow:
-  - "cf d1 delete <database-id> --force"
-notes:
-  - "Use cf --force instead of Wrangler --yes/skip-confirmation."

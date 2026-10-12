@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkQuery, SdkRequest } from "#sdk";
+/**
+ * get-model-schema command
+ * @generated from apis/overlays/ai.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -8,23 +16,16 @@ import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
-/**
- * get-model-schema command
- * @generated from apis/overlays/ai.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 ai get-model-schema\n\nRetrieves the input and output JSON schema definition for a Workers AI model."
+			"$0 ai get-model-schema\n\nRetrieves the input and output JSON Schema definitions for an AI model. Use these definitions to determine the model-specific request fields and response format."
 		)
 		.option("model", {
 			type: "string",
-			description: "Model Name",
+			description:
+				"AI model identifier, including its namespace and model name.",
 			demandOption: true,
 		})
 		.option("dry-run", {
@@ -41,7 +42,7 @@ type Query = SdkQuery<"workers-ai-get-model-schema">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get-model-schema",
-	describe: "Get Model Schema",
+	describe: "Get an AI model's input and output schemas",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(

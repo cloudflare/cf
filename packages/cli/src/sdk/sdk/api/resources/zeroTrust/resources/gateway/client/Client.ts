@@ -7,9 +7,8 @@ import { mergeHeaders } from "../../../../../../core/headers.js";
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 import { AppTypesClient } from "../resources/appTypes/client/Client.js";
-import { AuditSshSettingsClient } from "../resources/auditSshSettings/client/Client.js";
 import { CategoriesClient } from "../resources/categories/client/Client.js";
 import { CertificatesClient } from "../resources/certificates/client/Client.js";
 import { ConfigurationsClient } from "../resources/configurations/client/Client.js";
@@ -32,7 +31,6 @@ export declare namespace GatewayClient {
 export class GatewayClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<GatewayClient.Options>;
     protected _appTypes: AppTypesClient | undefined;
-    protected _auditSshSettings: AuditSshSettingsClient | undefined;
     protected _categories: CategoriesClient | undefined;
     protected _certificates: CertificatesClient | undefined;
     protected _configurations: ConfigurationsClient | undefined;
@@ -52,10 +50,6 @@ export class GatewayClient {
 
     public get appTypes(): AppTypesClient {
         return (this._appTypes ??= new AppTypesClient(this._options));
-    }
-
-    public get auditSshSettings(): AuditSshSettingsClient {
-        return (this._auditSshSettings ??= new AuditSshSettingsClient(this._options));
     }
 
     public get categories(): CategoriesClient {
@@ -111,6 +105,9 @@ export class GatewayClient {
      *
      * @param {CloudflareApi.zeroTrust.ListGatewayRequest} request
      * @param {GatewayClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.gateway.list({
@@ -179,6 +176,9 @@ export class GatewayClient {
      *
      * @param {CloudflareApi.zeroTrust.CreateGatewayRequest} request
      * @param {GatewayClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.gateway.create({

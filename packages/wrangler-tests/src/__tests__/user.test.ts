@@ -1,4 +1,4 @@
-import { beforeEach, describe, it, vi } from "vitest";
+import { beforeEach, describe, it, vi } from "vite-plus/test";
 import {
 	msw,
 	mswSuccessOauthHandlers,
@@ -100,7 +100,7 @@ describe("User", () => {
 		});
 
 		it.todo(
-			"should only prompt for account selection once when getAccountId is called multiple times"
+			"should only prompt for account selection once when getOrSelectAccountId is called multiple times"
 		);
 
 		it.todo("should use account_id from config without prompting");

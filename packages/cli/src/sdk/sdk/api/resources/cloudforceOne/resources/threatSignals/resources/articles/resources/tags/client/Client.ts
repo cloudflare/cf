@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../../../cor
 import * as environments from "../../../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../../../index.js";
 
 export declare namespace TagsClient {
     export type Options = BaseClientOptions;
@@ -27,10 +27,13 @@ export class TagsClient {
     }
 
     /**
-     * Generate Threat Signals article AI tags.
+     * Runs the default AI tagging skill on an article and replaces its AI-applied tags.
      *
      * @param {CloudflareApi.cloudforceOne.threatSignals.articles.GenerateTagsRequest} request
      * @param {TagsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.threatSignals.articles.tags.generate({
@@ -96,10 +99,13 @@ export class TagsClient {
     }
 
     /**
-     * Add tag to Threat Signals article.
+     * Applies a tag from the account's tag catalog to a Threat Signals article.
      *
      * @param {CloudflareApi.cloudforceOne.threatSignals.articles.AddTagsRequest} request
      * @param {TagsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.threatSignals.articles.tags.add({
@@ -111,14 +117,14 @@ export class TagsClient {
     public add(
         request: CloudflareApi.cloudforceOne.threatSignals.articles.AddTagsRequest,
         requestOptions?: TagsClient.RequestOptions,
-    ): core.HttpResponsePromise<void> {
+    ): core.HttpResponsePromise<CloudflareApi.cloudforceOne.threatSignals.articles.AddTagsResponse> {
         return core.HttpResponsePromise.fromPromise(this.__add(request, requestOptions));
     }
 
     private async __add(
         request: CloudflareApi.cloudforceOne.threatSignals.articles.AddTagsRequest,
         requestOptions?: TagsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<void>> {
+    ): Promise<core.WithRawResponse<CloudflareApi.cloudforceOne.threatSignals.articles.AddTagsResponse>> {
         const { account_id: accountId, article_id: articleId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -146,7 +152,10 @@ export class TagsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: undefined, rawResponse: _response.rawResponse };
+            return {
+                data: _response.body as CloudflareApi.cloudforceOne.threatSignals.articles.AddTagsResponse,
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -166,10 +175,13 @@ export class TagsClient {
     }
 
     /**
-     * Remove tag from Threat Signals article.
+     * Removes a tag from a Threat Signals article.
      *
      * @param {CloudflareApi.cloudforceOne.threatSignals.articles.RemoveTagsRequest} request
      * @param {TagsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.threatSignals.articles.tags.remove({
@@ -181,14 +193,14 @@ export class TagsClient {
     public remove(
         request: CloudflareApi.cloudforceOne.threatSignals.articles.RemoveTagsRequest,
         requestOptions?: TagsClient.RequestOptions,
-    ): core.HttpResponsePromise<void> {
+    ): core.HttpResponsePromise<CloudflareApi.cloudforceOne.threatSignals.articles.RemoveTagsResponse> {
         return core.HttpResponsePromise.fromPromise(this.__remove(request, requestOptions));
     }
 
     private async __remove(
         request: CloudflareApi.cloudforceOne.threatSignals.articles.RemoveTagsRequest,
         requestOptions?: TagsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<void>> {
+    ): Promise<core.WithRawResponse<CloudflareApi.cloudforceOne.threatSignals.articles.RemoveTagsResponse>> {
         const { account_id: accountId, article_id: articleId, tag_id: tagId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -213,7 +225,10 @@ export class TagsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: undefined, rawResponse: _response.rawResponse };
+            return {
+                data: _response.body as CloudflareApi.cloudforceOne.threatSignals.articles.RemoveTagsResponse,
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {

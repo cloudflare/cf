@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * create command
+ * @generated from apis/overlays/resource-sharing.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -14,14 +22,6 @@ import {
 	promptForRequiredField,
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * create command
- * @generated from apis/overlays/resource-sharing.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -54,6 +54,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"trust-grant",
 			],
 		})
+		.coerce("resource-type", (value) =>
+			resolveFileToken(value, "resource-type", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -72,7 +75,7 @@ type Body = Request["body"];
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "create <share-id>",
-	describe: "Create a new share resource",
+	describe: "Trigger a resource addition to a share",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
@@ -106,11 +109,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"resource-id",
 											"text"
 										),
-										resource_type: resolveFileToken(
-											argv["resource-type"] as string | undefined,
-											"resource-type",
-											"text"
-										),
+										resource_type: argv["resource-type"],
 									}),
 					});
 					return;
@@ -171,11 +170,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"resource-id",
 						"text"
 					),
-					resource_type: resolveFileToken(
-						argv["resource-type"] as string | undefined,
-						"resource-type",
-						"text"
-					),
+					resource_type: argv["resource-type"],
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.resourceSharing.resources.create({

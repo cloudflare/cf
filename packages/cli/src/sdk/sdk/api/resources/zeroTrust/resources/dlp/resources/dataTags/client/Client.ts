@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 
 export declare namespace DataTagsClient {
     export type Options = BaseClientOptions;
@@ -31,6 +31,9 @@ export class DataTagsClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.ListDataTagsRequest} request
      * @param {DataTagsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.dataTags.list({
@@ -100,6 +103,9 @@ export class DataTagsClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.CreateDataTagsRequest} request
      * @param {DataTagsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.dataTags.create({
@@ -173,6 +179,9 @@ export class DataTagsClient {
      * @param {CloudflareApi.zeroTrust.dlp.GetDataTagsRequest} request
      * @param {DataTagsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.dlp.dataTags.get({
      *         account_id: "account_id",
@@ -239,6 +248,9 @@ export class DataTagsClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.DlpDataTagUpdate} request
      * @param {DataTagsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.dataTags.update({
@@ -309,6 +321,9 @@ export class DataTagsClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.DeleteDataTagsRequest} request
      * @param {DataTagsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.dataTags.delete({

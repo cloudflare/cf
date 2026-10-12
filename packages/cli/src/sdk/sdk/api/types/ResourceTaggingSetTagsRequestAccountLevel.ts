@@ -8,6 +8,7 @@ import * as CloudflareApi from "../index.js";
 export type ResourceTaggingSetTagsRequestAccountLevel =
     | CloudflareApi.ResourceTaggingSetTagsRequestAccountLevel.AccessApplication
     | CloudflareApi.ResourceTaggingSetTagsRequestAccountLevel.AccessGroup
+    | CloudflareApi.ResourceTaggingSetTagsRequestAccountLevel.AccessServiceToken
     | CloudflareApi.ResourceTaggingSetTagsRequestAccountLevel.Account
     | CloudflareApi.ResourceTaggingSetTagsRequestAccountLevel.AccountRuleset
     | CloudflareApi.ResourceTaggingSetTagsRequestAccountLevel.AiGateway
@@ -19,6 +20,7 @@ export type ResourceTaggingSetTagsRequestAccountLevel =
     | CloudflareApi.ResourceTaggingSetTagsRequestAccountLevel.CwsPolicySet
     | CloudflareApi.ResourceTaggingSetTagsRequestAccountLevel.CwsWorkload
     | CloudflareApi.ResourceTaggingSetTagsRequestAccountLevel.D1Database
+    | CloudflareApi.ResourceTaggingSetTagsRequestAccountLevel.Device
     | CloudflareApi.ResourceTaggingSetTagsRequestAccountLevel.DurableObjectNamespace
     | CloudflareApi.ResourceTaggingSetTagsRequestAccountLevel.GatewayList
     | CloudflareApi.ResourceTaggingSetTagsRequestAccountLevel.GatewayRule
@@ -44,6 +46,10 @@ export namespace ResourceTaggingSetTagsRequestAccountLevel {
 
     export interface AccessGroup extends CloudflareApi.ResourceTaggingSetTagsRequestAccountLevelBase {
         resource_type: "access_group";
+    }
+
+    export interface AccessServiceToken extends CloudflareApi.ResourceTaggingSetTagsRequestAccountLevelBase {
+        resource_type: "access_service_token";
     }
 
     export interface Account extends CloudflareApi.ResourceTaggingSetTagsRequestAccountLevelBase {
@@ -88,6 +94,10 @@ export namespace ResourceTaggingSetTagsRequestAccountLevel {
 
     export interface D1Database extends CloudflareApi.ResourceTaggingSetTagsRequestAccountLevelBase {
         resource_type: "d1_database";
+    }
+
+    export interface Device extends CloudflareApi.ResourceTaggingSetTagsRequestAccountLevelBase {
+        resource_type: "device";
     }
 
     export interface DurableObjectNamespace extends CloudflareApi.ResourceTaggingSetTagsRequestAccountLevelBase {

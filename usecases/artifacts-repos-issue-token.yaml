@@ -1,9 +1,0 @@
-description: "Issue a repository-scoped Artifacts token"
-command: "wrangler artifacts repos issue-token <repo> --namespace <namespace>"
-status: "partial"
-sourceCommands:
-  - "wrangler artifacts repos issue-token <repo> --namespace <namespace>"
-cfReplacementFlow:
-  - "cf artifacts repos issue-token <repo> --namespace <namespace> --body @token.json"
-notes:
-  - "Verify exact generated command path and token scope/TTL flags."

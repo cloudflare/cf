@@ -1,5 +1,171 @@
 # cf
 
+## 1.0.0-beta.14
+
+### Minor Changes
+
+- 1835314: Add `--dry-run` to hand-written commands
+
+  Validate arguments and preview hand-written commands without executing their handlers. Commands with existing dry-run implementations retain their command-specific previews. Require every hand-written command to declare a dry-run strategy and option during generation.
+
+- b18d3bc: Update the generated command surface and vendored Forge packages for
+  Forge OpenAPI release `452470fdc5b20e63c0703ecd7641013545bb9cdc`.
+- 4456851: Update the generated command surface and vendored Forge packages for
+  Forge OpenAPI release `501f083b89efb26dccfb49369db0fe5484109b5a`.
+- dc4bd05: Update the generated command surface and vendored Forge packages for
+  Forge OpenAPI release `6b00f157496cd6a1792a613dc94654c51273aeb9`.
+- e116362: Update the generated command surface and vendored Forge packages for
+  Forge OpenAPI release `f20240cf7d68bcebb138ab5ed5240ed523cb10ef`.
+
+### Patch Changes
+
+- 2d61a4c: Accept `@file` values for generated string enum body flags
+
+  Resolve file tokens before checking an enum's allowed choices, so a file containing a valid value works like a literal flag. Continue rejecting file contents outside the enum and preserve the existing choices in help.
+
+- 7283747: Remove the fixed timeout from binary uploads
+
+  Allow binary and multipart uploads to finish without a CLI-imposed request
+  deadline, so large R2 objects are not aborted after 30 seconds. Keep the
+  standard timeout for other API calls and report SDK timeouts clearly.
+
+- 1b423f4: Keep `cf previews deploy` available in a generated command group so future schema updates can add Preview API commands without a root registration collision.
+
+## 1.0.0-beta.13
+
+### Minor Changes
+
+- 459fa81: Add `cf deploy --no-provision`
+
+  Disable automatic resource provisioning for a deployment so bindings without
+  required resource identifiers fail instead of creating new resources.
+  Provisioning remains enabled by default.
+
+- f16cc97: Print a parseable version from `cf --version`
+
+  Write the package version to stdout for `--version` and `-v`, so scripts can
+  parse it directly. Interactive use keeps the branded banner on stderr.
+
+- 07ff747: Add email protection to `cf tunnels quick-start`
+
+  Use `--allowed-mail` to require email authentication for a temporary tunnel.
+  The option accepts exact email addresses, comma-separated lists, and wildcard
+  domains, and may be repeated. For example:
+
+  ```sh
+  cf tunnels quick-start http://localhost:3000 --allowed-mail "alice@example.com,*@example.org"
+  ```
+
+  Protected tunnels require `cloudflared` 2026.9.2 or later. cf checks the selected
+  binary before launching and reports an upgrade error for older or unrecognised
+  versions. Recipient values are excluded from cf debug logs and telemetry.
+
+- 82bb260: Update the generated command surface and vendored Forge packages for
+  Forge OpenAPI release `42e2429763eedeb45da732e171b45638c331e356`.
+
+### Patch Changes
+
+- 1f0303e: Avoid project setup changes during deploy dry runs
+
+  Pass `--dry-run` to framework setup and Wrangler config conversion for `cf deploy`, `cf workers versions create`, and `cf workers triggers deploy`. If setup is needed, show the planned changes and skip the build and upload.
+
+- fc04a74: Resolve zone names beyond the first page of an account
+
+  Filter zone lookups by domain name so `--zone` and `CLOUDFLARE_ZONE_ID` can
+  resolve zones in accounts with more than one page of zones. Cache each name
+  separately within its account.
+
+- 2d8007d: Fix JSON string highlighting for escaped quotation marks
+
+  Keep the complete string value highlighted when JSON contains escaped quotes
+  or backslashes. Non-interactive output remains plain, parseable JSON.
+
+- f1ac89b: Allow required dependency build scripts in pnpm Worker projects
+
+  `cf init` now writes `pnpm-workspace.yaml` when pnpm is selected, approving the
+  `esbuild` and `workerd` build scripts before dependency installation. This also
+  applies with `--no-install` so a later `pnpm install` succeeds on pnpm 11 and
+  newer.
+
+- e4fcd8e: Write protobuf API responses as binary output
+
+  Recognize `application/vnd.google.protobuf` responses as binary data so generated
+  commands write the raw bytes to stdout instead of decoding them as JSON. This
+  allows Worker profiling responses to be redirected to a pprof file.
+
+- 2ff6a55: Redact API schema-marked sensitive fields in generated `--dry-run` request body previews, including nested values and JSON supplied through `--body`.
+- a02886b: Launch Node delegates through tinyexec on Windows
+
+  Wrangler and Vite delegation now works for `cf dev`, `cf build`, and
+  build-backed deploy commands without `spawn EFTYPE`. tinyexec uses the delegates'
+  Node shebangs on Windows and preserves argument boundaries without a shell.
+
+## 1.0.0-beta.12
+
+### Patch Changes
+
+- 2aea37c: Deploy SSH settings for Durable Object-managed Containers
+
+  `cf deploy` now forwards a Durable Object-managed Container's `ssh` and `authorizedKeys` from Build Output to the Containers API.
+
+- 8c55fb3: Recognize explicit boolean values before commands
+
+  When a global boolean flag or alias is followed by `true` or `false`, treat the literal as its value while identifying the command. This keeps invocations such as `cf --local false complete bash` from receiving the wrong startup behavior.
+
+## 1.0.0-beta.11
+
+### Patch Changes
+
+- 398a2e6: Reduce SDK client imports when running API commands.
+
+  Generate narrow runtime imports for SDK error constructors and load the client entry directly, avoiding the API type and resource barrels while preserving error classes and request behavior.
+
+- be8fdad: Reduce startup imports for authentication and raw API requests.
+
+  Load token and OAuth helpers independently of the SDK client, and use the SDK error entrypoint for error handling and telemetry.
+
+## 1.0.0-beta.10
+
+### Minor Changes
+
+- 5725210: Update the generated command surface and vendored Forge packages for
+  Forge OpenAPI release `10cdded1d9e93c9b055e27cac83b397b2bd7f0c6`.
+
+## 1.0.0-beta.9
+
+### Minor Changes
+
+- b26d943: Update the generated command surface and vendored Forge packages for
+  Forge OpenAPI release `4322e43f4f29a33c7cc9be83ead916d6bc17fa73`.
+
+## 1.0.0-beta.8
+
+### Patch Changes
+
+- 8782301: Update Workers authentication to the latest release
+
+  Use `@cloudflare/workers-auth` 0.11.0 for cf's bundled authentication flows.
+
+## 1.0.0-beta.7
+
+### Patch Changes
+
+- 146c3c1: Preserve existing Worker secrets during `cf deploy`
+
+  Update `@cloudflare/deploy-helpers` to inherit secret bindings from the previous Worker version, including secrets that are not declared in `cloudflare.config.ts`. This prevents a redeploy from removing secrets added through the API or CLI. Align the other workers-sdk packages used by cf with their current releases.
+
+## 1.0.0-beta.6
+
+### Patch Changes
+
+- 3d4dbc1: Reject local mode for Worker version uploads and trigger deployments
+
+  Fail `cf workers versions create --local` and `cf workers triggers deploy --local` before building or making deployment API requests, including with `--prebuilt` or `--dry-run`. These commands only support remote deployment; their help now explains this restriction instead of advertising local simulation options.
+
+- 57dc71d: Fix `cf registrar registrations check` so positional domains are sent in the request body.
+
+  Allow several domains as separate positional arguments, including in the registrar sandbox command, and show the same body in `--dry-run` output.
+
 ## 1.0.0-beta.5
 
 ### Patch Changes
@@ -44,6 +210,7 @@
   `cf migrate` now uses the Vite bundler only when `@cloudflare/vite-plugin` is declared next to the Wrangler configuration, and uses the Wrangler bundler otherwise. Previously, every project defaulted to Vite, so migrations of non-Vite Workers reported Vite-only follow-ups even though `cf build` would continue to use Wrangler. Pass `--bundler vite` or `--bundler wrangler` to choose explicitly.
 
 - b4112c2: Allow `cf` commands to use these variables from `.env` files:
+
   - `CLOUDFLARE_ACCESS_CLIENT_ID`
   - `CLOUDFLARE_ACCESS_CLIENT_SECRET`
   - `CLOUDFLARE_ACCOUNT_ID`
@@ -322,6 +489,7 @@
 ### Minor Changes
 
 - 5aa6d11: Add Container build, push, and deploy workflows
+
   - `cf containers build <path> --tag <name:tag> [--push]`
   - `cf containers push --tag <name:tag>`
   - `cf deploy [--containers-rollout immediate|gradual|none]`
@@ -495,6 +663,7 @@ workers check`, and `cf workers triggers deploy` to consume the latest Build
 
   The command now fetches the extension's schema
   (`GET /registrar/extensions/{name}`) and drives itself from it:
+
   - The domain is a positional: `cf registrar registrations create example.travel`.
     Its extension is derived from the name (longest suffix first, so `co.uk` beats
     `uk`), or set explicitly with `--extension`.
@@ -561,6 +730,7 @@ workers check`, and `cf workers triggers deploy` to consume the latest Build
 
   Closes the gap that kept migrated repos on a `wrangler.jsonc` and a `wrangler`
   devDependency for one job. Three subcommands:
+
   - `cf d1 migrations apply <database>` — apply every unapplied migration
   - `cf d1 migrations list <database>` — report unapplied migrations as JSON
   - `cf d1 migrations create <message>` — scaffold a numbered migration file
@@ -643,6 +813,7 @@ create`) type a field the schema says nothing about — `{}`, as Workers AI
   (`--text`, `--prompt`, `--guidance`, …) — accurate for none of them. `cf ai run`
   is now hand-written and reads the chosen model's input schema from
   `/ai/models/schema` at run time:
+
   - `cf ai run <model> --help` lists **that model's** fields, with types, defaults
     and enum choices. `cf ai run --help` on its own makes no network request.
   - Input is validated against the model's schema before the request goes out, so
@@ -832,6 +1003,7 @@ create`) type a field the schema says nothing about — `{}`, as Workers AI
   (PKCE flow, callback server, token refresh) instead of cf's own implementation,
   while keeping cf's own OAuth identity (client ID and consent pages). Notable
   changes:
+
   - Tokens are now stored as JSONC in cf's XDG-compliant config directory (e.g.
     `~/.config/.cf/auth.jsonc`) instead of `~/.cf/config.toml`. You will need to
     run `cf auth login` once to re-authenticate.
@@ -866,6 +1038,7 @@ create`) type a field the schema says nothing about — `{}`, as Workers AI
 - 11ad38d: Drop client-side input "hardening"
 
   cf no longer pre-validates user input before sending it to the API:
+
   - **Path params / string positionals.** Generated commands previously
     ran `validateResourceId` / `validateStringInput` to reject `..`, URL
     operators (`?` `#` `%`), and control characters. These are gone.

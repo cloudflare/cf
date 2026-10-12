@@ -1,4 +1,3 @@
-import { z } from "zod";
 import { formatOutput } from "../../lib/output.js";
 import { getDefaultHeaders } from "../../lib/request-headers.js";
 import { runWithTelemetry } from "../../lib/telemetry/run.js";
@@ -10,27 +9,53 @@ const SEARCH_URL =
 const MAX_RESULTS = 5;
 const SEARCH_TIMEOUT_MS = 30_000;
 
-const searchResponse = z.discriminatedUnion("success", [
-	z.object({
-		success: z.literal(true),
-		result: z.object({
-			chunks: z.array(
-				z.object({
-					item: z.object({
-						key: z.string().min(1),
-						metadata: z
-							.object({
-								title: z.string().optional(),
-								description: z.string().optional(),
-							})
-							.optional(),
-					}),
-				})
-			),
-		}),
-	}),
-	z.object({ success: z.literal(false), error: z.string().optional() }),
-]);
+interface SearchChunk {
+	item: {
+		key: string;
+		metadata?: { title?: string; description?: string };
+	};
+}
+
+type SearchResponse =
+	| { success: true; result: { chunks: SearchChunk[] } }
+	| { success: false; error?: string };
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+	return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function isSearchResponse(value: unknown): value is SearchResponse {
+	if (!isRecord(value)) {
+		return false;
+	}
+	if (value.success === false) {
+		return value.error === undefined || typeof value.error === "string";
+	}
+	return (
+		value.success === true &&
+		isRecord(value.result) &&
+		Array.isArray(value.result.chunks) &&
+		value.result.chunks.every((chunk: unknown) => {
+			if (
+				!isRecord(chunk) ||
+				!isRecord(chunk.item) ||
+				typeof chunk.item.key !== "string" ||
+				chunk.item.key.length === 0
+			) {
+				return false;
+			}
+			const metadata = chunk.item.metadata;
+			return (
+				metadata === undefined ||
+				(isRecord(metadata) &&
+					(metadata.title === undefined ||
+						typeof metadata.title === "string") &&
+					(metadata.description === undefined ||
+						typeof metadata.description === "string"))
+			);
+		})
+	);
+}
 
 interface SearchArgs {
 	query: string;
@@ -98,16 +123,15 @@ async function searchDocumentation(query: string): Promise<DocsSearchResult[]> {
 			{ cause }
 		);
 	}
-	const parsed = searchResponse.safeParse(data);
-	if (!parsed.success) {
+	if (!isSearchResponse(data)) {
 		throw new Error("Cloudflare docs search returned an invalid response.");
 	}
-	if (!parsed.data.success) {
+	if (!data.success) {
 		throw new Error(
-			`Cloudflare docs search failed: ${parsed.data.error ?? "Unknown error"}`
+			`Cloudflare docs search failed: ${data.error ?? "Unknown error"}`
 		);
 	}
-	return parsed.data.result.chunks.slice(0, MAX_RESULTS).map(({ item }) => ({
+	return data.result.chunks.slice(0, MAX_RESULTS).map(({ item }) => ({
 		title: item.metadata?.title ?? "Untitled",
 		description: item.metadata?.description ?? "",
 		url: docsUrl(item.key),

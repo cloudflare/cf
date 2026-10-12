@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../../../cor
 import * as environments from "../../../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../../../index.js";
 
 export declare namespace IntegrationsClient {
     export type Options = BaseClientOptions;
@@ -31,6 +31,9 @@ export class IntegrationsClient {
      *
      * @param {CloudflareApi.zeroTrust.devices.posture.ListIntegrationsRequest} request
      * @param {IntegrationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.devices.posture.integrations.list({
@@ -99,6 +102,9 @@ export class IntegrationsClient {
      *
      * @param {CloudflareApi.zeroTrust.devices.posture.CreateIntegrationsRequest} request
      * @param {IntegrationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.devices.posture.integrations.create({
@@ -180,6 +186,9 @@ export class IntegrationsClient {
      * @param {CloudflareApi.zeroTrust.devices.posture.GetIntegrationsRequest} request
      * @param {IntegrationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.devices.posture.integrations.get({
      *         account_id: "account_id",
@@ -249,6 +258,9 @@ export class IntegrationsClient {
      * @param {CloudflareApi.zeroTrust.devices.posture.DeleteIntegrationsRequest} request
      * @param {IntegrationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.devices.posture.integrations.delete({
      *         account_id: "account_id",
@@ -314,6 +326,9 @@ export class IntegrationsClient {
      *
      * @param {CloudflareApi.zeroTrust.devices.posture.UpdateIntegrationsRequest} request
      * @param {IntegrationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.devices.posture.integrations.update({

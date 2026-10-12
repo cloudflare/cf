@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 import { DestinationClient } from "../resources/destination/client/Client.js";
 import { OriginClient } from "../resources/origin/client/Client.js";
 
@@ -40,6 +40,9 @@ export class AccountValidateClient {
      *
      * @param {CloudflareApi.logpush.DestinationExistsDeleteAccountValidateRequest} request
      * @param {AccountValidateClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.logpush.accountValidate.destinationExistsDelete({

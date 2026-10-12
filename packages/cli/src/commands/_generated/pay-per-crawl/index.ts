@@ -1,7 +1,6 @@
 import $config from "./config/index.js";
 import $crawler from "./crawler/index.js";
 import $crawlers from "./crawlers/index.js";
-import $payperuse from "./pay-per-use/index.js";
 import $publisher from "./publisher/index.js";
 import $terms from "./terms/index.js";
 import $zones from "./zones/index.js";
@@ -21,7 +20,6 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($config)
 			.command($crawler)
 			.command($crawlers)
-			.command($payperuse)
 			.command($publisher)
 			.command($terms)
 			.command($zones)

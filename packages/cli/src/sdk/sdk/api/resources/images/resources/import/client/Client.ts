@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 import { SourcesClient } from "../resources/sources/client/Client.js";
 
 export declare namespace ImportClient {
@@ -34,6 +34,9 @@ export class ImportClient {
      *
      * @param {CloudflareApi.images.ListImportRequest} request
      * @param {ImportClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.images.import.list({
@@ -111,6 +114,9 @@ export class ImportClient {
      * @param {CloudflareApi.images.ImagesSourcingkitMigrationCreateRequest} request
      * @param {ImportClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.images.import.create({
      *         account_id: "account_id",
@@ -183,6 +189,9 @@ export class ImportClient {
      * @param {CloudflareApi.images.GetImportRequest} request
      * @param {ImportClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.images.import.get({
      *         account_id: "account_id",
@@ -252,6 +261,9 @@ export class ImportClient {
      * @param {CloudflareApi.images.DeleteImportRequest} request
      * @param {ImportClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.images.import.delete({
      *         account_id: "account_id",
@@ -317,6 +329,9 @@ export class ImportClient {
      *
      * @param {CloudflareApi.images.ProgressImportRequest} request
      * @param {ImportClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.images.import.progress({
@@ -387,6 +402,9 @@ export class ImportClient {
      * @param {CloudflareApi.images.AbortImportRequest} request
      * @param {ImportClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.images.import.abort({
      *         account_id: "account_id",
@@ -456,6 +474,9 @@ export class ImportClient {
      * @param {CloudflareApi.images.StartImportRequest} request
      * @param {ImportClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.images.import.start({
      *         account_id: "account_id",
@@ -524,6 +545,9 @@ export class ImportClient {
      *
      * @param {CloudflareApi.images.LogsImportRequest} request
      * @param {ImportClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.images.import.logs({

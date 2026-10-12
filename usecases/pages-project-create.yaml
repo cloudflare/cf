@@ -1,9 +1,0 @@
-description: "Create a Pages project"
-command: "wrangler pages project create <project>"
-status: "partial"
-sourceCommands:
-  - "wrangler pages project create <project>"
-cfReplacementFlow:
-  - "cf pages projects create --name <project> --body @pages-project.json"
-notes:
-  - "Wrangler exposes production branch and compatibility flags. cf likely follows API body shape."

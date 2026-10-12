@@ -1,5 +1,5 @@
 import { http, HttpResponse } from "msw";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import { captureOutput } from "../helpers/capture-output.js";
 import { server, setupMsw } from "../helpers/msw.js";
 import { runCf } from "../helpers/run-cf.js";

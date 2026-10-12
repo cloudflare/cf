@@ -1,9 +1,0 @@
-description: "Show detailed Vectorize index information"
-command: "wrangler vectorize info <index>"
-status: "direct"
-sourceCommands:
-  - "wrangler vectorize info <index>"
-cfReplacementFlow:
-  - "cf vectorize info <index>"
-notes:
-  - "Exact detail level depends on API response."

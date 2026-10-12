@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../../../cor
 import * as environments from "../../../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../../../index.js";
 
 export declare namespace StatusClient {
     export type Options = BaseClientOptions;
@@ -31,6 +31,9 @@ export class StatusClient {
      *
      * @param {CloudflareApi.zeroTrust.apps.review.ListStatusRequest} request
      * @param {StatusClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.apps.review.status.list({
@@ -99,6 +102,9 @@ export class StatusClient {
      *
      * @param {CloudflareApi.zeroTrust.apps.review.UpdateStatusRequest} request
      * @param {StatusClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.apps.review.status.update({

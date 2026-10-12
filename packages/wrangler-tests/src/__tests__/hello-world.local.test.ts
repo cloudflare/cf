@@ -1,4 +1,4 @@
-import { describe, it } from "vitest";
+import { describe, it } from "vite-plus/test";
 
 // Skipped: every test in this file exercises wrangler's `--local` mode
 // for the `hello-world` template command (miniflare-backed local KV

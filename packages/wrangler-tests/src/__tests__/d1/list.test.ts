@@ -1,5 +1,5 @@
 import { http, HttpResponse } from "msw";
-import { beforeEach, describe, it } from "vitest";
+import { beforeEach, describe, it } from "vite-plus/test";
 import { mockAccountId, mockApiToken } from "../helpers/mock-account-id";
 import { mockConsoleMethods } from "../helpers/mock-console";
 import { useMockIsTTY } from "../helpers/mock-istty";
@@ -42,7 +42,9 @@ describe("list", () => {
 			})
 		);
 	});
-	it("should print valid json, without wrangler banner", async ({ expect }) => {
+	it("should print valid json if `--json` flag is specified, without wrangler banner", async ({
+		expect,
+	}) => {
 		await runWrangler("d1 list");
 		expect(JSON.parse(std.out)).toMatchInlineSnapshot(`
 			[

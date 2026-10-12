@@ -1,9 +1,0 @@
-description: "Upload an mTLS certificate through Wrangler's cert namespace"
-command: "wrangler cert upload mtls-certificate --cert cert.pem --key key.pem"
-status: "partial"
-sourceCommands:
-  - "wrangler cert upload mtls-certificate --cert cert.pem --key key.pem"
-cfReplacementFlow:
-  - "cf mtls-certificates create --certificates @cert.pem --private-key @key.pem"
-notes:
-  - "Wrangler has both legacy mtls-certificate and newer cert namespaces. cf likely uses the underlying generated certificate resource."

@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../../../cor
 import * as environments from "../../../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../../../index.js";
 
 export declare namespace RulesClient {
     export type Options = BaseClientOptions;
@@ -31,6 +31,9 @@ export class RulesClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.email.ListRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.email.rules.list({
@@ -99,6 +102,9 @@ export class RulesClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.email.CreateRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.email.rules.create({
@@ -180,6 +186,9 @@ export class RulesClient {
      * @param {CloudflareApi.zeroTrust.dlp.email.DlpUpdateEmailRulePriorities} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.dlp.email.rules.bulkEdit({
      *         account_id: "account_id",
@@ -251,6 +260,9 @@ export class RulesClient {
      * @param {CloudflareApi.zeroTrust.dlp.email.GetRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.dlp.email.rules.get({
      *         account_id: "account_id",
@@ -316,6 +328,9 @@ export class RulesClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.email.UpdateRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.email.rules.update({
@@ -397,6 +412,9 @@ export class RulesClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.email.DeleteRulesRequest} request
      * @param {RulesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.email.rules.delete({

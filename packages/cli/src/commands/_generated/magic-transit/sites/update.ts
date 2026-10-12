@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * update command
+ * @generated from apis/overlays/magic-transit.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -10,14 +18,6 @@ import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * update command
- * @generated from apis/overlays/magic-transit.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -34,6 +34,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("description", {
 			type: "string",
 			description: "The description field",
+		})
+		.option("ha-mode", {
+			type: "boolean",
+			description:
+				"Site high availability mode. If set to true, the site can have two connectors and runs in high availability mode.",
 		})
 		.option("location-lat", { type: "string", description: "Latitude" })
 		.option("location-lon", { type: "string", description: "Longitude" })
@@ -68,7 +73,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "magic-transit sites update",
 				classification: {
-					safeFlags: ["dry-run"],
+					safeFlags: ["ha-mode", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -95,6 +100,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"description",
 											"text"
 										),
+										ha_mode: argv["ha-mode"],
 										location: {
 											lat: resolveFileToken(
 												argv["location-lat"] as string | undefined,
@@ -150,6 +156,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"description",
 						"text"
 					),
+					ha_mode: argv["ha-mode"],
 					location: {
 						lat: resolveFileToken(
 							argv["location-lat"] as string | undefined,

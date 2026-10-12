@@ -13,5 +13,5 @@ export interface RulesetsRuleset {
     /** The human-readable name of the ruleset. */
     name?: string | undefined;
     /** The version of the ruleset. */
-    version: string;
+    version?: string | undefined;
 }

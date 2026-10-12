@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 import { DetailsClient } from "../resources/details/client/Client.js";
 
 export declare namespace EventsClient {
@@ -34,6 +34,9 @@ export class EventsClient {
      *
      * @param {CloudflareApi.waitingRooms.ListEventsRequest} request
      * @param {EventsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.waitingRooms.events.list({
@@ -112,6 +115,9 @@ export class EventsClient {
      * @param {CloudflareApi.waitingRooms.CreateEventsRequest} request
      * @param {EventsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.waitingRooms.events.create({
      *         zone_id: "zone_id",
@@ -186,6 +192,9 @@ export class EventsClient {
      * @param {CloudflareApi.waitingRooms.GetEventsRequest} request
      * @param {EventsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.waitingRooms.events.get({
      *         zone_id: "zone_id",
@@ -252,6 +261,9 @@ export class EventsClient {
      *
      * @param {CloudflareApi.waitingRooms.UpdateEventsRequest} request
      * @param {EventsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.waitingRooms.events.update({
@@ -328,6 +340,9 @@ export class EventsClient {
      * @param {CloudflareApi.waitingRooms.DeleteEventsRequest} request
      * @param {EventsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.waitingRooms.events.delete({
      *         zone_id: "zone_id",
@@ -397,6 +412,9 @@ export class EventsClient {
      *
      * @param {CloudflareApi.waitingRooms.EditEventsRequest} request
      * @param {EventsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.waitingRooms.events.edit({

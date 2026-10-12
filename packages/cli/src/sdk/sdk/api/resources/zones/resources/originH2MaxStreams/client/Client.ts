@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace OriginH2MaxStreamsClient {
     export type Options = BaseClientOptions;
@@ -28,6 +28,9 @@ export class OriginH2MaxStreamsClient {
      *
      * @param {CloudflareApi.zones.GetOriginH2MaxStreamsRequest} request
      * @param {OriginH2MaxStreamsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zones.originH2MaxStreams.get({
@@ -96,6 +99,9 @@ export class OriginH2MaxStreamsClient {
      *
      * @param {CloudflareApi.zones.EditOriginH2MaxStreamsRequest} request
      * @param {OriginH2MaxStreamsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zones.originH2MaxStreams.edit({

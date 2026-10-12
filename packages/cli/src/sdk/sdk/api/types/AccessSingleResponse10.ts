@@ -7,5 +7,5 @@ export interface AccessSingleResponse10 {
     messages: CloudflareApi.AccessMessages;
     /** Whether the API call was successful. */
     success: true;
-    result?: CloudflareApi.AccessReusablePolicyResp | undefined;
+    result?: CloudflareApi.AccessAppPolicyResult | undefined;
 }

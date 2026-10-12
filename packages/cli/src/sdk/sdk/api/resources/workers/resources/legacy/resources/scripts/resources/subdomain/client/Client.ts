@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../../../cor
 import * as environments from "../../../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../../../index.js";
 
 export declare namespace SubdomainClient {
     export type Options = BaseClientOptions;
@@ -33,6 +33,9 @@ export class SubdomainClient {
      *
      * @param {CloudflareApi.workers.legacy.scripts.GetSubdomainRequest} request
      * @param {SubdomainClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workers.legacy.scripts.subdomain.get({
@@ -101,6 +104,9 @@ export class SubdomainClient {
      *
      * @param {CloudflareApi.workers.legacy.scripts.CreateSubdomainRequest} request
      * @param {SubdomainClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workers.legacy.scripts.subdomain.create({
@@ -173,6 +179,9 @@ export class SubdomainClient {
      *
      * @param {CloudflareApi.workers.legacy.scripts.DeleteSubdomainRequest} request
      * @param {SubdomainClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workers.legacy.scripts.subdomain.delete({

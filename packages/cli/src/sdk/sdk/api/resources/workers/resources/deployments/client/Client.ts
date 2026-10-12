@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace DeploymentsClient {
     export type Options = BaseClientOptions;
@@ -28,6 +28,9 @@ export class DeploymentsClient {
      *
      * @param {CloudflareApi.workers.ListDeploymentsRequest} request
      * @param {DeploymentsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workers.deployments.list({
@@ -108,6 +111,9 @@ export class DeploymentsClient {
      * @param {CloudflareApi.workers.CreateDeploymentsRequest} request
      * @param {DeploymentsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workers.deployments.create({
      *         account_id: "account_id",
@@ -132,9 +138,9 @@ export class DeploymentsClient {
         request: CloudflareApi.workers.CreateDeploymentsRequest,
         requestOptions?: DeploymentsClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.WorkersDeployment>> {
-        const { account_id: accountId, script_name: scriptName, force, body: _body } = request;
+        const { account_id: accountId, script_name: scriptName, force: bypassDeploymentChecks, body: _body } = request;
         const _queryParams: Record<string, unknown> = {
-            force,
+            force: bypassDeploymentChecks,
         };
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -190,6 +196,9 @@ export class DeploymentsClient {
      *
      * @param {CloudflareApi.workers.GetDeploymentsRequest} request
      * @param {DeploymentsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workers.deployments.get({
@@ -257,6 +266,9 @@ export class DeploymentsClient {
      *
      * @param {CloudflareApi.workers.DeleteDeploymentsRequest} request
      * @param {DeploymentsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workers.deployments.delete({

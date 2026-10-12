@@ -3,7 +3,7 @@
 export interface AbuseReportsAppealEligibility {
     /** Number of appeals submitted against the report so far. */
     appeal_count: number;
-    /** Whether the report can currently be appealed. */
+    /** Whether the report can currently be appealed under the policy applied to it. */
     appealable: boolean;
     /** Whether the report has at least one mitigation an appeal could reverse. */
     has_appealable_mitigations: boolean;

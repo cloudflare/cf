@@ -4,7 +4,7 @@
  * @example
  *     {
  *         account_id: "account_id",
- *         tunnel_id: "tunnel_id",
+ *         "node-id": "tunnel_id",
  *         connector_id: "connector_id"
  *     }
  */
@@ -12,7 +12,7 @@ export interface GetConnectorsRequest {
     /** Cloudflare account ID */
     account_id: string;
     /** UUID of the tunnel. */
-    tunnel_id: string;
+    "node-id": string;
     /** UUID of the Cloudflare Tunnel connector. */
     connector_id: string;
 }

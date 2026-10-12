@@ -1,3 +1,10 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+/**
+ * update command
+ * @generated from apis/overlays/cloudforce-one.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -15,13 +22,6 @@ import {
 	promptForRequiredField,
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-/**
- * update command
- * @generated from apis/overlays/cloudforce-one.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -60,6 +60,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The tlp field",
 			choices: ["clear", "green", "amber", "amber-strict", "red", "white"],
 		})
+		.coerce("tlp", (value) => resolveFileToken(value, "tlp", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -113,11 +114,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 										publish: argv["publish"],
-										tlp: resolveFileToken(
-											argv["tlp"] as string | undefined,
-											"tlp",
-											"text"
-										),
+										tlp: argv["tlp"],
 									}),
 					});
 					return;
@@ -182,11 +179,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv["publish"] !== undefined)
 					setNestedValue(bodyData, ["publish"], argv["publish"]);
 				if (argv["tlp"] !== undefined)
-					setNestedValue(
-						bodyData,
-						["tlp"],
-						resolveFileToken(argv["tlp"] as string | undefined, "tlp", "text")
-					);
+					setNestedValue(bodyData, ["tlp"], argv["tlp"]);
 				const result = await withProgress(`Updating`, async () =>
 					requestApi<unknown>(
 						client,

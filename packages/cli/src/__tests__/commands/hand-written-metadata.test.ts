@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "vite-plus/test";
 import { rootHandWrittenCommands } from "../../commands/hand-written.js";
 import type { CommandMeta } from "@cloudflare/forge";
 
@@ -107,14 +107,14 @@ describe("hand-written command metadata", () => {
 		}
 	});
 
-	it("classifies the deploy Container rollout enum as telemetry-safe", () => {
+	it("classifies deploy control flags as telemetry-safe", () => {
 		const deploy = rootHandWrittenCommands().find(
 			(command) => command.command === "deploy"
 		);
 
 		expect(deploy?.telemetry).toMatchObject({
 			classification: {
-				safeFlags: expect.arrayContaining(["containers-rollout"]),
+				safeFlags: expect.arrayContaining(["containers-rollout", "provision"]),
 			},
 		});
 	});
@@ -128,6 +128,17 @@ describe("hand-written command metadata", () => {
 				"Use existing Preview Build Output Specification files without building",
 			default: false,
 		});
+	});
+
+	it("publishes Quick Tunnel email protection for completions and tools", () => {
+		expect(commands.get("cf tunnels quick-start")?.options).toContainEqual(
+			expect.objectContaining({
+				name: "allowed-mail",
+				type: "string",
+				required: false,
+				description: expect.stringContaining("cloudflared 2026.9.2 or later"),
+			})
+		);
 	});
 
 	it("does not publish global mode as a command-local option", () => {
@@ -225,6 +236,17 @@ describe("hand-written-only command metadata", () => {
 		});
 	});
 
+	it("includes deploy provisioning metadata", () => {
+		expect(commands.get("cf deploy")?.options).toContainEqual({
+			name: "provision",
+			type: "boolean",
+			required: false,
+			description:
+				"Automatically provision resources for bindings that need them",
+			default: true,
+		});
+	});
+
 	it("marks leaf overrides as generated command overrides", () => {
 		expect(commands.get("cf ai run")?.handWritten).toEqual({
 			kind: "leafOverride",
@@ -250,9 +272,10 @@ describe("hand-written-only command metadata", () => {
 			dir: "auth",
 		});
 		expect(commands.get("cf previews deploy")?.handWritten).toEqual({
-			kind: "root",
+			kind: "leaf",
 			overrides: false,
-			dir: "previews",
+			dir: "previews/deploy",
+			parent: "previews",
 		});
 		expect(commands.get("cf d1 migrations create")?.handWritten).toEqual({
 			kind: "subgroup",

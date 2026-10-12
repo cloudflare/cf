@@ -1,9 +1,0 @@
-description: "Pause a Workflow instance"
-command: "wrangler workflows instances pause <workflow> <instance-id>"
-status: "partial"
-sourceCommands:
-  - "wrangler workflows instances pause <workflow> <instance-id>"
-cfReplacementFlow:
-  - 'cf workflows instances status edit <instance-id> --workflow-name <workflow> --body ''{"status":"paused"}'''
-notes:
-  - "Confirm exact generated API body."

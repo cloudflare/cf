@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace ReverseDnsClient {
     export type Options = BaseClientOptions;
@@ -28,6 +28,9 @@ export class ReverseDnsClient {
      *
      * @param {CloudflareApi.dnsFirewall.GetReverseDnsRequest} request
      * @param {ReverseDnsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.dnsFirewall.reverseDns.get({
@@ -97,6 +100,9 @@ export class ReverseDnsClient {
      *
      * @param {CloudflareApi.dnsFirewall.DnsFirewallDnsFirewallReverseDns} request
      * @param {ReverseDnsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.dnsFirewall.reverseDns.edit({

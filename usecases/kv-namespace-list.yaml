@@ -1,9 +1,0 @@
-description: "List Workers KV namespaces"
-command: "wrangler kv namespace list"
-status: "direct"
-sourceCommands:
-  - "wrangler kv namespace list"
-cfReplacementFlow:
-  - "cf kv namespaces list"
-notes:
-  - "Wrangler auto-paginates; cf list commands generally return a single API page unless pagination flags are supplied."

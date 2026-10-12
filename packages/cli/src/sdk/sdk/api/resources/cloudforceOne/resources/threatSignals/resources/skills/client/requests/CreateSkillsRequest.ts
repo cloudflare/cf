@@ -6,8 +6,7 @@
  *         account_id: "account_id",
  *         name: "name",
  *         output_schema: "output_schema",
- *         prompt: "prompt",
- *         type: "summary"
+ *         prompt: "prompt"
  *     }
  */
 export interface CreateSkillsRequest {
@@ -15,10 +14,12 @@ export interface CreateSkillsRequest {
     name: string;
     output_schema: string;
     prompt: string;
-    type: CreateSkillsRequest.Type;
+    /** Optional label; does not affect execution. Defaults to "summary". */
+    type?: CreateSkillsRequest.Type;
 }
 
 export namespace CreateSkillsRequest {
+    /** Optional label; does not affect execution. Defaults to "summary". */
     export const Type = {
         Summary: "summary",
         Tags: "tags",

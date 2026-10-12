@@ -7,11 +7,16 @@ import * as CloudflareApi from "../index.js";
  */
 export interface EmailSecurityCreateContentPolicy {
     created_at?: CloudflareApi.EmailSecurityTimestamp | undefined;
+    /** Whether the policy is active. */
     enabled: boolean;
     id?: CloudflareApi.EmailSecurityContentPolicyId | undefined;
     modified_at?: CloudflareApi.EmailSecurityTimestamp | undefined;
+    /** Human-readable name of the policy. */
     name: string;
+    /** Optional note describing the purpose of the policy. */
     notes?: (string | null) | undefined;
+    /** Regular expression the policy matches against. */
     pattern: string;
+    /** Parts of the email the pattern is matched against. */
     targets: CloudflareApi.EmailSecurityContentPolicyTarget[];
 }

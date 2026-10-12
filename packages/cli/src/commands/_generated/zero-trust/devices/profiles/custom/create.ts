@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * create command
+ * @generated from apis/overlays/zero-trust.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -11,14 +19,6 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * create command
- * @generated from apis/overlays/zero-trust.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -52,6 +52,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Whether the user may disable the browser extension proxy.",
 			choices: ["unlocked", "locked"],
 		})
+		.coerce("browser-extension-config-proxy-control", (value) =>
+			resolveFileToken(value, "browser-extension-config-proxy-control", "text")
+		)
 		.option("browser-extension-config-proxy-enabled", {
 			type: "boolean",
 			description: "Whether the browser extension proxy is active.",
@@ -138,7 +141,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("match", {
 			type: "string",
 			description:
-				'The wirefilter expression to match devices. Available values: "identity.email", "identity.groups.id", "identity.groups.name", "identity.groups.email", "identity.service_token_uuid", "identity.saml_attributes", "network", "os.name", "os.version".',
+				'The wirefilter expression to match devices. Available values: "identity.email", "identity.groups.id", "identity.groups.name", "identity.groups.email", "identity.service_token_uuid", "identity.saml_attributes", "network", "os.name", "os.version", "device.tags".',
 		})
 		.option("name", {
 			type: "string",
@@ -156,6 +159,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["warp", "browser_extension"],
 			default: "warp",
 		})
+		.coerce("profile-type", (value) =>
+			resolveFileToken(value, "profile-type", "text")
+		)
 		.option("register-interface-ip-with-dns", {
 			type: "boolean",
 			description:
@@ -334,13 +340,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										allowed_to_leave: argv["allowed-to-leave"],
 										auto_connect: argv["auto-connect"],
 										browser_extension_config: {
-											proxy_control: resolveFileToken(
-												argv["browser-extension-config-proxy-control"] as
-													| string
-													| undefined,
-												"browser-extension-config-proxy-control",
-												"text"
-											),
+											proxy_control:
+												argv["browser-extension-config-proxy-control"],
 											proxy_enabled:
 												argv["browser-extension-config-proxy-enabled"],
 										},
@@ -377,11 +378,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 										precedence: argv["precedence"],
-										profile_type: resolveFileToken(
-											argv["profile-type"] as string | undefined,
-											"profile-type",
-											"text"
-										),
+										profile_type: argv["profile-type"],
 										register_interface_ip_with_dns:
 											argv["register-interface-ip-with-dns"],
 										sccm_vpn_boundary_support:
@@ -447,13 +444,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					allowed_to_leave: argv["allowed-to-leave"],
 					auto_connect: argv["auto-connect"],
 					browser_extension_config: {
-						proxy_control: resolveFileToken(
-							argv["browser-extension-config-proxy-control"] as
-								| string
-								| undefined,
-							"browser-extension-config-proxy-control",
-							"text"
-						),
+						proxy_control: argv["browser-extension-config-proxy-control"],
 						proxy_enabled: argv["browser-extension-config-proxy-enabled"],
 					},
 					captive_portal: argv["captive-portal"],
@@ -488,11 +479,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"text"
 					),
 					precedence: argv["precedence"],
-					profile_type: resolveFileToken(
-						argv["profile-type"] as string | undefined,
-						"profile-type",
-						"text"
-					),
+					profile_type: argv["profile-type"],
 					register_interface_ip_with_dns:
 						argv["register-interface-ip-with-dns"],
 					sccm_vpn_boundary_support: argv["sccm-vpn-boundary-support"],

@@ -5,8 +5,8 @@ import * as CloudflareApi from "../index.js";
 /**
  * Submit an appeal for a report. Provide either a list of mitigations to appeal, or an appeal type with its supporting details, but not both. When type is "counter_notice", the counter-notice details are required.
  */
-export type AbuseReportsMitigationAppealRequest = {
-    appeals: CloudflareApi.AbuseReportsMitigationAppeal[] | undefined;
-    data: CloudflareApi.AbuseReportsDmcaCounterNotice | undefined;
-    type: CloudflareApi.AbuseReportsAppealType | undefined;
-} & Record<string, unknown>;
+export type AbuseReportsMitigationAppealRequest = Record<string, unknown> & {
+    appeals?: CloudflareApi.AbuseReportsMitigationAppeal[] | undefined;
+    data?: CloudflareApi.AbuseReportsDmcaCounterNotice | undefined;
+    type?: CloudflareApi.AbuseReportsAppealType | undefined;
+};

@@ -1,9 +1,0 @@
-description: "Create a Cloudchamber deployment"
-command: "wrangler cloudchamber create"
-status: "partial"
-sourceCommands:
-  - "wrangler cloudchamber create"
-cfReplacementFlow:
-  - "cf cloudchamber create --body @cloudchamber.json"
-notes:
-  - "Likely lower-level API body in cf if product exists."

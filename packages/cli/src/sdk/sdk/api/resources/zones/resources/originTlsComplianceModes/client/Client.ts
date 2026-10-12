@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace OriginTlsComplianceModesClient {
     export type Options = BaseClientOptions;
@@ -28,6 +28,9 @@ export class OriginTlsComplianceModesClient {
      *
      * @param {CloudflareApi.zones.GetOriginTlsComplianceModesRequest} request
      * @param {OriginTlsComplianceModesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zones.originTlsComplianceModes.get({
@@ -96,6 +99,9 @@ export class OriginTlsComplianceModesClient {
      *
      * @param {CloudflareApi.zones.UpdateOriginTlsComplianceModesRequest} request
      * @param {OriginTlsComplianceModesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zones.originTlsComplianceModes.update({
@@ -169,6 +175,9 @@ export class OriginTlsComplianceModesClient {
      * @param {CloudflareApi.zones.DeleteOriginTlsComplianceModesRequest} request
      * @param {OriginTlsComplianceModesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zones.originTlsComplianceModes.delete({
      *         zone_id: "zone_id"
@@ -236,6 +245,9 @@ export class OriginTlsComplianceModesClient {
      *
      * @param {CloudflareApi.zones.EditOriginTlsComplianceModesRequest} request
      * @param {OriginTlsComplianceModesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zones.originTlsComplianceModes.edit({

@@ -6,17 +6,25 @@ import * as CloudflareApi from "../index.js";
  * An impersonation registry entry.
  */
 export interface EmailSecurityImpersonationRegistry {
+    /** Optional note describing the entry. */
     comments?: (string | null) | undefined;
     created_at?: CloudflareApi.EmailSecurityTimestamp | undefined;
+    /** Identifier of the directory the entry was synced from, when directory-synced. */
     directory_id?: (number | null) | undefined;
+    /** Identifier of the directory node the entry was synced from, when directory-synced. */
     directory_node_id?: (number | null) | undefined;
+    /** Email address (or pattern) of the protected identity. */
     email?: string | undefined;
+    /** Deprecated. External identifier of the directory node. */
     external_directory_node_id?: (string | null) | undefined;
     id?: CloudflareApi.EmailSecurityImpersonationRegistryId | undefined;
+    /** Whether `email` is a regular expression instead of a literal address. */
     is_email_regex?: boolean | undefined;
     /** Deprecated, use `modified_at` instead. End of life: November 1, 2026. */
     last_modified?: CloudflareApi.EmailSecurityTimestamp | undefined;
     modified_at?: CloudflareApi.EmailSecurityTimestamp | undefined;
+    /** Display name of the protected identity. */
     name?: string | undefined;
+    /** Source the entry was created from. */
     provenance?: (string | null) | undefined;
 }

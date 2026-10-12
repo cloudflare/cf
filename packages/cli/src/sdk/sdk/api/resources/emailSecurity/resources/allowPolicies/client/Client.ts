@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace AllowPoliciesClient {
     export type Options = BaseClientOptions;
@@ -28,6 +28,9 @@ export class AllowPoliciesClient {
      *
      * @param {CloudflareApi.emailSecurity.ListAllowPoliciesRequest} request
      * @param {AllowPoliciesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailSecurity.allowPolicies.list({
@@ -129,6 +132,9 @@ export class AllowPoliciesClient {
      * @param {CloudflareApi.emailSecurity.CreateAllowPoliciesRequest} request
      * @param {AllowPoliciesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.emailSecurity.allowPolicies.create({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -204,12 +210,16 @@ export class AllowPoliciesClient {
     }
 
     /**
-     * Executes multiple operations atomically. All four operation arrays
+     * Executes multiple allow policy operations atomically: delete, partially update,
+     * replace, and create allow policies in a single request. All four operation arrays
      * (deletes, patches, puts, posts) are required and executed in order.
      * Send empty arrays for unused operations.
      *
      * @param {CloudflareApi.emailSecurity.BatchAllowPoliciesRequest} request
      * @param {AllowPoliciesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailSecurity.allowPolicies.batch({
@@ -307,6 +317,9 @@ export class AllowPoliciesClient {
      * @param {CloudflareApi.emailSecurity.GetAllowPoliciesRequest} request
      * @param {AllowPoliciesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.emailSecurity.allowPolicies.get({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -375,6 +388,9 @@ export class AllowPoliciesClient {
      *
      * @param {CloudflareApi.emailSecurity.UpdateAllowPoliciesRequest} request
      * @param {AllowPoliciesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailSecurity.allowPolicies.update({
@@ -457,6 +473,9 @@ export class AllowPoliciesClient {
      * @param {CloudflareApi.emailSecurity.DeleteAllowPoliciesRequest} request
      * @param {AllowPoliciesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.emailSecurity.allowPolicies.delete({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -525,6 +544,9 @@ export class AllowPoliciesClient {
      *
      * @param {CloudflareApi.emailSecurity.EditAllowPoliciesRequest} request
      * @param {AllowPoliciesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailSecurity.allowPolicies.edit({

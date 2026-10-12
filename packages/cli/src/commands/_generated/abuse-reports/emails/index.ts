@@ -9,7 +9,7 @@ import type { CommandModule } from "yargs";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "emails",
-	describe: "Emails operations",
+	describe: "Emails sent for abuse reports",
 
 	builder: (yargs) => {
 		return yargs

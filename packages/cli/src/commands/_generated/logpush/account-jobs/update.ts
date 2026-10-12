@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * update command
+ * @generated from apis/overlays/logpush.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -11,14 +19,6 @@ import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * update command
- * @generated from apis/overlays/logpush.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -53,12 +53,16 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"This field is deprecated. Please use `max_upload_*` parameters instead. . The frequency at which Cloudflare sends batches of logs to your destination. Setting frequency to high sends your logs in larger quantities of smaller files. Setting frequency to low sends logs in smaller quantities of larger files.",
 			choices: ["high", "low"],
 		})
+		.coerce("frequency", (value) =>
+			resolveFileToken(value, "frequency", "text")
+		)
 		.option("kind", {
 			type: "string",
 			description:
 				"The kind parameter (optional) is used to differentiate between Logpush and Edge Log Delivery jobs (when supported by the dataset).",
 			choices: ["edge"],
 		})
+		.coerce("kind", (value) => resolveFileToken(value, "kind", "text"))
 		.option("logpull-options", {
 			type: "string",
 			description:
@@ -104,6 +108,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Specifies the output type, such as `ndjson` or `csv`. This sets default values for the rest of the settings, depending on the chosen output type. Some formatting rules, like string quoting, are different between output types.",
 			choices: ["ndjson", "csv"],
 		})
+		.coerce("output-options-output-type", (value) =>
+			resolveFileToken(value, "output-options-output-type", "text")
+		)
 		.option("output-options-record-delimiter", {
 			type: "string",
 			description: "String to be inserted in-between the records as separator.",
@@ -132,6 +139,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"String to specify the format for timestamps, such as `unixnano`, `unix`, `rfc3339`, `rfc3339ms` or `rfc3339ns`.",
 			choices: ["unixnano", "unix", "rfc3339", "rfc3339ms", "rfc3339ns"],
 		})
+		.coerce("output-options-timestamp-format", (value) =>
+			resolveFileToken(value, "output-options-timestamp-format", "text")
+		)
 		.option("ownership-challenge", {
 			type: "string",
 			description: "Ownership challenge token to prove destination ownership.",
@@ -211,16 +221,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 										filter_attack_traffic: argv["filter-attack-traffic"],
-										frequency: resolveFileToken(
-											argv["frequency"] as string | undefined,
-											"frequency",
-											"text"
-										),
-										kind: resolveFileToken(
-											argv["kind"] as string | undefined,
-											"kind",
-											"text"
-										),
+										frequency: argv["frequency"],
+										kind: argv["kind"],
 										logpull_options: resolveFileToken(
 											argv["logpull-options"] as string | undefined,
 											"logpull-options",
@@ -257,13 +259,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											field_names: argv["output-options-field-names"],
 											merge_subrequests:
 												argv["output-options-merge-subrequests"],
-											output_type: resolveFileToken(
-												argv["output-options-output-type"] as
-													| string
-													| undefined,
-												"output-options-output-type",
-												"text"
-											),
+											output_type: argv["output-options-output-type"],
 											record_delimiter: resolveFileToken(
 												argv["output-options-record-delimiter"] as
 													| string
@@ -293,13 +289,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"text"
 											),
 											sample_rate: argv["output-options-sample-rate"],
-											timestamp_format: resolveFileToken(
-												argv["output-options-timestamp-format"] as
-													| string
-													| undefined,
-												"output-options-timestamp-format",
-												"text"
-											),
+											timestamp_format: argv["output-options-timestamp-format"],
 										},
 										ownership_challenge: resolveFileToken(
 											argv["ownership-challenge"] as string | undefined,
@@ -307,6 +297,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 									}),
+						sensitiveBodyPaths: [["destination_conf"], ["ownership_challenge"]],
 					});
 					return;
 				}
@@ -354,16 +345,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"text"
 					),
 					filter_attack_traffic: argv["filter-attack-traffic"],
-					frequency: resolveFileToken(
-						argv["frequency"] as string | undefined,
-						"frequency",
-						"text"
-					),
-					kind: resolveFileToken(
-						argv["kind"] as string | undefined,
-						"kind",
-						"text"
-					),
+					frequency: argv["frequency"],
+					kind: argv["kind"],
 					logpull_options: resolveFileToken(
 						argv["logpull-options"] as string | undefined,
 						"logpull-options",
@@ -393,11 +376,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						),
 						field_names: argv["output-options-field-names"],
 						merge_subrequests: argv["output-options-merge-subrequests"],
-						output_type: resolveFileToken(
-							argv["output-options-output-type"] as string | undefined,
-							"output-options-output-type",
-							"text"
-						),
+						output_type: argv["output-options-output-type"],
 						record_delimiter: resolveFileToken(
 							argv["output-options-record-delimiter"] as string | undefined,
 							"output-options-record-delimiter",
@@ -419,11 +398,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"text"
 						),
 						sample_rate: argv["output-options-sample-rate"],
-						timestamp_format: resolveFileToken(
-							argv["output-options-timestamp-format"] as string | undefined,
-							"output-options-timestamp-format",
-							"text"
-						),
+						timestamp_format: argv["output-options-timestamp-format"],
 					},
 					ownership_challenge: resolveFileToken(
 						argv["ownership-challenge"] as string | undefined,

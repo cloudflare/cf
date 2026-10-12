@@ -6,14 +6,16 @@ import * as CloudflareApi from "../../../../index.js";
  * @example
  *     {
  *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
- *         model_name: "model_name",
+ *         model_name: "@cf/meta/llama-3.1-8b-instruct",
  *         body: {
  *             text: "text"
  *         }
  *     }
  */
 export interface RunModelAiRequest {
+    /** Cloudflare account ID used for this AI model request. */
     account_id: string;
+    /** Workers AI model identifier, including its namespace and model name. */
     model_name: string;
     body: CloudflareApi.RunModelAiRequestBody;
 }

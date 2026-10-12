@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "vite-plus/test";
 import { computeVariantPromptBlock } from "../../../generator/emit/handler/variant-prompt.js";
 import type { ArgIR } from "../../../generator/intermediate-representation.js";
 import type { OperationInfo } from "@cloudflare/forge";
@@ -32,6 +32,19 @@ describe("computeVariantPromptBlock", () => {
 		expect(result.needsTextPrompt).toBe(true);
 		expect(result.lines.join("\n")).toContain(
 			`argv["reason"] = await promptForRequiredField('reason'`
+		);
+	});
+
+	it("recognizes a positional discriminator", () => {
+		const kind = { ...bodyArg("kind", "string"), positional: true };
+		const result = computeVariantPromptBlock(
+			operation({ report: ["reason"] }),
+			[kind, bodyArg("reason", "string")]
+		);
+
+		expect(result.needsTextPrompt).toBe(true);
+		expect(result.lines.join("\n")).toContain(
+			`if (argv["kind"] === 'report' && argv["reason"] === undefined)`
 		);
 	});
 

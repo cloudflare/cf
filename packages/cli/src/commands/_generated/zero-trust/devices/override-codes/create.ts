@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * create command
+ * @generated from apis/overlays/zero-trust.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -11,14 +19,6 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { promptForRequiredEnumField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * create command
- * @generated from apis/overlays/zero-trust.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -41,11 +41,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Whether the code applies to every device in the account or one physical device.",
 			choices: ["account", "device"],
 		})
+		.coerce("scope", (value) => resolveFileToken(value, "scope", "text"))
 		.option("type", {
 			type: "string",
 			description: "The feature that the override code applies to.",
 			choices: ["uninstall_protection"],
 		})
+		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -94,16 +96,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 										duration_hours: argv["duration-hours"],
-										scope: resolveFileToken(
-											argv["scope"] as string | undefined,
-											"scope",
-											"text"
-										),
-										type: resolveFileToken(
-											argv["type"] as string | undefined,
-											"type",
-											"text"
-										),
+										scope: argv["scope"],
+										type: argv["type"],
 									}),
 					});
 					return;
@@ -151,16 +145,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"text"
 					),
 					duration_hours: argv["duration-hours"],
-					scope: resolveFileToken(
-						argv["scope"] as string | undefined,
-						"scope",
-						"text"
-					),
-					type: resolveFileToken(
-						argv["type"] as string | undefined,
-						"type",
-						"text"
-					),
+					scope: argv["scope"],
+					type: argv["type"],
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.zeroTrust.devices.overrideCodes.create({

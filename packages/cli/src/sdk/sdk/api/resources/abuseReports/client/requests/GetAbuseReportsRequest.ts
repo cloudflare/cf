@@ -4,12 +4,12 @@
  * @example
  *     {
  *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
- *         report_param: "report_param"
+ *         "report-id": "report_param"
  *     }
  */
 export interface GetAbuseReportsRequest {
     /** Cloudflare Account ID */
     account_id: string;
-    /** Identifier of the abuse report */
-    report_param: string;
+    /** Public report ID. */
+    "report-id": string;
 }

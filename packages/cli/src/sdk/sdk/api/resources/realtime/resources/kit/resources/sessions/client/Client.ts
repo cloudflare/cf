@@ -10,7 +10,7 @@ import { mergeHeaders } from "../../../../../../../../core/headers.js";
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 import { ChatClient } from "../resources/chat/client/Client.js";
 import { LivestreamsClient } from "../resources/livestreams/client/Client.js";
 import { ParticipantsClient } from "../resources/participants/client/Client.js";
@@ -66,6 +66,9 @@ export class SessionsClient {
      *
      * @param {CloudflareApi.realtime.kit.ListSessionsRequest} request
      * @param {SessionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.realtime.kit.sessions.list({
@@ -165,6 +168,9 @@ export class SessionsClient {
      *
      * @param {CloudflareApi.realtime.kit.GetSessionsRequest} request
      * @param {SessionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.realtime.kit.sessions.get({

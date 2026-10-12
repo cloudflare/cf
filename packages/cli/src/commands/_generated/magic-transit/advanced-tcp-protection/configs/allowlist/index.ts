@@ -1,8 +1,7 @@
+import $bulkdelete from "./bulk-delete.js";
 import $create from "./create.js";
-import $delete from "./delete/index.js";
-import $get from "./get.js";
 import $list from "./list.js";
-import $update from "./update.js";
+import $prefix from "./prefix/index.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * allowlist command group
@@ -16,11 +15,10 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
+			.command($bulkdelete)
 			.command($create)
-			.command($get)
 			.command($list)
-			.command($update)
-			.command($delete)
+			.command($prefix)
 			.demandCommand(1, "Please specify a subcommand");
 	},
 

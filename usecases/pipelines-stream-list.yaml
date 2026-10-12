@@ -1,9 +1,0 @@
-description: "List Pipeline streams"
-command: "wrangler pipelines streams list"
-status: "direct"
-sourceCommands:
-  - "wrangler pipelines streams list"
-cfReplacementFlow:
-  - "cf pipelines streams list"
-notes:
-  - "Use generated --pipeline-id/page/per-page filters when needed."

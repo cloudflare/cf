@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../../../cor
 import * as environments from "../../../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../../../index.js";
 
 export declare namespace BulkClient {
     export type Options = BaseClientOptions;
@@ -31,6 +31,9 @@ export class BulkClient {
      *
      * @param {CloudflareApi.zeroTrust.access.targets.UpdateBulkRequest} request
      * @param {BulkClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.targets.bulk.update({
@@ -107,6 +110,9 @@ export class BulkClient {
      * @param {CloudflareApi.zeroTrust.access.targets.DeleteBulkRequest} request
      * @param {BulkClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.access.targets.bulk.delete({
      *         account_id: "account_id",
@@ -175,6 +181,9 @@ export class BulkClient {
      *
      * @param {CloudflareApi.zeroTrust.access.targets.ReplaceTagsBulkRequest} request
      * @param {BulkClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.access.targets.bulk.replaceTags({

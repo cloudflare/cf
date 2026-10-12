@@ -1,9 +1,0 @@
-description: "Create or upload a Workers AI fine-tune asset"
-command: "wrangler ai finetune create"
-status: "partial"
-sourceCommands:
-  - "wrangler ai finetune create"
-cfReplacementFlow:
-  - "cf ai finetunes create --body @finetune.json"
-notes:
-  - "Wrangler may include file-upload UX; cf follows generated API body/file shape."

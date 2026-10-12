@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * replace command
+ * @generated from apis/overlays/hyperdrive.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -14,19 +22,11 @@ import {
 	promptForRequiredField,
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * replace command
- * @generated from apis/overlays/hyperdrive.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 hyperdrive replace <hyperdrive-id>\n\nReplaces and returns the specified Hyperdrive configuration. The request must include the name and complete origin connection details. Omitted caching settings are reset to their defaults, while omitted mTLS settings and origin connection limits are preserved. Use the update operation to modify only selected fields."
+			"$0 hyperdrive replace <hyperdrive-id>\n\nReplaces and returns the specified Hyperdrive configuration. The request must include the name and complete origin connection details. Omitted caching settings are reset to their defaults, while omitted mTLS settings and origin connection limits are preserved. The integration association is set only during creation and cannot be changed; omit the integration field even when replacing an integration-backed configuration. Use the update operation to modify only selected fields."
 		)
 		.positional("hyperdrive-id", {
 			type: "string",
@@ -52,7 +52,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "Define CA certificate ID obtained after uploading CA cert.",
 		})
-		.option("mtls-mtls-certificate-id", {
+		.option("mtls-certificate-id", {
 			type: "string",
 			description:
 				"Define mTLS certificate ID obtained after uploading client cert.",
@@ -70,6 +70,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"VERIFY_IDENTITY",
 			],
 		})
+		.coerce("mtls-sslmode", (value) =>
+			resolveFileToken(value, "mtls-sslmode", "text")
+		)
 		.option("name", {
 			type: "string",
 			description:
@@ -90,6 +93,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"Specifies the URL scheme used to connect to your origin database.",
 			choices: ["postgres", "postgresql", "mysql"],
 		})
+		.coerce("origin-scheme", (value) =>
+			resolveFileToken(value, "origin-scheme", "text")
+		)
 		.option("origin-user", {
 			type: "string",
 			description: "Set the user of your origin database.",
@@ -212,15 +218,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"text"
 											),
 											mtls_certificate_id: resolveFileToken(
-												argv["mtls-mtls-certificate-id"] as string | undefined,
-												"mtls-mtls-certificate-id",
+												argv["mtls-certificate-id"] as string | undefined,
+												"mtls-certificate-id",
 												"text"
 											),
-											sslmode: resolveFileToken(
-												argv["mtls-sslmode"] as string | undefined,
-												"mtls-sslmode",
-												"text"
-											),
+											sslmode: argv["mtls-sslmode"],
 										},
 										name: resolveFileToken(
 											argv["name"] as string | undefined,
@@ -238,11 +240,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"origin-password",
 												"text"
 											),
-											scheme: resolveFileToken(
-												argv["origin-scheme"] as string | undefined,
-												"origin-scheme",
-												"text"
-											),
+											scheme: argv["origin-scheme"],
 											user: resolveFileToken(
 												argv["origin-user"] as string | undefined,
 												"origin-user",
@@ -274,6 +272,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										},
 										origin_connection_limit: argv["origin-connection-limit"],
 									}),
+						sensitiveBodyPaths: [
+							["origin", "password"],
+							["origin", "access_client_secret"],
+						],
 					});
 					return;
 				}
@@ -340,15 +342,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"text"
 						),
 						mtls_certificate_id: resolveFileToken(
-							argv["mtls-mtls-certificate-id"] as string | undefined,
-							"mtls-mtls-certificate-id",
+							argv["mtls-certificate-id"] as string | undefined,
+							"mtls-certificate-id",
 							"text"
 						),
-						sslmode: resolveFileToken(
-							argv["mtls-sslmode"] as string | undefined,
-							"mtls-sslmode",
-							"text"
-						),
+						sslmode: argv["mtls-sslmode"],
 					},
 					name: resolveFileToken(
 						argv["name"] as string | undefined,
@@ -366,11 +364,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"origin-password",
 							"text"
 						),
-						scheme: resolveFileToken(
-							argv["origin-scheme"] as string | undefined,
-							"origin-scheme",
-							"text"
-						),
+						scheme: argv["origin-scheme"],
 						user: resolveFileToken(
 							argv["origin-user"] as string | undefined,
 							"origin-user",

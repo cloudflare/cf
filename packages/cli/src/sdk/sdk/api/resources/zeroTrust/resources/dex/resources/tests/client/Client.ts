@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 import { NetworkPathClient } from "../resources/networkPath/client/Client.js";
 
 export declare namespace TestsClient {
@@ -37,6 +37,9 @@ export class TestsClient {
      *
      * @param {CloudflareApi.zeroTrust.dex.ListTestsRequest} request
      * @param {TestsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dex.tests.list({
@@ -117,6 +120,9 @@ export class TestsClient {
      *
      * @param {CloudflareApi.zeroTrust.dex.CreateTestsRequest} request
      * @param {TestsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dex.tests.create({
@@ -199,6 +205,9 @@ export class TestsClient {
      * @param {CloudflareApi.zeroTrust.dex.GetTestsRequest} request
      * @param {TestsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.dex.tests.get({
      *         account_id: "account_id",
@@ -267,6 +276,9 @@ export class TestsClient {
      *
      * @param {CloudflareApi.zeroTrust.dex.UpdateTestsRequest} request
      * @param {TestsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dex.tests.update({
@@ -349,6 +361,9 @@ export class TestsClient {
      *
      * @param {CloudflareApi.zeroTrust.dex.DeleteTestsRequest} request
      * @param {TestsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dex.tests.delete({

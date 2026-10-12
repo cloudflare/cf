@@ -1,9 +1,0 @@
-description: "Restart a Workflow instance"
-command: "wrangler workflows instances restart <workflow> <instance-id>"
-status: "partial"
-sourceCommands:
-  - "wrangler workflows instances restart <workflow> <instance-id>"
-cfReplacementFlow:
-  - 'cf workflows instances status edit <instance-id> --workflow-name <workflow> --body ''{"status":"restarted"}'''
-notes:
-  - "Confirm exact accepted API status/action body with cf schema."

@@ -1,4 +1,4 @@
-import { describe, it } from "vitest";
+import { describe, it } from "vite-plus/test";
 
 describe.skip("containers config", () => {
 	// cf deliberately does not read or normalize project Worker/container config.

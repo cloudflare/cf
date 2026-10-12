@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 import { SessionsClient } from "../resources/sessions/client/Client.js";
 
 export declare namespace LivestreamsClient {
@@ -37,6 +37,9 @@ export class LivestreamsClient {
      *
      * @param {CloudflareApi.realtime.kit.ListLivestreamsRequest} request
      * @param {LivestreamsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.realtime.kit.livestreams.list({
@@ -130,6 +133,9 @@ export class LivestreamsClient {
      * @param {CloudflareApi.realtime.kit.GetLivestreamsRequest} request
      * @param {LivestreamsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.realtime.kit.livestreams.get({
      *         account_id: "account_id",
@@ -214,6 +220,9 @@ export class LivestreamsClient {
      * @param {CloudflareApi.realtime.kit.StopLivestreamsRequest} request
      * @param {LivestreamsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.realtime.kit.livestreams.stop({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -283,6 +292,9 @@ export class LivestreamsClient {
      *
      * @param {CloudflareApi.realtime.kit.StartLivestreamsRequest} request
      * @param {LivestreamsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.realtime.kit.livestreams.start({

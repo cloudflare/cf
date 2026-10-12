@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkQuery, SdkRequest } from "#sdk";
+/**
+ * list command
+ * @generated from apis/overlays/ai-gateway.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -9,14 +17,6 @@ import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
-/**
- * list command
- * @generated from apis/overlays/ai-gateway.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -85,7 +85,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("cached", { type: "boolean", description: "Cached" })
 		.option("model", { type: "string", description: "Model filter." })
 		.option("model-type", { type: "string", description: "Model type" })
-		.option("provider", { type: "string", description: "Provider" })
+		.option("ai-gateway-provider", { type: "string", description: "Provider" })
 		.option("request-content-type", {
 			type: "string",
 			description: "Request content type",
@@ -165,7 +165,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					cached: argv["cached"],
 					model: argv["model"],
 					model_type: argv["model-type"],
-					provider: argv["provider"],
+					provider: argv["ai-gateway-provider"],
 					request_content_type: argv["request-content-type"],
 					response_content_type: argv["response-content-type"],
 				};

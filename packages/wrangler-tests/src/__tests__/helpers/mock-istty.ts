@@ -1,5 +1,5 @@
 import { Readable } from "node:stream";
-import { afterEach, beforeEach } from "vitest";
+import { afterEach, beforeEach } from "vite-plus/test";
 
 const ORIGINAL_STDOUT = process.stdout;
 const ORIGINAL_STDIN = process.stdin;

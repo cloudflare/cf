@@ -7,7 +7,7 @@ import * as CloudflareApi from "../index.js";
  */
 export interface BillableUsageApiV2FilterBy {
     /** Restrict results to rows whose `x_BillableMetricId` matches one of these billable metric ids (e.g. `workers_standard_requests`). Values must be unique. */
-    MetricIds?: string[] | undefined;
+    BillableMetricIds?: string[] | undefined;
     /** Restrict results to billable metrics belonging to these product families. Values must be unique UUIDs. */
     ProductFamilyIds?: string[] | undefined;
     /** Restrict results by resource tags. Filters for different keys are combined with AND, while values within one filter are combined with OR. Keys must be unique and are case-sensitive. */

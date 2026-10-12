@@ -21,6 +21,3 @@ export * from "./metrics/client/requests/index.js";
 export * as sippy from "./sippy/index.js";
 export * from "./sippy/client/requests/index.js";
 export * from "./sippy/types/index.js";
-export * as storageClassMigrationJobs from "./storageClassMigrationJobs/index.js";
-export * from "./storageClassMigrationJobs/client/requests/index.js";
-export * from "./storageClassMigrationJobs/types/index.js";

@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
-import * as CloudflareApi from "../../../index.js";
+import type * as CloudflareApi from "../../../index.js";
 
 export declare namespace CustomNameserversClient {
     export type Options = BaseClientOptions;
@@ -28,6 +28,9 @@ export class CustomNameserversClient {
      *
      * @param {CloudflareApi.DeleteCustomNameserversRequest} request
      * @param {CustomNameserversClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.customNameservers.delete({
@@ -98,6 +101,9 @@ export class CustomNameserversClient {
      * @param {CloudflareApi.GetCustomNameserversRequest} request
      * @param {CustomNameserversClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.customNameservers.get({
      *         account_or_zone: "account_or_zone",
@@ -166,6 +172,9 @@ export class CustomNameserversClient {
      *
      * @param {CloudflareApi.CreateCustomNameserversRequest} request
      * @param {CustomNameserversClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.customNameservers.create({

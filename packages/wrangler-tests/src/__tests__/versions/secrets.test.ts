@@ -1,4 +1,4 @@
-import { describe, it } from "vitest";
+import { describe, it } from "vite-plus/test";
 
 describe("versions upload --secrets-file", () => {
 	// Every case in this file belongs to Wrangler's source-config-aware

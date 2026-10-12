@@ -1,8 +1,3 @@
-import { createCommandClient } from "#lib/auth.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 import type { SdkRequest } from "#sdk";
@@ -11,13 +6,20 @@ import type { SdkRequest } from "#sdk";
  * @generated from apis/overlays/tenant.ts
  */
 import type { Argv, CommandModule } from "yargs";
+import { createCommandClient } from "#lib/auth.js";
+import { formatDryRun } from "#lib/dry-run.js";
+import { formatOutput } from "#lib/output.js";
+import { withProgress } from "#lib/progress.js";
+import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
-		.usage("$0 tenant get <tenant-id>\n\nRetrieves a Tenant by Tenant ID.")
+		.usage(
+			"$0 tenant get <tenant-id>\n\nRetrieves a tenant's identity, status, metadata, contacts, and organizational units."
+		)
 		.positional("tenant-id", {
 			type: "string",
-			description: "Tenant ID",
+			description: "The ID of the tenant to retrieve.",
 			demandOption: true,
 		})
 		.option("dry-run", {
@@ -33,7 +35,7 @@ type Request = SdkRequest<"Tenants_retrieveTenant">;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get <tenant-id>",
-	describe: "Get tenant",
+	describe: "Get tenant details",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(

@@ -1,4 +1,4 @@
-import { describe, it } from "vitest";
+import { describe, it } from "vite-plus/test";
 
 // `wrangler d1 insights <db>` is a hand-written GraphQL analytics
 // command (queries `d1QueriesAdaptiveGroups` against the GraphQL

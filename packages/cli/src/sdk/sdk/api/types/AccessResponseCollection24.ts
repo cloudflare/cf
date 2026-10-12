@@ -3,19 +3,10 @@
 import * as CloudflareApi from "../index.js";
 
 export interface AccessResponseCollection24 {
-    result_info?: AccessResponseCollection24.ResultInfo | undefined;
-    result?: CloudflareApi.AccessUsers2[] | undefined;
     errors: CloudflareApi.AccessMessages;
     messages: CloudflareApi.AccessMessages;
     /** Whether the API call was successful. */
     success: true;
-}
-
-export namespace AccessResponseCollection24 {
-    export interface ResultInfo {
-        count?: number | undefined;
-        page?: number | undefined;
-        per_page?: number | undefined;
-        total_count?: number | undefined;
-    }
+    result_info?: CloudflareApi.AccessResponseCollection24ResultInfo | undefined;
+    result?: CloudflareApi.AccessPolicies[] | undefined;
 }

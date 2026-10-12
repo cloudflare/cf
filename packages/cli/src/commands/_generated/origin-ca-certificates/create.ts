@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * create command
+ * @generated from apis/overlays/origin-ca-certificates.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import { createCommandClient } from "#lib/auth.js";
 import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
@@ -9,14 +17,6 @@ import {
 	promptForRequiredField,
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * create command
- * @generated from apis/overlays/origin-ca-certificates.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -40,6 +40,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				'Signature type desired on certificate ("origin-rsa" (rsa), "origin-ecc" (ecdsa), or "keyless-certificate" (for Keyless SSL servers).',
 			choices: ["origin-rsa", "origin-ecc", "keyless-certificate"],
 		})
+		.coerce("request-type", (value) =>
+			resolveFileToken(value, "request-type", "text")
+		)
 		.option("requested-validity", {
 			type: "number",
 			description:
@@ -93,11 +96,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 										hostnames: argv["hostnames"],
-										request_type: resolveFileToken(
-											argv["request-type"] as string | undefined,
-											"request-type",
-											"text"
-										),
+										request_type: argv["request-type"],
 										requested_validity: argv["requested-validity"],
 									}),
 					});
@@ -142,11 +141,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"text"
 					),
 					hostnames: argv["hostnames"],
-					request_type: resolveFileToken(
-						argv["request-type"] as string | undefined,
-						"request-type",
-						"text"
-					),
+					request_type: argv["request-type"],
 					requested_validity: argv["requested-validity"],
 				});
 				const result = await withProgress(`Creating`, async () =>

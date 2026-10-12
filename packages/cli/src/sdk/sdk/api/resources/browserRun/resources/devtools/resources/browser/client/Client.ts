@@ -6,14 +6,14 @@ import {
     type NormalizedClientOptionsWithAuth,
 } from "../../../../../../../../BaseClient.js";
 import * as core from "../../../../../../../../core/index.js";
-import { mergeHeaders, mergeOnlyDefinedHeaders } from "../../../../../../../../core/headers.js";
+import { mergeHeaders } from "../../../../../../../../core/headers.js";
 import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requestBody.js";
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
+import * as CloudflareApiErrors from "../../../../../../../errors/index.js";
 import { LiveViewClient } from "../resources/liveView/client/Client.js";
-import { PageClient } from "../resources/page/client/Client.js";
 import { TargetsClient } from "../resources/targets/client/Client.js";
 
 export declare namespace BrowserClient {
@@ -26,7 +26,6 @@ export class BrowserClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<BrowserClient.Options>;
     protected _targets: TargetsClient | undefined;
     protected _liveView: LiveViewClient | undefined;
-    protected _page: PageClient | undefined;
 
     constructor(options: BrowserClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
@@ -40,108 +39,6 @@ export class BrowserClient {
         return (this._liveView ??= new LiveViewClient(this._options));
     }
 
-    public get page(): PageClient {
-        return (this._page ??= new PageClient(this._options));
-    }
-
-    /**
-     * Acquires and establishes a WebSocket connection to a browser session. Session guardrails may be supplied in the `cf-brapi-guardrails` header as base64url-encoded JSON of the same `guardrails` object the POST body accepts (for example `{"allowedDomains":["*.example.com"]}`).
-     *
-     * @param {CloudflareApi.browserRun.devtools.LaunchBrowserRequest} request
-     * @param {BrowserClient.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @throws {@link CloudflareApi.BadRequestError}
-     * @throws {@link CloudflareApi.TooManyRequestsError}
-     * @throws {@link CloudflareApi.InternalServerError}
-     *
-     * @example
-     *     await client.browserRun.devtools.browser.launch({
-     *         "cf-brapi-guardrails": "eyJhbGxvd2VkRG9tYWlucyI6WyIqLmV4YW1wbGUuY29tIl19",
-     *         account_id: "account_id"
-     *     })
-     */
-    public launch(
-        request: CloudflareApi.browserRun.devtools.LaunchBrowserRequest,
-        requestOptions?: BrowserClient.RequestOptions,
-    ): core.HttpResponsePromise<void> {
-        return core.HttpResponsePromise.fromPromise(this.__launch(request, requestOptions));
-    }
-
-    private async __launch(
-        request: CloudflareApi.browserRun.devtools.LaunchBrowserRequest,
-        requestOptions?: BrowserClient.RequestOptions,
-    ): Promise<core.WithRawResponse<void>> {
-        const {
-            account_id: accountId,
-            keep_alive: keepAlive,
-            lab,
-            recording,
-            "cf-brapi-guardrails": cfBrapiGuardrails,
-        } = request;
-        const _queryParams: Record<string, unknown> = {
-            keep_alive: keepAlive,
-            lab,
-            recording,
-        };
-        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
-        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
-            _authRequest.headers,
-            this._options?.headers,
-            mergeOnlyDefinedHeaders({ "cf-brapi-guardrails": cfBrapiGuardrails ?? undefined }),
-            requestOptions?.headers,
-        );
-        const _response = await (this._options.fetcher ?? core.fetcher)({
-            url: core.url.join(
-                (await core.Supplier.get(this._options.baseUrl)) ??
-                    (await core.Supplier.get(this._options.environment)) ??
-                    environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/browser-rendering/devtools/browser`,
-            ),
-            method: "GET",
-            headers: _headers,
-            queryString: core.url
-                .queryBuilder()
-                .addMany(_queryParams)
-                .mergeAdditional(requestOptions?.queryParams)
-                .build(),
-            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
-            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
-            abortSignal: requestOptions?.abortSignal,
-            fetchFn: this._options?.fetch,
-            logging: this._options.logging,
-        });
-        if (_response.ok) {
-            return { data: undefined, rawResponse: _response.rawResponse };
-        }
-
-        if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
-                case 429:
-                    throw new CloudflareApi.TooManyRequestsError(
-                        _response.error.body as unknown,
-                        _response.rawResponse,
-                    );
-                case 500:
-                    throw new CloudflareApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
-                default:
-                    throw new errors.CloudflareApiError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
-                        rawResponse: _response.rawResponse,
-                    });
-            }
-        }
-
-        return handleNonStatusCodeError(
-            _response.error,
-            _response.rawResponse,
-            "GET",
-            "/accounts/{account_id}/browser-rendering/devtools/browser",
-        );
-    }
-
     /**
      * Acquires a browser and returns its session ID and websocket URL. Optionally accepts a JSON body with session guardrails to restrict outbound HTTP/S traffic.
      *
@@ -149,6 +46,8 @@ export class BrowserClient {
      * @param {BrowserClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.TooManyRequestsError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.browserRun.devtools.browser.create({
@@ -221,7 +120,7 @@ export class BrowserClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 429:
-                    throw new CloudflareApi.TooManyRequestsError(
+                    throw new CloudflareApiErrors.TooManyRequestsError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -243,112 +142,14 @@ export class BrowserClient {
     }
 
     /**
-     * Establishes a WebSocket connection to an existing browser session.
-     *
-     * @param {CloudflareApi.browserRun.devtools.ConnectBrowserRequest} request
-     * @param {BrowserClient.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @throws {@link CloudflareApi.BadRequestError}
-     * @throws {@link CloudflareApi.TooManyRequestsError}
-     * @throws {@link CloudflareApi.InternalServerError}
-     *
-     * @example
-     *     await client.browserRun.devtools.browser.connect({
-     *         "cf-brapi-guardrails": "eyJtb2RlIjoicmVhZG9ubHkifQ",
-     *         account_id: "account_id",
-     *         session_id: "session_id"
-     *     })
-     */
-    public connect(
-        request: CloudflareApi.browserRun.devtools.ConnectBrowserRequest,
-        requestOptions?: BrowserClient.RequestOptions,
-    ): core.HttpResponsePromise<void> {
-        return core.HttpResponsePromise.fromPromise(this.__connect(request, requestOptions));
-    }
-
-    private async __connect(
-        request: CloudflareApi.browserRun.devtools.ConnectBrowserRequest,
-        requestOptions?: BrowserClient.RequestOptions,
-    ): Promise<core.WithRawResponse<void>> {
-        const {
-            account_id: accountId,
-            session_id: sessionId,
-            keep_alive: keepAlive,
-            lab,
-            recording,
-            "cf-brapi-guardrails": cfBrapiGuardrails,
-        } = request;
-        const _queryParams: Record<string, unknown> = {
-            keep_alive: keepAlive,
-            lab,
-            recording,
-        };
-        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
-        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
-            _authRequest.headers,
-            this._options?.headers,
-            mergeOnlyDefinedHeaders({ "cf-brapi-guardrails": cfBrapiGuardrails ?? undefined }),
-            requestOptions?.headers,
-        );
-        const _response = await (this._options.fetcher ?? core.fetcher)({
-            url: core.url.join(
-                (await core.Supplier.get(this._options.baseUrl)) ??
-                    (await core.Supplier.get(this._options.environment)) ??
-                    environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/browser-rendering/devtools/browser/${core.url.encodePathParam(sessionId)}`,
-            ),
-            method: "GET",
-            headers: _headers,
-            queryString: core.url
-                .queryBuilder()
-                .addMany(_queryParams)
-                .mergeAdditional(requestOptions?.queryParams)
-                .build(),
-            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
-            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
-            abortSignal: requestOptions?.abortSignal,
-            fetchFn: this._options?.fetch,
-            logging: this._options.logging,
-        });
-        if (_response.ok) {
-            return { data: undefined, rawResponse: _response.rawResponse };
-        }
-
-        if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
-                case 429:
-                    throw new CloudflareApi.TooManyRequestsError(
-                        _response.error.body as unknown,
-                        _response.rawResponse,
-                    );
-                case 500:
-                    throw new CloudflareApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
-                default:
-                    throw new errors.CloudflareApiError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
-                        rawResponse: _response.rawResponse,
-                    });
-            }
-        }
-
-        return handleNonStatusCodeError(
-            _response.error,
-            _response.rawResponse,
-            "GET",
-            "/accounts/{account_id}/browser-rendering/devtools/browser/{session_id}",
-        );
-    }
-
-    /**
      * Closes an existing browser session.
      *
      * @param {CloudflareApi.browserRun.devtools.DeleteBrowserRequest} request
      * @param {BrowserClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.NotFoundError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.browserRun.devtools.browser.delete({
@@ -400,7 +201,7 @@ export class BrowserClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 404:
-                    throw new CloudflareApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -426,6 +227,8 @@ export class BrowserClient {
      *
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.browserRun.devtools.browser.protocol({
@@ -477,9 +280,9 @@ export class BrowserClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 500:
-                    throw new CloudflareApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.InternalServerError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -505,6 +308,8 @@ export class BrowserClient {
      *
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.InternalServerError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.browserRun.devtools.browser.version({
@@ -556,9 +361,9 @@ export class BrowserClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 500:
-                    throw new CloudflareApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.InternalServerError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,

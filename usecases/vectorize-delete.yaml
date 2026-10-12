@@ -1,9 +1,0 @@
-description: "Delete a Vectorize index"
-command: "wrangler vectorize delete <index>"
-status: "direct"
-sourceCommands:
-  - "wrangler vectorize delete <index>"
-cfReplacementFlow:
-  - "cf vectorize delete <index> --force"
-notes:
-  - "Use cf --force instead of Wrangler --yes."

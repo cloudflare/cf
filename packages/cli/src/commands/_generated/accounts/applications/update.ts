@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * update command
+ * @generated from apis/overlays/accounts.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -9,19 +17,11 @@ import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * update command
- * @generated from apis/overlays/accounts.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 accounts applications update <id>\n\nReplace the network matchers for a custom application and create a new version."
+			"$0 accounts applications update <id>\n\nReplace the supplied network matchers for a custom application and create a new version. Omitted matcher lists remain unchanged; send an empty list to clear a matcher type."
 		)
 		.positional("id", {
 			type: "string",
@@ -42,7 +42,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("port-protocols", {
 			type: "string",
 			array: true,
-			description: "Port and protocol pairs matched by the application.",
+			description:
+				"Ports matched by the application, in `protocol/port` or inclusive `protocol/start-end` format (for example, `tcp/443` or `udp/10000-20000`). TCP and UDP ports must be between 0 and 65535.",
 		})
 		.option("support-domains", {
 			type: "string",
@@ -57,7 +58,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("body", {
 			type: "string",
 			description:
-				"Update the network matchers for the application. The service preserves omitted matcher lists; send an empty array to clear a list. The resulting application must contain at least one hostname or IP subnet. Support domains and port/protocol pairs do not satisfy this requirement. ",
+				"Update the network matchers for the application. The service preserves omitted matcher lists; send an empty array to clear a list. The resulting application must contain at least one hostname or IP subnet. Support domains and port/protocol pairs do not satisfy this requirement. A NUL character (U+0000) in any string value returns \`400\`. ",
 		});
 }
 

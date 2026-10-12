@@ -4,6 +4,7 @@
 export const ResourceTaggingAccountResourceTypeBaseEnum = {
     AccessApplication: "access_application",
     AccessGroup: "access_group",
+    AccessServiceToken: "access_service_token",
     Account: "account",
     AccountRuleset: "account_ruleset",
     AiGateway: "ai_gateway",
@@ -15,6 +16,7 @@ export const ResourceTaggingAccountResourceTypeBaseEnum = {
     CwsPolicySet: "cws_policy_set",
     CwsWorkload: "cws_workload",
     D1Database: "d1_database",
+    Device: "device",
     DurableObjectNamespace: "durable_object_namespace",
     GatewayList: "gateway_list",
     GatewayRule: "gateway_rule",

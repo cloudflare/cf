@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * create command
+ * @generated from apis/overlays/url-scanner.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -11,14 +19,6 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * create command
- * @generated from apis/overlays/url-scanner.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -230,6 +230,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"ZW",
 			],
 		})
+		.coerce("country", (value) => resolveFileToken(value, "country", "text"))
 		.option("customagent", {
 			type: "string",
 			description: "The customagent field",
@@ -249,6 +250,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			choices: ["Public", "Unlisted"],
 			default: "Public",
 		})
+		.coerce("visibility", (value) =>
+			resolveFileToken(value, "visibility", "text")
+		)
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -292,11 +296,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								? parseBody(argv.body)
 								: compactBody({
 										agentReadiness: argv["agent-readiness"],
-										country: resolveFileToken(
-											argv["country"] as string | undefined,
-											"country",
-											"text"
-										),
+										country: argv["country"],
 										customagent: resolveFileToken(
 											argv["customagent"] as string | undefined,
 											"customagent",
@@ -313,11 +313,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"url",
 											"text"
 										),
-										visibility: resolveFileToken(
-											argv["visibility"] as string | undefined,
-											"visibility",
-											"text"
-										),
+										visibility: argv["visibility"],
 									}),
 					});
 					return;
@@ -344,11 +340,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
 					agentReadiness: argv["agent-readiness"],
-					country: resolveFileToken(
-						argv["country"] as string | undefined,
-						"country",
-						"text"
-					),
+					country: argv["country"],
 					customagent: resolveFileToken(
 						argv["customagent"] as string | undefined,
 						"customagent",
@@ -365,11 +357,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"url",
 						"text"
 					),
-					visibility: resolveFileToken(
-						argv["visibility"] as string | undefined,
-						"visibility",
-						"text"
-					),
+					visibility: argv["visibility"],
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.urlScanner.scans.create({

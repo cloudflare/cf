@@ -6,3 +6,4 @@ export * from "./failedLogins/client/requests/index.js";
 export * from "./failedLogins/types/index.js";
 export * as lastSeenIdentity from "./lastSeenIdentity/index.js";
 export * from "./lastSeenIdentity/client/requests/index.js";
+export * from "./lastSeenIdentity/types/index.js";

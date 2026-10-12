@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace UtBillingClient {
     export type Options = BaseClientOptions;
@@ -29,6 +29,9 @@ export class UtBillingClient {
      *
      * @param {CloudflareApi.accounts.GetUtBillingRequest} request
      * @param {UtBillingClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.accounts.utBilling.get({
@@ -96,6 +99,9 @@ export class UtBillingClient {
      *
      * @param {CloudflareApi.accounts.EditUtBillingRequest} request
      * @param {UtBillingClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.accounts.utBilling.edit({

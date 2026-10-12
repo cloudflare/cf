@@ -15,6 +15,14 @@
 				"description": "Arguments forwarded to the dev-server implementation"
 			}
 		],
-		"options": []
+		"options": [
+			{
+				"name": "dry-run",
+				"type": "boolean",
+				"required": false,
+				"description": "Parse arguments and show the command without executing it",
+				"default": false
+			}
+		]
 	}
 ]

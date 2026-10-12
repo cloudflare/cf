@@ -5,6 +5,7 @@ import * as CloudflareApi from "../index.js";
 export interface WorkersKvNamespace {
     id?: CloudflareApi.WorkersKvNamespaceIdentifier | undefined;
     jurisdiction?: CloudflareApi.WorkersKvJurisdiction | undefined;
+    mode?: CloudflareApi.WorkersKvNamespaceMode | undefined;
     /** True if keys written on the URL will be URL-decoded before storing. For example, if set to "true", a key written on the URL as "%3F" will be stored as "?". */
     supports_url_encoding?: boolean | undefined;
     title: CloudflareApi.WorkersKvNamespaceTitle;

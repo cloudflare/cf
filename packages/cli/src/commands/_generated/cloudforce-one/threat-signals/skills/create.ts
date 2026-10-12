@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * create command
+ * @generated from apis/overlays/cloudforce-one.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -9,24 +17,13 @@ import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
-import {
-	promptForRequiredEnumField,
-	promptForRequiredField,
-} from "#lib/prompt.js";
+import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * create command
- * @generated from apis/overlays/cloudforce-one.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 cloudforce-one threat-signals skills create\n\nCreate Threat Signals skill."
+			"$0 cloudforce-one threat-signals skills create\n\nCreates a custom AI skill for the account."
 		)
 		.option("name", { type: "string", description: "The name field" })
 		.option("output-schema", {
@@ -36,9 +33,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("prompt", { type: "string", description: "The prompt field" })
 		.option("type", {
 			type: "string",
-			description: "The type field",
+			description:
+				'Optional label; does not affect execution. Defaults to "summary".',
 			choices: ["summary", "tags"],
+			default: "summary",
 		})
+		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -96,11 +96,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"prompt",
 											"text"
 										),
-										type: resolveFileToken(
-											argv["type"] as string | undefined,
-											"type",
-											"text"
-										),
+										type: argv["type"],
 									}),
 					});
 					return;
@@ -135,13 +131,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"The prompt field"
 					);
 				}
-				if (argv["type"] === undefined) {
-					argv["type"] = await promptForRequiredEnumField(
-						"type",
-						"The type field",
-						["summary", "tags"] as const
-					);
-				}
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
@@ -160,11 +149,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"prompt",
 						"text"
 					),
-					type: resolveFileToken(
-						argv["type"] as string | undefined,
-						"type",
-						"text"
-					),
+					type: argv["type"],
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.cloudforceOne.threatSignals.skills.create({

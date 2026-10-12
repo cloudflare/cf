@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 import { AdvertisementStatusClient } from "../resources/advertisementStatus/client/Client.js";
 import { BgpPrefixesClient } from "../resources/bgpPrefixes/client/Client.js";
 import { DelegationsClient } from "../resources/delegations/client/Client.js";
@@ -58,6 +58,9 @@ export class PrefixesClient {
      *
      * @param {CloudflareApi.addressing.ListPrefixesRequest} request
      * @param {PrefixesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.addressing.prefixes.list({
@@ -126,6 +129,9 @@ export class PrefixesClient {
      *
      * @param {CloudflareApi.addressing.CreatePrefixesRequest} request
      * @param {PrefixesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.addressing.prefixes.create({
@@ -197,6 +203,9 @@ export class PrefixesClient {
      * @param {CloudflareApi.addressing.GetPrefixesRequest} request
      * @param {PrefixesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.addressing.prefixes.get({
      *         account_id: "account_id",
@@ -262,6 +271,9 @@ export class PrefixesClient {
      *
      * @param {CloudflareApi.addressing.DeletePrefixesRequest} request
      * @param {PrefixesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.addressing.prefixes.delete({
@@ -331,6 +343,9 @@ export class PrefixesClient {
      *
      * @param {CloudflareApi.addressing.EditPrefixesRequest} request
      * @param {PrefixesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.addressing.prefixes.edit({

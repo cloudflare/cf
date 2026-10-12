@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace PoliciesClient {
     export type Options = BaseClientOptions;
@@ -28,6 +28,9 @@ export class PoliciesClient {
      *
      * @param {CloudflareApi.clientSideSecurity.ListPoliciesRequest} request
      * @param {PoliciesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.clientSideSecurity.policies.list({
@@ -96,6 +99,9 @@ export class PoliciesClient {
      *
      * @param {CloudflareApi.clientSideSecurity.ClientSideSecurityPolicy} request
      * @param {PoliciesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.clientSideSecurity.policies.create({
@@ -173,6 +179,9 @@ export class PoliciesClient {
      * @param {CloudflareApi.clientSideSecurity.GetPoliciesRequest} request
      * @param {PoliciesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.clientSideSecurity.policies.get({
      *         zone_id: "zone_id",
@@ -241,6 +250,9 @@ export class PoliciesClient {
      *
      * @param {CloudflareApi.clientSideSecurity.UpdatePoliciesRequest} request
      * @param {PoliciesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.clientSideSecurity.policies.update({
@@ -313,6 +325,9 @@ export class PoliciesClient {
      *
      * @param {CloudflareApi.clientSideSecurity.DeletePoliciesRequest} request
      * @param {PoliciesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.clientSideSecurity.policies.delete({

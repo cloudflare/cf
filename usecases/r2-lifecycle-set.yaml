@@ -1,9 +1,0 @@
-description: "Replace R2 lifecycle configuration from JSON"
-command: "wrangler r2 bucket lifecycle set <bucket> --file lifecycle.json"
-status: "direct"
-sourceCommands:
-  - "wrangler r2 bucket lifecycle set <bucket> --file lifecycle.json"
-cfReplacementFlow:
-  - "cf r2 buckets lifecycle update <bucket> --body @lifecycle.json"
-notes:
-  - "cf sends the full API config document."

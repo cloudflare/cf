@@ -7,7 +7,7 @@ import { mergeHeaders } from "../../../../../../core/headers.js";
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace QueriesClient {
     export type Options = BaseClientOptions;
@@ -27,6 +27,9 @@ export class QueriesClient {
      *
      * @param {CloudflareApi.brandProtection.GetQueriesRequest} request
      * @param {QueriesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.brandProtection.queries.get({
@@ -105,6 +108,9 @@ export class QueriesClient {
      * @param {CloudflareApi.brandProtection.DismissQueriesRequest} request
      * @param {QueriesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.brandProtection.queries.dismiss({
      *         account_id: "account_id",
@@ -174,6 +180,9 @@ export class QueriesClient {
      *
      * @param {CloudflareApi.brandProtection.UndismissQueriesRequest} request
      * @param {QueriesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.brandProtection.queries.undismiss({

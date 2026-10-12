@@ -6,6 +6,7 @@ export interface MagicWan {
     /** Magic WAN health check rate for tunnels created on this link. The default value is `mid`. */
     health_check_rate?: MagicWan.HealthCheckRate | undefined;
     id?: CloudflareApi.MagicIdentifier | undefined;
+    load_balance_inner_flows?: boolean | undefined;
     name?: string | undefined;
     physport?: CloudflareApi.MagicPort | undefined;
     /** Priority of WAN for traffic loadbalancing. */

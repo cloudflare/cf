@@ -1,4 +1,4 @@
-import { describe, it } from "vitest";
+import { describe, it } from "vite-plus/test";
 
 // cf's help format differs from wrangler's (different prose, no
 // COMMANDS/GLOBAL FLAGS sections in the wrangler shape, no `wrangler r2`

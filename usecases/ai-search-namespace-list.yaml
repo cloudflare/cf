@@ -1,9 +1,0 @@
-description: "List AI Search namespaces"
-command: "wrangler ai-search namespace list"
-status: "direct"
-sourceCommands:
-  - "wrangler ai-search namespace list"
-cfReplacementFlow:
-  - "cf ai-search namespaces list"
-notes:
-  - "Wrangler namespace singular maps to generated plural resource naming in cf."

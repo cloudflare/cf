@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace SubmissionsClient {
     export type Options = BaseClientOptions;
@@ -28,6 +28,9 @@ export class SubmissionsClient {
      *
      * @param {CloudflareApi.emailSecurity.ListSubmissionsRequest} request
      * @param {SubmissionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailSecurity.submissions.list({
@@ -136,6 +139,9 @@ export class SubmissionsClient {
      *
      * @param {CloudflareApi.emailSecurity.CreateSubmissionsRequest} request
      * @param {SubmissionsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailSecurity.submissions.create({

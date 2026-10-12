@@ -1,10 +1,17 @@
-import { CloudflareApiError } from "#sdk";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import {
+	afterEach,
+	beforeEach,
+	describe,
+	expect,
+	it,
+	vi,
+} from "vite-plus/test";
 import {
 	createCloudflareClientWithToken,
 	createCommandClient,
 	requestApi,
 } from "../../lib/auth.js";
+import { CloudflareApiError } from "#sdk/errors";
 
 describe("createCommandClient", () => {
 	let originalApiToken: string | undefined;
@@ -118,6 +125,140 @@ describe("createCommandClient", () => {
 			await expect(
 				requestApi(client, "GET", "/zones", { timeout: 1234 })
 			).rejects.toThrow("Request timed out after 1234ms");
+		});
+
+		it("turns the SDK's string timeout into an actionable error", async () => {
+			const client = createCloudflareClientWithToken({
+				apiToken: "test-token",
+				baseURL: "https://api.test/client/v4",
+				fetch: async (_url, init) =>
+					new Promise<Response>((_resolve, reject) => {
+						init?.signal?.addEventListener(
+							"abort",
+							() => reject(init.signal?.reason),
+							{ once: true }
+						);
+					}),
+			});
+
+			await expect(
+				requestApi(
+					client,
+					"PUT",
+					"/accounts/test/r2/buckets/test/objects/test",
+					{
+						body: Buffer.from("data"),
+						timeout: 10,
+					}
+				)
+			).rejects.toThrow("Request timed out after 10ms");
+		});
+
+		it("reports the configured client timeout for uploads", async () => {
+			const client = createCloudflareClientWithToken({
+				apiToken: "test-token",
+				timeout: 10,
+				fetch: async (_url, init) =>
+					new Promise<Response>((_resolve, reject) => {
+						init?.signal?.addEventListener(
+							"abort",
+							() => reject(init.signal?.reason),
+							{ once: true }
+						);
+					}),
+			});
+			await expect(
+				requestApi(client, "PUT", "/upload", {
+					body: Buffer.from("data"),
+				})
+			).rejects.toThrow("Request timed out after 10ms");
+		});
+
+		it("lets JSON requests finish after a 50-second operation", async () => {
+			vi.useFakeTimers();
+			let startRequest: () => void = () => {
+				throw new Error("Request did not start");
+			};
+			const started = new Promise<void>((resolve) => {
+				startRequest = resolve;
+			});
+			const client = createCloudflareClientWithToken({
+				apiToken: "test-token",
+				fetch: async (_url, init) => {
+					startRequest();
+					return new Promise<Response>((resolve, reject) => {
+						const timer = setTimeout(
+							() => resolve(new Response(null, { status: 204 })),
+							50_000
+						);
+						init?.signal?.addEventListener(
+							"abort",
+							() => {
+								clearTimeout(timer);
+								reject(init.signal?.reason);
+							},
+							{ once: true }
+						);
+					});
+				},
+			});
+
+			try {
+				const request = requestApi(client, "POST", "/capture", {
+					body: { duration_ms: 50_000 },
+				});
+				const result = expect(request).resolves.toBeNull();
+				await started;
+				await vi.advanceTimersByTimeAsync(50_000);
+				await result;
+			} finally {
+				vi.useRealTimers();
+			}
+		});
+
+		it("lets binary uploads continue past the standard API deadline", async () => {
+			vi.useFakeTimers();
+			let startRequest: () => void = () => {
+				throw new Error("Request did not start");
+			};
+			const started = new Promise<void>((resolve) => {
+				startRequest = resolve;
+			});
+			const client = createCloudflareClientWithToken({
+				apiToken: "test-token",
+				baseURL: "https://api.test/client/v4",
+				fetch: async (_url, init) => {
+					startRequest();
+					return new Promise<Response>((resolve, reject) => {
+						const timer = setTimeout(
+							() => resolve(new Response(null, { status: 204 })),
+							61_000
+						);
+						init?.signal?.addEventListener(
+							"abort",
+							() => {
+								clearTimeout(timer);
+								reject(init.signal?.reason);
+							},
+							{ once: true }
+						);
+					});
+				},
+			});
+
+			try {
+				const request = requestApi(
+					client,
+					"PUT",
+					"/accounts/test/r2/buckets/test/objects/test",
+					{ body: Buffer.from("data") }
+				);
+				await started;
+				await vi.advanceTimersByTimeAsync(61_000);
+				await expect(request).resolves.toBeNull();
+			} finally {
+				vi.useRealTimers();
+			}
 		});
 
 		it("returns null for 204 responses and empty response bodies", async () => {

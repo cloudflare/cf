@@ -12,6 +12,7 @@ export interface DeleteItemsRequest {
     account_id: string;
     /** The unique ID of the list. */
     list_id: string;
+    /** The list items to delete, identified by their unique IDs. */
     items?: DeleteItemsRequest.Items.Item[];
 }
 

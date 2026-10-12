@@ -33,6 +33,13 @@
 				"type": "string",
 				"required": false,
 				"description": "Table recording applied migrations; must use Wrangler's bookkeeping schema (default: d1_migrations)"
+			},
+			{
+				"name": "dry-run",
+				"type": "boolean",
+				"required": false,
+				"description": "Parse arguments and show the command without executing it",
+				"default": false
 			}
 		]
 	},
@@ -64,6 +71,13 @@
 				"type": "string",
 				"required": false,
 				"description": "Glob the new file must match, so `apply` will pick it up"
+			},
+			{
+				"name": "dry-run",
+				"type": "boolean",
+				"required": false,
+				"description": "Parse arguments and show the command without executing it",
+				"default": false
 			}
 		]
 	},
@@ -101,6 +115,13 @@
 				"type": "string",
 				"required": false,
 				"description": "Table recording applied migrations; must use Wrangler's bookkeeping schema (default: d1_migrations)"
+			},
+			{
+				"name": "dry-run",
+				"type": "boolean",
+				"required": false,
+				"description": "Parse arguments and show the command without executing it",
+				"default": false
 			}
 		]
 	}

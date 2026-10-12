@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
-import * as CloudflareApi from "../../../index.js";
+import type * as CloudflareApi from "../../../index.js";
 import { SettingsClient } from "../resources/settings/client/Client.js";
 
 export declare namespace PageRulesClient {
@@ -34,6 +34,9 @@ export class PageRulesClient {
      *
      * @param {CloudflareApi.ListPageRulesRequest} request
      * @param {PageRulesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.pageRules.list({
@@ -104,6 +107,9 @@ export class PageRulesClient {
      *
      * @param {CloudflareApi.CreatePageRulesRequest} request
      * @param {PageRulesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.pageRules.create({
@@ -178,6 +184,9 @@ export class PageRulesClient {
      * @param {CloudflareApi.GetPageRulesRequest} request
      * @param {PageRulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.pageRules.get({
      *         zone_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -243,6 +252,9 @@ export class PageRulesClient {
      *
      * @param {CloudflareApi.UpdatePageRulesRequest} request
      * @param {PageRulesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.pageRules.update({
@@ -323,6 +335,9 @@ export class PageRulesClient {
      * @param {CloudflareApi.DeletePageRulesRequest} request
      * @param {PageRulesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.pageRules.delete({
      *         zone_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -391,6 +406,9 @@ export class PageRulesClient {
      *
      * @param {CloudflareApi.EditPageRulesRequest} request
      * @param {PageRulesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.pageRules.edit({

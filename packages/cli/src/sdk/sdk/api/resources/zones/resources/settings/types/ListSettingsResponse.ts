@@ -74,6 +74,7 @@ export namespace ListSettingsResponse {
             | CloudflareApi.ZonesTrueClientIpHeader2
             | CloudflareApi.ZonesWaf2
             | CloudflareApi.ZonesWebmcpEnabled
+            | CloudflareApi.ZonesWebmcpMcpUrl
             | CloudflareApi.ZonesWebmcpPacks
             | CloudflareApi.ZonesWebp
             | CloudflareApi.ZonesWebsockets;

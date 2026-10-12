@@ -1,12 +1,4 @@
-export type { CloudforceOneRequestGetRequestsRequest } from "./CloudforceOneRequestGetRequestsRequest.js";
-export type { CloudforceOneRequestNewRequestsRequest } from "./CloudforceOneRequestNewRequestsRequest.js";
-export { CloudforceOneRequestsRequestList } from "./CloudforceOneRequestsRequestList.js";
-export type { CloudforceOneRequestUpdateRequestsRequest } from "./CloudforceOneRequestUpdateRequestsRequest.js";
-export type { ConstantsRequestsRequest } from "./ConstantsRequestsRequest.js";
-export type { DeleteRequestsRequest } from "./DeleteRequestsRequest.js";
 export type { GetRequestListRequestsRequest } from "./GetRequestListRequestsRequest.js";
 export type { GetRequestReadRequestsRequest } from "./GetRequestReadRequestsRequest.js";
 export { PostRequestCreateRequestsRequest } from "./PostRequestCreateRequestsRequest.js";
 export { PutRequestUpdateRequestsRequest } from "./PutRequestUpdateRequestsRequest.js";
-export type { QuotaRequestsRequest } from "./QuotaRequestsRequest.js";
-export type { TypesRequestsRequest } from "./TypesRequestsRequest.js";

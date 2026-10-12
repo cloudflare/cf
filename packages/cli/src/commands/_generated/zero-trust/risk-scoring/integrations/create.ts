@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * create command
+ * @generated from apis/overlays/zero-trust.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -14,14 +22,6 @@ import {
 	promptForRequiredField,
 } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * create command
- * @generated from apis/overlays/zero-trust.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -33,6 +33,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The integration_type field",
 			choices: ["Okta"],
 		})
+		.coerce("integration-type", (value) =>
+			resolveFileToken(value, "integration-type", "text")
+		)
 		.option("reference-id", {
 			type: "string",
 			description:
@@ -85,11 +88,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										integration_type: resolveFileToken(
-											argv["integration-type"] as string | undefined,
-											"integration-type",
-											"text"
-										),
+										integration_type: argv["integration-type"],
 										reference_id: resolveFileToken(
 											argv["reference-id"] as string | undefined,
 											"reference-id",
@@ -135,11 +134,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					integration_type: resolveFileToken(
-						argv["integration-type"] as string | undefined,
-						"integration-type",
-						"text"
-					),
+					integration_type: argv["integration-type"],
 					reference_id: resolveFileToken(
 						argv["reference-id"] as string | undefined,
 						"reference-id",

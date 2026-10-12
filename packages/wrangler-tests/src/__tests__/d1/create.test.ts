@@ -1,5 +1,5 @@
 import { http, HttpResponse } from "msw";
-import { describe, it } from "vitest";
+import { describe, it } from "vite-plus/test";
 import { mockAccountId, mockApiToken } from "../helpers/mock-account-id";
 import { mockConsoleMethods } from "../helpers/mock-console";
 import { useMockIsTTY } from "../helpers/mock-istty";
@@ -110,7 +110,9 @@ describe("create", () => {
 		`);
 	});
 
-	it("should error when database limit is reached", async ({ expect }) => {
+	it("should show a user-friendly error when database limit is reached", async ({
+		expect,
+	}) => {
 		setIsTTY(false);
 		msw.use(
 			http.post("*/accounts/:accountId/d1/database", async () => {

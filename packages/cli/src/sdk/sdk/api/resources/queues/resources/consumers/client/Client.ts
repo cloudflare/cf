@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace ConsumersClient {
     export type Options = BaseClientOptions;
@@ -28,6 +28,9 @@ export class ConsumersClient {
      *
      * @param {CloudflareApi.queues.ListConsumersRequest} request
      * @param {ConsumersClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.queues.consumers.list({
@@ -97,6 +100,9 @@ export class ConsumersClient {
      *
      * @param {CloudflareApi.queues.CreateConsumersRequest} request
      * @param {ConsumersClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.queues.consumers.create({
@@ -170,6 +176,9 @@ export class ConsumersClient {
      * @param {CloudflareApi.queues.GetConsumersRequest} request
      * @param {ConsumersClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.queues.consumers.get({
      *         account_id: "account_id",
@@ -236,6 +245,9 @@ export class ConsumersClient {
      *
      * @param {CloudflareApi.queues.UpdateConsumersRequest} request
      * @param {ConsumersClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.queues.consumers.update({
@@ -309,6 +321,9 @@ export class ConsumersClient {
      *
      * @param {CloudflareApi.queues.DeleteConsumersRequest} request
      * @param {ConsumersClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.queues.consumers.delete({

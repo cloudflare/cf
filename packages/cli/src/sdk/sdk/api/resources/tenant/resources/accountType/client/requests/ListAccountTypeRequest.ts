@@ -7,5 +7,6 @@
  *     }
  */
 export interface ListAccountTypeRequest {
+    /** The ID of the tenant whose available account types to list. */
     tenant_id: string;
 }

@@ -1,5 +1,12 @@
 import { runInTempDir } from "@cloudflare/workers-utils/test-helpers";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import {
+	afterEach,
+	beforeEach,
+	describe,
+	expect,
+	it,
+	vi,
+} from "vite-plus/test";
 
 describe("telemetry dispatcher", () => {
 	runInTempDir();

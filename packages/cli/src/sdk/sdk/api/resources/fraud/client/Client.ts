@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
-import * as CloudflareApi from "../../../index.js";
+import type * as CloudflareApi from "../../../index.js";
 
 export declare namespace FraudClient {
     export type Options = BaseClientOptions;
@@ -28,6 +28,9 @@ export class FraudClient {
      *
      * @param {CloudflareApi.GetFraudRequest} request
      * @param {FraudClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.fraud.get({
@@ -98,11 +101,14 @@ export class FraudClient {
      * @param {CloudflareApi.UpdateFraudRequest} request
      * @param {FraudClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.fraud.update({
      *         zone_id: "zone_id",
      *         body: {
-     *             username_expressions: ["http.request.body.form[\"username\"][0]", "lookup_json_string(http.request.body.raw, \"username\")"]
+     *             username_expressions: []
      *         }
      *     })
      *

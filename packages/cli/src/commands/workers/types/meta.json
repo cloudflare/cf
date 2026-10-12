@@ -13,6 +13,13 @@
 			"required": false,
 			"description": "Include Cloudflare Workers runtime types",
 			"default": true
+		},
+		{
+			"name": "dry-run",
+			"type": "boolean",
+			"required": false,
+			"description": "Parse arguments and show the command without executing it",
+			"default": false
 		}
 	]
 }

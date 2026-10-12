@@ -1,3 +1,4 @@
+import $concurrency from "./concurrency/index.js";
 import $delete from "./delete.js";
 import $get from "./get.js";
 import $instances from "./instances/index.js";
@@ -21,6 +22,7 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($delete)
 			.command($get)
 			.command($list)
+			.command($concurrency)
 			.command($instances)
 			.command($settings)
 			.command($versions)

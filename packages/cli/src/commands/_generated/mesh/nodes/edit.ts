@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * edit command
+ * @generated from apis/overlays/mesh.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -10,21 +18,11 @@ import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * edit command
- * @generated from apis/overlays/mesh.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
-		.usage(
-			"$0 mesh nodes edit <tunnel-id>\n\nUpdates an existing Warp Connector Tunnel."
-		)
-		.positional("tunnel-id", {
+		.usage("$0 mesh nodes edit <node-id>\n\nUpdates an existing Mesh node.")
+		.positional("node-id", {
 			type: "string",
 			description: "UUID of the tunnel.",
 			demandOption: true,
@@ -55,8 +53,8 @@ type Request = SdkRequest<"cloudflare-tunnel-update-a-warp-connector-tunnel">;
 type Body = Request;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "edit <tunnel-id>",
-	describe: "Update a Warp Connector Tunnel",
+	command: "edit <node-id>",
+	describe: "Update a Mesh node",
 	builder,
 	handler: async (argv): Promise<void> =>
 		runWithTelemetry(
@@ -73,8 +71,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatDryRun({
 						command: "cf mesh nodes edit",
 						method: "PATCH",
-						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/warp_connector/${argv["tunnel-id"] == null ? "<tunnel-id>" : encodeURIComponent(String(argv["tunnel-id"]))}`,
-						pathParams: { "tunnel-id": String(argv["tunnel-id"] ?? "") },
+						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/warp_connector/${argv["node-id"] == null ? "<node-id>" : encodeURIComponent(String(argv["node-id"]))}`,
+						pathParams: { "node-id": String(argv["node-id"] ?? "") },
 						bodyKind: "json",
 						body:
 							argv.body !== undefined
@@ -91,6 +89,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 									}),
+						sensitiveBodyPaths: [["tunnel_secret"]],
 					});
 					return;
 				}
@@ -104,7 +103,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						client.mesh.nodes.edit({
 							...bodyData,
 							account_id: accountId,
-							tunnel_id: argv["tunnel-id"],
+							"node-id": argv["node-id"],
 						} satisfies Request)
 					);
 					formatOutput(result, { successLabel: `Updated` });
@@ -128,7 +127,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					client.mesh.nodes.edit({
 						...bodyData,
 						account_id: accountId,
-						tunnel_id: argv["tunnel-id"],
+						"node-id": argv["node-id"],
 					} satisfies Request)
 				);
 				formatOutput(result, { successLabel: `Updated` });

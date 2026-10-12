@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkQuery, SdkRequest } from "#sdk";
+/**
+ * list command
+ * @generated from apis/overlays/email-security.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -9,14 +17,6 @@ import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
-/**
- * list command
- * @generated from apis/overlays/email-security.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -48,8 +48,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		})
 		.option("metric", {
 			type: "string",
-			description:
-				"Metric to aggregate the results by, as used by the Email Security dashboard.",
+			description: "Metric to aggregate the results by.",
 		})
 		.option("message-action", {
 			type: "string",
@@ -101,7 +100,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("cursor", {
 			type: "string",
 			description:
-				"Opaque cursor from a previous response's `result_info.next` or `result_info.previous` for cursor-based pagination. When omitted, the first page is returned.",
+				"Pagination cursor from the previous response's `result_info`.",
 		})
 		.option("per-page", {
 			type: "number",

@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace BulkClient {
     export type Options = BaseClientOptions;
@@ -28,6 +28,9 @@ export class BulkClient {
      *
      * @param {CloudflareApi.kv.PutBulkRequest} request
      * @param {BulkClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.kv.bulk.put({
@@ -102,6 +105,9 @@ export class BulkClient {
      * @param {CloudflareApi.kv.DeleteBulkRequest} request
      * @param {BulkClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.kv.bulk.delete({
      *         account_id: "account_id",
@@ -171,6 +177,9 @@ export class BulkClient {
      *
      * @param {CloudflareApi.kv.GetBulkRequest} request
      * @param {BulkClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.kv.bulk.get({

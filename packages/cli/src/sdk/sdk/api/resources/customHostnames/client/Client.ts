@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
-import * as CloudflareApi from "../../../index.js";
+import type * as CloudflareApi from "../../../index.js";
 import { CertificatePackClient } from "../resources/certificatePack/client/Client.js";
 import { FallbackOriginClient } from "../resources/fallbackOrigin/client/Client.js";
 import { QuotaClient } from "../resources/quota/client/Client.js";
@@ -46,6 +46,9 @@ export class CustomHostnamesClient {
      *
      * @param {CloudflareApi.ListCustomHostnamesRequest} request
      * @param {CustomHostnamesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.customHostnames.list({
@@ -160,6 +163,9 @@ export class CustomHostnamesClient {
      * @param {CloudflareApi.CreateCustomHostnamesRequest} request
      * @param {CustomHostnamesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.customHostnames.create({
      *         zone_id: "zone_id",
@@ -232,6 +238,9 @@ export class CustomHostnamesClient {
      * @param {CloudflareApi.GetCustomHostnamesRequest} request
      * @param {CustomHostnamesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.customHostnames.get({
      *         zone_id: "zone_id",
@@ -301,6 +310,9 @@ export class CustomHostnamesClient {
      * @param {CloudflareApi.DeleteCustomHostnamesRequest} request
      * @param {CustomHostnamesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.customHostnames.delete({
      *         zone_id: "zone_id",
@@ -369,6 +381,9 @@ export class CustomHostnamesClient {
      *
      * @param {CloudflareApi.EditCustomHostnamesRequest} request
      * @param {CustomHostnamesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.customHostnames.edit({

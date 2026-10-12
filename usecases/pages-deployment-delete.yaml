@@ -1,9 +1,0 @@
-description: "Delete a Pages deployment"
-command: "wrangler pages deployment delete <deployment-id> --project-name <project>"
-status: "direct"
-sourceCommands:
-  - "wrangler pages deployment delete <deployment-id> --project-name <project>"
-cfReplacementFlow:
-  - "cf pages deployments delete <deployment-id> --project-name <project> --force"
-notes:
-  - "Verify exact generated parent flags with cf schema."

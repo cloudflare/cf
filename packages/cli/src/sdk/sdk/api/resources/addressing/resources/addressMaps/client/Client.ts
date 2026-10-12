@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 import { AccountsClient } from "../resources/accounts/client/Client.js";
 import { IpsClient } from "../resources/ips/client/Client.js";
 import { ZonesClient } from "../resources/zones/client/Client.js";
@@ -46,6 +46,9 @@ export class AddressMapsClient {
      *
      * @param {CloudflareApi.addressing.ListAddressMapsRequest} request
      * @param {AddressMapsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.addressing.addressMaps.list({
@@ -114,6 +117,9 @@ export class AddressMapsClient {
      *
      * @param {CloudflareApi.addressing.CreateAddressMapsRequest} request
      * @param {AddressMapsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.addressing.addressMaps.create({
@@ -186,6 +192,9 @@ export class AddressMapsClient {
      * @param {CloudflareApi.addressing.GetAddressMapsRequest} request
      * @param {AddressMapsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.addressing.addressMaps.get({
      *         account_id: "account_id",
@@ -255,6 +264,9 @@ export class AddressMapsClient {
      * @param {CloudflareApi.addressing.DeleteAddressMapsRequest} request
      * @param {AddressMapsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.addressing.addressMaps.delete({
      *         account_id: "account_id",
@@ -323,6 +335,9 @@ export class AddressMapsClient {
      *
      * @param {CloudflareApi.addressing.EditAddressMapsRequest} request
      * @param {AddressMapsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.addressing.addressMaps.edit({

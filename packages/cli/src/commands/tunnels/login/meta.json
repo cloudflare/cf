@@ -6,5 +6,13 @@
 	"description": "Authorize cloudflared and download an origin certificate for locally managed tunnels.",
 	"usage": "cf tunnels login",
 	"arguments": [],
-	"options": []
+	"options": [
+		{
+			"name": "dry-run",
+			"type": "boolean",
+			"required": false,
+			"description": "Parse arguments and show the command without executing it",
+			"default": false
+		}
+	]
 }

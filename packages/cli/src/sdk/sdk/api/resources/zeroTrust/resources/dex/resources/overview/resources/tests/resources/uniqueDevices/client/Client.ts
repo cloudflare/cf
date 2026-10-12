@@ -10,7 +10,7 @@ import { mergeHeaders } from "../../../../../../../../../../../../core/headers.j
 import * as environments from "../../../../../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../../../../../index.js";
 
 export declare namespace UniqueDevicesClient {
     export type Options = BaseClientOptions;
@@ -30,6 +30,9 @@ export class UniqueDevicesClient {
      *
      * @param {CloudflareApi.zeroTrust.dex.overview.tests.GetUniqueDevicesRequest} request
      * @param {UniqueDevicesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dex.overview.tests.uniqueDevices.get({

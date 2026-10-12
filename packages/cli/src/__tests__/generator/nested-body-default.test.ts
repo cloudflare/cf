@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "vite-plus/test";
 import { deriveArgsFromOp } from "../../../generator/arg-derivation.js";
 import type { OperationInfo, Schema } from "@cloudflare/forge";
 

@@ -8,7 +8,6 @@ import $pause from "./pause.js";
 import $restart from "./restart.js";
 import $resume from "./resume.js";
 import $step from "./step/index.js";
-import $subscribe from "./subscribe.js";
 import $terminate from "./terminate.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
@@ -30,7 +29,6 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($pause)
 			.command($restart)
 			.command($resume)
-			.command($subscribe)
 			.command($terminate)
 			.command($batch)
 			.command($events)

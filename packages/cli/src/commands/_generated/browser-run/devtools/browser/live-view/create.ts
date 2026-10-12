@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * create command
+ * @generated from apis/overlays/browser-run.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -10,14 +18,6 @@ import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * create command
- * @generated from apis/overlays/browser-run.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -40,6 +40,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The guardrails.mode field",
 			choices: ["readonly"],
 		})
+		.coerce("guardrails-mode", (value) =>
+			resolveFileToken(value, "guardrails-mode", "text")
+		)
 		.option("target-id", {
 			type: "string",
 			description:
@@ -103,11 +106,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								: compactBody({
 										expiresInMs: argv["expires-in-ms"],
 										guardrails: {
-											mode: resolveFileToken(
-												argv["guardrails-mode"] as string | undefined,
-												"guardrails-mode",
-												"text"
-											),
+											mode: argv["guardrails-mode"],
 										},
 										targetId: resolveFileToken(
 											argv["target-id"] as string | undefined,
@@ -139,11 +138,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const bodyData = compactBody<Body>({
 					expiresInMs: argv["expires-in-ms"],
 					guardrails: {
-						mode: resolveFileToken(
-							argv["guardrails-mode"] as string | undefined,
-							"guardrails-mode",
-							"text"
-						),
+						mode: argv["guardrails-mode"],
 					},
 					targetId: resolveFileToken(
 						argv["target-id"] as string | undefined,

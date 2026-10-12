@@ -1,10 +1,3 @@
-import { createCommandClient, getZoneId, requestApi } from "#lib/auth.js";
-import { parseBody } from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { readFileForFlag, resolveFileToken } from "#lib/input-validation.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 /**
@@ -12,6 +5,13 @@ import type { ArgClassification } from "#lib/telemetry/index.js";
  * @generated from apis/overlays/snippets.ts
  */
 import type { Argv, CommandModule } from "yargs";
+import { createCommandClient, getZoneId, requestApi } from "#lib/auth.js";
+import { parseBody } from "#lib/body-parser.js";
+import { formatDryRun } from "#lib/dry-run.js";
+import { readFileForFlag, resolveFileToken } from "#lib/input-validation.js";
+import { formatOutput } from "#lib/output.js";
+import { withProgress } from "#lib/progress.js";
+import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs

@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace ProfileClient {
     export type Options = BaseClientOptions;
@@ -24,10 +24,17 @@ export class ProfileClient {
     }
 
     /**
-     * Get an organizations profile if it exists. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)
+     * Get an organizations profile if it exists.
+     *
+     * Authentication: A Global API key for a user with
+     * `com.cloudflare.api.tenant.unit.read` is required. User API Tokens are not currently
+     * supported.
      *
      * @param {CloudflareApi.organization.GetProfileRequest} request
      * @param {ProfileClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.organization.profile.get({
@@ -92,10 +99,17 @@ export class ProfileClient {
     }
 
     /**
-     * Modify organization profile. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)
+     * Modify organization profile.
+     *
+     * Authentication: A Global API key for a user with
+     * `com.cloudflare.api.tenant.unit.update` is required. User API Tokens are not currently
+     * supported.
      *
      * @param {CloudflareApi.organization.OrganizationsApiModifyOrganizationProfileRequest} request
      * @param {ProfileClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.organization.profile.update({

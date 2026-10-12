@@ -4,7 +4,7 @@ import {
 	runInTempDir,
 } from "@cloudflare/workers-utils/test-helpers";
 import { http, HttpResponse } from "msw";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import { USER_AGENT } from "../../version.js";
 import { server, setupMsw, TEST_BASE_URL } from "../helpers/msw.js";
 import { runCf } from "../helpers/run-cf.js";
@@ -112,12 +112,25 @@ describe("cf containers images", () => {
 	});
 	it("does not request credentials or delete without confirmation in non-interactive mode", async () => {
 		const calls = deletion();
-		await runCf(["containers", "images", "delete", "app:v1"]);
+		const { exitCode } = await runCf([
+			"containers",
+			"images",
+			"delete",
+			"app:v1",
+		]);
+		expect(exitCode).toBe(1);
 		expect(calls).toEqual([]);
 	});
 	it("honors --quiet without bypassing --force", async () => {
 		const calls = deletion();
-		await runCf(["containers", "images", "delete", "app:v1", "--quiet"]);
+		const { exitCode } = await runCf([
+			"containers",
+			"images",
+			"delete",
+			"app:v1",
+			"--quiet",
+		]);
+		expect(exitCode).toBe(1);
 		expect(calls).toEqual([]);
 		await runCf([
 			"containers",

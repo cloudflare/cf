@@ -7,6 +7,9 @@ import $get from "./get.js";
 import $list from "./list.js";
 import $logs from "./logs/index.js";
 import $members from "./members/index.js";
+import $move from "./move.js";
+import $organization from "./organization/index.js";
+import $profile from "./profile/index.js";
 import $subscriptions from "./subscriptions/index.js";
 import $tokens from "./tokens/index.js";
 import $transformations from "./transformations/index.js";
@@ -30,12 +33,15 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($delete)
 			.command($get)
 			.command($list)
+			.command($move)
 			.command($update)
 			.command($applications)
 			.command($billing)
 			.command($categories)
 			.command($logs)
 			.command($members)
+			.command($organization)
+			.command($profile)
 			.command($subscriptions)
 			.command($tokens)
 			.command($transformations)

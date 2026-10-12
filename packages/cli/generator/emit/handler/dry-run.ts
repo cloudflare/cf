@@ -14,7 +14,7 @@
 import { toKebabCase } from "@cloudflare/forge";
 import { argvKey } from "../../codegen/identifiers.js";
 import {
-	bodyArgs,
+	bodyOptionArgs,
 	isPathArg,
 	pathParamReadKey,
 	positionalArgs,
@@ -50,6 +50,9 @@ export function emitDryRun(ctx: EmitContext): string[] {
 		isMutating,
 	} = derived;
 	const positional = positionalArgs(derived.args);
+	const sensitivePaths = (opInfo.bodyParams ?? [])
+		.filter((param) => param.sensitive === true)
+		.map((param) => param.apiFieldPath);
 
 	const lines: string[] = [];
 
@@ -105,7 +108,9 @@ export function emitDryRun(ctx: EmitContext): string[] {
 		? [
 				...new Set([
 					...positional.filter((a) => !isPathArg(a)).map((a) => a.name),
-					...(hasBodyParams ? bodyArgs(derived.args).map((a) => a.name) : []),
+					...(hasBodyParams
+						? bodyOptionArgs(derived.args).map((a) => a.name)
+						: []),
 					...(hasBody ? ["body"] : []),
 					...(hasFileUpload ? ["file"] : []),
 					...multipartFlagFields.map((f) => toKebabCase(f.name)),
@@ -213,6 +218,11 @@ export function emitDryRun(ctx: EmitContext): string[] {
 		}
 	} else if (bodyEntries.length > 0) {
 		lines.push(`          body: { ${bodyEntries.join(", ")} },`);
+	}
+	if (sensitivePaths.length > 0) {
+		lines.push(
+			`          sensitiveBodyPaths: ${JSON.stringify(sensitivePaths)},`
+		);
 	}
 	lines.push(`        });`);
 	lines.push(`        return;`);

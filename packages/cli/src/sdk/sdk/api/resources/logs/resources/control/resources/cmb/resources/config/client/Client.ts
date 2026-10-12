@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../../../cor
 import * as environments from "../../../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../../../index.js";
 
 export declare namespace ConfigClient {
     export type Options = BaseClientOptions;
@@ -27,10 +27,15 @@ export class ConfigClient {
     }
 
     /**
+     * @deprecated
+     *
      * Gets CMB config.
      *
      * @param {CloudflareApi.logs.control.cmb.GetConfigRequest} request
      * @param {ConfigClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.logs.control.cmb.config.get({
@@ -95,10 +100,15 @@ export class ConfigClient {
     }
 
     /**
+     * @deprecated
+     *
      * Updates CMB config.
      *
      * @param {CloudflareApi.logs.control.cmb.CreateConfigRequest} request
      * @param {ConfigClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.logs.control.cmb.config.create({
@@ -167,10 +177,15 @@ export class ConfigClient {
     }
 
     /**
+     * @deprecated
+     *
      * Deletes CMB config.
      *
      * @param {CloudflareApi.logs.control.cmb.DeleteConfigRequest} request
      * @param {ConfigClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.logs.control.cmb.config.delete({

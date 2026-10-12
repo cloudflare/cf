@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
-import * as CloudflareApi from "../../../index.js";
+import type * as CloudflareApi from "../../../index.js";
 
 export declare namespace OauthClientsClient {
     export type Options = BaseClientOptions;
@@ -28,6 +28,9 @@ export class OauthClientsClient {
      *
      * @param {CloudflareApi.ListOauthClientsRequest} request
      * @param {OauthClientsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.oauthClients.list({
@@ -96,6 +99,9 @@ export class OauthClientsClient {
      *
      * @param {CloudflareApi.IamOauthClientCreateRequest} request
      * @param {OauthClientsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.oauthClients.create({
@@ -168,6 +174,9 @@ export class OauthClientsClient {
      * @param {CloudflareApi.GetOauthClientsRequest} request
      * @param {OauthClientsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.oauthClients.get({
      *         account_id: "account_id",
@@ -233,6 +242,9 @@ export class OauthClientsClient {
      *
      * @param {CloudflareApi.DeleteOauthClientsRequest} request
      * @param {OauthClientsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.oauthClients.delete({
@@ -303,6 +315,9 @@ export class OauthClientsClient {
      * @param {CloudflareApi.IamOauthClientUpdateRequest} request
      * @param {OauthClientsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.oauthClients.update({
      *         account_id: "account_id",
@@ -372,6 +387,9 @@ export class OauthClientsClient {
      * @param {CloudflareApi.RotateSecretOauthClientsRequest} request
      * @param {OauthClientsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.oauthClients.rotateSecret({
      *         account_id: "account_id",
@@ -440,6 +458,9 @@ export class OauthClientsClient {
      *
      * @param {CloudflareApi.DeleteRotatedSecretOauthClientsRequest} request
      * @param {OauthClientsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.oauthClients.deleteRotatedSecret({

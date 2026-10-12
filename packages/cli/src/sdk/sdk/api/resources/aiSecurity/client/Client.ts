@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
-import * as CloudflareApi from "../../../index.js";
+import type * as CloudflareApi from "../../../index.js";
 import { CustomTopicsClient } from "../resources/customTopics/client/Client.js";
 
 export declare namespace AiSecurityClient {
@@ -34,6 +34,9 @@ export class AiSecurityClient {
      *
      * @param {CloudflareApi.GetAiSecurityRequest} request
      * @param {AiSecurityClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiSecurity.get({
@@ -102,6 +105,9 @@ export class AiSecurityClient {
      *
      * @param {CloudflareApi.UpdateAiSecurityRequest} request
      * @param {AiSecurityClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.aiSecurity.update({

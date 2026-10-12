@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 
 export declare namespace DataClassesClient {
     export type Options = BaseClientOptions;
@@ -31,6 +31,9 @@ export class DataClassesClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.ListDataClassesRequest} request
      * @param {DataClassesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.dataClasses.list({
@@ -99,6 +102,9 @@ export class DataClassesClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.DlpNewDataClass} request
      * @param {DataClassesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.dataClasses.create({
@@ -175,6 +181,9 @@ export class DataClassesClient {
      * @param {CloudflareApi.zeroTrust.dlp.GetDataClassesRequest} request
      * @param {DataClassesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.dlp.dataClasses.get({
      *         account_id: "account_id",
@@ -240,6 +249,9 @@ export class DataClassesClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.DlpDataClassUpdate} request
      * @param {DataClassesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.dataClasses.update({
@@ -309,6 +321,9 @@ export class DataClassesClient {
      *
      * @param {CloudflareApi.zeroTrust.dlp.DeleteDataClassesRequest} request
      * @param {DataClassesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.dlp.dataClasses.delete({

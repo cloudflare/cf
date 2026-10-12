@@ -8,7 +8,8 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
+import * as CloudflareApiErrors from "../../../../../errors/index.js";
 import { DataSecurityClient } from "../resources/dataSecurity/client/Client.js";
 
 export declare namespace QueryClient {
@@ -38,18 +39,16 @@ export class QueryClient {
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.UnauthorizedError}
      * @throws {@link CloudflareApi.ForbiddenError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.analytics.query.summary({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
      *         dataset: "access-logins",
-     *         filters: [{
-     *                 name: "country",
-     *                 op: "in",
-     *                 values: ["US", "CA", "GB"]
-     *             }],
+     *         filters: [],
      *         from: "2024-11-01T00:00:00Z",
-     *         groupBy: ["country", "allowed"],
+     *         groupBy: [],
      *         stats: ["attemptsTotal"],
      *         to: "2024-11-08T00:00:00Z"
      *     })
@@ -98,11 +97,11 @@ export class QueryClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new CloudflareApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new CloudflareApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -129,6 +128,8 @@ export class QueryClient {
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.UnauthorizedError}
      * @throws {@link CloudflareApi.ForbiddenError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.analytics.query.timeseries({
@@ -150,11 +151,7 @@ export class QueryClient {
      *     await client.analytics.query.timeseries({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
      *         dataset: "shadow_it",
-     *         filters: [{
-     *                 name: "country",
-     *                 op: "in",
-     *                 values: ["US", "CA", "GB"]
-     *             }],
+     *         filters: [],
      *         from: "2024-11-05T00:00:00Z",
      *         groupBy: ["appName"],
      *         stats: ["bytesTotal"],
@@ -206,11 +203,11 @@ export class QueryClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new CloudflareApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new CloudflareApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,
@@ -237,16 +234,14 @@ export class QueryClient {
      * @throws {@link CloudflareApi.BadRequestError}
      * @throws {@link CloudflareApi.UnauthorizedError}
      * @throws {@link CloudflareApi.ForbiddenError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.analytics.query.topN({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
      *         dataset: "gateway-http",
-     *         filters: [{
-     *                 name: "country",
-     *                 op: "in",
-     *                 values: ["US", "CA", "GB"]
-     *             }],
+     *         filters: [],
      *         from: "2024-11-05T00:00:00Z",
      *         groupBy: ["appName", "appCategory"],
      *         stats: ["bytesTotal", "requestsTotal"],
@@ -319,11 +314,11 @@ export class QueryClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new CloudflareApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.BadRequestError(_response.error.body as unknown, _response.rawResponse);
                 case 401:
-                    throw new CloudflareApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
                 case 403:
-                    throw new CloudflareApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new CloudflareApiErrors.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 default:
                     throw new errors.CloudflareApiError({
                         statusCode: _response.error.statusCode,

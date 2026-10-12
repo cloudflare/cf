@@ -13,5 +13,7 @@ export interface WorkersKvCreateNamespaceBody {
     /** ID of the Cloudflare account that owns the Workers KV namespaces. */
     account_id: string;
     jurisdiction?: CloudflareApi.WorkersKvJurisdiction;
+    /** The mode of the Workers KV namespace. Specify `instant` when creating a namespace to create a KV Instant namespace. Omit this field when creating a namespace to create a classic namespace. Currently, `instant` is the only supported explicit value. */
+    mode?: "instant";
     title: CloudflareApi.WorkersKvNamespaceTitle;
 }

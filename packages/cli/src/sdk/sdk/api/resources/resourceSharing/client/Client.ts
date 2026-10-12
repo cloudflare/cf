@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
-import * as CloudflareApi from "../../../index.js";
+import type * as CloudflareApi from "../../../index.js";
 import { ExcludedRecipientsClient } from "../resources/excludedRecipients/client/Client.js";
 import { RecipientsClient } from "../resources/recipients/client/Client.js";
 import { ResourcesClient } from "../resources/resources/client/Client.js";
@@ -46,6 +46,9 @@ export class ResourceSharingClient {
      *
      * @param {CloudflareApi.ListResourceSharingRequest} request
      * @param {ResourceSharingClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.resourceSharing.list({
@@ -149,6 +152,9 @@ export class ResourceSharingClient {
      * @param {CloudflareApi.ResourceSharingCreateShareRequest} request
      * @param {ResourceSharingClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.resourceSharing.create({
      *         account_id: "account_id",
@@ -227,6 +233,9 @@ export class ResourceSharingClient {
      *
      * @param {CloudflareApi.GetResourceSharingRequest} request
      * @param {ResourceSharingClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.resourceSharing.get({
@@ -324,6 +333,9 @@ export class ResourceSharingClient {
      * @param {CloudflareApi.ResourceSharingUpdateShareRequest} request
      * @param {ResourceSharingClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.resourceSharing.update({
      *         account_id: "account_id",
@@ -396,6 +408,9 @@ export class ResourceSharingClient {
      *
      * @param {CloudflareApi.DeleteResourceSharingRequest} request
      * @param {ResourceSharingClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.resourceSharing.delete({

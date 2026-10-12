@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace ExcludedRecipientsClient {
     export type Options = BaseClientOptions;
@@ -28,6 +28,9 @@ export class ExcludedRecipientsClient {
      *
      * @param {CloudflareApi.resourceSharing.GetExcludedRecipientsRequest} request
      * @param {ExcludedRecipientsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.resourceSharing.excludedRecipients.get({
@@ -99,6 +102,9 @@ export class ExcludedRecipientsClient {
      * @param {CloudflareApi.resourceSharing.DeleteExcludedRecipientsRequest} request
      * @param {ExcludedRecipientsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.resourceSharing.excludedRecipients.delete({
      *         account_id: "account_id",
@@ -168,6 +174,9 @@ export class ExcludedRecipientsClient {
      *
      * @param {CloudflareApi.resourceSharing.ListExcludedRecipientsRequest} request
      * @param {ExcludedRecipientsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.resourceSharing.excludedRecipients.list({
@@ -248,6 +257,9 @@ export class ExcludedRecipientsClient {
      * @param {CloudflareApi.resourceSharing.CreateExcludedRecipientsRequest} request
      * @param {ExcludedRecipientsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.resourceSharing.excludedRecipients.create({
      *         account_id_path: "account_id_path",
@@ -322,6 +334,9 @@ export class ExcludedRecipientsClient {
      *
      * @param {CloudflareApi.resourceSharing.UpdateExcludedRecipientsRequest} request
      * @param {ExcludedRecipientsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.resourceSharing.excludedRecipients.update({

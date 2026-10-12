@@ -1,3 +1,5 @@
+import $delete from "./delete.js";
+import $get from "./get.js";
 import $list from "./list.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
@@ -11,7 +13,11 @@ const command: CommandModule<CommonYargsOptions> = {
 	describe: "Operations for identity-providers.scim.users",
 
 	builder: (yargs) => {
-		return yargs.command($list).demandCommand(1, "Please specify a subcommand");
+		return yargs
+			.command($delete)
+			.command($get)
+			.command($list)
+			.demandCommand(1, "Please specify a subcommand");
 	},
 
 	handler: () => {},

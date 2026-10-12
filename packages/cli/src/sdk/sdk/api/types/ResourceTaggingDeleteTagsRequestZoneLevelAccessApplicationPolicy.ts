@@ -6,6 +6,6 @@ import * as CloudflareApi from "../index.js";
  * Request body schema for deleting tags from access_application_policy resources.
  */
 export interface ResourceTaggingDeleteTagsRequestZoneLevelAccessApplicationPolicy {
-    resource_id: CloudflareApi.ResourceTaggingResourceId;
     access_application_id: CloudflareApi.ResourceTaggingAccessApplicationId;
+    resource_id: CloudflareApi.ResourceTaggingResourceId;
 }

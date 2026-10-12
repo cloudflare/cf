@@ -1,5 +1,3 @@
-import $delete from "#commands/containers/images/delete/index.js";
-import $list from "#commands/containers/images/list/index.js";
 import $prepare from "./prepare.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
@@ -7,6 +5,9 @@ import type { CommonYargsOptions } from "#lib/cli-types.js";
  * @generated from apis/overlays/containers.ts
  */
 import type { CommandModule } from "yargs";
+import $delete from "#commands/containers/images/delete/index.js";
+import $list from "#commands/containers/images/list/index.js";
+import { withHandWrittenDryRun } from "#lib/hand-written-dry-run.js";
 
 const command: CommandModule<CommonYargsOptions> = {
 	command: "images",
@@ -14,8 +15,8 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
-			.command($delete)
-			.command($list)
+			.command(withHandWrittenDryRun($delete, "preview"))
+			.command(withHandWrittenDryRun($list, "preview"))
 			.command($prepare)
 			.demandCommand(1, "Please specify a subcommand");
 	},

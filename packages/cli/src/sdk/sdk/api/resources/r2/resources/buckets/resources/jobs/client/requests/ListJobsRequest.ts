@@ -15,7 +15,7 @@ export interface ListJobsRequest {
     /** Name of the bucket. */
     bucket_name: string;
     /** Restricts results to jobs of the specified type. */
-    jobType?: "prefixDelete";
+    jobType?: CloudflareApi.r2.buckets.ListJobsRequestJobType;
     /** Restricts results to jobs with the specified status. `jobType` is required when this parameter is provided. */
     status?: CloudflareApi.R2R2BucketJobStatus;
     /** Maximum number of jobs to return. */

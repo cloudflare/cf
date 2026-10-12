@@ -7,7 +7,7 @@ Do NOT:
 - Edit, write, create, or delete any files -- use file editing tools (Write, Edit) under no circumstances
 - Run `git commit`, `git push`, `git add`, `git checkout -b`, or any git write operation
 - Approve or request changes on the PR -- only post review comments
-- Flag formatting issues -- `oxfmt` (run via `pnpm check:format` / `pnpm fix`) enforces style in this repo
+- Flag formatting issues -- Vite+ formatting (run via `pnpm check:format` / `pnpm fix`) enforces style in this repo
 
 You MAY edit review comments previously posted by `ask-bonk`. Never edit
 another reviewer's feedback.
@@ -122,4 +122,4 @@ Be thorough and exacting. Read every changed line, including `_generated/` files
 5. **Repo invariants:** violations of `AGENTS.md` (product-agnostic shared `src/` layers, lazy command registration, no eager generated product imports, no hard-coded product names outside the documented hand-written commands registered in `src/commands/hand-written.ts`, no hard-coded HTTP verbs in generator logic, and no relative imports across package boundaries).
 6. **Clarity nits:** misleading names, dead or unreachable code, stale or incorrect comments, inconsistent error messages, incomplete edge-case handling, missing tests for new behavior.
 
-Flag every issue you find regardless of size, and provide the fix as a `suggestion` whenever one is concrete. The single thing you must NOT flag is pure formatting/whitespace -- `oxfmt` owns that. Reserve `LGTM` for PRs where, after reading every changed line, you genuinely cannot find one defensible improvement.
+Flag every issue you find regardless of size, and provide the fix as a `suggestion` whenever one is concrete. The single thing you must NOT flag is pure formatting/whitespace -- Vite+ owns that. Reserve `LGTM` for PRs where, after reading every changed line, you genuinely cannot find one defensible improvement.

@@ -11,7 +11,7 @@ import { toJson } from "../../../../../../../../core/json.js";
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 import { ContentClient } from "../resources/content/client/Client.js";
 import { ScriptAndVersionSettingsClient } from "../resources/scriptAndVersionSettings/client/Client.js";
 import { SettingsClient } from "../resources/settings/client/Client.js";
@@ -69,6 +69,9 @@ export class ScriptsClient {
      *
      * @param {CloudflareApi.workers.legacy.ListScriptsRequest} request
      * @param {ScriptsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workers.legacy.scripts.list({
@@ -148,6 +151,9 @@ export class ScriptsClient {
      * @param {CloudflareApi.workers.legacy.GetScriptsRequest} request
      * @param {ScriptsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workers.legacy.scripts.get({
      *         account_id: "account_id",
@@ -215,6 +221,9 @@ export class ScriptsClient {
      *
      * @param {CloudflareApi.workers.legacy.UpdateScriptsRequest} request
      * @param {ScriptsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";
@@ -304,6 +313,9 @@ export class ScriptsClient {
      * @param {CloudflareApi.workers.legacy.DeleteScriptsRequest} request
      * @param {ScriptsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.workers.legacy.scripts.delete({
      *         account_id: "account_id",
@@ -321,9 +333,9 @@ export class ScriptsClient {
         request: CloudflareApi.workers.legacy.DeleteScriptsRequest,
         requestOptions?: ScriptsClient.RequestOptions,
     ): Promise<core.WithRawResponse<Record<string, unknown> | null>> {
-        const { account_id: accountId, script_name: scriptName, force } = request;
+        const { account_id: accountId, script_name: scriptName, force: deleteWithReferences } = request;
         const _queryParams: Record<string, unknown> = {
-            force,
+            force: deleteWithReferences,
         };
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(

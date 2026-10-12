@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkQuery, SdkRequest } from "#sdk";
+/**
+ * delete command
+ * @generated from apis/overlays/workers-for-platforms.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -9,14 +17,6 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { confirmDelete } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
-/**
- * delete command
- * @generated from apis/overlays/workers-for-platforms.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -25,7 +25,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		)
 		.positional("script-name", {
 			type: "string",
-			description: "Name of the script, used in URLs and route configuration.",
+			description: "Name of the script.",
 			demandOption: true,
 		})
 		.option("dispatch-namespace", {
@@ -33,7 +33,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Name of the Workers for Platforms dispatch namespace.",
 			demandOption: true,
 		})
-		.option("force", {
+		.option("delete-with-references", {
 			type: "boolean",
 			description:
 				"If true, delete the script even when other Workers still reference it. Service bindings in those Workers may be left broken. Durable Object namespaces implemented by the deleted script are deleted even if other Workers reference them.",
@@ -41,6 +41,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
+			default: false,
+		})
+		.option("force", {
+			type: "boolean",
+			alias: "f",
+			description: "Skip confirmation (useful in scripts and CI)",
 			default: false,
 		});
 }
@@ -59,13 +65,14 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "workers-for-platforms dispatch-namespaces scripts delete",
 				classification: {
-					safeFlags: ["force", "dry-run"],
+					safeFlags: ["delete-with-references", "dry-run", "force"],
+					shortFlagAliases: { f: { canonical: "force", type: "boolean" } },
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
 				const queryParams: Query = {
-					force: argv["force"],
+					force: argv["delete-with-references"],
 				};
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();

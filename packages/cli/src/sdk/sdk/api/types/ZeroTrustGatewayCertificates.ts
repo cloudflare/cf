@@ -17,6 +17,7 @@ export interface ZeroTrustGatewayCertificates {
     issuer_org?: string | undefined;
     /** Provide the entire issuer field of the certificate (read-only). */
     issuer_raw?: string | undefined;
+    region?: CloudflareApi.ZeroTrustGatewayRegion | undefined;
     type?: CloudflareApi.ZeroTrustGatewayType | undefined;
     updated_at?: CloudflareApi.ZeroTrustGatewayReadOnlyTimestamp | undefined;
     uploaded_on?: CloudflareApi.ZeroTrustGatewayReadOnlyTimestamp | undefined;

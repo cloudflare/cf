@@ -1,10 +1,3 @@
-import { createCommandClient, getZoneId } from "#lib/auth.js";
-import { compactBody, parseBody } from "#lib/body-parser.js";
-import { formatDryRun } from "#lib/dry-run.js";
-import { resolveFileToken } from "#lib/input-validation.js";
-import { formatOutput } from "#lib/output.js";
-import { withProgress } from "#lib/progress.js";
-import { runWithTelemetry } from "#lib/telemetry/index.js";
 import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
 import type { ArgClassification } from "#lib/telemetry/index.js";
 import type { SdkRequest } from "#sdk";
@@ -13,6 +6,13 @@ import type { SdkRequest } from "#sdk";
  * @generated from apis/overlays/fraud.ts
  */
 import type { Argv, CommandModule } from "yargs";
+import { createCommandClient, getZoneId } from "#lib/auth.js";
+import { compactBody, parseBody } from "#lib/body-parser.js";
+import { formatDryRun } from "#lib/dry-run.js";
+import { resolveFileToken } from "#lib/input-validation.js";
+import { formatOutput } from "#lib/output.js";
+import { withProgress } from "#lib/progress.js";
+import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -25,6 +25,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"The type of criterion. Currently only `status_code` is supported.",
 			choices: ["status_code"],
 		})
+		.coerce("authentication-settings-failure-criteria-kind", (value) =>
+			resolveFileToken(
+				value,
+				"authentication-settings-failure-criteria-kind",
+				"text"
+			)
+		)
 		.option("authentication-settings-failure-criteria-status-codes", {
 			type: "string",
 			array: true,
@@ -37,6 +44,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"The type of criterion. Currently only `status_code` is supported.",
 			choices: ["status_code"],
 		})
+		.coerce("authentication-settings-success-criteria-kind", (value) =>
+			resolveFileToken(
+				value,
+				"authentication-settings-success-criteria-kind",
+				"text"
+			)
+		)
 		.option("authentication-settings-success-criteria-status-codes", {
 			type: "string",
 			array: true,
@@ -48,6 +62,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Whether Fraud User Profiles is enabled for the zone.",
 			choices: ["enabled", "disabled"],
 		})
+		.coerce("user-profiles", (value) =>
+			resolveFileToken(value, "user-profiles", "text")
+		)
 		.option("username-expressions", {
 			type: "string",
 			array: true,
@@ -124,37 +141,25 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								: compactBody({
 										authentication_settings: {
 											failure_criteria: {
-												kind: resolveFileToken(
-													argv[
-														"authentication-settings-failure-criteria-kind"
-													] as string | undefined,
-													"authentication-settings-failure-criteria-kind",
-													"text"
-												),
+												kind: argv[
+													"authentication-settings-failure-criteria-kind"
+												],
 												status_codes:
 													argv[
 														"authentication-settings-failure-criteria-status-codes"
 													],
 											},
 											success_criteria: {
-												kind: resolveFileToken(
-													argv[
-														"authentication-settings-success-criteria-kind"
-													] as string | undefined,
-													"authentication-settings-success-criteria-kind",
-													"text"
-												),
+												kind: argv[
+													"authentication-settings-success-criteria-kind"
+												],
 												status_codes:
 													argv[
 														"authentication-settings-success-criteria-status-codes"
 													],
 											},
 										},
-										user_profiles: resolveFileToken(
-											argv["user-profiles"] as string | undefined,
-											"user-profiles",
-											"text"
-										),
+										user_profiles: argv["user-profiles"],
 										username_expressions: argv["username-expressions"],
 									}),
 					});
@@ -182,33 +187,17 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				const bodyData = compactBody<Body>({
 					authentication_settings: {
 						failure_criteria: {
-							kind: resolveFileToken(
-								argv["authentication-settings-failure-criteria-kind"] as
-									| string
-									| undefined,
-								"authentication-settings-failure-criteria-kind",
-								"text"
-							),
+							kind: argv["authentication-settings-failure-criteria-kind"],
 							status_codes:
 								argv["authentication-settings-failure-criteria-status-codes"],
 						},
 						success_criteria: {
-							kind: resolveFileToken(
-								argv["authentication-settings-success-criteria-kind"] as
-									| string
-									| undefined,
-								"authentication-settings-success-criteria-kind",
-								"text"
-							),
+							kind: argv["authentication-settings-success-criteria-kind"],
 							status_codes:
 								argv["authentication-settings-success-criteria-status-codes"],
 						},
 					},
-					user_profiles: resolveFileToken(
-						argv["user-profiles"] as string | undefined,
-						"user-profiles",
-						"text"
-					),
+					user_profiles: argv["user-profiles"],
 					username_expressions: argv["username-expressions"],
 				});
 				const result = await withProgress(`Updating`, async () =>

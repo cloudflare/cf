@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkRequest } from "#sdk";
+/**
+ * update command
+ * @generated from apis/overlays/zero-trust.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -11,14 +19,6 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { promptForRequiredEnumField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkRequest } from "#sdk";
-/**
- * update command
- * @generated from apis/overlays/zero-trust.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -44,11 +44,15 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The pattern.validation field",
 			choices: ["luhn"],
 		})
+		.coerce("pattern-validation", (value) =>
+			resolveFileToken(value, "pattern-validation", "text")
+		)
 		.option("type", {
 			type: "string",
 			description: "The type field",
 			choices: ["custom", "predefined", "integration"],
 		})
+		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
 		.option("enabled", { type: "boolean", description: "The enabled field" })
 		.option("dry-run", {
 			type: "boolean",
@@ -122,17 +126,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"pattern-regex",
 												"text"
 											),
-											validation: resolveFileToken(
-												argv["pattern-validation"] as string | undefined,
-												"pattern-validation",
-												"text"
-											),
+											validation: argv["pattern-validation"],
 										},
-										type: resolveFileToken(
-											argv["type"] as string | undefined,
-											"type",
-											"text"
-										),
+										type: argv["type"],
 										enabled: argv["enabled"],
 									}),
 					});
@@ -185,17 +181,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"pattern-regex",
 							"text"
 						),
-						validation: resolveFileToken(
-							argv["pattern-validation"] as string | undefined,
-							"pattern-validation",
-							"text"
-						),
+						validation: argv["pattern-validation"],
 					},
-					type: resolveFileToken(
-						argv["type"] as string | undefined,
-						"type",
-						"text"
-					),
+					type: argv["type"],
 					enabled: argv["enabled"],
 				});
 				const result = await withProgress(`Updating`, async () =>

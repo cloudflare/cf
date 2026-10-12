@@ -1,1 +1,2 @@
-export type { R2DataCatalogCatalogCredentialRequest } from "./R2DataCatalogCatalogCredentialRequest.js";
+export type { CreateCredentialsRequest } from "./CreateCredentialsRequest.js";
+export type { StatusCredentialsRequest } from "./StatusCredentialsRequest.js";

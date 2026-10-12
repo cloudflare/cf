@@ -5,6 +5,8 @@ import * as errors from "../../errors/index.js";
 import * as CloudflareApi from "../index.js";
 
 export class LockedError extends errors.CloudflareApiError {
+    declare public readonly body: CloudflareApi.ReportsAccountIndustryErrorResponse;
+
     constructor(body: CloudflareApi.ReportsAccountIndustryErrorResponse, rawResponse?: core.RawResponse) {
         super({
             message: "LockedError",

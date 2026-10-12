@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace RoutesClient {
     export type Options = BaseClientOptions;
@@ -28,6 +28,9 @@ export class RoutesClient {
      *
      * @param {CloudflareApi.magicTransit.ListRoutesRequest} request
      * @param {RoutesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.routes.list({
@@ -96,6 +99,9 @@ export class RoutesClient {
      *
      * @param {CloudflareApi.magicTransit.MagicCreateRouteRequest} request
      * @param {RoutesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.routes.create({
@@ -167,6 +173,9 @@ export class RoutesClient {
      *
      * @param {CloudflareApi.magicTransit.MagicRouteUpdateManyRequest} request
      * @param {RoutesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.routes.bulkUpdate({
@@ -244,6 +253,9 @@ export class RoutesClient {
      * @param {CloudflareApi.magicTransit.MagicRouteDeleteManyRequest} request
      * @param {RoutesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.routes.empty({
      *         account_id: "account_id",
@@ -316,6 +328,9 @@ export class RoutesClient {
      * @param {CloudflareApi.magicTransit.GetRoutesRequest} request
      * @param {RoutesClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.magicTransit.routes.get({
      *         account_id: "account_id",
@@ -384,6 +399,9 @@ export class RoutesClient {
      *
      * @param {CloudflareApi.magicTransit.UpdateRoutesRequest} request
      * @param {RoutesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.routes.update({
@@ -461,6 +479,9 @@ export class RoutesClient {
      *
      * @param {CloudflareApi.magicTransit.DeleteRoutesRequest} request
      * @param {RoutesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.magicTransit.routes.delete({

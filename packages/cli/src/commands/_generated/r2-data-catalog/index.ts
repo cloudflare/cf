@@ -1,11 +1,3 @@
-import $credentials from "./credentials/index.js";
-import $delete from "./delete.js";
-import $disable from "./disable.js";
-import $enable from "./enable.js";
-import $get from "./get.js";
-import $list from "./list.js";
-import $maintenanceconfigs from "./maintenance-configs/index.js";
-import $namespaces from "./namespaces/index.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * r2-data-catalog command
@@ -20,14 +12,7 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
-			.command($delete)
-			.command($disable)
-			.command($enable)
-			.command($get)
-			.command($list)
-			.command($credentials)
-			.command($maintenanceconfigs)
-			.command($namespaces)
+
 			.demandCommand(1, "Please specify a subcommand");
 	},
 

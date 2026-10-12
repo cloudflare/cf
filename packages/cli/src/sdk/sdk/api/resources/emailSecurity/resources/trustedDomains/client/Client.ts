@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace TrustedDomainsClient {
     export type Options = BaseClientOptions;
@@ -28,6 +28,9 @@ export class TrustedDomainsClient {
      *
      * @param {CloudflareApi.emailSecurity.ListTrustedDomainsRequest} request
      * @param {TrustedDomainsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailSecurity.trustedDomains.list({
@@ -123,6 +126,9 @@ export class TrustedDomainsClient {
      * @param {CloudflareApi.emailSecurity.CreateTrustedDomainsRequest} request
      * @param {TrustedDomainsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.emailSecurity.trustedDomains.create({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -195,12 +201,16 @@ export class TrustedDomainsClient {
     }
 
     /**
-     * Executes multiple operations atomically. All four operation arrays
-     * (deletes, patches, puts, posts) are required and executed in order.
+     * Executes multiple trusted domain operations atomically: delete, partially update,
+     * replace, and create trusted domain patterns in a single request. All four operation
+     * arrays (deletes, patches, puts, posts) are required and executed in order.
      * Send empty arrays for unused operations.
      *
      * @param {CloudflareApi.emailSecurity.BatchTrustedDomainsRequest} request
      * @param {TrustedDomainsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailSecurity.trustedDomains.batch({
@@ -292,6 +302,9 @@ export class TrustedDomainsClient {
      * @param {CloudflareApi.emailSecurity.GetTrustedDomainsRequest} request
      * @param {TrustedDomainsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.emailSecurity.trustedDomains.get({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -360,6 +373,9 @@ export class TrustedDomainsClient {
      *
      * @param {CloudflareApi.emailSecurity.UpdateTrustedDomainsRequest} request
      * @param {TrustedDomainsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailSecurity.trustedDomains.update({
@@ -439,6 +455,9 @@ export class TrustedDomainsClient {
      * @param {CloudflareApi.emailSecurity.DeleteTrustedDomainsRequest} request
      * @param {TrustedDomainsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.emailSecurity.trustedDomains.delete({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -507,6 +526,9 @@ export class TrustedDomainsClient {
      *
      * @param {CloudflareApi.emailSecurity.EditTrustedDomainsRequest} request
      * @param {TrustedDomainsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailSecurity.trustedDomains.edit({

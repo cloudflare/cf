@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 
 export declare namespace LocationsClient {
     export type Options = BaseClientOptions;
@@ -31,6 +31,9 @@ export class LocationsClient {
      *
      * @param {CloudflareApi.zeroTrust.gateway.ListLocationsRequest} request
      * @param {LocationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.gateway.locations.list({
@@ -110,6 +113,9 @@ export class LocationsClient {
      * @param {CloudflareApi.zeroTrust.gateway.CreateLocationsRequest} request
      * @param {LocationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.gateway.locations.create({
      *         account_id: "account_id",
@@ -182,6 +188,9 @@ export class LocationsClient {
      * @param {CloudflareApi.zeroTrust.gateway.GetLocationsRequest} request
      * @param {LocationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.zeroTrust.gateway.locations.get({
      *         account_id: "account_id",
@@ -250,6 +259,9 @@ export class LocationsClient {
      *
      * @param {CloudflareApi.zeroTrust.gateway.UpdateLocationsRequest} request
      * @param {LocationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.gateway.locations.update({
@@ -323,6 +335,9 @@ export class LocationsClient {
      *
      * @param {CloudflareApi.zeroTrust.gateway.DeleteLocationsRequest} request
      * @param {LocationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.gateway.locations.delete({

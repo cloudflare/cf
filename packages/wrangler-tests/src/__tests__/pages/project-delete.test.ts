@@ -1,5 +1,5 @@
 import { http, HttpResponse } from "msw";
-import { describe, it } from "vitest";
+import { describe, it } from "vite-plus/test";
 import { mockAccountId, mockApiToken } from "../helpers/mock-account-id";
 import { createFetchResult, msw } from "../helpers/msw";
 import { runWrangler } from "../helpers/run-wrangler";
@@ -25,7 +25,7 @@ describe("pages project delete", () => {
 		);
 
 		// cf calls Wrangler's --yes-equivalent confirmation bypass --force.
-		await runWrangler("pages projects delete example-project --force");
+		await runWrangler("pages delete example-project --force");
 		expect(requests).toBe(1);
 	});
 });

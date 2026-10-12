@@ -7,13 +7,9 @@ import * as CloudflareApi from "../../../../../../index.js";
  *     {
  *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
  *         dataset: "access-logins",
- *         filters: [{
- *                 name: "country",
- *                 op: "in",
- *                 values: ["US", "CA", "GB"]
- *             }],
+ *         filters: [],
  *         from: "2024-11-01T00:00:00Z",
- *         groupBy: ["country", "allowed"],
+ *         groupBy: [],
  *         stats: ["attemptsTotal"],
  *         to: "2024-11-08T00:00:00Z"
  *     }

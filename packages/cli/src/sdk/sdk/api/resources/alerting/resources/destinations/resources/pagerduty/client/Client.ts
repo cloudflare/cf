@@ -10,7 +10,7 @@ import { mergeHeaders } from "../../../../../../../../core/headers.js";
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 
 export declare namespace PagerdutyClient {
     export type Options = BaseClientOptions;
@@ -30,6 +30,9 @@ export class PagerdutyClient {
      *
      * @param {CloudflareApi.alerting.destinations.GetPagerdutyRequest} request
      * @param {PagerdutyClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.alerting.destinations.pagerduty.get({
@@ -99,6 +102,9 @@ export class PagerdutyClient {
      * @param {CloudflareApi.alerting.destinations.DeletePagerdutyRequest} request
      * @param {PagerdutyClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.alerting.destinations.pagerduty.delete({
      *         account_id: "account_id"
@@ -163,6 +169,9 @@ export class PagerdutyClient {
      *
      * @param {CloudflareApi.alerting.destinations.CreatePagerdutyRequest} request
      * @param {PagerdutyClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.alerting.destinations.pagerduty.create({
@@ -231,6 +240,9 @@ export class PagerdutyClient {
      *
      * @param {CloudflareApi.alerting.destinations.LinkPagerdutyRequest} request
      * @param {PagerdutyClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.alerting.destinations.pagerduty.link({

@@ -22,7 +22,7 @@ export interface GetByIdTagsResponse {
     /** Structured external references ({ url, description }). Public: returned to all accounts. */
     externalReferences?: GetByIdTagsResponse.ExternalReferences.Item[] | undefined;
     externalReferences_annotated?: (GetByIdTagsResponse.ExternalReferencesAnnotated.Item[] | null) | undefined;
-    /** Internal structured aliases ({ value, confidence 1-10, tlp }). CFONE-only: never returned to non-CFONE accounts. */
+    /** Owner-private structured aliases ({ value, confidence 1-10, tlp }). Returned to the owning account and omitted from shared-catalog non-owner responses. */
     internalAliases?: GetByIdTagsResponse.InternalAliases.Item[] | undefined;
     internalDescription?: string | undefined;
     lastSeen?: string | undefined;

@@ -13,7 +13,6 @@ import $localuploads from "./local-uploads/index.js";
 import $locks from "./locks/index.js";
 import $metrics from "./metrics/index.js";
 import $sippy from "./sippy/index.js";
-import $storageclassmigrationjobs from "./storage-class-migration-jobs/index.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
 /**
  * buckets command group
@@ -43,7 +42,6 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($locks)
 			.command($metrics)
 			.command($sippy)
-			.command($storageclassmigrationjobs)
 			.demandCommand(1, "Please specify a subcommand");
 	},
 

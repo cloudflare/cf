@@ -1,5 +1,5 @@
 import * as clack from "@clack/prompts";
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vite-plus/test";
 
 const cancelResult = vi.hoisted(() => Symbol("test dialog cancellation"));
 

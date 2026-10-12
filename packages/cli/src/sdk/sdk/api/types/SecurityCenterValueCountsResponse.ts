@@ -7,5 +7,5 @@ export interface SecurityCenterValueCountsResponse {
     messages: CloudflareApi.SecurityCenterMessages;
     /** Whether the API call was successful. */
     success: true;
-    result?: CloudflareApi.SecurityCenterValueCountsResponseResult | undefined;
+    result?: CloudflareApi.SecurityCenterValueCountsResponseResultItem[] | undefined;
 }

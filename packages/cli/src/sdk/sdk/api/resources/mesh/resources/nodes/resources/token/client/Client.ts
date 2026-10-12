@@ -10,7 +10,7 @@ import { mergeHeaders } from "../../../../../../../../core/headers.js";
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 
 export declare namespace TokenClient {
     export type Options = BaseClientOptions;
@@ -26,15 +26,18 @@ export class TokenClient {
     }
 
     /**
-     * Gets the token used to associate warp device with a specific Warp Connector tunnel.
+     * Gets the token used to associate a WARP device with a specific Mesh node.
      *
      * @param {CloudflareApi.mesh.nodes.GetTokenRequest} request
      * @param {TokenClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.mesh.nodes.token.get({
      *         account_id: "account_id",
-     *         tunnel_id: "tunnel_id"
+     *         "node-id": "tunnel_id"
      *     })
      */
     public get(
@@ -48,7 +51,7 @@ export class TokenClient {
         request: CloudflareApi.mesh.nodes.GetTokenRequest,
         requestOptions?: TokenClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.TunnelTunnelToken>> {
-        const { account_id: accountId, tunnel_id: tunnelId } = request;
+        const { account_id: accountId, "node-id": nodeId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -60,7 +63,7 @@ export class TokenClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/warp_connector/${core.url.encodePathParam(tunnelId)}/token`,
+                `accounts/${core.url.encodePathParam(accountId)}/warp_connector/${core.url.encodePathParam(nodeId)}/token`,
             ),
             method: "GET",
             headers: _headers,
@@ -87,7 +90,7 @@ export class TokenClient {
             _response.error,
             _response.rawResponse,
             "GET",
-            "/accounts/{account_id}/warp_connector/{tunnel_id}/token",
+            "/accounts/{account_id}/warp_connector/{node-id}/token",
         );
     }
 }

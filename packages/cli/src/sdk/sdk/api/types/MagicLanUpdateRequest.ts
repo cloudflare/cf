@@ -4,6 +4,8 @@ import * as CloudflareApi from "../index.js";
 
 export interface MagicLanUpdateRequest {
     bond_id?: CloudflareApi.MagicBondId | undefined;
+    /** mark true to use this LAN for HA probing. only works for site with HA turned on. only one LAN can be set as the ha_link. */
+    ha_link?: boolean | undefined;
     /** mark true to use this LAN for source-based breakout traffic */
     is_breakout?: boolean | undefined;
     /** mark true to use this LAN for source-based prioritized traffic */

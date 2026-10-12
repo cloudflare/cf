@@ -8,12 +8,14 @@ import { mergeAdditionalBodyParameters } from "../../../../core/requestBody.js";
 import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
-import * as CloudflareApi from "../../../index.js";
+import type * as CloudflareApi from "../../../index.js";
 import { ApplicationsClient } from "../resources/applications/client/Client.js";
 import { BillingClient } from "../resources/billing/client/Client.js";
 import { CategoriesClient } from "../resources/categories/client/Client.js";
 import { LogsClient } from "../resources/logs/client/Client.js";
 import { MembersClient } from "../resources/members/client/Client.js";
+import { OrganizationClient } from "../resources/organization/client/Client.js";
+import { ProfileClient } from "../resources/profile/client/Client.js";
 import { RolesClient } from "../resources/roles/client/Client.js";
 import { SubscriptionsClient } from "../resources/subscriptions/client/Client.js";
 import { TokensClient } from "../resources/tokens/client/Client.js";
@@ -30,13 +32,15 @@ export class AccountsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<AccountsClient.Options>;
     protected _billing: BillingClient | undefined;
     protected _members: MembersClient | undefined;
+    protected _organization: OrganizationClient | undefined;
+    protected _profile: ProfileClient | undefined;
     protected _applications: ApplicationsClient | undefined;
+    protected _categories: CategoriesClient | undefined;
     protected _roles: RolesClient | undefined;
     protected _transformations: TransformationsClient | undefined;
     protected _utBilling: UtBillingClient | undefined;
     protected _subscriptions: SubscriptionsClient | undefined;
     protected _tokens: TokensClient | undefined;
-    protected _categories: CategoriesClient | undefined;
     protected _logs: LogsClient | undefined;
 
     constructor(options: AccountsClient.Options = {}) {
@@ -51,8 +55,20 @@ export class AccountsClient {
         return (this._members ??= new MembersClient(this._options));
     }
 
+    public get organization(): OrganizationClient {
+        return (this._organization ??= new OrganizationClient(this._options));
+    }
+
+    public get profile(): ProfileClient {
+        return (this._profile ??= new ProfileClient(this._options));
+    }
+
     public get applications(): ApplicationsClient {
         return (this._applications ??= new ApplicationsClient(this._options));
+    }
+
+    public get categories(): CategoriesClient {
+        return (this._categories ??= new CategoriesClient(this._options));
     }
 
     public get roles(): RolesClient {
@@ -75,10 +91,6 @@ export class AccountsClient {
         return (this._tokens ??= new TokensClient(this._options));
     }
 
-    public get categories(): CategoriesClient {
-        return (this._categories ??= new CategoriesClient(this._options));
-    }
-
     public get logs(): LogsClient {
         return (this._logs ??= new LogsClient(this._options));
     }
@@ -88,6 +100,9 @@ export class AccountsClient {
      *
      * @param {CloudflareApi.ListAccountsRequest} request
      * @param {AccountsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.accounts.list({
@@ -159,6 +174,9 @@ export class AccountsClient {
      * @param {CloudflareApi.IamCreateAccount} request
      * @param {AccountsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.accounts.create({
      *         name: "name"
@@ -223,6 +241,9 @@ export class AccountsClient {
      * @param {CloudflareApi.GetAccountsRequest} request
      * @param {AccountsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.accounts.get({
      *         account_id: "account_id"
@@ -282,6 +303,9 @@ export class AccountsClient {
      *
      * @param {CloudflareApi.UpdateAccountsRequest} request
      * @param {AccountsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.accounts.update({
@@ -351,6 +375,9 @@ export class AccountsClient {
      * @param {CloudflareApi.DeleteAccountsRequest} request
      * @param {AccountsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.accounts.delete({
      *         account_id: "account_id"
@@ -406,5 +433,80 @@ export class AccountsClient {
         }
 
         return handleNonStatusCodeError(_response.error, _response.rawResponse, "DELETE", "/accounts/{account_id}");
+    }
+
+    /**
+     * Move an account into a destination organization, either assigning a standalone account
+     * to an organization or moving it between organizations in the same hierarchy. Availability
+     * depends on the organization's capabilities.
+     *
+     * Authentication: A Global API key is required. User API Tokens do not include the required
+     * `com.cloudflare.api.account.move` permission.
+     *
+     * @param {CloudflareApi.MoveAccountsRequest} request
+     * @param {AccountsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
+     * @example
+     *     await client.accounts.move({
+     *         account_id: "account_id",
+     *         destination_organization_id: "destination_organization_id"
+     *     })
+     */
+    public move(
+        request: CloudflareApi.MoveAccountsRequest,
+        requestOptions?: AccountsClient.RequestOptions,
+    ): core.HttpResponsePromise<CloudflareApi.OrganizationsApiMoveAccountResult> {
+        return core.HttpResponsePromise.fromPromise(this.__move(request, requestOptions));
+    }
+
+    private async __move(
+        request: CloudflareApi.MoveAccountsRequest,
+        requestOptions?: AccountsClient.RequestOptions,
+    ): Promise<core.WithRawResponse<CloudflareApi.OrganizationsApiMoveAccountResult>> {
+        const { account_id: accountId, ..._body } = request;
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.CloudflareApiEnvironment.Default,
+                `accounts/${core.url.encodePathParam(accountId)}/move`,
+            ),
+            method: "POST",
+            headers: _headers,
+            contentType: "application/json",
+            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
+            requestType: "json",
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return {
+                data: _response.body as CloudflareApi.OrganizationsApiMoveAccountResult,
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            throw new errors.CloudflareApiError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
+        }
+
+        return handleNonStatusCodeError(_response.error, _response.rawResponse, "POST", "/accounts/{account_id}/move");
     }
 }

@@ -11,7 +11,8 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../../../cor
 import * as environments from "../../../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../../../index.js";
+import * as CloudflareApiErrors from "../../../../../../../../../errors/index.js";
 
 export declare namespace SecretsClient {
     export type Options = BaseClientOptions;
@@ -31,6 +32,9 @@ export class SecretsClient {
      *
      * @param {CloudflareApi.workersForPlatforms.dispatchNamespaces.scripts.ListSecretsRequest} request
      * @param {SecretsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workersForPlatforms.dispatchNamespaces.scripts.secrets.list({
@@ -106,6 +110,8 @@ export class SecretsClient {
      * @param {SecretsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.TooManyRequestsError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workersForPlatforms.dispatchNamespaces.scripts.secrets.update({
@@ -172,7 +178,7 @@ export class SecretsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 429:
-                    throw new CloudflareApi.TooManyRequestsError(
+                    throw new CloudflareApiErrors.TooManyRequestsError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -204,28 +210,30 @@ export class SecretsClient {
      * - To delete a secret, set its value to `null`.
      * - Secrets not included in the request are left unchanged.
      *
-     * @param {CloudflareApi.workersForPlatforms.dispatchNamespaces.scripts.BulkEditSecretsRequest} request
+     * @param {CloudflareApi.workersForPlatforms.dispatchNamespaces.scripts.BulkSecretsRequest} request
      * @param {SecretsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link CloudflareApi.TooManyRequestsError}
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
-     *     await client.workersForPlatforms.dispatchNamespaces.scripts.secrets.bulkEdit({
+     *     await client.workersForPlatforms.dispatchNamespaces.scripts.secrets.bulk({
      *         account_id: "account_id",
      *         dispatch_namespace: "dispatch_namespace",
      *         script_name: "script_name",
      *         body: {}
      *     })
      */
-    public bulkEdit(
-        request: CloudflareApi.workersForPlatforms.dispatchNamespaces.scripts.BulkEditSecretsRequest,
+    public bulk(
+        request: CloudflareApi.workersForPlatforms.dispatchNamespaces.scripts.BulkSecretsRequest,
         requestOptions?: SecretsClient.RequestOptions,
     ): core.HttpResponsePromise<CloudflareApi.WorkersSecretPatchResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__bulkEdit(request, requestOptions));
+        return core.HttpResponsePromise.fromPromise(this.__bulk(request, requestOptions));
     }
 
-    private async __bulkEdit(
-        request: CloudflareApi.workersForPlatforms.dispatchNamespaces.scripts.BulkEditSecretsRequest,
+    private async __bulk(
+        request: CloudflareApi.workersForPlatforms.dispatchNamespaces.scripts.BulkSecretsRequest,
         requestOptions?: SecretsClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.WorkersSecretPatchResponse>> {
         const {
@@ -269,7 +277,7 @@ export class SecretsClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 429:
-                    throw new CloudflareApi.TooManyRequestsError(
+                    throw new CloudflareApiErrors.TooManyRequestsError(
                         _response.error.body as unknown,
                         _response.rawResponse,
                     );
@@ -295,6 +303,9 @@ export class SecretsClient {
      *
      * @param {CloudflareApi.workersForPlatforms.dispatchNamespaces.scripts.GetSecretsRequest} request
      * @param {SecretsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workersForPlatforms.dispatchNamespaces.scripts.secrets.get({
@@ -381,6 +392,9 @@ export class SecretsClient {
      *
      * @param {CloudflareApi.workersForPlatforms.dispatchNamespaces.scripts.DeleteSecretsRequest} request
      * @param {SecretsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.workersForPlatforms.dispatchNamespaces.scripts.secrets.delete({

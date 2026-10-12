@@ -1,3 +1,10 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+/**
+ * pdf command
+ * @generated from apis/overlays/browser-run.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -16,13 +23,6 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { fetchRawBytes, writeRawOutput } from "#lib/raw-fetch.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-/**
- * pdf command
- * @generated from apis/overlays/browser-run.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -32,6 +32,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("cache-ttl", {
 			type: "number",
 			description: "Cache TTL default is 5s. Set to 0 to disable.",
+		})
+		.option("browser", {
+			type: "string",
+			description:
+				"Rendering backend. Set to `kitesurf` to use Kitesurf (beta).",
+			choices: ["kitesurf"],
 		})
 		.option("action-timeout", {
 			type: "number",
@@ -117,6 +123,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"a6",
 			],
 		})
+		.coerce("pdf-options-format", (value) =>
+			resolveFileToken(value, "pdf-options-format", "text")
+		)
 		.option("pdf-options-header-template", {
 			type: "string",
 			description: "HTML template for the print header.",
@@ -309,6 +318,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				command: "browser-run quick-action pdf",
 				classification: {
 					safeFlags: [
+						"browser",
 						"best-attempt",
 						"pdf-options-display-header-footer",
 						"pdf-options-format",
@@ -333,6 +343,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			async () => {
 				const queryParams: Record<string, unknown> = {
 					cacheTTL: argv["cache-ttl"],
+					browser: argv["browser"],
 				};
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
@@ -406,11 +417,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"pdf-options-footer-template",
 												"text"
 											),
-											format: resolveFileToken(
-												argv["pdf-options-format"] as string | undefined,
-												"pdf-options-format",
-												"text"
-											),
+											format: argv["pdf-options-format"],
 											headerTemplate: resolveFileToken(
 												argv["pdf-options-header-template"] as
 													| string
@@ -467,6 +474,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										},
 										waitForTimeout: argv["wait-for-timeout"],
 									}),
+						sensitiveBodyPaths: [["authenticate", "password"]],
 					});
 					return;
 				}
@@ -611,11 +619,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					setNestedValue(
 						bodyData,
 						["pdfOptions", "format"],
-						resolveFileToken(
-							argv["pdf-options-format"] as string | undefined,
-							"pdf-options-format",
-							"text"
-						)
+						argv["pdf-options-format"]
 					);
 				if (argv["pdf-options-header-template"] !== undefined)
 					setNestedValue(

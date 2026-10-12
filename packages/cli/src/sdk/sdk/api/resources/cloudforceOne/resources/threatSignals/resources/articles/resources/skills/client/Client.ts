@@ -7,10 +7,11 @@ import {
 } from "../../../../../../../../../../BaseClient.js";
 import * as core from "../../../../../../../../../../core/index.js";
 import { mergeHeaders } from "../../../../../../../../../../core/headers.js";
+import { mergeAdditionalBodyParameters } from "../../../../../../../../../../core/requestBody.js";
 import * as environments from "../../../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../../../index.js";
 
 export declare namespace SkillsClient {
     export type Options = BaseClientOptions;
@@ -26,30 +27,32 @@ export class SkillsClient {
     }
 
     /**
-     * Diagnose Threat Signals default tag skill.
+     * Lists active custom skills currently assigned to the article's feed and whether each has a stored output. Output content and skill configuration are retrieved separately.
      *
-     * @param {CloudflareApi.cloudforceOne.threatSignals.articles.DiagnosticSkillsRequest} request
+     * @param {CloudflareApi.cloudforceOne.threatSignals.articles.ListSkillsRequest} request
      * @param {SkillsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
-     *     await client.cloudforceOne.threatSignals.articles.skills.diagnostic({
+     *     await client.cloudforceOne.threatSignals.articles.skills.list({
      *         account_id: "account_id",
-     *         article_id: "article_id",
-     *         skill_id: "default-tagging-skill"
+     *         article_id: "article_id"
      *     })
      */
-    public diagnostic(
-        request: CloudflareApi.cloudforceOne.threatSignals.articles.DiagnosticSkillsRequest,
+    public list(
+        request: CloudflareApi.cloudforceOne.threatSignals.articles.ListSkillsRequest,
         requestOptions?: SkillsClient.RequestOptions,
-    ): core.HttpResponsePromise<CloudflareApi.cloudforceOne.threatSignals.articles.DiagnosticSkillsResponse> {
-        return core.HttpResponsePromise.fromPromise(this.__diagnostic(request, requestOptions));
+    ): core.HttpResponsePromise<CloudflareApi.cloudforceOne.threatSignals.articles.ListSkillsResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__list(request, requestOptions));
     }
 
-    private async __diagnostic(
-        request: CloudflareApi.cloudforceOne.threatSignals.articles.DiagnosticSkillsRequest,
+    private async __list(
+        request: CloudflareApi.cloudforceOne.threatSignals.articles.ListSkillsRequest,
         requestOptions?: SkillsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<CloudflareApi.cloudforceOne.threatSignals.articles.DiagnosticSkillsResponse>> {
-        const { account_id: accountId, article_id: articleId, skill_id: skillId } = request;
+    ): Promise<core.WithRawResponse<CloudflareApi.cloudforceOne.threatSignals.articles.ListSkillsResponse>> {
+        const { account_id: accountId, article_id: articleId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -61,9 +64,9 @@ export class SkillsClient {
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
                     environments.CloudflareApiEnvironment.Default,
-                `accounts/${core.url.encodePathParam(accountId)}/cloudforce-one/v2/threat-signals/articles/${core.url.encodePathParam(articleId)}/skills/${core.url.encodePathParam(skillId)}/diagnostic`,
+                `accounts/${core.url.encodePathParam(accountId)}/cloudforce-one/v2/threat-signals/articles/${core.url.encodePathParam(articleId)}/skills`,
             ),
-            method: "POST",
+            method: "GET",
             headers: _headers,
             queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
@@ -74,7 +77,7 @@ export class SkillsClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as CloudflareApi.cloudforceOne.threatSignals.articles.DiagnosticSkillsResponse,
+                data: _response.body as CloudflareApi.cloudforceOne.threatSignals.articles.ListSkillsResponse,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -90,16 +93,19 @@ export class SkillsClient {
         return handleNonStatusCodeError(
             _response.error,
             _response.rawResponse,
-            "POST",
-            "/accounts/{account_id}/cloudforce-one/v2/threat-signals/articles/{article_id}/skills/{skill_id}/diagnostic",
+            "GET",
+            "/accounts/{account_id}/cloudforce-one/v2/threat-signals/articles/{article_id}/skills",
         );
     }
 
     /**
-     * Get Threat Signals article skill output.
+     * Retrieves the stored output of a skill for a Threat Signals article.
      *
      * @param {CloudflareApi.cloudforceOne.threatSignals.articles.GetOutputSkillsRequest} request
      * @param {SkillsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.cloudforceOne.threatSignals.articles.skills.getOutput({
@@ -111,14 +117,14 @@ export class SkillsClient {
     public getOutput(
         request: CloudflareApi.cloudforceOne.threatSignals.articles.GetOutputSkillsRequest,
         requestOptions?: SkillsClient.RequestOptions,
-    ): core.HttpResponsePromise<void> {
+    ): core.HttpResponsePromise<CloudflareApi.cloudforceOne.threatSignals.articles.GetOutputSkillsResponse> {
         return core.HttpResponsePromise.fromPromise(this.__getOutput(request, requestOptions));
     }
 
     private async __getOutput(
         request: CloudflareApi.cloudforceOne.threatSignals.articles.GetOutputSkillsRequest,
         requestOptions?: SkillsClient.RequestOptions,
-    ): Promise<core.WithRawResponse<void>> {
+    ): Promise<core.WithRawResponse<CloudflareApi.cloudforceOne.threatSignals.articles.GetOutputSkillsResponse>> {
         const { account_id: accountId, article_id: articleId, skill_id: skillId } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
@@ -143,7 +149,10 @@ export class SkillsClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: undefined, rawResponse: _response.rawResponse };
+            return {
+                data: _response.body as CloudflareApi.cloudforceOne.threatSignals.articles.GetOutputSkillsResponse,
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
@@ -159,6 +168,85 @@ export class SkillsClient {
             _response.rawResponse,
             "GET",
             "/accounts/{account_id}/cloudforce-one/v2/threat-signals/articles/{article_id}/skills/{skill_id}/output",
+        );
+    }
+
+    /**
+     * Paid customer operation that always persists a managed default skill or an assigned active custom skill result without exposing diagnostic model data.
+     *
+     * @param {CloudflareApi.cloudforceOne.threatSignals.articles.RunSkillsRequest} request
+     * @param {SkillsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
+     * @example
+     *     await client.cloudforceOne.threatSignals.articles.skills.run({
+     *         account_id: "account_id",
+     *         article_id: "article_id",
+     *         skill_id: "skill_id",
+     *         body: {
+     *             "key": "value"
+     *         }
+     *     })
+     */
+    public run(
+        request: CloudflareApi.cloudforceOne.threatSignals.articles.RunSkillsRequest,
+        requestOptions?: SkillsClient.RequestOptions,
+    ): core.HttpResponsePromise<CloudflareApi.cloudforceOne.threatSignals.articles.RunSkillsResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__run(request, requestOptions));
+    }
+
+    private async __run(
+        request: CloudflareApi.cloudforceOne.threatSignals.articles.RunSkillsRequest,
+        requestOptions?: SkillsClient.RequestOptions,
+    ): Promise<core.WithRawResponse<CloudflareApi.cloudforceOne.threatSignals.articles.RunSkillsResponse>> {
+        const { account_id: accountId, article_id: articleId, skill_id: skillId, body: _body } = request;
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            requestOptions?.headers,
+        );
+        const _response = await (this._options.fetcher ?? core.fetcher)({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.CloudflareApiEnvironment.Default,
+                `accounts/${core.url.encodePathParam(accountId)}/cloudforce-one/v2/threat-signals/articles/${core.url.encodePathParam(articleId)}/skills/${core.url.encodePathParam(skillId)}/run`,
+            ),
+            method: "POST",
+            headers: _headers,
+            contentType: "application/json",
+            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
+            requestType: "json",
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return {
+                data: _response.body as CloudflareApi.cloudforceOne.threatSignals.articles.RunSkillsResponse,
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            throw new errors.CloudflareApiError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+                rawResponse: _response.rawResponse,
+            });
+        }
+
+        return handleNonStatusCodeError(
+            _response.error,
+            _response.rawResponse,
+            "POST",
+            "/accounts/{account_id}/cloudforce-one/v2/threat-signals/articles/{article_id}/skills/{skill_id}/run",
         );
     }
 }

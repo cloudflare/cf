@@ -1,3 +1,4 @@
+import $bulkdelete from "./bulk-delete.js";
 import $bulk from "./bulk/index.js";
 import $create from "./create.js";
 import $delete from "./delete.js";
@@ -17,6 +18,7 @@ const command: CommandModule<CommonYargsOptions> = {
 
 	builder: (yargs) => {
 		return yargs
+			.command($bulkdelete)
 			.command($create)
 			.command($delete)
 			.command($get)

@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace MembershipsClient {
     export type Options = BaseClientOptions;
@@ -28,6 +28,9 @@ export class MembershipsClient {
      *
      * @param {CloudflareApi.user.ListMembershipsRequest} request
      * @param {MembershipsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.user.memberships.list({
@@ -106,6 +109,9 @@ export class MembershipsClient {
      * @param {CloudflareApi.user.UserSAccountMembershipsMembershipDetailsMembershipsRequest} request
      * @param {MembershipsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.user.memberships.userSAccountMembershipsMembershipDetails({
      *         membership_id: "membership_id"
@@ -170,6 +176,9 @@ export class MembershipsClient {
      *
      * @param {CloudflareApi.user.UpdateMembershipsRequest} request
      * @param {MembershipsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.user.memberships.update({
@@ -238,6 +247,9 @@ export class MembershipsClient {
      * @param {CloudflareApi.user.DeleteMembershipsRequest} request
      * @param {MembershipsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.user.memberships.delete({
      *         membership_id: "membership_id"
@@ -305,6 +317,9 @@ export class MembershipsClient {
      *
      * @param {CloudflareApi.user.UserMembershipsGetMembershipsRequest} request
      * @param {MembershipsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.user.memberships.userMembershipsGet({

@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 import { LabelsClient } from "../resources/labels/client/Client.js";
 
 export declare namespace OperationsClient {
@@ -34,6 +34,9 @@ export class OperationsClient {
      *
      * @param {CloudflareApi.webAssets.ListOperationsRequest} request
      * @param {OperationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.webAssets.operations.list({
@@ -120,6 +123,9 @@ export class OperationsClient {
      * @param {CloudflareApi.webAssets.BulkCreateOperationsRequest} request
      * @param {OperationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.webAssets.operations.bulkCreate({
      *         zone_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -195,6 +201,9 @@ export class OperationsClient {
      *
      * @param {CloudflareApi.webAssets.BulkDeleteOperationsRequest} request
      * @param {OperationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.webAssets.operations.bulkDelete({
@@ -272,6 +281,9 @@ export class OperationsClient {
      * @param {CloudflareApi.webAssets.CreateOperationsRequest} request
      * @param {OperationsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.webAssets.operations.create({
      *         zone_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -347,6 +359,9 @@ export class OperationsClient {
      *
      * @param {CloudflareApi.webAssets.GetOperationsRequest} request
      * @param {OperationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.webAssets.operations.get({
@@ -424,6 +439,9 @@ export class OperationsClient {
      *
      * @param {CloudflareApi.webAssets.DeleteOperationsRequest} request
      * @param {OperationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.webAssets.operations.delete({

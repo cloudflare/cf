@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 
 export declare namespace UrlIgnorePatternsClient {
     export type Options = BaseClientOptions;
@@ -28,6 +28,9 @@ export class UrlIgnorePatternsClient {
      *
      * @param {CloudflareApi.emailSecurity.ListUrlIgnorePatternsRequest} request
      * @param {UrlIgnorePatternsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailSecurity.urlIgnorePatterns.list({
@@ -107,6 +110,9 @@ export class UrlIgnorePatternsClient {
      * @param {CloudflareApi.emailSecurity.CreateUrlIgnorePatternsRequest} request
      * @param {UrlIgnorePatternsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.emailSecurity.urlIgnorePatterns.create({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -182,6 +188,9 @@ export class UrlIgnorePatternsClient {
      *
      * @param {CloudflareApi.emailSecurity.BatchUrlIgnorePatternsRequest} request
      * @param {UrlIgnorePatternsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailSecurity.urlIgnorePatterns.batch({
@@ -267,6 +276,9 @@ export class UrlIgnorePatternsClient {
      * @param {CloudflareApi.emailSecurity.GetUrlIgnorePatternsRequest} request
      * @param {UrlIgnorePatternsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.emailSecurity.urlIgnorePatterns.get({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -336,6 +348,9 @@ export class UrlIgnorePatternsClient {
      * @param {CloudflareApi.emailSecurity.DeleteUrlIgnorePatternsRequest} request
      * @param {UrlIgnorePatternsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.emailSecurity.urlIgnorePatterns.delete({
      *         account_id: "023e105f4ecef8ad9ca31a8372d0c353",
@@ -404,6 +419,9 @@ export class UrlIgnorePatternsClient {
      *
      * @param {CloudflareApi.emailSecurity.EditUrlIgnorePatternsRequest} request
      * @param {UrlIgnorePatternsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.emailSecurity.urlIgnorePatterns.edit({

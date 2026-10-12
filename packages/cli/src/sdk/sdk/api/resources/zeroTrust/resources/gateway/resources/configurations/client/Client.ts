@@ -11,7 +11,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../../../core/requ
 import * as environments from "../../../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../../../index.js";
+import type * as CloudflareApi from "../../../../../../../index.js";
 import { CustomCertificateClient } from "../resources/customCertificate/client/Client.js";
 
 export declare namespace ConfigurationsClient {
@@ -37,6 +37,9 @@ export class ConfigurationsClient {
      *
      * @param {CloudflareApi.zeroTrust.gateway.GetConfigurationsRequest} request
      * @param {ConfigurationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.gateway.configurations.get({
@@ -105,6 +108,9 @@ export class ConfigurationsClient {
      *
      * @param {CloudflareApi.zeroTrust.gateway.UpdateConfigurationsRequest} request
      * @param {ConfigurationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.gateway.configurations.update({
@@ -177,6 +183,9 @@ export class ConfigurationsClient {
      *
      * @param {CloudflareApi.zeroTrust.gateway.EditConfigurationsRequest} request
      * @param {ConfigurationsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.zeroTrust.gateway.configurations.edit({

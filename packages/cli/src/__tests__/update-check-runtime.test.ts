@@ -1,5 +1,6 @@
-import { afterAll, beforeEach, describe, expect, it, vi } from "vitest";
+import { afterAll, beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import * as updateCheck from "../lib/update-check.js";
+import { VERSION } from "../version.js";
 import { captureOutput } from "./helpers/capture-output.js";
 import { runCf } from "./helpers/run-cf.js";
 
@@ -59,7 +60,7 @@ describe("update check runtime", () => {
 			isMajor: false,
 		});
 
-		await runCf(["--version"]);
+		await runCf([]);
 
 		expect(output.stdout()).toContain("update available: v1.3.0");
 		expect(updateCheck.getUpdateNotice).toHaveBeenCalledOnce();
@@ -70,20 +71,43 @@ describe("update check runtime", () => {
 		setTTY(false, false);
 		const output = captureOutput();
 
-		await runCf(["--version"]);
+		await runCf([]);
 
 		expect(output.stdout()).not.toContain("update available");
 		expect(updateCheck.getUpdateNotice).not.toHaveBeenCalled();
 		expect(updateCheck.maybeStartBackgroundUpdateCheck).not.toHaveBeenCalled();
 	});
 
-	it("does not load or refresh update state when quiet", async () => {
+	it("prints the interactive version banner to stderr and the number to stdout", async () => {
 		setTTY(true, true);
 		const output = captureOutput();
+		vi.mocked(updateCheck.getUpdateNotice).mockReturnValue({
+			latestVersion: "1.3.0",
+			isMajor: false,
+		});
 
-		await runCf(["--version", "--quiet"]);
+		await runCf(["--version"]);
 
-		expect(output.stdout()).not.toContain("update available");
+		expect(output.stdout()).toBe(VERSION);
+		expect(output.stderr()).toContain("🍊☁️");
+		expect(output.stderr()).toContain(`v${VERSION}`);
+		expect(output.stderr()).toContain("update available: v1.3.0");
+		expect(updateCheck.getUpdateNotice).toHaveBeenCalledOnce();
+		expect(updateCheck.maybeStartBackgroundUpdateCheck).toHaveBeenCalledOnce();
+	});
+
+	it.each([
+		["-v", ["-v"], false],
+		["--version --quiet", ["--version", "--quiet"], true],
+		["-q -v", ["-q", "-v"], true],
+	])("keeps stdout parseable for %s", async (_label, args, tty) => {
+		setTTY(tty, tty);
+		const output = captureOutput();
+
+		await runCf(args);
+
+		expect(output.stdout()).toBe(VERSION);
+		expect(output.stderr()).toBe("");
 		expect(updateCheck.getUpdateNotice).not.toHaveBeenCalled();
 		expect(updateCheck.maybeStartBackgroundUpdateCheck).not.toHaveBeenCalled();
 	});
@@ -93,20 +117,39 @@ describe("update check runtime", () => {
 		setTTY(true, true);
 		const output = captureOutput();
 
-		await runCf(["--version"]);
+		await runCf([]);
 
 		expect(output.stdout()).not.toContain("update available");
 		expect(updateCheck.getUpdateNotice).not.toHaveBeenCalled();
 		expect(updateCheck.maybeStartBackgroundUpdateCheck).not.toHaveBeenCalled();
 	});
 
-	it("skips update state for completion after a global option value", async () => {
+	it.each([
+		["string value", ["--profile", "work"]],
+		["boolean true", ["--local", "true"]],
+		["boolean false", ["--local", "false"]],
+		["aliased boolean true", ["-q", "true"]],
+		["aliased boolean false", ["-q", "false"]],
+		["bare boolean", ["--local"]],
+	])("skips update state for completion after %s", async (_name, flags) => {
 		setTTY(true, true);
 		const output = captureOutput();
 
-		await runCf(["--profile", "work", "complete", "--help"]);
+		await runCf([...flags, "complete", "bash", "--help"]);
 
+		expect(output.stdout()).toContain("cf complete [shell]");
 		expect(output.stderr()).not.toContain("update available");
+		expect(updateCheck.getUpdateNotice).not.toHaveBeenCalled();
+		expect(updateCheck.maybeStartBackgroundUpdateCheck).not.toHaveBeenCalled();
+	});
+
+	it("runs completion with a positional after an explicit boolean value", async () => {
+		setTTY(true, true);
+		const output = captureOutput();
+
+		await runCf(["--local", "false", "complete", "bash"]);
+
+		expect(output.stdout()).toContain("bash");
 		expect(updateCheck.getUpdateNotice).not.toHaveBeenCalled();
 		expect(updateCheck.maybeStartBackgroundUpdateCheck).not.toHaveBeenCalled();
 	});
@@ -115,7 +158,7 @@ describe("update check runtime", () => {
 		setTTY(true, true);
 		captureOutput();
 
-		await runCf(["--profile", "complete", "--version"]);
+		await runCf(["--profile", "complete", "--help"]);
 
 		expect(updateCheck.getUpdateNotice).toHaveBeenCalledOnce();
 		expect(updateCheck.maybeStartBackgroundUpdateCheck).toHaveBeenCalledOnce();

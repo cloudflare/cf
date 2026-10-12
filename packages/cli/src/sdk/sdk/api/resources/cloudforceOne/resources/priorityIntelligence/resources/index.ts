@@ -1,5 +1,8 @@
 export * as constants from "./constants/index.js";
 export * from "./constants/client/requests/index.js";
+export * as filters from "./filters/index.js";
+export * from "./filters/client/requests/index.js";
+export * from "./filters/types/index.js";
 export * as interests from "./interests/index.js";
 export * from "./interests/client/requests/index.js";
 export * from "./interests/types/index.js";

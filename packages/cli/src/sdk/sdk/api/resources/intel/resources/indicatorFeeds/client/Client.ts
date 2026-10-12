@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 import { DownloadsClient } from "../resources/downloads/client/Client.js";
 import { PermissionsClient } from "../resources/permissions/client/Client.js";
 import { ProvidersClient } from "../resources/providers/client/Client.js";
@@ -52,6 +52,9 @@ export class IndicatorFeedsClient {
      *
      * @param {CloudflareApi.intel.ListIndicatorFeedsRequest} request
      * @param {IndicatorFeedsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.intel.indicatorFeeds.list({
@@ -120,6 +123,9 @@ export class IndicatorFeedsClient {
      *
      * @param {CloudflareApi.intel.CustomIndicatorFeedsCreateFeed} request
      * @param {IndicatorFeedsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.intel.indicatorFeeds.create({
@@ -194,6 +200,9 @@ export class IndicatorFeedsClient {
      * @param {CloudflareApi.intel.GetIndicatorFeedsRequest} request
      * @param {IndicatorFeedsClient.RequestOptions} requestOptions - Request-specific configuration.
      *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
+     *
      * @example
      *     await client.intel.indicatorFeeds.get({
      *         account_id: "account_id",
@@ -262,6 +271,9 @@ export class IndicatorFeedsClient {
      *
      * @param {CloudflareApi.intel.CustomIndicatorFeedsUpdatePublicFieldRequest} request
      * @param {IndicatorFeedsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.intel.indicatorFeeds.update({
@@ -334,6 +346,9 @@ export class IndicatorFeedsClient {
      *
      * @param {CloudflareApi.intel.DataIndicatorFeedsRequest} request
      * @param {IndicatorFeedsClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.intel.indicatorFeeds.data({

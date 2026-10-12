@@ -8,7 +8,7 @@ import { mergeAdditionalBodyParameters } from "../../../../../../core/requestBod
 import * as environments from "../../../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../../../errors/index.js";
-import * as CloudflareApi from "../../../../../index.js";
+import type * as CloudflareApi from "../../../../../index.js";
 import { PreviewTokensClient } from "../resources/previewTokens/client/Client.js";
 
 export declare namespace AccountCustomPagesClient {
@@ -34,6 +34,9 @@ export class AccountCustomPagesClient {
      *
      * @param {CloudflareApi.customPages.UpdateAccountCustomPagesRequest} request
      * @param {AccountCustomPagesClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link errors.CloudflareApiError}
+     * @throws {@link errors.CloudflareApiTimeoutError}
      *
      * @example
      *     await client.customPages.accountCustomPages.update({

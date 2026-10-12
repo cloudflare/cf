@@ -8,5 +8,5 @@ export interface AccessResponseCollection3 {
     /** Whether the API call was successful. */
     success: true;
     result_info?: CloudflareApi.AccessResponseCollection3ResultInfo | undefined;
-    result?: CloudflareApi.AccessServiceTokens[] | undefined;
+    result?: CloudflareApi.AccessUserPopulation[] | undefined;
 }

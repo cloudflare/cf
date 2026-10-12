@@ -1,4 +1,3 @@
-import $cas from "./cas/index.js";
 import $create from "./create.js";
 import $delete from "./delete.js";
 import $get from "./get.js";
@@ -7,6 +6,7 @@ import $policies from "./policies/index.js";
 import $policytests from "./policy-tests/index.js";
 import $revoketokens from "./revoke-tokens.js";
 import $settings from "./settings/index.js";
+import $shortlivedcertificates from "./short-lived-certificates/index.js";
 import $update from "./update.js";
 import $userpolicychecks from "./user-policy-checks/index.js";
 import type { CommonYargsOptions } from "#lib/cli-types.js";
@@ -28,10 +28,10 @@ const command: CommandModule<CommonYargsOptions> = {
 			.command($list)
 			.command($revoketokens)
 			.command($update)
-			.command($cas)
 			.command($policies)
 			.command($policytests)
 			.command($settings)
+			.command($shortlivedcertificates)
 			.command($userpolicychecks)
 			.demandCommand(1, "Please specify a subcommand");
 	},

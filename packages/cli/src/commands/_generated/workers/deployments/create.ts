@@ -1,3 +1,11 @@
+import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
+import type { ArgClassification } from "#lib/telemetry/index.js";
+import type { SdkQuery, SdkRequest } from "#sdk";
+/**
+ * create command
+ * @generated from apis/overlays/workers.ts
+ */
+import type { Argv, CommandModule } from "yargs";
 import {
 	createCommandClient,
 	getAccountId,
@@ -12,14 +20,6 @@ import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
 import { promptForRequiredEnumField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
-import type { CommonYargsOptions, InferArgs } from "#lib/cli-types.js";
-import type { ArgClassification } from "#lib/telemetry/index.js";
-import type { SdkQuery, SdkRequest } from "#sdk";
-/**
- * create command
- * @generated from apis/overlays/workers.ts
- */
-import type { Argv, CommandModule } from "yargs";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
@@ -29,9 +29,9 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("worker", {
 			type: "string",
 			alias: "script-name",
-			description: "Name of the script, used in URLs and route configuration.",
+			description: "Name of the script.",
 		})
-		.option("force", {
+		.option("bypass-deployment-checks", {
 			type: "boolean",
 			description:
 				"If set to true, the deployment will be created even if normally blocked by something such rolling back to an older version when a secret has changed.",
@@ -41,6 +41,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "The strategy field",
 			choices: ["percentage"],
 		})
+		.coerce("strategy", (value) => resolveFileToken(value, "strategy", "text"))
 		.option("versions", {
 			type: "string",
 			description:
@@ -72,13 +73,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "workers deployments create",
 				classification: {
-					safeFlags: ["force", "strategy", "dry-run"],
+					safeFlags: ["bypass-deployment-checks", "strategy", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
 			async () => {
 				const queryParams: Query = {
-					force: argv["force"],
+					force: argv["bypass-deployment-checks"],
 				};
 				if (argv.dryRun) {
 					const __cfDryRunAccountId = await resolveAccountIdSilent();
@@ -93,11 +94,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							argv.body !== undefined
 								? parseBody(argv.body)
 								: compactBody({
-										strategy: resolveFileToken(
-											argv["strategy"] as string | undefined,
-											"strategy",
-											"text"
-										),
+										strategy: argv["strategy"],
 										versions: parseObjectArray(argv["versions"], "versions"),
 									}),
 					});
@@ -142,11 +139,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody<Body>({
-					strategy: resolveFileToken(
-						argv["strategy"] as string | undefined,
-						"strategy",
-						"text"
-					),
+					strategy: argv["strategy"],
 					versions: parseObjectArray(argv["versions"], "versions"),
 				});
 				const qs = new URLSearchParams(

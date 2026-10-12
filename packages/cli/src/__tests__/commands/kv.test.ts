@@ -13,7 +13,7 @@ import { runCf } from "../helpers/run-cf.js";
 
 /**
  * End-to-end network tests for `cf kv` commands, driven through the real
- * `runMain` → yargs → SDK → `globalThis.fetch` stack with MSW standing
+ * `runMain` → yargs → API client → `globalThis.fetch` stack with MSW standing
  * in for the Cloudflare API.
  *
  * kv is an interesting harness target for three reasons:
@@ -21,7 +21,7 @@ import { runCf } from "../helpers/run-cf.js";
  *    `/accounts/{id}/storage/kv/...`; the account id is resolved from
  *    `CLOUDFLARE_ACCOUNT_ID` (set in ENV so no interactive picker /
  *    `/accounts` round-trip fires).
- *  - **Raw-bytes output.** `kv keys get` bypasses the SDK envelope and
+ *  - **Raw-bytes output.** `kv keys get` bypasses the client envelope and
  *    writes the response body verbatim via `process.stdout.write`
  *    (lib/raw-fetch.ts), so it's asserted against a stdout-write spy
  *    rather than the JSON console.log path.

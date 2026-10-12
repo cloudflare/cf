@@ -19,7 +19,7 @@ import { runCf } from "../helpers/run-cf.js";
  *
  * The same generated command must default to account scope and switch to zone
  * scope only when the global --zone flag is explicitly present. Load balancer
- * listing is a small typed-SDK request that exercises both generated request
+ * listing is a small typed request that exercises both generated request
  * properties without requiring a request body.
  */
 describe("combined account-or-zone scope", () => {

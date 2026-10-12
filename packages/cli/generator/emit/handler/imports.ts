@@ -11,14 +11,12 @@
 import { bodyOptionArgs } from "../../intermediate-representation.js";
 import { ImportSet } from "../imports.js";
 import {
-	canEmitTypedBodySdkCall,
-	canEmitTypedJsonBodySdkCall,
-	canEmitTypedSdkCall,
-	typedBuilderDeclaration,
-	usesTypedQuery,
-} from "../sdk-path.js";
+	canEmitTypedBodyCall,
+	makesTypedCall,
+	operationModule,
+} from "../typed-call.js";
+import { apiCallUsesRequestApi } from "./api-call.js";
 import { bodyBypassUsesRequestApi } from "./body-bypass.js";
-import { sdkCallUsesRequestApi } from "./sdk-call.js";
 import type { EmitContext } from "../context.js";
 
 export function buildImportSet(ctx: EmitContext): ImportSet {
@@ -40,44 +38,24 @@ export function buildImportSet(ctx: EmitContext): ImportSet {
 
 	const imports = new ImportSet();
 
-	if (typedBuilderDeclaration(ctx)) {
-		imports.from(`${libPath}/cli-types.js`).add("withArgTypes");
-	}
 	imports.typeFrom("yargs").add("Argv").add("CommandModule");
 	imports
 		.typeFrom(`${libPath}/cli-types.js`)
 		.add("CommonYargsOptions")
 		.add("InferArgs");
 
-	const hasTypedRequest =
-		ctx.sdkMapEntry?.requestType !== undefined &&
-		(canEmitTypedSdkCall(ctx) || canEmitTypedJsonBodySdkCall(ctx));
-	if (hasTypedRequest) {
-		const sdkTypes = imports.typeFrom("#sdk");
-		// account_id is now a request field (dropped as a client-level SDK
-		// variable), so any path param — account included — makes the request
-		// non-pure-query. Mirrors `typedSdkTypeAliases`' pathFields check.
-		const hasPathFields = ctx.allPathParamNames.length > 0;
-		const usesTypedBody =
-			ctx.derived.hasBody && canEmitTypedJsonBodySdkCall(ctx);
-		const isPureQuery =
-			canEmitTypedSdkCall(ctx) && !hasPathFields && ctx.hasParams;
-		if (usesTypedBody || !isPureQuery) sdkTypes.add("SdkRequest");
-		if (usesTypedQuery(ctx)) sdkTypes.add("SdkQuery");
-	}
-
-	// `createCommandClient` builds the SDK client so `--local` can swap
+	// `createCommandClient` builds the API client so `--local` can swap
 	// the fetch transport transparently.
 	const auth = imports.from(`${libPath}/auth.js`).add("createCommandClient");
 	if (needsAccountId) auth.add("getAccountId").add("resolveAccountIdSilent");
 	if (needsZoneId) auth.add("getZoneId");
 	if (needsWorkerName) auth.add("getWorkerName");
-	if (bodyBypassUsesRequestApi(ctx) || sdkCallUsesRequestApi(ctx)) {
+	if (bodyBypassUsesRequestApi(ctx) || apiCallUsesRequestApi(ctx)) {
 		auth.add("requestApi");
 	}
 
 	if (needsAccountId) {
-		// `LOCAL_ACCOUNT_ID` is a placeholder the SDK accepts as a path
+		// `LOCAL_ACCOUNT_ID` is a placeholder the client accepts as a path
 		// segment; the local-mode fetch wrapper strips `/accounts/{id}/`
 		// from every URL before it lands.
 		imports.from(`${libPath}/local.js`).add("LOCAL_ACCOUNT_ID");
@@ -130,7 +108,7 @@ export function buildImportSet(ctx: EmitContext): ImportSet {
 		if (bodyFlags.some((arg) => arg.type === "object-array")) {
 			bp.add("parseObjectArray");
 		}
-		if (hasBodyParams && !canEmitTypedBodySdkCall(ctx)) {
+		if (hasBodyParams && !canEmitTypedBodyCall(ctx)) {
 			bp.add("setNestedValue");
 		}
 	}
@@ -155,6 +133,10 @@ export function buildImportSet(ctx: EmitContext): ImportSet {
 			if (needsEnumPrompt) prompt.add("promptForRequiredEnumField");
 			if (isDelete) prompt.add("confirmDelete");
 		}
+	}
+
+	if (makesTypedCall(ctx)) {
+		imports.defaultFrom(operationModule(`${ctx.commandPath}.ts`), "operation");
 	}
 
 	return imports;

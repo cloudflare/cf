@@ -1,6 +1,7 @@
 /**
  * Compose the per-command handler body from its sub-emitters.
  */
+import { emitApiCall } from "./api-call.js";
 import { emitAuth } from "./auth.js";
 import { emitBodyBypass } from "./body-bypass.js";
 import { emitBodyPrompts } from "./body-prompts.js";
@@ -9,7 +10,6 @@ import { emitDryRun } from "./dry-run.js";
 import { emitFileUpload } from "./file-upload.js";
 import { emitMultipart } from "./multipart.js";
 import { emitPrelude } from "./prelude.js";
-import { emitSdkCall } from "./sdk-call.js";
 import type { EmitContext } from "../context.js";
 
 export function emitHandler(ctx: EmitContext): string[] {
@@ -25,8 +25,8 @@ export function emitHandler(ctx: EmitContext): string[] {
 	lines.push(...emitFileUpload(ctx));
 	lines.push(...emitBodyBypass(ctx));
 	lines.push(...emitBodyPrompts(ctx));
-	// Terminal SDK call — body-assembly shape when the op has per-field
-	// body flags, fallback sdk-call shape otherwise (mutually exclusive).
-	lines.push(...emitSdkCall(ctx));
+	// Terminal API call — body-assembly shape when the op has per-field
+	// body flags, fallback API-call shape otherwise (mutually exclusive).
+	lines.push(...emitApiCall(ctx));
 	return lines;
 }

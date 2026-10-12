@@ -46,7 +46,9 @@
 	"main": "./dist/index.mjs",
 	"imports": {
 		"#commands/*": "./src/commands/*",
-		"#lib/*": "./src/lib/*"
+		"#lib/*": "./src/lib/*",
+		"#api": "./src/api/index.ts",
+		"#operations/*": "./src/commands/_generated/_operations/*"
 	},
 	"exports": {
 		".": "./dist/index.mjs",

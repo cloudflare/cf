@@ -7,12 +7,13 @@
  * lines. No more "spelunking the flag-tree at the bottom of
  * `generateCommandFile` to remember what was emitted at the top."
  *
- * Two flavors of import are tracked:
+ * Three flavors of import are tracked:
  *   - **named**: `import { add(name) } from '<path>'`. Multiple emitters
  *     can `add` the same name; the rendering dedupes.
  *   - **type-only**: `import type { ArgumentsCamelCase } from 'yargs'`.
  *     A separate bucket so we never accidentally emit a value-import
  *     for a type symbol.
+ *   - **default**: `import operation from '<path>'`.
  *
  * The `from(path)` accessor returns a per-path builder so call sites
  * read `imports.from(libPath('auth')).add('createCommandClient')` —
@@ -26,6 +27,7 @@ interface ImportBucket {
 export class ImportSet {
 	private readonly named = new Map<string, Set<string>>();
 	private readonly typed = new Map<string, Set<string>>();
+	private readonly defaults = new Map<string, string>();
 
 	/** Builder for a value-import from a specific module path. */
 	from(path: string): ImportBucket {
@@ -53,6 +55,11 @@ export class ImportSet {
 		return api;
 	}
 
+	/** Import the default export of a specific module path as `name`. */
+	defaultFrom(path: string, name: string): void {
+		this.defaults.set(path, name);
+	}
+
 	/**
 	 * Render the collected imports as TypeScript source. Lines are
 	 * returned in insertion order (the first `from(path)` call for a
@@ -71,6 +78,9 @@ export class ImportSet {
 			const sorted = [...names].sort();
 			lines.push(`import { ${sorted.join(", ")} } from '${path}';`);
 		}
+		for (const [path, name] of this.defaults) {
+			lines.push(`import ${name} from '${path}';`);
+		}
 		return lines;
 	}
 
@@ -88,6 +98,9 @@ export class ImportSet {
 			const target = this.named.get(path) ?? new Set<string>();
 			for (const n of names) target.add(n);
 			this.named.set(path, target);
+		}
+		for (const [path, name] of other.defaults) {
+			this.defaults.set(path, name);
 		}
 		return this;
 	}

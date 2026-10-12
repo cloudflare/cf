@@ -7,6 +7,7 @@ import {
 	readCachedSchema,
 	writeCachedSchema,
 } from "#lib/schema-cache.js";
+import getRegistrarExtension from "#operations/registrar/extensions/get.js";
 
 const CACHE_NAMESPACE = "registrar-extension-schema";
 
@@ -40,11 +41,12 @@ async function fetchExtensionSchema(
 	try {
 		result =
 			timeout === undefined
-				? await client.registrar.extensions.get({
+				? await client.send(getRegistrarExtension, {
 						account_id: accountId,
 						extension,
 					})
-				: await client.registrar.extensions.get(
+				: await client.send(
+						getRegistrarExtension,
 						{ account_id: accountId, extension },
 						{ timeoutInSeconds: timeout / 1000, maxRetries: 0 }
 					);
@@ -68,7 +70,7 @@ async function fetchExtensionSchema(
  * since retrying a network or auth error against every suffix is pointless.
  * `createClient` is a thunk so a cache hit doesn't resolve credentials on
  * what may be a `--help` invocation. Help supplies a deadline; normal
- * execution leaves it undefined and uses the SDK's standard request policy.
+ * execution leaves it undefined and uses the client's standard request policy.
  */
 export async function resolveRegistrationSchema(
 	domain: string,

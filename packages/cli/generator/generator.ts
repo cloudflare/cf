@@ -5,10 +5,7 @@ import { buildEmitContext } from "./emit/build-context.js";
 import { generateBuilderLines } from "./emit/builder.js";
 import { buildImportSet } from "./emit/handler/imports.js";
 import { emitHandler } from "./emit/handler/index.js";
-import {
-	typedBuilderDeclaration,
-	typedSdkTypeAliases,
-} from "./emit/sdk-path.js";
+import { operationLiteral, operationWire, usesPathTag } from "./emit/wire.js";
 import { generateCommandMeta, type GeneratedCommandMeta } from "./metadata.js";
 import { getTelemetrySafeFlags } from "./telemetry.js";
 import { escapeForSingleQuote } from "./util.js";
@@ -62,14 +59,6 @@ export function generateCommandFile(
 	const builderBody = `return yargs
       .usage(${JSON.stringify(usage)})
 ${builderLines.join("\n")};`;
-	const sdkTypeAliases = typedSdkTypeAliases(ctx);
-	const sdkTypes =
-		sdkTypeAliases.length > 0 ? `\n${sdkTypeAliases.join("\n")}\n` : "";
-	const typedBuilder = typedBuilderDeclaration(ctx);
-	const declarations = typedBuilder
-		? `${sdkTypes}\n${typedBuilder}\n\ntype Args = InferArgs<typeof typedBuilder>;`
-		: `type Args = InferArgs<typeof builder>;\n${sdkTypes}`;
-	const builderProperty = typedBuilder ? "builder: typedBuilder," : "builder,";
 	const telemetryCommandPath = groupName
 		? `${resourceName} ${groupName.replaceAll("/", " ")} ${method.name}`
 		: `${resourceName} ${method.name}`;
@@ -100,11 +89,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
   ${builderBody}
 }
 
-${declarations}
+type Args = InferArgs<typeof builder>;
+
 const command: CommandModule<CommonYargsOptions, Args> = {
   command: '${commandStr}',
   describe: '${escapeForSingleQuote(getMethodSummary(method))}',
-  ${builderProperty}
+  builder,
   handler: async (argv): Promise<void> =>
     runWithTelemetry(
       {
@@ -128,6 +118,25 @@ export default command;
 		hideCommand
 	);
 	return { code, meta };
+}
+
+/**
+ * Generate the module of a method's operation (the file that lives at
+ * `_generated/_operations/<resource>/<group?>/<method>.ts`), whose default
+ * export is the `Operation` its command, and hand-written ones, send with
+ * `Client.send`. It imports only the runtime's `path` tag, when its path has
+ * parameters, so any module can import it.
+ */
+export function generateOperationFile(method: Schema.method): string {
+	assert(method.operationId, `Operation ID missing for ${method.name}`);
+	const opInfo = resolveOperation(method.operationId);
+	assert(opInfo, `Operation ID missing for ${method.name}`);
+	const imports = usesPathTag(opInfo.path)
+		? `import { path } from "#api";\n\n`
+		: "";
+	return `/** @generated from ${method.operationId} */
+${imports}export default ${operationLiteral(opInfo, operationWire(opInfo))} as const;
+`;
 }
 
 export {

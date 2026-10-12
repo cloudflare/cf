@@ -32,8 +32,8 @@ function operation(overrides: Partial<OperationInfo>): OperationInfo {
 	} as unknown as OperationInfo;
 }
 
-// Matches the real `queues-get-consumer` operation so the typed Fern SDK
-// call is emitted, with renamed path parameters.
+// Matches the real `queues-get-consumer` operation, with renamed path
+// parameters.
 const renamedConsumerGet = operation({
 	path: "/accounts/{account_id}/queues/{queue_id}/consumers/{consumer_id}",
 	pathParams: [
@@ -73,7 +73,7 @@ function emit(
 }
 
 describe("x-fern-parameter-name path renames", () => {
-	it("reads renamed path args in the typed SDK call and dry run", () => {
+	it("reads renamed path args in the request and dry run", () => {
 		const { handler, builder } = emit(
 			method("get", "queues-get-consumer"),
 			renamedConsumerGet
@@ -84,8 +84,12 @@ describe("x-fern-parameter-name path renames", () => {
 		expect(builder).not.toContain("queue-id");
 		expect(builder).not.toContain("consumer-id");
 
-		expect(handler).toContain('queue_id: argv["queue"]');
-		expect(handler).toContain('consumer_id: argv["consumer"]');
+		// A renamed path parameter is sent with a passthrough request, whose
+		// URL reads the renamed args.
+		expect(handler).not.toContain("client.send(");
+		expect(handler).toContain(
+			'requestApi<unknown>(client, "GET", `/accounts/${accountId}/queues/${encodeURIComponent(String(argv["queue"]))}/consumers/${encodeURIComponent(String(argv["consumer"]))}`)'
+		);
 
 		expect(handler).toContain(
 			'/queues/${argv["queue"] == null ? \'<queue>\' : encodeURIComponent(String(argv["queue"]))}'
@@ -182,11 +186,12 @@ describe("x-fern-property-name body renames", () => {
 		expect(builder).toContain(".option('token'");
 		expect(builder).toContain(".conflicts('mtls-certificate-id', ['token'])");
 		expect(builder).toContain(".conflicts('token', ['mtls-certificate-id'])");
-		expect(handler).toContain(
-			'setNestedValue(bodyData, ["mtls", "mtls_certificate_id"], resolveFileToken(argv["mtls-certificate-id"]'
+		expect(handler).toMatch(
+			/mtls: \{\n\s*mtls_certificate_id: resolveFileToken\(argv\["mtls-certificate-id"\]/
 		);
+		expect(handler).toContain('access_token: resolveFileToken(argv["token"]');
 		expect(handler).toContain(
-			'setNestedValue(bodyData, ["access_token"], resolveFileToken(argv["token"]'
+			"client.send(operation, { body: bodyData, account_id: accountId })"
 		);
 	});
 });

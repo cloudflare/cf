@@ -30,7 +30,7 @@ import { runCf } from "../helpers/run-cf.js";
  * a real generated command.
  */
 
-describe("SDK URL-encodes positional path params", () => {
+describe("the API client URL-encodes positional path params", () => {
 	/**
 	 * `kv namespaces get <namespaceId>` is a stable two-path-param GET whose
 	 * subject sits at the tail of the path, so an unencoded value visibly
@@ -57,7 +57,7 @@ describe("SDK URL-encodes positional path params", () => {
 	});
 
 	/**
-	 * Drive the real SDK with `namespaceId` and capture, via MSW, the
+	 * Drive the real client with `namespaceId` and capture, via MSW, the
 	 * exact URL `globalThis.fetch` is asked to request.
 	 */
 	async function capturedUrl(namespaceId: string): Promise<URL> {
@@ -74,7 +74,7 @@ describe("SDK URL-encodes positional path params", () => {
 			CLOUDFLARE_ACCOUNT_ID: SAFE_ACCOUNT,
 		});
 		if (captured === undefined) {
-			throw new Error("SDK issued no request");
+			throw new Error("the client issued no request");
 		}
 		return new URL(captured);
 	}

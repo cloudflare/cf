@@ -117,7 +117,7 @@ Be thorough and exacting. Read every changed line, including `_generated/` files
 
 1. **Correctness:** logic bugs, off-by-one errors, race conditions, unhandled error paths, incorrect API behavior, backward-compatibility violations, broken yargs wiring.
 2. **Security:** secret leakage, injection, unsafe shell interpolation in workflows, over-broad GitHub Actions permissions, unpinned third-party actions, untrusted input flowing into privileged steps.
-3. **Generator discipline:** hand-edits to `_generated/`, `src/sdk/`, or `vendor/`; changes committed without the artifacts they actually own (cf emitter/Forge overlays → `_generated/`; OpenAPI revision/preview or SDK transformer → `src/sdk/` and `_generated/`); output that breaks consumers of generated CLI commands.
+3. **Generator discipline:** hand-edits to `_generated/` or `vendor/`; changes committed without the artifacts they actually own (cf emitter/Forge overlays/OpenAPI revision or preview → `_generated/`); output that breaks consumers of generated CLI commands.
 4. **Type safety:** `any`, non-null assertions (`!`), floating promises, missing `node:` prefixes, missing `import type`, unchecked casts.
 5. **Repo invariants:** violations of `AGENTS.md` (product-agnostic shared `src/` layers, lazy command registration, no eager generated product imports, no hard-coded product names outside the documented hand-written commands registered in `src/commands/hand-written.ts`, no hard-coded HTTP verbs in generator logic, and no relative imports across package boundaries).
 6. **Clarity nits:** misleading names, dead or unreachable code, stale or incorrect comments, inconsistent error messages, incomplete edge-case handling, missing tests for new behavior.

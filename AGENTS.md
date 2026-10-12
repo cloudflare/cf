@@ -24,7 +24,7 @@ cf/
 │   │   │                       # NOT the `cf dev` command
 │   │   ├── version.ts          # VERSION resolver from bundled package JSON
 │   │   ├── config.ts           # public config types / defineConfig entry
-│   │   ├── sdk/                # tracked generated SDK; rewritten by generation
+│   │   ├── api/                # thin request runtime (`#api`): Client, ApiError
 │   │   ├── commands/
 │   │   │   ├── _generated/     # tracked generated source; rewritten by pnpm generate
 │   │   │   ├── hand-written.ts # central root/leaf/override/subgroup registry
@@ -65,7 +65,7 @@ cf/
 │   ├── bin/cf                  # binary entry — loads lightweight delegation,
 │   │                           # then imports dist/index.mjs when staying local
 │   ├── dist/                   # gitignored, written by Vite+ Pack (chunked ESM)
-│   ├── generate.ts             # OpenAPI/SDK sync → initFromOpenApi → transform/finalize
+│   ├── generate.ts             # OpenAPI fetch → initFromOpenApi → transform/finalize
 │   ├── vite.config.ts          # test and production ESM bundle config
 │   └── build-test.mjs          # compiled bundle for Wrangler compatibility tests
 ├── packages/wrangler-tests/    # imported wrangler test corpus, using
@@ -73,7 +73,7 @@ cf/
 ├── fixtures/                   # cf dev discovery fixtures (vite-plugin +
 │                               # wrangler-bundler projects)
 ├── usecases/                   # per-command usage-scenario YAML catalogue
-├── vendor/                     # Vendored tarballs: forge + SDK transformer
+├── vendor/                     # Vendored tarball: forge
 ├── patches/                    # pnpm patches: release publishing + Container image
 │                               # cleanup ownership
 ├── scripts/sync-forge.ts       # re-vendor pipeline (FORGE_REPO=...)
@@ -118,7 +118,7 @@ Test infrastructure is split across two packages:
 `.github/workflows/ci.yml` runs generation, repository checks, the CLI suite, and the Wrangler compatibility suite on every PR and push to `main` (for the Cloudflare-owned repository). Additional confidence:
 
 - The forge-side type system + the OpenAPI spec (every emitted command
-  is type-checked end-to-end against the SDK).
+  and its `Operation` is type-checked against `#api`).
 - `pnpm check:type` (tsgo) across workspace packages, including the full
   generated CLI tree and the container fixture. Dependency builds run first
   so the fixture can resolve `cf/config` declarations.
@@ -136,7 +136,6 @@ pnpm build
        └─ cf#task:build (vp pack), after cf#task:generate
             └─ tsx packages/cli/generate.ts
                  ├─ fetch pinned Forge OpenAPI release (or preview bundle)
-                 ├─ regenerate src/sdk/ when missing, on revision change, or for preview
                  ├─ initFromOpenApi(source)
                  ├─ forge.transform(transformer)    # per-command emitter
                  ├─ forge.finalize(_generated, files, { clean: true })
@@ -147,6 +146,10 @@ Single transformer (`packages/cli/generator/index.ts`) walks
 `forge.commands` and emits:
 
 - `src/commands/_generated/<resource>/<sub>/<op>.ts` — yargs command modules
+- `src/commands/_generated/_operations/<resource>/<sub>/<op>.ts` — one module
+  per leaf, at its command's path, whose default export is its `Operation`;
+  its command sends it with `Client.send`, and hand-written code imports it
+  as `#operations/<resource>/<sub>/<op>.js`
 - `src/commands/_generated/<resource>/index.ts` — resource indexes that statically import/register that selected root's sub-groups and leaves
 - `src/commands/_generated/index.ts` — top-level lazy registry
   (`generatedCommands: GeneratedCommand[]`)
@@ -156,6 +159,15 @@ Single transformer (`packages/cli/generator/index.ts`) walks
 
 `forge.finalize` cleans + writes; Vite+ formats afterward (kept out of
 the generator so forge stays format-agnostic).
+
+The commands send their requests through cf's thin runtime in `src/api/`
+(`Client`, `ApiError`), imported as `#api`. It is ordinary hand-maintained
+source; the generator doesn't emit it. A typed call is
+`client.send(operation, request)`: `request` is one object of the path,
+query and body fields (a JSON body is its `body`), and the `Operation`
+literal says where each goes, how the response is read, and which status
+errors the operation declares. Commands whose request can't be expressed
+that way send a passthrough `requestApi` call instead.
 
 Shell completions are no longer generated — `cf complete` is backed by
 `@bomb.sh/tab`, which parses the command/option tree at runtime from
@@ -192,6 +204,7 @@ the complete generated and hand-written `_meta/commands.json` catalogue (see
 | Output / spinner / errors       | `packages/cli/src/lib/{output,progress,errors,prompt}.ts`, `lib/ui/`                                                                                                                                                                                              |
 | Body parsing / dry-run          | `packages/cli/src/lib/{body-parser,dry-run,resolve}.ts`                                                                                                                                                                                                           |
 | Raw / non-JSON responses        | `packages/cli/src/lib/raw-fetch.ts`                                                                                                                                                                                                                               |
+| Request runtime                 | `packages/cli/src/api/` (imported as `#api`); hand-written commands import operations from `#operations/<path>.js`                                                                                                                                                |
 | Generator logic                 | `packages/cli/generator/{generator,metadata,arg-classification}.ts`                                                                                                                                                                                               |
 | Emitted-file shape              | `packages/cli/generator/index.ts`                                                                                                                                                                                                                                 |
 | Lint / format rules             | `vite.config.ts`                                                                                                                                                                                                                                                  |
@@ -208,7 +221,7 @@ the complete generated and hand-written `_meta/commands.json` catalogue (see
 | `context.ts`          | `getAccountId` / `getZoneId` / `getComplianceRegion` runtime resolution                                                                                                                                                                                                                                                                                   |
 | `state.ts`            | Persists shell-completion and telemetry preferences in `~/.config/cloudflare/state.json`, using workers-auth's canonical cf path and JSON storage                                                                                                                                                                                                         |
 | `body-parser.ts`      | JSON `--body` ingestion (including `@path`) and compacting; generated file handlers use `input-validation.ts` for `--file`                                                                                                                                                                                                                                |
-| `request-headers.ts`  | User-Agent plus `X-CF-CLI-Mode` / detected-agent headers; authentication is owned by the SDK/raw-fetch/auth layers                                                                                                                                                                                                                                        |
+| `request-headers.ts`  | User-Agent plus `X-CF-CLI-Mode` / detected-agent headers; authentication is owned by the API client/raw-fetch/auth layers                                                                                                                                                                                                                                 |
 | `dry-run.ts`          | `--dry-run` body-preview formatting (`bodyKind: 'json' \| 'multipart' \| 'octet-stream' \| 'none'`)                                                                                                                                                                                                                                                       |
 | `errors.ts`           | `handleError`; APIError box; status-level hints (no per-code knowledge in `src/`)                                                                                                                                                                                                                                                                         |
 | `output.ts`           | `formatOutput` (silent on null; `✓ <successLabel>` on TTY stderr); `--quiet` knob                                                                                                                                                                                                                                                                         |
@@ -217,7 +230,7 @@ the complete generated and hand-written `_meta/commands.json` catalogue (see
 | `session.ts`          | `openSession(version)` — idempotent once-per-process banner emission at interactive invocation startup; prompt helpers call it defensively                                                                                                                                                                                                                |
 | `interactive.ts`      | `isNonInteractiveOrCI()` / `isCI` (via `@cloudflare/cli-shared-helpers` + `ci-info`)                                                                                                                                                                                                                                                                      |
 | `telemetry/`          | Opt-out preference and device state, product-agnostic argument/error sanitization, environment probes, lifecycle wrapping, and bounded Sparrow dispatch                                                                                                                                                                                                   |
-| `raw-fetch.ts`        | `fetchRawBytes` / `writeRawOutput` — bypasses SDK envelope decoding for generated `binary \| text` response kinds (e.g. `cf kv keys get`)                                                                                                                                                                                                                 |
+| `raw-fetch.ts`        | `fetchRawBytes` / `writeRawOutput` — bypasses the client's envelope decoding for generated `binary \| text` response kinds (e.g. `cf kv keys get`)                                                                                                                                                                                                        |
 | `lazy-command.ts`     | `lazyCommand(command, describe, importer, telemetry)` — wraps a deferred `CommandModule`; telemetry is required or marked as handled by the imported command. **Critical for startup perf** — without it, every invocation pulls in all 178 generated root indexes.                                                                                       |
 | `metadata.ts`         | `loadMeta()` loader + types for `_meta/*.json` (complete commands, hand-written provenance, and schemas); `isCommandsMetadata` guard                                                                                                                                                                                                                      |
 | `local.ts`            | Dependency-free `--local` lazy runtime loading                                                                                                                                                                                                                                                                                                            |
@@ -315,16 +328,16 @@ Practical extensions of this rule:
 
 ### Lazy command registration
 
-Each generated top-level root and each hand-written root is registered via `lazyCommand` (`src/lib/lazy-command.ts`). The outer shell exposes only the `command` + `describe` strings yargs needs; selecting a root dynamically imports its root module/chunk. Within that selected generated root, index files statically import and register the full subtree. Without the outer lazy boundary, `cf --help` / `cf --version` / any command would eagerly load every generated root, the complete command catalogue, the SDK, and every helper.
+Each generated top-level root and each hand-written root is registered via `lazyCommand` (`src/lib/lazy-command.ts`). The outer shell exposes only the `command` + `describe` strings yargs needs; selecting a root dynamically imports its root module/chunk. Within that selected generated root, index files statically import and register the full subtree. Without the outer lazy boundary, `cf --help` / `cf --version` / any command would eagerly load every generated root, the complete command catalogue, the API client, and every helper.
 
 Vite+ Pack preserves those dynamic root imports as code-split chunks (and may factor shared dependencies into additional chunks), so do not assume a strict one-chunk-per-root correspondence. Don't reintroduce eager top-level imports of `_generated/index.ts` from anywhere besides the lazy shell registration in `src/index.ts`.
 
 ### Generator output (DO NOT EDIT)
 
-- `packages/cli/src/commands/_generated/` — yargs modules + `_meta/` JSON
-- `packages/cli/src/sdk/` — generated SDK and pinned OpenAPI artifacts
+- `packages/cli/src/commands/_generated/` — yargs modules, `_operations/`
+  operation literals, and `_meta/` JSON
 
-Tracked in git and never safe to patch by hand. Every `pnpm generate` cleans, rewrites, and Vite+-formats `_generated/`. SDK regeneration occurs when its entrypoint is missing, its OpenAPI revision is outdated, or a preview bundle is supplied and is handled by its own generator; ordinary cf emitter changes do not rewrite it. Make changes in Forge, the SDK transformer, or the cf generator as appropriate, then regenerate and commit the resulting artifacts.
+Tracked in git and never safe to patch by hand. Every `pnpm generate` cleans, rewrites, and Vite+-formats `_generated/`. Make changes in Forge or the cf generator as appropriate, then regenerate and commit the resulting artifacts.
 
 GitHub collapses `_generated/` by default because it is marked `linguist-generated`, but AI reviewers must still review every changed file there.
 
@@ -537,16 +550,16 @@ allowlists — yargs is authoritative. Keep it that way.
 
 ### Output
 
-`formatOutput` is silent on null/undefined responses (SDK unwraps
+`formatOutput` is silent on null/undefined responses (the client unwraps
 `result`; null = `{success: true, result: null}`). Prints
-`✓ <successLabel>` on stderr when TTY. For structured output it unwraps SDK
-pages/envelopes, pretty-prints JSON to stdout, and syntax-highlights when color
+`✓ <successLabel>` on stderr when TTY. For structured output it unwraps list
+envelopes, pretty-prints JSON to stdout, and syntax-highlights when color
 is supported.
 
 For binary or non-JSON-shaped responses (KV values, R2 object bytes,
 signed-URL downloads), the generator derives
 `outputKind: 'binary' | 'text'` from response MIME types. It emits a code
-path that bypasses the SDK's response decoding and uses
+path that bypasses the client's response decoding and uses
 `fetchRawBytes` / `writeRawOutput` from `lib/raw-fetch.ts` to write
 the body verbatim to stdout. `--text` flips `binary` endpoints to UTF-8 decoded
 mode at runtime; `text` endpoints decode by default.
@@ -609,7 +622,7 @@ These have stabilised this repo's voice; preserve them.
   CI-friendly stderr message when non-interactive ("non-interactive;
   pass --force to confirm").
 - **Secret prompt:** clack.password (masks input).
-- **Success line:** `✓ <successLabel>` on stderr; null/undefined SDK
+- **Success line:** `✓ <successLabel>` on stderr; null/undefined API
   results suppress stdout output entirely.
 - **Splash screen:** bare `cf` prints the headline, a short getting-started list, and the docs link. Yargs owns root, group, and command help rendering.
 
@@ -657,13 +670,12 @@ Structured API output is JSON; generated `binary`/`text` endpoints write their p
 
 ## Vendored packages
 
-Tarballs in `vendor/`:
+Tarball in `vendor/`:
 
 - `cloudflare-forge-0.1.0.tgz`
-- `cloudflare-forge-transformer-sdk-ts-0.1.0.tgz`
 
-The Forge packages are not published to npm yet, so
-`packages/cli/package.json` references them via `file:` specifiers.
+The Forge package is not published to npm yet, so
+`packages/cli/package.json` references it via a `file:` specifier.
 `build-output-utils`, `config`, `containers-shared`, `workers-auth`,
 `workers-utils`, and `deploy-helpers` are installed from npm at exact versions.
 Dependency patches are registered in `pnpm-workspace.yaml` under
@@ -673,17 +685,15 @@ To re-vendor **forge**: `pnpm sync:forge` (defaults to
 `FORGE_REPO=../forge`, override to point at any forge checkout). The
 script:
 
-1. Runs the `@cloudflare/forge-transformer-sdk-ts` package's `build` task in the source repo (skip with `FORGE_SKIP_PREBUILD=1`). It does not invoke a separate Forge generation task.
-2. Repacks the two forge-managed tarballs (`forge` and
-   `forge-transformer-sdk-ts`) into `vendor/`.
-3. Rewrites the forge `file:` specifiers in `packages/cli/package.json` to
-   match the newly-packed filenames.
-4. Runs `pnpm install --force`.
+1. Repacks the `forge` tarball into `vendor/`.
+2. Rewrites the forge `file:` specifier in `packages/cli/package.json` to
+   match the newly-packed filename.
+3. Runs `pnpm install --force`.
 
 Then commit `vendor/` + the `package.json` diff.
 
-When the Forge packages publish to npm: drop their tarballs, switch to npm
-versions, and delete `scripts/sync-forge.ts`.
+When the Forge package publishes to npm: drop its tarball, switch to the npm
+version, and delete `scripts/sync-forge.ts`.
 
 The containers-shared and deploy-helpers patches stay until those packages defer
 local image cleanup to cf's successful workflow boundary — see "Patched deps".
@@ -713,7 +723,7 @@ over adding switches in cf src/.
 | `status: 'deprecated'`                                                             | live   | Method (and possibly its group) skipped entirely                                                             |
 | body schema `maxItems: N`                                                          | live   | Generator emits batched-array codepath for bulk ops (sourced from OpenAPI; see `opInfo.maxItems`)            |
 | `x-forge-require-confirmation: 'This …'`                                           | live   | Treat a non-DELETE op as destructive (confirm prompt with the supplied message + `--force` + delete spinner) |
-| response MIME `application/octet-stream`                                           | live   | Bypass SDK envelope; write response body verbatim to stdout (derived from response content type)             |
+| response MIME `application/octet-stream`                                           | live   | Bypass the client envelope; write response body verbatim to stdout (derived from response content type)      |
 | known text response MIME types (`text/plain`, `text/csv`, `text/html`, `text/vtt`) | live   | Same, but UTF-8 decode the body                                                                              |
 | `paramOverride.fromFile`                                                           | live   | Body string field accepts `--<flag> @path` with `format: text \| binary \| base64 \| json`                   |
 | `paramOverride.hidden`                                                             | live   | Param accepted but not surfaced in `--help`                                                                  |
@@ -792,7 +802,7 @@ CI). See `.changeset/README.md` for the full format and rules.
 
 ```bash
 pnpm install           # uses vendor/ tarballs
-pnpm build             # pinned public OpenAPI → matching SDK, CLI, and dist/
+pnpm build             # pinned public OpenAPI → CLI and dist/
 pnpm dev               # tsx packages/cli/src/dev.ts
 pnpm check             # generation + dependency builds + workspace tsgo + lint/format
 pnpm check:lint        # Vite+ lint --type-aware
@@ -868,13 +878,13 @@ constraining on this repo" to "future-facing".
   motivates forge (auto-generate every endpoint, no gaps), global
   install (`cf *` permission scope, not `npx *`), and machine-readable
   command metadata.
-- **Dogfood our own API surface.** cf uses the Fern-generated
-  TypeScript SDK produced by `@cloudflare/forge-transformer-sdk-ts`
-  and imported through `#sdk`, same as any external consumer. Do not
-  bypass the SDK with direct `fetch` calls just
-  because cf lives next to forge — the only exception is
-  `lib/raw-fetch.ts` for endpoints whose response shape doesn't fit
-  the SDK envelope. The explicit goal is that cf is a template for
+- **One request path.** cf sends API requests through its thin runtime
+  (`#api`). Every operation is described in
+  `#operations/<resource>/…/<op>.js`, which generated and hand-written commands
+  import; `lib/api-operations.ts` only has the few no generated command
+  calls. Otherwise use `requestApi`. Do not add ad-hoc `fetch` calls — the
+  only exception is `lib/raw-fetch.ts` for endpoints whose response shape
+  doesn't fit the envelope. The explicit goal is that cf is a template for
   how any internal team should consume the Cloudflare API.
 - **Ship every fix immediately.** Patch releases for every bug fix
   (TanStack style). Bug fix turnaround measured in minutes/hours, not
@@ -952,7 +962,7 @@ From the Forge RFC, these are the vocabulary and shapes to prefer for new overla
     of an already-shipped package; the alternative (run
     autoconfig as a Node subprocess) reintroduces a Node bundle
     and erases the size win.
-  - Forge SDK + transformer are TypeScript. Code generation
+  - Forge and cf's generator are TypeScript. Code generation
     would need a separate TS build step, or full forge port.
   - Miniflare types + dev-registry walker for `--local` are
     TypeScript.
@@ -970,7 +980,7 @@ From the Forge RFC, these are the vocabulary and shapes to prefer for new overla
   **Keep the option open** for a future Go/Rust rewrite by:
   - Avoiding dynamic Node features (eval, runtime
     monkey-patching) in `src/`.
-  - Keeping SDK consumption clean (so a Rust SDK could swap in).
+  - Keeping API consumption behind `#api` (so a Rust client could swap in).
   - Keeping the dev-server / autoconfig contracts subprocess-
     based where they cross language boundaries.
 

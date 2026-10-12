@@ -1,9 +1,8 @@
 import { toKebabCase } from "@cloudflare/forge";
 
 /**
- * Acronyms preserved as all-uppercase by {@link toPascalCase} and as
- * all-lowercase by {@link sdkPropertyCase} when they appear as a full
- * standalone segment.
+ * Acronyms preserved as all-uppercase by {@link toPascalCase} when they
+ * appear as a full standalone segment.
  */
 export const ACRONYMS = new Set([
 	"d1",
@@ -30,34 +29,6 @@ export function toPascalCase(name: string): string {
 			return part.charAt(0).toUpperCase() + part.slice(1).toLowerCase();
 		})
 		.join("");
-}
-
-/**
- * SDK-specific camelCase that fully lowercases the first segment.
- * Needed because the SDK generator produces all-lowercase property names
- * like 'riskscoring' via toCamelCase(toPascalCase('risk-scoring')).
- * Only use this for SDK method paths — for interface fields / argv, use
- * {@link toCamelCase} from forge which preserves inner capitals.
- */
-export function sdkPropertyCase(name: string): string {
-	const lower = name.toLowerCase();
-	if (ACRONYMS.has(lower) && !name.includes("-") && !name.includes("_"))
-		return lower;
-
-	const parts = name.split(/[-_]/);
-	return parts
-		.map((part, i) => {
-			const partLower = part.toLowerCase();
-			if (i === 0) return partLower;
-			if (ACRONYMS.has(partLower)) return part.toUpperCase();
-			return part.charAt(0).toUpperCase() + part.slice(1).toLowerCase();
-		})
-		.join("");
-}
-
-/** Convert a kebab-cased method name to the SDK's camelCased property. */
-export function toMethodName(name: string): string {
-	return name.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
 }
 
 /**

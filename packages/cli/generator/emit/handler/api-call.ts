@@ -1,6 +1,6 @@
 import { argvKey } from "../../codegen/identifiers.js";
 /**
- * Emit the terminal SDK call — the request that actually hits the API
+ * Emit the terminal API call — the request that actually hits the API
  * when no earlier early-return bypass (multipart / `--file` / `--body`)
  * fired.
  *
@@ -13,8 +13,8 @@ import { argvKey } from "../../codegen/identifiers.js";
  *     (`--from-name`), then issue the call.
  *   - **`!hasBodyParams`** → the fallback path: throw on an
  *     unsatisfiable required body, stream raw-output responses, drop to
- *     the generic `client.<verb><unknown>` form for header-bearing ops,
- *     else a Fern object-shaped typed call via sdk-map.json.
+ *     a passthrough `requestApi` call for header-bearing ops, else a
+ *     typed `client.send(operation, request)` call.
  *
  * Both shapes share: folding non-path positional + required-option args
  * into the body (see {@link bodyFieldArgs}), raw-output streaming via
@@ -33,17 +33,17 @@ import {
 	positionalArgs,
 } from "../../intermediate-representation.js";
 import {
-	canEmitTypedBodySdkCall,
-	canEmitTypedSdkCall,
-	typedBodySdkCall,
-	typedSdkCall,
-} from "../sdk-path.js";
+	canEmitTypedBodyCall,
+	canEmitTypedCall,
+	typedBodyCall,
+	typedCall,
+} from "../typed-call.js";
 import { emitBodyArgValue, emitBodyObject } from "./body-object.js";
 import type { EmitContext } from "../context.js";
 
 /**
  * Non-path positional args + required option args that fold into the
- * request body. Shared by both SDK-call shapes. Returns each
+ * request body. Shared by both API-call shapes. Returns each
  * contributing arg's kebab argv read key plus its snake_cased API field
  * name (the wire key both shapes use).
  */
@@ -79,22 +79,31 @@ function bodyFieldArgs(
 	return out;
 }
 
-export function sdkCallUsesRequestApi(ctx: EmitContext): boolean {
-	if (ctx.isRawOutput) return false;
-	if (ctx.derived.hasBodyParams) return !canEmitTypedBodySdkCall(ctx);
-	const bodyRequiredAndUnsatisfiable =
-		ctx.derived.hasBody &&
-		!ctx.derived.hasEmptyBody &&
-		!canEmitTypedSdkCall(ctx);
-	return !bodyRequiredAndUnsatisfiable && !canEmitTypedSdkCall(ctx);
+/**
+ * Whether a command without body flags needs `--body`: its body has a shape
+ * to fill in, or is required and has fields, and a typed call can't send it.
+ */
+function bodyRequiredAndUnsatisfiable(
+	ctx: EmitContext,
+	typed: boolean
+): boolean {
+	const { hasBody, hasEmptyBody } = ctx.derived;
+	return hasBody && (!hasEmptyBody || ctx.wire.requestBodyMandatory) && !typed;
 }
-export function emitSdkCall(ctx: EmitContext): string[] {
+
+export function apiCallUsesRequestApi(ctx: EmitContext): boolean {
+	if (ctx.isRawOutput) return false;
+	if (ctx.derived.hasBodyParams) return !canEmitTypedBodyCall(ctx);
+	const typed = canEmitTypedCall(ctx);
+	return !bodyRequiredAndUnsatisfiable(ctx, typed) && !typed;
+}
+export function emitApiCall(ctx: EmitContext): string[] {
 	const { derived } = ctx;
-	return derived.hasBodyParams ? emitBodyAssembly(ctx) : emitPlainSdkCall(ctx);
+	return derived.hasBodyParams ? emitBodyAssembly(ctx) : emitPlainApiCall(ctx);
 }
 
 /**
- * Per-flag body assembly + the SDK call that consumes it (the
+ * Per-flag body assembly + the API call that consumes it (the
  * `hasBodyParams` shape).
  */
 function emitBodyAssembly(ctx: EmitContext): string[] {
@@ -113,8 +122,8 @@ function emitBodyAssembly(ctx: EmitContext): string[] {
 	const lines: string[] = [];
 	lines.push(``);
 	lines.push(`      // Assemble request body from individual flags`);
-	if (canEmitTypedBodySdkCall(ctx)) {
-		lines.push(`      const bodyData = compactBody<Body>(`);
+	if (canEmitTypedBodyCall(ctx)) {
+		lines.push(`      const bodyData = compactBody(`);
 		for (const line of emitBodyObject(ctx, "\t\t")) {
 			lines.push(`        ${line}`);
 		}
@@ -152,9 +161,9 @@ function emitBodyAssembly(ctx: EmitContext): string[] {
 		}
 	}
 
-	const bodyAssemblyOpts: string[] = [
-		"body: Object.keys(bodyData).length > 0 ? bodyData : undefined",
-	];
+	// Like a typed call, which sends a body that needs none of its fields
+	// empty, rather than leaving it out.
+	const bodyAssemblyOpts: string[] = ["body: bodyData"];
 	if (hasHeaders) bodyAssemblyOpts.push(`headers: ${HEADERS_GUARDED_EXPR}`);
 
 	// Body-bearing requests can't put query params in options — append
@@ -167,7 +176,7 @@ function emitBodyAssembly(ctx: EmitContext): string[] {
 
 	if (isRawOutput) {
 		// Binary / text response: send the assembled JSON body but stream
-		// response bytes to stdout instead of JSON-decoding via the SDK.
+		// response bytes to stdout instead of JSON-decoding them.
 		const rawBodyParts = [
 			"body: Object.keys(bodyData).length > 0 ? bodyData : undefined",
 		];
@@ -175,8 +184,8 @@ function emitBodyAssembly(ctx: EmitContext): string[] {
 		for (const l of emitRawTail("      ", bodyAssemblyUrl, rawBodyParts)) {
 			lines.push(l);
 		}
-	} else if (canEmitTypedBodySdkCall(ctx)) {
-		lines.push(`      const result = ${wrapAwait(typedBodySdkCall(ctx))};`);
+	} else if (canEmitTypedBodyCall(ctx)) {
+		lines.push(`      const result = ${wrapAwait(typedBodyCall(ctx))};`);
 		lines.push(formatOutputCall("      "));
 	} else {
 		lines.push(
@@ -189,7 +198,7 @@ function emitBodyAssembly(ctx: EmitContext): string[] {
 }
 
 /**
- * The fallback SDK-call block for commands WITHOUT auto-generated body
+ * The fallback API-call block for commands WITHOUT auto-generated body
  * params (the `!hasBodyParams` shape).
  *
  * Sub-shapes:
@@ -197,11 +206,12 @@ function emitBodyAssembly(ctx: EmitContext): string[] {
  *   - Raw-output response (binary/text): pipe response bytes via the
  *     shared `emitRawTail` helper.
  *   - Header-bearing requests (and a few specialised body shapes): go
- *     through `client.<verb><unknown>` with a manual options bag.
- *   - Everything else: a Fern object-shaped typed call when sdk-map.json
- *     has a safe mapping, otherwise the authenticated passthrough fetch.
+ *     through `requestApi` with a manual options bag.
+ *   - Everything else: a typed `client.send` call when the operation's
+ *     request can be filled in, otherwise the authenticated passthrough
+ *     fetch.
  */
-function emitPlainSdkCall(ctx: EmitContext): string[] {
+function emitPlainApiCall(ctx: EmitContext): string[] {
 	const {
 		opInfo,
 		derived,
@@ -213,7 +223,7 @@ function emitPlainSdkCall(ctx: EmitContext): string[] {
 		wrapAwait,
 		emitRawTail,
 	} = ctx;
-	const { hasBody, hasEmptyBody } = derived;
+	const { hasBody } = derived;
 
 	const lines: string[] = [];
 	lines.push(``);
@@ -222,9 +232,9 @@ function emitPlainSdkCall(ctx: EmitContext): string[] {
 	// `--body` nor any per-field body flag, bail out with a clear error
 	// before sending an empty payload (which the API would reject with
 	// an opaque 400).
-	const bodyRequiredAndUnsatisfiable =
-		hasBody && !hasEmptyBody && !canEmitTypedSdkCall(ctx);
-	if (bodyRequiredAndUnsatisfiable) {
+	const typed = canEmitTypedCall(ctx);
+	const unsatisfiable = bodyRequiredAndUnsatisfiable(ctx, typed);
+	if (unsatisfiable) {
 		lines.push(`      if (argv.body === undefined) {`);
 		lines.push(
 			`        throw new Error('--body is required for this command. Pass --body \\'<json>\\' or --body @path/to/file.json.');`
@@ -232,7 +242,7 @@ function emitPlainSdkCall(ctx: EmitContext): string[] {
 		lines.push(`      }`);
 	}
 
-	// Raw-output branch: bypass the SDK (which JSON-stringifies or
+	// Raw-output branch: bypass the client (which JSON-decodes or
 	// text-decodes) and pipe the response body straight to stdout.
 	// `--text` on raw-bytes endpoints switches to UTF-8 decoded mode at
 	// runtime. This is the bodyless case (GET, or POST whose payload
@@ -250,11 +260,10 @@ function emitPlainSdkCall(ctx: EmitContext): string[] {
 		}
 	}
 
-	// Skip SDK call + formatOutput when the raw-output branch handled
+	// Skip the API call + formatOutput when the raw-output branch handled
 	// the response, OR when the `--body required` throw above is
-	// unconditional (the SDK call would be dead-code that mistypes on
-	// array-bodied SDK methods).
-	if (!isRawOutput && !bodyRequiredAndUnsatisfiable) {
+	// unconditional (the call would be dead code).
+	if (!isRawOutput && !unsatisfiable) {
 		if (hasHeaders) {
 			const directOpts: string[] = [];
 			if (hasBody) {
@@ -276,8 +285,8 @@ function emitPlainSdkCall(ctx: EmitContext): string[] {
 			lines.push(
 				`      const result = ${wrapAwait(`requestApi<unknown>(client, ${JSON.stringify(opInfo.method.toUpperCase())}, \`${resolvedRequestPath}\`, { ${directOpts.join(", ")} })`)};`
 			);
-		} else if (canEmitTypedSdkCall(ctx)) {
-			lines.push(`      const result = ${wrapAwait(typedSdkCall(ctx))};`);
+		} else if (typed) {
+			lines.push(`      const result = ${wrapAwait(typedCall(ctx))};`);
 		} else {
 			const passthroughOptions = hasParams ? ", { query: queryParams }" : "";
 			lines.push(

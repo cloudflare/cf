@@ -13,7 +13,7 @@ import { runCf } from "../helpers/run-cf.js";
 
 /**
  * End-to-end network tests for `cf r2 buckets` commands, driven through
- * the real `runMain` → yargs → SDK → `globalThis.fetch` stack with MSW
+ * the real `runMain` → yargs → API client → `globalThis.fetch` stack with MSW
  * standing in for the Cloudflare API.
  *
  * Coverage mirrors the harness exemplar (`zones-list.test.ts`) but for

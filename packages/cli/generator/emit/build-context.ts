@@ -3,7 +3,7 @@
  *
  * Computes every derived flag the handler emitters branch on
  * (`needsAccountId`, `firstPositionalIsZone`, `isDelete`, …), the
- * progress / success labels, the SDK call-shape, the variant-prompt
+ * progress / success labels, the typed-call shape, the variant-prompt
  * block, and the closures (`formatOutputCall`, `wrapAwait`,
  * `emitRawTail`) that close over them.
  *
@@ -29,10 +29,10 @@ import {
 	substitutePathTemplate,
 } from "../util.js";
 import { computeVariantPromptBlock } from "./handler/variant-prompt.js";
-import { computePathBookkeeping } from "./sdk-path.js";
+import { computePathBookkeeping } from "./typed-call.js";
+import { operationWire } from "./wire.js";
 import type { EmitContext } from "./context.js";
 import type { OperationInfo, Schema } from "@cloudflare/forge";
-import { getSdkMapEntry } from "#sdk";
 
 export interface BuildContextInput {
 	method: Schema.method;
@@ -50,7 +50,7 @@ export function buildEmitContext(input: BuildContextInput): BuildContextResult {
 	const { method, resourceName, groupName, opInfo } = input;
 
 	const outputKind = deriveOutputKind(opInfo);
-	const sdkMapEntry = getSdkMapEntry(method.operationId);
+	const wire = operationWire(opInfo);
 	const isWorkersCommand = resourceName === "workers";
 	const resolvedPath = opInfo.path;
 	const hasCombinedScope = hasAccountOrZoneScope(resolvedPath);
@@ -61,9 +61,9 @@ export function buildEmitContext(input: BuildContextInput): BuildContextResult {
 		resolvedPath.includes("{account_id}") ||
 		resolvedPath.includes("{account_identifier}") ||
 		resolvedPath.includes("{accountId}");
-	const sdkNeedsAccount =
+	const paramsNeedAccount =
 		opInfo.pathParams.some((p) => p.name === "account_id") ?? false;
-	if (pathNeedsAccount && !sdkNeedsAccount) {
+	if (pathNeedsAccount && !paramsNeedAccount) {
 		console.warn(
 			`[cf-generator] Missing Account ID pathParams: ${opInfo.path} ${method.operationId} ${JSON.stringify(opInfo.pathParams)}`
 		);
@@ -77,7 +77,7 @@ export function buildEmitContext(input: BuildContextInput): BuildContextResult {
 		);
 	}
 	const needsAccountId =
-		pathNeedsAccount || sdkNeedsAccount || hasCombinedScope;
+		pathNeedsAccount || paramsNeedAccount || hasCombinedScope;
 
 	// Single source of truth for both the TS codegen and the
 	// commands.json sidecar (see `arg-derivation.ts`). The downgrade
@@ -202,7 +202,6 @@ export function buildEmitContext(input: BuildContextInput): BuildContextResult {
 
 	const isRawOutput = outputKind === "binary" || outputKind === "text";
 
-	// Fern method accessors come from sdk-map.json.
 	const { allPathParamNames, requiredOptionArgs } = computePathBookkeeping({
 		opInfo,
 		derived,
@@ -215,18 +214,17 @@ export function buildEmitContext(input: BuildContextInput): BuildContextResult {
 	const hasHeaders = headerArgs(derived.args).length > 0;
 
 	// Runtime request path shared by every terminal emitter (multipart,
-	// file-upload, body-bypass, body-assembly, sdk-call). The dry-run
+	// file-upload, body-bypass, body-assembly, api-call). The dry-run
 	// preview path is computed separately in `emitDryRun` because it
 	// uses a placeholder account id and doesn't honour zone promotion.
 	//
 	// Path params are percent-encoded with `encodeURIComponent` so the
 	// raw-URL codepaths (which embed this string verbatim into a
-	// `client.<verb>(path)` / `fetchRawBytes(path)` call) match the
-	// typed SDK's behaviour — the typed methods encode every path param
-	// internally, but these hand-built URL strings would otherwise reach
-	// the API un-encoded (a key like `foo/bar` would split into extra
-	// path segments). The typed-SDK happy path never consumes this
-	// string, so there's no double-encoding risk. Account / zone /
+	// `requestApi(path)` / `fetchRawBytes(path)` call) match typed calls —
+	// the operation's `path` tag encodes every path param, but these hand-built
+	// URL strings would otherwise reach the API un-encoded (a key like
+	// `foo/bar` would split into extra path segments). Typed calls never
+	// consume this string, so there's no double-encoding risk. Account / zone /
 	// script-name ids are UUID-like (no URL-significant characters) and
 	// are left as bare interpolations for readability + parity with the
 	// dry-run preview.
@@ -250,7 +248,12 @@ export function buildEmitContext(input: BuildContextInput): BuildContextResult {
 		outputKind,
 		resourceName,
 		groupName,
-		sdkMapEntry,
+		wire,
+		commandPath: [
+			resourceName,
+			...(groupName === undefined ? [] : groupName.split("/")),
+			method.name,
+		].join("/"),
 		libPath,
 		derived,
 		allPathParamNames,

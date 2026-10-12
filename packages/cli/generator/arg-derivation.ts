@@ -30,7 +30,7 @@ import type { BodyParamInfo, MultipartInfo, Schema } from "@cloudflare/forge";
 
 type OperationInfo = NonNullable<ReturnType<typeof resolveOperation>>;
 
-// CLI-only options that must NOT be forwarded to the SDK's params object
+// CLI-only options that must NOT be forwarded to the request's params object
 // (i.e. never registered as auto-derived body flags).
 export const CLI_ONLY_OPTIONS = new Set([
 	"dry-run",
@@ -570,7 +570,7 @@ function deriveQueryParams(args: {
 
 /**
  * Header parameters. Each arg keeps the original header name in
- * `origin.wireName` (e.g. `cf-r2-jurisdiction`) for the SDK call's
+ * `origin.wireName` (e.g. `cf-r2-jurisdiction`) for the request's
  * `headers` object; the flag honours `x-fern-parameter-name`. Dedupes against names already laid down by
  * path / query.
  */

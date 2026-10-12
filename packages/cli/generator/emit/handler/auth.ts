@@ -2,13 +2,13 @@
  * Emit the post-dry-run auth + context-resolution block.
  *
  * Three pieces in order:
- *   1. `createCommandClient(argv)` — builds the SDK client so `--local`
+ *   1. `createCommandClient(argv)` — builds the API client so `--local`
  *      can swap the fetch transport transparently.
  *   2. Account-id resolution (when needed): in `--local` mode use the
  *      placeholder constant, otherwise call `getAccountId`. The
  *      resolved value is stashed on `argv.accountId` so downstream
  *      error-handling URL templates can render the real id. `account_id`
- *      is passed per-call to the SDK, so the client no longer binds it.
+ *      is passed per-call in the request, so the client doesn't bind it.
  *   3. Zone-id resolution (when needed): pull from positional or the
  *      global `--zone` flag via `getZoneId`.
  *   4. Worker-name resolution (when needed): same pattern but for

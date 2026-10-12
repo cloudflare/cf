@@ -7,7 +7,7 @@
  * payload with the payload field (from `--body` or `--file`) plus
  * extra fields from the auto-emitted flags.
  *
- * Returns early after the API call (the regular SDK call path is
+ * Returns early after the API call (the regular API call path is
  * skipped when the multipart branch fires).
  */
 import { toKebabCase } from "@cloudflare/forge";

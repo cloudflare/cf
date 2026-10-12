@@ -73,7 +73,7 @@ Follow this workflow when implementation mode applies:
    - If the triggering comment references review feedback, read the existing review comments and inline comments (`gh api repos/cloudflare/cf/pulls/$PR_NUMBER/comments`).
    - If the request is self-contained (e.g., "run the formatter"), you may not need to read the full PR at all.
    - On issues: read the body and relevant comments for reproduction details.
-3. Read the full source files you will touch, not just the diff. Pay particular attention to whether you are looking at hand-written code (`packages/cli/src/commands/{auth,build,completions,deploy,dev}/`, the AI/Registrar/D1/Workers generated-tree exceptions, `schema.ts`, `tools.ts`, `hand-written.ts`, and `lib/`) or generator-owned code (`generator/`, `_generated/`, and `src/sdk/`).
+3. Read the full source files you will touch, not just the diff. Pay particular attention to whether you are looking at hand-written code (`packages/cli/src/commands/{auth,build,completions,deploy,dev}/`, the AI/Registrar/D1/Workers generated-tree exceptions, `schema.ts`, `tools.ts`, `hand-written.ts`, and `lib/`) or generator-owned code (`generator/` and `_generated/`).
 4. Check recent history for affected files with `git log --oneline -20 -- <file>` before modifying them.
 5. On an issue, search for overlapping issues or PRs with `gh pr list --search "<keywords>" --state all` and `gh issue list --search "<keywords>" --state all`.
 6. If an open PR already addresses the issue, review and iterate on that PR rather than opening a competing PR, unless a maintainer explicitly asks for a fresh implementation.
@@ -127,7 +127,6 @@ Use triage mode when you are asked to investigate rather than change code.
 
 - `packages/cli/src/` — hand-written CLI source (yargs entry, the central `commands/hand-written.ts` registry, root commands, generated-tree exceptions, and `lib/`).
 - `packages/cli/src/commands/_generated/` — tracked generator output. It must only be modified by running `pnpm generate` after changing its source.
-- `packages/cli/src/sdk/` — tracked SDK generator output, governed by the same rule as `_generated/`.
 - `packages/cli/generator/` — the code generator (intermediate representation, per-command emitters, metadata, and index emitters).
 - `packages/cli/e2e/` — JSON fixtures and a generated bash runner that hits a real Cloudflare account. Don't run unless asked.
 - `vendor/` — vendored forge tarballs. Refresh via `scripts/sync-forge.ts` / `pnpm sync:forge`, never hand-edit.
@@ -151,7 +150,7 @@ Use triage mode when you are asked to investigate rather than change code.
 
 - If the desired behaviour can be achieved by tweaking the generator, prefer that over special-casing in hand-written commands.
 - Register every approved hand-written root, leaf override, or subgroup once in `src/commands/hand-written.ts`, supply its expected `meta.json`, and keep the complete `commands.json` plus `hand-written-commands.json` provenance output covered by the metadata drift test.
-- Regenerate the artifacts owned by the change. cf emitter or Forge-overlay changes normally update `_generated/`; an OpenAPI revision/preview or SDK transformer change also updates `src/sdk/`. CI assumes source, command tree, metadata, and the recorded SDK/OpenAPI revision stay in sync.
+- Regenerate the artifacts owned by the change. cf emitter, Forge-overlay, or OpenAPI revision/preview changes update `_generated/`. CI assumes source, command tree, and metadata stay in sync.
 - Subject = positional + arg shape, path-param routing, `@file` token, deprecated method handling, required-field prompting, list pagination, output formatting — see AGENTS.md "Generator Conventions" before touching the generator.
 
 **Testing:**

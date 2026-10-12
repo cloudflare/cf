@@ -17,21 +17,21 @@
  * Correct URL construction (percent-encoding so the id reaches the API
  * verbatim — e.g. a key `foo/bar` arriving as `foo%2Fbar`) is handled on
  * BOTH terminal codepaths:
- *   - the typed SDK methods, which wrap every path param in
- *     `encodeURIComponent(...)` internally (see `forge-sdk-ts`); and
+ *   - typed calls, whose operation's `path` builds the path with the
+ *     runtime's `path` tag, which wraps every path param in
+ *     `encodeURIComponent(...)` (see `src/api/path.ts`); and
  *   - the generator-built raw URL strings (body-bypass, raw-output /
  *     header branches, file-upload, multipart), which now encode their
  *     own segments via `substitutePathTemplate`'s `paramExpr` in
  *     `build-context.ts` (mirrored in the `--dry-run` preview path).
  * Any new generator-built URL string MUST encode its own interpolated
- * segments — the "encoding is the SDK's job" claim only covers the
- * typed-method path.
+ * segments — the "encoding is the client's job" claim only covers typed
+ * calls.
  *
  * Returns lines for downstream emitters
  */
 import { argvKey } from "../../codegen/identifiers.js";
 import { headerArgs, queryArgs } from "../../intermediate-representation.js";
-import { usesTypedQuery } from "../sdk-path.js";
 import type { EmitContext } from "../context.js";
 
 export function emitPrelude(ctx: EmitContext): string[] {
@@ -40,11 +40,7 @@ export function emitPrelude(ctx: EmitContext): string[] {
 
 	if (hasParams) {
 		lines.push(``);
-		lines.push(
-			usesTypedQuery(ctx)
-				? `      const queryParams: Query = {`
-				: `      const queryParams: Record<string, unknown> = {`
-		);
+		lines.push(`      const queryParams: Record<string, unknown> = {`);
 		for (const a of queryArgs(derived.args)) {
 			if (a.origin.kind !== "query") continue;
 			lines.push(`        '${a.origin.wireName}': ${argvKey(a.name)},`);

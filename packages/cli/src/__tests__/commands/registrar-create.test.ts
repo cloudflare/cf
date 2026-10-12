@@ -22,6 +22,7 @@ import { runCf } from "../helpers/run-cf.js";
 import "../../lib/auth.js";
 import type { Cloudflare } from "../../lib/auth.js";
 import type * as PromptModule from "../../lib/prompt.js";
+import getRegistrarExtension from "#operations/registrar/extensions/get.js";
 
 const promptForAcknowledgementMock = vi.hoisted(() => vi.fn());
 const promptForRequiredFieldMock = vi.hoisted(() => vi.fn());
@@ -578,13 +579,11 @@ describe("cf registrar registrations create", () => {
 		expect(registrations[0]).toMatchObject({ domain_name: DOMAIN });
 	});
 
-	it("uses the SDK's normal request policy outside help", async () => {
+	it("uses the normal request policy outside help", async () => {
 		const get = vi.fn().mockResolvedValue({
 			registration_schema: REGISTRATION_SCHEMA,
 		});
-		const client = {
-			registrar: { extensions: { get } },
-		} as unknown as Cloudflare;
+		const client = { send: get } as unknown as Cloudflare;
 
 		await expect(
 			resolveRegistrationSchema(
@@ -594,7 +593,7 @@ describe("cf registrar registrations create", () => {
 				async () => client
 			)
 		).resolves.toMatchObject({ ok: true, extension: "normal-policy" });
-		expect(get).toHaveBeenCalledWith({
+		expect(get).toHaveBeenCalledWith(getRegistrarExtension, {
 			account_id: "normal-policy-account",
 			extension: "normal-policy",
 		});

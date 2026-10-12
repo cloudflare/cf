@@ -18,6 +18,7 @@ import { runCf } from "../helpers/run-cf.js";
 import "../../lib/auth.js";
 import type { Cloudflare } from "../../lib/auth.js";
 import type * as PromptModule from "../../lib/prompt.js";
+import getModelSchema from "#operations/ai/get-model-schema.js";
 
 const promptMocks = vi.hoisted(() => ({
 	enabled: false,
@@ -728,11 +729,9 @@ describe("cf ai run", () => {
 		expect(runBodies).toEqual([]);
 	});
 
-	it("uses the SDK's normal request policy outside help", async () => {
+	it("uses the normal request policy outside help", async () => {
 		const get = vi.fn().mockResolvedValue({ input: INPUT_SCHEMA });
-		const client = {
-			ai: { getModelSchema: get },
-		} as unknown as Cloudflare;
+		const client = { send: get } as unknown as Cloudflare;
 
 		await expect(
 			getModelInputSchema(
@@ -741,7 +740,7 @@ describe("cf ai run", () => {
 				async () => client
 			)
 		).resolves.toMatchObject({ ok: true });
-		expect(get).toHaveBeenCalledWith({
+		expect(get).toHaveBeenCalledWith(getModelSchema, {
 			account_id: "normal-policy-account",
 			model: "@cf/test/normal-policy",
 		});

@@ -28,5 +28,5 @@ export function createLocalFetch(
 	};
 }
 
-/** SDK account placeholder stripped before local dispatch. */
+/** Account placeholder stripped before local dispatch. */
 export const LOCAL_ACCOUNT_ID = "local";

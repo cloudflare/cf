@@ -1,4 +1,3 @@
-import type { SdkMapEntry } from "#sdk";
 /**
  * Shared context passed to every handler-block emitter.
  *
@@ -13,6 +12,7 @@ import type { SdkMapEntry } from "#sdk";
 import type { DerivedArgs } from "../arg-derivation.js";
 import type { OutputKind } from "../codegen/output-kind.js";
 import type { ArgIR } from "../intermediate-representation.js";
+import type { Wire } from "./wire.js";
 import type { OperationInfo, Schema } from "@cloudflare/forge";
 
 export interface EmitContext {
@@ -21,7 +21,13 @@ export interface EmitContext {
 	outputKind: OutputKind;
 	resourceName: string;
 	groupName: string | undefined;
-	sdkMapEntry: SdkMapEntry | undefined;
+	/** How a typed call sends the operation. */
+	wire: Wire;
+	/**
+	 * The command's path in the generated tree, without its extension, as
+	 * `dns/records/create`.
+	 */
+	commandPath: string;
 	libPath: string;
 	derived: DerivedArgs;
 

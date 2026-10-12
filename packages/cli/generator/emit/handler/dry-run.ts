@@ -59,7 +59,7 @@ export function emitDryRun(ctx: EmitContext): string[] {
 	// Path template for dry-run display. Uses the resolved account-id
 	// (env → cloudflare.config.ts settings) so the URL is
 	// byte-identical to the live request. Other path params come from argv only;
-	// dry-run runs before auth so we can't resolve them via SDK.
+	// dry-run runs before auth so we can't resolve them via the API.
 	//
 	// Supplied path params are `encodeURIComponent`-encoded to match the
 	// live request path (`build-context.ts`'s `resolvedRequestPath`), so

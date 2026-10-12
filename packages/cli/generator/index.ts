@@ -8,9 +8,11 @@ import {
 	subGroupHandWrittenCommands,
 } from "../src/commands/hand-written.js";
 import { withHandWrittenCommandRoots } from "./command-roots.js";
+import { operationPath } from "./emit/typed-call.js";
 import {
 	generateCommandFile,
 	generateGroupIndexFile,
+	generateOperationFile,
 	generateResourceIndexFile,
 	isMethodGroup,
 } from "./generator.js";
@@ -80,6 +82,10 @@ function hasNonDeprecatedContent(group: Schema.methodGroup): boolean {
  * still contribute metadata (from the hand-authored sidecar) and schema
  * info (derived from the spec, which is what the drift guards compare
  * the hand-written command against).
+ *
+ * Every leaf, overridden or not, also emits its operation's module under
+ * `_operations/`, which generated and hand-written commands import to send
+ * it with `Client.send`.
  */
 function emitLeafCommand(
 	forge: Forge,
@@ -95,8 +101,10 @@ function emitLeafCommand(
 ): void {
 	const overrideDir = handWrittenLeafOverrideDir(emitPath.replace(/\.ts$/, ""));
 	let code: string | undefined;
+	let operation: string;
 	let meta: CommandMeta;
 	try {
+		operation = generateOperationFile(method);
 		if (overrideDir === undefined) {
 			const result = generateCommandFile(
 				method,
@@ -134,6 +142,7 @@ function emitLeafCommand(
 	if (code !== undefined) {
 		forge.emit(emitPath, code);
 	}
+	forge.emit(`${operationPath(emitPath.replace(/\.ts$/, ""))}.ts`, operation);
 	leafCommands.push(method.name);
 }
 
@@ -180,7 +189,7 @@ async function processMethodGroup(
 		// encourage users to adopt paths that will break at their sunset date.
 		if (!isMethodGroup(child) && child.status === "deprecated") continue;
 		// A command name cannot be both an executable leaf and a group. Prefer
-		// the leaf and drop the nested group, matching the SDK collision policy.
+		// the leaf and drop the nested group.
 		if (isMethodGroup(child) && leafNames.has(child.name)) {
 			console.warn(
 				`[cf-generator] Dropping ${displayPath}/${child.name} group because a leaf command has the same name`

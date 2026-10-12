@@ -19,11 +19,7 @@ import {
 	QS_FROM_PARAMS_EXPR,
 } from "../../codegen/opts-builder.js";
 import { escapeForTemplateLiteral } from "../../util.js";
-import {
-	canEmitTypedJsonBodySdkCall,
-	typedBodyType,
-	typedParsedBodySdkCall,
-} from "../sdk-path.js";
+import { canEmitTypedJsonBodyCall, typedBodyCall } from "../typed-call.js";
 import type { EmitContext } from "../context.js";
 
 export function bodyBypassUsesRequestApi(ctx: EmitContext): boolean {
@@ -32,7 +28,7 @@ export function bodyBypassUsesRequestApi(ctx: EmitContext): boolean {
 		ctx.opInfo.requestContentTypes.includes("application/json");
 	const batchesBody =
 		typeof ctx.opInfo.maxItems === "number" && ctx.opInfo.maxItems > 0;
-	return !(acceptsJson && !batchesBody && canEmitTypedJsonBodySdkCall(ctx));
+	return !(acceptsJson && !batchesBody && canEmitTypedJsonBodyCall(ctx));
 }
 export function emitBodyBypass(ctx: EmitContext): string[] {
 	const {
@@ -70,10 +66,7 @@ export function emitBodyBypass(ctx: EmitContext): string[] {
 	if (acceptsJson) {
 		// parseBody handles `@file` for JSON-accepting endpoints (reads
 		// as text, then JSON-parses).
-		const bodyType = canEmitTypedJsonBodySdkCall(ctx)
-			? "<" + typedBodyType(ctx) + ">"
-			: "";
-		lines.push(`        const bodyData = parseBody${bodyType}(argv.body);`);
+		lines.push(`        const bodyData = parseBody(argv.body);`);
 	} else {
 		lines.push(
 			`        // Endpoint does not accept application/json — send --body as raw bytes,`
@@ -99,7 +92,7 @@ export function emitBodyBypass(ctx: EmitContext): string[] {
 			: null;
 
 	// Forward query params to the URL when the user supplies --body.
-	// (Body-bearing SDK options don't accept query — append to the URL.)
+	// (Body-bearing passthrough requests append query to the URL.)
 	let bodyBypassUrlExpr = `\`${resolvedRequestPath}\``;
 	if (hasParams) {
 		lines.push(`        const qs = ${QS_FROM_PARAMS_EXPR};`);
@@ -160,11 +153,9 @@ export function emitBodyBypass(ctx: EmitContext): string[] {
 	} else if (
 		acceptsJson &&
 		batchSize === undefined &&
-		canEmitTypedJsonBodySdkCall(ctx)
+		canEmitTypedJsonBodyCall(ctx)
 	) {
-		lines.push(
-			`        const result = ${wrapAwait(typedParsedBodySdkCall(ctx))};`
-		);
+		lines.push(`        const result = ${wrapAwait(typedBodyCall(ctx))};`);
 		lines.push(formatOutputCall("        "));
 		lines.push(`        return;`);
 	} else {

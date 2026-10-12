@@ -6,6 +6,7 @@ import { withProgress } from "../../../lib/progress.js";
 import { runCloudflared } from "../../cloudflared.js";
 import type { CommonYargsOptions } from "../../../lib/cli-types.js";
 import type { ArgumentsCamelCase, Argv, CommandModule } from "yargs";
+import createTunnelManagementToken from "#operations/tunnels/management-token/create.js";
 
 const EVENTS = ["cloudflared", "http", "tcp", "udp"] as const;
 const LEVELS = ["debug", "info", "warn", "error"] as const;
@@ -97,12 +98,14 @@ const command: CommandModule<CommonYargsOptions, TunnelTailArgs> = {
 				async () => {
 					const client = await createCommandClient(argv);
 					const accountId = await getAccountId();
-					return withProgress("Fetching tunnel management token", async () =>
-						client.tunnels.managementToken.create({
-							account_id: accountId,
-							tunnel_id: tunnelId,
-							resources: ["logs"],
-						})
+					return withProgress(
+						"Fetching tunnel management token",
+						async () =>
+							client.send(createTunnelManagementToken, {
+								account_id: accountId,
+								tunnel_id: tunnelId,
+								body: { resources: ["logs"] },
+							}) as Promise<string>
 					);
 				}
 			);

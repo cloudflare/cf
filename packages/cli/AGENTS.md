@@ -56,7 +56,7 @@ second consumer.
 ## Build
 
 ```bash
-pnpm generate          # pinned public OpenAPI → matching SDK + commands
+pnpm generate          # pinned public OpenAPI → commands
 pnpm build             # generate, then Vite+ Pack build
 pnpm --filter cf dev   # tsx src/dev.ts (no generate, no bundle)
 pnpm --filter cf check:type
@@ -69,13 +69,20 @@ depend on generation, including when invoked from this package directory.
 Build and type-check tasks also build workspace dependencies first. `pnpm dev`
 starts the source entry without generation or bundling. Task caching is disabled.
 
-`pnpm generate` downloads the pinned Forge `openapi.forge.json` release asset,
-uses the committed matching SDK when its entrypoint exists and recorded
-revision is current, and regenerates the SDK when the entrypoint is missing,
-the pin changes, or a local bundle override is supplied. Generation initializes
-Forge from the finalized OpenAPI, then runs
+`pnpm generate` downloads the pinned Forge `openapi.forge.json` release asset
+(or reads a local bundle override). Generation initializes Forge from the
+finalized OpenAPI, then runs
 `transform(transformer) → finalize(...) → vp fmt`. Finalize clears
 `src/commands/_generated/`; the post-step formats the emitted TypeScript.
+
+Every generated leaf also gets `_generated/_operations/<path>.ts`, at its
+command's path, whose default export is its `Operation`, `as const`. Its `path`
+is a function of the request built with the runtime's `path` tag
+(``(request) => path`/zones/${request.zone_id}` ``), which encodes each
+parameter; that tag is the only thing it imports. Commands send it through the thin runtime in `src/api/`
+(`#api`) with `client.send(operation, request)`; hand-written code imports it as
+`#operations/<path>.js` rather than describing an operation itself, and
+`src/lib/api-operations.ts` only keeps the ones no generated command calls.
 
 ## Hand-Written Commands
 
@@ -149,10 +156,10 @@ binding, with the default profile as fallback.
 
 ## Generated (DO NOT EDIT)
 
-- `src/commands/_generated/` — yargs command files + `_meta/*.json`
-- `src/sdk/` — committed SDK matching the pinned Forge OpenAPI revision
+- `src/commands/_generated/` — yargs command files, `_operations/` operation
+  literals, and `_meta/*.json`
 
-Both outputs are tracked in git, owned by `pnpm generate`, and must not be hand-edited. The SDK is rewritten when its entrypoint is missing, the recorded OpenAPI revision changes, or a preview bundle is supplied. Shell-completion scripts are no longer generated — `cf complete` (backed by `@bomb.sh/tab`) reads the complete generated and hand-written command tree from `_meta/commands.json`. `_meta/hand-written-commands.json` republishes the hand-written subset with root/leaf/subgroup/override provenance.
+The output is tracked in git, owned by `pnpm generate`, and must not be hand-edited. Shell-completion scripts are no longer generated — `cf complete` (backed by `@bomb.sh/tab`) reads the complete generated and hand-written command tree from `_meta/commands.json`. `_meta/hand-written-commands.json` republishes the hand-written subset with root/leaf/subgroup/override provenance.
 
 ## Formatting
 

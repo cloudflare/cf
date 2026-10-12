@@ -5,9 +5,9 @@
  * categories the generator branches on when emitting the response
  * handling path:
  *
- *   - `json` — go through the SDK envelope, JSON output.
+ *   - `json` — go through the client's envelope unwrapping, JSON output.
  *   - `binary` — `application/octet-stream` and friends (zip, pdf,
- *     image, multipart). The handler bypasses the SDK and pipes
+ *     image, multipart). The handler bypasses the client and pipes
  *     response bytes straight to stdout via `writeRawOutput`.
  *   - `text` — `text/*` MIMEs. Same bypass as binary but the response
  *     is decoded as UTF-8 unconditionally (binary has a `--text`

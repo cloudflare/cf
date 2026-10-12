@@ -9,7 +9,7 @@ import type { CommandTelemetryMeta } from "./telemetry/run.js";
  *
  * Without this, every CLI invocation eagerly chains through
  * `commands/_generated/index.ts` → ~110 product index files → ~600 leaf
- * command modules → the Cloudflare SDK + lib helpers, even for fast paths
+ * command modules → the API client + lib helpers, even for fast paths
  * like `cf --help`, `cf --version`, or `cf <product> --help`. With it,
  * each invocation only loads the modules along the chosen command path.
  */

@@ -6,7 +6,7 @@ export interface CwsDomainAcl {
     created_at?: string | undefined;
     /** Action applied when no entry matches the request domain */
     default_action: CwsDomainAcl.DefaultAction;
-    /** Per-domain action overrides */
+    /** Per-domain action overrides. Each domain appears at most once. */
     entries: CloudflareApi.CwsDomainAclEntry[] | null;
     /** Server-assigned UUID */
     id?: string | undefined;

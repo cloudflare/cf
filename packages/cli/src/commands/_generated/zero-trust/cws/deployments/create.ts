@@ -54,6 +54,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "Action for runtime Rego errors. Omit to use BLOCK.",
 			choices: ["BLOCK", "SKIP"],
+			default: "BLOCK",
 		})
 		.coerce("on-error-action", (value) =>
 			resolveFileToken(value, "on-error-action", "text")
@@ -67,6 +68,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "boolean",
 			description:
 				"Whether OPA builtin failures are raised as runtime evaluation errors. Omit to use the default true value.",
+			default: true,
 		})
 		.option("dry-run", {
 			type: "boolean",

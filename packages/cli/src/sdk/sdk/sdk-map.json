@@ -26132,7 +26132,7 @@
     "path": "/user/load_balancers/pools",
     "responseType": "PoolsPoolsResponse",
     "requiredRequestProperties": [
-      "__@iterator@7090",
+      "__@iterator@7010",
       "anchor",
       "at",
       "big",
@@ -43228,172 +43228,6 @@
     "path": "/user",
     "responseType": "GetUserResponse"
   },
-  "vectorize-(-deprecated)-create-vectorize-index": {
-    "accessor": [
-      "vectorize",
-      "deprecatedIndexes"
-    ],
-    "method": "create",
-    "httpMethod": "POST",
-    "path": "/accounts/{account_id}/vectorize/indexes",
-    "requestType": "CreateDeprecatedIndexesRequest",
-    "responseType": "VectorizeCreateIndexResponse",
-    "requestBodyProperty": "body",
-    "requiredRequestProperties": [
-      "account_id",
-      "body"
-    ]
-  },
-  "vectorize-(-deprecated)-delete-vectorize-index": {
-    "accessor": [
-      "vectorize",
-      "deprecatedIndexes"
-    ],
-    "method": "delete",
-    "httpMethod": "DELETE",
-    "path": "/accounts/{account_id}/vectorize/indexes/{index_name}",
-    "requestType": "DeleteDeprecatedIndexesRequest",
-    "requiredRequestProperties": [
-      "account_id",
-      "index_name"
-    ]
-  },
-  "vectorize-(-deprecated)-delete-vectors-by-id": {
-    "accessor": [
-      "vectorize",
-      "deprecatedIndexes",
-      "deleteBy",
-      "ids"
-    ],
-    "method": "create",
-    "httpMethod": "POST",
-    "path": "/accounts/{account_id}/vectorize/indexes/{index_name}/delete-by-ids",
-    "requestType": "CreateIdsRequest",
-    "responseType": "VectorizeIndexDeleteVectorsByIdResponse",
-    "requestBodyProperty": "body",
-    "requiredRequestProperties": [
-      "account_id",
-      "body",
-      "index_name"
-    ]
-  },
-  "vectorize-(-deprecated)-get-vectorize-index": {
-    "accessor": [
-      "vectorize",
-      "deprecatedIndexes"
-    ],
-    "method": "get",
-    "httpMethod": "GET",
-    "path": "/accounts/{account_id}/vectorize/indexes/{index_name}",
-    "requestType": "GetDeprecatedIndexesRequest",
-    "responseType": "VectorizeCreateIndexResponse",
-    "requiredRequestProperties": [
-      "account_id",
-      "index_name"
-    ]
-  },
-  "vectorize-(-deprecated)-get-vectors-by-id": {
-    "accessor": [
-      "vectorize",
-      "deprecatedIndexes",
-      "getBy",
-      "ids"
-    ],
-    "method": "create",
-    "httpMethod": "POST",
-    "path": "/accounts/{account_id}/vectorize/indexes/{index_name}/get-by-ids",
-    "requestType": "CreateIdsRequest",
-    "responseType": "CreateIdsResponse",
-    "requestBodyProperty": "body",
-    "requiredRequestProperties": [
-      "account_id",
-      "body",
-      "index_name"
-    ]
-  },
-  "vectorize-(-deprecated)-insert-vector": {
-    "accessor": [
-      "vectorize",
-      "deprecatedIndexes",
-      "insert"
-    ],
-    "method": "create",
-    "httpMethod": "POST",
-    "path": "/accounts/{account_id}/vectorize/indexes/{index_name}/insert",
-    "requestType": "CreateInsertRequest",
-    "responseType": "VectorizeIndexInsertResponse",
-    "requestBodyProperty": "body",
-    "requiredRequestProperties": [
-      "account_id",
-      "body",
-      "index_name"
-    ]
-  },
-  "vectorize-(-deprecated)-list-vectorize-indexes": {
-    "accessor": [
-      "vectorize",
-      "deprecatedIndexes"
-    ],
-    "method": "list",
-    "httpMethod": "GET",
-    "path": "/accounts/{account_id}/vectorize/indexes",
-    "requestType": "ListDeprecatedIndexesRequest",
-    "responseType": "ListDeprecatedIndexesResponse",
-    "requiredRequestProperties": [
-      "account_id"
-    ]
-  },
-  "vectorize-(-deprecated)-query-vector": {
-    "accessor": [
-      "vectorize",
-      "deprecatedIndexes",
-      "query"
-    ],
-    "method": "create",
-    "httpMethod": "POST",
-    "path": "/accounts/{account_id}/vectorize/indexes/{index_name}/query",
-    "requestType": "VectorizeIndexQueryRequest",
-    "responseType": "VectorizeIndexQueryResponse",
-    "requiredRequestProperties": [
-      "account_id",
-      "index_name",
-      "vector"
-    ]
-  },
-  "vectorize-(-deprecated)-update-vectorize-index": {
-    "accessor": [
-      "vectorize",
-      "deprecatedIndexes"
-    ],
-    "method": "update",
-    "httpMethod": "PUT",
-    "path": "/accounts/{account_id}/vectorize/indexes/{index_name}",
-    "requestType": "VectorizeUpdateIndexRequest",
-    "responseType": "VectorizeCreateIndexResponse",
-    "requiredRequestProperties": [
-      "account_id",
-      "description",
-      "index_name"
-    ]
-  },
-  "vectorize-(-deprecated)-upsert-vector": {
-    "accessor": [
-      "vectorize",
-      "deprecatedIndexes",
-      "upsert"
-    ],
-    "method": "create",
-    "httpMethod": "POST",
-    "path": "/accounts/{account_id}/vectorize/indexes/{index_name}/upsert",
-    "requestType": "CreateUpsertRequest",
-    "responseType": "VectorizeIndexUpsertResponse",
-    "requestBodyProperty": "body",
-    "requiredRequestProperties": [
-      "account_id",
-      "body",
-      "index_name"
-    ]
-  },
   "vectorize-create-metadata-index": {
     "accessor": [
       "vectorize",
@@ -43418,12 +43252,12 @@
     "method": "create",
     "httpMethod": "POST",
     "path": "/accounts/{account_id}/vectorize/v2/indexes",
-    "requestType": "CreateVectorizeRequest",
+    "requestType": "VectorizeCreateIndexRequest",
     "responseType": "VectorizeCreateIndexResponse",
-    "requestBodyProperty": "body",
     "requiredRequestProperties": [
       "account_id",
-      "body"
+      "config",
+      "name"
     ]
   },
   "vectorize-delete-metadata-index": {
@@ -43462,12 +43296,10 @@
     "method": "deleteByIds",
     "httpMethod": "POST",
     "path": "/accounts/{account_id}/vectorize/v2/indexes/{index_name}/delete_by_ids",
-    "requestType": "DeleteByIdsVectorizeRequest",
+    "requestType": "VectorizeIndexDeleteVectorsByIdRequest",
     "responseType": "VectorizeIndexDeleteVectorsByIdV2Response",
-    "requestBodyProperty": "body",
     "requiredRequestProperties": [
       "account_id",
-      "body",
       "index_name"
     ]
   },
@@ -43492,12 +43324,10 @@
     "method": "getByIds",
     "httpMethod": "POST",
     "path": "/accounts/{account_id}/vectorize/v2/indexes/{index_name}/get_by_ids",
-    "requestType": "GetByIdsVectorizeRequest",
+    "requestType": "VectorizeIndexGetVectorsByIdRequest",
     "responseType": "GetByIdsVectorizeResponse",
-    "requestBodyProperty": "body",
     "requiredRequestProperties": [
       "account_id",
-      "body",
       "index_name"
     ]
   },

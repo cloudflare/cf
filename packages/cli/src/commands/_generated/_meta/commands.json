@@ -127639,20 +127639,20 @@
 			"arguments": [],
 			"options": [
 				{
-					"name": "config-dimensions",
+					"name": "index-config-dimensions",
 					"type": "number",
 					"required": false,
 					"description": "Specifies the number of dimensions for the index"
 				},
 				{
-					"name": "config-metric",
+					"name": "index-config-metric",
 					"type": "string",
 					"required": false,
 					"description": "Specifies the type of metric to use calculating distance.",
 					"enum": ["cosine", "euclidean", "dot-product"]
 				},
 				{
-					"name": "config-preset",
+					"name": "index-config-preset",
 					"type": "string",
 					"required": false,
 					"description": "Specifies the preset to use for the index.",
@@ -142954,6 +142954,7 @@
 					"type": "string",
 					"required": false,
 					"description": "Action for runtime Rego errors. Omit to use BLOCK.",
+					"default": "BLOCK",
 					"enum": ["BLOCK", "SKIP"]
 				},
 				{
@@ -142966,7 +142967,8 @@
 					"name": "rego-raise-error",
 					"type": "boolean",
 					"required": false,
-					"description": "Whether OPA builtin failures are raised as runtime evaluation errors. Omit to use the default true value."
+					"description": "Whether OPA builtin failures are raised as runtime evaluation errors. Omit to use the default true value.",
+					"default": true
 				},
 				{
 					"name": "dry-run",
@@ -143217,7 +143219,7 @@
 					"name": "entries",
 					"type": "string",
 					"required": true,
-					"description": "Domain entries for this ACL. Provide as a JSON array of objects or @path/to/file.json."
+					"description": "Domain entries for this ACL. Each domain must appear at most once. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "name",
@@ -143400,7 +143402,7 @@
 					"name": "entries",
 					"type": "string",
 					"required": true,
-					"description": "Replacement set of domain entries. Provide as a JSON array of objects or @path/to/file.json."
+					"description": "Replacement set of domain entries. Each domain must appear at most once. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "name",
@@ -161391,14 +161393,6 @@
 		"user tokens permission-groups": "Operations for tokens.permission-groups",
 		"values": "values",
 		"vectorize": "Globally distributed vector database for building semantic search, recommendations, and RAG applications on Workers",
-		"vectorize deprecated-indexes": "Deprecated v1 Vectorize index operations",
-		"vectorize deprecated-indexes delete-by": "Operations for deprecated-indexes.delete-by",
-		"vectorize deprecated-indexes delete-by ids": "Operations for deprecated-indexes.delete-by.ids",
-		"vectorize deprecated-indexes get-by": "Operations for deprecated-indexes.get-by",
-		"vectorize deprecated-indexes get-by ids": "Operations for deprecated-indexes.get-by.ids",
-		"vectorize deprecated-indexes insert": "Operations for deprecated-indexes.insert",
-		"vectorize deprecated-indexes query": "Operations for deprecated-indexes.query",
-		"vectorize deprecated-indexes upsert": "Operations for deprecated-indexes.upsert",
 		"vectorize metadata-index": "Metadata indexes for filtered vector search",
 		"verify": "verify",
 		"waiting-rooms": "Virtual queues that throttle traffic to your site during peak demand with customizable waiting pages",

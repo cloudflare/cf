@@ -18,7 +18,7 @@ export interface CwsUpdateDomainAclInputBody {
     domain_acl_id: string;
     /** Default action when no entry matches */
     default_action: CwsUpdateDomainAclInputBody.DefaultAction;
-    /** Replacement set of domain entries */
+    /** Replacement set of domain entries. Each domain must appear at most once. */
     entries: CloudflareApi.CwsDomainAclEntry[] | null;
     /** Name of the domain ACL */
     name: string;

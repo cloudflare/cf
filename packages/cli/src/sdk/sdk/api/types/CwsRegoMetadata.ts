@@ -4,8 +4,8 @@ import * as CloudflareApi from "../index.js";
 
 export interface CwsRegoMetadata {
     created_at?: string | undefined;
-    /** Arbitrary JSON document with at most 100 nesting levels. PostgreSQL-normalized JSON must not exceed 65536 bytes; exponent-form numbers count at expanded decimal size. */
-    data: CloudflareApi.CwsJsonValue;
+    /** Arbitrary non-null JSON document with at most 100 nesting levels. Nested null values are supported. PostgreSQL-normalized JSON must not exceed 65536 bytes; exponent-form numbers count at expanded decimal size. */
+    data: CloudflareApi.CwsJsonDocument;
     /** Server-assigned UUID */
     id?: string | undefined;
     /** Unique Rego import path in the form metadata.<segment>, with one alphanumeric or underscore segment. Reference it as data.<import_path>. */

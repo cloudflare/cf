@@ -48,7 +48,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 type Request = SdkRequest<"vectorize-get-vectors-by-id">;
-type Body = Request["body"];
+type Body = Request;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
 	command: "get-by-ids <index-name>",
@@ -86,10 +86,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				argv.accountId = accountId;
 
 				if (argv.body) {
-					const bodyData = parseBody<Request["body"]>(argv.body);
+					const bodyData = parseBody<Request>(argv.body);
 					const result = await withProgress(`Creating`, async () =>
 						client.vectorize.getByIds({
-							body: bodyData,
+							...bodyData,
 							account_id: accountId,
 							index_name: argv["index-name"],
 						} satisfies Request)
@@ -104,7 +104,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.vectorize.getByIds({
-						body: bodyData,
+						...bodyData,
 						account_id: accountId,
 						index_name: argv["index-name"],
 					} satisfies Request)

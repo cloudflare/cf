@@ -6,13 +6,13 @@ import * as CloudflareApi from "../../../../index.js";
  * @example
  *     {
  *         account_id: "account_id",
- *         index_name: "index_name",
- *         body: {}
+ *         index_name: "index_name"
  *     }
  */
-export interface DeleteByIdsVectorizeRequest {
+export interface VectorizeIndexDeleteVectorsByIdRequest {
     /** Identifier */
     account_id: string;
     index_name: string;
-    body: CloudflareApi.VectorizeIndexDeleteVectorsByIdRequest;
+    /** A list of vector identifiers to delete from the index indicated by the path. */
+    ids?: CloudflareApi.VectorizeVectorIdentifier[];
 }

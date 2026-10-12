@@ -267,7 +267,7 @@ describe("cf r2 buckets (network)", () => {
 			ENV
 		);
 
-		expect(exitCode).toBe(0);
+		expect(exitCode).toBe(1);
 		expect(stderr()).toMatch(/non-interactive; pass --force/);
 	});
 

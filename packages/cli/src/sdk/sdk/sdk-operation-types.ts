@@ -1622,6 +1622,7 @@ export interface SdkOperationRequestMap {
   "load-balancer-regions-list-regions": CloudflareApi.loadBalancers.ListRegionsRequest;
   "logpull-list-log-files": CloudflareApi.logs.GetListRequest;
   "logpull-retrieve-logs": CloudflareApi.logs.GetRetrieveRequest;
+  "lookupResourceLibraryApplications": CloudflareApi.accounts.AlexandriaLookupApplicationsRequest;
   "m-tls-certificate-management-delete-m-tls-certificate": CloudflareApi.DeleteMtlsCertificatesRequest;
   "m-tls-certificate-management-get-m-tls-certificate": CloudflareApi.GetMtlsCertificatesRequest;
   "m-tls-certificate-management-list-m-tls-certificate-associations": CloudflareApi.mtlsCertificates.GetAssociationsRequest;
@@ -3498,6 +3499,7 @@ export interface SdkOperationQueryMap {
   "load-balancer-regions-list-regions": Pick<CloudflareApi.loadBalancers.ListRegionsRequest, Extract<"subdivision_code" | "subdivision_code_a2" | "country_code_a2", keyof CloudflareApi.loadBalancers.ListRegionsRequest>>;
   "logpull-list-log-files": Pick<CloudflareApi.logs.GetListRequest, Extract<"start" | "end" | "bucket" | "prefix" | "limit", keyof CloudflareApi.logs.GetListRequest>>;
   "logpull-retrieve-logs": Pick<CloudflareApi.logs.GetRetrieveRequest, Extract<"start" | "end" | "bucket" | "prefix", keyof CloudflareApi.logs.GetRetrieveRequest>>;
+  "lookupResourceLibraryApplications": Pick<CloudflareApi.accounts.AlexandriaLookupApplicationsRequest, Extract<"filter" | "limit" | "fields", keyof CloudflareApi.accounts.AlexandriaLookupApplicationsRequest>>;
   "m-tls-certificate-management-list-m-tls-certificates": Pick<CloudflareApi.ListMtlsCertificatesRequest, Extract<"type", keyof CloudflareApi.ListMtlsCertificatesRequest>>;
   "magic-ipsec-tunnels-set-pre-shared-keys-for-ipsec-tunnels": Pick<CloudflareApi.magicTransit.MagicIpsecTunnelsPskRequest, Extract<"validate_only", keyof CloudflareApi.magicTransit.MagicIpsecTunnelsPskRequest>>;
   "magic-sites-list-sites": Pick<CloudflareApi.magicTransit.ListSitesRequest, Extract<"connectorid", keyof CloudflareApi.magicTransit.ListSitesRequest>>;

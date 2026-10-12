@@ -26132,7 +26132,7 @@
     "path": "/user/load_balancers/pools",
     "responseType": "PoolsPoolsResponse",
     "requiredRequestProperties": [
-      "__@iterator@7081",
+      "__@iterator@7090",
       "anchor",
       "at",
       "big",
@@ -26319,6 +26319,21 @@
       "bucket",
       "end",
       "start"
+    ]
+  },
+  "lookupResourceLibraryApplications": {
+    "accessor": [
+      "accounts",
+      "applications"
+    ],
+    "method": "lookup",
+    "httpMethod": "POST",
+    "path": "/accounts/{account_id}/resource-library/applications/lookup",
+    "requestType": "AlexandriaLookupApplicationsRequest",
+    "responseType": "LookupApplicationsResponse",
+    "requiredRequestProperties": [
+      "account_id",
+      "lookup"
     ]
   },
   "m-tls-certificate-management-delete-m-tls-certificate": {

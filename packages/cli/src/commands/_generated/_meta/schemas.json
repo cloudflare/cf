@@ -935,6 +935,44 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"accounts applications lookup": {
+			"operationId": "lookupResourceLibraryApplications",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/resource-library/applications/lookup",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "filter",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "limit",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "fields",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "lookup",
+					"type": "string",
+					"required": true,
+					"description": "Rule sentence to search for complete application names. Leading and trailing\nwhitespace is trimmed before the length is checked. Control characters other\nthan tab and line breaks return `400`.\n"
+				}
+			]
+		},
 		"accounts applications update": {
 			"operationId": "updateResourceLibraryApplication",
 			"httpMethod": "PATCH",

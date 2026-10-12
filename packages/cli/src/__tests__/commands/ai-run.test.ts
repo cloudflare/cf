@@ -1,6 +1,6 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { runInTempDir } from "@cloudflare/workers-utils/test-helpers";
-import { http, HttpResponse } from "msw";
+import { http, HttpResponse } from "msw/http";
 import {
 	afterEach,
 	beforeEach,
@@ -776,7 +776,7 @@ describe("cf ai run", () => {
 	});
 
 	it("validates and previews without running under --dry-run", async () => {
-		// No run handler: `onUnhandledRequest: "error"` proves nothing was
+		// No run handler: `onUnhandledFrame: "error"` proves nothing was
 		// sent to the inference endpoint.
 		server.use(schemaHandler());
 

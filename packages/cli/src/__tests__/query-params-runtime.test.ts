@@ -1,5 +1,5 @@
 import { runInTempDir } from "@cloudflare/workers-utils/test-helpers";
-import { http, HttpResponse } from "msw";
+import { http, HttpResponse } from "msw/http";
 import { setupServer } from "msw/node";
 import {
 	afterAll,
@@ -38,7 +38,7 @@ describe("query params on the wire", () => {
 	const server = setupServer();
 	let lastUrl: URL | undefined;
 
-	beforeAll(() => server.listen({ onUnhandledRequest: "error" }));
+	beforeAll(() => server.listen({ onUnhandledFrame: "error" }));
 	afterEach(() => {
 		server.resetHandlers();
 		lastUrl = undefined;

@@ -1,5 +1,6 @@
 import { cpSync, existsSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { defineConfig } from "vite-plus";
 
 const testBundle = process.env.CF_TEST_BUNDLE === "1";
@@ -70,12 +71,23 @@ export default defineConfig({
 		unstubEnvs: true,
 		server: {
 			deps: {
-				inline: ["@cloudflare/workers-utils"],
+				// Native loading of workers-auth would bypass the Undici alias.
+				inline: ["@cloudflare/workers-utils", "@cloudflare/workers-auth"],
 			},
 		},
 	},
 	resolve: {
-		alias: [{ find: /^vitest$/, replacement: "vite-plus/test" }],
+		alias: [
+			{ find: /^vitest$/, replacement: "vite-plus/test" },
+			// MSW intercepts global fetch. Route workers-auth's imported Undici
+			// fetch through it so the same handlers guard every API request.
+			{
+				find: /^undici$/,
+				replacement: fileURLToPath(
+					new URL("./src/__tests__/helpers/undici-mock.ts", import.meta.url)
+				),
+			},
+		],
 	},
 	pack: {
 		deps: {

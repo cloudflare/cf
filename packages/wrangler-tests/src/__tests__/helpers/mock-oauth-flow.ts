@@ -1,4 +1,4 @@
-import { http, HttpResponse } from "msw";
+import { http, HttpResponse } from "msw/http";
 import { Request } from "undici";
 import openInBrowser from "../../open-in-browser";
 import { mockHttpServer } from "./mock-http-server";

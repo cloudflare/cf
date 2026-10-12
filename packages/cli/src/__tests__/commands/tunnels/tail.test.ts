@@ -1,6 +1,6 @@
 import { writeFile } from "node:fs/promises";
 import { runInTempDir } from "@cloudflare/workers-utils/test-helpers";
-import { http, HttpResponse } from "msw";
+import { http, HttpResponse } from "msw/http";
 import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import { runCloudflared } from "../../../commands/cloudflared.js";
 import { server, setupMsw, TEST_BASE_URL } from "../../helpers/msw.js";

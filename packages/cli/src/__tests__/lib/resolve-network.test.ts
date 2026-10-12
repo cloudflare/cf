@@ -1,4 +1,4 @@
-import { http, HttpResponse } from "msw";
+import { http, HttpResponse } from "msw/http";
 import { describe, expect, it } from "vite-plus/test";
 import { createCloudflareClientWithToken } from "../../lib/auth.js";
 import { resolveZoneId } from "../../lib/resolve.js";
@@ -81,7 +81,7 @@ describe("resolveZoneId (network)", () => {
 	});
 
 	it("returns an ID input verbatim without making a request", async () => {
-		// No handler: onUnhandledRequest:"error" fails the test if the
+		// No handler: onUnhandledFrame:"error" fails the test if the
 		// SDK is consulted for an input that already looks like an ID.
 		const id = "023e105f4ecef8ad9ca31a8372d0c353";
 		await expect(resolveZoneId(client(), "acct-net-2", id)).resolves.toBe(id);

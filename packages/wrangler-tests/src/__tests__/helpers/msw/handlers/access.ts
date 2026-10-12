@@ -1,4 +1,4 @@
-import { http, HttpResponse } from "msw";
+import { http, HttpResponse } from "msw/http";
 
 export default [
 	http.get("https://access-protected.com/", () => {

@@ -1,6 +1,6 @@
 import crypto from "node:crypto";
 import { writeFileSync } from "node:fs";
-import { http, HttpResponse } from "msw";
+import { http, HttpResponse } from "msw/http";
 import { describe, it } from "vite-plus/test";
 import { mockAccountId, mockApiToken } from "../helpers/mock-account-id";
 import { mockConsoleMethods } from "../helpers/mock-console";

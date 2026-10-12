@@ -7,15 +7,16 @@ import type { RequestHandler } from "msw";
  *
  * cf's generated SDK issues every request via
  * `globalThis.fetch` (see its `client.js`: `this._fetch = options.fetch
- * ?? globalThis.fetch`). MSW's Node server patches `globalThis.fetch`,
- * so no undici shim is needed here — unlike `packages/wrangler-tests`,
- * where wrangler imports `fetch` from undici and the setup has to
- * re-export the globals.
+ * ?? globalThis.fetch`). MSW's Node server intercepts global fetch.
+ * The test-only Undici alias routes workers-auth's imported fetch through
+ * it too, so account lookups and OAuth calls use the same handlers.
+ * Replacing Undici's global dispatcher after `server.listen()` would
+ * disable MSW's fetch interception.
  *
  * Tests point the SDK at a stable test origin by setting
  * `CLOUDFLARE_API_BASE_URL` (honoured by `createCommandClient` in
  * `lib/auth.ts`) and register handlers for that origin. The default
- * `onUnhandledRequest: "error"` turns any un-mocked outbound request
+ * `onUnhandledFrame: "error"` turns any un-mocked outbound request
  * into a loud failure rather than a silent real network call — a unit
  * suite must never reach the real Cloudflare API.
  */
@@ -45,7 +46,7 @@ export const msw = server;
  */
 export function setupMsw(...handlers: RequestHandler[]): void {
 	beforeAll(() => {
-		server.listen({ onUnhandledRequest: "error" });
+		server.listen({ onUnhandledFrame: "error" });
 		if (handlers.length > 0) {
 			server.use(...handlers);
 		}

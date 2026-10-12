@@ -1,4 +1,4 @@
-import { http, HttpResponse } from "msw";
+import { http, HttpResponse } from "msw/http";
 import { describe, test } from "vite-plus/test";
 import { collectCLIOutput } from "./helpers/collect-cli-output";
 import { mockAccountId, mockApiToken } from "./helpers/mock-account-id";

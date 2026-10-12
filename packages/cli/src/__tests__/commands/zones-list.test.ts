@@ -1,6 +1,6 @@
 import { writeFile } from "node:fs/promises";
 import { runInTempDir } from "@cloudflare/workers-utils/test-helpers";
-import { http, HttpResponse } from "msw";
+import { http, HttpResponse } from "msw/http";
 import {
 	afterEach,
 	beforeEach,
@@ -31,7 +31,7 @@ import { runCf } from "../helpers/run-cf.js";
  * token under test.
  *
  * NOTE: these are unit tests — the MSW server is configured with
- * `onUnhandledRequest: "error"`, so any request that escapes the mocks
+ * `onUnhandledFrame: "error"`, so any request that escapes the mocks
  * (i.e. a real call to api.cloudflare.com) fails the test loudly rather
  * than silently hitting the network.
  */
@@ -227,7 +227,7 @@ describe("cf zones list (network)", () => {
 
 	it("--dry-run prints the planned request without hitting the network", async () => {
 		// No handler registered: if --dry-run made a request, the
-		// onUnhandledRequest:"error" guard would fail the test.
+		// onUnhandledFrame:"error" guard would fail the test.
 		const { exitCode } = await runCf(
 			["zones", "list", "--status", "active", "--dry-run"],
 			ENV

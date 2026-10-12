@@ -1,6 +1,6 @@
 import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { http, HttpResponse } from "msw";
+import { http, HttpResponse } from "msw/http";
 import { onTestFinished } from "vite-plus/test";
 import { makeExecutable, nodeScript } from "../../helpers/executable.js";
 import { createFetchResult, msw } from "../../helpers/msw.js";

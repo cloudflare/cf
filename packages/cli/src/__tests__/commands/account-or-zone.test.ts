@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { runInTempDir } from "@cloudflare/workers-utils/test-helpers";
-import { http, HttpResponse } from "msw";
+import { http, HttpResponse } from "msw/http";
 import {
 	afterEach,
 	beforeEach,

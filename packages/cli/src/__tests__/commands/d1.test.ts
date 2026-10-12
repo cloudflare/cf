@@ -1,5 +1,5 @@
 import { runInTempDir } from "@cloudflare/workers-utils/test-helpers";
-import { http, HttpResponse } from "msw";
+import { http, HttpResponse } from "msw/http";
 import {
 	afterEach,
 	beforeEach,
@@ -27,7 +27,7 @@ import { runCf } from "../helpers/run-cf.js";
  *
  * `runInTempDir` isolates HOME/XDG so a developer's stored OAuth token
  * can't substitute for the fake env token under test. The MSW server
- * uses `onUnhandledRequest: "error"`, so any request that escapes the
+ * uses `onUnhandledFrame: "error"`, so any request that escapes the
  * mocks fails the test loudly rather than reaching the real API.
  */
 describe("cf d1 (network)", () => {
@@ -171,7 +171,7 @@ describe("cf d1 (network)", () => {
 
 	it("delete without --force — aborts before any request", async () => {
 		// No DELETE handler registered: a request would trip the MSW
-		// onUnhandledRequest:"error" guard.
+		// onUnhandledFrame:"error" guard.
 		const { exitCode } = await runCf(["d1", "delete", "db-1"], ENV);
 
 		expect(exitCode).toBe(1);

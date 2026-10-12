@@ -3,7 +3,7 @@ import {
 	mockConsoleMethods,
 	runInTempDir,
 } from "@cloudflare/workers-utils/test-helpers";
-import { http, HttpResponse } from "msw";
+import { http, HttpResponse } from "msw/http";
 import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import { USER_AGENT } from "../../version.js";
 import { server, setupMsw, TEST_BASE_URL } from "../helpers/msw.js";

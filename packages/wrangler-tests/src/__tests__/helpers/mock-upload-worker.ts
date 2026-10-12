@@ -1,5 +1,5 @@
 import { ParseError } from "@cloudflare/workers-utils";
-import { http, HttpResponse } from "msw";
+import { http, HttpResponse } from "msw/http";
 // eslint-disable-next-line no-restricted-imports
 import { expect } from "vite-plus/test";
 import {
@@ -21,7 +21,7 @@ import type {
 	RawEnvironment,
 	WorkerMetadata,
 } from "@cloudflare/workers-utils";
-import type { HttpResponseResolver } from "msw";
+import type { HttpResponseResolver } from "msw/http";
 
 /** Create a mock handler for the request to upload a worker script. */
 export function mockUploadWorkerRequest(

@@ -1,4 +1,4 @@
-import { http, HttpResponse } from "msw";
+import { http, HttpResponse } from "msw/http";
 import { createFetchResult } from "../index";
 
 export const mswSuccessNamespacesHandlers = [

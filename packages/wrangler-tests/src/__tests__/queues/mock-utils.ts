@@ -1,4 +1,4 @@
-import { http, HttpResponse } from "msw";
+import { http, HttpResponse } from "msw/http";
 // eslint-disable-next-line no-restricted-imports
 import { expect } from "vite-plus/test";
 import { msw } from "../helpers/msw";

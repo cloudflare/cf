@@ -1,4 +1,4 @@
-import { http, HttpResponse } from "msw";
+import { http, HttpResponse } from "msw/http";
 import { msw } from "./msw";
 import type { ExpectStatic } from "vite-plus/test";
 

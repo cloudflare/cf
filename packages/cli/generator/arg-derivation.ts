@@ -462,7 +462,13 @@ function derivePathParams(args: {
 		// Worker-name path params become `--worker` options; the
 		// command subject becomes the positional; other containers demote
 		// to required flags so positional arity stays at ≤1.
-		const positional = !isWorkerName && p === commandSubject;
+		const defaultValue = override?.default ?? undefined;
+		// A default fills the URL segment without user input, so it must not
+		// consume a positional slot or be advertised as a required argument.
+		const positional =
+			!isWorkerName &&
+			defaultValue === undefined &&
+			(override?.positional ?? p === commandSubject);
 		const emittedName = isWorkerName
 			? "worker"
 			: parameterFlagName(parameter ?? { name: p });
@@ -472,7 +478,8 @@ function derivePathParams(args: {
 				{
 					name: emittedName,
 					type: "string",
-					required: true,
+					required: defaultValue === undefined && (override?.required ?? true),
+					...(defaultValue !== undefined ? { default: defaultValue } : {}),
 					positional,
 					origin: { kind: "path", wireName: p },
 					description:

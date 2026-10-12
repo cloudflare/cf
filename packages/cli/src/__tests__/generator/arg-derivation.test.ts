@@ -199,6 +199,129 @@ describe("deriveArgsFromOp path params", () => {
 		{ name: "consumer_id", sdkName: "consumer" },
 	];
 
+	it("keeps a defaulted path parameter optional beside a body positional", () => {
+		const op = pathOperation(
+			"/accounts/{account_id}/namespaces/{namespace}/things",
+			[{ name: "namespace" }]
+		);
+		op.bodyParams = [
+			{
+				name: "id",
+				type: "string",
+				required: true,
+				description: "Thing ID",
+				apiFieldPath: ["id"],
+			},
+		];
+		const derived = deriveArgsFromOp(
+			method(
+				{ namespace: { default: "default" }, id: { positional: true } },
+				"create"
+			),
+			"example",
+			op
+		);
+
+		expect(derived.args).toEqual([
+			expect.objectContaining({
+				name: "namespace",
+				required: false,
+				positional: false,
+				default: "default",
+				origin: { kind: "path", wireName: "namespace" },
+			}),
+			expect.objectContaining({
+				name: "id",
+				required: true,
+				positional: true,
+				origin: { kind: "body", apiFieldPath: ["id"] },
+			}),
+		]);
+	});
+
+	it.each(["default", ""])(
+		"never promotes a path parameter with default %j, even when explicitly positional",
+		(defaultValue) => {
+			const derived = deriveArgsFromOp(
+				method(
+					{
+						consumer_id: {
+							default: defaultValue,
+							positional: true,
+							required: true,
+						},
+					},
+					"get"
+				),
+				"example",
+				pathOperation(path, renamed)
+			);
+			expect(derived.args.find((arg) => arg.name === "consumer")).toMatchObject(
+				{ positional: false, required: false, default: defaultValue }
+			);
+		}
+	);
+
+	it("honors an explicit optional flag override", () => {
+		const derived = deriveArgsFromOp(
+			method(
+				{
+					consumer_id: {
+						required: false,
+						positional: false,
+						description: "Optional consumer",
+					},
+				},
+				"get"
+			),
+			"example",
+			pathOperation(path, renamed)
+		);
+		expect(derived.args.find((arg) => arg.name === "consumer")).toMatchObject({
+			positional: false,
+			required: false,
+			description: "Optional consumer",
+		});
+	});
+
+	it("honors explicit positional placement for a container parameter", () => {
+		const derived = deriveArgsFromOp(
+			method(
+				{ queue_id: { positional: true }, consumer_id: { positional: false } },
+				"get"
+			),
+			"example",
+			pathOperation(path, renamed)
+		);
+		expect(derived.args.map((arg) => [arg.name, arg.positional])).toEqual([
+			["queue", true],
+			["consumer", false],
+		]);
+	});
+
+	it("honors required false for an optional positional", () => {
+		const derived = deriveArgsFromOp(
+			method({ consumer_id: { required: false } }, "get"),
+			"example",
+			pathOperation(path, renamed)
+		);
+		expect(derived.args.find((arg) => arg.name === "consumer")).toMatchObject({
+			positional: true,
+			required: false,
+		});
+	});
+
+	it("treats an explicit null default as no default", () => {
+		const derived = deriveArgsFromOp(
+			method({ consumer_id: { default: null } }, "get"),
+			"example",
+			pathOperation(path, renamed)
+		);
+		const consumer = derived.args.find((arg) => arg.name === "consumer");
+		expect(consumer).toMatchObject({ positional: true, required: true });
+		expect(consumer?.default).toBeUndefined();
+	});
+
 	it("names the positional and demoted flag from sdkName", () => {
 		const derived = deriveArgsFromOp(
 			method(undefined, "get"),

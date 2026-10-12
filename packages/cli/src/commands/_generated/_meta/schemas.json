@@ -98742,6 +98742,1839 @@
 			"hasRequestBody": false,
 			"requestBodyFields": []
 		},
+		"zero-trust cws basic-auth-credentials create": {
+			"operationId": "cws-create-basic-auth-credential",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/cws/basic-auth-credentials",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "username",
+					"type": "string",
+					"required": true,
+					"description": "Login presented by the client. Printable ASCII only, excluding space and colon."
+				}
+			]
+		},
+		"zero-trust cws basic-auth-credentials delete": {
+			"operationId": "cws-delete-basic-auth-credential",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/cws/basic-auth-credentials/{credential_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "credential_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust cws basic-auth-credentials get": {
+			"operationId": "cws-get-basic-auth-credential",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cws/basic-auth-credentials/{credential_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "credential_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust cws basic-auth-credentials list": {
+			"operationId": "cws-list-basic-auth-credentials",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cws/basic-auth-credentials",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "cursor",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "order",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "direction",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "username",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "deployment_id",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust cws basic-auth-credentials secrets create": {
+			"operationId": "cws-create-basic-auth-secret",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/cws/basic-auth-credentials/{credential_id}/secrets",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "credential_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "expires-at",
+					"type": "string",
+					"required": false,
+					"description": "Optional deactivation deadline (RFC 3339). Omit or null for no expiry."
+				},
+				{
+					"name": "password",
+					"type": "string",
+					"required": true,
+					"description": "Password stored only as a one-way hash and never returned. Maximum 72 UTF-8 bytes."
+				}
+			]
+		},
+		"zero-trust cws basic-auth-credentials secrets delete": {
+			"operationId": "cws-delete-basic-auth-secret",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/cws/basic-auth-credentials/{credential_id}/secrets/{secret_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "credential_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "secret_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust cws basic-auth-credentials secrets get": {
+			"operationId": "cws-get-basic-auth-secret",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cws/basic-auth-credentials/{credential_id}/secrets/{secret_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "credential_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "secret_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust cws basic-auth-credentials secrets list": {
+			"operationId": "cws-list-basic-auth-secrets",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cws/basic-auth-credentials/{credential_id}/secrets",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "credential_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "cursor",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "order",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "direction",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust cws deployments create": {
+			"operationId": "cws-create-deployment",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/cws/deployments",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "basic-auth-credential-ids",
+					"type": "string",
+					"required": true,
+					"description": "IDs of basic-auth credentials to attach"
+				},
+				{
+					"name": "default-mode",
+					"type": "string",
+					"required": true,
+					"description": "Default traffic mode: ALLOW or BLOCK"
+				},
+				{
+					"name": "description",
+					"type": "string",
+					"required": false,
+					"description": "Optional free-form description."
+				},
+				{
+					"name": "domain-acl-id",
+					"type": "string",
+					"required": false,
+					"description": "ID of the domain ACL to attach (omit or null for none)"
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Name of the deployment"
+				},
+				{
+					"name": "on-error-action",
+					"type": "string",
+					"required": false,
+					"description": "Action for runtime Rego errors. Omit to use BLOCK."
+				},
+				{
+					"name": "policy-set-ids",
+					"type": "string",
+					"required": true,
+					"description": "IDs of policy sets to attach"
+				},
+				{
+					"name": "rego-raise-error",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether OPA builtin failures are raised as runtime evaluation errors. Omit to use the default true value."
+				}
+			]
+		},
+		"zero-trust cws deployments delete": {
+			"operationId": "cws-delete-deployment",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/cws/deployments/{deployment_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "deployment_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust cws deployments get": {
+			"operationId": "cws-get-deployment",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cws/deployments/{deployment_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "deployment_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust cws deployments list": {
+			"operationId": "cws-list-deployments",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cws/deployments",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "cursor",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "order",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "direction",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust cws deployments update": {
+			"operationId": "cws-update-deployment",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/cws/deployments/{deployment_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "deployment_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "basic-auth-credential-ids",
+					"type": "string",
+					"required": true,
+					"description": "Replacement set of basic-auth credential IDs"
+				},
+				{
+					"name": "default-mode",
+					"type": "string",
+					"required": true,
+					"description": "Default traffic mode: ALLOW or BLOCK"
+				},
+				{
+					"name": "description",
+					"type": "string",
+					"required": false,
+					"description": "Optional free-form description."
+				},
+				{
+					"name": "domain-acl-id",
+					"type": "string",
+					"required": false,
+					"description": "ID of the domain ACL to attach (omit or null to clear)"
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Name of the deployment"
+				},
+				{
+					"name": "on-error-action",
+					"type": "string",
+					"required": false,
+					"description": "Action for runtime Rego errors. Omit to preserve the current value."
+				},
+				{
+					"name": "policy-set-ids",
+					"type": "string",
+					"required": true,
+					"description": "Replacement set of policy set IDs"
+				},
+				{
+					"name": "rego-raise-error",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether OPA builtin failures are raised as runtime evaluation errors. Omit to preserve the current value."
+				}
+			]
+		},
+		"zero-trust cws domain-acls create": {
+			"operationId": "cws-create-domain-acl",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/cws/domain-acls",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "default-action",
+					"type": "string",
+					"required": true,
+					"description": "Default action when no entry matches"
+				},
+				{
+					"name": "entries",
+					"type": "string",
+					"required": true,
+					"description": "Domain entries for this ACL. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Name of the domain ACL"
+				}
+			]
+		},
+		"zero-trust cws domain-acls delete": {
+			"operationId": "cws-delete-domain-acl",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/cws/domain-acls/{domain_acl_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "domain_acl_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust cws domain-acls get": {
+			"operationId": "cws-get-domain-acl",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cws/domain-acls/{domain_acl_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "domain_acl_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust cws domain-acls list": {
+			"operationId": "cws-list-domain-acls",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cws/domain-acls",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "cursor",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "order",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "direction",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "deployment_id",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust cws domain-acls update": {
+			"operationId": "cws-update-domain-acl",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/cws/domain-acls/{domain_acl_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "domain_acl_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "default-action",
+					"type": "string",
+					"required": true,
+					"description": "Default action when no entry matches"
+				},
+				{
+					"name": "entries",
+					"type": "string",
+					"required": true,
+					"description": "Replacement set of domain entries. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Name of the domain ACL"
+				}
+			]
+		},
+		"zero-trust cws policies create": {
+			"operationId": "cws-create-policy",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/cws/policies",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "description",
+					"type": "string",
+					"required": false,
+					"description": "Optional free-form description."
+				},
+				{
+					"name": "entrypoint",
+					"type": "string",
+					"required": true,
+					"description": "Non-function rule declared in rego_source. Evaluation uses data.<package_path>.<entrypoint>."
+				},
+				{
+					"name": "filter",
+					"type": "string",
+					"required": false,
+					"description": "Optional filter expression that determines whether this policy applies. Omit or set null to apply the policy to every request. Maximum 4096 UTF-8 bytes."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Name of the policy"
+				},
+				{
+					"name": "rego-source",
+					"type": "string",
+					"required": true,
+					"description": "Inline Rego source with a package beginning with \"policy.\" Maximum 16384 UTF-8 bytes."
+				}
+			]
+		},
+		"zero-trust cws policies delete": {
+			"operationId": "cws-delete-policy",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/cws/policies/{policy_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "policy_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust cws policies get": {
+			"operationId": "cws-get-policy",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cws/policies/{policy_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "policy_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust cws policies list": {
+			"operationId": "cws-list-policies",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cws/policies",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "cursor",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "order",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "direction",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "policy_set_id",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "package_path",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust cws policies update": {
+			"operationId": "cws-update-policy",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/cws/policies/{policy_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "policy_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "description",
+					"type": "string",
+					"required": false,
+					"description": "Optional free-form description."
+				},
+				{
+					"name": "entrypoint",
+					"type": "string",
+					"required": true,
+					"description": "Non-function rule declared in rego_source. Evaluation uses data.<package_path>.<entrypoint>."
+				},
+				{
+					"name": "filter",
+					"type": "string",
+					"required": false,
+					"description": "Optional filter expression that determines whether this policy applies. Omit or set null to apply the policy to every request. Maximum 4096 UTF-8 bytes."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Name of the policy"
+				},
+				{
+					"name": "rego-source",
+					"type": "string",
+					"required": true,
+					"description": "Inline Rego source with a package beginning with \"policy.\" Maximum 16384 UTF-8 bytes."
+				}
+			]
+		},
+		"zero-trust cws policy-sets create": {
+			"operationId": "cws-create-policy-set",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/cws/policy-sets",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "description",
+					"type": "string",
+					"required": false,
+					"description": "Optional free-form description."
+				},
+				{
+					"name": "exclude-workload-ids",
+					"type": "string",
+					"required": false,
+					"description": "Workload IDs that exclude matching requests. Exclusions take precedence."
+				},
+				{
+					"name": "include-workload-ids",
+					"type": "string",
+					"required": false,
+					"description": "Workload IDs that include matching requests. Empty or omitted includes all requests before exclusions."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Name of the policy set"
+				},
+				{
+					"name": "policies",
+					"type": "string",
+					"required": true,
+					"description": "Policies to include with per-membership enforcement mode. Provide as a JSON array of objects or @path/to/file.json."
+				}
+			]
+		},
+		"zero-trust cws policy-sets delete": {
+			"operationId": "cws-delete-policy-set",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/cws/policy-sets/{policy_set_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "policy_set_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust cws policy-sets get": {
+			"operationId": "cws-get-policy-set",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cws/policy-sets/{policy_set_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "policy_set_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust cws policy-sets list": {
+			"operationId": "cws-list-policy-sets",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cws/policy-sets",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "cursor",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "order",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "direction",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "deployment_id",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust cws policy-sets update": {
+			"operationId": "cws-update-policy-set",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/cws/policy-sets/{policy_set_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "policy_set_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "description",
+					"type": "string",
+					"required": false,
+					"description": "Optional free-form description."
+				},
+				{
+					"name": "exclude-workload-ids",
+					"type": "string",
+					"required": false,
+					"description": "Replacement set of excluded workload IDs. Exclusions take precedence."
+				},
+				{
+					"name": "include-workload-ids",
+					"type": "string",
+					"required": false,
+					"description": "Replacement set of included workload IDs. Empty or omitted includes all requests before exclusions."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Name of the policy set"
+				},
+				{
+					"name": "policies",
+					"type": "string",
+					"required": true,
+					"description": "Replacement set of policies with per-membership enforcement mode. Provide as a JSON array of objects or @path/to/file.json."
+				}
+			]
+		},
+		"zero-trust cws rego-metadata create": {
+			"operationId": "cws-create-rego-metadata",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/cws/rego-metadata",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "import-path",
+					"type": "string",
+					"required": true,
+					"description": "Unique Rego import path in the form metadata.<segment>, with one alphanumeric or underscore segment. Reference it as data.<import_path>."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Name of the rego metadata document (unique per account)"
+				}
+			]
+		},
+		"zero-trust cws rego-metadata delete": {
+			"operationId": "cws-delete-rego-metadata",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/cws/rego-metadata/{rego_metadata_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "rego_metadata_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust cws rego-metadata get": {
+			"operationId": "cws-get-rego-metadata",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cws/rego-metadata/{rego_metadata_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "rego_metadata_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust cws rego-metadata list": {
+			"operationId": "cws-list-rego-metadata",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cws/rego-metadata",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "cursor",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "order",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "direction",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "import_path",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust cws rego-metadata update": {
+			"operationId": "cws-update-rego-metadata",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/cws/rego-metadata/{rego_metadata_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "rego_metadata_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "import-path",
+					"type": "string",
+					"required": true,
+					"description": "Unique Rego import path in the form metadata.<segment>, with one alphanumeric or underscore segment. Reference it as data.<import_path>."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Name of the rego metadata document (unique per account)"
+				}
+			]
+		},
+		"zero-trust cws rego-modules create": {
+			"operationId": "cws-create-rego-module",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/cws/rego-modules",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Name of the Rego module (unique per account)"
+				},
+				{
+					"name": "rego-source",
+					"type": "string",
+					"required": true,
+					"description": "Library Rego source with a package beginning with \"lib.\" Maximum 16384 UTF-8 bytes."
+				}
+			]
+		},
+		"zero-trust cws rego-modules delete": {
+			"operationId": "cws-delete-rego-module",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/cws/rego-modules/{rego_module_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "rego_module_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust cws rego-modules get": {
+			"operationId": "cws-get-rego-module",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cws/rego-modules/{rego_module_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "rego_module_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust cws rego-modules list": {
+			"operationId": "cws-list-rego-modules",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cws/rego-modules",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "cursor",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "order",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "direction",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "package_path",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust cws rego-modules update": {
+			"operationId": "cws-update-rego-module",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/cws/rego-modules/{rego_module_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "rego_module_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Name of the Rego module (unique per account)"
+				},
+				{
+					"name": "rego-source",
+					"type": "string",
+					"required": true,
+					"description": "Library Rego source with a package beginning with \"lib.\" Maximum 16384 UTF-8 bytes."
+				}
+			]
+		},
+		"zero-trust cws tenant-structures create": {
+			"operationId": "cws-create-tenant-structure",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/cws/tenant-structures",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "application",
+					"type": "string",
+					"required": true,
+					"description": "Platform this structure models. Immutable after creation."
+				},
+				{
+					"name": "import-path",
+					"type": "string",
+					"required": false,
+					"description": "Optional unique Rego mount path in the form tenant.<application>.<name>; application must match. Omit to leave unmounted."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Human-readable name; unique per account"
+				}
+			]
+		},
+		"zero-trust cws tenant-structures delete": {
+			"operationId": "cws-delete-tenant-structure",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/cws/tenant-structures/{structure_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "structure_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust cws tenant-structures get": {
+			"operationId": "cws-get-tenant-structure",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cws/tenant-structures/{structure_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "structure_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust cws tenant-structures list": {
+			"operationId": "cws-list-tenant-structures",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cws/tenant-structures",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "cursor",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "order",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "direction",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "import_path",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust cws tenant-structures nodes batch": {
+			"operationId": "cws-batch-tenant-nodes",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/cws/tenant-structures/{structure_id}/nodes/batch",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "structure_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "creates",
+					"type": "string",
+					"required": true,
+					"description": "Nodes to create; parents may be created elsewhere in this request. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "deletes",
+					"type": "string",
+					"required": true,
+					"description": "Nodes to delete; every descendant that will not be reparented must also be deleted. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "updates",
+					"type": "string",
+					"required": true,
+					"description": "Nodes whose mutable fields should be fully replaced. Provide as a JSON array of objects or @path/to/file.json."
+				}
+			]
+		},
+		"zero-trust cws tenant-structures nodes create": {
+			"operationId": "cws-create-tenant-node",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/cws/tenant-structures/{structure_id}/nodes",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "structure_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "name",
+					"type": "string",
+					"required": false,
+					"description": "Display name (e.g. an OU or account name), mutable. Optional; empty by default."
+				},
+				{
+					"name": "native-id",
+					"type": "string",
+					"required": true,
+					"description": "Cloud-native identifier of this node, unique within the structure; the parent-reference target. Shape depends on the structure's application. Immutable after create."
+				},
+				{
+					"name": "node-kind",
+					"type": "string",
+					"required": true,
+					"description": "Position in the tree. Legal values depend on the structure's application (aws: root/ou/account; cloudflare: org/account/zone). At most one root per structure. Immutable after create."
+				},
+				{
+					"name": "parent",
+					"type": "string",
+					"required": false,
+					"description": "Native ID of this node's parent. Required for non-root nodes and omitted for the root. The parent must be in the same structure and able to contain this node kind."
+				}
+			]
+		},
+		"zero-trust cws tenant-structures nodes delete": {
+			"operationId": "cws-delete-tenant-node",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/cws/tenant-structures/{structure_id}/nodes/{node_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "structure_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "node_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust cws tenant-structures nodes get": {
+			"operationId": "cws-get-tenant-node",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cws/tenant-structures/{structure_id}/nodes/{node_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "structure_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "node_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust cws tenant-structures nodes list": {
+			"operationId": "cws-list-tenant-nodes",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cws/tenant-structures/{structure_id}/nodes",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "structure_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "cursor",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "order",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "direction",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "node_kind",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "native_id",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "parent",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust cws tenant-structures nodes update": {
+			"operationId": "cws-update-tenant-node",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/cws/tenant-structures/{structure_id}/nodes/{node_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "structure_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "node_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "name",
+					"type": "string",
+					"required": false,
+					"description": "Display name (e.g. an OU or account name), mutable. Optional; empty by default."
+				},
+				{
+					"name": "native-id",
+					"type": "string",
+					"required": true,
+					"description": "Cloud-native identifier of this node, unique within the structure; the parent-reference target. Shape depends on the structure's application. Immutable after create."
+				},
+				{
+					"name": "node-kind",
+					"type": "string",
+					"required": true,
+					"description": "Position in the tree. Legal values depend on the structure's application (aws: root/ou/account; cloudflare: org/account/zone). At most one root per structure. Immutable after create."
+				},
+				{
+					"name": "parent",
+					"type": "string",
+					"required": false,
+					"description": "Native ID of this node's parent. Required for non-root nodes and omitted for the root. The parent must be in the same structure and able to contain this node kind."
+				}
+			]
+		},
+		"zero-trust cws tenant-structures update": {
+			"operationId": "cws-update-tenant-structure",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/cws/tenant-structures/{structure_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "structure_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "application",
+					"type": "string",
+					"required": true,
+					"description": "Platform this structure models. Must match the existing value."
+				},
+				{
+					"name": "import-path",
+					"type": "string",
+					"required": false,
+					"description": "Optional unique Rego mount path in the form tenant.<application>.<name>; application must match. Omit to clear."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Human-readable name; unique per account"
+				}
+			]
+		},
+		"zero-trust cws workloads create": {
+			"operationId": "cws-create-workload",
+			"httpMethod": "POST",
+			"path": "/accounts/{account_id}/cws/workloads",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "description",
+					"type": "string",
+					"required": false,
+					"description": "Optional free-form description."
+				},
+				{
+					"name": "filter",
+					"type": "string",
+					"required": true,
+					"description": "Filter expression selecting the requests this workload matches. Maximum 4096 UTF-8 bytes."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Human-readable handle; unique per account."
+				}
+			]
+		},
+		"zero-trust cws workloads delete": {
+			"operationId": "cws-delete-workload",
+			"httpMethod": "DELETE",
+			"path": "/accounts/{account_id}/cws/workloads/{workload_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "workload_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust cws workloads get": {
+			"operationId": "cws-get-workload",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cws/workloads/{workload_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "workload_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust cws workloads list": {
+			"operationId": "cws-list-workloads",
+			"httpMethod": "GET",
+			"path": "/accounts/{account_id}/cws/workloads",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [
+				{
+					"name": "cursor",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "per_page",
+					"type": "number",
+					"required": false
+				},
+				{
+					"name": "order",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "direction",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name": "policy_set_id",
+					"type": "string",
+					"required": false
+				}
+			],
+			"hasRequestBody": false,
+			"requestBodyFields": []
+		},
+		"zero-trust cws workloads update": {
+			"operationId": "cws-update-workload",
+			"httpMethod": "PUT",
+			"path": "/accounts/{account_id}/cws/workloads/{workload_id}",
+			"pathParams": [
+				{
+					"name": "account_id",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "workload_id",
+					"type": "string",
+					"required": true
+				}
+			],
+			"queryParams": [],
+			"hasRequestBody": true,
+			"requestBodyFields": [
+				{
+					"name": "description",
+					"type": "string",
+					"required": false,
+					"description": "Optional free-form description."
+				},
+				{
+					"name": "filter",
+					"type": "string",
+					"required": true,
+					"description": "Filter expression selecting the requests this workload matches. Maximum 4096 UTF-8 bytes."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Human-readable handle; unique per account."
+				}
+			]
+		},
 		"zero-trust devices client-versions list": {
 			"operationId": "list-client-versions",
 			"httpMethod": "GET",

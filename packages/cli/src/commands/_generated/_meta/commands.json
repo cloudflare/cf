@@ -142488,6 +142488,2648 @@
 			"hideCommand": false
 		},
 		{
+			"command": "cf zero-trust cws basic-auth-credentials create",
+			"name": "create",
+			"fullPath": ["zero-trust", "cws", "basic-auth-credentials", "create"],
+			"description": "Creates a basic-auth credential with the specified username.",
+			"summary": "Create a basic-auth credential",
+			"usage": "cf zero-trust cws basic-auth-credentials create [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "username",
+					"type": "string",
+					"required": true,
+					"description": "Login presented by the client. Printable ASCII only, excluding space and colon."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "create",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/cws/basic-auth-credentials",
+			"operationId": "cws-create-basic-auth-credential",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws basic-auth-credentials delete",
+			"name": "delete",
+			"fullPath": ["zero-trust", "cws", "basic-auth-credentials", "delete"],
+			"description": "Deletes the credential and its secrets if it is not attached to a deployment.",
+			"summary": "Delete a basic-auth credential",
+			"usage": "cf zero-trust cws basic-auth-credentials delete <credential-id>",
+			"arguments": [
+				{
+					"name": "credential-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of the credential to delete"
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "delete",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/cws/basic-auth-credentials/{credential_id}",
+			"operationId": "cws-delete-basic-auth-credential",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws basic-auth-credentials get",
+			"name": "get",
+			"fullPath": ["zero-trust", "cws", "basic-auth-credentials", "get"],
+			"description": "Returns the basic-auth credential with the specified ID.",
+			"summary": "Get a basic-auth credential by ID",
+			"usage": "cf zero-trust cws basic-auth-credentials get <credential-id>",
+			"arguments": [
+				{
+					"name": "credential-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of the credential to retrieve"
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/cws/basic-auth-credentials/{credential_id}",
+			"operationId": "cws-get-basic-auth-credential",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws basic-auth-credentials list",
+			"name": "list",
+			"fullPath": ["zero-trust", "cws", "basic-auth-credentials", "list"],
+			"description": "Returns a paginated list of basic-auth credentials in the account.",
+			"summary": "List basic-auth credentials for an account",
+			"usage": "cf zero-trust cws basic-auth-credentials list [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "cursor",
+					"type": "string",
+					"required": false,
+					"description": "Pagination cursor from previous response"
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": false,
+					"description": "Number of items per page (1-100, default 20)"
+				},
+				{
+					"name": "order",
+					"type": "string",
+					"required": false,
+					"description": "Field to order results by (default: created_at)",
+					"enum": ["username", "created_at", "updated_at"]
+				},
+				{
+					"name": "direction",
+					"type": "string",
+					"required": false,
+					"description": "Sort direction (default: asc)",
+					"enum": ["asc", "desc"]
+				},
+				{
+					"name": "username",
+					"type": "string",
+					"required": false,
+					"description": "Filter by username (case-insensitive substring match)"
+				},
+				{
+					"name": "deployment-id",
+					"type": "string",
+					"required": false,
+					"description": "Filter to credentials attached to this deployment"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/cws/basic-auth-credentials",
+			"operationId": "cws-list-basic-auth-credentials",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws basic-auth-credentials secrets create",
+			"name": "create",
+			"fullPath": [
+				"zero-trust",
+				"cws",
+				"basic-auth-credentials",
+				"secrets",
+				"create"
+			],
+			"description": "Adds a password secret to the credential.",
+			"summary": "Add a secret to a basic-auth credential",
+			"usage": "cf zero-trust cws basic-auth-credentials secrets create <credential-id> [options]",
+			"arguments": [
+				{
+					"name": "credential-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of the parent credential"
+				}
+			],
+			"options": [
+				{
+					"name": "expires-at",
+					"type": "string",
+					"required": false,
+					"description": "Optional deactivation deadline (RFC 3339). Omit or null for no expiry."
+				},
+				{
+					"name": "password",
+					"type": "string",
+					"required": true,
+					"description": "Password stored only as a one-way hash and never returned. Maximum 72 UTF-8 bytes."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "create",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/cws/basic-auth-credentials/{credential_id}/secrets",
+			"operationId": "cws-create-basic-auth-secret",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws basic-auth-credentials secrets delete",
+			"name": "delete",
+			"fullPath": [
+				"zero-trust",
+				"cws",
+				"basic-auth-credentials",
+				"secrets",
+				"delete"
+			],
+			"description": "Deletes the specified secret from the credential.",
+			"summary": "Delete a basic-auth secret",
+			"usage": "cf zero-trust cws basic-auth-credentials secrets delete <secret-id> [options]",
+			"arguments": [
+				{
+					"name": "secret-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of the secret to delete"
+				}
+			],
+			"options": [
+				{
+					"name": "credential-id",
+					"type": "string",
+					"required": true,
+					"description": "ID of the parent credential"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "delete",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/cws/basic-auth-credentials/{credential_id}/secrets/{secret_id}",
+			"operationId": "cws-delete-basic-auth-secret",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws basic-auth-credentials secrets get",
+			"name": "get",
+			"fullPath": [
+				"zero-trust",
+				"cws",
+				"basic-auth-credentials",
+				"secrets",
+				"get"
+			],
+			"description": "Returns the specified secret's metadata without exposing its password or hash.",
+			"summary": "Get a basic-auth secret by ID",
+			"usage": "cf zero-trust cws basic-auth-credentials secrets get <secret-id> [options]",
+			"arguments": [
+				{
+					"name": "secret-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of the secret to retrieve"
+				}
+			],
+			"options": [
+				{
+					"name": "credential-id",
+					"type": "string",
+					"required": true,
+					"description": "ID of the parent credential"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/cws/basic-auth-credentials/{credential_id}/secrets/{secret_id}",
+			"operationId": "cws-get-basic-auth-secret",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws basic-auth-credentials secrets list",
+			"name": "list",
+			"fullPath": [
+				"zero-trust",
+				"cws",
+				"basic-auth-credentials",
+				"secrets",
+				"list"
+			],
+			"description": "Returns a paginated list of secrets belonging to the credential.",
+			"summary": "List secrets for a basic-auth credential",
+			"usage": "cf zero-trust cws basic-auth-credentials secrets list [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "credential-id",
+					"type": "string",
+					"required": true,
+					"description": "ID of the parent credential"
+				},
+				{
+					"name": "cursor",
+					"type": "string",
+					"required": false,
+					"description": "Pagination cursor from previous response"
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": false,
+					"description": "Number of items per page (1-100, default 20)"
+				},
+				{
+					"name": "order",
+					"type": "string",
+					"required": false,
+					"description": "Field to order results by (default: created_at)",
+					"enum": ["created_at"]
+				},
+				{
+					"name": "direction",
+					"type": "string",
+					"required": false,
+					"description": "Sort direction (default: asc)",
+					"enum": ["asc", "desc"]
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/cws/basic-auth-credentials/{credential_id}/secrets",
+			"operationId": "cws-list-basic-auth-secrets",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws deployments create",
+			"name": "create",
+			"fullPath": ["zero-trust", "cws", "deployments", "create"],
+			"description": "Creates a deployment with the specified policy sets, domain ACL, and basic-auth credentials.",
+			"summary": "Create a new deployment",
+			"usage": "cf zero-trust cws deployments create [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "basic-auth-credential-ids",
+					"type": "string",
+					"required": true,
+					"description": "IDs of basic-auth credentials to attach"
+				},
+				{
+					"name": "default-mode",
+					"type": "string",
+					"required": true,
+					"description": "Default traffic mode: ALLOW or BLOCK",
+					"enum": ["ALLOW", "BLOCK"]
+				},
+				{
+					"name": "description",
+					"type": "string",
+					"required": false,
+					"description": "Optional free-form description."
+				},
+				{
+					"name": "domain-acl-id",
+					"type": "string",
+					"required": false,
+					"description": "ID of the domain ACL to attach (omit or null for none)"
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Name of the deployment"
+				},
+				{
+					"name": "on-error-action",
+					"type": "string",
+					"required": false,
+					"description": "Action for runtime Rego errors. Omit to use BLOCK.",
+					"enum": ["BLOCK", "SKIP"]
+				},
+				{
+					"name": "policy-set-ids",
+					"type": "string",
+					"required": true,
+					"description": "IDs of policy sets to attach"
+				},
+				{
+					"name": "rego-raise-error",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether OPA builtin failures are raised as runtime evaluation errors. Omit to use the default true value."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "create",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/cws/deployments",
+			"operationId": "cws-create-deployment",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws deployments delete",
+			"name": "delete",
+			"fullPath": ["zero-trust", "cws", "deployments", "delete"],
+			"description": "Deletes the deployment and detaches its associated resources. The resources are not deleted.",
+			"summary": "Delete a deployment",
+			"usage": "cf zero-trust cws deployments delete <deployment-id>",
+			"arguments": [
+				{
+					"name": "deployment-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of the deployment to delete"
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "delete",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/cws/deployments/{deployment_id}",
+			"operationId": "cws-delete-deployment",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws deployments get",
+			"name": "get",
+			"fullPath": ["zero-trust", "cws", "deployments", "get"],
+			"description": "Returns the deployment with the specified ID.",
+			"summary": "Get a deployment by ID",
+			"usage": "cf zero-trust cws deployments get <deployment-id>",
+			"arguments": [
+				{
+					"name": "deployment-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of the deployment to retrieve"
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/cws/deployments/{deployment_id}",
+			"operationId": "cws-get-deployment",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws deployments list",
+			"name": "list",
+			"fullPath": ["zero-trust", "cws", "deployments", "list"],
+			"description": "Returns a paginated list of deployments in the account.",
+			"summary": "List deployments",
+			"usage": "cf zero-trust cws deployments list [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "cursor",
+					"type": "string",
+					"required": false,
+					"description": "Pagination cursor from previous response"
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": false,
+					"description": "Number of items per page (1-100, default 20)"
+				},
+				{
+					"name": "order",
+					"type": "string",
+					"required": false,
+					"description": "Field to order results by (default: created_at)",
+					"enum": ["name", "created_at", "updated_at"]
+				},
+				{
+					"name": "direction",
+					"type": "string",
+					"required": false,
+					"description": "Sort direction (default: asc)",
+					"enum": ["asc", "desc"]
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": false,
+					"description": "Filter by deployment name (case-insensitive substring match)"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/cws/deployments",
+			"operationId": "cws-list-deployments",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws deployments update",
+			"name": "update",
+			"fullPath": ["zero-trust", "cws", "deployments", "update"],
+			"description": "Replaces the deployment's mutable configuration and resource attachments.",
+			"summary": "Update a deployment",
+			"usage": "cf zero-trust cws deployments update <deployment-id> [options]",
+			"arguments": [
+				{
+					"name": "deployment-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of the deployment to update"
+				}
+			],
+			"options": [
+				{
+					"name": "basic-auth-credential-ids",
+					"type": "string",
+					"required": true,
+					"description": "Replacement set of basic-auth credential IDs"
+				},
+				{
+					"name": "default-mode",
+					"type": "string",
+					"required": true,
+					"description": "Default traffic mode: ALLOW or BLOCK",
+					"enum": ["ALLOW", "BLOCK"]
+				},
+				{
+					"name": "description",
+					"type": "string",
+					"required": false,
+					"description": "Optional free-form description."
+				},
+				{
+					"name": "domain-acl-id",
+					"type": "string",
+					"required": false,
+					"description": "ID of the domain ACL to attach (omit or null to clear)"
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Name of the deployment"
+				},
+				{
+					"name": "on-error-action",
+					"type": "string",
+					"required": false,
+					"description": "Action for runtime Rego errors. Omit to preserve the current value.",
+					"enum": ["BLOCK", "SKIP"]
+				},
+				{
+					"name": "policy-set-ids",
+					"type": "string",
+					"required": true,
+					"description": "Replacement set of policy set IDs"
+				},
+				{
+					"name": "rego-raise-error",
+					"type": "boolean",
+					"required": false,
+					"description": "Whether OPA builtin failures are raised as runtime evaluation errors. Omit to preserve the current value."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PUT",
+			"apiPath": "/accounts/{account_id}/cws/deployments/{deployment_id}",
+			"operationId": "cws-update-deployment",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws domain-acls create",
+			"name": "create",
+			"fullPath": ["zero-trust", "cws", "domain-acls", "create"],
+			"description": "Creates a domain access control list with its default action and entries.",
+			"summary": "Create a new domain ACL",
+			"usage": "cf zero-trust cws domain-acls create [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "default-action",
+					"type": "string",
+					"required": true,
+					"description": "Default action when no entry matches",
+					"enum": ["ALLOW", "BLOCK"]
+				},
+				{
+					"name": "entries",
+					"type": "string",
+					"required": true,
+					"description": "Domain entries for this ACL. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Name of the domain ACL"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "create",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/cws/domain-acls",
+			"operationId": "cws-create-domain-acl",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws domain-acls delete",
+			"name": "delete",
+			"fullPath": ["zero-trust", "cws", "domain-acls", "delete"],
+			"description": "Deletes the domain ACL if it is not attached to a deployment.",
+			"summary": "Delete a domain ACL",
+			"usage": "cf zero-trust cws domain-acls delete <domain-acl-id>",
+			"arguments": [
+				{
+					"name": "domain-acl-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of the domain ACL to delete"
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "delete",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/cws/domain-acls/{domain_acl_id}",
+			"operationId": "cws-delete-domain-acl",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws domain-acls get",
+			"name": "get",
+			"fullPath": ["zero-trust", "cws", "domain-acls", "get"],
+			"description": "Returns the domain access control list with the specified ID.",
+			"summary": "Get a domain ACL by ID",
+			"usage": "cf zero-trust cws domain-acls get <domain-acl-id>",
+			"arguments": [
+				{
+					"name": "domain-acl-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of the domain ACL to retrieve"
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/cws/domain-acls/{domain_acl_id}",
+			"operationId": "cws-get-domain-acl",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws domain-acls list",
+			"name": "list",
+			"fullPath": ["zero-trust", "cws", "domain-acls", "list"],
+			"description": "Returns a paginated list of domain access control lists in the account.",
+			"summary": "List domain ACLs",
+			"usage": "cf zero-trust cws domain-acls list [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "cursor",
+					"type": "string",
+					"required": false,
+					"description": "Pagination cursor from previous response"
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": false,
+					"description": "Number of items per page (1-100, default 20)"
+				},
+				{
+					"name": "order",
+					"type": "string",
+					"required": false,
+					"description": "Field to order results by (default: created_at)",
+					"enum": ["name", "created_at", "updated_at"]
+				},
+				{
+					"name": "direction",
+					"type": "string",
+					"required": false,
+					"description": "Sort direction (default: asc)",
+					"enum": ["asc", "desc"]
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": false,
+					"description": "Filter by domain ACL name (case-insensitive substring match)"
+				},
+				{
+					"name": "deployment-id",
+					"type": "string",
+					"required": false,
+					"description": "Filter to domain ACLs attached to this deployment"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/cws/domain-acls",
+			"operationId": "cws-list-domain-acls",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws domain-acls update",
+			"name": "update",
+			"fullPath": ["zero-trust", "cws", "domain-acls", "update"],
+			"description": "Replaces the domain access control list's name, default action, and entries.",
+			"summary": "Update a domain ACL and replace its entries",
+			"usage": "cf zero-trust cws domain-acls update <domain-acl-id> [options]",
+			"arguments": [
+				{
+					"name": "domain-acl-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of the domain ACL to update"
+				}
+			],
+			"options": [
+				{
+					"name": "default-action",
+					"type": "string",
+					"required": true,
+					"description": "Default action when no entry matches",
+					"enum": ["ALLOW", "BLOCK"]
+				},
+				{
+					"name": "entries",
+					"type": "string",
+					"required": true,
+					"description": "Replacement set of domain entries. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Name of the domain ACL"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PUT",
+			"apiPath": "/accounts/{account_id}/cws/domain-acls/{domain_acl_id}",
+			"operationId": "cws-update-domain-acl",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws policies create",
+			"name": "create",
+			"fullPath": ["zero-trust", "cws", "policies", "create"],
+			"description": "Creates a policy from inline Rego source and an entrypoint. Omit filter to apply the policy to every request.",
+			"summary": "Create a new policy",
+			"usage": "cf zero-trust cws policies create [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "description",
+					"type": "string",
+					"required": false,
+					"description": "Optional free-form description."
+				},
+				{
+					"name": "entrypoint",
+					"type": "string",
+					"required": true,
+					"description": "Non-function rule declared in rego_source. Evaluation uses data.<package_path>.<entrypoint>."
+				},
+				{
+					"name": "filter",
+					"type": "string",
+					"required": false,
+					"description": "Optional filter expression that determines whether this policy applies. Omit or set null to apply the policy to every request. Maximum 4096 UTF-8 bytes."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Name of the policy"
+				},
+				{
+					"name": "rego-source",
+					"type": "string",
+					"required": true,
+					"description": "Inline Rego source with a package beginning with \"policy.\" Maximum 16384 UTF-8 bytes."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "create",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/cws/policies",
+			"operationId": "cws-create-policy",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws policies delete",
+			"name": "delete",
+			"fullPath": ["zero-trust", "cws", "policies", "delete"],
+			"description": "Deletes the policy and cascades its policy-set membership rows. The policy sets remain.",
+			"summary": "Delete a policy",
+			"usage": "cf zero-trust cws policies delete <policy-id>",
+			"arguments": [
+				{
+					"name": "policy-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of the policy to delete"
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "delete",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/cws/policies/{policy_id}",
+			"operationId": "cws-delete-policy",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws policies get",
+			"name": "get",
+			"fullPath": ["zero-trust", "cws", "policies", "get"],
+			"description": "Returns the policy with the specified ID.",
+			"summary": "Get a policy by ID",
+			"usage": "cf zero-trust cws policies get <policy-id>",
+			"arguments": [
+				{
+					"name": "policy-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of the policy to retrieve"
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/cws/policies/{policy_id}",
+			"operationId": "cws-get-policy",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws policies list",
+			"name": "list",
+			"fullPath": ["zero-trust", "cws", "policies", "list"],
+			"description": "Returns a paginated list of policies in the account.",
+			"summary": "List policies",
+			"usage": "cf zero-trust cws policies list [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "cursor",
+					"type": "string",
+					"required": false,
+					"description": "Pagination cursor from previous response"
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": false,
+					"description": "Number of items per page (1-100, default 20)"
+				},
+				{
+					"name": "order",
+					"type": "string",
+					"required": false,
+					"description": "Field to order results by (default: created_at)",
+					"enum": ["name", "created_at", "updated_at"]
+				},
+				{
+					"name": "direction",
+					"type": "string",
+					"required": false,
+					"description": "Sort direction (default: asc)",
+					"enum": ["asc", "desc"]
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": false,
+					"description": "Filter by policy name (case-insensitive substring match)"
+				},
+				{
+					"name": "policy-set-id",
+					"type": "string",
+					"required": false,
+					"description": "Filter to policies attached to (members of) this policy set"
+				},
+				{
+					"name": "package-path",
+					"type": "string",
+					"required": false,
+					"description": "Filter by package path (case-sensitive literal substring match)"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/cws/policies",
+			"operationId": "cws-list-policies",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws policies update",
+			"name": "update",
+			"fullPath": ["zero-trust", "cws", "policies", "update"],
+			"description": "Replaces the policy's configuration. Omit filter to apply the policy to every request. Omit tags to preserve them; use {} to clear them.",
+			"summary": "Update a policy",
+			"usage": "cf zero-trust cws policies update <policy-id> [options]",
+			"arguments": [
+				{
+					"name": "policy-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of the policy to update"
+				}
+			],
+			"options": [
+				{
+					"name": "description",
+					"type": "string",
+					"required": false,
+					"description": "Optional free-form description."
+				},
+				{
+					"name": "entrypoint",
+					"type": "string",
+					"required": true,
+					"description": "Non-function rule declared in rego_source. Evaluation uses data.<package_path>.<entrypoint>."
+				},
+				{
+					"name": "filter",
+					"type": "string",
+					"required": false,
+					"description": "Optional filter expression that determines whether this policy applies. Omit or set null to apply the policy to every request. Maximum 4096 UTF-8 bytes."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Name of the policy"
+				},
+				{
+					"name": "rego-source",
+					"type": "string",
+					"required": true,
+					"description": "Inline Rego source with a package beginning with \"policy.\" Maximum 16384 UTF-8 bytes."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PUT",
+			"apiPath": "/accounts/{account_id}/cws/policies/{policy_id}",
+			"operationId": "cws-update-policy",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws policy-sets create",
+			"name": "create",
+			"fullPath": ["zero-trust", "cws", "policy-sets", "create"],
+			"description": "Creates a policy set containing the specified policies and workload targets.",
+			"summary": "Create a new policy set",
+			"usage": "cf zero-trust cws policy-sets create [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "description",
+					"type": "string",
+					"required": false,
+					"description": "Optional free-form description."
+				},
+				{
+					"name": "exclude-workload-ids",
+					"type": "string",
+					"required": false,
+					"description": "Workload IDs that exclude matching requests. Exclusions take precedence."
+				},
+				{
+					"name": "include-workload-ids",
+					"type": "string",
+					"required": false,
+					"description": "Workload IDs that include matching requests. Empty or omitted includes all requests before exclusions."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Name of the policy set"
+				},
+				{
+					"name": "policies",
+					"type": "string",
+					"required": true,
+					"description": "Policies to include with per-membership enforcement mode. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "create",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/cws/policy-sets",
+			"operationId": "cws-create-policy-set",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws policy-sets delete",
+			"name": "delete",
+			"fullPath": ["zero-trust", "cws", "policy-sets", "delete"],
+			"description": "Deletes the policy set and cascades its deployment attachment and policy and workload membership rows. The referenced deployments, policies, and workloads remain.",
+			"summary": "Delete a policy set",
+			"usage": "cf zero-trust cws policy-sets delete <policy-set-id>",
+			"arguments": [
+				{
+					"name": "policy-set-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of the policy set to delete"
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "delete",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/cws/policy-sets/{policy_set_id}",
+			"operationId": "cws-delete-policy-set",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws policy-sets get",
+			"name": "get",
+			"fullPath": ["zero-trust", "cws", "policy-sets", "get"],
+			"description": "Returns the policy set with the specified ID.",
+			"summary": "Get a policy set by ID",
+			"usage": "cf zero-trust cws policy-sets get <policy-set-id>",
+			"arguments": [
+				{
+					"name": "policy-set-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of the policy set to retrieve"
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/cws/policy-sets/{policy_set_id}",
+			"operationId": "cws-get-policy-set",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws policy-sets list",
+			"name": "list",
+			"fullPath": ["zero-trust", "cws", "policy-sets", "list"],
+			"description": "Returns a paginated list of policy sets in the account.",
+			"summary": "List policy sets",
+			"usage": "cf zero-trust cws policy-sets list [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "cursor",
+					"type": "string",
+					"required": false,
+					"description": "Pagination cursor from previous response"
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": false,
+					"description": "Number of items per page (1-100, default 20)"
+				},
+				{
+					"name": "order",
+					"type": "string",
+					"required": false,
+					"description": "Field to order results by (default: created_at)",
+					"enum": ["name", "created_at", "updated_at"]
+				},
+				{
+					"name": "direction",
+					"type": "string",
+					"required": false,
+					"description": "Sort direction (default: asc)",
+					"enum": ["asc", "desc"]
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": false,
+					"description": "Filter by policy set name (case-insensitive substring match)"
+				},
+				{
+					"name": "deployment-id",
+					"type": "string",
+					"required": false,
+					"description": "Filter to policy sets attached to this deployment"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/cws/policy-sets",
+			"operationId": "cws-list-policy-sets",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws policy-sets update",
+			"name": "update",
+			"fullPath": ["zero-trust", "cws", "policy-sets", "update"],
+			"description": "Replaces the policy set's configuration. Omit tags to preserve them; use {} to clear them.",
+			"summary": "Update a policy set",
+			"usage": "cf zero-trust cws policy-sets update <policy-set-id> [options]",
+			"arguments": [
+				{
+					"name": "policy-set-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of the policy set to update"
+				}
+			],
+			"options": [
+				{
+					"name": "description",
+					"type": "string",
+					"required": false,
+					"description": "Optional free-form description."
+				},
+				{
+					"name": "exclude-workload-ids",
+					"type": "string",
+					"required": false,
+					"description": "Replacement set of excluded workload IDs. Exclusions take precedence."
+				},
+				{
+					"name": "include-workload-ids",
+					"type": "string",
+					"required": false,
+					"description": "Replacement set of included workload IDs. Empty or omitted includes all requests before exclusions."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Name of the policy set"
+				},
+				{
+					"name": "policies",
+					"type": "string",
+					"required": true,
+					"description": "Replacement set of policies with per-membership enforcement mode. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PUT",
+			"apiPath": "/accounts/{account_id}/cws/policy-sets/{policy_set_id}",
+			"operationId": "cws-update-policy-set",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws rego-metadata create",
+			"name": "create",
+			"fullPath": ["zero-trust", "cws", "rego-metadata", "create"],
+			"description": "Creates a JSON document that Rego can access through its import path.",
+			"summary": "Create a new rego metadata document",
+			"usage": "cf zero-trust cws rego-metadata create [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "import-path",
+					"type": "string",
+					"required": true,
+					"description": "Unique Rego import path in the form metadata.<segment>, with one alphanumeric or underscore segment. Reference it as data.<import_path>."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Name of the rego metadata document (unique per account)"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "create",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/cws/rego-metadata",
+			"operationId": "cws-create-rego-metadata",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws rego-metadata delete",
+			"name": "delete",
+			"fullPath": ["zero-trust", "cws", "rego-metadata", "delete"],
+			"description": "Deletes the specified Rego metadata document.",
+			"summary": "Delete a rego metadata document",
+			"usage": "cf zero-trust cws rego-metadata delete <rego-metadata-id>",
+			"arguments": [
+				{
+					"name": "rego-metadata-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of the rego metadata document to delete"
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "delete",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/cws/rego-metadata/{rego_metadata_id}",
+			"operationId": "cws-delete-rego-metadata",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws rego-metadata get",
+			"name": "get",
+			"fullPath": ["zero-trust", "cws", "rego-metadata", "get"],
+			"description": "Returns the Rego metadata document with the specified ID.",
+			"summary": "Get a rego metadata document by ID",
+			"usage": "cf zero-trust cws rego-metadata get <rego-metadata-id>",
+			"arguments": [
+				{
+					"name": "rego-metadata-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of the rego metadata document to retrieve"
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/cws/rego-metadata/{rego_metadata_id}",
+			"operationId": "cws-get-rego-metadata",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws rego-metadata list",
+			"name": "list",
+			"fullPath": ["zero-trust", "cws", "rego-metadata", "list"],
+			"description": "Returns a paginated list of Rego metadata documents in the account.",
+			"summary": "List Rego metadata documents",
+			"usage": "cf zero-trust cws rego-metadata list [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "cursor",
+					"type": "string",
+					"required": false,
+					"description": "Pagination cursor from previous response"
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": false,
+					"description": "Number of items per page (1-100, default 20)"
+				},
+				{
+					"name": "order",
+					"type": "string",
+					"required": false,
+					"description": "Field to order results by (default: created_at)",
+					"enum": ["name", "created_at", "updated_at"]
+				},
+				{
+					"name": "direction",
+					"type": "string",
+					"required": false,
+					"description": "Sort direction (default: asc)",
+					"enum": ["asc", "desc"]
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": false,
+					"description": "Filter by rego metadata name (case-insensitive substring match)"
+				},
+				{
+					"name": "import-path",
+					"type": "string",
+					"required": false,
+					"description": "Filter by import path (case-sensitive literal substring match)"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/cws/rego-metadata",
+			"operationId": "cws-list-rego-metadata",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws rego-metadata update",
+			"name": "update",
+			"fullPath": ["zero-trust", "cws", "rego-metadata", "update"],
+			"description": "Replaces the metadata document's name, import path, and JSON data.",
+			"summary": "Update a rego metadata document",
+			"usage": "cf zero-trust cws rego-metadata update <rego-metadata-id> [options]",
+			"arguments": [
+				{
+					"name": "rego-metadata-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of the rego metadata document to update"
+				}
+			],
+			"options": [
+				{
+					"name": "import-path",
+					"type": "string",
+					"required": true,
+					"description": "Unique Rego import path in the form metadata.<segment>, with one alphanumeric or underscore segment. Reference it as data.<import_path>."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Name of the rego metadata document (unique per account)"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PUT",
+			"apiPath": "/accounts/{account_id}/cws/rego-metadata/{rego_metadata_id}",
+			"operationId": "cws-update-rego-metadata",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws rego-modules create",
+			"name": "create",
+			"fullPath": ["zero-trust", "cws", "rego-modules", "create"],
+			"description": "Creates a library Rego module and derives its package path from the source.",
+			"summary": "Create a new Rego module",
+			"usage": "cf zero-trust cws rego-modules create [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Name of the Rego module (unique per account)"
+				},
+				{
+					"name": "rego-source",
+					"type": "string",
+					"required": true,
+					"description": "Library Rego source with a package beginning with \"lib.\" Maximum 16384 UTF-8 bytes."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "create",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/cws/rego-modules",
+			"operationId": "cws-create-rego-module",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws rego-modules delete",
+			"name": "delete",
+			"fullPath": ["zero-trust", "cws", "rego-modules", "delete"],
+			"description": "Deletes the module if no policy or library references its rules.",
+			"summary": "Delete a Rego module",
+			"usage": "cf zero-trust cws rego-modules delete <rego-module-id>",
+			"arguments": [
+				{
+					"name": "rego-module-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of the Rego module to delete"
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "delete",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/cws/rego-modules/{rego_module_id}",
+			"operationId": "cws-delete-rego-module",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws rego-modules get",
+			"name": "get",
+			"fullPath": ["zero-trust", "cws", "rego-modules", "get"],
+			"description": "Returns the library Rego module with the specified ID.",
+			"summary": "Get a Rego module by ID",
+			"usage": "cf zero-trust cws rego-modules get <rego-module-id>",
+			"arguments": [
+				{
+					"name": "rego-module-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of the Rego module to retrieve"
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/cws/rego-modules/{rego_module_id}",
+			"operationId": "cws-get-rego-module",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws rego-modules list",
+			"name": "list",
+			"fullPath": ["zero-trust", "cws", "rego-modules", "list"],
+			"description": "Returns a paginated list of library Rego modules in the account.",
+			"summary": "List Rego modules",
+			"usage": "cf zero-trust cws rego-modules list [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "cursor",
+					"type": "string",
+					"required": false,
+					"description": "Pagination cursor from previous response"
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": false,
+					"description": "Number of items per page (1-100, default 20)"
+				},
+				{
+					"name": "order",
+					"type": "string",
+					"required": false,
+					"description": "Field to order results by (default: created_at)",
+					"enum": ["name", "created_at", "updated_at"]
+				},
+				{
+					"name": "direction",
+					"type": "string",
+					"required": false,
+					"description": "Sort direction (default: asc)",
+					"enum": ["asc", "desc"]
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": false,
+					"description": "Filter by Rego module name (case-insensitive substring match)"
+				},
+				{
+					"name": "package-path",
+					"type": "string",
+					"required": false,
+					"description": "Filter by package path (case-sensitive literal substring match)"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/cws/rego-modules",
+			"operationId": "cws-list-rego-modules",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws rego-modules update",
+			"name": "update",
+			"fullPath": ["zero-trust", "cws", "rego-modules", "update"],
+			"description": "Replaces the module and validates policies and libraries that depend on it.",
+			"summary": "Update a Rego module",
+			"usage": "cf zero-trust cws rego-modules update <rego-module-id> [options]",
+			"arguments": [
+				{
+					"name": "rego-module-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of the Rego module to update"
+				}
+			],
+			"options": [
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Name of the Rego module (unique per account)"
+				},
+				{
+					"name": "rego-source",
+					"type": "string",
+					"required": true,
+					"description": "Library Rego source with a package beginning with \"lib.\" Maximum 16384 UTF-8 bytes."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PUT",
+			"apiPath": "/accounts/{account_id}/cws/rego-modules/{rego_module_id}",
+			"operationId": "cws-update-rego-module",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws tenant-structures create",
+			"name": "create",
+			"fullPath": ["zero-trust", "cws", "tenant-structures", "create"],
+			"description": "Creates an empty tenant hierarchy for the selected cloud application.",
+			"summary": "Create a tenant structure",
+			"usage": "cf zero-trust cws tenant-structures create [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "application",
+					"type": "string",
+					"required": true,
+					"description": "Platform this structure models. Immutable after creation.",
+					"enum": ["aws", "cloudflare"]
+				},
+				{
+					"name": "import-path",
+					"type": "string",
+					"required": false,
+					"description": "Optional unique Rego mount path in the form tenant.<application>.<name>; application must match. Omit to leave unmounted."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Human-readable name; unique per account"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "create",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/cws/tenant-structures",
+			"operationId": "cws-create-tenant-structure",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws tenant-structures delete",
+			"name": "delete",
+			"fullPath": ["zero-trust", "cws", "tenant-structures", "delete"],
+			"description": "Deletes the tenant structure and all nodes in its hierarchy.",
+			"summary": "Delete a tenant structure",
+			"usage": "cf zero-trust cws tenant-structures delete <structure-id>",
+			"arguments": [
+				{
+					"name": "structure-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of the tenant structure to delete"
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "delete",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/cws/tenant-structures/{structure_id}",
+			"operationId": "cws-delete-tenant-structure",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws tenant-structures get",
+			"name": "get",
+			"fullPath": ["zero-trust", "cws", "tenant-structures", "get"],
+			"description": "Returns the tenant structure with the specified ID.",
+			"summary": "Get a tenant structure by ID",
+			"usage": "cf zero-trust cws tenant-structures get <structure-id>",
+			"arguments": [
+				{
+					"name": "structure-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of the tenant structure to retrieve"
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/cws/tenant-structures/{structure_id}",
+			"operationId": "cws-get-tenant-structure",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws tenant-structures list",
+			"name": "list",
+			"fullPath": ["zero-trust", "cws", "tenant-structures", "list"],
+			"description": "Returns a paginated list of tenant structures in the account.",
+			"summary": "List tenant structures for an account",
+			"usage": "cf zero-trust cws tenant-structures list [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "cursor",
+					"type": "string",
+					"required": false,
+					"description": "Pagination cursor from previous response"
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": false,
+					"description": "Number of items per page (1-100, default 20)"
+				},
+				{
+					"name": "order",
+					"type": "string",
+					"required": false,
+					"description": "Field to order results by (default: created_at)",
+					"enum": ["name", "created_at", "updated_at"]
+				},
+				{
+					"name": "direction",
+					"type": "string",
+					"required": false,
+					"description": "Sort direction (default: asc)",
+					"enum": ["asc", "desc"]
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": false,
+					"description": "Filter by tenant structure name (case-insensitive substring match)"
+				},
+				{
+					"name": "import-path",
+					"type": "string",
+					"required": false,
+					"description": "Filter by import path (case-sensitive literal substring match)"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/cws/tenant-structures",
+			"operationId": "cws-list-tenant-structures",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws tenant-structures nodes batch",
+			"name": "batch",
+			"fullPath": ["zero-trust", "cws", "tenant-structures", "nodes", "batch"],
+			"description": "Atomically validates and applies 1 to 500 unordered node operations. Creates may reference new parents but cannot reuse a native_id deleted in the same batch. Maximum body size: 1 MiB.",
+			"summary": "Apply a batch of tenant node mutations",
+			"usage": "cf zero-trust cws tenant-structures nodes batch <structure-id> [options]",
+			"arguments": [
+				{
+					"name": "structure-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of the parent tenant structure"
+				}
+			],
+			"options": [
+				{
+					"name": "creates",
+					"type": "string",
+					"required": true,
+					"description": "Nodes to create; parents may be created elsewhere in this request. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "deletes",
+					"type": "string",
+					"required": true,
+					"description": "Nodes to delete; every descendant that will not be reparented must also be deleted. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "updates",
+					"type": "string",
+					"required": true,
+					"description": "Nodes whose mutable fields should be fully replaced. Provide as a JSON array of objects or @path/to/file.json."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "action",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/cws/tenant-structures/{structure_id}/nodes/batch",
+			"operationId": "cws-batch-tenant-nodes",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws tenant-structures nodes create",
+			"name": "create",
+			"fullPath": ["zero-trust", "cws", "tenant-structures", "nodes", "create"],
+			"description": "Adds a validated cloud-native node to the tenant hierarchy.",
+			"summary": "Add a node to a tenant structure",
+			"usage": "cf zero-trust cws tenant-structures nodes create <structure-id> [options]",
+			"arguments": [
+				{
+					"name": "structure-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of the parent tenant structure"
+				}
+			],
+			"options": [
+				{
+					"name": "name",
+					"type": "string",
+					"required": false,
+					"description": "Display name (e.g. an OU or account name), mutable. Optional; empty by default."
+				},
+				{
+					"name": "native-id",
+					"type": "string",
+					"required": true,
+					"description": "Cloud-native identifier of this node, unique within the structure; the parent-reference target. Shape depends on the structure's application. Immutable after create."
+				},
+				{
+					"name": "node-kind",
+					"type": "string",
+					"required": true,
+					"description": "Position in the tree. Legal values depend on the structure's application (aws: root/ou/account; cloudflare: org/account/zone). At most one root per structure. Immutable after create."
+				},
+				{
+					"name": "parent",
+					"type": "string",
+					"required": false,
+					"description": "Native ID of this node's parent. Required for non-root nodes and omitted for the root. The parent must be in the same structure and able to contain this node kind."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "create",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/cws/tenant-structures/{structure_id}/nodes",
+			"operationId": "cws-create-tenant-node",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws tenant-structures nodes delete",
+			"name": "delete",
+			"fullPath": ["zero-trust", "cws", "tenant-structures", "nodes", "delete"],
+			"description": "Deletes a childless node from the tenant hierarchy.",
+			"summary": "Delete a tenant node",
+			"usage": "cf zero-trust cws tenant-structures nodes delete <node-id> [options]",
+			"arguments": [
+				{
+					"name": "node-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of the node to delete"
+				}
+			],
+			"options": [
+				{
+					"name": "structure-id",
+					"type": "string",
+					"required": true,
+					"description": "ID of the parent tenant structure"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "delete",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/cws/tenant-structures/{structure_id}/nodes/{node_id}",
+			"operationId": "cws-delete-tenant-node",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws tenant-structures nodes get",
+			"name": "get",
+			"fullPath": ["zero-trust", "cws", "tenant-structures", "nodes", "get"],
+			"description": "Returns the tenant node with the specified ID.",
+			"summary": "Get a tenant node by ID",
+			"usage": "cf zero-trust cws tenant-structures nodes get <node-id> [options]",
+			"arguments": [
+				{
+					"name": "node-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of the node to retrieve"
+				}
+			],
+			"options": [
+				{
+					"name": "structure-id",
+					"type": "string",
+					"required": true,
+					"description": "ID of the parent tenant structure"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/cws/tenant-structures/{structure_id}/nodes/{node_id}",
+			"operationId": "cws-get-tenant-node",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws tenant-structures nodes list",
+			"name": "list",
+			"fullPath": ["zero-trust", "cws", "tenant-structures", "nodes", "list"],
+			"description": "Returns a paginated list of nodes in the tenant structure.",
+			"summary": "List nodes for a tenant structure",
+			"usage": "cf zero-trust cws tenant-structures nodes list [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "structure-id",
+					"type": "string",
+					"required": true,
+					"description": "ID of the parent tenant structure"
+				},
+				{
+					"name": "cursor",
+					"type": "string",
+					"required": false,
+					"description": "Pagination cursor from previous response"
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": false,
+					"description": "Number of items per page (1-100, default 20)"
+				},
+				{
+					"name": "order",
+					"type": "string",
+					"required": false,
+					"description": "Field to order results by (default: created_at)",
+					"enum": ["name", "created_at", "updated_at"]
+				},
+				{
+					"name": "direction",
+					"type": "string",
+					"required": false,
+					"description": "Sort direction (default: asc)",
+					"enum": ["asc", "desc"]
+				},
+				{
+					"name": "node-kind",
+					"type": "string",
+					"required": false,
+					"description": "Filter by exact node kind"
+				},
+				{
+					"name": "native-id",
+					"type": "string",
+					"required": false,
+					"description": "Filter by exact cloud-native identifier"
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": false,
+					"description": "Filter by node name (case-insensitive substring match)"
+				},
+				{
+					"name": "parent",
+					"type": "string",
+					"required": false,
+					"description": "Filter by exact parent native ID"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/cws/tenant-structures/{structure_id}/nodes",
+			"operationId": "cws-list-tenant-nodes",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws tenant-structures nodes update",
+			"name": "update",
+			"fullPath": ["zero-trust", "cws", "tenant-structures", "nodes", "update"],
+			"description": "Updates the node's display name or parent while preserving its immutable identity fields.",
+			"summary": "Update a tenant node",
+			"usage": "cf zero-trust cws tenant-structures nodes update <node-id> [options]",
+			"arguments": [
+				{
+					"name": "node-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of the node to update"
+				}
+			],
+			"options": [
+				{
+					"name": "structure-id",
+					"type": "string",
+					"required": true,
+					"description": "ID of the parent tenant structure"
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": false,
+					"description": "Display name (e.g. an OU or account name), mutable. Optional; empty by default."
+				},
+				{
+					"name": "native-id",
+					"type": "string",
+					"required": true,
+					"description": "Cloud-native identifier of this node, unique within the structure; the parent-reference target. Shape depends on the structure's application. Immutable after create."
+				},
+				{
+					"name": "node-kind",
+					"type": "string",
+					"required": true,
+					"description": "Position in the tree. Legal values depend on the structure's application (aws: root/ou/account; cloudflare: org/account/zone). At most one root per structure. Immutable after create."
+				},
+				{
+					"name": "parent",
+					"type": "string",
+					"required": false,
+					"description": "Native ID of this node's parent. Required for non-root nodes and omitted for the root. The parent must be in the same structure and able to contain this node kind."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PUT",
+			"apiPath": "/accounts/{account_id}/cws/tenant-structures/{structure_id}/nodes/{node_id}",
+			"operationId": "cws-update-tenant-node",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws tenant-structures update",
+			"name": "update",
+			"fullPath": ["zero-trust", "cws", "tenant-structures", "update"],
+			"description": "Updates the tenant structure's name and import path; its application remains immutable.",
+			"summary": "Update a tenant structure",
+			"usage": "cf zero-trust cws tenant-structures update <structure-id> [options]",
+			"arguments": [
+				{
+					"name": "structure-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of the tenant structure to update"
+				}
+			],
+			"options": [
+				{
+					"name": "application",
+					"type": "string",
+					"required": true,
+					"description": "Platform this structure models. Must match the existing value.",
+					"enum": ["aws", "cloudflare"]
+				},
+				{
+					"name": "import-path",
+					"type": "string",
+					"required": false,
+					"description": "Optional unique Rego mount path in the form tenant.<application>.<name>; application must match. Omit to clear."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Human-readable name; unique per account"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PUT",
+			"apiPath": "/accounts/{account_id}/cws/tenant-structures/{structure_id}",
+			"operationId": "cws-update-tenant-structure",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws workloads create",
+			"name": "create",
+			"fullPath": ["zero-trust", "cws", "workloads", "create"],
+			"description": "Creates a reusable workload selector from a filter expression.",
+			"summary": "Create a new workload",
+			"usage": "cf zero-trust cws workloads create [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "description",
+					"type": "string",
+					"required": false,
+					"description": "Optional free-form description."
+				},
+				{
+					"name": "filter",
+					"type": "string",
+					"required": true,
+					"description": "Filter expression selecting the requests this workload matches. Maximum 4096 UTF-8 bytes."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Human-readable handle; unique per account."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "create",
+			"hasRequestBody": true,
+			"httpMethod": "POST",
+			"apiPath": "/accounts/{account_id}/cws/workloads",
+			"operationId": "cws-create-workload",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws workloads delete",
+			"name": "delete",
+			"fullPath": ["zero-trust", "cws", "workloads", "delete"],
+			"description": "Deletes the workload if it is not targeted by a policy set.",
+			"summary": "Delete a workload",
+			"usage": "cf zero-trust cws workloads delete <workload-id>",
+			"arguments": [
+				{
+					"name": "workload-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of the workload to delete"
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "delete",
+			"hasRequestBody": false,
+			"httpMethod": "DELETE",
+			"apiPath": "/accounts/{account_id}/cws/workloads/{workload_id}",
+			"operationId": "cws-delete-workload",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws workloads get",
+			"name": "get",
+			"fullPath": ["zero-trust", "cws", "workloads", "get"],
+			"description": "Returns the workload with the specified ID.",
+			"summary": "Get a workload by ID",
+			"usage": "cf zero-trust cws workloads get <workload-id>",
+			"arguments": [
+				{
+					"name": "workload-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of the workload to retrieve"
+				}
+			],
+			"options": [
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/cws/workloads/{workload_id}",
+			"operationId": "cws-get-workload",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws workloads list",
+			"name": "list",
+			"fullPath": ["zero-trust", "cws", "workloads", "list"],
+			"description": "Returns a paginated list of workloads in the account.",
+			"summary": "List workloads",
+			"usage": "cf zero-trust cws workloads list [options]",
+			"arguments": [],
+			"options": [
+				{
+					"name": "cursor",
+					"type": "string",
+					"required": false,
+					"description": "Pagination cursor from previous response"
+				},
+				{
+					"name": "per-page",
+					"type": "number",
+					"required": false,
+					"description": "Number of items per page (1-100, default 20)"
+				},
+				{
+					"name": "order",
+					"type": "string",
+					"required": false,
+					"description": "Field to order results by (default: created_at)",
+					"enum": ["name", "created_at", "updated_at"]
+				},
+				{
+					"name": "direction",
+					"type": "string",
+					"required": false,
+					"description": "Sort direction (default: asc)",
+					"enum": ["asc", "desc"]
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": false,
+					"description": "Filter by workload name (case-insensitive substring match)"
+				},
+				{
+					"name": "policy-set-id",
+					"type": "string",
+					"required": false,
+					"description": "Filter to workloads attached to this policy set"
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				}
+			],
+			"category": "read",
+			"hasRequestBody": false,
+			"httpMethod": "GET",
+			"apiPath": "/accounts/{account_id}/cws/workloads",
+			"operationId": "cws-list-workloads",
+			"hideCommand": false
+		},
+		{
+			"command": "cf zero-trust cws workloads update",
+			"name": "update",
+			"fullPath": ["zero-trust", "cws", "workloads", "update"],
+			"description": "Replaces the workload's configuration. Omit tags to preserve them; use {} to clear them.",
+			"summary": "Update a workload",
+			"usage": "cf zero-trust cws workloads update <workload-id> [options]",
+			"arguments": [
+				{
+					"name": "workload-id",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "ID of the workload to update"
+				}
+			],
+			"options": [
+				{
+					"name": "description",
+					"type": "string",
+					"required": false,
+					"description": "Optional free-form description."
+				},
+				{
+					"name": "filter",
+					"type": "string",
+					"required": true,
+					"description": "Filter expression selecting the requests this workload matches. Maximum 4096 UTF-8 bytes."
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"required": true,
+					"description": "Human-readable handle; unique per account."
+				},
+				{
+					"name": "dry-run",
+					"type": "boolean",
+					"required": false,
+					"description": "Validate and show what would happen without executing",
+					"default": false
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"required": false,
+					"description": "Raw JSON request body (bypasses individual flags)"
+				}
+			],
+			"category": "update",
+			"hasRequestBody": true,
+			"httpMethod": "PUT",
+			"apiPath": "/accounts/{account_id}/cws/workloads/{workload_id}",
+			"operationId": "cws-update-workload",
+			"hideCommand": false
+		},
+		{
 			"command": "cf zero-trust devices client-versions list",
 			"name": "list",
 			"fullPath": ["zero-trust", "devices", "client-versions", "list"],
@@ -158818,6 +161460,18 @@
 		"zero-trust casb webhooks": "Operations for casb.webhooks",
 		"zero-trust casb webhooks jobs": "Operations for casb.webhooks.jobs",
 		"zero-trust connectivity-settings": "Operations for connectivity-settings",
+		"zero-trust cws": "Operations for cws",
+		"zero-trust cws basic-auth-credentials": "Operations for cws.basic-auth-credentials",
+		"zero-trust cws basic-auth-credentials secrets": "Operations for cws.basic-auth-credentials.secrets",
+		"zero-trust cws deployments": "Operations for cws.deployments",
+		"zero-trust cws domain-acls": "Operations for cws.domain-acls",
+		"zero-trust cws policies": "Operations for cws.policies",
+		"zero-trust cws policy-sets": "Operations for cws.policy-sets",
+		"zero-trust cws rego-metadata": "Operations for cws.rego-metadata",
+		"zero-trust cws rego-modules": "Operations for cws.rego-modules",
+		"zero-trust cws tenant-structures": "Operations for cws.tenant-structures",
+		"zero-trust cws tenant-structures nodes": "Operations for cws.tenant-structures.nodes",
+		"zero-trust cws workloads": "Operations for cws.workloads",
 		"zero-trust devices": "Operations for devices",
 		"zero-trust devices client-versions": "Operations for devices.client-versions",
 		"zero-trust devices client-versions target-environments": "Operations for devices.client-versions.target-environments",

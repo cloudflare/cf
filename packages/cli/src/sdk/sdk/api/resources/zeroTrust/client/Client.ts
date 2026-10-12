@@ -8,6 +8,7 @@ import { AccessClient } from "../resources/access/client/Client.js";
 import { AppsClient } from "../resources/apps/client/Client.js";
 import { CasbClient } from "../resources/casb/client/Client.js";
 import { ConnectivitySettingsClient } from "../resources/connectivitySettings/client/Client.js";
+import { CwsClient } from "../resources/cws/client/Client.js";
 import { DevicesClient } from "../resources/devices/client/Client.js";
 import { DexClient } from "../resources/dex/client/Client.js";
 import { DlpClient } from "../resources/dlp/client/Client.js";
@@ -34,6 +35,7 @@ export class ZeroTrustClient {
     protected _access: AccessClient | undefined;
     protected _apps: AppsClient | undefined;
     protected _casb: CasbClient | undefined;
+    protected _cws: CwsClient | undefined;
     protected _dex: DexClient | undefined;
     protected _dlp: DlpClient | undefined;
     protected _users: UsersClient | undefined;
@@ -80,6 +82,10 @@ export class ZeroTrustClient {
 
     public get casb(): CasbClient {
         return (this._casb ??= new CasbClient(this._options));
+    }
+
+    public get cws(): CwsClient {
+        return (this._cws ??= new CwsClient(this._options));
     }
 
     public get dex(): DexClient {

@@ -4,6 +4,7 @@ export * as casb from "./casb/index.js";
 export * as connectivitySettings from "./connectivitySettings/index.js";
 export * from "./connectivitySettings/client/requests/index.js";
 export * from "./connectivitySettings/types/index.js";
+export * as cws from "./cws/index.js";
 export * as devices from "./devices/index.js";
 export * from "./devices/client/requests/index.js";
 export * from "./devices/types/index.js";

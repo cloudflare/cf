@@ -1,0 +1,32 @@
+import $batch from "./batch.js";
+import $create from "./create.js";
+import $delete from "./delete.js";
+import $get from "./get.js";
+import $list from "./list.js";
+import $update from "./update.js";
+import type { CommonYargsOptions } from "#lib/cli-types.js";
+/**
+ * nodes command group
+ * @generated from apis/overlays/zero-trust.ts
+ */
+import type { CommandModule } from "yargs";
+
+const command: CommandModule<CommonYargsOptions> = {
+	command: "nodes",
+	describe: "Operations for cws.tenant-structures.nodes",
+
+	builder: (yargs) => {
+		return yargs
+			.command($batch)
+			.command($create)
+			.command($delete)
+			.command($get)
+			.command($list)
+			.command($update)
+			.demandCommand(1, "Please specify a subcommand");
+	},
+
+	handler: () => {},
+};
+
+export default command;

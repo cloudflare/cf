@@ -10753,6 +10753,916 @@
       "zone_id"
     ]
   },
+  "cws-batch-tenant-nodes": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "tenantStructures",
+      "nodes"
+    ],
+    "method": "batch",
+    "httpMethod": "POST",
+    "path": "/accounts/{account_id}/cws/tenant-structures/{structure_id}/nodes/batch",
+    "requestType": "CwsBatchTenantNodesInputBody",
+    "responseType": "CwsTenantNodeBatchResult",
+    "requiredRequestProperties": [
+      "account_id",
+      "creates",
+      "deletes",
+      "structure_id",
+      "updates"
+    ]
+  },
+  "cws-create-basic-auth-credential": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "basicAuthCredentials"
+    ],
+    "method": "create",
+    "httpMethod": "POST",
+    "path": "/accounts/{account_id}/cws/basic-auth-credentials",
+    "requestType": "CwsCreateBasicAuthCredentialInputBody",
+    "responseType": "CwsBasicAuthCredential",
+    "requiredRequestProperties": [
+      "account_id",
+      "username"
+    ]
+  },
+  "cws-create-basic-auth-secret": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "basicAuthCredentials",
+      "secrets"
+    ],
+    "method": "create",
+    "httpMethod": "POST",
+    "path": "/accounts/{account_id}/cws/basic-auth-credentials/{credential_id}/secrets",
+    "requestType": "CwsCreateBasicAuthSecretBody",
+    "responseType": "CwsBasicAuthSecretResponse",
+    "requiredRequestProperties": [
+      "account_id",
+      "credential_id",
+      "password"
+    ]
+  },
+  "cws-create-deployment": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "deployments"
+    ],
+    "method": "create",
+    "httpMethod": "POST",
+    "path": "/accounts/{account_id}/cws/deployments",
+    "requestType": "CwsCreateDeploymentInputBody",
+    "responseType": "CwsDeployment",
+    "requiredRequestProperties": [
+      "account_id",
+      "basic_auth_credential_ids",
+      "default_mode",
+      "name",
+      "policy_set_ids"
+    ]
+  },
+  "cws-create-domain-acl": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "domainAcls"
+    ],
+    "method": "create",
+    "httpMethod": "POST",
+    "path": "/accounts/{account_id}/cws/domain-acls",
+    "requestType": "CwsCreateDomainAclInputBody",
+    "responseType": "CwsDomainAcl",
+    "requiredRequestProperties": [
+      "account_id",
+      "default_action",
+      "entries",
+      "name"
+    ]
+  },
+  "cws-create-policy": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "policies"
+    ],
+    "method": "create",
+    "httpMethod": "POST",
+    "path": "/accounts/{account_id}/cws/policies",
+    "requestType": "CwsCreatePolicyInputBody",
+    "responseType": "CwsPolicy",
+    "requiredRequestProperties": [
+      "account_id",
+      "entrypoint",
+      "name",
+      "rego_source"
+    ]
+  },
+  "cws-create-policy-set": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "policySets"
+    ],
+    "method": "create",
+    "httpMethod": "POST",
+    "path": "/accounts/{account_id}/cws/policy-sets",
+    "requestType": "CwsCreatePolicySetInputBody",
+    "responseType": "CwsPolicySet",
+    "requiredRequestProperties": [
+      "account_id",
+      "name",
+      "policies"
+    ]
+  },
+  "cws-create-rego-metadata": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "regoMetadata"
+    ],
+    "method": "create",
+    "httpMethod": "POST",
+    "path": "/accounts/{account_id}/cws/rego-metadata",
+    "requestType": "CreateRegoMetadataRequest",
+    "responseType": "CwsRegoMetadata",
+    "requestBodyProperty": "body",
+    "requiredRequestProperties": [
+      "account_id",
+      "body"
+    ]
+  },
+  "cws-create-rego-module": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "regoModules"
+    ],
+    "method": "create",
+    "httpMethod": "POST",
+    "path": "/accounts/{account_id}/cws/rego-modules",
+    "requestType": "CwsCreateRegoModuleInputBody",
+    "responseType": "CwsRegoModule",
+    "requiredRequestProperties": [
+      "account_id",
+      "name",
+      "rego_source"
+    ]
+  },
+  "cws-create-tenant-node": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "tenantStructures",
+      "nodes"
+    ],
+    "method": "create",
+    "httpMethod": "POST",
+    "path": "/accounts/{account_id}/cws/tenant-structures/{structure_id}/nodes",
+    "requestType": "CreateNodesRequest",
+    "responseType": "CwsTenantStructureNode",
+    "requestBodyProperty": "body",
+    "requiredRequestProperties": [
+      "account_id",
+      "body",
+      "structure_id"
+    ]
+  },
+  "cws-create-tenant-structure": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "tenantStructures"
+    ],
+    "method": "create",
+    "httpMethod": "POST",
+    "path": "/accounts/{account_id}/cws/tenant-structures",
+    "requestType": "CwsCreateTenantStructureInputBody",
+    "responseType": "CwsTenantStructure",
+    "requiredRequestProperties": [
+      "account_id",
+      "application",
+      "name"
+    ]
+  },
+  "cws-create-workload": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "workloads"
+    ],
+    "method": "create",
+    "httpMethod": "POST",
+    "path": "/accounts/{account_id}/cws/workloads",
+    "requestType": "CwsCreateWorkloadInputBody",
+    "responseType": "CwsWorkload",
+    "requiredRequestProperties": [
+      "account_id",
+      "filter",
+      "name"
+    ]
+  },
+  "cws-delete-basic-auth-credential": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "basicAuthCredentials"
+    ],
+    "method": "delete",
+    "httpMethod": "DELETE",
+    "path": "/accounts/{account_id}/cws/basic-auth-credentials/{credential_id}",
+    "requestType": "DeleteBasicAuthCredentialsRequest",
+    "responseType": "CwsDeletedResult",
+    "requiredRequestProperties": [
+      "account_id",
+      "credential_id"
+    ]
+  },
+  "cws-delete-basic-auth-secret": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "basicAuthCredentials",
+      "secrets"
+    ],
+    "method": "delete",
+    "httpMethod": "DELETE",
+    "path": "/accounts/{account_id}/cws/basic-auth-credentials/{credential_id}/secrets/{secret_id}",
+    "requestType": "DeleteSecretsRequest",
+    "responseType": "CwsDeletedResult",
+    "requiredRequestProperties": [
+      "account_id",
+      "credential_id",
+      "secret_id"
+    ]
+  },
+  "cws-delete-deployment": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "deployments"
+    ],
+    "method": "delete",
+    "httpMethod": "DELETE",
+    "path": "/accounts/{account_id}/cws/deployments/{deployment_id}",
+    "requestType": "DeleteDeploymentsRequest",
+    "responseType": "CwsDeletedResult",
+    "requiredRequestProperties": [
+      "account_id",
+      "deployment_id"
+    ]
+  },
+  "cws-delete-domain-acl": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "domainAcls"
+    ],
+    "method": "delete",
+    "httpMethod": "DELETE",
+    "path": "/accounts/{account_id}/cws/domain-acls/{domain_acl_id}",
+    "requestType": "DeleteDomainAclsRequest",
+    "responseType": "CwsDeletedResult",
+    "requiredRequestProperties": [
+      "account_id",
+      "domain_acl_id"
+    ]
+  },
+  "cws-delete-policy": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "policies"
+    ],
+    "method": "delete",
+    "httpMethod": "DELETE",
+    "path": "/accounts/{account_id}/cws/policies/{policy_id}",
+    "requestType": "DeletePoliciesRequest",
+    "responseType": "CwsDeletedResult",
+    "requiredRequestProperties": [
+      "account_id",
+      "policy_id"
+    ]
+  },
+  "cws-delete-policy-set": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "policySets"
+    ],
+    "method": "delete",
+    "httpMethod": "DELETE",
+    "path": "/accounts/{account_id}/cws/policy-sets/{policy_set_id}",
+    "requestType": "DeletePolicySetsRequest",
+    "responseType": "CwsDeletedResult",
+    "requiredRequestProperties": [
+      "account_id",
+      "policy_set_id"
+    ]
+  },
+  "cws-delete-rego-metadata": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "regoMetadata"
+    ],
+    "method": "delete",
+    "httpMethod": "DELETE",
+    "path": "/accounts/{account_id}/cws/rego-metadata/{rego_metadata_id}",
+    "requestType": "DeleteRegoMetadataRequest",
+    "responseType": "CwsDeletedResult",
+    "requiredRequestProperties": [
+      "account_id",
+      "rego_metadata_id"
+    ]
+  },
+  "cws-delete-rego-module": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "regoModules"
+    ],
+    "method": "delete",
+    "httpMethod": "DELETE",
+    "path": "/accounts/{account_id}/cws/rego-modules/{rego_module_id}",
+    "requestType": "DeleteRegoModulesRequest",
+    "responseType": "CwsDeletedResult",
+    "requiredRequestProperties": [
+      "account_id",
+      "rego_module_id"
+    ]
+  },
+  "cws-delete-tenant-node": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "tenantStructures",
+      "nodes"
+    ],
+    "method": "delete",
+    "httpMethod": "DELETE",
+    "path": "/accounts/{account_id}/cws/tenant-structures/{structure_id}/nodes/{node_id}",
+    "requestType": "DeleteNodesRequest",
+    "responseType": "CwsDeletedResult",
+    "requiredRequestProperties": [
+      "account_id",
+      "node_id",
+      "structure_id"
+    ]
+  },
+  "cws-delete-tenant-structure": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "tenantStructures"
+    ],
+    "method": "delete",
+    "httpMethod": "DELETE",
+    "path": "/accounts/{account_id}/cws/tenant-structures/{structure_id}",
+    "requestType": "DeleteTenantStructuresRequest",
+    "responseType": "CwsDeletedResult",
+    "requiredRequestProperties": [
+      "account_id",
+      "structure_id"
+    ]
+  },
+  "cws-delete-workload": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "workloads"
+    ],
+    "method": "delete",
+    "httpMethod": "DELETE",
+    "path": "/accounts/{account_id}/cws/workloads/{workload_id}",
+    "requestType": "DeleteWorkloadsRequest",
+    "responseType": "CwsDeletedResult",
+    "requiredRequestProperties": [
+      "account_id",
+      "workload_id"
+    ]
+  },
+  "cws-get-basic-auth-credential": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "basicAuthCredentials"
+    ],
+    "method": "get",
+    "httpMethod": "GET",
+    "path": "/accounts/{account_id}/cws/basic-auth-credentials/{credential_id}",
+    "requestType": "GetBasicAuthCredentialsRequest",
+    "responseType": "CwsBasicAuthCredential",
+    "requiredRequestProperties": [
+      "account_id",
+      "credential_id"
+    ]
+  },
+  "cws-get-basic-auth-secret": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "basicAuthCredentials",
+      "secrets"
+    ],
+    "method": "get",
+    "httpMethod": "GET",
+    "path": "/accounts/{account_id}/cws/basic-auth-credentials/{credential_id}/secrets/{secret_id}",
+    "requestType": "GetSecretsRequest",
+    "responseType": "CwsBasicAuthSecretResponse",
+    "requiredRequestProperties": [
+      "account_id",
+      "credential_id",
+      "secret_id"
+    ]
+  },
+  "cws-get-deployment": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "deployments"
+    ],
+    "method": "get",
+    "httpMethod": "GET",
+    "path": "/accounts/{account_id}/cws/deployments/{deployment_id}",
+    "requestType": "GetDeploymentsRequest",
+    "responseType": "CwsDeployment",
+    "requiredRequestProperties": [
+      "account_id",
+      "deployment_id"
+    ]
+  },
+  "cws-get-domain-acl": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "domainAcls"
+    ],
+    "method": "get",
+    "httpMethod": "GET",
+    "path": "/accounts/{account_id}/cws/domain-acls/{domain_acl_id}",
+    "requestType": "GetDomainAclsRequest",
+    "responseType": "CwsDomainAcl",
+    "requiredRequestProperties": [
+      "account_id",
+      "domain_acl_id"
+    ]
+  },
+  "cws-get-policy": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "policies"
+    ],
+    "method": "get",
+    "httpMethod": "GET",
+    "path": "/accounts/{account_id}/cws/policies/{policy_id}",
+    "requestType": "GetPoliciesRequest",
+    "responseType": "CwsPolicy",
+    "requiredRequestProperties": [
+      "account_id",
+      "policy_id"
+    ]
+  },
+  "cws-get-policy-set": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "policySets"
+    ],
+    "method": "get",
+    "httpMethod": "GET",
+    "path": "/accounts/{account_id}/cws/policy-sets/{policy_set_id}",
+    "requestType": "GetPolicySetsRequest",
+    "responseType": "CwsPolicySet",
+    "requiredRequestProperties": [
+      "account_id",
+      "policy_set_id"
+    ]
+  },
+  "cws-get-rego-metadata": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "regoMetadata"
+    ],
+    "method": "get",
+    "httpMethod": "GET",
+    "path": "/accounts/{account_id}/cws/rego-metadata/{rego_metadata_id}",
+    "requestType": "GetRegoMetadataRequest",
+    "responseType": "CwsRegoMetadata",
+    "requiredRequestProperties": [
+      "account_id",
+      "rego_metadata_id"
+    ]
+  },
+  "cws-get-rego-module": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "regoModules"
+    ],
+    "method": "get",
+    "httpMethod": "GET",
+    "path": "/accounts/{account_id}/cws/rego-modules/{rego_module_id}",
+    "requestType": "GetRegoModulesRequest",
+    "responseType": "CwsRegoModule",
+    "requiredRequestProperties": [
+      "account_id",
+      "rego_module_id"
+    ]
+  },
+  "cws-get-tenant-node": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "tenantStructures",
+      "nodes"
+    ],
+    "method": "get",
+    "httpMethod": "GET",
+    "path": "/accounts/{account_id}/cws/tenant-structures/{structure_id}/nodes/{node_id}",
+    "requestType": "GetNodesRequest",
+    "responseType": "CwsTenantStructureNode",
+    "requiredRequestProperties": [
+      "account_id",
+      "node_id",
+      "structure_id"
+    ]
+  },
+  "cws-get-tenant-structure": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "tenantStructures"
+    ],
+    "method": "get",
+    "httpMethod": "GET",
+    "path": "/accounts/{account_id}/cws/tenant-structures/{structure_id}",
+    "requestType": "GetTenantStructuresRequest",
+    "responseType": "CwsTenantStructure",
+    "requiredRequestProperties": [
+      "account_id",
+      "structure_id"
+    ]
+  },
+  "cws-get-workload": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "workloads"
+    ],
+    "method": "get",
+    "httpMethod": "GET",
+    "path": "/accounts/{account_id}/cws/workloads/{workload_id}",
+    "requestType": "GetWorkloadsRequest",
+    "responseType": "CwsWorkload",
+    "requiredRequestProperties": [
+      "account_id",
+      "workload_id"
+    ]
+  },
+  "cws-list-basic-auth-credentials": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "basicAuthCredentials"
+    ],
+    "method": "list",
+    "httpMethod": "GET",
+    "path": "/accounts/{account_id}/cws/basic-auth-credentials",
+    "requestType": "ListBasicAuthCredentialsRequest",
+    "responseType": "ListBasicAuthCredentialsResponse",
+    "requiredRequestProperties": [
+      "account_id"
+    ]
+  },
+  "cws-list-basic-auth-secrets": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "basicAuthCredentials",
+      "secrets"
+    ],
+    "method": "list",
+    "httpMethod": "GET",
+    "path": "/accounts/{account_id}/cws/basic-auth-credentials/{credential_id}/secrets",
+    "requestType": "ListSecretsRequest",
+    "responseType": "ListSecretsResponse",
+    "requiredRequestProperties": [
+      "account_id",
+      "credential_id"
+    ]
+  },
+  "cws-list-deployments": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "deployments"
+    ],
+    "method": "list",
+    "httpMethod": "GET",
+    "path": "/accounts/{account_id}/cws/deployments",
+    "requestType": "ListDeploymentsRequest",
+    "responseType": "ListDeploymentsResponse",
+    "requiredRequestProperties": [
+      "account_id"
+    ]
+  },
+  "cws-list-domain-acls": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "domainAcls"
+    ],
+    "method": "list",
+    "httpMethod": "GET",
+    "path": "/accounts/{account_id}/cws/domain-acls",
+    "requestType": "ListDomainAclsRequest",
+    "responseType": "ListDomainAclsResponse",
+    "requiredRequestProperties": [
+      "account_id"
+    ]
+  },
+  "cws-list-policies": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "policies"
+    ],
+    "method": "list",
+    "httpMethod": "GET",
+    "path": "/accounts/{account_id}/cws/policies",
+    "requestType": "ListPoliciesRequest",
+    "responseType": "ListPoliciesResponse",
+    "requiredRequestProperties": [
+      "account_id"
+    ]
+  },
+  "cws-list-policy-sets": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "policySets"
+    ],
+    "method": "list",
+    "httpMethod": "GET",
+    "path": "/accounts/{account_id}/cws/policy-sets",
+    "requestType": "ListPolicySetsRequest",
+    "responseType": "ListPolicySetsResponse",
+    "requiredRequestProperties": [
+      "account_id"
+    ]
+  },
+  "cws-list-rego-metadata": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "regoMetadata"
+    ],
+    "method": "list",
+    "httpMethod": "GET",
+    "path": "/accounts/{account_id}/cws/rego-metadata",
+    "requestType": "ListRegoMetadataRequest",
+    "responseType": "ListRegoMetadataResponse",
+    "requiredRequestProperties": [
+      "account_id"
+    ]
+  },
+  "cws-list-rego-modules": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "regoModules"
+    ],
+    "method": "list",
+    "httpMethod": "GET",
+    "path": "/accounts/{account_id}/cws/rego-modules",
+    "requestType": "ListRegoModulesRequest",
+    "responseType": "ListRegoModulesResponse",
+    "requiredRequestProperties": [
+      "account_id"
+    ]
+  },
+  "cws-list-tenant-nodes": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "tenantStructures",
+      "nodes"
+    ],
+    "method": "list",
+    "httpMethod": "GET",
+    "path": "/accounts/{account_id}/cws/tenant-structures/{structure_id}/nodes",
+    "requestType": "ListNodesRequest",
+    "responseType": "ListNodesResponse",
+    "requiredRequestProperties": [
+      "account_id",
+      "structure_id"
+    ]
+  },
+  "cws-list-tenant-structures": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "tenantStructures"
+    ],
+    "method": "list",
+    "httpMethod": "GET",
+    "path": "/accounts/{account_id}/cws/tenant-structures",
+    "requestType": "ListTenantStructuresRequest",
+    "responseType": "ListTenantStructuresResponse",
+    "requiredRequestProperties": [
+      "account_id"
+    ]
+  },
+  "cws-list-workloads": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "workloads"
+    ],
+    "method": "list",
+    "httpMethod": "GET",
+    "path": "/accounts/{account_id}/cws/workloads",
+    "requestType": "ListWorkloadsRequest",
+    "responseType": "ListWorkloadsResponse",
+    "requiredRequestProperties": [
+      "account_id"
+    ]
+  },
+  "cws-update-deployment": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "deployments"
+    ],
+    "method": "update",
+    "httpMethod": "PUT",
+    "path": "/accounts/{account_id}/cws/deployments/{deployment_id}",
+    "requestType": "CwsUpdateDeploymentInputBody",
+    "responseType": "CwsDeployment",
+    "requiredRequestProperties": [
+      "account_id",
+      "basic_auth_credential_ids",
+      "default_mode",
+      "deployment_id",
+      "name",
+      "policy_set_ids"
+    ]
+  },
+  "cws-update-domain-acl": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "domainAcls"
+    ],
+    "method": "update",
+    "httpMethod": "PUT",
+    "path": "/accounts/{account_id}/cws/domain-acls/{domain_acl_id}",
+    "requestType": "CwsUpdateDomainAclInputBody",
+    "responseType": "CwsDomainAcl",
+    "requiredRequestProperties": [
+      "account_id",
+      "default_action",
+      "domain_acl_id",
+      "entries",
+      "name"
+    ]
+  },
+  "cws-update-policy": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "policies"
+    ],
+    "method": "update",
+    "httpMethod": "PUT",
+    "path": "/accounts/{account_id}/cws/policies/{policy_id}",
+    "requestType": "CwsUpdatePolicyInputBody",
+    "responseType": "CwsPolicy",
+    "requiredRequestProperties": [
+      "account_id",
+      "entrypoint",
+      "name",
+      "policy_id",
+      "rego_source"
+    ]
+  },
+  "cws-update-policy-set": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "policySets"
+    ],
+    "method": "update",
+    "httpMethod": "PUT",
+    "path": "/accounts/{account_id}/cws/policy-sets/{policy_set_id}",
+    "requestType": "CwsUpdatePolicySetInputBody",
+    "responseType": "CwsPolicySet",
+    "requiredRequestProperties": [
+      "account_id",
+      "name",
+      "policies",
+      "policy_set_id"
+    ]
+  },
+  "cws-update-rego-metadata": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "regoMetadata"
+    ],
+    "method": "update",
+    "httpMethod": "PUT",
+    "path": "/accounts/{account_id}/cws/rego-metadata/{rego_metadata_id}",
+    "requestType": "UpdateRegoMetadataRequest",
+    "responseType": "CwsRegoMetadata",
+    "requestBodyProperty": "body",
+    "requiredRequestProperties": [
+      "account_id",
+      "body",
+      "rego_metadata_id"
+    ]
+  },
+  "cws-update-rego-module": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "regoModules"
+    ],
+    "method": "update",
+    "httpMethod": "PUT",
+    "path": "/accounts/{account_id}/cws/rego-modules/{rego_module_id}",
+    "requestType": "CwsUpdateRegoModuleInputBody",
+    "responseType": "CwsRegoModule",
+    "requiredRequestProperties": [
+      "account_id",
+      "name",
+      "rego_module_id",
+      "rego_source"
+    ]
+  },
+  "cws-update-tenant-node": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "tenantStructures",
+      "nodes"
+    ],
+    "method": "update",
+    "httpMethod": "PUT",
+    "path": "/accounts/{account_id}/cws/tenant-structures/{structure_id}/nodes/{node_id}",
+    "requestType": "UpdateNodesRequest",
+    "responseType": "CwsTenantStructureNode",
+    "requestBodyProperty": "body",
+    "requiredRequestProperties": [
+      "account_id",
+      "body",
+      "node_id",
+      "structure_id"
+    ]
+  },
+  "cws-update-tenant-structure": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "tenantStructures"
+    ],
+    "method": "update",
+    "httpMethod": "PUT",
+    "path": "/accounts/{account_id}/cws/tenant-structures/{structure_id}",
+    "requestType": "CwsUpdateTenantStructureInputBody",
+    "responseType": "CwsTenantStructure",
+    "requiredRequestProperties": [
+      "account_id",
+      "application",
+      "name",
+      "structure_id"
+    ]
+  },
+  "cws-update-workload": {
+    "accessor": [
+      "zeroTrust",
+      "cws",
+      "workloads"
+    ],
+    "method": "update",
+    "httpMethod": "PUT",
+    "path": "/accounts/{account_id}/cws/workloads/{workload_id}",
+    "requestType": "CwsUpdateWorkloadInputBody",
+    "responseType": "CwsWorkload",
+    "requiredRequestProperties": [
+      "account_id",
+      "filter",
+      "name",
+      "workload_id"
+    ]
+  },
   "d1-create-database": {
     "accessor": [
       "d1"

@@ -88769,19 +88769,19 @@
 			"hasRequestBody": true,
 			"requestBodyFields": [
 				{
-					"name": "config-dimensions",
+					"name": "index-config-dimensions",
 					"type": "number",
 					"required": false,
 					"description": "Specifies the number of dimensions for the index"
 				},
 				{
-					"name": "config-metric",
+					"name": "index-config-metric",
 					"type": "string",
 					"required": false,
 					"description": "Specifies the type of metric to use calculating distance."
 				},
 				{
-					"name": "config-preset",
+					"name": "index-config-preset",
 					"type": "string",
 					"required": false,
 					"description": "Specifies the preset to use for the index."
@@ -99250,7 +99250,7 @@
 					"name": "entries",
 					"type": "string",
 					"required": true,
-					"description": "Domain entries for this ACL. Provide as a JSON array of objects or @path/to/file.json."
+					"description": "Domain entries for this ACL. Each domain must appear at most once. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "name",
@@ -99375,7 +99375,7 @@
 					"name": "entries",
 					"type": "string",
 					"required": true,
-					"description": "Replacement set of domain entries. Provide as a JSON array of objects or @path/to/file.json."
+					"description": "Replacement set of domain entries. Each domain must appear at most once. Provide as a JSON array of objects or @path/to/file.json."
 				},
 				{
 					"name": "name",

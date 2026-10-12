@@ -6,7 +6,7 @@ export interface VectorizeIndexInfoResponse {
     dimensions?: CloudflareApi.VectorizeIndexDimensions | undefined;
     /** Specifies the timestamp the last mutation batch was processed as an ISO8601 string. */
     processedUpToDatetime?: (string | null) | undefined;
-    processedUpToMutation?: CloudflareApi.VectorizeMutationUuid | undefined;
+    processedUpToMutation?: (string | null) | undefined;
     /** Specifies the number of vectors present in the index */
     vectorCount?: number | undefined;
 }

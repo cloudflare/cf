@@ -9,7 +9,6 @@ import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
 import type * as CloudflareApi from "../../../index.js";
-import { DeprecatedIndexesClient } from "../resources/deprecatedIndexes/client/Client.js";
 import { MetadataIndexClient } from "../resources/metadataIndex/client/Client.js";
 
 export declare namespace VectorizeClient {
@@ -20,15 +19,10 @@ export declare namespace VectorizeClient {
 
 export class VectorizeClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<VectorizeClient.Options>;
-    protected _deprecatedIndexes: DeprecatedIndexesClient | undefined;
     protected _metadataIndex: MetadataIndexClient | undefined;
 
     constructor(options: VectorizeClient.Options = {}) {
         this._options = normalizeClientOptionsWithAuth(options);
-    }
-
-    public get deprecatedIndexes(): DeprecatedIndexesClient {
-        return (this._deprecatedIndexes ??= new DeprecatedIndexesClient(this._options));
     }
 
     public get metadataIndex(): MetadataIndexClient {
@@ -106,7 +100,7 @@ export class VectorizeClient {
     /**
      * Creates and returns a new Vectorize Index.
      *
-     * @param {CloudflareApi.CreateVectorizeRequest} request
+     * @param {CloudflareApi.VectorizeCreateIndexRequest} request
      * @param {VectorizeClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link errors.CloudflareApiError}
@@ -115,27 +109,25 @@ export class VectorizeClient {
      * @example
      *     await client.vectorize.create({
      *         account_id: "account_id",
-     *         body: {
-     *             config: {
-     *                 dimensions: 768,
-     *                 metric: "cosine"
-     *             },
-     *             name: "example-index"
-     *         }
+     *         config: {
+     *             dimensions: 768,
+     *             metric: "cosine"
+     *         },
+     *         name: "example-index"
      *     })
      */
     public create(
-        request: CloudflareApi.CreateVectorizeRequest,
+        request: CloudflareApi.VectorizeCreateIndexRequest,
         requestOptions?: VectorizeClient.RequestOptions,
     ): core.HttpResponsePromise<CloudflareApi.VectorizeCreateIndexResponse> {
         return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
     }
 
     private async __create(
-        request: CloudflareApi.CreateVectorizeRequest,
+        request: CloudflareApi.VectorizeCreateIndexRequest,
         requestOptions?: VectorizeClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.VectorizeCreateIndexResponse>> {
-        const { account_id: accountId, body: _body } = request;
+        const { account_id: accountId, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -328,7 +320,7 @@ export class VectorizeClient {
     /**
      * Delete a set of vectors from an index by their vector identifiers.
      *
-     * @param {CloudflareApi.DeleteByIdsVectorizeRequest} request
+     * @param {CloudflareApi.VectorizeIndexDeleteVectorsByIdRequest} request
      * @param {VectorizeClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link errors.CloudflareApiError}
@@ -337,22 +329,21 @@ export class VectorizeClient {
      * @example
      *     await client.vectorize.deleteByIds({
      *         account_id: "account_id",
-     *         index_name: "index_name",
-     *         body: {}
+     *         index_name: "index_name"
      *     })
      */
     public deleteByIds(
-        request: CloudflareApi.DeleteByIdsVectorizeRequest,
+        request: CloudflareApi.VectorizeIndexDeleteVectorsByIdRequest,
         requestOptions?: VectorizeClient.RequestOptions,
     ): core.HttpResponsePromise<CloudflareApi.VectorizeIndexDeleteVectorsByIdV2Response> {
         return core.HttpResponsePromise.fromPromise(this.__deleteByIds(request, requestOptions));
     }
 
     private async __deleteByIds(
-        request: CloudflareApi.DeleteByIdsVectorizeRequest,
+        request: CloudflareApi.VectorizeIndexDeleteVectorsByIdRequest,
         requestOptions?: VectorizeClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.VectorizeIndexDeleteVectorsByIdV2Response>> {
-        const { account_id: accountId, index_name: indexName, body: _body } = request;
+        const { account_id: accountId, index_name: indexName, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
@@ -404,7 +395,7 @@ export class VectorizeClient {
     /**
      * Get a set of vectors from an index by their vector identifiers.
      *
-     * @param {CloudflareApi.GetByIdsVectorizeRequest} request
+     * @param {CloudflareApi.VectorizeIndexGetVectorsByIdRequest} request
      * @param {VectorizeClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link errors.CloudflareApiError}
@@ -413,22 +404,21 @@ export class VectorizeClient {
      * @example
      *     await client.vectorize.getByIds({
      *         account_id: "account_id",
-     *         index_name: "index_name",
-     *         body: {}
+     *         index_name: "index_name"
      *     })
      */
     public getByIds(
-        request: CloudflareApi.GetByIdsVectorizeRequest,
+        request: CloudflareApi.VectorizeIndexGetVectorsByIdRequest,
         requestOptions?: VectorizeClient.RequestOptions,
     ): core.HttpResponsePromise<CloudflareApi.GetByIdsVectorizeResponse> {
         return core.HttpResponsePromise.fromPromise(this.__getByIds(request, requestOptions));
     }
 
     private async __getByIds(
-        request: CloudflareApi.GetByIdsVectorizeRequest,
+        request: CloudflareApi.VectorizeIndexGetVectorsByIdRequest,
         requestOptions?: VectorizeClient.RequestOptions,
     ): Promise<core.WithRawResponse<CloudflareApi.GetByIdsVectorizeResponse>> {
-        const { account_id: accountId, index_name: indexName, body: _body } = request;
+        const { account_id: accountId, index_name: indexName, ..._body } = request;
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         let _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,

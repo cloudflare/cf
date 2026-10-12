@@ -39,7 +39,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("entries", {
 			type: "string",
 			description:
-				"Domain entries for this ACL. Provide as a JSON array of objects or @path/to/file.json.",
+				"Domain entries for this ACL. Each domain must appear at most once. Provide as a JSON array of objects or @path/to/file.json.",
 		})
 		.option("name", { type: "string", description: "Name of the domain ACL" })
 		.option("dry-run", {

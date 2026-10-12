@@ -6,13 +6,13 @@ import * as CloudflareApi from "../../../../index.js";
  * @example
  *     {
  *         account_id: "account_id",
- *         index_name: "index_name",
- *         body: {}
+ *         index_name: "index_name"
  *     }
  */
-export interface GetByIdsVectorizeRequest {
+export interface VectorizeIndexGetVectorsByIdRequest {
     /** Identifier */
     account_id: string;
     index_name: string;
-    body: CloudflareApi.VectorizeIndexGetVectorsByIdRequest;
+    /** A list of vector identifiers to retrieve from the index indicated by the path. */
+    ids?: CloudflareApi.VectorizeVectorIdentifier[];
 }

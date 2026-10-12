@@ -7,7 +7,7 @@ import * as CloudflareApi from "../../../../../../../../index.js";
  *     {
  *         account_id: "account_id",
  *         body: {
- *             data: null,
+ *             data: {},
  *             import_path: "import_path",
  *             name: "name"
  *         }

@@ -3,4 +3,4 @@
 /**
  * The unique identifier for the async mutation operation containing the changeset.
  */
-export type VectorizeMutationUuid = unknown;
+export type VectorizeMutationUuid = string;

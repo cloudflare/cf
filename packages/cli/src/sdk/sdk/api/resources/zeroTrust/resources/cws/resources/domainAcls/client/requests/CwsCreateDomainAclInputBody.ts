@@ -15,7 +15,7 @@ export interface CwsCreateDomainAclInputBody {
     account_id: string;
     /** Default action when no entry matches */
     default_action: CwsCreateDomainAclInputBody.DefaultAction;
-    /** Domain entries for this ACL */
+    /** Domain entries for this ACL. Each domain must appear at most once. */
     entries: CloudflareApi.CwsDomainAclEntry[] | null;
     /** Name of the domain ACL */
     name: string;

@@ -44,7 +44,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("entries", {
 			type: "string",
 			description:
-				"Replacement set of domain entries. Provide as a JSON array of objects or @path/to/file.json.",
+				"Replacement set of domain entries. Each domain must appear at most once. Provide as a JSON array of objects or @path/to/file.json.",
 		})
 		.option("name", { type: "string", description: "Name of the domain ACL" })
 		.option("dry-run", {

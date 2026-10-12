@@ -136,7 +136,7 @@ export class RegoMetadataClient {
      *     await client.zeroTrust.cws.regoMetadata.create({
      *         account_id: "account_id",
      *         body: {
-     *             data: null,
+     *             data: {},
      *             import_path: "import_path",
      *             name: "name"
      *         }
@@ -282,7 +282,7 @@ export class RegoMetadataClient {
      *         account_id: "account_id",
      *         rego_metadata_id: "rego_metadata_id",
      *         body: {
-     *             data: null,
+     *             data: {},
      *             import_path: "import_path",
      *             name: "name"
      *         }

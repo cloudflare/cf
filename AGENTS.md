@@ -443,8 +443,13 @@ splice the non-root kinds into generated product trees.
 
 **Root command** (`kind: "root"`) — registered directly at `cf <name>` rather
 than inside a generated product. A root may itself be a leaf (`build`, `dev`) or
-own a command tree (`auth`, `cli`); `root` describes its placement, not its
+own a command tree (`auth`, `cli`, `docs`); `root` describes its placement, not its
 shape.
+
+`cf docs search` is a hand-written root workflow using the documentation
+website's public AI Search endpoint, outside the platform API/SDK. It needs no
+Cloudflare credentials and returns ranked JSON page metadata. Agents fetch
+returned URLs with `Accept: text/markdown` to read complete pages.
 
 **Leaf override** (`kind: "leafOverride"`) — the spec _does_ describe the
 operation, but not well enough for a generated command to be useful. The

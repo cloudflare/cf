@@ -82,6 +82,8 @@ const GLOBAL_DOTENV_EXCLUSIONS = new Set([
 	"access token",
 	"build",
 	"dev",
+	"docs",
+	"docs search",
 	"init",
 	"init workers",
 	"migrate",

@@ -86,6 +86,8 @@ describe("help formatting", () => {
 		expect(help).toContain(
 			"For API request details, replace the result's leading `cf` with `cf schema`."
 		);
+		expect(help).toContain('cf docs search "<question>"');
+		expect(help).toContain("Accept: text/markdown");
 		expect(help).not.toContain("cf schema <discovered command>");
 	});
 

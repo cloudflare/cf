@@ -106,6 +106,14 @@ export const handWrittenCommands: readonly HandWrittenCommand[] = [
 	},
 	{
 		kind: "root",
+		command: "docs",
+		describe: "Search live Cloudflare documentation",
+		dir: "docs",
+		load: () => import("./docs/index.js"),
+		telemetry: { command: "docs", recordArgs: false },
+	},
+	{
+		kind: "root",
 		command: "init [directory]",
 		describe: "Create a new Cloudflare project or set up an existing one",
 		dir: "init",

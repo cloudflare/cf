@@ -45859,6 +45859,25 @@
 			"hideCommand": true
 		},
 		{
+			"command": "cf docs search",
+			"name": "search",
+			"fullPath": ["docs", "search"],
+			"category": "read",
+			"description": "Search live Cloudflare documentation, guides, tutorials, and examples. Returns up to five ranked JSON results with title, description, and url. No Cloudflare login is required. Fetch a result's URL with Accept: text/markdown to read the full page as Markdown.",
+			"summary": "Search live Cloudflare documentation, guides, tutorials, and examples",
+			"usage": "cf docs search <query>",
+			"arguments": [
+				{
+					"name": "query",
+					"position": 0,
+					"type": "string",
+					"required": true,
+					"description": "Search terms or a question about Cloudflare"
+				}
+			],
+			"options": []
+		},
+		{
 			"command": "cf durable-objects namespaces list",
 			"name": "list",
 			"fullPath": ["durable-objects", "namespaces", "list"],
@@ -157646,6 +157665,7 @@
 		"complete": "Generate and handle shell completions",
 		"deploy": "Deploy a project to Cloudflare",
 		"dev": "Run the project's Cloudflare dev server",
+		"docs": "Search live Cloudflare documentation",
 		"init": "Create a new Cloudflare project or set up an existing one",
 		"migrate": "Migrate a Wrangler project to cf",
 		"cli": "Discover commands and configure the cf CLI",

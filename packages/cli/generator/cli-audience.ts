@@ -1,4 +1,4 @@
-import type { ForgeOpenApiDocument } from "@cloudflare/forge";
+import type { ForgeOpenApiDocument } from "./openapi.js";
 
 const CLI_AUDIENCE = "cf-cli";
 const HTTP_METHODS = [

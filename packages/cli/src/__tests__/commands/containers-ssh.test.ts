@@ -17,14 +17,14 @@ import {
 	it,
 	vi,
 } from "vite-plus/test";
-import { generateResourceIndexFile } from "../../../generator/emit/index-files.js";
-import {
-	handWrittenLeafCommands,
-	readHandWrittenLeafCommandMeta,
-} from "../../../generator/hand-written-overrides.js";
 import { openSession } from "../../lib/session.js";
 import { readState, updateState } from "../../lib/state.js";
 import { USER_AGENT } from "../../version.js";
+import { generateResourceIndexFile } from "../helpers/forge-cli.js";
+import {
+	handWrittenLeafCommands,
+	readHandWrittenLeafCommandMeta,
+} from "../helpers/forge-cli.js";
 import { server, setupMsw, TEST_BASE_URL } from "../helpers/msw.js";
 import { runCf } from "../helpers/run-cf.js";
 import type * as ContainersShared from "@cloudflare/containers-shared";

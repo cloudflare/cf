@@ -1,0 +1,23 @@
+import type { CommandMeta } from "../../lib/command-meta.js";
+
+export default [
+	{
+		command: "cf build",
+		name: "build",
+		fullPath: ["build"],
+		category: "action",
+		description: "Build a project for Cloudflare",
+		usage: "cf build [options]",
+		arguments: [],
+		options: [
+			{
+				name: "dry-run",
+				type: "boolean",
+				required: false,
+				description:
+					"Parse arguments and show the command without executing it",
+				default: false,
+			},
+		],
+	},
+] satisfies CommandMeta[];

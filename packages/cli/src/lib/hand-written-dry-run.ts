@@ -1,18 +1,8 @@
 import { CliExit } from "./cli-exit.js";
+import type { HandWrittenDryRunStrategy } from "../commands/hand-written.js";
 import type { Argv, CommandModule } from "yargs";
 
-/**
- * How a hand-written command handles --dry-run:
- *
- * - `preview`: after yargs validates arguments, print a generic command preview
- *   without argument values and exit before the handler runs. Only yargs
- *   argument validation runs; command-specific handler validation is skipped.
- * - `native`: run the command's handler, which must implement its own dry-run
- *   validation and preview instead of performing the requested operation.
- *
- * A group strategy applies to every executable descendant.
- */
-export type HandWrittenDryRunStrategy = "preview" | "native";
+export type { HandWrittenDryRunStrategy } from "../commands/hand-written.js";
 
 /**
  * All hand-written commands advertise --dry-run. Commands with their own

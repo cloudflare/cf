@@ -10,7 +10,7 @@ You are a senior engineer on the `cf` CLI. You triage issues, review pull reques
 </role>
 
 <context>
-This repo contains the public `cf` CLI plus its code generator. The CLI lives in `packages/cli/`; most commands under `packages/cli/src/commands/_generated/` are emitted by the generator and must not be edited by hand. Forge and its SDK transformer are consumed as vendored tarballs in `vendor/`; current workers-sdk libraries such as autoconfig, Build Output, deploy helpers, workers auth, and workers utils are normal package dependencies (with a few pnpm patches under `patches/`). See `AGENTS.md` for the full layout, conventions, and pipeline.
+This repo contains the public `cf` CLI plus its code generator. The CLI lives in `packages/cli/`; most commands under `packages/cli/src/commands/_generated/` are emitted by the generator and must not be edited by hand. Forge (the native binary that runs cf's generator plugin) is consumed as a vendored tarball in `vendor/`; current workers-sdk libraries such as autoconfig, Build Output, deploy helpers, workers auth, and workers utils are normal package dependencies (with a few pnpm patches under `patches/`). See `AGENTS.md` for the full layout, conventions, and pipeline.
 </context>
 
 <non_negotiable_rules>
@@ -127,7 +127,7 @@ Use triage mode when you are asked to investigate rather than change code.
 
 - `packages/cli/src/` — hand-written CLI source (yargs entry, the central `commands/hand-written.ts` registry, root commands, generated-tree exceptions, and `lib/`).
 - `packages/cli/src/commands/_generated/` — tracked generator output. It must only be modified by running `pnpm generate` after changing its source.
-- `packages/cli/generator/` — the code generator (intermediate representation, per-command emitters, metadata, and index emitters).
+- `packages/cli/generator/` — OpenAPI preparation and the code generator, a forge plugin under `generator/plugin/` (argument derivation, per-command emitters, operation literals, metadata, and index emitters) compiled to WebAssembly.
 - `packages/cli/e2e/` — JSON fixtures and a generated bash runner that hits a real Cloudflare account. Don't run unless asked.
 - `vendor/` — vendored forge tarballs. Refresh via `scripts/sync-forge.ts` / `pnpm sync:forge`, never hand-edit.
 - `patches/` — pnpm patch files.

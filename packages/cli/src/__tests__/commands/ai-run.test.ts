@@ -969,7 +969,7 @@ describe("cf ai run — spec drift guard", () => {
 		expect(spec).toBeDefined();
 		expect(spec?.httpMethod).toBe("POST");
 		expect(spec?.path).toBe("/accounts/{account_id}/ai/run");
-		expect(spec?.operationId).toBe("workers-ai-post-run-generic");
+		expect(spec?.operationId).toBe("ai.run");
 		expect(spec?.hasRequestBody).toBe(true);
 		expect(spec?.requestBodyFields).toContainEqual(
 			expect.objectContaining({ name: "model", required: true })

@@ -9,6 +9,9 @@ dist/
 # Legacy Turbo cache
 .turbo/
 
+# Generator plugin, built by cf#task:generate:plugin
+packages/cli/generator/cli.wasm
+
 # Package tarballs
 packages/cli/*.tgz
 

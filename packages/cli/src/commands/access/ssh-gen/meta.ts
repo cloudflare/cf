@@ -1,0 +1,27 @@
+import type { LeafCommandMeta } from "../../../lib/command-meta.js";
+
+export default {
+	command: "cf access ssh-gen",
+	name: "ssh-gen",
+	fullPath: ["access", "ssh-gen"],
+	category: "action",
+	description:
+		"Generate a short-lived certificate for an Access SSH application.",
+	usage: "cf access ssh-gen --hostname <hostname>",
+	arguments: [],
+	options: [
+		{
+			name: "hostname",
+			type: "string",
+			required: true,
+			description: "Hostname of the Access application",
+		},
+		{
+			name: "dry-run",
+			type: "boolean",
+			required: false,
+			description: "Parse arguments and show the command without executing it",
+			default: false,
+		},
+	],
+} satisfies LeafCommandMeta;

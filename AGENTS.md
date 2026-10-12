@@ -28,6 +28,8 @@ cf/
 │   │   ├── commands/
 │   │   │   ├── _generated/     # tracked generated source; rewritten by pnpm generate
 │   │   │   ├── hand-written.ts # central root/leaf/override/subgroup registry
+│   │   │   │                   # (plain data, imports nothing; the plugin bundles it)
+│   │   │   ├── root-commands.ts# each root's lazy loader + telemetry
 │   │   │   ├── auth/           # hand-written: login, logout, whoami, profiles
 │   │   │   ├── login/          # hidden `cf login` alias for `cf auth login`
 │   │   │   ├── cli/            # hand-written: search and telemetry settings
@@ -51,21 +53,20 @@ cf/
 │   │   │   └── tools.ts        # hand-written: list/print MCP tool definitions
 │   │   ├── lib/                # see "Library Map" below
 │   │   └── __tests__/          # vitest + MSW harness (unit + command tests)
-│   ├── generator/
-│   │   ├── index.ts            # entry transformer; emits files via forge.emit()
-│   │   ├── generator.ts        # per-command emitter (handler body, args)
-│   │   ├── metadata.ts         # _meta/ JSON sidecars + schema dump
-│   │   ├── arg-classification.ts # path/query/body/header bucketing
-│   │   ├── arg-derivation.ts   # derived/computed arg handling
-│   │   ├── codegen/            # TS code-emission helpers
-│   │   └── emit/               # per-file emit helpers
+│   ├── generator/              # the forge plugin that generates the commands,
+│   │   │                       # and OpenAPI preparation for it
+│   │   ├── plugin/             # the plugin: OpenAPI model → yargs commands + metadata
+│   │   ├── index.ts            # the plugin's entry module: registry + meta.ts sidecars
+│   │   ├── cli.wasm            # gitignored; task:generate:plugin compiles index.ts
+│   │   ├── cli-audience.ts     # drops operations outside the cf-cli audience
+│   │   └── workers-secret-cli-compat.ts # temporary spec patch
 │   ├── e2e/                    # 114 JSON product fixtures +
 │   │                           # generated bash runner (run-e2e.sh) hitting a
 │   │                           # real Cloudflare account
 │   ├── bin/cf                  # binary entry — loads lightweight delegation,
 │   │                           # then imports dist/index.mjs when staying local
 │   ├── dist/                   # gitignored, written by Vite+ Pack (chunked ESM)
-│   ├── generate.ts             # OpenAPI fetch → initFromOpenApi → transform/finalize
+│   ├── generate.ts             # OpenAPI fetch + preparation → forge --target wasm://<plugin>
 │   ├── vite.config.ts          # test and production ESM bundle config
 │   └── build-test.mjs          # compiled bundle for Wrangler compatibility tests
 ├── packages/wrangler-tests/    # imported wrangler test corpus, using
@@ -134,22 +135,29 @@ Test infrastructure is split across two packages:
 pnpm build
   └─ vp run -r task:build
        └─ cf#task:build (vp pack), after cf#task:generate
-            └─ tsx packages/cli/generate.ts
+            ├─ cf#task:generate:plugin
+            │    └─ forge-plugin build generator/index.ts -o generator/cli.wasm
+            └─ cf#task:generate: tsx packages/cli/generate.ts
                  ├─ fetch pinned Forge OpenAPI release (or preview bundle)
-                 ├─ initFromOpenApi(source)
-                 ├─ forge.transform(transformer)    # per-command emitter
-                 ├─ forge.finalize(_generated, files, { clean: true })
+                 ├─ prepare it (hidden ops, account/zone routes, cf-cli audience)
+                 ├─ rm -rf _generated/
+                 ├─ forge openapi.json --target wasm://generator/cli.wasm --out _generated
                  └─ vp fmt _generated/               # post-format emitted TS
 ```
 
-Single transformer (`packages/cli/generator/index.ts`) walks
-`forge.commands` and emits:
+forge (the vendored `@cloudflare/forge` binary, built from forge-rs) parses
+the document; the command generator is a forge plugin that lives here, in
+`packages/cli/generator/plugin/`. It is TypeScript written against
+`@cloudflare/forge/plugin`, which `forge-plugin build` compiles to a
+WebAssembly component that forge runs. It walks forge's model of the
+operations, each top-level group's commands in parallel, and emits:
 
 - `src/commands/_generated/<resource>/<sub>/<op>.ts` — yargs command modules
-- `src/commands/_generated/_operations/<resource>/<sub>/<op>.ts` — one module
-  per leaf, at its command's path, whose default export is its `Operation`;
-  its command sends it with `Client.send`, and hand-written code imports it
-  as `#operations/<resource>/<sub>/<op>.js`
+- `src/commands/_generated/_operations/<resource>/<group>/<op>.ts` — one
+  module per method, at its path in the group tree, whose default export is
+  its `Operation` (`d1.database.query` in `_operations/d1/database/query.ts`);
+  its command sends it, and hand-written code imports it as
+  `#operations/<resource>/<group>/<op>.js`
 - `src/commands/_generated/<resource>/index.ts` — resource indexes that statically import/register that selected root's sub-groups and leaves
 - `src/commands/_generated/index.ts` — top-level lazy registry
   (`generatedCommands: GeneratedCommand[]`)
@@ -157,8 +165,23 @@ Single transformer (`packages/cli/generator/index.ts`) walks
 - `src/commands/_generated/_meta/hand-written-commands.json` — hand-written subset with root/leaf/subgroup/override provenance
 - `src/commands/_generated/_meta/schemas.json` — per-op JSON schemas
 
-`forge.finalize` cleans + writes; Vite+ formats afterward (kept out of
-the generator so forge stays format-agnostic).
+`generate.ts` cleans the directory first; Vite+ formats afterward (kept
+out of the generator so it stays format-agnostic). A plugin reads nothing
+but the document, so its entry module, `generator/index.ts`, bundles what
+else it needs. It imports the hand-written registry,
+`src/commands/hand-written.ts`, directly: that module is plain data and
+imports nothing, and the root commands' loaders and telemetry live apart in
+`src/commands/root-commands.ts` so the bundle never follows them. It
+imports each command's `meta.ts` sidecar the same way, through
+`src/commands/hand-written-meta.ts`, whose types require exactly one typed
+sidecar per registered command. The `task:generate:plugin` Vite+ task,
+which `task:generate` depends on, runs `forge-plugin build` to compile the
+entry to the gitignored `generator/cli.wasm`. Running
+`generate.ts` directly requires that component to exist already.
+
+The commands send their requests through cf's runtime library in
+`src/api/` (`Client`, `ApiError`, `Page`), imported as `#api`. It is
+ordinary hand-maintained source; the plugin doesn't emit it.
 
 The commands send their requests through cf's thin runtime in `src/api/`
 (`Client`, `ApiError`), imported as `#api`. It is ordinary hand-maintained
@@ -187,10 +210,10 @@ the complete generated and hand-written `_meta/commands.json` catalogue (see
 | Task                            | Location                                                                                                                                                                                                                                                          |
 | ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Add/fix a generated command     | Overlay files in `@cloudflare/forge` — NOT in this repo. Edit forge, republish, re-vendor (`pnpm sync:forge`).                                                                                                                                                    |
-| Add a generated-command rule    | `packages/cli/generator/generator.ts` — emits handler body, arg shapes, batching, confirm prompts, etc.                                                                                                                                                           |
+| Add a generated-command rule    | `packages/cli/generator/plugin/` — emits handler body, arg shapes, batching, confirm prompts, etc.; rerun `pnpm generate`                                                                                                                                         |
 | New cross-product flag          | yargs middleware in `packages/cli/src/index.ts` (`--zone`, `--profile`, `--quiet`, `--local`, `--persist-to`)                                                                                                                                                     |
 | Hand-written command            | roots under `packages/cli/src/commands/{auth,build,cli,completions,dev,deploy,init,previews}/` plus `schema.ts` and `tools.ts`; generated-tree exceptions under `{access,ai,registrar,d1,tunnels,workers}/`; register every one in `src/commands/hand-written.ts` |
-| Hand-written metadata/emit      | per-command `meta.json`, `packages/cli/src/commands/hand-written.ts`, `generator/{hand-written-overrides,index,metadata}.ts`                                                                                                                                      |
+| Hand-written metadata/emit      | per-command `meta.ts`, `packages/cli/src/commands/{hand-written,hand-written-meta,root-commands}.ts`                                                                                                                                                              |
 | `cf init` scaffold / setup      | `packages/cli/src/commands/init/{index,workers,template}.ts`                                                                                                                                                                                                      |
 | `cf dev` discovery / spawn      | `packages/cli/src/commands/dev/{discover,known-impls,spawn}.ts`                                                                                                                                                                                                   |
 | `cf deploy` pipeline            | `packages/cli/src/commands/deploy/index.ts` + `lib/{build-output,deploy-context,deploy-input}.ts`                                                                                                                                                                 |
@@ -204,9 +227,9 @@ the complete generated and hand-written `_meta/commands.json` catalogue (see
 | Output / spinner / errors       | `packages/cli/src/lib/{output,progress,errors,prompt}.ts`, `lib/ui/`                                                                                                                                                                                              |
 | Body parsing / dry-run          | `packages/cli/src/lib/{body-parser,dry-run,resolve}.ts`                                                                                                                                                                                                           |
 | Raw / non-JSON responses        | `packages/cli/src/lib/raw-fetch.ts`                                                                                                                                                                                                                               |
+| Generator logic                 | `packages/cli/generator/plugin/{args,emit,files}.ts`                                                                                                                                                                                                              |
+| Emitted-file shape              | `packages/cli/generator/plugin/files.ts`                                                                                                                                                                                                                          |
 | Request runtime                 | `packages/cli/src/api/` (imported as `#api`); hand-written commands import operations from `#operations/<path>.js`                                                                                                                                                |
-| Generator logic                 | `packages/cli/generator/{generator,metadata,arg-classification}.ts`                                                                                                                                                                                               |
-| Emitted-file shape              | `packages/cli/generator/index.ts`                                                                                                                                                                                                                                 |
 | Lint / format rules             | `vite.config.ts`                                                                                                                                                                                                                                                  |
 | Vendored forge bump             | `pnpm sync:forge` (then commit `vendor/` and `package.json` diff)                                                                                                                                                                                                 |
 | Patch a published dep           | `patches/*.patch` (created via `pnpm patch <pkg>`)                                                                                                                                                                                                                |
@@ -337,7 +360,7 @@ Vite+ Pack preserves those dynamic root imports as code-split chunks (and may fa
 - `packages/cli/src/commands/_generated/` — yargs modules, `_operations/`
   operation literals, and `_meta/` JSON
 
-Tracked in git and never safe to patch by hand. Every `pnpm generate` cleans, rewrites, and Vite+-formats `_generated/`. Make changes in Forge or the cf generator as appropriate, then regenerate and commit the resulting artifacts.
+Tracked in git and never safe to patch by hand. Every `pnpm generate` cleans, rewrites, and Vite+-formats `_generated/`. Make changes in Forge's OpenAPI or in the generator plugin (`packages/cli/generator/plugin/`), then regenerate and commit the resulting artifacts.
 
 GitHub collapses `_generated/` by default because it is marked `linguist-generated`, but AI reviewers must still review every changed file there.
 
@@ -393,7 +416,7 @@ does not read the project's binding declarations.
 ## Generator Conventions
 
 How the generator turns forge methods into yargs commands. Important
-to know before editing `generator.ts`.
+to know before editing `generator/plugin/`.
 
 ### Path-param routing
 
@@ -450,9 +473,12 @@ get the same treatment.
 
 `src/commands/hand-written.ts` is the single registry for root commands,
 generated-parent presentation overrides, leaf overrides, added leaf commands,
-and subgroups. `src/index.ts` derives its lazy root shells from that registry;
-`generator/hand-written-overrides.ts` derives the maps and metadata used to
-splice the non-root kinds into generated product trees.
+and subgroups. It is plain, typed data that imports nothing, because the
+generator plugin bundles it. A root command's lazy loader and telemetry go in
+`src/commands/root-commands.ts`, keyed by its `dir`; the compiler requires
+exactly one entry there per registered root. `src/index.ts` derives its lazy
+root shells from the two; the generator plugin splices the non-root kinds into
+generated product trees, with their `meta.ts` sidecars.
 
 **Root command** (`kind: "root"`) — registered directly at `cf <name>` rather
 than inside a generated product. A root may itself be a leaf (`build`, `dev`) or
@@ -467,7 +493,7 @@ returned URLs with `Accept: text/markdown` to read complete pages.
 **Leaf override** (`kind: "leafOverride"`) — the spec _does_ describe the
 operation, but not well enough for a generated command to be useful. The
 generator keeps deriving the operation's identity (path, verb,
-operationId) and a `meta.json` sidecar overrides only usage/flags/prose;
+operationId) and a `meta.ts` sidecar overrides only usage/flags/prose;
 the generated index imports the implementation from `#commands/<dir>`
 instead of its generated sibling. Current entries: `ai/run`,
 `registrar/registrations/create`, and `workers/versions/create`. The first two
@@ -477,7 +503,7 @@ Each overridden leaf needs a spec drift guard in `src/__tests__/`.
 
 **Leaf command** (`kind: "leaf"`) — there is **no** spec operation, but a
 single executable leaf is added directly to a generated product. Its
-`meta.json` carries one complete `CommandMeta`. Current entries are
+`meta.ts` carries one complete `CommandMeta`. Current entries are
 `workers/check`, which profiles a local Build Output Worker;
 `workers/types`, which generates types from source config; and
 `tunnels/quick-start` plus `tunnels/run`, which run cloudflared; and the
@@ -491,7 +517,7 @@ a supported public command surface; its API leaves remain spec-derived.
 
 **Sub-group** (`kind: "subgroup"`) — there is **no** matching one-shot spec
 operation at all, so a whole tree is _added_ to a product's index rather than
-replacing anything. Nothing can be derived, so `meta.json` carries a
+replacing anything. Nothing can be derived, so `meta.ts` carries a
 complete `CommandMeta[]`, one per leaf. Current entries: `d1/migrations` and
 `workers/triggers`.
 
@@ -516,7 +542,7 @@ Generation merges every hand-written leaf into the complete `_meta/commands.json
 
 `status: 'deprecated'` methods are **skipped entirely** at both leaf
 and group level (groups that become empty are pruned —
-`hasNonDeprecatedContent` in `generator/index.ts`). Rationale: they'll
+forge's `cli` target). Rationale: they'll
 break at sunset; surfacing them encourages users to adopt doomed paths.
 
 ### Confirmation, force, batching
@@ -672,7 +698,9 @@ Structured API output is JSON; generated `binary`/`text` endpoints write their p
 
 Tarball in `vendor/`:
 
-- `cloudflare-forge-0.1.0.tgz`
+- `cloudflare-forge-0.1.0.tgz` — the forge binary (forge-rs), for every
+  platform, which runs the plugin that generates the commands, and
+  `@cloudflare/forge/plugin`, the library the plugin is written with
 
 The Forge package is not published to npm yet, so
 `packages/cli/package.json` references it via a `file:` specifier.
@@ -681,18 +709,15 @@ The Forge package is not published to npm yet, so
 Dependency patches are registered in `pnpm-workspace.yaml` under
 `patchedDependencies`; workers-auth is not patched.
 
-To re-vendor **forge**: `pnpm sync:forge` (defaults to
-`FORGE_REPO=../forge`, override to point at any forge checkout). The
-script:
-
-1. Repacks the `forge` tarball into `vendor/`.
-2. Rewrites the forge `file:` specifier in `packages/cli/package.json` to
-   match the newly-packed filename.
-3. Runs `pnpm install --force`.
+To re-vendor **forge**: build and pack it in forge-rs
+(`node releases/npm/scripts/compile.mjs && node releases/npm/scripts/archive.mjs`),
+then run `pnpm sync:forge` (defaults to `FORGE_RS_REPO=../forge-rs`). The
+script copies the tarball into `vendor/`, rewrites the forge `file:`
+specifier in `packages/cli/package.json`, and runs `pnpm install`.
 
 Then commit `vendor/` + the `package.json` diff.
 
-When the Forge package publishes to npm: drop its tarball, switch to the npm
+When the Forge package publishes to npm: drop the tarball, switch to the npm
 version, and delete `scripts/sync-forge.ts`.
 
 The containers-shared and deploy-helpers patches stay until those packages defer

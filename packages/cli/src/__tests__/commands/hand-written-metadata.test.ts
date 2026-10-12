@@ -1,8 +1,8 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vite-plus/test";
-import { rootHandWrittenCommands } from "../../commands/hand-written.js";
-import type { CommandMeta } from "@cloudflare/forge";
+import { loadableRootCommands } from "../../commands/root-commands.js";
+import type { CommandMeta } from "../../lib/metadata.js";
 
 type HandWrittenCommandMeta = CommandMeta & {
 	handWritten: {
@@ -108,7 +108,7 @@ describe("hand-written command metadata", () => {
 	});
 
 	it("classifies deploy control flags as telemetry-safe", () => {
-		const deploy = rootHandWrittenCommands().find(
+		const deploy = loadableRootCommands().find(
 			(command) => command.command === "deploy"
 		);
 
@@ -257,11 +257,9 @@ describe("hand-written-only command metadata", () => {
 	});
 
 	it("preserves spec-derived API identity for leaf overrides", () => {
-		expect(commands.get("cf ai run")?.operationId).toBe(
-			"workers-ai-post-run-generic"
-		);
+		expect(commands.get("cf ai run")?.operationId).toBe("ai.run");
 		expect(commands.get("cf registrar registrations create")?.operationId).toBe(
-			"registrar-domain-registration-create"
+			"registrar.registrations.create"
 		);
 	});
 

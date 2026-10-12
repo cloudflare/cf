@@ -3185,7 +3185,7 @@ describe("cf registrar registrations create — spec drift guard", () => {
 		expect(spec).toBeDefined();
 		expect(spec?.httpMethod).toBe("POST");
 		expect(spec?.path).toBe("/accounts/{account_id}/registrar/registrations");
-		expect(spec?.operationId).toBe("registrar-domain-registration-create");
+		expect(spec?.operationId).toBe("registrar.registrations.create");
 		expect(spec?.hasRequestBody).toBe(true);
 		// The command promotes the domain to a positional and seeds it back
 		// into the body, so a rename here would send the wrong shape.

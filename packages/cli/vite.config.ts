@@ -8,8 +8,15 @@ const testBundle = process.env.CF_TEST_BUNDLE === "1";
 export default defineConfig({
 	run: {
 		tasks: {
+			// Compiles the generator plugin, whose entry is generator/index.ts, for
+			// generate.ts to run with forge.
+			"task:generate:plugin": {
+				command: "forge-plugin build generator/index.ts -o generator/cli.wasm",
+				cache: false,
+			},
 			"task:generate": {
 				command: "tsx generate.ts",
+				dependsOn: ["task:generate:plugin"],
 				cache: false,
 			},
 			"task:dev": {
@@ -33,7 +40,7 @@ export default defineConfig({
 				cache: false,
 			},
 			"task:check:type": {
-				command: "tsgo --noEmit",
+				command: "tsgo --noEmit && tsgo --noEmit -p generator/plugin",
 				dependsOn: [
 					"task:generate",
 					{ task: "task:build", from: ["dependencies", "devDependencies"] },

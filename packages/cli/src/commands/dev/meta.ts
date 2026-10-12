@@ -1,0 +1,31 @@
+import type { CommandMeta } from "../../lib/command-meta.js";
+
+export default [
+	{
+		command: "cf dev",
+		name: "dev",
+		fullPath: ["dev"],
+		category: "action",
+		description: "Run the project's Cloudflare dev server",
+		usage: "cf dev [implArgs..]",
+		arguments: [
+			{
+				name: "implArgs",
+				position: 0,
+				type: "string",
+				required: false,
+				description: "Arguments forwarded to the dev-server implementation",
+			},
+		],
+		options: [
+			{
+				name: "dry-run",
+				type: "boolean",
+				required: false,
+				description:
+					"Parse arguments and show the command without executing it",
+				default: false,
+			},
+		],
+	},
+] satisfies CommandMeta[];

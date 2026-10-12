@@ -1,0 +1,32 @@
+import type { CommandMeta } from "../../lib/command-meta.js";
+
+export default [
+	{
+		command: "cf complete",
+		name: "complete",
+		fullPath: ["complete"],
+		category: "action",
+		description: "Generate and handle shell completions",
+		usage: "cf complete [shell]",
+		arguments: [
+			{
+				name: "shell",
+				position: 0,
+				type: "string",
+				required: false,
+				description: "Shell type to generate completions for",
+				enum: ["bash", "zsh", "fish", "powershell"],
+			},
+		],
+		options: [
+			{
+				name: "dry-run",
+				type: "boolean",
+				required: false,
+				description:
+					"Parse arguments and show the command without executing it",
+				default: false,
+			},
+		],
+	},
+] satisfies CommandMeta[];

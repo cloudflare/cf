@@ -765,12 +765,8 @@ describe("wrangler", () => {
 
 		// Fixed: queues-purge-no-force-rename. `queues purge start` is a
 		// generic destructive confirm op (x-forge-require-confirmation).
-		// In non-interactive mode without --force, confirmDelete aborts
-		// and the handler returns WITHOUT firing the API call — the
-		// CI-friendly "pass --force to confirm" message is written via
-		// process.stderr.write (not console.*), so it's invisible to
-		// mockConsoleMethods. Asserting the no-API-call side-effect +
-		// empty stdout is the observable behaviour.
+		// Non-interactive confirmation without --force exits 1 before making
+		// a request. The stderr hint is written outside mockConsoleMethods.
 		//
 		// (The companion wrangler "type-the-queue-name" confirmation path
 		// — `rejects invalid confirmation in interactive mode` below —
@@ -780,9 +776,11 @@ describe("wrangler", () => {
 		}) => {
 			setIsTTY(false);
 			const requests = mockPurgeRequest(expect);
-			await runWrangler(
-				`queues purge start ${expectedQueueId} --delete-messages-permanently`
-			);
+			await expect(
+				runWrangler(
+					`queues purge start ${expectedQueueId} --delete-messages-permanently`
+				)
+			).rejects.toMatchObject({ name: "CliExit", code: 1 });
 			expect(requests.count).toEqual(0);
 			expect(std.out).toEqual("");
 		});

@@ -112,12 +112,25 @@ describe("cf containers images", () => {
 	});
 	it("does not request credentials or delete without confirmation in non-interactive mode", async () => {
 		const calls = deletion();
-		await runCf(["containers", "images", "delete", "app:v1"]);
+		const { exitCode } = await runCf([
+			"containers",
+			"images",
+			"delete",
+			"app:v1",
+		]);
+		expect(exitCode).toBe(1);
 		expect(calls).toEqual([]);
 	});
 	it("honors --quiet without bypassing --force", async () => {
 		const calls = deletion();
-		await runCf(["containers", "images", "delete", "app:v1", "--quiet"]);
+		const { exitCode } = await runCf([
+			"containers",
+			"images",
+			"delete",
+			"app:v1",
+			"--quiet",
+		]);
+		expect(exitCode).toBe(1);
 		expect(calls).toEqual([]);
 		await runCf([
 			"containers",

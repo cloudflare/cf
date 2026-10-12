@@ -933,8 +933,9 @@ describe("r2", () => {
 					);
 					// cf: `r2 buckets domains managed update <bucketName> --enabled` (PUT)
 					await runWrangler(
-						`r2 buckets domains managed update ${bucketName} --enabled`
+						`r2 buckets domains managed update ${bucketName} --enabled --force`
 					);
+					expect(JSON.parse(std.out)).toEqual(domainInfo);
 				});
 			});
 
@@ -964,8 +965,9 @@ describe("r2", () => {
 					);
 					// yargs supports `--no-<bool>` negation natively.
 					await runWrangler(
-						`r2 buckets domains managed update ${bucketName} --no-enabled`
+						`r2 buckets domains managed update ${bucketName} --no-enabled --force`
 					);
+					expect(JSON.parse(std.out)).toEqual(domainInfo);
 				});
 			});
 		});
@@ -1073,8 +1075,9 @@ describe("r2", () => {
 						JSON.stringify(lifecycleRules)
 					);
 					await runWrangler(
-						`r2 buckets lifecycle update ${bucketName} --body @lifecycle-configuration.json`
+						`r2 buckets lifecycle update ${bucketName} --body @lifecycle-configuration.json --force`
 					);
+					expect(JSON.parse(std.out)).toEqual({});
 				});
 			});
 		});
@@ -1165,8 +1168,9 @@ describe("r2", () => {
 					// cf: `r2 buckets cors update <bucketName> --body '<json>'`
 					writeFileSync("cors-configuration.json", JSON.stringify(corsRules));
 					await runWrangler(
-						`r2 buckets cors update ${bucketName} --body @cors-configuration.json`
+						`r2 buckets cors update ${bucketName} --body @cors-configuration.json --force`
 					);
+					expect(JSON.parse(std.out)).toEqual({});
 				});
 			});
 
@@ -1325,8 +1329,9 @@ describe("r2", () => {
 					// cf: `r2 buckets locks update <bucketName> --body '<json>'`
 					writeFileSync("lock-configuration.json", JSON.stringify(lockRules));
 					await runWrangler(
-						`r2 buckets locks update ${bucketName} --body @lock-configuration.json`
+						`r2 buckets locks update ${bucketName} --body @lock-configuration.json --force`
 					);
+					expect(JSON.parse(std.out)).toEqual({});
 				});
 			});
 		});

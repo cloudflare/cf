@@ -153,7 +153,7 @@ describe("cf kv (network)", () => {
 			ENV
 		);
 
-		expect(exitCode).toBe(0);
+		expect(exitCode).toBe(1);
 		expect(stderr()).toMatch(/non-interactive; pass --force/);
 	});
 

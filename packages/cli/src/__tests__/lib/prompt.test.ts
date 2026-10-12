@@ -251,36 +251,54 @@ describe("prompt", () => {
 	});
 
 	describe("confirmDelete non-interactive without --force aborts", () => {
-		it("returns false and writes a hint to stderr", async () => {
+		it("exits 1 and writes a hint to stderr", async () => {
 			setTTY(false);
-			const result = await confirmDelete();
-			expect(result).toBe(false);
+			await expect(confirmDelete()).rejects.toMatchObject({
+				name: "CliExit",
+				code: 1,
+			});
 			const output = writtenStderr.join("");
 			expect(output).toContain("This permanently deletes the resource");
 			expect(output).toContain("pass --force to confirm");
+			expect(output).toContain("Aborted.");
+			expect(clack.confirm).not.toHaveBeenCalled();
 		});
 
 		it("surfaces a forge-supplied message verbatim", async () => {
 			setTTY(false);
-			const result = await confirmDelete({
-				message: "This operation drops every message in the queue.",
-			});
-			expect(result).toBe(false);
+			await expect(
+				confirmDelete({
+					message: "This operation drops every message in the queue.",
+				})
+			).rejects.toMatchObject({ name: "CliExit", code: 1 });
 			const output = writtenStderr.join("");
 			expect(output).toContain(
 				"This operation drops every message in the queue. Continue?"
 			);
 		});
 
-		it("returns false in CI env even with a TTY", async () => {
+		it("exits 1 in CI env even with a TTY", async () => {
 			setTTY(true);
 			ciInfo.isCI = true;
 			process.env.CI = "1";
-			const result = await confirmDelete();
-			expect(result).toBe(false);
+			await expect(confirmDelete()).rejects.toMatchObject({
+				name: "CliExit",
+				code: 1,
+			});
 			// Proves the CI branch ran rather than a prompt resolving falsy.
 			expect(writtenStderr.join("")).toContain("pass --force to confirm");
 			expect(clack.confirm).not.toHaveBeenCalled();
+		});
+	});
+
+	it("returns false when an interactive destructive confirmation is declined", async () => {
+		setTTY(true);
+		vi.mocked(clack.confirm).mockResolvedValue(false);
+
+		await expect(confirmDelete()).resolves.toBe(false);
+		expect(clack.confirm).toHaveBeenCalledWith({
+			message: "This permanently deletes the resource. Continue?",
+			initialValue: false,
 		});
 	});
 

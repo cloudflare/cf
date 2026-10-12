@@ -289,21 +289,11 @@ export async function confirm(
  *      non-essential output. Bypassing confirmation requires an explicit
  *      `--force`, even in CI/scripting contexts.
  *   2. Non-interactive context (no TTY or CI env) → log a pseudo-prompt
- *      and abort with `false`. Matches wrangler's default for destructive
- *      commands: don't silently assume yes in CI unless --force is passed.
+ *      and throw `CliExit(1)` so scripts can distinguish an abort from success.
  *   3. Interactive TTY → show a clack.confirm prompt with the resource
  *      type and id. Default answer is "no" (safe default for deletes).
  *
- * Callers should short-circuit (early return / skip the API call) when
- * this returns `false`, and should NOT treat it as an error.
- *
- * @param resourceType Human-readable noun (e.g. "secret", "zone")
- * @param resourceId The resource's id/name (e.g. "SECRET_API_KEY")
- * @param opts.force If true, skip the prompt and confirm
- * @param opts.message Override the default "Delete X? This cannot be undone."
- *   prompt with a custom one-line warning (used by forge's
- *   `x-forge-require-confirmation` annotation, where the API method
- *   description supplies the destructive-action wording).
+ * An interactive decline returns `false`; callers should skip the API call.
  */
 export async function confirmDelete(
 	opts: { force?: boolean; message?: string } = {}
@@ -325,9 +315,10 @@ export async function confirmDelete(
 		// aborted, so CI logs are useful when a pipeline fails here.
 		process.stderr.write(
 			`${theme.warning("?")} ${question}\n` +
-				`  ${theme.muted("(non-interactive; pass --force to confirm)")}\n`
+				`  ${theme.muted("(non-interactive; pass --force to confirm)")}\n` +
+				"Aborted.\n"
 		);
-		return false;
+		throw new CliExit(1);
 	}
 
 	ensureSession();

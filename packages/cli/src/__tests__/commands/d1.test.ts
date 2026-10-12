@@ -174,7 +174,7 @@ describe("cf d1 (network)", () => {
 		// onUnhandledRequest:"error" guard.
 		const { exitCode } = await runCf(["d1", "delete", "db-1"], ENV);
 
-		expect(exitCode).toBe(0);
+		expect(exitCode).toBe(1);
 		expect(stderr()).toMatch(/non-interactive; pass --force/);
 	});
 

@@ -1,18 +1,11 @@
 #!/usr/bin/env tsx
 /**
- * Sync vendored @cloudflare/forge tarballs from a local forge checkout.
+ * Sync the vendored @cloudflare/forge tarball from a local forge checkout.
  *
- * Pre-packs forge by running its SDK generate + transformer build pipeline so
- * the tarballs always reflect the current state of the working tree
- * (skip with FORGE_SKIP_PREBUILD=1).
- *
- * Repacks two tarballs into vendor/:
- *   - @cloudflare/forge
- *   - @cloudflare/forge-transformer-sdk-ts
+ * Repacks @cloudflare/forge into vendor/ and points packages/cli at it.
  *
  * Usage:
  *   FORGE_REPO=/path/to/forge-checkout pnpm sync:forge
- *   FORGE_SKIP_PREBUILD=1 pnpm sync:forge   # skip generate + build steps
  *
  * Defaults FORGE_REPO to ../forge (a sibling checkout).
  */
@@ -33,7 +26,6 @@ const VENDOR_DIR = join(REPO_ROOT, "vendor");
 const ROOT_PKG_JSON = join(REPO_ROOT, "package.json");
 const CLI_PKG_JSON = join(REPO_ROOT, "packages/cli/package.json");
 const FORGE_REPO = process.env.FORGE_REPO ?? resolve(REPO_ROOT, "../forge");
-const SKIP_PREBUILD = process.env.FORGE_SKIP_PREBUILD === "1";
 
 function fatal(msg: string): never {
 	console.error(`ERROR: ${msg}`);
@@ -49,12 +41,9 @@ function pack(pkgDir: string, label: string): void {
 	run("pnpm", ["pack", "--pack-destination", VENDOR_DIR], pkgDir);
 }
 
-function findTarball(prefix: string, exclude?: string): string {
+function findTarball(prefix: string): string {
 	const matches = readdirSync(VENDOR_DIR).filter(
-		(name) =>
-			name.startsWith(prefix) &&
-			name.endsWith(".tgz") &&
-			(exclude === undefined || !name.startsWith(exclude))
+		(name) => name.startsWith(prefix) && name.endsWith(".tgz")
 	);
 	const [first, ...rest] = matches;
 	if (first === undefined) {
@@ -83,13 +72,9 @@ if (!existsSync(FORGE_REPO)) {
 	);
 }
 const forgePkgDir = join(FORGE_REPO, "packages/forge");
-const forgeTransformerSdkPkgDir = join(
-	FORGE_REPO,
-	"packages/cloudflare-forge-transformer-sdk-ts"
-);
-if (!existsSync(forgePkgDir) || !existsSync(forgeTransformerSdkPkgDir)) {
+if (!existsSync(forgePkgDir)) {
 	fatal(
-		`FORGE_REPO doesn't look right (missing packages/forge or packages/cloudflare-forge-transformer-sdk-ts)\n       FORGE_REPO=${FORGE_REPO}`
+		`FORGE_REPO doesn't look right (missing packages/forge)\n       FORGE_REPO=${FORGE_REPO}`
 	);
 }
 
@@ -97,72 +82,36 @@ console.log(`Forge repo: ${FORGE_REPO}`);
 console.log(`Vendor dir: ${VENDOR_DIR}`);
 console.log();
 
-// --- Pre-build forge: build the transformer ---
-// Without this step the tarballs reflect whatever was last manually built
-// in the forge checkout.
-// Set FORGE_SKIP_PREBUILD=1 if you've already built and just want to repack.
-if (SKIP_PREBUILD) {
-	console.log("Skipping forge prebuild (FORGE_SKIP_PREBUILD=1).");
-} else {
-	console.log("Building forge-transformer-sdk-ts...");
-	run(
-		"pnpm",
-		["--filter", "@cloudflare/forge-transformer-sdk-ts", "run", "build"],
-		FORGE_REPO
-	);
-}
-console.log();
-
 // --- Clean existing tarballs ---
-// Only remove the tarballs this script repacks. Other vendored tarballs
-// (e.g. workers-auth) are NOT repacked here and must be preserved —
-// wiping them breaks `pnpm install` (their file: specifiers point at
-// filenames that would no longer exist).
-const MANAGED_TARBALL_PREFIXES = [
-	"cloudflare-forge-",
-	"cloudflare-forge-transformer-sdk-ts-",
-];
+// Only remove the tarball this script repacks. Other vendored tarballs are
+// NOT repacked here and must be preserved — wiping them breaks
+// `pnpm install` (their file: specifiers point at filenames that would no
+// longer exist).
 for (const name of readdirSync(VENDOR_DIR)) {
-	if (
-		name.endsWith(".tgz") &&
-		MANAGED_TARBALL_PREFIXES.some((prefix) => name.startsWith(prefix))
-	) {
+	if (name.endsWith(".tgz") && name.startsWith("cloudflare-forge-")) {
 		rmSync(join(VENDOR_DIR, name));
 	}
 }
 
-// --- Pack both public packages ---
 pack(forgePkgDir, "@cloudflare/forge");
-pack(forgeTransformerSdkPkgDir, "@cloudflare/forge-transformer-sdk-ts");
 
-// --- Discover resulting filenames (versions may have changed) ---
-// "cloudflare-forge-" also matches the transformer package.
-const forgeTgz = findTarball(
-	"cloudflare-forge-",
-	"cloudflare-forge-transformer-sdk-ts-"
-);
-const forgeTransformerSdkTgz = findTarball(
-	"cloudflare-forge-transformer-sdk-ts-"
-);
+// --- Discover the resulting filename (the version may have changed) ---
+const forgeTgz = findTarball("cloudflare-forge-");
 
 console.log();
-console.log("Vendored:");
-console.log(`  - ${forgeTgz}`);
-console.log(`  - ${forgeTransformerSdkTgz}`);
+console.log(`Vendored: ${forgeTgz}`);
 console.log();
 
-// --- Update file: specifiers ---
+// --- Update the file: specifier ---
 updateJson(CLI_PKG_JSON, (pkg) => {
 	const devDeps = pkg.devDependencies as Record<string, string>;
 	devDeps["@cloudflare/forge"] = `file:../../vendor/${forgeTgz}`;
-	delete devDeps["@cloudflare/forge-sdk-ts"];
-	devDeps["@cloudflare/forge-transformer-sdk-ts"] =
-		`file:../../vendor/${forgeTransformerSdkTgz}`;
+	delete devDeps["@cloudflare/forge-transformer-sdk-ts"];
 });
 
 // --- Install + reformat ---
-// The vendored tarballs keep their package versions and filenames, so pnpm's
-// existing lockfile entries still contain the previous tarball integrities.
+// The vendored tarball keeps its package version and filename, so pnpm's
+// existing lockfile entry still contains the previous tarball integrity.
 // Repair those entries before reinstalling the newly packed contents.
 console.log("Reinstalling and refreshing vendored tarball integrities...");
 run("pnpm", ["install", "--force", "--fix-lockfile"], REPO_ROOT);

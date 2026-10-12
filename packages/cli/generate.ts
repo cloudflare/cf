@@ -1,26 +1,14 @@
 import { execFileSync } from "node:child_process";
-import {
-	existsSync,
-	mkdtempSync,
-	readFileSync,
-	rmSync,
-	writeFileSync,
-} from "node:fs";
-import { tmpdir } from "node:os";
+import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { type ForgeOpenApiDocument, initFromOpenApi } from "@cloudflare/forge";
 import { filterForCliAudience } from "./generator/cli-audience.js";
-import { narrowSdkErrorImports } from "./generator/sdk-error-imports.js";
-import { dropSdkMethodGroupCollisions } from "./generator/sdk-method-group-collisions.js";
 import { hasAccountOrZoneScope } from "./generator/util.js";
 import { preserveWorkersSecretUpdatePositional } from "./generator/workers-secret-cli-compat.js";
 
 const bundle = process.env.FORGE_OPENAPI_BUNDLE;
-const sdkDir = fileURLToPath(new URL("./src/sdk", import.meta.url));
-const sdkEntrypointPath = join(sdkDir, "sdk/index.ts");
-const sdkVersionPath = join(sdkDir, "openapi-version");
-// The SDK is committed. Bump this SHA to regenerate it from a new release.
+// Bump this SHA to generate the commands from a new release.
 const FORGE_OPENAPI_VERSION = "995446172c0e88607283d1aae00f3c1f41294d4b";
 const FORGE_OPENAPI_RELEASE = `openapi@${FORGE_OPENAPI_VERSION}`;
 const FORGE_OPENAPI_ASSET = "openapi.forge.json";
@@ -109,15 +97,14 @@ function ignoreInvalidHiddenOperations(openapi: ForgeOpenApiDocument): void {
 }
 
 /**
- * Prepare the API's combined account/zone routes for both SDK and CLI
- * generation.
+ * Prepare the API's combined account/zone routes for CLI generation.
  *
  * These operations intentionally model two concrete routes with the adjacent
  * `/{account_or_zone}/{account_or_zone_id}/` pair. They currently have no
  * operationId, so Forge cannot add them to the command tree, and a small
  * subset still references an account-id parameter under the second template
- * slot. Fern already uses `generated:<verb>:<path>` for operations without an
- * id; assigning that same stable id lets the CLI and committed SDK agree.
+ * slot. Assigning the stable `generated:<verb>:<path>` id lets Forge include
+ * them.
  *
  * Do not generalise this to arbitrary mismatched parameters: the paired
  * placeholders have specific runtime semantics in the CLI (accounts by
@@ -204,56 +191,13 @@ const source = (
 ignoreInvalidHiddenOperations(source);
 prepareAccountOrZoneOperations(source);
 
-const tempDir = mkdtempSync(join(tmpdir(), "cf-openapi-"));
-const openapiPath = join(tempDir, "openapi.json");
-try {
-	const sdkVersion = existsSync(sdkVersionPath)
-		? readFileSync(sdkVersionPath, "utf8").trim()
-		: undefined;
-
-	if (
-		bundle !== undefined ||
-		!existsSync(sdkEntrypointPath) ||
-		sdkVersion !== FORGE_OPENAPI_VERSION
-	) {
-		console.log("[cf-generator] OpenAPI changed; regenerating SDK");
-		writeFileSync(openapiPath, `${JSON.stringify(source, null, 2)}\n`);
-		execFileSync("forge-transformer-sdk-ts", [openapiPath, "--out", sdkDir], {
-			stdio: "inherit",
-		});
-		writeFileSync(
-			sdkVersionPath,
-			`${bundle === undefined ? FORGE_OPENAPI_VERSION : "preview"}\n`
-		);
-	} else {
-		console.log("[cf-generator] OpenAPI unchanged; using committed SDK");
-	}
-} finally {
-	rmSync(tempDir, { recursive: true, force: true });
-}
-
-const narrowedSdkClients = narrowSdkErrorImports(join(sdkDir, "sdk"));
-if (narrowedSdkClients > 0) {
-	console.log(
-		`[cf-generator] Narrowed runtime error imports in ${narrowedSdkClients} SDK clients`
-	);
-}
-
-const sdkCollisionResult = dropSdkMethodGroupCollisions(join(sdkDir, "sdk"));
-if (sdkCollisionResult.collisions > 0) {
-	console.warn(
-		`[cf-generator] Dropped ${sdkCollisionResult.collisions} SDK method-group collision(s): ${sdkCollisionResult.droppedOperationIds.join(", ")}`
-	);
-}
-
 const { transformer } = await import("./generator/index.ts");
-const cliSource = structuredClone(source);
-preserveWorkersSecretUpdatePositional(cliSource);
-const audienceExcluded = filterForCliAudience(cliSource);
+preserveWorkersSecretUpdatePositional(source);
+const audienceExcluded = filterForCliAudience(source);
 console.log(
 	`[cf-generator] Excluded ${audienceExcluded} operation(s) not targeting the cf-cli audience`
 );
-const forge = initFromOpenApi(cliSource);
+const forge = initFromOpenApi(source);
 const files = await forge.transform(transformer);
 const generatedDir = fileURLToPath(
 	new URL("./src/commands/_generated", import.meta.url)

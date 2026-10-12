@@ -750,7 +750,7 @@ async function main(): Promise<void> {
 		});
 
 		writeChangeset(version);
-		logStep("Regenerating the SDK and command surface");
+		logStep("Regenerating the command surface");
 		let generated = true;
 		try {
 			await run("pnpm", ["generate"], { env: forgeEnvironment });
@@ -794,7 +794,7 @@ async function main(): Promise<void> {
 
 - pins OpenAPI revision \`${version}\`
 - vendors Forge source \`${forgeSourceSha}\` from the matching release tag
-- attempts to regenerate the committed SDK and command surface
+- attempts to regenerate the committed command surface
 ${validationNote}
 
 This PR is maintained automatically by [the Update Forge workflow](${GITHUB_SERVER_URL}/${repository}/actions/workflows/update-forge.yml).

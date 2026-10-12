@@ -40,8 +40,6 @@ export function includesCliAudience(
 
 /**
  * Remove operations that explicitly target audiences other than `cf-cli`.
- * This runs on the CLI's OpenAPI copy, after SDK generation, so audience
- * selection cannot change the committed SDK surface.
  */
 export function filterForCliAudience(openapi: ForgeOpenApiDocument): number {
 	let excluded = 0;

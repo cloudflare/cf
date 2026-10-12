@@ -1,6 +1,5 @@
 node_modules/
 dist/
-packages/cli/src/sdk/openapi*.json
 .DS_Store
 *.log
 *.tsbuildinfo

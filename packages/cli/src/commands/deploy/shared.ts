@@ -23,6 +23,7 @@ import {
 	validateBuildOutputMode,
 } from "../../lib/build-output.js";
 import { getAccountId } from "../../lib/context.js";
+import { applyDependenciesInstrumentationEnv } from "../../lib/dependencies-instrumentation.js";
 import { createDeployContext } from "../../lib/deploy-context.js";
 import {
 	assembleBuildResult,
@@ -130,8 +131,11 @@ async function uploadBuildOutput(argv: UploadArgs, ctx: UploadCommand) {
 	}
 	validateBuildOutputMode(argv.mode, rootConfig.buildContext.mode);
 	const worker = selectBuildOutputWorker(workers, argv.worker);
-	const { wranglerConfig, builtConfig } = parseWorkerConfig(worker, rootConfig);
-	const buildResult = assembleBuildResult(worker, builtConfig);
+	const parsedWorker = parseWorkerConfig(worker, rootConfig);
+	const wranglerConfig = applyDependenciesInstrumentationEnv(
+		parsedWorker.wranglerConfig
+	);
+	const buildResult = assembleBuildResult(worker, parsedWorker.builtConfig);
 
 	// Resolve auth + account. Dry runs make no API requests: deploy-helpers
 	// skips its account-scoped checks (such as the latest-deployment lookup)

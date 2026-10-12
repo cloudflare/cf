@@ -1,4 +1,5 @@
 import { loadEnv } from "@cloudflare/workers-utils/local-env";
+import { DEPENDENCIES_INSTRUMENTATION_ENV_VAR } from "./dependencies-instrumentation.js";
 
 interface CloudflareDotEnvOptions {
 	mode?: string;
@@ -11,6 +12,7 @@ const CLOUDFLARE_DOTENV_VARIABLES = new Set([
 	"CLOUDFLARE_ACCOUNT_ID",
 	"CLOUDFLARE_API_TOKEN",
 	"CLOUDFLARE_COMPLIANCE_REGION",
+	DEPENDENCIES_INSTRUMENTATION_ENV_VAR,
 	"CLOUDFLARE_ZONE_ID",
 	// TODO: Remove once cf has a CLOUDFLARE_ replacement for selecting the
 	// API environment.

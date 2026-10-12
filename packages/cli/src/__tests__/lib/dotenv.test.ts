@@ -13,6 +13,7 @@ const SUPPORTED_VALUES = [
 	["CLOUDFLARE_ACCOUNT_ID", "account-id"],
 	["CLOUDFLARE_API_TOKEN", "api-token"],
 	["CLOUDFLARE_COMPLIANCE_REGION", "public"],
+	["CLOUDFLARE_DEPENDENCIES_INSTRUMENTATION", "false"],
 	["CLOUDFLARE_ZONE_ID", "zone-id"],
 	["WRANGLER_API_ENVIRONMENT", "staging"],
 ] as const;

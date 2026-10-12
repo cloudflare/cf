@@ -4,6 +4,7 @@ import {
 	seed,
 } from "@cloudflare/workers-utils/test-helpers";
 import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
+import { DEPENDENCIES_INSTRUMENTATION_ENV_VAR } from "../../../lib/dependencies-instrumentation.js";
 import { createMockDeployContext } from "../../helpers/mock-deploy-context.js";
 import { setupMsw } from "../../helpers/msw.js";
 import { runCf } from "../../helpers/run-cf.js";
@@ -22,7 +23,7 @@ vi.mock("../../../lib/deploy-context.js", () => ({
 		createMockDeployContext(authToken),
 }));
 
-describe("cf deploy — keep_vars", () => {
+describe("cf deploy — upload metadata", () => {
 	setupMsw();
 	runInTempDir();
 	mockConsoleMethods();
@@ -30,8 +31,64 @@ describe("cf deploy — keep_vars", () => {
 	beforeEach(async () => {
 		vi.stubEnv("CLOUDFLARE_API_TOKEN", "test-api-token");
 		vi.stubEnv("CLOUDFLARE_ACCOUNT_ID", ACCOUNT_ID);
+		vi.stubEnv(DEPENDENCIES_INSTRUMENTATION_ENV_VAR, undefined);
 		mockDefaultHandlers();
 		await seedBuildDelegate();
+	});
+
+	async function seedWorkerWithDependency() {
+		await seed({
+			"package.json": JSON.stringify({
+				dependencies: { "example-dependency": "^1.0.0" },
+			}),
+			"node_modules/example-dependency/package.json": JSON.stringify({
+				name: "example-dependency",
+				version: "1.2.3",
+			}),
+			".cloudflare/output/v0/config.json": buildOutputRootConfig(),
+			".cloudflare/output/v0/workers/default/worker.config.json":
+				workerConfig(),
+			".cloudflare/output/v0/workers/default/bundle/index.js":
+				"export default { fetch() { return new Response('ok'); } }",
+		});
+	}
+
+	it("includes package dependencies by default", async () => {
+		const upload = mockWorkerUpload();
+		await seedWorkerWithDependency();
+
+		const { exitCode } = await runCf(["deploy", "--prebuilt"]);
+
+		expect(exitCode).toBe(0);
+		expect(upload.metadata?.package_dependencies).toEqual([
+			{
+				name: "example-dependency",
+				packageJsonVersion: "^1.0.0",
+				installedVersion: "1.2.3",
+			},
+		]);
+	});
+
+	it("omits package dependencies when instrumentation is disabled", async () => {
+		vi.stubEnv(DEPENDENCIES_INSTRUMENTATION_ENV_VAR, "false");
+		const upload = mockWorkerUpload();
+		await seedWorkerWithDependency();
+
+		const { exitCode } = await runCf(["deploy", "--prebuilt"]);
+
+		expect(exitCode).toBe(0);
+		expect(upload.metadata?.package_dependencies).toBeUndefined();
+	});
+
+	it("rejects an invalid dependency instrumentation value", async () => {
+		vi.stubEnv(DEPENDENCIES_INSTRUMENTATION_ENV_VAR, "sometimes");
+		const upload = mockWorkerUpload();
+		await seedWorkerWithDependency();
+
+		await expect(runCf(["deploy", "--prebuilt"])).rejects.toThrow(
+			`Expected ${DEPENDENCIES_INSTRUMENTATION_ENV_VAR} to be "true" or "false", but got "sometimes"`
+		);
+		expect(upload.metadata).toBeUndefined();
 	});
 
 	it("sets keep_vars to false by default", async () => {

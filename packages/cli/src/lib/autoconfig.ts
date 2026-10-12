@@ -100,8 +100,10 @@ export async function configureProject(
 
 /**
  * Choose project setup before a build: an accepted Wrangler config conversion
- * takes precedence over framework setup. In a dry run, `setupNeeded` means
- * a setup route was selected but not applied, so callers must skip the build.
+ * takes precedence over framework setup. After either route is applied, the
+ * returned details describe the configured project. In a dry run,
+ * `setupNeeded` means a setup route was selected but not applied, so callers
+ * must skip the build.
  */
 export async function prepareProject(
 	cwd: string,
@@ -131,14 +133,20 @@ export async function prepareProject(
 		return { details };
 	}
 
+	if (!details) {
+		return { details };
+	}
+
+	const configuration = await configureProject(details, options);
+	if (options.dryRun) {
+		return { details, configuration, setupNeeded: true };
+	}
+
+	// Setup can change which tools the project uses, so callers need the
+	// details of the configured project rather than the pre-setup analysis.
 	return {
-		details,
-		...(details
-			? {
-					configuration: await configureProject(details, options),
-					...(options.dryRun ? { setupNeeded: true as const } : {}),
-				}
-			: {}),
+		details: (await analyzeProject(cwd, options)) ?? details,
+		configuration,
 	};
 }
 

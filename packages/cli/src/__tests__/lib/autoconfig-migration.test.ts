@@ -86,7 +86,42 @@ describe("project preparation", () => {
 			outputDir: "dist",
 			buildCommand: "npm run build",
 		};
-		mocks.getDetailsForAutoConfig.mockResolvedValue(unconfiguredDetails);
+		const configuredDetails = {
+			...unconfiguredDetails,
+			configured: true,
+			devCommand: "npx vite dev",
+			env: { CONFIGURED: "true" },
+		};
+		mocks.getDetailsForAutoConfig
+			.mockResolvedValueOnce(unconfiguredDetails)
+			.mockResolvedValueOnce(configuredDetails);
+		mocks.maybeMigrateWranglerProject.mockResolvedValue(false);
+		mocks.runAutoConfig.mockResolvedValue(configuration);
+
+		await expect(prepareProject("/project")).resolves.toEqual({
+			details: configuredDetails,
+			configuration,
+		});
+		expect(mocks.runAutoConfig).toHaveBeenCalledWith(
+			unconfiguredDetails,
+			expect.objectContaining({ runBuild: false })
+		);
+		expect(mocks.getDetailsForAutoConfig).toHaveBeenCalledTimes(2);
+	});
+
+	it("keeps the pre-setup details when the configured project cannot be analyzed", async () => {
+		const configuration = { scripts: {}, outputDir: "dist" };
+		mocks.getDetailsForAutoConfig
+			.mockResolvedValueOnce(unconfiguredDetails)
+			.mockRejectedValueOnce(
+				new (await import("@cloudflare/autoconfig")).AutoConfigDetectionError(
+					"not detected",
+					{
+						telemetryMessage: "not detected",
+						configured: false,
+					}
+				)
+			);
 		mocks.maybeMigrateWranglerProject.mockResolvedValue(false);
 		mocks.runAutoConfig.mockResolvedValue(configuration);
 
@@ -94,7 +129,6 @@ describe("project preparation", () => {
 			details: unconfiguredDetails,
 			configuration,
 		});
-		expect(mocks.runAutoConfig).toHaveBeenCalledOnce();
 	});
 
 	it("dry-runs framework setup when Wrangler config conversion did not run", async () => {
@@ -112,6 +146,7 @@ describe("project preparation", () => {
 			unconfiguredDetails,
 			expect.objectContaining({ dryRun: true, runBuild: false })
 		);
+		expect(mocks.getDetailsForAutoConfig).toHaveBeenCalledOnce();
 		expect(mocks.maybeMigrateWranglerProject).toHaveBeenCalledWith(
 			"/project",
 			expect.any(Function),

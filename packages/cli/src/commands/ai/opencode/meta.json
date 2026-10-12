@@ -1,0 +1,30 @@
+{
+	"command": "cf ai opencode",
+	"name": "opencode",
+	"fullPath": ["ai", "opencode"],
+	"category": "action",
+	"description": "Run OpenCode through AI Gateway's REST API.",
+	"usage": "cf ai opencode [options] [-- <opencode-arguments>]",
+	"arguments": [],
+	"options": [
+		{
+			"name": "gateway",
+			"type": "string",
+			"required": false,
+			"description": "AI Gateway ID (defaults to the configured or account default gateway)"
+		},
+		{
+			"name": "endpoint",
+			"type": "string",
+			"required": false,
+			"description": "Access-protected AI Gateway custom domain for per-user attribution"
+		},
+		{
+			"name": "dry-run",
+			"type": "boolean",
+			"required": false,
+			"description": "Parse arguments and show the command without executing it",
+			"default": false
+		}
+	]
+}

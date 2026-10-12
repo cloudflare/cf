@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { formatOutput } from "../../lib/output.js";
 import { getDefaultHeaders } from "../../lib/request-headers.js";
-import { withTelemetry } from "../../lib/telemetry/run.js";
+import { runWithTelemetry } from "../../lib/telemetry/run.js";
 import type { CommandModule } from "yargs";
 
 const DOCS_ORIGIN = "https://developers.cloudflare.com";
@@ -136,12 +136,14 @@ const search: CommandModule<object, SearchArgs> & { describe: string } = {
 			.epilogue(
 				"Returns up to five ranked JSON results with title, description, and url. No Cloudflare login is required.\nFetch a result's URL with Accept: text/markdown to read the full page as Markdown."
 			),
-	handler: async (argv) => {
-		formatOutput(await searchDocumentation(argv.query));
-	},
+	handler: (argv) =>
+		runWithTelemetry(
+			{ command: "docs search", recordArgs: false, searchQuery: argv.query },
+			argv as Record<string, unknown>,
+			async () => {
+				formatOutput(await searchDocumentation(argv.query));
+			}
+		),
 };
 
-export default withTelemetry(search, {
-	command: "docs search",
-	recordArgs: false,
-});
+export default search;

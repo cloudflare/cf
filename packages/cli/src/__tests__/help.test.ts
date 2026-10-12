@@ -69,13 +69,14 @@ describe("help formatting", () => {
 		["group", ["zones", "--help"]],
 		["leaf", ["zones", "list", "--help"]],
 		["local command", ["cli", "search", "--help"]],
+		["documentation search", ["docs", "search", "--help"]],
 	])("puts agent discovery before %s help for agents", async (_name, args) => {
 		agentDetection.isAgentic = true;
 		const help = await buildCli(args).cli.getHelp();
 		expect(help).toMatch(/^=== STOP: AGENT COMMAND DISCOVERY ===\n/);
 		expect(help).toContain("cf cli search");
 		expect(help).toContain(
-			"Keep cf cli search queries anonymous; describe the action and resource type only."
+			"Keep cf cli search and cf docs search queries anonymous; describe the action and resource type only."
 		);
 		expect(help).toContain(
 			"Never include names, email addresses, domains, account or resource IDs, tokens, or other identifying values."

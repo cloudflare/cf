@@ -524,7 +524,7 @@
 
   Load project account and compliance settings from the `defineConfig()` default
   export. Update `cf build`, `cf deploy`, `cf workers versions create`, `cf
-workers check`, and `cf workers triggers deploy` to consume the latest Build
+  workers check`, and `cf workers triggers deploy` to consume the latest Build
   Output v0 resource files. Delegated build and dev commands now require
   `@cloudflare/vite-plugin` 1.57.0 or newer, or Wrangler 4.136.0 or newer.
 
@@ -769,9 +769,9 @@ workers check`, and `cf workers triggers deploy` to consume the latest Build
 - d1ccf04: Send unconstrained schema fields as JSON instead of text
 
   Commands driven by a runtime schema (`cf ai run`, `cf registrar registrations
-create`) type a field the schema says nothing about — `{}`, as Workers AI
+  create`) type a field the schema says nothing about — `{}`, as Workers AI
   declares `response_format.json_schema` — as a string. `--response-format-json-schema
-'{"type":"object"}'` therefore arrived at the API as that literal text rather
+  '{"type":"object"}'` therefore arrived at the API as that literal text rather
   than as an object.
 
   Such a field now takes a JSON value, falling back to the literal text when the
@@ -780,7 +780,7 @@ create`) type a field the schema says nothing about — `{}`, as Workers AI
 - d1ccf04: Resolve the account for schema-backed `--help` without signing in again
 
   `cf ai run <model> --help` and `cf registrar registrations create <domain>
---help` fetch a schema, so they need an account ID, and they resolved one from
+  --help` fetch a schema, so they need an account ID, and they resolved one from
   the environment and `cloudflare.config.ts` only. A signed-in user with neither
   set was told to `cf auth login` — while every other command worked, because
   those consult the account cache and auto-select a sole account.
@@ -1152,7 +1152,7 @@ create`) type a field the schema says nothing about — `{}`, as Workers AI
 - 9fa0f66: Surface a friendly error for missing or empty `--file` arguments
 
   Generated commands that accept `--file <path>` (e.g. `cf vectorize
-insert --file vectors.ndjson`, R2 uploads, secrets bulk import) now
+  insert --file vectors.ndjson`, R2 uploads, secrets bulk import) now
   report `Cannot read invalid or empty file: <path>` when the file is
   missing, unreadable, or zero bytes — instead of leaking a raw `node:fs`
   `ENOENT` stack trace (which also exposed the resolved absolute cwd path)

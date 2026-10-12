@@ -1,4 +1,4 @@
-/** @generated from spectrum-analytics-(-summary)-get-analytics-summary */
+/** @generated from spectrum.analytics.events.summaries.get */
 import { path } from "#api";
 
 export default {

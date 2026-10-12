@@ -1,4 +1,4 @@
-/** @generated from whois-record-get-whois-record */
+/** @generated from intel.whois.get */
 import { path } from "#api";
 
 export default {

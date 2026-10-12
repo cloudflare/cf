@@ -1,4 +1,4 @@
-/** @generated from get-zones-zone_identifier-zaraz-history */
+/** @generated from zaraz.history.list */
 import { path } from "#api";
 
 export default {

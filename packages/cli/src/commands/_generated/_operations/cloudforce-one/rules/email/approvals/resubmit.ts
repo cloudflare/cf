@@ -1,4 +1,4 @@
-/** @generated from cloudforce-one-resubmit-email-rule-approval */
+/** @generated from cloudforce-one.rules.email.approvals.resubmit */
 import { path } from "#api";
 
 export default {

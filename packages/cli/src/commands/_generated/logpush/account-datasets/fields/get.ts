@@ -66,8 +66,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						url: `https://api.cloudflare.com/client/v4/${accountOrZone}/${accountOrZoneId}/logpush/datasets/${argv["dataset-id"] == null ? "<dataset-id>" : encodeURIComponent(String(argv["dataset-id"]))}/fields`,
 						pathParams: {
 							"account-or-zone": String(accountOrZone),
-							"dataset-id": String(argv["dataset-id"] ?? ""),
 							"account-or-zone-id": String(accountOrZoneId),
+							"dataset-id": String(argv["dataset-id"] ?? ""),
 						},
 						bodyKind: "none",
 					});

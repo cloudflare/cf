@@ -1,4 +1,4 @@
-/** @generated from flagship_create_flag */
+/** @generated from flagship.apps.flags.create */
 import { path } from "#api";
 
 export default {

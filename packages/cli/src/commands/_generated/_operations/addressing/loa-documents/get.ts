@@ -1,4 +1,4 @@
-/** @generated from ip-address-management-prefixes-download-loa-document */
+/** @generated from addressing.loa-documents.get */
 import { path } from "#api";
 
 export default {

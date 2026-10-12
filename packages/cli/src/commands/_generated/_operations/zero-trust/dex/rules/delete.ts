@@ -1,4 +1,4 @@
-/** @generated from delete-dex-rule */
+/** @generated from zero-trust.dex.rules.delete */
 import { path } from "#api";
 
 export default {

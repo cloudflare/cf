@@ -1,4 +1,4 @@
-/** @generated from generated:patch:/{account_or_zone}/{account_or_zone_id}/dns_settings */
+/** @generated from dns.settings.account.edit */
 import { path } from "#api";
 
 export default {

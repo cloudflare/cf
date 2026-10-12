@@ -1,4 +1,4 @@
-/** @generated from get_application_auth_methods_v2 */
+/** @generated from zero-trust.casb.applications.auth-methods.list */
 import { path } from "#api";
 
 export default {

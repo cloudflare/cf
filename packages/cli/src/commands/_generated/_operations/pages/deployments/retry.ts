@@ -1,4 +1,4 @@
-/** @generated from pages-deployment-retry-deployment */
+/** @generated from pages.deployments.retry */
 import { path } from "#api";
 
 export default {

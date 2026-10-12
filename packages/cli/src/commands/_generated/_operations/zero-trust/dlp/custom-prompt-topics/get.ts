@@ -1,4 +1,4 @@
-/** @generated from dlp-custom-prompt-topics-get */
+/** @generated from zero-trust.dlp.custom-prompt-topics.get */
 import { path } from "#api";
 
 export default {

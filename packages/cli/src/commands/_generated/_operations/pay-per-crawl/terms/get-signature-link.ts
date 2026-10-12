@@ -1,4 +1,4 @@
-/** @generated from pay-per-crawl.getTermsSignatureLink */
+/** @generated from pay-per-crawl.terms.get-signature-link */
 import { path } from "#api";
 
 export default {

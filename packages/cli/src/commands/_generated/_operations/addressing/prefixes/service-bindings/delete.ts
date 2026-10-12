@@ -1,4 +1,4 @@
-/** @generated from ip-address-management-service-bindings-delete-service-binding */
+/** @generated from addressing.prefixes.service-bindings.delete */
 import { path } from "#api";
 
 export default {

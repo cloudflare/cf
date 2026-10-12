@@ -1,4 +1,4 @@
-/** @generated from zone-purge */
+/** @generated from cache.purge */
 import { path } from "#api";
 
 export default {

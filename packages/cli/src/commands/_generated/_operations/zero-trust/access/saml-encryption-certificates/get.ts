@@ -1,4 +1,4 @@
-/** @generated from access-saml-certificates-get-certificate-set */
+/** @generated from zero-trust.access.saml-encryption-certificates.get */
 import { path } from "#api";
 
 export default {

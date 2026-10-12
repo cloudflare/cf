@@ -1,4 +1,4 @@
-/** @generated from api-shield-endpoint-management-delete-an-operation */
+/** @generated from web-assets.operations.delete */
 import { path } from "#api";
 
 export default {

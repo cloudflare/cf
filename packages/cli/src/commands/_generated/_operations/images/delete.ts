@@ -1,4 +1,4 @@
-/** @generated from cloudflare-images-delete-image */
+/** @generated from images.delete */
 import { path } from "#api";
 
 export default {

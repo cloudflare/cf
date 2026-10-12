@@ -1,4 +1,4 @@
-/** @generated from radar-get-bgp-routes-upstreams-timeseries */
+/** @generated from radar.bgp.routes.upstreams.timeseries */
 import { path } from "#api";
 
 export default {

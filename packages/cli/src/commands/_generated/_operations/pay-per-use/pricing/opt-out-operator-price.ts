@@ -1,4 +1,4 @@
-/** @generated from pay-per-crawl.deletePPUPublisherPrice */
+/** @generated from pay-per-use.pricing.opt-out-operator-price */
 import { path } from "#api";
 
 export default {

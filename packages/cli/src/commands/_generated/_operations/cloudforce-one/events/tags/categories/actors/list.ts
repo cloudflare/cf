@@ -1,4 +1,4 @@
-/** @generated from get_TaggedActorList */
+/** @generated from cloudforce-one.events.tags.categories.actors.list */
 import { path } from "#api";
 
 export default {

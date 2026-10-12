@@ -1,4 +1,4 @@
-/** @generated from generated:put:/{account_or_zone}/{account_or_zone_id}/load_balancers/{load_balancer_id} */
+/** @generated from load-balancers.account.update */
 import { path } from "#api";
 
 export default {

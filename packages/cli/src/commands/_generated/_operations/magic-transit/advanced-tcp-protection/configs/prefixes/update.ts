@@ -1,4 +1,4 @@
-/** @generated from updatePrefix */
+/** @generated from magic-transit.advanced-tcp-protection.configs.prefixes.update */
 import { path } from "#api";
 
 export default {

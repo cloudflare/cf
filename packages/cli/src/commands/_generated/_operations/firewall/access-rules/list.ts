@@ -1,4 +1,4 @@
-/** @generated from generated:get:/{account_or_zone}/{account_or_zone_id}/firewall/access_rules/rules */
+/** @generated from firewall.access-rules.list */
 import { path } from "#api";
 
 export default {

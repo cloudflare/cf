@@ -1,4 +1,4 @@
-/** @generated from email-sending-subdomains-update-sending-subdomain */
+/** @generated from email-sending.subdomains.update */
 import { path } from "#api";
 
 export default {

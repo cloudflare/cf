@@ -1,4 +1,4 @@
-/** @generated from notification-webhooks-delete-a-webhook */
+/** @generated from alerting.destinations.webhooks.delete */
 import { path } from "#api";
 
 export default {

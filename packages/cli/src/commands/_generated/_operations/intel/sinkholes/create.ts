@@ -1,4 +1,4 @@
-/** @generated from sinkhole-config-create-sinkhole */
+/** @generated from intel.sinkholes.create */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from smart-shield-settings-start-cache-reserve-clear */
+/** @generated from smart-shield.cache-reserve-clear.clear */
 import { path } from "#api";
 
 export default {

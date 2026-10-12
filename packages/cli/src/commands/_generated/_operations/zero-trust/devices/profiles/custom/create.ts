@@ -1,4 +1,4 @@
-/** @generated from devices-create-device-settings-policy */
+/** @generated from zero-trust.devices.profiles.custom.create */
 import { path } from "#api";
 
 export default {

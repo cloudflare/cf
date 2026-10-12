@@ -1,4 +1,4 @@
-/** @generated from getBuildByUuid */
+/** @generated from builds.get */
 import { path } from "#api";
 
 export default {

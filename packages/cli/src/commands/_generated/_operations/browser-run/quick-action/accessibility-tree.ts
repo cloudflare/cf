@@ -1,4 +1,4 @@
-/** @generated from brapi-post_AccessibilityTree */
+/** @generated from browser-run.quick-action.accessibility-tree */
 import { path } from "#api";
 
 export default {

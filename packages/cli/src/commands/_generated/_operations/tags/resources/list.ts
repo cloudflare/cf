@@ -1,4 +1,4 @@
-/** @generated from tags-list */
+/** @generated from tags.resources.list */
 import { path } from "#api";
 
 export default {

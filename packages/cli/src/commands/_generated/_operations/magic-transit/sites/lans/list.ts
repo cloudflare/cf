@@ -1,4 +1,4 @@
-/** @generated from magic-site-lans-list-lans */
+/** @generated from magic-transit.sites.lans.list */
 import { path } from "#api";
 
 export default {

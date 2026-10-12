@@ -1,4 +1,4 @@
-/** @generated from patch_publicUpdateSendingSuppression */
+/** @generated from email-sending.suppressions.edit */
 import { path } from "#api";
 
 export default {

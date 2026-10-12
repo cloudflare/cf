@@ -1,4 +1,4 @@
-/** @generated from email_security_post_bulk_move */
+/** @generated from email-security.investigate.move */
 import { path } from "#api";
 
 export default {

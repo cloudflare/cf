@@ -1,4 +1,4 @@
-/** @generated from get_GetDomainQueries */
+/** @generated from brand-protection.queries.get */
 import { path } from "#api";
 
 export default {

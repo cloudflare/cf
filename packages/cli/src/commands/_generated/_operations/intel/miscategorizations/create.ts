@@ -1,4 +1,4 @@
-/** @generated from miscategorization-create-miscategorization */
+/** @generated from intel.miscategorizations.create */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from postAccountsAccountIdBrandProtectionLogos */
+/** @generated from logos.create */
 import { path } from "#api";
 
 export default {

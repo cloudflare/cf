@@ -1,4 +1,4 @@
-/** @generated from post_publicBulkCreateSendingSuppressions */
+/** @generated from email-sending.suppressions.import */
 import { path } from "#api";
 
 export default {

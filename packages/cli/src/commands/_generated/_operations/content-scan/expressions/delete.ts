@@ -1,4 +1,4 @@
-/** @generated from waf-content-scanning-delete-custom-scan-expressions */
+/** @generated from content-scan.expressions.delete */
 import { path } from "#api";
 
 export default {

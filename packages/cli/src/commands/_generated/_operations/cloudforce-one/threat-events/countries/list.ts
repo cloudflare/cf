@@ -1,4 +1,4 @@
-/** @generated from get_CountryRead */
+/** @generated from cloudforce-one.threat-events.countries.list */
 import { path } from "#api";
 
 export default {

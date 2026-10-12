@@ -1,4 +1,4 @@
-/** @generated from magic-bgp-create-filter-profile */
+/** @generated from magic-transit.bgp-filter-profiles.create */
 import { path } from "#api";
 
 export default {

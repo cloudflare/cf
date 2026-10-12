@@ -1,4 +1,4 @@
-/** @generated from zone-settings-edit-single-setting */
+/** @generated from zones.settings.edit */
 import { path } from "#api";
 
 export default {

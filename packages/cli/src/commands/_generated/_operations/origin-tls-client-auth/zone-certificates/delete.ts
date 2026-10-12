@@ -1,4 +1,4 @@
-/** @generated from zone-level-authenticated-origin-pulls-delete-certificate */
+/** @generated from origin-tls-client-auth.zone-certificates.delete */
 import { path } from "#api";
 
 export default {

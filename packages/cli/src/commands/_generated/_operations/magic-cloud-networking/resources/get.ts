@@ -1,4 +1,4 @@
-/** @generated from resources-catalog-read */
+/** @generated from magic-cloud-networking.resources.get */
 import { path } from "#api";
 
 export default {

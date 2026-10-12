@@ -1,4 +1,4 @@
-/** @generated from generated:get:/{account_or_zone}/{account_or_zone_id}/intel/sinkholes/{sinkhole_id}/ingresses */
+/** @generated from intel.sinkholes.ingresses.list */
 import { path } from "#api";
 
 export default {

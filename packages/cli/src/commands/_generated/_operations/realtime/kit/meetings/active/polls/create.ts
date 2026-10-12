@@ -1,4 +1,4 @@
-/** @generated from CreatePoll */
+/** @generated from realtime.kit.meetings.active.polls.create */
 import { path } from "#api";
 
 export default {

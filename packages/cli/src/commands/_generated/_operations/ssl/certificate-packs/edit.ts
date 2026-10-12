@@ -1,4 +1,4 @@
-/** @generated from certificate-packs-restart-validation-for-advanced-certificate-manager-certificate-pack */
+/** @generated from ssl.certificate-packs.edit */
 import { path } from "#api";
 
 export default {

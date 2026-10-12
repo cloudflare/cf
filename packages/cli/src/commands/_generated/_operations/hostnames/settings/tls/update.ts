@@ -1,4 +1,4 @@
-/** @generated from per-hostname-tls-settings-put */
+/** @generated from hostnames.settings.tls.update */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from CheckAppealEligibility */
+/** @generated from abuse-reports.appeals.eligibility */
 import { path } from "#api";
 
 export default {

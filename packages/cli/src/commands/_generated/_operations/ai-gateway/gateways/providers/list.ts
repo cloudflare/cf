@@ -1,4 +1,4 @@
-/** @generated from aig-config-list-providers */
+/** @generated from ai-gateway.gateways.providers.list */
 import { path } from "#api";
 
 export default {

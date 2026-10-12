@@ -1,4 +1,4 @@
-/** @generated from ai-search-namespace-instance-upload-item */
+/** @generated from ai-search.items.upload */
 import { path } from "#api";
 
 export default {

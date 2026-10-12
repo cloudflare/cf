@@ -1,4 +1,4 @@
-/** @generated from m-tls-certificate-management-delete-m-tls-certificate */
+/** @generated from mtls-certificates.delete */
 import { path } from "#api";
 
 export default {

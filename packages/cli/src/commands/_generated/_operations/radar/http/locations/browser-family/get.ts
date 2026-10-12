@@ -1,4 +1,4 @@
-/** @generated from radar-get-http-top-locations-by-browser-family */
+/** @generated from radar.http.locations.browser-family.get */
 import { path } from "#api";
 
 export default {

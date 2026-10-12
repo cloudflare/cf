@@ -1,4 +1,4 @@
-/** @generated from radar-get-email-security-timeseries-group */
+/** @generated from radar.email.security.timeseries-groups-v2 */
 import { path } from "#api";
 
 export default {

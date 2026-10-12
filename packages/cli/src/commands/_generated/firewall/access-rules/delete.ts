@@ -73,8 +73,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						url: `https://api.cloudflare.com/client/v4/${accountOrZone}/${accountOrZoneId}/firewall/access_rules/rules/${argv["rule-id"] == null ? "<rule-id>" : encodeURIComponent(String(argv["rule-id"]))}`,
 						pathParams: {
 							"account-or-zone": String(accountOrZone),
-							"rule-id": String(argv["rule-id"] ?? ""),
 							"account-or-zone-id": String(accountOrZoneId),
+							"rule-id": String(argv["rule-id"] ?? ""),
 						},
 						bodyKind: "none",
 					});

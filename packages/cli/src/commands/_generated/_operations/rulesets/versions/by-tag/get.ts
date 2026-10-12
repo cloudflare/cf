@@ -1,4 +1,4 @@
-/** @generated from generated:get:/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}/versions/{ruleset_version}/by_tag/{rule_tag} */
+/** @generated from rulesets.versions.by-tag.get */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from slurper-resume-job */
+/** @generated from r2.super-slurper.jobs.resume */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from destination.update */
+/** @generated from o11y.destinations.update */
 import { path } from "#api";
 
 export default {

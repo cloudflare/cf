@@ -1,4 +1,4 @@
-/** @generated from radar-get-dns-as112-summary */
+/** @generated from radar.as112.summary-v2 */
 import { path } from "#api";
 
 export default {

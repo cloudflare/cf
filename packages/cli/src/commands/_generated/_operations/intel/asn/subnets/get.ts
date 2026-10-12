@@ -1,4 +1,4 @@
-/** @generated from asn-intelligence-get-asn-subnets */
+/** @generated from intel.asn.subnets.get */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from mconn-connector-telemetry-events-get */
+/** @generated from connector-telemetry-events.get */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from Accounts_listAccountOrganizations */
+/** @generated from accounts.organization.list */
 import { path } from "#api";
 
 export default {

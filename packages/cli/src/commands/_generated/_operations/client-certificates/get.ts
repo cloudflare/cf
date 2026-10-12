@@ -1,4 +1,4 @@
-/** @generated from client-certificate-for-a-zone-client-certificate-details */
+/** @generated from client-certificates.get */
 import { path } from "#api";
 
 export default {

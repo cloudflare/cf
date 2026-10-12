@@ -1,4 +1,4 @@
-/** @generated from waf-product-api-leaked-credentials-delete-detection */
+/** @generated from leaked-credential-checks.detections.delete */
 import { path } from "#api";
 
 export default {

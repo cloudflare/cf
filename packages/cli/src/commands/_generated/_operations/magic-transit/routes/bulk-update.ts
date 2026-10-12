@@ -1,4 +1,4 @@
-/** @generated from magic-static-routes-update-many-routes */
+/** @generated from magic-transit.routes.bulk-update */
 import { path } from "#api";
 
 export default {

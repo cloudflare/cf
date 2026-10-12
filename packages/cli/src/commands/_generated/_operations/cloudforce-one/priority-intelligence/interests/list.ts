@@ -1,4 +1,4 @@
-/** @generated from get_PirInterestList */
+/** @generated from cloudforce-one.priority-intelligence.interests.list */
 import { path } from "#api";
 
 export default {

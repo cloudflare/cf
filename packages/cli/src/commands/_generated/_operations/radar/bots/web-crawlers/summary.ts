@@ -1,4 +1,4 @@
-/** @generated from radar-get-crawlers-summary */
+/** @generated from radar.bots.web-crawlers.summary */
 import { path } from "#api";
 
 export default {

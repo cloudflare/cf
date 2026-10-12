@@ -67,6 +67,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.coerce("cache-threshold", (value) =>
 			resolveFileToken(value, "cache-threshold", "text")
 		)
+		.option("cache-ttl", {
+			type: "number",
+			description:
+				"Cache entry TTL in seconds. Allowed values: 600 (10min), 1800 (30min), 3600 (1h), 7200 (2h), 21600 (6h), 43200 (12h), 86400 (24h), 172800 (48h), 259200 (72h), 518400 (6d).",
+			default: 172800,
+		})
 		.option("chunk", {
 			type: "boolean",
 			description: "The chunk field",
@@ -328,6 +334,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.coerce("source-params-web-crawler-parse-type", (value) =>
 			resolveFileToken(value, "source-params-web-crawler-parse-type", "text")
 		)
+		.option("sync-interval", {
+			type: "number",
+			description:
+				"Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h).",
+			default: 21600,
+		})
 		.option("token-id", { type: "string", description: "The token_id field" })
 		.option("type", {
 			type: "string",
@@ -452,6 +464,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										),
 										cache: argv["cache"],
 										cache_threshold: argv["cache-threshold"],
+										cache_ttl: argv["cache-ttl"],
 										chunk: argv["chunk"],
 										chunk_overlap: argv["chunk-overlap"],
 										chunk_size: argv["chunk-size"],
@@ -616,6 +629,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 													argv["source-params-web-crawler-parse-type"],
 											},
 										},
+										sync_interval: argv["sync-interval"],
 										token_id: resolveFileToken(
 											argv["token-id"] as string | undefined,
 											"token-id",
@@ -675,6 +689,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						["cache_threshold"],
 						argv["cache-threshold"]
 					);
+				if (argv["cache-ttl"] !== undefined)
+					setNestedValue(bodyData, ["cache_ttl"], argv["cache-ttl"]);
 				if (argv["chunk"] !== undefined)
 					setNestedValue(bodyData, ["chunk"], argv["chunk"]);
 				if (argv["chunk-overlap"] !== undefined)
@@ -1038,6 +1054,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						["source_params", "web_crawler", "parse_type"],
 						argv["source-params-web-crawler-parse-type"]
 					);
+				if (argv["sync-interval"] !== undefined)
+					setNestedValue(bodyData, ["sync_interval"], argv["sync-interval"]);
 				if (argv["token-id"] !== undefined)
 					setNestedValue(
 						bodyData,

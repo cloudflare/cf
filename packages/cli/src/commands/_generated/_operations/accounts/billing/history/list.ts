@@ -1,4 +1,4 @@
-/** @generated from account-billing-history-get-billing-history */
+/** @generated from accounts.billing.history.list */
 import { path } from "#api";
 
 export default {

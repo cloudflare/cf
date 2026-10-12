@@ -1,4 +1,4 @@
-/** @generated from deleteSynProtectionFilter */
+/** @generated from magic-transit.advanced-tcp-protection.configs.syn.protection.filters.delete */
 import { path } from "#api";
 
 export default {

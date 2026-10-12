@@ -1,4 +1,4 @@
-/** @generated from radar-get-ranking-domain-timeseries */
+/** @generated from radar.ranking.timeseries-groups */
 export default {
 	method: "GET",
 	path: () => "/radar/ranking/timeseries_groups",

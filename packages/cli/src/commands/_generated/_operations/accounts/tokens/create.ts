@@ -1,4 +1,4 @@
-/** @generated from account-api-tokens-create-token */
+/** @generated from accounts.tokens.create */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from livestream-session-details */
+/** @generated from realtime.kit.meetings.livestream.get */
 import { path } from "#api";
 
 export default {

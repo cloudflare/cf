@@ -1,4 +1,4 @@
-/** @generated from waiting-room-update-zone-settings */
+/** @generated from waiting-rooms.settings.update */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from zone-settings-get-binary-ast-setting */
+/** @generated from zones.binary-ast.get */
 import { path } from "#api";
 
 export default {

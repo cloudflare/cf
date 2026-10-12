@@ -1,4 +1,4 @@
-/** @generated from access-identity-providers-delete-scim-user-resource */
+/** @generated from zero-trust.identity-providers.scim.users.delete */
 import { path } from "#api";
 
 export default {

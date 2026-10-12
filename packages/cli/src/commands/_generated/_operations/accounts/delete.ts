@@ -1,4 +1,4 @@
-/** @generated from account-deletion */
+/** @generated from accounts.delete */
 import { path } from "#api";
 
 export default {

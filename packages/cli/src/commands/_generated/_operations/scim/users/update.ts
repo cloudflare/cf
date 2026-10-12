@@ -1,4 +1,4 @@
-/** @generated from scim-users-put */
+/** @generated from scim.users.update */
 import { path } from "#api";
 
 export default {

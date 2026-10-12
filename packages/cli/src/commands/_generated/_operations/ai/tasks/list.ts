@@ -1,4 +1,4 @@
-/** @generated from workers-ai-search-task */
+/** @generated from ai.tasks.list */
 import { path } from "#api";
 
 export default {

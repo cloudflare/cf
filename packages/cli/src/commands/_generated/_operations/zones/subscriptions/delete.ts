@@ -1,4 +1,4 @@
-/** @generated from zone-subscription-delete-zone-subscription */
+/** @generated from zones.subscriptions.delete */
 import { path } from "#api";
 
 export default {

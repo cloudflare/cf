@@ -1,4 +1,4 @@
-/** @generated from issues.groups.members.add */
+/** @generated from o11y.issues.add */
 import { path } from "#api";
 
 export default {

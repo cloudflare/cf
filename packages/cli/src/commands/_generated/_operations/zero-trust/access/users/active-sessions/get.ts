@@ -1,4 +1,4 @@
-/** @generated from zero-trust-users-get-active-session */
+/** @generated from zero-trust.access.users.active-sessions.get */
 import { path } from "#api";
 
 export default {

@@ -88,8 +88,19 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description:
 				'The instance type configures vCPU, memory, and disk.\n\n- "lite": 1/16 vCPU, 256 MiB memory, 2 GB disk\n- "basic": 1/4 vCPU, 1 GiB memory, 4 GB disk\n- "standard-1": 1/2 vCPU, 4 GiB memory, 8 GB disk\n- "standard-2": 1 vCPU, 6 GiB memory, 12 GB disk\n- "standard-3": 2 vCPU, 8 GiB memory, 16 GB disk\n- "standard-4": 4 vCPU, 12 GiB memory, 20 GB disk\n',
+			choices: [
+				"lite",
+				"basic",
+				"standard-1",
+				"standard-2",
+				"standard-3",
+				"standard-4",
+			],
 			default: "lite",
 		})
+		.coerce("target-configuration-instance-type", (value) =>
+			resolveFileToken(value, "target-configuration-instance-type", "text")
+		)
 		.option("target-configuration-observability-logs-enabled", {
 			type: "boolean",
 			description: "The target_configuration.observability.logs.enabled field",
@@ -121,6 +132,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					safeFlags: [
 						"kind",
 						"strategy",
+						"target-configuration-instance-type",
 						"target-configuration-observability-logs-enabled",
 						"dry-run",
 					],
@@ -162,13 +174,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"target-configuration-image",
 												"text"
 											),
-											instance_type: resolveFileToken(
-												argv["target-configuration-instance-type"] as
-													| string
-													| undefined,
-												"target-configuration-instance-type",
-												"text"
-											),
+											instance_type: argv["target-configuration-instance-type"],
 											observability: {
 												logs: {
 													enabled:
@@ -232,11 +238,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"target-configuration-image",
 							"text"
 						),
-						instance_type: resolveFileToken(
-							argv["target-configuration-instance-type"] as string | undefined,
-							"target-configuration-instance-type",
-							"text"
-						),
+						instance_type: argv["target-configuration-instance-type"],
 						observability: {
 							logs: {
 								enabled:

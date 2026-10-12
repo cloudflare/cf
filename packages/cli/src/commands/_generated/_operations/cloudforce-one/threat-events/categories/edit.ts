@@ -1,4 +1,4 @@
-/** @generated from patch_CategoryUpdate */
+/** @generated from cloudforce-one.threat-events.categories.edit */
 import { path } from "#api";
 
 export default {

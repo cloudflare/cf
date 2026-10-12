@@ -1,4 +1,4 @@
-/** @generated from Members_create */
+/** @generated from organization.member.create */
 import { path } from "#api";
 
 export default {

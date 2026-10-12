@@ -62,8 +62,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "GET",
 						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/cloudforce-one/events/datasets/${argv["dataset-id"] == null ? "<dataset-id>" : encodeURIComponent(String(argv["dataset-id"]))}/events/${argv["event-id"] == null ? "<event-id>" : encodeURIComponent(String(argv["event-id"]))}/raw`,
 						pathParams: {
-							"event-id": String(argv["event-id"] ?? ""),
 							"dataset-id": String(argv["dataset-id"] ?? ""),
+							"event-id": String(argv["event-id"] ?? ""),
 						},
 						bodyKind: "none",
 					});

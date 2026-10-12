@@ -1,4 +1,4 @@
-/** @generated from origin-ca-get-certificate */
+/** @generated from origin-ca-certificates.get */
 import { path } from "#api";
 
 export default {

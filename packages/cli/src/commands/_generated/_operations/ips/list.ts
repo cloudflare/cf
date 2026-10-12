@@ -1,4 +1,4 @@
-/** @generated from cloudflare-ips-cloudflare-ip-details */
+/** @generated from ips.list */
 export default {
 	method: "GET",
 	path: () => "/ips",

@@ -1,4 +1,4 @@
-/** @generated from cloudflare-images-keys-add-signing-key */
+/** @generated from images.keys.create */
 import { path } from "#api";
 
 export default {

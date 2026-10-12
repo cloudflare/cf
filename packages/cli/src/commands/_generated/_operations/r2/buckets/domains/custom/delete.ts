@@ -1,4 +1,4 @@
-/** @generated from r2-delete-custom-domain */
+/** @generated from r2.buckets.domains.custom.delete */
 import { path } from "#api";
 
 export default {

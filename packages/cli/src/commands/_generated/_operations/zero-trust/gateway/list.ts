@@ -1,4 +1,4 @@
-/** @generated from zero-trust-accounts-get-zero-trust-account-information */
+/** @generated from zero-trust.gateway.list */
 import { path } from "#api";
 
 export default {

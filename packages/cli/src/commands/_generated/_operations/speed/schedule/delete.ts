@@ -1,4 +1,4 @@
-/** @generated from speed-delete-test-schedule */
+/** @generated from speed.schedule.delete */
 import { path } from "#api";
 
 export default {

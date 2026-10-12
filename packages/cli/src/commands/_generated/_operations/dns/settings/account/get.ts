@@ -1,4 +1,4 @@
-/** @generated from generated:get:/{account_or_zone}/{account_or_zone_id}/dns_settings */
+/** @generated from dns.settings.account.get */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from data-security-findings-timeseries */
+/** @generated from analytics.query.data-security.findings.timeseries */
 import { path } from "#api";
 
 export default {

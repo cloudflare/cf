@@ -1,4 +1,4 @@
-/** @generated from get-commands-eligible-devices */
+/** @generated from zero-trust.dex.commands.eligible-devices.list */
 import { path } from "#api";
 
 export default {

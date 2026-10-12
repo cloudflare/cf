@@ -1,4 +1,4 @@
-/** @generated from getWorker */
+/** @generated from workers.get */
 import { path } from "#api";
 
 export default {

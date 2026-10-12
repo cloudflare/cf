@@ -1,4 +1,4 @@
-/** @generated from speed-list-page-trend */
+/** @generated from speed.pages.trend */
 import { path } from "#api";
 
 export default {

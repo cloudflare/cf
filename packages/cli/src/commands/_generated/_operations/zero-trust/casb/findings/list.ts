@@ -1,4 +1,4 @@
-/** @generated from ListFindings */
+/** @generated from zero-trust.casb.findings.list */
 import { path } from "#api";
 
 export default {

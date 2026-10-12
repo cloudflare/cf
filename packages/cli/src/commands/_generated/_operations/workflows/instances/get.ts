@@ -1,4 +1,4 @@
-/** @generated from wor-describe-workflow-instance */
+/** @generated from workflows.instances.get */
 import { path } from "#api";
 
 export default {

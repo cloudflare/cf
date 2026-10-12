@@ -1,4 +1,4 @@
-/** @generated from zones-post */
+/** @generated from zones.create */
 export default {
 	method: "POST",
 	path: () => "/zones",

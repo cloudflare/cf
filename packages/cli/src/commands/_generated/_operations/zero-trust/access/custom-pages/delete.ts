@@ -1,4 +1,4 @@
-/** @generated from access-custom-pages-delete-a-custom-page */
+/** @generated from zero-trust.access.custom-pages.delete */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from get_TargetIndustryListComplete */
+/** @generated from cloudforce-one.events.target.industries.catalog.get */
 import { path } from "#api";
 
 export default {

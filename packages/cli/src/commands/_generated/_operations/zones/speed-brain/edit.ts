@@ -1,4 +1,4 @@
-/** @generated from zone-settings-change-speed-brain-setting */
+/** @generated from zones.speed-brain.edit */
 import { path } from "#api";
 
 export default {

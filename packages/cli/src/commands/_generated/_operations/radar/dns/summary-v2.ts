@@ -1,4 +1,4 @@
-/** @generated from radar-get-dns-summary */
+/** @generated from radar.dns.summary-v2 */
 import { path } from "#api";
 
 export default {

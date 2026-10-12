@@ -1,4 +1,4 @@
-/** @generated from dns-records-for-a-zone-delete-dns-record */
+/** @generated from dns.records.delete */
 import { path } from "#api";
 
 export default {

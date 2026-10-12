@@ -1,4 +1,4 @@
-/** @generated from ai-search-namespace-instance-change-job-status */
+/** @generated from ai-search.jobs.cancel */
 import { path } from "#api";
 
 export default {

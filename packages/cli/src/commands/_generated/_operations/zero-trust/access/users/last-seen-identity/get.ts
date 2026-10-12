@@ -1,4 +1,4 @@
-/** @generated from zero-trust-users-get-last-seen-identity */
+/** @generated from zero-trust.access.users.last-seen-identity.get */
 import { path } from "#api";
 
 export default {

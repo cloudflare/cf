@@ -1,4 +1,4 @@
-/** @generated from MuteParticipants */
+/** @generated from realtime.kit.meetings.active.mute */
 import { path } from "#api";
 
 export default {

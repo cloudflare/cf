@@ -1,4 +1,4 @@
-/** @generated from origin-cloud-regions-v2-batch-upsert */
+/** @generated from cache.origin-cloud-regions.bulk-update */
 import { path } from "#api";
 
 export default {

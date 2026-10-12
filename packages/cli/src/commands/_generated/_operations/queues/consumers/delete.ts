@@ -1,4 +1,4 @@
-/** @generated from queues-delete-consumer */
+/** @generated from queues.consumers.delete */
 import { path } from "#api";
 
 export default {

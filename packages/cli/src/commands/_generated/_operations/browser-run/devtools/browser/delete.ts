@@ -1,4 +1,4 @@
-/** @generated from brapi-delete_DevtoolsBrowserDelete */
+/** @generated from browser-run.devtools.browser.delete */
 import { path } from "#api";
 
 export default {

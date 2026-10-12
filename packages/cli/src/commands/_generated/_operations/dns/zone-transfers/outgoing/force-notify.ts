@@ -1,4 +1,4 @@
-/** @generated from secondary-dns-(-primary-zone)-force-dns-notify */
+/** @generated from dns.zone-transfers.outgoing.force-notify */
 import { path } from "#api";
 
 export default {

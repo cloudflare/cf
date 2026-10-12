@@ -1,4 +1,4 @@
-/** @generated from ai-search-namespace-instance-sync-item */
+/** @generated from ai-search.items.sync */
 import { path } from "#api";
 
 export default {

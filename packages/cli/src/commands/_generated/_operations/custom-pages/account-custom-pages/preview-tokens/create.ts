@@ -1,4 +1,4 @@
-/** @generated from generated:post:/{account_or_zone}/{account_or_zone_id}/custom_pages/preview_tokens */
+/** @generated from custom-pages.account-custom-pages.preview-tokens.create */
 import { path } from "#api";
 
 export default {

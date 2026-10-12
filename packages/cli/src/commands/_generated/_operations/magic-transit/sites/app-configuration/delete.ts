@@ -1,4 +1,4 @@
-/** @generated from magic-site-app-configs-delete-app-config */
+/** @generated from magic-transit.sites.app-configuration.delete */
 import { path } from "#api";
 
 export default {

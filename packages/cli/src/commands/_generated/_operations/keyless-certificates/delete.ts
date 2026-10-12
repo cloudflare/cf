@@ -1,4 +1,4 @@
-/** @generated from keyless-ssl-for-a-zone-delete-keyless-ssl-configuration */
+/** @generated from keyless-certificates.delete */
 import { path } from "#api";
 
 export default {

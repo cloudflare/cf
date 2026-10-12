@@ -1,4 +1,4 @@
-/** @generated from brapi-post_Markdown */
+/** @generated from browser-run.quick-action.markdown */
 import { path } from "#api";
 
 export default {

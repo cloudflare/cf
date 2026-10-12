@@ -1,4 +1,4 @@
-/** @generated from web3-hostname-list-ipfs-universal-path-gateway-content-list-entries */
+/** @generated from web3.hostnames.ipfs-universal-paths.content-lists.entries.list */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from audit-logs-v2-list-account-product-categories */
+/** @generated from accounts.logs.audit.product-categories */
 import { path } from "#api";
 
 export default {

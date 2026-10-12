@@ -1,4 +1,4 @@
-/** @generated from catalog-syncs-prebuilt-policies-list */
+/** @generated from magic-cloud-networking.catalog-syncs.prebuilt-policies.list */
 import { path } from "#api";
 
 export default {

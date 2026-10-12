@@ -1,4 +1,4 @@
-/** @generated from radar-get-email-security-top-tlds-by-spam */
+/** @generated from radar.email.security.top.tlds.spam.get */
 import { path } from "#api";
 
 export default {

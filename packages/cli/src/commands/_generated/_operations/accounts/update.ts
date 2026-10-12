@@ -1,4 +1,4 @@
-/** @generated from accounts-update-account */
+/** @generated from accounts.update */
 import { path } from "#api";
 
 export default {

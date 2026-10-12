@@ -1,4 +1,4 @@
-/** @generated from generated:delete:/{account_or_zone}/{account_or_zone_id}/access/service_tokens/{service_token_id} */
+/** @generated from zero-trust.access.service-tokens.delete */
 import { path } from "#api";
 
 export default {

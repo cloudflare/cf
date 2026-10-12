@@ -1,4 +1,4 @@
-/** @generated from get-zones-zone_id-logs-received-fields */
+/** @generated from logs.received.fields.get */
 import { path } from "#api";
 
 export default {

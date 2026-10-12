@@ -1,4 +1,4 @@
-/** @generated from access-authentication-logs-get-access-authentication-logs */
+/** @generated from zero-trust.access.logs.access-requests.list */
 import { path } from "#api";
 
 export default {

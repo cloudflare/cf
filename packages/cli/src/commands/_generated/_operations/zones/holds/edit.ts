@@ -1,4 +1,4 @@
-/** @generated from zones-0-hold-patch */
+/** @generated from zones.holds.edit */
 import { path } from "#api";
 
 export default {

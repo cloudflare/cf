@@ -1,4 +1,4 @@
-/** @generated from r2-event-notification-delete-config */
+/** @generated from r2.buckets.event-notifications.delete */
 import { path } from "#api";
 
 export default {

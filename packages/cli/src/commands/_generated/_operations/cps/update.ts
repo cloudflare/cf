@@ -1,4 +1,4 @@
-/** @generated from user-communication-preferences-update */
+/** @generated from cps.update */
 export default {
 	method: "PUT",
 	path: () => "/user/communication_preferences",

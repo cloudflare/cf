@@ -1,4 +1,4 @@
-/** @generated from postV4AccountsByAccount_idPipelinesV1Validate_sql */
+/** @generated from pipelines.validate-sql */
 import { path } from "#api";
 
 export default {

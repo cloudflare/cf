@@ -1,4 +1,4 @@
-/** @generated from get_EventRead */
+/** @generated from cloudforce-one.events.dataset.events.get */
 import { path } from "#api";
 
 export default {

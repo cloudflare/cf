@@ -1,4 +1,4 @@
-/** @generated from cloudflare-tunnel-configuration-get-configuration */
+/** @generated from tunnels.config.get */
 import { path } from "#api";
 
 export default {

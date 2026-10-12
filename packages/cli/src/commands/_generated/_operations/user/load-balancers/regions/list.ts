@@ -1,4 +1,4 @@
-/** @generated from user-load-balancer-regions-list-regions */
+/** @generated from user.load-balancers.regions.list */
 export default {
 	method: "GET",
 	path: () => "/user/load_balancers/regions",

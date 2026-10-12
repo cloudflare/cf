@@ -1,4 +1,4 @@
-/** @generated from basin-store-credentials */
+/** @generated from basin-catalog.credentials.create */
 import { path } from "#api";
 
 export default {

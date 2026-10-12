@@ -1,4 +1,4 @@
-/** @generated from sql-api-query-post */
+/** @generated from sql.query */
 export default {
 	method: "POST",
 	path: () => "/analytics/sql",

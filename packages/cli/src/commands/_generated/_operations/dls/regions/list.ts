@@ -1,4 +1,4 @@
-/** @generated from publicListRegions */
+/** @generated from dls.regions.list */
 import { path } from "#api";
 
 export default {

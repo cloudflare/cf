@@ -1,4 +1,4 @@
-/** @generated from cws-batch-tenant-nodes */
+/** @generated from zero-trust.cws.tenant-structures.nodes.batch */
 import { path } from "#api";
 
 export default {

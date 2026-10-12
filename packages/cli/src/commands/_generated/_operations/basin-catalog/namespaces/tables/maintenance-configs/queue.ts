@@ -1,4 +1,4 @@
-/** @generated from basin-queue-table-maintenance */
+/** @generated from basin-catalog.namespaces.tables.maintenance-configs.queue */
 import { path } from "#api";
 
 export default {

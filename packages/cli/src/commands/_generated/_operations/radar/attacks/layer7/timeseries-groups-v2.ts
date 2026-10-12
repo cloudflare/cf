@@ -1,4 +1,4 @@
-/** @generated from radar-get-attacks-layer7-timeseries-group */
+/** @generated from radar.attacks.layer7.timeseries-groups-v2 */
 import { path } from "#api";
 
 export default {

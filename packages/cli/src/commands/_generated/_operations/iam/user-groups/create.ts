@@ -1,4 +1,4 @@
-/** @generated from account-user-group-create */
+/** @generated from iam.user-groups.create */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from workers-ai-search-model */
+/** @generated from ai.models.list */
 import { path } from "#api";
 
 export default {

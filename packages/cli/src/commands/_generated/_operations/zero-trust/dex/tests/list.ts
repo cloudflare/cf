@@ -1,4 +1,4 @@
-/** @generated from device-dex-test-details */
+/** @generated from zero-trust.dex.tests.list */
 import { path } from "#api";
 
 export default {

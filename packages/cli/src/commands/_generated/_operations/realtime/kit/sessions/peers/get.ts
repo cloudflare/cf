@@ -1,4 +1,4 @@
-/** @generated from GetParticipantDataFromPeerId */
+/** @generated from realtime.kit.sessions.peers.get */
 import { path } from "#api";
 
 export default {

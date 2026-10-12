@@ -1,4 +1,4 @@
-/** @generated from access-policy-tests-get-an-update */
+/** @generated from zero-trust.access.applications.policy-tests.get */
 import { path } from "#api";
 
 export default {

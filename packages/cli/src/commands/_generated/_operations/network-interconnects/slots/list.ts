@@ -1,4 +1,4 @@
-/** @generated from list_slots */
+/** @generated from network-interconnects.slots.list */
 import { path } from "#api";
 
 export default {

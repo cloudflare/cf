@@ -1,4 +1,4 @@
-/** @generated from stream-subtitles/-captions-delete-captions-or-subtitles */
+/** @generated from stream.videos.captions.language.delete */
 import { path } from "#api";
 
 export default {

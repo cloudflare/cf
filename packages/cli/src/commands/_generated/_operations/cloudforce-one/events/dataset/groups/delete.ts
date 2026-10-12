@@ -1,4 +1,4 @@
-/** @generated from delete_GroupDelete */
+/** @generated from cloudforce-one.events.dataset.groups.delete */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from secrets-store-quota */
+/** @generated from secrets-store.quota.get */
 import { path } from "#api";
 
 export default {

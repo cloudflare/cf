@@ -1,4 +1,4 @@
-/** @generated from moq-relays-delete */
+/** @generated from realtime.moq.relays.delete */
 import { path } from "#api";
 
 export default {

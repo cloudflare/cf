@@ -1,4 +1,4 @@
-/** @generated from delete_TagCategoryDelete */
+/** @generated from cloudforce-one.events.tags.categories.delete */
 import { path } from "#api";
 
 export default {

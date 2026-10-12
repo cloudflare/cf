@@ -1,4 +1,4 @@
-/** @generated from dex-endpoints-tests-unique-devices */
+/** @generated from zero-trust.dex.overview.tests.unique-devices.get */
 import { path } from "#api";
 
 export default {

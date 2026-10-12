@@ -1,4 +1,4 @@
-/** @generated from usage.get */
+/** @generated from o11y.usage */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from cloudforce-one-validate-rule */
+/** @generated from cloudforce-one.rules.validate */
 import { path } from "#api";
 
 export default {

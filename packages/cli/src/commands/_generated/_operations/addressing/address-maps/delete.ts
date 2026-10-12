@@ -1,4 +1,4 @@
-/** @generated from ip-address-management-address-maps-delete-address-map */
+/** @generated from addressing.address-maps.delete */
 import { path } from "#api";
 
 export default {

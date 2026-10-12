@@ -1,4 +1,4 @@
-/** @generated from ai-search-namespace-purge-instance-cache */
+/** @generated from ai-search.purge-cache */
 import { path } from "#api";
 
 export default {

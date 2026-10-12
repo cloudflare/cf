@@ -1,4 +1,4 @@
-/** @generated from zero-trust-networks-subnets-list */
+/** @generated from network.subnets.list */
 import { path } from "#api";
 
 export default {

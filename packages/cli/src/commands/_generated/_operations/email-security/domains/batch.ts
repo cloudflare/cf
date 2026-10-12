@@ -1,4 +1,4 @@
-/** @generated from email_security_batch_domains */
+/** @generated from email-security.domains.batch */
 import { path } from "#api";
 
 export default {

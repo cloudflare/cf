@@ -1,4 +1,4 @@
-/** @generated from cloudflare-tunnel-get-a-cloudflare-tunnel-management-token */
+/** @generated from tunnels.management-token.create */
 import { path } from "#api";
 
 export default {

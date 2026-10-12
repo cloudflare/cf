@@ -1,4 +1,4 @@
-/** @generated from access-identity-providers-get-scim-group-resource */
+/** @generated from zero-trust.identity-providers.scim.groups.get */
 import { path } from "#api";
 
 export default {

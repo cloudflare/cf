@@ -1,4 +1,4 @@
-/** @generated from speed-list-pages */
+/** @generated from speed.pages.list */
 import { path } from "#api";
 
 export default {

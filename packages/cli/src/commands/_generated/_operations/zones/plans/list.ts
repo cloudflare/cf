@@ -1,4 +1,4 @@
-/** @generated from zone-rate-plan-list-available-plans */
+/** @generated from zones.plans.list */
 import { path } from "#api";
 
 export default {

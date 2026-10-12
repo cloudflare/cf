@@ -1,4 +1,4 @@
-/** @generated from radar-get-dns-as112-timeseries-group */
+/** @generated from radar.as112.timeseries-groups-v2 */
 import { path } from "#api";
 
 export default {

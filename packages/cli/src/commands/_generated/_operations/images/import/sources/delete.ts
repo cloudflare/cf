@@ -1,4 +1,4 @@
-/** @generated from cloudflare-images-sourcingkit-delete-source */
+/** @generated from images.import.sources.delete */
 import { path } from "#api";
 
 export default {

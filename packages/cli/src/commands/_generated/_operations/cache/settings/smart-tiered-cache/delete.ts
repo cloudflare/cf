@@ -1,4 +1,4 @@
-/** @generated from smart-tiered-cache-delete-smart-tiered-cache-setting */
+/** @generated from cache.settings.smart-tiered-cache.delete */
 import { path } from "#api";
 
 export default {

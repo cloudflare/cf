@@ -1,4 +1,4 @@
-/** @generated from deleteBuildToken */
+/** @generated from builds.tokens.delete */
 import { path } from "#api";
 
 export default {

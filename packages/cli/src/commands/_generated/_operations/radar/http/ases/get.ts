@@ -1,4 +1,4 @@
-/** @generated from radar-get-http-top-ases-by-http-requests */
+/** @generated from radar.http.ases.get */
 export default {
 	method: "GET",
 	path: () => "/radar/http/top/ases",

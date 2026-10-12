@@ -1,4 +1,4 @@
-/** @generated from api-shield-endpoint-management-add-operations-to-a-zone */
+/** @generated from web-assets.operations.bulk-create */
 import { path } from "#api";
 
 export default {

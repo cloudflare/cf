@@ -1,4 +1,4 @@
-/** @generated from radar-get-ct-timeseries-group */
+/** @generated from radar.ct.timeseries-groups */
 import { path } from "#api";
 
 export default {

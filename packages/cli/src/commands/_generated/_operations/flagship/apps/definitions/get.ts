@@ -1,4 +1,4 @@
-/** @generated from flagship_get_definitions */
+/** @generated from flagship.apps.definitions.get */
 import { path } from "#api";
 
 export default {

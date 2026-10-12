@@ -1,4 +1,4 @@
-/** @generated from dlp-sensitivity-groups-update */
+/** @generated from zero-trust.dlp.sensitivity-groups.update */
 import { path } from "#api";
 
 export default {

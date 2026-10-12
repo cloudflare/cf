@@ -21,7 +21,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"$0 organization create\n\nCreate a new organization for a user. Sub-organization creation availability depends on the organization's capabilities. Authentication: Use a Global API key, or a User API Token with the `User Details Write` permission."
 		)
 		.option("name", { type: "string", description: "The name field" })
-		.option("parent-id", { type: "string", description: "The parent.id field" })
+		.option("parent-id", { type: "string", description: "Organization ID" })
 		.option("profile-business-address", {
 			type: "string",
 			description: "The profile.business_address field",

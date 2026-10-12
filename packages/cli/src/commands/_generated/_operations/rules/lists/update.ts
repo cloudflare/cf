@@ -1,4 +1,4 @@
-/** @generated from lists-update-a-list */
+/** @generated from rules.lists.update */
 import { path } from "#api";
 
 export default {

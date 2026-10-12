@@ -1,4 +1,4 @@
-/** @generated from origin-cloud-regions-v2-upsert */
+/** @generated from cache.origin-cloud-regions.update */
 import { path } from "#api";
 
 export default {

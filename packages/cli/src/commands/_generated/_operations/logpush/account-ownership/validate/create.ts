@@ -1,4 +1,4 @@
-/** @generated from generated:post:/{account_or_zone}/{account_or_zone_id}/logpush/ownership/validate */
+/** @generated from logpush.account-ownership.validate.create */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from generated:patch:/{account_or_zone}/{account_or_zone_id}/security-center/insights/{issue_id}/classification */
+/** @generated from security-insights.classify */
 import { path } from "#api";
 
 export default {

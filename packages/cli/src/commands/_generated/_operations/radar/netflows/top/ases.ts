@@ -1,4 +1,4 @@
-/** @generated from radar-get-netflows-top-ases */
+/** @generated from radar.netflows.top.ases */
 export default {
 	method: "GET",
 	path: () => "/radar/netflows/top/ases",

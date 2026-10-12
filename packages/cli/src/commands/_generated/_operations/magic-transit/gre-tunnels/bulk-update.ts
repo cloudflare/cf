@@ -1,4 +1,4 @@
-/** @generated from magic-gre-tunnels-update-multiple-gre-tunnels */
+/** @generated from magic-transit.gre-tunnels.bulk-update */
 import { path } from "#api";
 
 export default {

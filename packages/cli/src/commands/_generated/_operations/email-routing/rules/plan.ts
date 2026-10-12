@@ -1,4 +1,4 @@
-/** @generated from email-routing-routing-rules-plan-account-routing-rules */
+/** @generated from email-routing.rules.plan */
 import { path } from "#api";
 
 export default {

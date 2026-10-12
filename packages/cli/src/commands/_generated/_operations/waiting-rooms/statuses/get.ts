@@ -1,4 +1,4 @@
-/** @generated from waiting-room-get-waiting-room-status */
+/** @generated from waiting-rooms.statuses.get */
 import { path } from "#api";
 
 export default {

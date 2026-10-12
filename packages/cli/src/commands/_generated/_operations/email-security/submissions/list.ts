@@ -1,4 +1,4 @@
-/** @generated from email_security_submissions */
+/** @generated from email-security.submissions.list */
 import { path } from "#api";
 
 export default {

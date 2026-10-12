@@ -1,4 +1,4 @@
-/** @generated from ct-alerting-update-subscription */
+/** @generated from ct-alerting.update */
 import { path } from "#api";
 
 export default {

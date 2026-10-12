@@ -1,4 +1,4 @@
-/** @generated from scim-users-delete */
+/** @generated from scim.users.delete */
 import { path } from "#api";
 
 export default {

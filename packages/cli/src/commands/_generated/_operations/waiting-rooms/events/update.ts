@@ -1,4 +1,4 @@
-/** @generated from waiting-room-update-event */
+/** @generated from waiting-rooms.events.update */
 import { path } from "#api";
 
 export default {

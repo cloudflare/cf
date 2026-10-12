@@ -1,4 +1,4 @@
-/** @generated from ip-address-management-address-maps-remove-a-zone-membership-from-an-address-map */
+/** @generated from addressing.address-maps.zones.delete */
 import { path } from "#api";
 
 export default {

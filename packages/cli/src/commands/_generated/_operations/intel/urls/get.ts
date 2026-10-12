@@ -1,4 +1,4 @@
-/** @generated from url-intelligence-get-url-intelligence */
+/** @generated from intel.urls.get */
 import { path } from "#api";
 
 export default {

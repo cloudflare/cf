@@ -81,8 +81,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						url: `https://api.cloudflare.com/client/v4/${accountOrZone}/${accountOrZoneId}/rulesets/${argv["id"] == null ? "<id>" : encodeURIComponent(String(argv["id"]))}`,
 						pathParams: {
 							"account-or-zone": String(accountOrZone),
-							id: String(argv["id"] ?? ""),
 							"account-or-zone-id": String(accountOrZoneId),
+							id: String(argv["id"] ?? ""),
 						},
 						query: queryParams,
 						bodyKind: "none",

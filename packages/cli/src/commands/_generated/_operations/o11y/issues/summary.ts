@@ -1,4 +1,4 @@
-/** @generated from issues.summary */
+/** @generated from o11y.issues.summary */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from sql-api-introspection */
+/** @generated from sql.datasets */
 export default {
 	method: "GET",
 	path: () => "/analytics/sql/introspection",

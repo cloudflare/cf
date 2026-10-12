@@ -51,8 +51,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "POST",
 						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/email/sending/subdomains/${argv["subdomain-id"] == null ? "<subdomain-id>" : encodeURIComponent(String(argv["subdomain-id"]))}/dns`,
 						pathParams: {
-							"subdomain-id": String(argv["subdomain-id"] ?? ""),
 							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
+							"subdomain-id": String(argv["subdomain-id"] ?? ""),
 						},
 						bodyKind: "none",
 					});

@@ -1,4 +1,4 @@
-/** @generated from cws-update-rego-metadata */
+/** @generated from zero-trust.cws.rego-metadata.update */
 import { path } from "#api";
 
 export default {

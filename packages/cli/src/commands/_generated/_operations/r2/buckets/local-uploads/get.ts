@@ -1,4 +1,4 @@
-/** @generated from r2-get-bucket-local-uploads-configuration */
+/** @generated from r2.buckets.local-uploads.get */
 import { path } from "#api";
 
 export default {

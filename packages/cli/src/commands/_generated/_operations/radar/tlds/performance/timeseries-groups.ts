@@ -1,4 +1,4 @@
-/** @generated from radar-get-tlds-performance-timeseries-groups */
+/** @generated from radar.tlds.performance.timeseries-groups */
 import { path } from "#api";
 
 export default {

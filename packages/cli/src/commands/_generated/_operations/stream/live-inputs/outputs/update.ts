@@ -1,4 +1,4 @@
-/** @generated from stream-live-inputs-update-an-output */
+/** @generated from stream.live-inputs.outputs.update */
 import { path } from "#api";
 
 export default {

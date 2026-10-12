@@ -1,4 +1,4 @@
-/** @generated from pay-per-crawl.listPPUOperators */
+/** @generated from pay-per-use.pricing.list-operators */
 import { path } from "#api";
 
 export default {

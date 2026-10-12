@@ -1,4 +1,4 @@
-/** @generated from getApplication */
+/** @generated from containers.applications.get */
 import { path } from "#api";
 
 export default {

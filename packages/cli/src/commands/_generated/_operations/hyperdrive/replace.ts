@@ -1,4 +1,4 @@
-/** @generated from update-hyperdrive */
+/** @generated from hyperdrive.replace */
 import { path } from "#api";
 
 export default {

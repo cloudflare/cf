@@ -1,4 +1,4 @@
-/** @generated from telemetry.live-tail.heartbeat.get */
+/** @generated from o11y.telemetry.heartbeat */
 import { path } from "#api";
 
 export default {

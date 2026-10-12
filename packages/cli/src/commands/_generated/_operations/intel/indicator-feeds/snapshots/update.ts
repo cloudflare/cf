@@ -1,4 +1,4 @@
-/** @generated from custom-indicator-feeds-update-indicator-feed-data */
+/** @generated from intel.indicator-feeds.snapshots.update */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from radar-get-dns-as112-top-locations */
+/** @generated from radar.as112.top.locations */
 export default {
 	method: "GET",
 	path: () => "/radar/as112/top/locations",

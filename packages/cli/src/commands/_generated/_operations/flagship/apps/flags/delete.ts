@@ -1,4 +1,4 @@
-/** @generated from flagship_delete_flag */
+/** @generated from flagship.apps.flags.delete */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from dlp-data-classes-read */
+/** @generated from zero-trust.dlp.data-classes.get */
 import { path } from "#api";
 
 export default {

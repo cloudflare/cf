@@ -1,4 +1,4 @@
-/** @generated from brapi-post_Links */
+/** @generated from browser-run.quick-action.links */
 import { path } from "#api";
 
 export default {

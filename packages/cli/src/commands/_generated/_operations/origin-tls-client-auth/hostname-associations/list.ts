@@ -1,4 +1,4 @@
-/** @generated from per-hostname-authenticated-origin-pull-list-hostname-associations */
+/** @generated from origin-tls-client-auth.hostname-associations.list */
 import { path } from "#api";
 
 export default {

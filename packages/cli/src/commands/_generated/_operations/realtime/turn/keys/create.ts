@@ -1,4 +1,4 @@
-/** @generated from calls-turn-key-create */
+/** @generated from realtime.turn.keys.create */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from zero-trust-networks-subnet-create-warp */
+/** @generated from network.subnets.warp.create */
 import { path } from "#api";
 
 export default {

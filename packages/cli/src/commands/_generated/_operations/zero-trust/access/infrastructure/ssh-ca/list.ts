@@ -1,4 +1,4 @@
-/** @generated from access-gateway-ca-list-SSH-ca */
+/** @generated from zero-trust.access.infrastructure.ssh-ca.list */
 import { path } from "#api";
 
 export default {

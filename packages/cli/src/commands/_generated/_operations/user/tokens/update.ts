@@ -1,4 +1,4 @@
-/** @generated from user-api-tokens-update-token */
+/** @generated from user.tokens.update */
 import { path } from "#api";
 
 export default {

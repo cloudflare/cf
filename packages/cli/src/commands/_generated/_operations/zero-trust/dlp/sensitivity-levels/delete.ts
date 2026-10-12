@@ -1,4 +1,4 @@
-/** @generated from dlp-sensitivity-levels-delete */
+/** @generated from zero-trust.dlp.sensitivity-levels.delete */
 import { path } from "#api";
 
 export default {

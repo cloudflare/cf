@@ -1,4 +1,4 @@
-/** @generated from list-client-versions */
+/** @generated from zero-trust.devices.client-versions.list */
 import { path } from "#api";
 
 export default {

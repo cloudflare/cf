@@ -1,4 +1,4 @@
-/** @generated from waiting-room-patch-waiting-room */
+/** @generated from waiting-rooms.edit */
 import { path } from "#api";
 
 export default {

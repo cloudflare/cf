@@ -1,4 +1,4 @@
-/** @generated from get_CategoryListComplete */
+/** @generated from cloudforce-one.events.categories.catalog.get */
 import { path } from "#api";
 
 export default {

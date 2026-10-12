@@ -1,4 +1,4 @@
-/** @generated from zone-cache-settings-change-origin-h2-max-streams-setting */
+/** @generated from zones.origin-h2-max-streams.edit */
 import { path } from "#api";
 
 export default {

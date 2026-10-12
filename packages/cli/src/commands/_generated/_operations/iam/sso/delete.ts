@@ -1,4 +1,4 @@
-/** @generated from delete-sso-connector */
+/** @generated from iam.sso.delete */
 import { path } from "#api";
 
 export default {

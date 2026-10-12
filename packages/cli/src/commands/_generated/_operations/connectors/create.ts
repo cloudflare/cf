@@ -1,4 +1,4 @@
-/** @generated from mconn-connectors-create */
+/** @generated from connectors.create */
 import { path } from "#api";
 
 export default {

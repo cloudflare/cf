@@ -1,4 +1,4 @@
-/** @generated from dex-endpoints-list-colos */
+/** @generated from zero-trust.dex.colos.list */
 import { path } from "#api";
 
 export default {

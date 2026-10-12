@@ -1,4 +1,4 @@
-/** @generated from get_RequestQuota */
+/** @generated from cloudforce-one.requests.quota.get */
 import { path } from "#api";
 
 export default {

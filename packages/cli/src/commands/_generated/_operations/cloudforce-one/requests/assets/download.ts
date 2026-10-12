@@ -1,4 +1,4 @@
-/** @generated from get_DashboardAssetDownload */
+/** @generated from cloudforce-one.requests.assets.download */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from magic-network-monitoring-vpc-flows-generate-authentication-token */
+/** @generated from magic-network-monitoring.vpc-flows.tokens.create */
 import { path } from "#api";
 
 export default {

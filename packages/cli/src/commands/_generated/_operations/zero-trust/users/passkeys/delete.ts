@@ -1,4 +1,4 @@
-/** @generated from zero-trust-users-delete-passkey */
+/** @generated from zero-trust.users.passkeys.delete */
 import { path } from "#api";
 
 export default {

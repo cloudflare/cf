@@ -1,4 +1,4 @@
-/** @generated from account-load-balancers-list-load-balancer-usage */
+/** @generated from load-balancers.account.usage.list */
 import { path } from "#api";
 
 export default {

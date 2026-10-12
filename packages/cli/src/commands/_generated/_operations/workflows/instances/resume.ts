@@ -1,4 +1,4 @@
-/** @generated from wor-change-status-workflow-instance */
+/** @generated from workflows.instances.resume */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from agent-memory-namespace-create */
+/** @generated from agent-memory.create-namespace */
 import { path } from "#api";
 
 export default {

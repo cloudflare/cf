@@ -1,4 +1,4 @@
-/** @generated from cloudflare-images-create-authenticated-direct-upload-url-v-2 */
+/** @generated from images.direct-upload */
 import { path } from "#api";
 
 export default {

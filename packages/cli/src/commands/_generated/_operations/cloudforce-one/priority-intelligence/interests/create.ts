@@ -1,4 +1,4 @@
-/** @generated from post_PirInterestCreate */
+/** @generated from cloudforce-one.priority-intelligence.interests.create */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from radar-get-email-routing-summary */
+/** @generated from radar.email.routing.summary-v2 */
 import { path } from "#api";
 
 export default {

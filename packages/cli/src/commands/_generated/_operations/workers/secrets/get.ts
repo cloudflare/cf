@@ -1,4 +1,4 @@
-/** @generated from worker-get-script-secret */
+/** @generated from workers.secrets.get */
 import { path } from "#api";
 
 export default {

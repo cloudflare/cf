@@ -1,4 +1,4 @@
-/** @generated from RequestReview */
+/** @generated from abuse-reports.mitigations.review */
 import { path } from "#api";
 
 export default {

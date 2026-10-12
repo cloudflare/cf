@@ -1,4 +1,4 @@
-/** @generated from r2-put-bucket-sippy-config */
+/** @generated from r2.buckets.sippy.update */
 import { path } from "#api";
 
 export default {

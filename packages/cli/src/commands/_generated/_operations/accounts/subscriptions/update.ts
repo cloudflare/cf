@@ -1,4 +1,4 @@
-/** @generated from account-subscriptions-update-subscription */
+/** @generated from accounts.subscriptions.update */
 import { path } from "#api";
 
 export default {

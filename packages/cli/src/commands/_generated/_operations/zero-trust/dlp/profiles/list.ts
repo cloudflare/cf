@@ -1,4 +1,4 @@
-/** @generated from dlp-profiles-list-all-profiles */
+/** @generated from zero-trust.dlp.profiles.list */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from radar-get-reports-datasets */
+/** @generated from radar.datasets.list */
 export default {
 	method: "GET",
 	path: () => "/radar/datasets",

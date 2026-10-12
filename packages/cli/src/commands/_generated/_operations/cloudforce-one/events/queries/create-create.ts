@@ -1,4 +1,4 @@
-/** @generated from post_EventQueryCreate */
+/** @generated from cloudforce-one.events.queries.create-create */
 import { path } from "#api";
 
 export default {

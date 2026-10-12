@@ -1,4 +1,4 @@
-/** @generated from post-commands */
+/** @generated from zero-trust.dex.commands.create */
 import { path } from "#api";
 
 export default {

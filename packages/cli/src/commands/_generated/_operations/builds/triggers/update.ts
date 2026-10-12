@@ -1,4 +1,4 @@
-/** @generated from updateTrigger */
+/** @generated from builds.triggers.update */
 import { path } from "#api";
 
 export default {

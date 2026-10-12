@@ -1,4 +1,4 @@
-/** @generated from generated:get:/{account_or_zone}/{account_or_zone_id}/custom_csrs */
+/** @generated from custom-csrs.list */
 import { path } from "#api";
 
 export default {

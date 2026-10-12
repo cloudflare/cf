@@ -1,4 +1,4 @@
-/** @generated from sandbox-registrar-domain-registration-create */
+/** @generated from registrar-sandbox.registrations.create */
 import { path } from "#api";
 
 export default {

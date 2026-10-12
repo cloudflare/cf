@@ -1,4 +1,4 @@
-/** @generated from zero-trust-networks-route-hostname-get */
+/** @generated from network.routes.hostname.get */
 import { path } from "#api";
 
 export default {

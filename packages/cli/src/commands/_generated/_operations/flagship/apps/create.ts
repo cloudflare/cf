@@ -1,4 +1,4 @@
-/** @generated from flagship_create_app */
+/** @generated from flagship.apps.create */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from generated:delete:/{account_or_zone}/{account_or_zone_id}/logs/explorer/datasets/{dataset_id} */
+/** @generated from logs.datasets.delete */
 import { path } from "#api";
 
 export default {

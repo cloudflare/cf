@@ -1,4 +1,4 @@
-/** @generated from account-api-tokens-verify-token */
+/** @generated from accounts.tokens.verify */
 import { path } from "#api";
 
 export default {

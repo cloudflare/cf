@@ -70,8 +70,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "DELETE",
 						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/queues/${argv["queue-id"] == null ? "<queue-id>" : encodeURIComponent(String(argv["queue-id"]))}/consumers/${argv["consumer-id"] == null ? "<consumer-id>" : encodeURIComponent(String(argv["consumer-id"]))}`,
 						pathParams: {
-							"consumer-id": String(argv["consumer-id"] ?? ""),
 							"queue-id": String(argv["queue-id"] ?? ""),
+							"consumer-id": String(argv["consumer-id"] ?? ""),
 						},
 						bodyKind: "none",
 					});

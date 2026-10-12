@@ -1,4 +1,4 @@
-/** @generated from delete-audio-tracks */
+/** @generated from stream.videos.audio-tracks.delete */
 import { path } from "#api";
 
 export default {

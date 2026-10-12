@@ -1,4 +1,4 @@
-/** @generated from wor-delete-concurrency-key */
+/** @generated from workflows.concurrency.delete */
 import { path } from "#api";
 
 export default {

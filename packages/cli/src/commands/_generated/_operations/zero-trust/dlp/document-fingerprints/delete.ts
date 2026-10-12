@@ -1,4 +1,4 @@
-/** @generated from dlp-document-fingerprints-delete */
+/** @generated from zero-trust.dlp.document-fingerprints.delete */
 import { path } from "#api";
 
 export default {

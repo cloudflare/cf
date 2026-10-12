@@ -1,4 +1,4 @@
-/** @generated from GetSessionTranscript */
+/** @generated from realtime.kit.sessions.transcripts.export */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from mcp-portals-api-sync-server */
+/** @generated from mcp.servers.sync */
 import { path } from "#api";
 
 export default {

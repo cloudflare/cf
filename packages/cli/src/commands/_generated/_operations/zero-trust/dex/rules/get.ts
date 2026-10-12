@@ -1,4 +1,4 @@
-/** @generated from get-dex-rule */
+/** @generated from zero-trust.dex.rules.get */
 import { path } from "#api";
 
 export default {

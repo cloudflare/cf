@@ -1,4 +1,4 @@
-/** @generated from ip-address-management-address-maps-add-an-ip-to-an-address-map */
+/** @generated from addressing.address-maps.ips.update */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from get_TargetIndustryList */
+/** @generated from cloudforce-one.threat-events.target-industries.list */
 import { path } from "#api";
 
 export default {

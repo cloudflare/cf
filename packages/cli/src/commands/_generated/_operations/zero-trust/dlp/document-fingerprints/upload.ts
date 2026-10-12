@@ -1,4 +1,4 @@
-/** @generated from dlp-document-fingerprints-upload */
+/** @generated from zero-trust.dlp.document-fingerprints.upload */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from delete_PermissionDelete */
+/** @generated from cloudforce-one.events.dataset.permissions.delete */
 import { path } from "#api";
 
 export default {

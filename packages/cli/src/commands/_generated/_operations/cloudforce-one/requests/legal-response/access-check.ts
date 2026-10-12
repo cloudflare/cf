@@ -1,4 +1,4 @@
-/** @generated from get_LegalResponseAccessCheck */
+/** @generated from cloudforce-one.requests.legal-response.access-check */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from tenant-level-custom-nameservers-add-tenant-custom-nameserver */
+/** @generated from tenant-custom-nameservers.create */
 import { path } from "#api";
 
 export default {

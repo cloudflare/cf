@@ -1,4 +1,4 @@
-/** @generated from CreateContentExport */
+/** @generated from zero-trust.casb.content.export */
 import { path } from "#api";
 
 export default {

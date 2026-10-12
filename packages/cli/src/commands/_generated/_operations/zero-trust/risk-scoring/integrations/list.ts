@@ -1,4 +1,4 @@
-/** @generated from dlp-zt-risk-score-integration-list */
+/** @generated from zero-trust.risk-scoring.integrations.list */
 import { path } from "#api";
 
 export default {

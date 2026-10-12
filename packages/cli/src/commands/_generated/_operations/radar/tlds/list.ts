@@ -1,4 +1,4 @@
-/** @generated from radar-get-tlds */
+/** @generated from radar.tlds.list */
 export default {
 	method: "GET",
 	path: () => "/radar/tlds",

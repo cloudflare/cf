@@ -1,4 +1,4 @@
-/** @generated from web-analytics-validate-site-hostname */
+/** @generated from rum.site-info.validate-hostname */
 import { path } from "#api";
 
 export default {

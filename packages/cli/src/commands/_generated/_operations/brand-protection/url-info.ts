@@ -1,4 +1,4 @@
-/** @generated from get_TotalQueries */
+/** @generated from brand-protection.url-info */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from generated:patch:/{account_or_zone}/{account_or_zone_id}/firewall/access_rules/rules/{rule_id} */
+/** @generated from firewall.access-rules.edit */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from email_security_get_bulk_job_messages */
+/** @generated from email-security.bulk-actions.messages.list */
 import { path } from "#api";
 
 export default {

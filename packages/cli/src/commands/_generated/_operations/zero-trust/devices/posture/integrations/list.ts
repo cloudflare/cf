@@ -1,4 +1,4 @@
-/** @generated from device-posture-integrations-list-device-posture-integrations */
+/** @generated from zero-trust.devices.posture.integrations.list */
 import { path } from "#api";
 
 export default {

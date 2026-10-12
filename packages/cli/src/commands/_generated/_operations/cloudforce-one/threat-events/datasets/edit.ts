@@ -1,4 +1,4 @@
-/** @generated from patch_DatasetUpdate */
+/** @generated from cloudforce-one.threat-events.datasets.edit */
 import { path } from "#api";
 
 export default {

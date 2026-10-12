@@ -1,4 +1,4 @@
-/** @generated from user'-s-account-memberships-list-memberships */
+/** @generated from user.memberships.list */
 export default {
 	method: "GET",
 	path: () => "/memberships",

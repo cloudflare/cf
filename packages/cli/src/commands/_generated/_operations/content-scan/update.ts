@@ -1,4 +1,4 @@
-/** @generated from waf-content-scanning-update-settings */
+/** @generated from content-scan.update */
 import { path } from "#api";
 
 export default {

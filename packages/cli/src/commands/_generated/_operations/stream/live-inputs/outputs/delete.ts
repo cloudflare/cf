@@ -1,4 +1,4 @@
-/** @generated from stream-live-inputs-delete-an-output */
+/** @generated from stream.live-inputs.outputs.delete */
 import { path } from "#api";
 
 export default {

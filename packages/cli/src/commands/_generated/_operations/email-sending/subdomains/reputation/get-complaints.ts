@@ -1,4 +1,4 @@
-/** @generated from email-sending-subdomains-get-sending-subdomain-reputation-complaints */
+/** @generated from email-sending.subdomains.reputation.get-complaints */
 import { path } from "#api";
 
 export default {

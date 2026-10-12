@@ -1,4 +1,4 @@
-/** @generated from zero-trust-lists-patch-zero-trust-list */
+/** @generated from zero-trust.gateway.lists.edit */
 import { path } from "#api";
 
 export default {

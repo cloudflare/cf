@@ -1,4 +1,4 @@
-/** @generated from workers-ai-ai-gateway-web-search */
+/** @generated from ai.websearch */
 import { path } from "#api";
 
 export default {

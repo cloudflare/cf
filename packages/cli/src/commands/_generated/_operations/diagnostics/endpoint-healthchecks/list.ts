@@ -1,4 +1,4 @@
-/** @generated from diagnostics-endpoint-healthcheck-list */
+/** @generated from diagnostics.endpoint-healthchecks.list */
 import { path } from "#api";
 
 export default {

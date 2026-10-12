@@ -1,4 +1,4 @@
-/** @generated from radar-get-annotations-outages */
+/** @generated from radar.annotations.outages.get */
 export default {
 	method: "GET",
 	path: () => "/radar/annotations/outages",

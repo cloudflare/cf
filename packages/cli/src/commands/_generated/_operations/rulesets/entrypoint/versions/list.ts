@@ -1,4 +1,4 @@
-/** @generated from generated:get:/{account_or_zone}/{account_or_zone_id}/rulesets/phases/{ruleset_phase}/entrypoint/versions */
+/** @generated from rulesets.entrypoint.versions.list */
 import { path } from "#api";
 
 export default {

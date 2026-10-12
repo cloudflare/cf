@@ -1,4 +1,4 @@
-/** @generated from zone-cache-settings-delete-variants-setting */
+/** @generated from cache.settings.variants.delete */
 import { path } from "#api";
 
 export default {

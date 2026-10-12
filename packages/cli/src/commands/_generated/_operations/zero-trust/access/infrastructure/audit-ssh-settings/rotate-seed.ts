@@ -1,4 +1,4 @@
-/** @generated from zero-trust-rotate-ssh-account-seed */
+/** @generated from zero-trust.access.infrastructure.audit-ssh-settings.rotate-seed */
 import { path } from "#api";
 
 export default {

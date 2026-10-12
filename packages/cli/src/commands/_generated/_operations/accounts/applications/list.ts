@@ -1,4 +1,4 @@
-/** @generated from getResourceLibraryApplications */
+/** @generated from accounts.applications.list */
 import { path } from "#api";
 
 export default {

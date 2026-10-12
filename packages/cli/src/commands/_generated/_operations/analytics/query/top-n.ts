@@ -1,4 +1,4 @@
-/** @generated from art-analytics-query-top-n */
+/** @generated from analytics.query.top-n */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from spectrum-applications-delete-spectrum-application */
+/** @generated from spectrum.apps.delete */
 import { path } from "#api";
 
 export default {

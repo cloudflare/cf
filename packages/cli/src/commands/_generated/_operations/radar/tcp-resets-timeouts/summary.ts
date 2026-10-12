@@ -1,4 +1,4 @@
-/** @generated from radar-get-tcp-resets-timeouts-summary */
+/** @generated from radar.tcp-resets-timeouts.summary */
 export default {
 	method: "GET",
 	path: () => "/radar/tcp_resets_timeouts/summary",

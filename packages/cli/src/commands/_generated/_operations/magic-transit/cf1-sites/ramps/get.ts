@@ -1,4 +1,4 @@
-/** @generated from magic-cf1-sites-get-cf1-site-ramp */
+/** @generated from magic-transit.cf1-sites.ramps.get */
 import { path } from "#api";
 
 export default {

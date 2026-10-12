@@ -1,4 +1,4 @@
-/** @generated from lists-delete-a-list */
+/** @generated from rules.lists.delete */
 import { path } from "#api";
 
 export default {

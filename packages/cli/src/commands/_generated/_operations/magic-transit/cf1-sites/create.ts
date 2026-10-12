@@ -1,4 +1,4 @@
-/** @generated from magic-cf1-sites-create-cf1-sites */
+/** @generated from magic-transit.cf1-sites.create */
 import { path } from "#api";
 
 export default {

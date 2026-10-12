@@ -1,4 +1,4 @@
-/** @generated from listPrefixesForAccount */
+/** @generated from magic-transit.advanced-tcp-protection.configs.prefixes.list */
 import { path } from "#api";
 
 export default {

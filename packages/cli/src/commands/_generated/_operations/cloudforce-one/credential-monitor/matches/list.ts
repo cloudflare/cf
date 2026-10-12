@@ -1,4 +1,4 @@
-/** @generated from get_MatchList */
+/** @generated from cloudforce-one.credential-monitor.matches.list */
 import { path } from "#api";
 
 export default {

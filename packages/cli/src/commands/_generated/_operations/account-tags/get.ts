@@ -1,4 +1,4 @@
-/** @generated from generated:get:/{account_or_zone}/{account_or_zone_id}/tags */
+/** @generated from account-tags.get */
 import { path } from "#api";
 
 export default {

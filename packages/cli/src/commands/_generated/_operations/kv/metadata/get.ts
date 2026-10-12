@@ -1,4 +1,4 @@
-/** @generated from workers-kv-namespace-read-the-metadata-for-a-key */
+/** @generated from kv.metadata.get */
 import { path } from "#api";
 
 export default {

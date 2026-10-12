@@ -1,4 +1,4 @@
-/** @generated from data-security-content-findings-top-n */
+/** @generated from analytics.query.data-security.content-findings.top-n */
 import { path } from "#api";
 
 export default {

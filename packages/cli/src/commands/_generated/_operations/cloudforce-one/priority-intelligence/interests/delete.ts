@@ -1,4 +1,4 @@
-/** @generated from delete_PirInterestDelete */
+/** @generated from cloudforce-one.priority-intelligence.interests.delete */
 import { path } from "#api";
 
 export default {

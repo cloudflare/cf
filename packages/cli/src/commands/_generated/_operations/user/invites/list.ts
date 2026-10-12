@@ -1,4 +1,4 @@
-/** @generated from user'-s-invites-list-invitations */
+/** @generated from user.invites.list */
 export default {
 	method: "GET",
 	path: () => "/user/invites",

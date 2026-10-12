@@ -1,4 +1,4 @@
-/** @generated from stream-subtitles/-captions-upload-captions-or-subtitles */
+/** @generated from stream.videos.captions.language.upload */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from zone-cache-settings-change-regional-tiered-cache-setting */
+/** @generated from cache.settings.regional-tiered-cache.edit */
 import { path } from "#api";
 
 export default {

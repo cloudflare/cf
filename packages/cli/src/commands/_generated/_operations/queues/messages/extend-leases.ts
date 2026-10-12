@@ -1,4 +1,4 @@
-/** @generated from queues-extend-messages */
+/** @generated from queues.messages.extend-leases */
 import { path } from "#api";
 
 export default {

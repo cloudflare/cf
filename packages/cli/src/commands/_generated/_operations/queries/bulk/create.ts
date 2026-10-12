@@ -1,4 +1,4 @@
-/** @generated from postAccountsAccountIdBrandProtectionQueriesBulk */
+/** @generated from queries.bulk.create */
 import { path } from "#api";
 
 export default {

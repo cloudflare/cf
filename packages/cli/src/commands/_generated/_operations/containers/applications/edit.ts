@@ -1,4 +1,4 @@
-/** @generated from modifyApplication */
+/** @generated from containers.applications.edit */
 import { path } from "#api";
 
 export default {

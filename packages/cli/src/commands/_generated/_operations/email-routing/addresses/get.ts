@@ -1,4 +1,4 @@
-/** @generated from email-routing-destination-addresses-get-a-destination-address */
+/** @generated from email-routing.addresses.get */
 import { path } from "#api";
 
 export default {

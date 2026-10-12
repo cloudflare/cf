@@ -1,4 +1,4 @@
-/** @generated from GetFindingInstance */
+/** @generated from zero-trust.casb.findings.instances.get */
 import { path } from "#api";
 
 export default {

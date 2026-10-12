@@ -1,4 +1,4 @@
-/** @generated from token-validation-rules-bulk-create */
+/** @generated from api-security.token-validation.rules.bulk-create */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from email-routing-settings-enable-email-routing-dns */
+/** @generated from email-routing.enable */
 import { path } from "#api";
 
 export default {

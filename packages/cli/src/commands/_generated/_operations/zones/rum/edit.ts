@@ -1,4 +1,4 @@
-/** @generated from web-analytics-toggle-rum */
+/** @generated from zones.rum.edit */
 import { path } from "#api";
 
 export default {

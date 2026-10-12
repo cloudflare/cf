@@ -1,4 +1,4 @@
-/** @generated from magic-redundancy-groups-get-redundancy-group */
+/** @generated from magic-transit.redundancy-groups.get */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from get_DomainMatchList */
+/** @generated from brand-protection.matches.get */
 import { path } from "#api";
 
 export default {

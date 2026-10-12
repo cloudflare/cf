@@ -1,4 +1,4 @@
-/** @generated from zone-settings-change-image-resizing-setting */
+/** @generated from zones.image-resizing.edit */
 import { path } from "#api";
 
 export default {

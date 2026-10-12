@@ -1,4 +1,4 @@
-/** @generated from custom-origin-trust-store-create */
+/** @generated from acm.custom-trust-store.create */
 import { path } from "#api";
 
 export default {

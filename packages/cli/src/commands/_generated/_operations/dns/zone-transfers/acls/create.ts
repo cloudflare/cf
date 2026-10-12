@@ -1,4 +1,4 @@
-/** @generated from secondary-dns-(-acl)-create-acl */
+/** @generated from dns.zone-transfers.acls.create */
 import { path } from "#api";
 
 export default {

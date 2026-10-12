@@ -1,4 +1,4 @@
-/** @generated from waiting-room-waiting-room-details */
+/** @generated from waiting-rooms.get */
 import { path } from "#api";
 
 export default {

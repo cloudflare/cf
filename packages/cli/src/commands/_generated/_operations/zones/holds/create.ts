@@ -1,4 +1,4 @@
-/** @generated from zones-0-hold-post */
+/** @generated from zones.holds.create */
 import { path } from "#api";
 
 export default {

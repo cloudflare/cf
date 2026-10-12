@@ -85,8 +85,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						url: `https://api.cloudflare.com/client/v4/${accountOrZone}/${accountOrZoneId}/custom_pages/${argv["identifier"] == null ? "<identifier>" : encodeURIComponent(String(argv["identifier"]))}`,
 						pathParams: {
 							"account-or-zone": String(accountOrZone),
-							identifier: String(argv["identifier"] ?? ""),
 							"account-or-zone-id": String(accountOrZoneId),
+							identifier: String(argv["identifier"] ?? ""),
 						},
 						bodyKind: "json",
 						body:

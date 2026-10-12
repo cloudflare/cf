@@ -1,4 +1,4 @@
-/** @generated from registrar-extension-list */
+/** @generated from registrar.extensions.list */
 import { path } from "#api";
 
 export default {

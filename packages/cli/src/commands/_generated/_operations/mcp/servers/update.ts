@@ -1,4 +1,4 @@
-/** @generated from mcp-portals-api-update-servers */
+/** @generated from mcp.servers.update */
 import { path } from "#api";
 
 export default {

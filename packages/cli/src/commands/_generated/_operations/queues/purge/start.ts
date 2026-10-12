@@ -1,4 +1,4 @@
-/** @generated from queues-purge */
+/** @generated from queues.purge.start */
 import { path } from "#api";
 
 export default {

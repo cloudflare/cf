@@ -1,4 +1,4 @@
-/** @generated from patch_PirInterestUpdate */
+/** @generated from cloudforce-one.priority-intelligence.interests.update */
 import { path } from "#api";
 
 export default {

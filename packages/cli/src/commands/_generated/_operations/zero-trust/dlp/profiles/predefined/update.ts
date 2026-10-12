@@ -1,4 +1,4 @@
-/** @generated from dlp-profiles-update-predefined-profile */
+/** @generated from zero-trust.dlp.profiles.predefined.update */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from dns-firewall-dns-firewall-cluster-details */
+/** @generated from dns-firewall.get */
 import { path } from "#api";
 
 export default {

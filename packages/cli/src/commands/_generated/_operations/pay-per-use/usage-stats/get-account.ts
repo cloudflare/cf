@@ -1,4 +1,4 @@
-/** @generated from generated:get:/{account_or_zone}/{account_or_zone_id}/pay-per-use/usage-stats */
+/** @generated from pay-per-use.usage-stats.get-account */
 import { path } from "#api";
 
 export default {

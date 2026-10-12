@@ -1,4 +1,4 @@
-/** @generated from post_DashboardAssetUpload */
+/** @generated from cloudforce-one.requests.assets.upload */
 import { path } from "#api";
 
 export default {

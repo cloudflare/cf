@@ -1,4 +1,4 @@
-/** @generated from delete-security-txt */
+/** @generated from security-txt.delete */
 import { path } from "#api";
 
 export default {

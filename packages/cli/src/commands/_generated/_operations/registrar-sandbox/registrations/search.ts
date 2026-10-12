@@ -1,4 +1,4 @@
-/** @generated from sandbox-registrar-domain-discovery-search */
+/** @generated from registrar-sandbox.registrations.search */
 import { path } from "#api";
 
 export default {

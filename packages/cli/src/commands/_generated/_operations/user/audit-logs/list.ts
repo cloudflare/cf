@@ -1,4 +1,4 @@
-/** @generated from audit-logs-get-user-audit-logs */
+/** @generated from user.audit-logs.list */
 export default {
 	method: "GET",
 	path: () => "/user/audit_logs",

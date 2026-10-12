@@ -1,4 +1,4 @@
-/** @generated from zero-trust-accounts-get-logging-settings-for-the-zero-trust-account */
+/** @generated from zero-trust.gateway.logging.get */
 import { path } from "#api";
 
 export default {

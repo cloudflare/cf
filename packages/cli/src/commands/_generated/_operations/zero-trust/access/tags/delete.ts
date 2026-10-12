@@ -1,4 +1,4 @@
-/** @generated from access-tags-delete-a-tag */
+/** @generated from zero-trust.access.tags.delete */
 import { path } from "#api";
 
 export default {

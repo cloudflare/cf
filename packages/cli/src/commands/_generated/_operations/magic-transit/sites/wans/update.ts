@@ -1,4 +1,4 @@
-/** @generated from magic-site-wans-update-wan */
+/** @generated from magic-transit.sites.wans.update */
 import { path } from "#api";
 
 export default {

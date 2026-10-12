@@ -1,4 +1,4 @@
-/** @generated from wor-delete-workflow */
+/** @generated from workflows.delete */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from generated:put:/{account_or_zone}/{account_or_zone_id}/custom_pages/assets/{asset_name} */
+/** @generated from custom-pages.assets.update.custom.asset */
 import { path } from "#api";
 
 export default {

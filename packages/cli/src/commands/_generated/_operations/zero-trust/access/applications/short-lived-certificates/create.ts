@@ -1,4 +1,4 @@
-/** @generated from generated:post:/{account_or_zone}/{account_or_zone_id}/access/apps/{app_id}/ca */
+/** @generated from zero-trust.access.applications.short-lived-certificates.create */
 import { path } from "#api";
 
 export default {

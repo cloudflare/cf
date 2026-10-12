@@ -1,4 +1,4 @@
-/** @generated from custom-ssl-for-a-zone-re-prioritize-ssl-certificates */
+/** @generated from custom-certificates.prioritize.update */
 import { path } from "#api";
 
 export default {

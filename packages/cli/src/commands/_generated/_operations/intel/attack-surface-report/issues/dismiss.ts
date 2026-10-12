@@ -1,4 +1,4 @@
-/** @generated from archive-security-center-insight-deprecated */
+/** @generated from intel.attack-surface-report.issues.dismiss */
 import { path } from "#api";
 
 export default {

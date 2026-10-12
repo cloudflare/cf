@@ -1,4 +1,4 @@
-/** @generated from d1-time-travel-get-bookmark */
+/** @generated from d1.time-travel.get-bookmark */
 import { path } from "#api";
 
 export default {

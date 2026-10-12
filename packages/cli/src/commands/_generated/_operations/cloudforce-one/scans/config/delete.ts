@@ -1,4 +1,4 @@
-/** @generated from delete_DeleteScans */
+/** @generated from cloudforce-one.scans.config.delete */
 import { path } from "#api";
 
 export default {

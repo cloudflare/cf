@@ -1,4 +1,4 @@
-/** @generated from get_dmarc_reports_status */
+/** @generated from email-auth.dmarc-reports.get */
 import { path } from "#api";
 
 export default {

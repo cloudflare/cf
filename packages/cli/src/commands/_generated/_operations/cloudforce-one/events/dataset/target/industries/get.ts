@@ -1,4 +1,4 @@
-/** @generated from get_TargetIndustryListByDataset */
+/** @generated from cloudforce-one.events.dataset.target.industries.get */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from start-livestreaming */
+/** @generated from realtime.kit.livestreams.start */
 import { path } from "#api";
 
 export default {

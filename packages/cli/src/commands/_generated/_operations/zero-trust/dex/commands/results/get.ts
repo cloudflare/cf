@@ -1,4 +1,4 @@
-/** @generated from get-commands-command-id-downloads-filename */
+/** @generated from zero-trust.dex.commands.results.get */
 import { path } from "#api";
 
 export default {

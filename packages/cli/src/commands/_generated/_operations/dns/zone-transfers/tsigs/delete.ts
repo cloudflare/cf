@@ -1,4 +1,4 @@
-/** @generated from secondary-dns-(-tsig)-delete-tsig */
+/** @generated from dns.zone-transfers.tsigs.delete */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from prepareContainerImage */
+/** @generated from containers.images.prepare */
 import { path } from "#api";
 
 export default {

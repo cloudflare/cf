@@ -1,4 +1,4 @@
-/** @generated from queues-update-consumer */
+/** @generated from queues.consumers.update */
 import { path } from "#api";
 
 export default {

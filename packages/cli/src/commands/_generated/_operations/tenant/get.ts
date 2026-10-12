@@ -1,4 +1,4 @@
-/** @generated from Tenants_retrieveTenant */
+/** @generated from tenant.get */
 import { path } from "#api";
 
 export default {

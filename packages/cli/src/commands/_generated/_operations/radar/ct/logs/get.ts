@@ -1,4 +1,4 @@
-/** @generated from radar-get-certificate-log-details */
+/** @generated from radar.ct.logs.get */
 import { path } from "#api";
 
 export default {

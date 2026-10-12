@@ -1,4 +1,4 @@
-/** @generated from diagnostics-traceroute */
+/** @generated from diagnostics.traceroutes.create */
 import { path } from "#api";
 
 export default {

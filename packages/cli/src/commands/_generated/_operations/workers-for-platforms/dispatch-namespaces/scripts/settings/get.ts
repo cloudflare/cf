@@ -1,4 +1,4 @@
-/** @generated from namespace-worker-get-script-settings */
+/** @generated from workers-for-platforms.dispatch-namespaces.scripts.settings.get */
 import { path } from "#api";
 
 export default {

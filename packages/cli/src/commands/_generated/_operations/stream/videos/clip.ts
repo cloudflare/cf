@@ -1,4 +1,4 @@
-/** @generated from stream-video-clipping-clip-videos-given-a-start-and-end-time */
+/** @generated from stream.videos.clip */
 import { path } from "#api";
 
 export default {

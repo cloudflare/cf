@@ -1,4 +1,4 @@
-/** @generated from generated:get:/{account_or_zone}/{account_or_zone_id}/access/groups */
+/** @generated from zero-trust.access.rule-groups.list */
 import { path } from "#api";
 
 export default {

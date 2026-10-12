@@ -1,4 +1,4 @@
-/** @generated from SubmitAbuseReport */
+/** @generated from abuse-reports.create */
 import { path } from "#api";
 
 export default {

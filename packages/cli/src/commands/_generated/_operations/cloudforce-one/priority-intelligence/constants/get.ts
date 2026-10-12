@@ -1,4 +1,4 @@
-/** @generated from get_PirConstants */
+/** @generated from cloudforce-one.priority-intelligence.constants.get */
 import { path } from "#api";
 
 export default {

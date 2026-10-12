@@ -1,4 +1,4 @@
-/** @generated from access-key-configuration-rotate-access-keys */
+/** @generated from zero-trust.access.signing-keys.rotate */
 import { path } from "#api";
 
 export default {

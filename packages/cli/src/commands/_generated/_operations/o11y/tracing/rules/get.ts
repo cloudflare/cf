@@ -1,4 +1,4 @@
-/** @generated from zone.observability.tracing.rules.get */
+/** @generated from o11y.tracing.rules.get */
 import { path } from "#api";
 
 export default {

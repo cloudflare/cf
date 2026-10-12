@@ -1,4 +1,4 @@
-/** @generated from spectrum-analytics-get-zones-report */
+/** @generated from spectrum.analytics.zones.report.get */
 export default {
 	method: "GET",
 	path: () => "/user/spectrum_analytics/zones/report",

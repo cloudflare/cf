@@ -1,4 +1,4 @@
-/** @generated from resume_integration_v2 */
+/** @generated from zero-trust.casb.integrations.resume */
 import { path } from "#api";
 
 export default {

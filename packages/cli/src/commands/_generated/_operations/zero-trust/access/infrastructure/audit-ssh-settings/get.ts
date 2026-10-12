@@ -1,4 +1,4 @@
-/** @generated from zero-trust-get-audit-ssh-settings */
+/** @generated from zero-trust.access.infrastructure.audit-ssh-settings.get */
 import { path } from "#api";
 
 export default {

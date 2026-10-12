@@ -1,4 +1,4 @@
-/** @generated from access-policies-convert-reusable */
+/** @generated from zero-trust.access.applications.policies.make-reusable */
 import { path } from "#api";
 
 export default {

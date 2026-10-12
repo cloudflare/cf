@@ -1,4 +1,4 @@
-/** @generated from start_recording */
+/** @generated from realtime.kit.recordings.start */
 import { path } from "#api";
 
 export default {

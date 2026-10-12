@@ -1,4 +1,4 @@
-/** @generated from account-load-balancer-monitors-delete-monitor */
+/** @generated from load-balancers.monitors.delete */
 import { path } from "#api";
 
 export default {

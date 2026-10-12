@@ -1,4 +1,4 @@
-/** @generated from page-rules-delete-a-page-rule */
+/** @generated from page-rules.delete */
 import { path } from "#api";
 
 export default {

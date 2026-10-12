@@ -1,4 +1,4 @@
-/** @generated from generated:put:/{account_or_zone}/{account_or_zone_id}/custom_pages/{identifier} */
+/** @generated from custom-pages.account-custom-pages.update */
 import { path } from "#api";
 
 export default {

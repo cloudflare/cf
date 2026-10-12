@@ -1,4 +1,4 @@
-/** @generated from rssSkillTagCategoriesGet */
+/** @generated from cloudforce-one.threat-signals.skills.tag-categories.get */
 import { path } from "#api";
 
 export default {

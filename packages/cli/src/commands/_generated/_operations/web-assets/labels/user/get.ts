@@ -1,4 +1,4 @@
-/** @generated from api-shield-labels-get-user-label */
+/** @generated from web-assets.labels.user.get */
 import { path } from "#api";
 
 export default {

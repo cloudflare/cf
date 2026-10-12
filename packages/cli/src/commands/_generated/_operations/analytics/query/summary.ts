@@ -1,4 +1,4 @@
-/** @generated from art-analytics-query-summary */
+/** @generated from analytics.query.summary */
 import { path } from "#api";
 
 export default {

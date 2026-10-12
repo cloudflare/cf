@@ -1,4 +1,4 @@
-/** @generated from get_LegacyIndicatorTypesList */
+/** @generated from cloudforce-one.threat-events.indicator-types.list */
 import { path } from "#api";
 
 export default {

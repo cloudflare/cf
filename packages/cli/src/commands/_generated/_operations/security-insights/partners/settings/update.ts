@@ -1,4 +1,4 @@
-/** @generated from update-security-center-partner-settings */
+/** @generated from security-insights.partners.settings.update */
 import { path } from "#api";
 
 export default {

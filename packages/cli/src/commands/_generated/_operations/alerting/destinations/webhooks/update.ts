@@ -1,4 +1,4 @@
-/** @generated from notification-webhooks-update-a-webhook */
+/** @generated from alerting.destinations.webhooks.update */
 import { path } from "#api";
 
 export default {

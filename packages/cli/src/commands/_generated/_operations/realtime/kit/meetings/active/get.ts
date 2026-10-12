@@ -1,4 +1,4 @@
-/** @generated from GetActiveSession */
+/** @generated from realtime.kit.meetings.active.get */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from radar-get-bgp-routes-realtime */
+/** @generated from radar.bgp.routes.realtime */
 export default {
 	method: "GET",
 	path: () => "/radar/bgp/routes/realtime",

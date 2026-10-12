@@ -1,4 +1,4 @@
-/** @generated from generated:get:/{account_or_zone}/{account_or_zone_id}/email/routing/rules */
+/** @generated from email-routing.rules.list-account */
 import { path } from "#api";
 
 export default {

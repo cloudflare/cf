@@ -1,4 +1,4 @@
-/** @generated from radar-get-email-security-top-tlds-by-spoof */
+/** @generated from radar.email.security.top.tlds.spoof.get */
 import { path } from "#api";
 
 export default {

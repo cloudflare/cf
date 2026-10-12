@@ -1,4 +1,4 @@
-/** @generated from create-override-code */
+/** @generated from zero-trust.devices.override-codes.create */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from ip-access-rules-for-a-user-update-an-ip-access-rule */
+/** @generated from user.firewall.access-rules.edit */
 import { path } from "#api";
 
 export default {

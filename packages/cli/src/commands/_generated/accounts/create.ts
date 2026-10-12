@@ -30,6 +30,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Set to `true` and omit `unit` to create a standalone Free Account. If provided, this field must be `true`.",
 		})
+		.option("type", {
+			type: "string",
+			description: "The type field",
+			choices: ["standard", "enterprise"],
+		})
+		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
 		.option("unit-id", { type: "string", description: "Tenant unit ID" })
 		.option("dry-run", {
 			type: "boolean",
@@ -53,7 +59,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "accounts create",
 				classification: {
-					safeFlags: ["standalone", "dry-run"],
+					safeFlags: ["standalone", "type", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -78,6 +84,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 										standalone: argv["standalone"],
+										type: argv["type"],
 										unit: {
 											id: resolveFileToken(
 												argv["unit-id"] as string | undefined,
@@ -116,6 +123,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 				if (argv["standalone"] !== undefined)
 					setNestedValue(bodyData, ["standalone"], argv["standalone"]);
+				if (argv["type"] !== undefined)
+					setNestedValue(bodyData, ["type"], argv["type"]);
 				if (argv["unit-id"] !== undefined)
 					setNestedValue(
 						bodyData,

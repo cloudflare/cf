@@ -1,4 +1,4 @@
-/** @generated from get_DomainList */
+/** @generated from cloudforce-one.credential-monitor.domains.list */
 import { path } from "#api";
 
 export default {

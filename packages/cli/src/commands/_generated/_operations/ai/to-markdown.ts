@@ -1,4 +1,4 @@
-/** @generated from workers-ai-post-to-markdown */
+/** @generated from ai.to-markdown */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from generated:delete:/{account_or_zone}/{account_or_zone_id}/access/apps/{app_id} */
+/** @generated from zero-trust.access.applications.delete */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from audit-logs-v2-get-account-audit-log-history */
+/** @generated from accounts.logs.audit.history */
 import { path } from "#api";
 
 export default {

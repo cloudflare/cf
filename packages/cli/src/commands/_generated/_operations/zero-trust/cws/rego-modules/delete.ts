@@ -1,4 +1,4 @@
-/** @generated from cws-delete-rego-module */
+/** @generated from zero-trust.cws.rego-modules.delete */
 import { path } from "#api";
 
 export default {

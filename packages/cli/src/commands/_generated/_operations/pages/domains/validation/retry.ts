@@ -1,4 +1,4 @@
-/** @generated from pages-domains-patch-domain */
+/** @generated from pages.domains.validation.retry */
 import { path } from "#api";
 
 export default {

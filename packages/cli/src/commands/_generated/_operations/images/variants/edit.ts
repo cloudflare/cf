@@ -1,4 +1,4 @@
-/** @generated from cloudflare-images-variants-update-a-variant */
+/** @generated from images.variants.edit */
 import { path } from "#api";
 
 export default {

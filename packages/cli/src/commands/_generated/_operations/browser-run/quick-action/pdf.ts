@@ -1,4 +1,4 @@
-/** @generated from brapi-post_Pdf */
+/** @generated from browser-run.quick-action.pdf */
 import { path } from "#api";
 
 export default {

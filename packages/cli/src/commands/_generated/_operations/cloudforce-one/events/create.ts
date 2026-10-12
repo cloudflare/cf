@@ -1,4 +1,4 @@
-/** @generated from post_EventUpdate */
+/** @generated from cloudforce-one.events.create */
 import { path } from "#api";
 
 export default {

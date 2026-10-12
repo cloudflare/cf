@@ -1,4 +1,4 @@
-/** @generated from registrar-domain-transfer-in-create */
+/** @generated from registrar.registrations.transfer-in */
 import { path } from "#api";
 
 export default {

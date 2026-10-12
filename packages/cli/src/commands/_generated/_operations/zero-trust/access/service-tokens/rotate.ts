@@ -1,4 +1,4 @@
-/** @generated from access-service-tokens-rotate-a-service-token */
+/** @generated from zero-trust.access.service-tokens.rotate */
 import { path } from "#api";
 
 export default {

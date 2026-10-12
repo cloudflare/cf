@@ -1,4 +1,4 @@
-/** @generated from secrets-store-list */
+/** @generated from secrets-store.stores.list */
 import { path } from "#api";
 
 export default {

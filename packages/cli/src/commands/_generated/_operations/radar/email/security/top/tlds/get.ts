@@ -1,4 +1,4 @@
-/** @generated from radar-get-email-security-top-tlds-by-messages */
+/** @generated from radar.email.security.top.tlds.get */
 export default {
 	method: "GET",
 	path: () => "/radar/email/security/top/tlds",

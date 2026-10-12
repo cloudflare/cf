@@ -1,4 +1,4 @@
-/** @generated from post_SearchLogoSimilarity */
+/** @generated from brand-protection.submit */
 import { path } from "#api";
 
 export default {

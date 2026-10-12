@@ -1,4 +1,4 @@
-/** @generated from ssl-verification-edit-ssl-certificate-pack-validation-method */
+/** @generated from ssl.verification.edit */
 import { path } from "#api";
 
 export default {

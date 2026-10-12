@@ -1,4 +1,4 @@
-/** @generated from dex-fleet-status-live */
+/** @generated from zero-trust.dex.devices.aggregates.live.get */
 import { path } from "#api";
 
 export default {

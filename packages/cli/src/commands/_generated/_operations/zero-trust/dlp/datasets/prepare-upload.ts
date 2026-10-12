@@ -1,4 +1,4 @@
-/** @generated from dlp-datasets-create-version */
+/** @generated from zero-trust.dlp.datasets.prepare-upload */
 import { path } from "#api";
 
 export default {

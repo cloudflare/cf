@@ -55,6 +55,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Only allow requests that match the provided regex patterns, eg. '/^.*\\.(css)'. Reject rules are applied first.",
 		})
+		.option("allow-resource-types", {
+			type: "string",
+			array: true,
+			description:
+				"Only allow requests that match the provided resource types, eg. 'image' or 'script'. Reject rules are applied first.",
+		})
 		.option("authenticate-password", {
 			type: "string",
 			description: "The authenticate.password field",
@@ -103,6 +109,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			array: true,
 			description:
 				"Block undesired requests that match the provided regex patterns, eg. '/^.*\\.(css)'.",
+		})
+		.option("reject-resource-types", {
+			type: "string",
+			array: true,
+			description:
+				"Block undesired requests that match the provided resource types, eg. 'image' or 'script'.",
 		})
 		.option("set-java-script-enabled", {
 			type: "boolean",
@@ -283,6 +295,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"add-style-tag"
 										),
 										allowRequestPattern: argv["allow-request-pattern"],
+										allowResourceTypes: argv["allow-resource-types"],
 										authenticate: {
 											password: resolveFileToken(
 												argv["authenticate-password"] as string | undefined,
@@ -324,6 +337,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 										rejectRequestPattern: argv["reject-request-pattern"],
+										rejectResourceTypes: argv["reject-resource-types"],
 										setJavaScriptEnabled: argv["set-java-script-enabled"],
 										url: resolveFileToken(
 											argv["url"] as string | undefined,
@@ -397,6 +411,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					),
 					addStyleTag: parseObjectArray(argv["add-style-tag"], "add-style-tag"),
 					allowRequestPattern: argv["allow-request-pattern"],
+					allowResourceTypes: argv["allow-resource-types"],
 					authenticate: {
 						password: resolveFileToken(
 							argv["authenticate-password"] as string | undefined,
@@ -436,6 +451,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"text"
 					),
 					rejectRequestPattern: argv["reject-request-pattern"],
+					rejectResourceTypes: argv["reject-resource-types"],
 					setJavaScriptEnabled: argv["set-java-script-enabled"],
 					url: resolveFileToken(
 						argv["url"] as string | undefined,

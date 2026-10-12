@@ -1,4 +1,4 @@
-/** @generated from deleteEnvironmentVariable */
+/** @generated from builds.triggers.environment-variables.delete */
 import { path } from "#api";
 
 export default {

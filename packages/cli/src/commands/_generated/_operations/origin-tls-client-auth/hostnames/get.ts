@@ -1,4 +1,4 @@
-/** @generated from per-hostname-authenticated-origin-pull-get-the-hostname-status-for-client-authentication */
+/** @generated from origin-tls-client-auth.hostnames.get */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from aig-config-fetch-custom-domain */
+/** @generated from ai-gateway.custom-domains.get */
 import { path } from "#api";
 
 export default {

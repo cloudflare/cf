@@ -66,8 +66,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "PATCH",
 						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/ssl/verification/${argv["certificate-pack-id"] == null ? "<certificate-pack-id>" : encodeURIComponent(String(argv["certificate-pack-id"]))}`,
 						pathParams: {
-							"certificate-pack-id": String(argv["certificate-pack-id"] ?? ""),
 							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
+							"certificate-pack-id": String(argv["certificate-pack-id"] ?? ""),
 						},
 						bodyKind: "json",
 						body:

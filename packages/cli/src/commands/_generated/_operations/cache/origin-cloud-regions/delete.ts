@@ -1,4 +1,4 @@
-/** @generated from origin-cloud-regions-v2-delete */
+/** @generated from cache.origin-cloud-regions.delete */
 import { path } from "#api";
 
 export default {

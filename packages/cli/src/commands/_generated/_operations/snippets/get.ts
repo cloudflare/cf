@@ -1,4 +1,4 @@
-/** @generated from getZoneSnippet */
+/** @generated from snippets.get */
 import { path } from "#api";
 
 export default {

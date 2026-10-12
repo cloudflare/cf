@@ -1,4 +1,4 @@
-/** @generated from post_DatasetUpdate */
+/** @generated from cloudforce-one.events.dataset.create */
 import { path } from "#api";
 
 export default {

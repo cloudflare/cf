@@ -1,4 +1,4 @@
-/** @generated from get_BinDBGetBinary */
+/** @generated from cloudforce-one.binary-storage.get */
 import { path } from "#api";
 
 export default {

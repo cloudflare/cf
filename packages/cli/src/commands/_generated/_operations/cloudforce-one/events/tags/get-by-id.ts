@@ -1,4 +1,4 @@
-/** @generated from get_TagDetail */
+/** @generated from cloudforce-one.events.tags.get-by-id */
 import { path } from "#api";
 
 export default {

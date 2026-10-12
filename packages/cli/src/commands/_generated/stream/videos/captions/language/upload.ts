@@ -72,8 +72,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "PUT",
 						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/stream/${argv["identifier"] == null ? "<identifier>" : encodeURIComponent(String(argv["identifier"]))}/captions/${argv["language"] == null ? "<language>" : encodeURIComponent(String(argv["language"]))}`,
 						pathParams: {
-							language: String(argv["language"] ?? ""),
 							identifier: String(argv["identifier"] ?? ""),
+							language: String(argv["language"] ?? ""),
 						},
 						bodyKind: "multipart",
 						body: { body: argv["body"], file: argv["file"] },

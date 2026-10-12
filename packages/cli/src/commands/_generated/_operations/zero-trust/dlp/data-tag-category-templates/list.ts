@@ -1,4 +1,4 @@
-/** @generated from dlp-data-tag-category-templates-list */
+/** @generated from zero-trust.dlp.data-tag-category-templates.list */
 import { path } from "#api";
 
 export default {

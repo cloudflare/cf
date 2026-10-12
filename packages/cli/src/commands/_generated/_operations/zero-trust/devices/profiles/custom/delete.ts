@@ -1,4 +1,4 @@
-/** @generated from devices-delete-device-settings-policy */
+/** @generated from zero-trust.devices.profiles.custom.delete */
 import { path } from "#api";
 
 export default {

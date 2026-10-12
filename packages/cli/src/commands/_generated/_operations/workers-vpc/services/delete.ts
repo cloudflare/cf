@@ -1,4 +1,4 @@
-/** @generated from connectivity-services-delete */
+/** @generated from workers-vpc.services.delete */
 import { path } from "#api";
 
 export default {

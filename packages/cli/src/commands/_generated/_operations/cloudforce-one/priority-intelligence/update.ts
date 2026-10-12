@@ -1,4 +1,4 @@
-/** @generated from put_PirUpdate */
+/** @generated from cloudforce-one.priority-intelligence.update */
 import { path } from "#api";
 
 export default {

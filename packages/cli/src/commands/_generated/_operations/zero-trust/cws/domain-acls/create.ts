@@ -1,4 +1,4 @@
-/** @generated from cws-create-domain-acl */
+/** @generated from zero-trust.cws.domain-acls.create */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from infra-targets-put */
+/** @generated from zero-trust.access.targets.update */
 import { path } from "#api";
 
 export default {

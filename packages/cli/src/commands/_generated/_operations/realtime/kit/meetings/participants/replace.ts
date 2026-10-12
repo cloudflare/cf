@@ -1,4 +1,4 @@
-/** @generated from replace_participant */
+/** @generated from realtime.kit.meetings.participants.replace */
 import { path } from "#api";
 
 export default {

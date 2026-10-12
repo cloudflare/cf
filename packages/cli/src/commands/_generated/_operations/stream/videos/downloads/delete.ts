@@ -1,4 +1,4 @@
-/** @generated from stream-downloads-delete-type-specific-downloads */
+/** @generated from stream.videos.downloads.delete */
 import { path } from "#api";
 
 export default {

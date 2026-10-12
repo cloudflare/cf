@@ -1,4 +1,4 @@
-/** @generated from oauth-clients-delete-rotated-secret */
+/** @generated from oauth-clients.delete-rotated-secret */
 import { path } from "#api";
 
 export default {

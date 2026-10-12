@@ -1,4 +1,4 @@
-/** @generated from ip-access-rules-for-a-user-list-ip-access-rules */
+/** @generated from user.firewall.access-rules.list */
 export default {
 	method: "GET",
 	path: () => "/user/firewall/access_rules/rules",

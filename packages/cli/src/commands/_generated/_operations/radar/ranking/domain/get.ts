@@ -1,4 +1,4 @@
-/** @generated from radar-get-ranking-domain-details */
+/** @generated from radar.ranking.domain.get */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from account-api-tokens-list-permission-groups */
+/** @generated from accounts.tokens.permission-groups.list */
 import { path } from "#api";
 
 export default {

@@ -73,8 +73,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						url: `https://api.cloudflare.com/client/v4/${accountOrZone}/${accountOrZoneId}/custom_csrs/${argv["custom-csr-id"] == null ? "<custom-csr-id>" : encodeURIComponent(String(argv["custom-csr-id"]))}`,
 						pathParams: {
 							"account-or-zone": String(accountOrZone),
-							"custom-csr-id": String(argv["custom-csr-id"] ?? ""),
 							"account-or-zone-id": String(accountOrZoneId),
+							"custom-csr-id": String(argv["custom-csr-id"] ?? ""),
 						},
 						bodyKind: "none",
 					});

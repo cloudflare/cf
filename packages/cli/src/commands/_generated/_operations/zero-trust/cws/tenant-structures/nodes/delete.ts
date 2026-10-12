@@ -1,4 +1,4 @@
-/** @generated from cws-delete-tenant-node */
+/** @generated from zero-trust.cws.tenant-structures.nodes.delete */
 import { path } from "#api";
 
 export default {

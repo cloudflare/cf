@@ -1,4 +1,4 @@
-/** @generated from basin-update-maintenance-config */
+/** @generated from basin-catalog.maintenance-configs.update */
 import { path } from "#api";
 
 export default {

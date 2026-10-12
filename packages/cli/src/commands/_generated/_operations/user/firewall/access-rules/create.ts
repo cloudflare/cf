@@ -1,4 +1,4 @@
-/** @generated from ip-access-rules-for-a-user-create-an-ip-access-rule */
+/** @generated from user.firewall.access-rules.create */
 export default {
 	method: "POST",
 	path: () => "/user/firewall/access_rules/rules",

@@ -1,4 +1,4 @@
-/** @generated from zero-trust-networks-subnet-update-cloudflare-source */
+/** @generated from network.subnets.cloudflare-source.edit */
 import { path } from "#api";
 
 export default {

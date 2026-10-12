@@ -1,4 +1,4 @@
-/** @generated from generated:post:/{account_or_zone}/{account_or_zone_id}/logpush/jobs */
+/** @generated from logpush.account-jobs.create */
 import { path } from "#api";
 
 export default {

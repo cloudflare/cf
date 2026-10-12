@@ -1,4 +1,4 @@
-/** @generated from deleteRepoConnection */
+/** @generated from builds.repos.connections.delete */
 import { path } from "#api";
 
 export default {

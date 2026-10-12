@@ -1,4 +1,4 @@
-/** @generated from radar-get-netflows-timeseries-group */
+/** @generated from radar.netflows.timeseries-groups */
 import { path } from "#api";
 
 export default {

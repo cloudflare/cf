@@ -1,4 +1,4 @@
-/** @generated from worker-deployments-create-deployment */
+/** @generated from workers.deployments.create */
 import { path } from "#api";
 
 export default {

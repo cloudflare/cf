@@ -1,4 +1,4 @@
-/** @generated from magic-site-netflow-config-patch-netflow-config */
+/** @generated from magic-transit.sites.netflow-config.edit */
 import { path } from "#api";
 
 export default {

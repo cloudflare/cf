@@ -1,4 +1,4 @@
-/** @generated from get_DashboardMetadataFieldList */
+/** @generated from cloudforce-one.requests.metadata.list */
 import { path } from "#api";
 
 export default {

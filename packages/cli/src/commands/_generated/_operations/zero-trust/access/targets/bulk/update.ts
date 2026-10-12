@@ -1,4 +1,4 @@
-/** @generated from infra-targets-put-batch */
+/** @generated from zero-trust.access.targets.bulk.update */
 import { path } from "#api";
 
 export default {

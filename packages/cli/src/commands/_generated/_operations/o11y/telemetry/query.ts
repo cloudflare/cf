@@ -1,4 +1,4 @@
-/** @generated from telemetry.query */
+/** @generated from o11y.telemetry.query */
 import { path } from "#api";
 
 export default {

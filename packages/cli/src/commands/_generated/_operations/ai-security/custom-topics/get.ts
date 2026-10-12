@@ -1,4 +1,4 @@
-/** @generated from ai-security-custom-topics-get */
+/** @generated from ai-security.custom-topics.get */
 import { path } from "#api";
 
 export default {

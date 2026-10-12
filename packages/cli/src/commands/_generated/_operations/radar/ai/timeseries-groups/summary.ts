@@ -1,4 +1,4 @@
-/** @generated from radar-get-ai-bots-summary */
+/** @generated from radar.ai.timeseries-groups.summary */
 import { path } from "#api";
 
 export default {

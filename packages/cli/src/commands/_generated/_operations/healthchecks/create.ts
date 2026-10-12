@@ -1,4 +1,4 @@
-/** @generated from health-checks-create-health-check */
+/** @generated from healthchecks.create */
 import { path } from "#api";
 
 export default {

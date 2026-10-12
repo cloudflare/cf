@@ -1,4 +1,4 @@
-/** @generated from stream-watermark-profile-watermark-profile-details */
+/** @generated from stream.watermarks.get */
 import { path } from "#api";
 
 export default {

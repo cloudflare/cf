@@ -1,4 +1,4 @@
-/** @generated from zero-trust-gateway-rules-list-zero-trust-gateway-rules-tenant */
+/** @generated from zero-trust.gateway.rules.list-tenant */
 import { path } from "#api";
 
 export default {

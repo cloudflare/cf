@@ -1,4 +1,4 @@
-/** @generated from connectivity-services-post */
+/** @generated from workers-vpc.services.create */
 import { path } from "#api";
 
 export default {

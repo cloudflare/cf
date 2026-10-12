@@ -1,4 +1,4 @@
-/** @generated from email_security_get_monthly_report */
+/** @generated from email-security.analytics.monthly-report.get */
 import { path } from "#api";
 
 export default {

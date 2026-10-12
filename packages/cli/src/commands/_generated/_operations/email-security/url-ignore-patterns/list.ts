@@ -1,4 +1,4 @@
-/** @generated from email_security_list_url_ignore_patterns */
+/** @generated from email-security.url-ignore-patterns.list */
 import { path } from "#api";
 
 export default {

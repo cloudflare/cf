@@ -1,4 +1,4 @@
-/** @generated from notification-policies-unsubscribe-email-from-notification-policy */
+/** @generated from alerting.policies.email.unsubscribe */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from api-shield-api-discovery-retrieve-discovered-operations-on-a-zone */
+/** @generated from web-assets.discovery.operations.list */
 import { path } from "#api";
 
 export default {

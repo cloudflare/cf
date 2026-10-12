@@ -1,4 +1,4 @@
-/** @generated from cws-list-basic-auth-secrets */
+/** @generated from zero-trust.cws.basic-auth-credentials.secrets.list */
 import { path } from "#api";
 
 export default {

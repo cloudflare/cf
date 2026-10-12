@@ -1,4 +1,4 @@
-/** @generated from account-billing-profile-update-billing-profile */
+/** @generated from billing.profiles.update */
 import { path } from "#api";
 
 export default {

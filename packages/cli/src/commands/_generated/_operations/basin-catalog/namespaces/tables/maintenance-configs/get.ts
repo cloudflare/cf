@@ -1,4 +1,4 @@
-/** @generated from basin-get-table-maintenance-config */
+/** @generated from basin-catalog.namespaces.tables.maintenance-configs.get */
 import { path } from "#api";
 
 export default {

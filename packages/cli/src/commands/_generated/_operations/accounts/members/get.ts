@@ -1,4 +1,4 @@
-/** @generated from account-members-member-details */
+/** @generated from accounts.members.get */
 import { path } from "#api";
 
 export default {

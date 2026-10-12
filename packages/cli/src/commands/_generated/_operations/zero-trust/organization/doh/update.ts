@@ -1,4 +1,4 @@
-/** @generated from zero-trust-organization-update-your-zero-trust-organization-doh-settings */
+/** @generated from zero-trust.organization.doh.update */
 import { path } from "#api";
 
 export default {

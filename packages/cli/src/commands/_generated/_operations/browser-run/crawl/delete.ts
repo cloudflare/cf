@@ -1,4 +1,4 @@
-/** @generated from brapi-delete_CancelCrawl */
+/** @generated from browser-run.crawl.delete */
 import { path } from "#api";
 
 export default {

@@ -102,9 +102,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						url: `https://api.cloudflare.com/client/v4/${accountOrZone}/${accountOrZoneId}/rulesets/${argv["ruleset-id"] == null ? "<ruleset-id>" : encodeURIComponent(String(argv["ruleset-id"]))}/rules/${argv["rule-id"] == null ? "<rule-id>" : encodeURIComponent(String(argv["rule-id"]))}`,
 						pathParams: {
 							"account-or-zone": String(accountOrZone),
-							"rule-id": String(argv["rule-id"] ?? ""),
-							"ruleset-id": String(argv["ruleset-id"] ?? ""),
 							"account-or-zone-id": String(accountOrZoneId),
+							"ruleset-id": String(argv["ruleset-id"] ?? ""),
+							"rule-id": String(argv["rule-id"] ?? ""),
 						},
 						query: queryParams,
 						bodyKind: "json",

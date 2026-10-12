@@ -1,4 +1,4 @@
-/** @generated from post_GroupMemberCreate */
+/** @generated from cloudforce-one.events.dataset.groups.members.create */
 import { path } from "#api";
 
 export default {

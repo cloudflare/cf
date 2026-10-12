@@ -1,4 +1,4 @@
-/** @generated from sandbox-registrar-extension-list */
+/** @generated from registrar-sandbox.extensions.list */
 import { path } from "#api";
 
 export default {

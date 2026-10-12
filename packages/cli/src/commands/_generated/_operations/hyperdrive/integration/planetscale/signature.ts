@@ -1,4 +1,4 @@
-/** @generated from create-hyperdrive-database-signature */
+/** @generated from hyperdrive.integration.planetscale.signature */
 import { path } from "#api";
 
 export default {

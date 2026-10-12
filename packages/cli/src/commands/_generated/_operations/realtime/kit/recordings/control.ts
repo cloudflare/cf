@@ -1,4 +1,4 @@
-/** @generated from pause_resume_stop_recording */
+/** @generated from realtime.kit.recordings.control */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from delete_EventTagDelete */
+/** @generated from cloudforce-one.threat-events.event-tags.delete */
 import { path } from "#api";
 
 export default {

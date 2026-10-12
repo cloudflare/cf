@@ -1,4 +1,4 @@
-/** @generated from per-hostname-authenticated-origin-pull-enable-or-disable-a-hostname-for-client-authentication */
+/** @generated from origin-tls-client-auth.hostnames.update */
 import { path } from "#api";
 
 export default {

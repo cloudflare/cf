@@ -1,4 +1,4 @@
-/** @generated from stream-watermark-profile-delete-watermark-profiles */
+/** @generated from stream.watermarks.delete */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from ssl-verification-ssl-verification-details */
+/** @generated from ssl.verification.get */
 import { path } from "#api";
 
 export default {

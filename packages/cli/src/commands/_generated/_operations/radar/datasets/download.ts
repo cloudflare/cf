@@ -1,4 +1,4 @@
-/** @generated from radar-post-reports-dataset-download-url */
+/** @generated from radar.datasets.download */
 export default {
 	method: "POST",
 	path: () => "/radar/datasets/download",

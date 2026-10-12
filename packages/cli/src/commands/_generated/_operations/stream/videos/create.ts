@@ -1,4 +1,4 @@
-/** @generated from stream-videos-initiate-video-uploads-using-tus */
+/** @generated from stream.videos.create */
 import { path } from "#api";
 
 export default {

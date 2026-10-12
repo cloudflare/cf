@@ -1,4 +1,4 @@
-/** @generated from tiered-caching-patch-tiered-caching-setting */
+/** @generated from argo.tiered-caching.edit */
 import { path } from "#api";
 
 export default {

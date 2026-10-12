@@ -1,4 +1,4 @@
-/** @generated from lookupResourceLibraryApplications */
+/** @generated from accounts.applications.lookup */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from user'-s-account-memberships-delete-membership */
+/** @generated from user.memberships.delete */
 import { path } from "#api";
 
 export default {

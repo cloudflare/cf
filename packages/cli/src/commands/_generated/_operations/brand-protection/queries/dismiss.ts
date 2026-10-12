@@ -1,4 +1,4 @@
-/** @generated from post_DismissMatch */
+/** @generated from brand-protection.queries.dismiss */
 import { path } from "#api";
 
 export default {

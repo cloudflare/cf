@@ -1,4 +1,4 @@
-/** @generated from profileWorkerVersion */
+/** @generated from workers.versions.profile */
 import { path } from "#api";
 
 export default {

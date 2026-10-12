@@ -1,4 +1,4 @@
-/** @generated from bot-management-for-a-zone-update-config */
+/** @generated from bot-management.update */
 import { path } from "#api";
 
 export default {

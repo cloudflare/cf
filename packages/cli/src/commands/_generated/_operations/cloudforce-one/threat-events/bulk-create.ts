@@ -1,4 +1,4 @@
-/** @generated from post_EventCreateBulk */
+/** @generated from cloudforce-one.threat-events.bulk-create */
 import { path } from "#api";
 
 export default {

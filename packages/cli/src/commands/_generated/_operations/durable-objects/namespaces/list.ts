@@ -1,4 +1,4 @@
-/** @generated from durable-objects-namespace-list-namespaces */
+/** @generated from durable-objects.namespaces.list */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from Accounts_getAccountProfile */
+/** @generated from accounts.profile.get */
 import { path } from "#api";
 
 export default {

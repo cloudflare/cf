@@ -1,4 +1,4 @@
-/** @generated from listWorkers */
+/** @generated from workers.list */
 import { path } from "#api";
 
 export default {

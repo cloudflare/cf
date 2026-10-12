@@ -1,4 +1,4 @@
-/** @generated from postV4AccountsByAccount_idPipelines_deprecated */
+/** @generated from pipelines.legacy-create */
 import { path } from "#api";
 
 export default {

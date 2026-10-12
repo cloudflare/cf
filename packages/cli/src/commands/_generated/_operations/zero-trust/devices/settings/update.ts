@@ -1,4 +1,4 @@
-/** @generated from zero-trust-accounts-patch-device-settings-for-the-zero-trust-account */
+/** @generated from zero-trust.devices.settings.update */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from custom-ssl-for-a-zone-edit-ssl-configuration */
+/** @generated from custom-certificates.edit */
 import { path } from "#api";
 
 export default {

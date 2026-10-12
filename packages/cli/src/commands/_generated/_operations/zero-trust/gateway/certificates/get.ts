@@ -1,4 +1,4 @@
-/** @generated from zero-trust-certificates-zero-trust-certificate-details */
+/** @generated from zero-trust.gateway.certificates.get */
 import { path } from "#api";
 
 export default {

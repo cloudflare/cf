@@ -1,4 +1,4 @@
-/** @generated from email-sending-get-reputation */
+/** @generated from email-sending.reputation.get */
 import { path } from "#api";
 
 export default {

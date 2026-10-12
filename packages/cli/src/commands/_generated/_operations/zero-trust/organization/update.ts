@@ -1,4 +1,4 @@
-/** @generated from generated:put:/{account_or_zone}/{account_or_zone_id}/access/organizations */
+/** @generated from zero-trust.organization.update */
 import { path } from "#api";
 
 export default {

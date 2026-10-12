@@ -1,4 +1,4 @@
-/** @generated from magic-sites-patch-site */
+/** @generated from magic-transit.sites.edit */
 import { path } from "#api";
 
 export default {

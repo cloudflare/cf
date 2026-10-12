@@ -1,4 +1,4 @@
-/** @generated from r2-get-bucket */
+/** @generated from r2.buckets.get */
 import { path } from "#api";
 
 export default {

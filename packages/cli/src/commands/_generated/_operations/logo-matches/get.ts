@@ -1,4 +1,4 @@
-/** @generated from getAccountsAccountIdBrandProtectionLogoMatches */
+/** @generated from logo-matches.get */
 import { path } from "#api";
 
 export default {

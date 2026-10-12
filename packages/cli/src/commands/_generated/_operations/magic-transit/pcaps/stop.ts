@@ -1,4 +1,4 @@
-/** @generated from magic-pcap-collection-stop-full-pcap */
+/** @generated from magic-transit.pcaps.stop */
 import { path } from "#api";
 
 export default {

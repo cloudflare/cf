@@ -1,4 +1,4 @@
-/** @generated from oauth-clients-delete */
+/** @generated from oauth-clients.delete */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from smart-shield-patch-health-check */
+/** @generated from smart-shield.health-checks.edit */
 import { path } from "#api";
 
 export default {

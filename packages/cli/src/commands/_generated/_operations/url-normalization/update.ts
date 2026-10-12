@@ -1,4 +1,4 @@
-/** @generated from updateUrlNormalization */
+/** @generated from url-normalization.update */
 import { path } from "#api";
 
 export default {

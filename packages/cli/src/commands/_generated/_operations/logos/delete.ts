@@ -1,4 +1,4 @@
-/** @generated from deleteAccountsAccountIdBrandProtectionLogosLogoId */
+/** @generated from logos.delete */
 import { path } from "#api";
 
 export default {

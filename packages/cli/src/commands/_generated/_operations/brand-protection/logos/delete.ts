@@ -1,4 +1,4 @@
-/** @generated from delete_DeleteLogoQuery */
+/** @generated from brand-protection.logos.delete */
 import { path } from "#api";
 
 export default {

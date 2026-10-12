@@ -1,4 +1,4 @@
-/** @generated from radar-get-tcp-resets-timeouts-timeseries-group */
+/** @generated from radar.tcp-resets-timeouts.timeseries-groups */
 export default {
 	method: "GET",
 	path: () => "/radar/tcp_resets_timeouts/timeseries_groups",

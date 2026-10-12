@@ -1,4 +1,4 @@
-/** @generated from access-jit-request-logs-get */
+/** @generated from zero-trust.access.logs.jit-requests.get */
 import { path } from "#api";
 
 export default {

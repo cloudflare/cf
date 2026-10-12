@@ -1,4 +1,4 @@
-/** @generated from brapi-get_DevtoolsJsonProtocol */
+/** @generated from browser-run.devtools.browser.protocol */
 import { path } from "#api";
 
 export default {

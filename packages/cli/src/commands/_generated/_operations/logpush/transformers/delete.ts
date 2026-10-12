@@ -1,4 +1,4 @@
-/** @generated from delete-accounts-account_id-logpush-transformers-transformer_id */
+/** @generated from logpush.transformers.delete */
 import { path } from "#api";
 
 export default {

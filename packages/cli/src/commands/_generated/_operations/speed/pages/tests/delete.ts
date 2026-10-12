@@ -1,4 +1,4 @@
-/** @generated from speed-delete-tests */
+/** @generated from speed.pages.tests.delete */
 import { path } from "#api";
 
 export default {

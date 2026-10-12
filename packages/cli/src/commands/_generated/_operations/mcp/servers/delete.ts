@@ -1,4 +1,4 @@
-/** @generated from mcp-portals-api-delete-servers */
+/** @generated from mcp.servers.delete */
 import { path } from "#api";
 
 export default {

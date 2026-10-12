@@ -1,4 +1,4 @@
-/** @generated from dlp-risk-score-behaviors-put */
+/** @generated from zero-trust.risk-scoring.behaviours.update */
 import { path } from "#api";
 
 export default {

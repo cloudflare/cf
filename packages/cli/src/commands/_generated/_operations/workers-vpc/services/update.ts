@@ -1,4 +1,4 @@
-/** @generated from connectivity-services-put */
+/** @generated from workers-vpc.services.update */
 import { path } from "#api";
 
 export default {

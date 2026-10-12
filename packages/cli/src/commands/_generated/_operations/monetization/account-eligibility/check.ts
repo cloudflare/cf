@@ -1,4 +1,4 @@
-/** @generated from generated:post:/{account_or_zone}/{account_or_zone_id}/monetization */
+/** @generated from monetization.account-eligibility.check */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from get_DatasetRead */
+/** @generated from cloudforce-one.threat-events.datasets.get */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from zone-settings-change-h2-prioritization-setting */
+/** @generated from zones.h2-prioritization.edit */
 import { path } from "#api";
 
 export default {

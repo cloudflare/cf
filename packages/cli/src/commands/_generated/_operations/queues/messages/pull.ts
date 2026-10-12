@@ -1,4 +1,4 @@
-/** @generated from queues-pull-messages */
+/** @generated from queues.messages.pull */
 import { path } from "#api";
 
 export default {

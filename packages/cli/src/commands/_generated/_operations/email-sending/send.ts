@@ -1,4 +1,4 @@
-/** @generated from email-sending-account-send-builder */
+/** @generated from email-sending.send */
 import { path } from "#api";
 
 export default {

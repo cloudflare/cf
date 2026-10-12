@@ -1,4 +1,4 @@
-/** @generated from deleteResourceLibraryApplication */
+/** @generated from accounts.applications.delete */
 import { path } from "#api";
 
 export default {

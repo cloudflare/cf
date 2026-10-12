@@ -1,4 +1,4 @@
-/** @generated from artifacts_repos_commit_get */
+/** @generated from artifacts.namespaces.repos.commits.get */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from dns-settings-for-an-account-delete-custom-nameserver-set */
+/** @generated from dns.settings.account.nameserver-sets.delete */
 import { path } from "#api";
 
 export default {

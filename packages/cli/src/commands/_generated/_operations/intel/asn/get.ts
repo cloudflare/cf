@@ -1,4 +1,4 @@
-/** @generated from asn-intelligence-get-asn-overview */
+/** @generated from intel.asn.get */
 import { path } from "#api";
 
 export default {

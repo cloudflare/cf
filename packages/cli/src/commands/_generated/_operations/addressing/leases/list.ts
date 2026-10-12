@@ -1,4 +1,4 @@
-/** @generated from ip-address-management-list-leases */
+/** @generated from addressing.leases.list */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from cloudflare-tunnel-delete-a-warp-connector-tunnel */
+/** @generated from mesh.nodes.delete */
 import { path } from "#api";
 
 export default {

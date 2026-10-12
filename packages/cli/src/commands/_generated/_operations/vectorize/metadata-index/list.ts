@@ -1,4 +1,4 @@
-/** @generated from vectorize-list-metadata-indexes */
+/** @generated from vectorize.metadata-index.list */
 import { path } from "#api";
 
 export default {

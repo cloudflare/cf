@@ -1,4 +1,4 @@
-/** @generated from magic-bgp-get-settings */
+/** @generated from magic-transit.bgp-settings.get */
 import { path } from "#api";
 
 export default {

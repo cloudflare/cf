@@ -1,4 +1,4 @@
-/** @generated from oauth-scopes-list */
+/** @generated from oauth-scopes.list */
 export default {
 	method: "GET",
 	path: () => "/oauth/scopes",

@@ -39,6 +39,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"The IP address to match. This address will be compared to the IP address of incoming requests.",
 		})
+		.option("notes", {
+			type: "string",
+			description:
+				"An informative summary of the rule, typically used as a reminder or explanation.",
+			default: "",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -95,6 +101,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"text"
 											),
 										},
+										notes: resolveFileToken(
+											argv["notes"] as string | undefined,
+											"notes",
+											"text"
+										),
 									}),
 					});
 					return;
@@ -138,6 +149,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"text"
 						),
 					},
+					notes: resolveFileToken(
+						argv["notes"] as string | undefined,
+						"notes",
+						"text"
+					),
 				});
 				const result = await withProgress(`Creating`, async () =>
 					client.send(operation, {

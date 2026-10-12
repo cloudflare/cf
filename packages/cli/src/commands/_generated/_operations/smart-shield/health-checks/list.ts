@@ -1,4 +1,4 @@
-/** @generated from smart-shield-list-health-checks */
+/** @generated from smart-shield.health-checks.list */
 import { path } from "#api";
 
 export default {

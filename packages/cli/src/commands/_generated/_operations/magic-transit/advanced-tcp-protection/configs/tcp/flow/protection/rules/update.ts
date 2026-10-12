@@ -1,4 +1,4 @@
-/** @generated from updateTcpFlowProtectionRule */
+/** @generated from magic-transit.advanced-tcp-protection.configs.tcp.flow.protection.rules.update */
 import { path } from "#api";
 
 export default {

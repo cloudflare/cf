@@ -1,4 +1,4 @@
-/** @generated from post_TagRelationshipCreate */
+/** @generated from cloudforce-one.events.tags.relationships.create */
 import { path } from "#api";
 
 export default {

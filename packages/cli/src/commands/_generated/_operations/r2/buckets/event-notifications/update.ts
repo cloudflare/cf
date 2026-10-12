@@ -1,4 +1,4 @@
-/** @generated from r2-put-event-notification-config */
+/** @generated from r2.buckets.event-notifications.update */
 import { path } from "#api";
 
 export default {

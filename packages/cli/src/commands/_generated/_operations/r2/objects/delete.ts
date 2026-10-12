@@ -1,4 +1,4 @@
-/** @generated from r2-delete-object */
+/** @generated from r2.objects.delete */
 import { path } from "#api";
 
 export default {

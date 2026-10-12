@@ -1,4 +1,4 @@
-/** @generated from universal-ssl-settings-for-a-zone-universal-ssl-settings-details */
+/** @generated from ssl.universal.settings.get */
 import { path } from "#api";
 
 export default {

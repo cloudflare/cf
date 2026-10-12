@@ -1,4 +1,4 @@
-/** @generated from tags-list-key-summary */
+/** @generated from resource-tagging.summary.get */
 import { path } from "#api";
 
 export default {

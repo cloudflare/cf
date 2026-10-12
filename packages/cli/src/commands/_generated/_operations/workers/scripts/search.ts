@@ -1,4 +1,4 @@
-/** @generated from worker-script-search-workers */
+/** @generated from workers.scripts.search */
 import { path } from "#api";
 
 export default {

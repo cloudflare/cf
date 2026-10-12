@@ -1,4 +1,4 @@
-/** @generated from radar-get-bgp-pfx2as */
+/** @generated from radar.bgp.routes.pfx2as */
 export default {
 	method: "GET",
 	path: () => "/radar/bgp/routes/pfx2as",

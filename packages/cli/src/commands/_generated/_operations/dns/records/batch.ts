@@ -1,4 +1,4 @@
-/** @generated from dns-records-for-a-zone-batch-dns-records */
+/** @generated from dns.records.batch */
 import { path } from "#api";
 
 export default {

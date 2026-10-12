@@ -1,4 +1,4 @@
-/** @generated from radar-get-ai-inference-timeseries-group */
+/** @generated from radar.ai.inference.timeseries-groups-v2 */
 import { path } from "#api";
 
 export default {

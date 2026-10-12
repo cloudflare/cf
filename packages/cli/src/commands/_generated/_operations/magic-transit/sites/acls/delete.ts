@@ -1,4 +1,4 @@
-/** @generated from magic-site-acls-delete-acl */
+/** @generated from magic-transit.sites.acls.delete */
 import { path } from "#api";
 
 export default {

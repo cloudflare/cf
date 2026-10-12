@@ -1,4 +1,4 @@
-/** @generated from sinkhole-config-create-ingress */
+/** @generated from intel.sinkholes.ingresses.create */
 import { path } from "#api";
 
 export default {

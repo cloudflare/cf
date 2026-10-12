@@ -1,4 +1,4 @@
-/** @generated from secrets-store-duplicate-by-id */
+/** @generated from secrets-store.secrets.duplicate */
 import { path } from "#api";
 
 export default {

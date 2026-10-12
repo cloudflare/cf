@@ -1,4 +1,4 @@
-/** @generated from queues-push-message */
+/** @generated from queues.messages.push */
 import { path } from "#api";
 
 export default {

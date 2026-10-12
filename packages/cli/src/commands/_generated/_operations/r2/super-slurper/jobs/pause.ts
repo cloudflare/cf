@@ -1,4 +1,4 @@
-/** @generated from slurper-pause-job */
+/** @generated from r2.super-slurper.jobs.pause */
 import { path } from "#api";
 
 export default {

@@ -65,8 +65,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						url: `https://api.cloudflare.com/client/v4/${accountOrZone}/${accountOrZoneId}/logpush/jobs/${argv["job-id"] == null ? "<job-id>" : encodeURIComponent(String(argv["job-id"]))}`,
 						pathParams: {
 							"account-or-zone": String(accountOrZone),
-							"job-id": String(argv["job-id"] ?? ""),
 							"account-or-zone-id": String(accountOrZoneId),
+							"job-id": String(argv["job-id"] ?? ""),
 						},
 						bodyKind: "none",
 					});

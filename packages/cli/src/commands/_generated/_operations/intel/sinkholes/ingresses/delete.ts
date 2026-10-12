@@ -1,4 +1,4 @@
-/** @generated from sinkhole-config-delete-ingress */
+/** @generated from intel.sinkholes.ingresses.delete */
 import { path } from "#api";
 
 export default {

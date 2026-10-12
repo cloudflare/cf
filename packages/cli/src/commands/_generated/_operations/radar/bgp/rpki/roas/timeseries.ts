@@ -1,4 +1,4 @@
-/** @generated from radar-get-bgp-rpki-roas-timeseries */
+/** @generated from radar.bgp.rpki.roas.timeseries */
 export default {
 	method: "GET",
 	path: () => "/radar/bgp/rpki/roas/timeseries",

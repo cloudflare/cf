@@ -1,4 +1,4 @@
-/** @generated from stream-videos-list-videos */
+/** @generated from stream.videos.list */
 import { path } from "#api";
 
 export default {

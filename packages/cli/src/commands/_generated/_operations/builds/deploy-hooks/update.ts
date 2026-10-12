@@ -1,4 +1,4 @@
-/** @generated from updateDeployHook */
+/** @generated from builds.deploy-hooks.update */
 import { path } from "#api";
 
 export default {

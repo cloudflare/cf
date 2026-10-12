@@ -1,4 +1,4 @@
-/** @generated from updateProtectionStatus */
+/** @generated from magic-transit.advanced-tcp-protection.configs.tcp.protection.status.update */
 import { path } from "#api";
 
 export default {

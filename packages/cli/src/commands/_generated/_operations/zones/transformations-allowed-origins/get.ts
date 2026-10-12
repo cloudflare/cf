@@ -1,4 +1,4 @@
-/** @generated from zone-settings-get-transformations-allowed-origins-setting */
+/** @generated from zones.transformations-allowed-origins.get */
 import { path } from "#api";
 
 export default {

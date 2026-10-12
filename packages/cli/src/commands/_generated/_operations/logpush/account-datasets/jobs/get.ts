@@ -1,4 +1,4 @@
-/** @generated from generated:get:/{account_or_zone}/{account_or_zone_id}/logpush/datasets/{dataset_id}/jobs */
+/** @generated from logpush.account-datasets.jobs.get */
 import { path } from "#api";
 
 export default {

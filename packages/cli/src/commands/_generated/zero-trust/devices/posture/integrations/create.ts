@@ -142,8 +142,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		])
 		.implies("config-client-key", [
 			"config-api-url",
-			"config-customer-id",
 			"config-client-secret",
+			"config-customer-id",
 		])
 		.conflicts("config-access-client-id", [
 			"config-auth-url",
@@ -153,8 +153,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"config-client-key",
 		])
 		.implies("config-access-client-id", [
-			"config-api-url",
 			"config-access-client-secret",
+			"config-api-url",
 		])
 		.conflicts("config-access-client-secret", [
 			"config-auth-url",
@@ -164,8 +164,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"config-client-key",
 		])
 		.implies("config-access-client-secret", [
-			"config-api-url",
 			"config-access-client-id",
+			"config-api-url",
 		]);
 }
 

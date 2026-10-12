@@ -1,4 +1,4 @@
-/** @generated from rssFeedPoll */
+/** @generated from cloudforce-one.threat-signals.feeds.poll */
 import { path } from "#api";
 
 export default {

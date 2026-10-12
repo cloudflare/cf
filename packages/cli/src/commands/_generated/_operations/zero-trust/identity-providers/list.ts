@@ -1,4 +1,4 @@
-/** @generated from generated:get:/{account_or_zone}/{account_or_zone_id}/access/identity_providers */
+/** @generated from zero-trust.identity-providers.list */
 import { path } from "#api";
 
 export default {

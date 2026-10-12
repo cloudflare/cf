@@ -55,6 +55,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Only allow requests that match the provided regex patterns, eg. '/^.*\\.(css)'. Reject rules are applied first.",
 		})
+		.option("allow-resource-types", {
+			type: "string",
+			array: true,
+			description:
+				"Only allow requests that match the provided resource types, eg. 'image' or 'script'. Reject rules are applied first.",
+		})
 		.option("authenticate-password", {
 			type: "string",
 			description: "The authenticate.password field",
@@ -104,6 +110,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Block undesired requests that match the provided regex patterns, eg. '/^.*\\.(css)'.",
 		})
+		.option("reject-resource-types", {
+			type: "string",
+			array: true,
+			description:
+				"Block undesired requests that match the provided resource types, eg. 'image' or 'script'.",
+		})
 		.option("screenshot-options-capture-beyond-viewport", {
 			type: "boolean",
 			description: "The screenshotOptions.captureBeyondViewport field",
@@ -148,6 +160,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "number",
 			description: "The screenshotOptions.quality field",
 		})
+		.option("screenshot-options-type", {
+			type: "string",
+			description: "The screenshotOptions.type field",
+			choices: ["png", "jpeg", "webp"],
+		})
+		.coerce("screenshot-options-type", (value) =>
+			resolveFileToken(value, "screenshot-options-type", "text")
+		)
 		.option("set-java-script-enabled", {
 			type: "boolean",
 			description: "The setJavaScriptEnabled field",
@@ -245,6 +265,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"screenshot-options-omit-background",
 				"screenshot-options-optimize-for-speed",
 				"screenshot-options-quality",
+				"screenshot-options-type",
 			].some((k) => argv[k] !== undefined);
 			if (groupSet) {
 				const missing = [
@@ -322,6 +343,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"screenshot-options-full-page",
 						"screenshot-options-omit-background",
 						"screenshot-options-optimize-for-speed",
+						"screenshot-options-type",
 						"set-java-script-enabled",
 						"viewport-has-touch",
 						"viewport-is-landscape",
@@ -361,6 +383,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"add-style-tag"
 										),
 										allowRequestPattern: argv["allow-request-pattern"],
+										allowResourceTypes: argv["allow-resource-types"],
 										authenticate: {
 											password: resolveFileToken(
 												argv["authenticate-password"] as string | undefined,
@@ -402,6 +425,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"text"
 										),
 										rejectRequestPattern: argv["reject-request-pattern"],
+										rejectResourceTypes: argv["reject-resource-types"],
 										screenshotOptions: {
 											captureBeyondViewport:
 												argv["screenshot-options-capture-beyond-viewport"],
@@ -419,6 +443,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											optimizeForSpeed:
 												argv["screenshot-options-optimize-for-speed"],
 											quality: argv["screenshot-options-quality"],
+											type: argv["screenshot-options-type"],
 										},
 										setJavaScriptEnabled: argv["set-java-script-enabled"],
 										url: resolveFileToken(
@@ -488,6 +513,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					),
 					addStyleTag: parseObjectArray(argv["add-style-tag"], "add-style-tag"),
 					allowRequestPattern: argv["allow-request-pattern"],
+					allowResourceTypes: argv["allow-resource-types"],
 					authenticate: {
 						password: resolveFileToken(
 							argv["authenticate-password"] as string | undefined,
@@ -527,6 +553,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"text"
 					),
 					rejectRequestPattern: argv["reject-request-pattern"],
+					rejectResourceTypes: argv["reject-resource-types"],
 					screenshotOptions: {
 						captureBeyondViewport:
 							argv["screenshot-options-capture-beyond-viewport"],
@@ -542,6 +569,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						omitBackground: argv["screenshot-options-omit-background"],
 						optimizeForSpeed: argv["screenshot-options-optimize-for-speed"],
 						quality: argv["screenshot-options-quality"],
+						type: argv["screenshot-options-type"],
 					},
 					setJavaScriptEnabled: argv["set-java-script-enabled"],
 					url: resolveFileToken(

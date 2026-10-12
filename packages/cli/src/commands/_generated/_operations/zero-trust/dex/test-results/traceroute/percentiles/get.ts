@@ -1,4 +1,4 @@
-/** @generated from dex-endpoints-traceroute-test-percentiles */
+/** @generated from zero-trust.dex.test-results.traceroute.percentiles.get */
 import { path } from "#api";
 
 export default {

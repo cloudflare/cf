@@ -1,4 +1,4 @@
-/** @generated from r2-list-buckets */
+/** @generated from r2.buckets.list */
 import { path } from "#api";
 
 export default {

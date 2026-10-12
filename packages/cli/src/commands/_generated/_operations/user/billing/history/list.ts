@@ -1,4 +1,4 @@
-/** @generated from user-billing-history-(-deprecated)-billing-history-details */
+/** @generated from user.billing.history.list */
 export default {
 	method: "GET",
 	path: () => "/user/billing/history",

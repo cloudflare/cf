@@ -1,4 +1,4 @@
-/** @generated from radar-get-entities-asn-by-ip */
+/** @generated from radar.entities.asns.ip */
 export default {
 	method: "GET",
 	path: () => "/radar/entities/asns/ip",

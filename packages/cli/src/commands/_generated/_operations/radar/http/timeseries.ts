@@ -1,4 +1,4 @@
-/** @generated from radar-get-http-timeseries */
+/** @generated from radar.http.timeseries */
 export default {
 	method: "GET",
 	path: () => "/radar/http/timeseries",

@@ -1,4 +1,4 @@
-/** @generated from issues.notificationRuns.create */
+/** @generated from o11y.issues.notify */
 import { path } from "#api";
 
 export default {

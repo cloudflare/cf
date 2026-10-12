@@ -1,4 +1,4 @@
-/** @generated from speed-list-test-history */
+/** @generated from speed.pages.tests.list */
 import { path } from "#api";
 
 export default {

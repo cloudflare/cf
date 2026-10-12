@@ -1,4 +1,4 @@
-/** @generated from artifacts_repos_fork */
+/** @generated from artifacts.namespaces.repos.fork */
 import { path } from "#api";
 
 export default {

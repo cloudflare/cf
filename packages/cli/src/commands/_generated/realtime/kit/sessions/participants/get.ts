@@ -76,8 +76,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/realtime/kit/${argv["app-id"] == null ? "<app-id>" : encodeURIComponent(String(argv["app-id"]))}/sessions/${argv["session-id"] == null ? "<session-id>" : encodeURIComponent(String(argv["session-id"]))}/participants/${argv["participant-id"] == null ? "<participant-id>" : encodeURIComponent(String(argv["participant-id"]))}`,
 						pathParams: {
 							"app-id": String(argv["app-id"] ?? ""),
-							"participant-id": String(argv["participant-id"] ?? ""),
 							"session-id": String(argv["session-id"] ?? ""),
+							"participant-id": String(argv["participant-id"] ?? ""),
 						},
 						query: queryParams,
 						bodyKind: "none",

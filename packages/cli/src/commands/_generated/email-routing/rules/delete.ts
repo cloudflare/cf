@@ -59,8 +59,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "DELETE",
 						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/email/routing/rules/${argv["rule-identifier"] == null ? "<rule-identifier>" : encodeURIComponent(String(argv["rule-identifier"]))}`,
 						pathParams: {
-							"rule-identifier": String(argv["rule-identifier"] ?? ""),
 							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
+							"rule-identifier": String(argv["rule-identifier"] ?? ""),
 						},
 						bodyKind: "none",
 					});

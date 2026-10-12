@@ -1,4 +1,4 @@
-/** @generated from api-shield-operations-bulk-post-labels-to-operations */
+/** @generated from web-assets.operations.labels.bulk-create */
 import { path } from "#api";
 
 export default {

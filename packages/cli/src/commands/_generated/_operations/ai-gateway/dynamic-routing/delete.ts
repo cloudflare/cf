@@ -1,4 +1,4 @@
-/** @generated from aig-config-delete-gateway-dynamic-route */
+/** @generated from ai-gateway.dynamic-routing.delete */
 import { path } from "#api";
 
 export default {

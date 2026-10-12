@@ -1,4 +1,4 @@
-/** @generated from smart-shield-patch-settings */
+/** @generated from smart-shield.update */
 import { path } from "#api";
 
 export default {

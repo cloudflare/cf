@@ -1,4 +1,4 @@
-/** @generated from cloudforce-one-remove-account-exemptions */
+/** @generated from cloudforce-one.rules.exemptions.delete */
 import { path } from "#api";
 
 export default {

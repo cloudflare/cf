@@ -1,4 +1,4 @@
-/** @generated from load-balancer-monitors-list-monitors */
+/** @generated from user.load-balancers.monitors.list */
 export default {
 	method: "GET",
 	path: () => "/user/load_balancers/monitors",

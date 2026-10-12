@@ -1,4 +1,4 @@
-/** @generated from scim-resource-types-get */
+/** @generated from scim.resource-types.get */
 import { path } from "#api";
 
 export default {

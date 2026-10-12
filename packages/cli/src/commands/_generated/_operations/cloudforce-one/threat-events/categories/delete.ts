@@ -1,4 +1,4 @@
-/** @generated from delete_CategoryDelete */
+/** @generated from cloudforce-one.threat-events.categories.delete */
 import { path } from "#api";
 
 export default {

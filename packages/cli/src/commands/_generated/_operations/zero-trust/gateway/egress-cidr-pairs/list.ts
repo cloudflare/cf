@@ -1,4 +1,4 @@
-/** @generated from zero-trust-accounts-get-egress-cidr-pairs */
+/** @generated from zero-trust.gateway.egress-cidr-pairs.list */
 import { path } from "#api";
 
 export default {

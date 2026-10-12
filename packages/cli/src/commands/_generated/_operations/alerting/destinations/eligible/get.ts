@@ -1,4 +1,4 @@
-/** @generated from notification-mechanism-eligibility-get-delivery-mechanism-eligibility */
+/** @generated from alerting.destinations.eligible.get */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from ai-search-namespace-instance-list-item-chunks */
+/** @generated from ai-search.items.chunks */
 import { path } from "#api";
 
 export default {

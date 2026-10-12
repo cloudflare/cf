@@ -1,4 +1,4 @@
-/** @generated from r2-get-bucket-lock-configuration */
+/** @generated from r2.buckets.locks.get */
 import { path } from "#api";
 
 export default {

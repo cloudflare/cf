@@ -1,4 +1,4 @@
-/** @generated from health-checks-delete-preview-health-check */
+/** @generated from healthchecks.previews.delete */
 import { path } from "#api";
 
 export default {

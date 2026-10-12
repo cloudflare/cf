@@ -1,4 +1,4 @@
-/** @generated from radar-get-bgp-hijacks-events */
+/** @generated from radar.bgp.hijacks.events.list */
 export default {
 	method: "GET",
 	path: () => "/radar/bgp/hijacks/events",

@@ -1,4 +1,4 @@
-/** @generated from zero-trust-gateway-rules-patch-multiple-zero-trust-gateway-rules */
+/** @generated from zero-trust.gateway.rules.bulk-edit */
 import { path } from "#api";
 
 export default {

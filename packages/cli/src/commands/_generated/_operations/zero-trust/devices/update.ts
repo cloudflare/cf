@@ -1,4 +1,4 @@
-/** @generated from patch-device */
+/** @generated from zero-trust.devices.update */
 import { path } from "#api";
 
 export default {

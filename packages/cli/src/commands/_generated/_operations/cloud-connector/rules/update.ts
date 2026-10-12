@@ -1,4 +1,4 @@
-/** @generated from zone-cloud-conenctor-rules-put */
+/** @generated from cloud-connector.rules.update */
 import { path } from "#api";
 
 export default {

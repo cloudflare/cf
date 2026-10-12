@@ -1,4 +1,4 @@
-/** @generated from post_PirInterestBacktestCreate */
+/** @generated from cloudforce-one.priority-intelligence.interests.backtests.create */
 import { path } from "#api";
 
 export default {

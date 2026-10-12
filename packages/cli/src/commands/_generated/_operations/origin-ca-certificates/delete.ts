@@ -1,4 +1,4 @@
-/** @generated from origin-ca-revoke-certificate */
+/** @generated from origin-ca-certificates.delete */
 import { path } from "#api";
 
 export default {

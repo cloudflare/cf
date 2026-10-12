@@ -1,4 +1,4 @@
-/** @generated from radar-get-bgp-rpki-aspa-changes */
+/** @generated from radar.bgp.rpki.aspa.changes */
 export default {
 	method: "GET",
 	path: () => "/radar/bgp/rpki/aspa/changes",

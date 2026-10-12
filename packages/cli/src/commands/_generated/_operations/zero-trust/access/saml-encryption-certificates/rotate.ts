@@ -1,4 +1,4 @@
-/** @generated from access-saml-certificates-rotate-certificate */
+/** @generated from zero-trust.access.saml-encryption-certificates.rotate */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from oauth-clients-rotate-secret */
+/** @generated from oauth-clients.rotate-secret */
 import { path } from "#api";
 
 export default {

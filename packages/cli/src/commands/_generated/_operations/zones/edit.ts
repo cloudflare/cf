@@ -1,4 +1,4 @@
-/** @generated from zones-0-patch */
+/** @generated from zones.edit */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from ip-address-management-address-maps-remove-an-ip-from-an-address-map */
+/** @generated from addressing.address-maps.ips.delete */
 import { path } from "#api";
 
 export default {

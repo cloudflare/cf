@@ -1,4 +1,4 @@
-/** @generated from flagship_delete_app */
+/** @generated from flagship.apps.delete */
 import { path } from "#api";
 
 export default {

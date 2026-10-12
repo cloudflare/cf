@@ -1,4 +1,4 @@
-/** @generated from dlp-email-scanner-delete-rule */
+/** @generated from zero-trust.dlp.email.rules.delete */
 import { path } from "#api";
 
 export default {

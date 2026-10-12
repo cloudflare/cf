@@ -1,4 +1,4 @@
-/** @generated from generated:get:/{account_or_zone}/{account_or_zone_id}/security-center/insights/audit-log */
+/** @generated from security-insights.audit-logs.list */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from generated:post:/{account_or_zone}/{account_or_zone_id}/logs/explorer/datasets */
+/** @generated from logs.datasets.create */
 import { path } from "#api";
 
 export default {

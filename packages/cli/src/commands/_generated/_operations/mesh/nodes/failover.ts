@@ -1,4 +1,4 @@
-/** @generated from cloudflare-tunnel-manual-failover-warp-connector-tunnel */
+/** @generated from mesh.nodes.failover */
 import { path } from "#api";
 
 export default {

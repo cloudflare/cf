@@ -1,4 +1,4 @@
-/** @generated from radar-get-origin-post-quantum-summary */
+/** @generated from radar.post-quantum.origin.summary */
 import { path } from "#api";
 
 export default {

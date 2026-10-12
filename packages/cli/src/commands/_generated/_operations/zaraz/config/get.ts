@@ -1,4 +1,4 @@
-/** @generated from get-zones-zone_identifier-zaraz-config */
+/** @generated from zaraz.config.get */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from pay-per-crawl.crawlerDeleteStripeConfig */
+/** @generated from pay-per-crawl.crawler.stripe.delete */
 import { path } from "#api";
 
 export default {

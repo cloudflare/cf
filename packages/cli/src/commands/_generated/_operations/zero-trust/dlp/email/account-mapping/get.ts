@@ -1,4 +1,4 @@
-/** @generated from dlp-email-scanner-get-account-mapping */
+/** @generated from zero-trust.dlp.email.account-mapping.get */
 import { path } from "#api";
 
 export default {

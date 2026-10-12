@@ -1,4 +1,4 @@
-/** @generated from zero-trust-users-update-user */
+/** @generated from zero-trust.access.users.update */
 import { path } from "#api";
 
 export default {

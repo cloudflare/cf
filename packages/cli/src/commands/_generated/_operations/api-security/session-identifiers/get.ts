@@ -1,4 +1,4 @@
-/** @generated from api-shield-settings-retrieve-information-about-specific-configuration-properties */
+/** @generated from api-security.session-identifiers.get */
 import { path } from "#api";
 
 export default {

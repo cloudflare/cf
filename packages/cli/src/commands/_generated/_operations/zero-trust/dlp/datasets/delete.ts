@@ -1,4 +1,4 @@
-/** @generated from dlp-datasets-delete */
+/** @generated from zero-trust.dlp.datasets.delete */
 import { path } from "#api";
 
 export default {

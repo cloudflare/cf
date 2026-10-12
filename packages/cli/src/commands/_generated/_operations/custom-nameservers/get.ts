@@ -1,4 +1,4 @@
-/** @generated from generated:get:/{account_or_zone}/{account_or_zone_id}/custom_ns */
+/** @generated from custom-nameservers.get */
 import { path } from "#api";
 
 export default {

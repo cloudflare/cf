@@ -1,4 +1,4 @@
-/** @generated from dlp-limits-get */
+/** @generated from zero-trust.dlp.limits.list */
 import { path } from "#api";
 
 export default {

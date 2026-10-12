@@ -1,4 +1,4 @@
-/** @generated from token-validation-rules-get */
+/** @generated from api-security.token-validation.rules.get */
 import { path } from "#api";
 
 export default {

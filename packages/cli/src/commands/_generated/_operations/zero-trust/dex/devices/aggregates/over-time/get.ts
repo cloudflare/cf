@@ -1,4 +1,4 @@
-/** @generated from dex-fleet-status-over-time */
+/** @generated from zero-trust.dex.devices.aggregates.over-time.get */
 import { path } from "#api";
 
 export default {

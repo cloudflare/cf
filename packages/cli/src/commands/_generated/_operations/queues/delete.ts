@@ -1,4 +1,4 @@
-/** @generated from queues-delete */
+/** @generated from queues.delete */
 import { path } from "#api";
 
 export default {

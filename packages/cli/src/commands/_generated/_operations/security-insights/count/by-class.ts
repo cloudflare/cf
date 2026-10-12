@@ -1,4 +1,4 @@
-/** @generated from generated:get:/{account_or_zone}/{account_or_zone_id}/security-center/insights/class */
+/** @generated from security-insights.count.by-class */
 import { path } from "#api";
 
 export default {

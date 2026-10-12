@@ -1,4 +1,4 @@
-/** @generated from resources-catalog-policy-preview */
+/** @generated from magic-cloud-networking.resources.policy-preview */
 import { path } from "#api";
 
 export default {

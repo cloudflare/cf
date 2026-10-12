@@ -1,4 +1,4 @@
-/** @generated from namespace-worker-delete-namespace */
+/** @generated from workers-for-platforms.dispatch-namespaces.delete */
 import { path } from "#api";
 
 export default {

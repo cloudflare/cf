@@ -1,4 +1,4 @@
-/** @generated from get-v2-livestreams-livestream-session-id */
+/** @generated from realtime.kit.livestreams.sessions.get */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from origin-cloud-regions-v2-batch-delete */
+/** @generated from cache.origin-cloud-regions.bulk-delete */
 import { path } from "#api";
 
 export default {

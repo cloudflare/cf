@@ -1,4 +1,4 @@
-/** @generated from ai-search-namespace-instance-create-or-update-item */
+/** @generated from ai-search.items.upsert */
 import { path } from "#api";
 
 export default {

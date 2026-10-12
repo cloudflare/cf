@@ -1,4 +1,4 @@
-/** @generated from pay-per-crawl.listPPUProposals */
+/** @generated from pay-per-use.proposals.list */
 import { path } from "#api";
 
 export default {

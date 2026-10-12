@@ -1,4 +1,4 @@
-/** @generated from mcp-portals-api-fetch-servers */
+/** @generated from mcp.servers.read */
 import { path } from "#api";
 
 export default {

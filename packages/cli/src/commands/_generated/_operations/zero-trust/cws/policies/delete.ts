@@ -1,4 +1,4 @@
-/** @generated from cws-delete-policy */
+/** @generated from zero-trust.cws.policies.delete */
 import { path } from "#api";
 
 export default {

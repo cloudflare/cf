@@ -1,4 +1,4 @@
-/** @generated from radar-get-http-top-ases-by-operating-system */
+/** @generated from radar.http.ases.os.get */
 import { path } from "#api";
 
 export default {

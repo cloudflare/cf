@@ -1,4 +1,4 @@
-/** @generated from ip-list-get-ip-lists */
+/** @generated from intel.ip-lists.get */
 import { path } from "#api";
 
 export default {

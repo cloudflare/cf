@@ -1,4 +1,4 @@
-/** @generated from workers-ai-post-run-generic */
+/** @generated from ai.run */
 import { path } from "#api";
 
 export default {

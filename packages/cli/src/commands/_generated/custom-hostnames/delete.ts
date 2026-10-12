@@ -59,8 +59,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "DELETE",
 						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/custom_hostnames/${argv["custom-hostname-id"] == null ? "<custom-hostname-id>" : encodeURIComponent(String(argv["custom-hostname-id"]))}`,
 						pathParams: {
-							"custom-hostname-id": String(argv["custom-hostname-id"] ?? ""),
 							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
+							"custom-hostname-id": String(argv["custom-hostname-id"] ?? ""),
 						},
 						bodyKind: "none",
 					});

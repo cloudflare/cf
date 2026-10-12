@@ -1,4 +1,4 @@
-/** @generated from accounts-list-accounts */
+/** @generated from accounts.list */
 export default {
 	method: "GET",
 	path: () => "/accounts",

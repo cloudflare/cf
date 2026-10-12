@@ -1,4 +1,4 @@
-/** @generated from zero-trust-gateway-locations-delete-zero-trust-gateway-location */
+/** @generated from zero-trust.gateway.locations.delete */
 import { path } from "#api";
 
 export default {

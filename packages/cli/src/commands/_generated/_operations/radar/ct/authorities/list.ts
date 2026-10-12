@@ -1,4 +1,4 @@
-/** @generated from radar-get-certificate-authorities */
+/** @generated from radar.ct.authorities.list */
 export default {
 	method: "GET",
 	path: () => "/radar/ct/authorities",

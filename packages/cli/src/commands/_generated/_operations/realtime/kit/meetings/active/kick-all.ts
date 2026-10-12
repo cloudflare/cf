@@ -1,4 +1,4 @@
-/** @generated from KickAllParticipants */
+/** @generated from realtime.kit.meetings.active.kick-all */
 import { path } from "#api";
 
 export default {

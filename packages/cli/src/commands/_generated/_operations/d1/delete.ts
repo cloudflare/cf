@@ -1,4 +1,4 @@
-/** @generated from d1-delete-database */
+/** @generated from d1.delete */
 import { path } from "#api";
 
 export default {

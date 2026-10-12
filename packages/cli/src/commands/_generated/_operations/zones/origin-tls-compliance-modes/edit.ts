@@ -1,4 +1,4 @@
-/** @generated from zone-cache-settings-change-origin-tls-compliance-modes-setting */
+/** @generated from zones.origin-tls-compliance-modes.edit */
 import { path } from "#api";
 
 export default {

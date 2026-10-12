@@ -1,4 +1,4 @@
-/** @generated from zero-trust-seats-update-a-user-seat */
+/** @generated from zero-trust.seats.edit */
 import { path } from "#api";
 
 export default {

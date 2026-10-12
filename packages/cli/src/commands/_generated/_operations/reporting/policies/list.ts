@@ -1,4 +1,4 @@
-/** @generated from reporting-policies-list */
+/** @generated from reporting.policies.list */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from domain-intelligence-get-domain-details */
+/** @generated from intel.domains.get */
 import { path } from "#api";
 
 export default {

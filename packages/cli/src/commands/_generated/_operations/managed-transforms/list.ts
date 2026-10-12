@@ -1,4 +1,4 @@
-/** @generated from listManagedTransforms */
+/** @generated from managed-transforms.list */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from post_IndicatorCreate */
+/** @generated from cloudforce-one.events.dataset.indicators.create.create */
 import { path } from "#api";
 
 export default {

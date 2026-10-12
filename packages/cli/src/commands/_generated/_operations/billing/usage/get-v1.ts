@@ -1,4 +1,4 @@
-/** @generated from billable-usage-get-v1-account-usage */
+/** @generated from billing.usage.get-v1 */
 import { path } from "#api";
 
 export default {

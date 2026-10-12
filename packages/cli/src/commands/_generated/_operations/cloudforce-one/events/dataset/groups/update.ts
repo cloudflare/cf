@@ -1,4 +1,4 @@
-/** @generated from put_GroupUpdate */
+/** @generated from cloudforce-one.events.dataset.groups.update */
 import { path } from "#api";
 
 export default {

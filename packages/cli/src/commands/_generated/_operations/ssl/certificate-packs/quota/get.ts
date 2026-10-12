@@ -1,4 +1,4 @@
-/** @generated from certificate-packs-get-certificate-pack-quotas */
+/** @generated from ssl.certificate-packs.quota.get */
 import { path } from "#api";
 
 export default {

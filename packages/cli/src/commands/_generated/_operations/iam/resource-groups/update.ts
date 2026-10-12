@@ -1,4 +1,4 @@
-/** @generated from account-resource-group-update */
+/** @generated from iam.resource-groups.update */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from load-balancer-pools-list-pools */
+/** @generated from user.load-balancers.pools.list */
 export default {
 	method: "GET",
 	path: () => "/user/load_balancers/pools",

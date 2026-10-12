@@ -1,4 +1,4 @@
-/** @generated from dlp-settings-delete */
+/** @generated from zero-trust.dlp.settings.delete */
 import { path } from "#api";
 
 export default {

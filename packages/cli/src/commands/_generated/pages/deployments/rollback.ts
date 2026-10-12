@@ -72,8 +72,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "POST",
 						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/pages/projects/${argv["project-name"] == null ? "<project-name>" : encodeURIComponent(String(argv["project-name"]))}/deployments/${argv["deployment-id"] == null ? "<deployment-id>" : encodeURIComponent(String(argv["deployment-id"]))}/rollback`,
 						pathParams: {
-							"deployment-id": String(argv["deployment-id"] ?? ""),
 							"project-name": String(argv["project-name"] ?? ""),
+							"deployment-id": String(argv["deployment-id"] ?? ""),
 						},
 						bodyKind: "none",
 					});

@@ -1,4 +1,4 @@
-/** @generated from CreateFindingInstancesExportCSV */
+/** @generated from zero-trust.casb.findings.instances.export */
 import { path } from "#api";
 
 export default {

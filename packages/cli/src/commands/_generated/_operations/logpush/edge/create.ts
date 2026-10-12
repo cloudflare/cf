@@ -1,4 +1,4 @@
-/** @generated from post-zones-zone_id-logpush-edge-jobs */
+/** @generated from logpush.edge.create */
 import { path } from "#api";
 
 export default {

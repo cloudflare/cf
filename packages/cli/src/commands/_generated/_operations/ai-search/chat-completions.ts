@@ -1,4 +1,4 @@
-/** @generated from ai-search-namespace-instance-chat-completion */
+/** @generated from ai-search.chat-completions */
 import { path } from "#api";
 
 export default {

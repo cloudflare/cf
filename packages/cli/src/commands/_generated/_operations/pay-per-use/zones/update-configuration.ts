@@ -1,4 +1,4 @@
-/** @generated from pay-per-crawl.patchPPUZoneConfiguration */
+/** @generated from pay-per-use.zones.update-configuration */
 import { path } from "#api";
 
 export default {

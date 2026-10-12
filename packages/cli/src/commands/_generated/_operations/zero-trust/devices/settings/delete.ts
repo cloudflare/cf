@@ -1,4 +1,4 @@
-/** @generated from zero-trust-accounts-delete-device-settings-for-zero-trust-account */
+/** @generated from zero-trust.devices.settings.delete */
 import { path } from "#api";
 
 export default {

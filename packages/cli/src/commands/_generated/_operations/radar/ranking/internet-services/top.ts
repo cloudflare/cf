@@ -1,4 +1,4 @@
-/** @generated from radar-get-ranking-top-internet-services */
+/** @generated from radar.ranking.internet-services.top */
 export default {
 	method: "GET",
 	path: () => "/radar/ranking/internet_services/top",

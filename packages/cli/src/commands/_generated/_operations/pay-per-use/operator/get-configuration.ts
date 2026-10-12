@@ -1,4 +1,4 @@
-/** @generated from pay-per-crawl.getPPUOperatorConfiguration */
+/** @generated from pay-per-use.operator.get-configuration */
 import { path } from "#api";
 
 export default {

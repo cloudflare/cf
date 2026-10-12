@@ -1,4 +1,4 @@
-/** @generated from origin-ca-list-certificates */
+/** @generated from origin-ca-certificates.list */
 export default {
 	method: "GET",
 	path: () => "/certificates",

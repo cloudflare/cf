@@ -1,4 +1,4 @@
-/** @generated from Members_batchCreate */
+/** @generated from organization.member.batch.create */
 import { path } from "#api";
 
 export default {

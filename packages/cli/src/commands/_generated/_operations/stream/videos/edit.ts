@@ -1,4 +1,4 @@
-/** @generated from stream-videos-update-video-details */
+/** @generated from stream.videos.edit */
 import { path } from "#api";
 
 export default {

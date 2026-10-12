@@ -1,4 +1,4 @@
-/** @generated from radar-get-bgp-routes-asns */
+/** @generated from radar.bgp.routes.ases */
 export default {
 	method: "GET",
 	path: () => "/radar/bgp/routes/ases",

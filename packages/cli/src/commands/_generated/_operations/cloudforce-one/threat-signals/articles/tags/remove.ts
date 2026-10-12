@@ -1,4 +1,4 @@
-/** @generated from rssArticleTagRemove */
+/** @generated from cloudforce-one.threat-signals.articles.tags.remove */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from radar-get-entities-location-by-alpha2 */
+/** @generated from radar.entities.locations.get */
 import { path } from "#api";
 
 export default {

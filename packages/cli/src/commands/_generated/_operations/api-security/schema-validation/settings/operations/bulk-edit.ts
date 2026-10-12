@@ -1,4 +1,4 @@
-/** @generated from schema-validation-bulk-edit-per-operation-settings */
+/** @generated from api-security.schema-validation.settings.operations.bulk-edit */
 import { path } from "#api";
 
 export default {

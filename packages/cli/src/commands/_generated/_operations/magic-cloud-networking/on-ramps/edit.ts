@@ -1,4 +1,4 @@
-/** @generated from onramps-patch */
+/** @generated from magic-cloud-networking.on-ramps.edit */
 import { path } from "#api";
 
 export default {

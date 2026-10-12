@@ -1,4 +1,4 @@
-/** @generated from patch_TagCategoryUpdate */
+/** @generated from cloudforce-one.events.tags.categories.patch */
 import { path } from "#api";
 
 export default {

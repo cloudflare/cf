@@ -1,4 +1,4 @@
-/** @generated from radar-get-attacks-layer7-top-origin-as */
+/** @generated from radar.attacks.layer7.top.ases.origin */
 export default {
 	method: "GET",
 	path: () => "/radar/attacks/layer7/top/ases/origin",

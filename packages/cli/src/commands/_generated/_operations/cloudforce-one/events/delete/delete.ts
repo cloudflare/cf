@@ -1,4 +1,4 @@
-/** @generated from delete_EventDelete */
+/** @generated from cloudforce-one.events.delete.delete */
 import { path } from "#api";
 
 export default {

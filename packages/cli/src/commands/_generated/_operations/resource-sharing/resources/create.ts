@@ -1,4 +1,4 @@
-/** @generated from share-resource-create */
+/** @generated from resource-sharing.resources.create */
 import { path } from "#api";
 
 export default {

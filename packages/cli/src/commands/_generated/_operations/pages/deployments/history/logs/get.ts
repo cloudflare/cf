@@ -1,4 +1,4 @@
-/** @generated from pages-deployment-get-deployment-logs */
+/** @generated from pages.deployments.history.logs.get */
 import { path } from "#api";
 
 export default {

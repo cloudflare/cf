@@ -1,4 +1,4 @@
-/** @generated from generated:delete:/{account_or_zone}/{account_or_zone_id}/firewall/access_rules/rules/{rule_id} */
+/** @generated from firewall.access-rules.delete */
 import { path } from "#api";
 
 export default {

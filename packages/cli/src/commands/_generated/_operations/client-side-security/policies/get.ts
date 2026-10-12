@@ -1,4 +1,4 @@
-/** @generated from page-shield-get-policy */
+/** @generated from client-side-security.policies.get */
 import { path } from "#api";
 
 export default {

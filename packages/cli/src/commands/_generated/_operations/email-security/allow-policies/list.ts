@@ -1,4 +1,4 @@
-/** @generated from email_security_list_allow_policies */
+/** @generated from email-security.allow-policies.list */
 import { path } from "#api";
 
 export default {

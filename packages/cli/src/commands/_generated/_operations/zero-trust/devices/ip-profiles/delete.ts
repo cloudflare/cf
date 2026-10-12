@@ -1,4 +1,4 @@
-/** @generated from delete-ip-profile */
+/** @generated from zero-trust.devices.ip-profiles.delete */
 import { path } from "#api";
 
 export default {

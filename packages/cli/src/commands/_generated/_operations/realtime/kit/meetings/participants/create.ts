@@ -1,4 +1,4 @@
-/** @generated from add_participant */
+/** @generated from realtime.kit.meetings.participants.create */
 import { path } from "#api";
 
 export default {

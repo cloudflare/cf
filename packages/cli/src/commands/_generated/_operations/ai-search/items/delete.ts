@@ -1,4 +1,4 @@
-/** @generated from ai-search-namespace-instance-delete-item */
+/** @generated from ai-search.items.delete */
 import { path } from "#api";
 
 export default {

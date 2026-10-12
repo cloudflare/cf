@@ -1,4 +1,4 @@
-/** @generated from magic-network-monitoring-configuration-update-an-entire-account-configuration */
+/** @generated from magic-network-monitoring.configs.update */
 import { path } from "#api";
 
 export default {

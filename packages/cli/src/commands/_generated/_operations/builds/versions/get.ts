@@ -1,4 +1,4 @@
-/** @generated from getBuildsByVersionIds */
+/** @generated from builds.versions.get */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from workers.previews.delete */
+/** @generated from previews.delete */
 import { path } from "#api";
 
 export default {

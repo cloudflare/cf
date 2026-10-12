@@ -1,4 +1,4 @@
-/** @generated from secrets-store-delete-bulk */
+/** @generated from secrets-store.secrets.bulk-delete */
 import { path } from "#api";
 
 export default {

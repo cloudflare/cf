@@ -1,4 +1,4 @@
-/** @generated from brapi-post_Screenshot */
+/** @generated from browser-run.quick-action.screenshot */
 import { path } from "#api";
 
 export default {

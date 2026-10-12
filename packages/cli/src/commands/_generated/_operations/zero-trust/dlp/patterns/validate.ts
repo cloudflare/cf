@@ -1,4 +1,4 @@
-/** @generated from dlp-pattern-validate */
+/** @generated from zero-trust.dlp.patterns.validate */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from brapi-post_Scrape */
+/** @generated from browser-run.quick-action.scrape */
 import { path } from "#api";
 
 export default {

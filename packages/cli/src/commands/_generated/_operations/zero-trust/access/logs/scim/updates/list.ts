@@ -1,4 +1,4 @@
-/** @generated from access-scim-update-logs-list-access-scim-update-logs */
+/** @generated from zero-trust.access.logs.scim.updates.list */
 import { path } from "#api";
 
 export default {

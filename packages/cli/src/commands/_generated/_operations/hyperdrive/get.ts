@@ -1,4 +1,4 @@
-/** @generated from get-hyperdrive */
+/** @generated from hyperdrive.get */
 import { path } from "#api";
 
 export default {

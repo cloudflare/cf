@@ -1,4 +1,4 @@
-/** @generated from bot-management-zone-feedback-list */
+/** @generated from bot-management.feedback.list */
 import { path } from "#api";
 
 export default {

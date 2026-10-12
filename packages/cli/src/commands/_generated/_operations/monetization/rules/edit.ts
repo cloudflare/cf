@@ -1,4 +1,4 @@
-/** @generated from monetization-patch-rule */
+/** @generated from monetization.rules.edit */
 import { path } from "#api";
 
 export default {

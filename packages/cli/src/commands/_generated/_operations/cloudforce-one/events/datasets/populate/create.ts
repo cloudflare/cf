@@ -1,4 +1,4 @@
-/** @generated from post_DatasetPopulate */
+/** @generated from cloudforce-one.events.datasets.populate.create */
 import { path } from "#api";
 
 export default {

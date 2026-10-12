@@ -64,8 +64,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "DELETE",
 						url: `https://api.cloudflare.com/client/v4/tenants/${argv["tenant-tag"] == null ? "<tenant-tag>" : encodeURIComponent(String(argv["tenant-tag"]))}/custom_ns/${argv["custom-ns-id"] == null ? "<custom-ns-id>" : encodeURIComponent(String(argv["custom-ns-id"]))}`,
 						pathParams: {
-							"custom-ns-id": String(argv["custom-ns-id"] ?? ""),
 							"tenant-tag": String(argv["tenant-tag"] ?? ""),
+							"custom-ns-id": String(argv["custom-ns-id"] ?? ""),
 						},
 						bodyKind: "none",
 					});

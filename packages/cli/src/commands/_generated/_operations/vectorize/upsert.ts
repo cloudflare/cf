@@ -1,4 +1,4 @@
-/** @generated from vectorize-upsert-vector */
+/** @generated from vectorize.upsert */
 import { path } from "#api";
 
 export default {

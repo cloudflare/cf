@@ -1,4 +1,4 @@
-/** @generated from GetSessionDetails */
+/** @generated from realtime.kit.sessions.get */
 import { path } from "#api";
 
 export default {

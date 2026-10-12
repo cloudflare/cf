@@ -1,4 +1,4 @@
-/** @generated from worker-delete-script-secret */
+/** @generated from workers.secrets.delete */
 import { path } from "#api";
 
 export default {

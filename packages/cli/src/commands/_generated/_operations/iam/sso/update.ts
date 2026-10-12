@@ -1,4 +1,4 @@
-/** @generated from update-sso-connector-state */
+/** @generated from iam.sso.update */
 import { path } from "#api";
 
 export default {

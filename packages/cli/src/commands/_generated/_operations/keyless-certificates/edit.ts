@@ -1,4 +1,4 @@
-/** @generated from keyless-ssl-for-a-zone-edit-keyless-ssl-configuration */
+/** @generated from keyless-certificates.edit */
 import { path } from "#api";
 
 export default {

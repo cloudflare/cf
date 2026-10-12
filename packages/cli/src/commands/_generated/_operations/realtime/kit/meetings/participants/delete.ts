@@ -1,4 +1,4 @@
-/** @generated from delete_meeting_participant */
+/** @generated from realtime.kit.meetings.participants.delete */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from radar-get-origins-timeseries */
+/** @generated from radar.origins.timeseries */
 export default {
 	method: "GET",
 	path: () => "/radar/origins/timeseries",

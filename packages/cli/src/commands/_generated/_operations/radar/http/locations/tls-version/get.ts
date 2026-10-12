@@ -1,4 +1,4 @@
-/** @generated from radar-get-http-top-locations-by-tls-version */
+/** @generated from radar.http.locations.tls-version.get */
 import { path } from "#api";
 
 export default {

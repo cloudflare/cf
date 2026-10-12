@@ -1,4 +1,4 @@
-/** @generated from deleteApplication */
+/** @generated from containers.applications.delete */
 import { path } from "#api";
 
 export default {

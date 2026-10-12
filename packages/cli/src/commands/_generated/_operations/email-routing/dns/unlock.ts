@@ -1,4 +1,4 @@
-/** @generated from email-routing-settings-unlock-email-routing-dns */
+/** @generated from email-routing.dns.unlock */
 import { path } from "#api";
 
 export default {

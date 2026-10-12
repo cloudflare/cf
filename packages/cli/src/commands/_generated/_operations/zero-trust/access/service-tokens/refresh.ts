@@ -1,4 +1,4 @@
-/** @generated from access-service-tokens-refresh-a-service-token */
+/** @generated from zero-trust.access.service-tokens.refresh */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from ip-address-management-address-maps-add-multiple-ips-to-an-address-map */
+/** @generated from addressing.address-maps.ips.update-bulk */
 import { path } from "#api";
 
 export default {

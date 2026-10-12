@@ -1,4 +1,4 @@
-/** @generated from account-load-balancer-monitors-patch-monitor */
+/** @generated from load-balancers.monitors.edit */
 import { path } from "#api";
 
 export default {

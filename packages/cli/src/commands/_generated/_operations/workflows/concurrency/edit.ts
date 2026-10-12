@@ -1,4 +1,4 @@
-/** @generated from wor-update-concurrency-key */
+/** @generated from workflows.concurrency.edit */
 import { path } from "#api";
 
 export default {

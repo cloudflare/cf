@@ -1,4 +1,4 @@
-/** @generated from zone-settings-get-fonts-setting */
+/** @generated from zones.fonts.get */
 import { path } from "#api";
 
 export default {

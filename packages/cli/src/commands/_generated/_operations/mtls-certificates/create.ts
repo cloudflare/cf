@@ -1,4 +1,4 @@
-/** @generated from m-tls-certificate-management-upload-m-tls-certificate */
+/** @generated from mtls-certificates.create */
 import { path } from "#api";
 
 export default {

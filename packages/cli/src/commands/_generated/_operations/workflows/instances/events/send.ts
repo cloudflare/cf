@@ -1,4 +1,4 @@
-/** @generated from wor-send-event-workflow-instance */
+/** @generated from workflows.instances.events.send */
 import { path } from "#api";
 
 export default {

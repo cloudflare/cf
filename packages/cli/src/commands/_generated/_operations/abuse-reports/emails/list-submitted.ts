@@ -1,4 +1,4 @@
-/** @generated from ListSubmittedAbuseReportEmails */
+/** @generated from abuse-reports.emails.list-submitted */
 import { path } from "#api";
 
 export default {

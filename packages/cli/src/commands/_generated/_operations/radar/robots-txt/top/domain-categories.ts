@@ -1,4 +1,4 @@
-/** @generated from radar-get-robots-txt-top-domain-categories-by-files-parsed */
+/** @generated from radar.robots-txt.top.domain-categories */
 export default {
 	method: "GET",
 	path: () => "/radar/robots_txt/top/domain_categories",

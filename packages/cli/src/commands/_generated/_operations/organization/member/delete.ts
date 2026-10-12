@@ -1,4 +1,4 @@
-/** @generated from Members_delete */
+/** @generated from organization.member.delete */
 import { path } from "#api";
 
 export default {

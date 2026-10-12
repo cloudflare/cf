@@ -62,6 +62,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.coerce("cache-threshold", (value) =>
 			resolveFileToken(value, "cache-threshold", "text")
 		)
+		.option("cache-ttl", {
+			type: "number",
+			description:
+				"Cache entry TTL in seconds. Allowed values: 600 (10min), 1800 (30min), 3600 (1h), 7200 (2h), 21600 (6h), 43200 (12h), 86400 (24h), 172800 (48h), 259200 (72h), 518400 (6d).",
+		})
 		.option("chunk", { type: "boolean", description: "The chunk field" })
 		.option("chunk-overlap", {
 			type: "number",
@@ -316,6 +321,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "The summarization_model field",
 		})
+		.option("sync-interval", {
+			type: "number",
+			description:
+				"Interval between automatic syncs, in seconds. Allowed values: 900 (15min), 1800 (30min), 3600 (1h), 7200 (2h), 14400 (4h), 21600 (6h), 43200 (12h), 86400 (24h).",
+		})
 		.option("system-prompt-ai-search", {
 			type: "string",
 			description: "The system_prompt_ai_search field",
@@ -428,8 +438,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "PUT",
 						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-search/namespaces/${argv["namespace"] == null ? "<namespace>" : encodeURIComponent(String(argv["namespace"]))}/instances/${argv["instance-id"] == null ? "<instance-id>" : encodeURIComponent(String(argv["instance-id"]))}`,
 						pathParams: {
-							"instance-id": String(argv["instance-id"] ?? ""),
 							namespace: String(argv["namespace"] ?? ""),
+							"instance-id": String(argv["instance-id"] ?? ""),
 						},
 						bodyKind: "json",
 						body:
@@ -448,6 +458,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 										),
 										cache: argv["cache"],
 										cache_threshold: argv["cache-threshold"],
+										cache_ttl: argv["cache-ttl"],
 										chunk: argv["chunk"],
 										chunk_overlap: argv["chunk-overlap"],
 										chunk_size: argv["chunk-size"],
@@ -618,6 +629,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											"summarization-model",
 											"text"
 										),
+										sync_interval: argv["sync-interval"],
 										system_prompt_ai_search: resolveFileToken(
 											argv["system-prompt-ai-search"] as string | undefined,
 											"system-prompt-ai-search",
@@ -692,6 +704,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						["cache_threshold"],
 						argv["cache-threshold"]
 					);
+				if (argv["cache-ttl"] !== undefined)
+					setNestedValue(bodyData, ["cache_ttl"], argv["cache-ttl"]);
 				if (argv["chunk"] !== undefined)
 					setNestedValue(bodyData, ["chunk"], argv["chunk"]);
 				if (argv["chunk-overlap"] !== undefined)
@@ -1063,6 +1077,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"text"
 						)
 					);
+				if (argv["sync-interval"] !== undefined)
+					setNestedValue(bodyData, ["sync_interval"], argv["sync-interval"]);
 				if (argv["system-prompt-ai-search"] !== undefined)
 					setNestedValue(
 						bodyData,

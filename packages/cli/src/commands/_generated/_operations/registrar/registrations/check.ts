@@ -1,4 +1,4 @@
-/** @generated from registrar-domain-discovery-check */
+/** @generated from registrar.registrations.check */
 import { path } from "#api";
 
 export default {

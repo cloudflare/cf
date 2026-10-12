@@ -1,4 +1,4 @@
-/** @generated from get_EventRawRead */
+/** @generated from cloudforce-one.threat-events.raw.get */
 import { path } from "#api";
 
 export default {

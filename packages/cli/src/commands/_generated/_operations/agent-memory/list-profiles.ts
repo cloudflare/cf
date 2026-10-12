@@ -1,4 +1,4 @@
-/** @generated from agent-memory-profile-list */
+/** @generated from agent-memory.list-profiles */
 import { path } from "#api";
 
 export default {

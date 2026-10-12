@@ -1,4 +1,4 @@
-/** @generated from namespace-worker-put-script-secrets */
+/** @generated from workers-for-platforms.dispatch-namespaces.scripts.secrets.update */
 import { path } from "#api";
 
 export default {

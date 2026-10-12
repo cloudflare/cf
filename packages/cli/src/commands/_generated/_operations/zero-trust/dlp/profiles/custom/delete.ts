@@ -1,4 +1,4 @@
-/** @generated from dlp-profiles-delete-custom-profile */
+/** @generated from zero-trust.dlp.profiles.custom.delete */
 import { path } from "#api";
 
 export default {

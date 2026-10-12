@@ -1,4 +1,4 @@
-/** @generated from rssCuratedFeedList */
+/** @generated from cloudforce-one.threat-signals.curated-feeds.list */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from stream-videos-upload-videos-from-a-url */
+/** @generated from stream.videos.copy */
 import { path } from "#api";
 
 export default {

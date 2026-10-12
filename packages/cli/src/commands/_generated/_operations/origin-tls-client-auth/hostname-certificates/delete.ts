@@ -1,4 +1,4 @@
-/** @generated from per-hostname-authenticated-origin-pull-delete-hostname-client-certificate */
+/** @generated from origin-tls-client-auth.hostname-certificates.delete */
 import { path } from "#api";
 
 export default {

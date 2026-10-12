@@ -1,4 +1,4 @@
-/** @generated from zone-settings-get-automatic-platform-optimization-setting */
+/** @generated from zones.automatic-platform-optimization.get */
 import { path } from "#api";
 
 export default {

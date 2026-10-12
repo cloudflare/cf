@@ -1,4 +1,4 @@
-/** @generated from get_EventRelationships */
+/** @generated from cloudforce-one.events.relationships.get */
 import { path } from "#api";
 
 export default {

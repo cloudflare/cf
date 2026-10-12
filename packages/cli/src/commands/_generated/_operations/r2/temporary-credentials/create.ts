@@ -1,4 +1,4 @@
-/** @generated from r2-create-temp-access-credentials */
+/** @generated from r2.temporary-credentials.create */
 import { path } from "#api";
 
 export default {

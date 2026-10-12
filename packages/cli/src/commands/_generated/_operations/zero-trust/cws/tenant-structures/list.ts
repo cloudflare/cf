@@ -1,4 +1,4 @@
-/** @generated from cws-list-tenant-structures */
+/** @generated from zero-trust.cws.tenant-structures.list */
 import { path } from "#api";
 
 export default {

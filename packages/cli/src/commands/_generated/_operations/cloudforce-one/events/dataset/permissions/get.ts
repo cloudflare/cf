@@ -1,4 +1,4 @@
-/** @generated from get_PermissionList */
+/** @generated from cloudforce-one.events.dataset.permissions.get */
 import { path } from "#api";
 
 export default {

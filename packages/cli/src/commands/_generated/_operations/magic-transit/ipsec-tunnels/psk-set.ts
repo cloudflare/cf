@@ -1,4 +1,4 @@
-/** @generated from magic-ipsec-tunnels-set-pre-shared-keys-for-ipsec-tunnels */
+/** @generated from magic-transit.ipsec-tunnels.psk-set */
 import { path } from "#api";
 
 export default {

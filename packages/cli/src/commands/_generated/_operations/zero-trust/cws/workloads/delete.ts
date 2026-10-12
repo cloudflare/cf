@@ -1,4 +1,4 @@
-/** @generated from cws-delete-workload */
+/** @generated from zero-trust.cws.workloads.delete */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from getAllWebhooks */
+/** @generated from realtime.kit.webhooks.list */
 import { path } from "#api";
 
 export default {

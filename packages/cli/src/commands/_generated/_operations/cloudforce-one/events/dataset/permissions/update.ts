@@ -1,4 +1,4 @@
-/** @generated from put_PermissionUpdate */
+/** @generated from cloudforce-one.events.dataset.permissions.update */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from radar-get-entities-locations */
+/** @generated from radar.entities.locations.list */
 export default {
 	method: "GET",
 	path: () => "/radar/entities/locations",

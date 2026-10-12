@@ -1,4 +1,4 @@
-/** @generated from urlscanner-search-scans-v2 */
+/** @generated from url-scanner.scans.list */
 import { path } from "#api";
 
 export default {

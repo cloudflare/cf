@@ -1,4 +1,4 @@
-/** @generated from secondary-dns-(-secondary-zone)-create-secondary-zone-configuration */
+/** @generated from dns.zone-transfers.incoming.create */
 import { path } from "#api";
 
 export default {

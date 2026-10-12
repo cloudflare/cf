@@ -1,4 +1,4 @@
-/** @generated from update_settings */
+/** @generated from network-interconnects.settings.update */
 import { path } from "#api";
 
 export default {

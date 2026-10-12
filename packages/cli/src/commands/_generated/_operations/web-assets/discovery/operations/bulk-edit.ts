@@ -1,4 +1,4 @@
-/** @generated from api-shield-api-patch-discovered-operations */
+/** @generated from web-assets.discovery.operations.bulk-edit */
 import { path } from "#api";
 
 export default {

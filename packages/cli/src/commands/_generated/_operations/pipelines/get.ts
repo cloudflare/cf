@@ -1,4 +1,4 @@
-/** @generated from getV4AccountsByAccount_idPipelinesV1PipelinesByPipeline_id */
+/** @generated from pipelines.get */
 import { path } from "#api";
 
 export default {

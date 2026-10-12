@@ -1,4 +1,4 @@
-/** @generated from radar-get-http-top-locations-by-http-requests */
+/** @generated from radar.http.locations.get */
 export default {
 	method: "GET",
 	path: () => "/radar/http/top/locations",

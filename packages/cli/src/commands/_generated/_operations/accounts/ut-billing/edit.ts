@@ -1,4 +1,4 @@
-/** @generated from account-settings-change-ut-billing-setting */
+/** @generated from accounts.ut-billing.edit */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from dex-endpoints-http-test-details */
+/** @generated from zero-trust.dex.test-results.http.get */
 import { path } from "#api";
 
 export default {

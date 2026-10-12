@@ -1,4 +1,4 @@
-/** @generated from aig-config-get-gateway-url */
+/** @generated from ai-gateway.gateways.get-url */
 import { path } from "#api";
 
 export default {

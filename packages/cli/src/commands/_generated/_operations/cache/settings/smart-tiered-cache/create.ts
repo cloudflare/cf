@@ -1,4 +1,4 @@
-/** @generated from smart-tiered-cache-create-smart-tiered-cache-setting */
+/** @generated from cache.settings.smart-tiered-cache.create */
 import { path } from "#api";
 
 export default {

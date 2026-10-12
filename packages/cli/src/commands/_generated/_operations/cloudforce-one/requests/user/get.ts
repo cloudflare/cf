@@ -1,4 +1,4 @@
-/** @generated from get_UserGetSelf */
+/** @generated from cloudforce-one.requests.user.get */
 import { path } from "#api";
 
 export default {

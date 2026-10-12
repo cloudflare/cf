@@ -1,4 +1,4 @@
-/** @generated from secondary-dns-(-peer)-delete-peer */
+/** @generated from dns.zone-transfers.peers.delete */
 import { path } from "#api";
 
 export default {

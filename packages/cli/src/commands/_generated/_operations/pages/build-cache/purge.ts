@@ -1,4 +1,4 @@
-/** @generated from pages-purge-build-cache */
+/** @generated from pages.build-cache.purge */
 import { path } from "#api";
 
 export default {

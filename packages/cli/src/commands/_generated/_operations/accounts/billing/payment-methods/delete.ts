@@ -1,4 +1,4 @@
-/** @generated from account-billing-delete-payment-method */
+/** @generated from accounts.billing.payment-methods.delete */
 import { path } from "#api";
 
 export default {

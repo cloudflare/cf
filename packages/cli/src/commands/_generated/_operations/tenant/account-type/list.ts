@@ -1,4 +1,4 @@
-/** @generated from Tenants_validAccountTypes */
+/** @generated from tenant.account-type.list */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from r2-create-bucket-job */
+/** @generated from r2.buckets.jobs.create */
 import { path } from "#api";
 
 export default {

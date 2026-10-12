@@ -74,8 +74,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						url: `https://api.cloudflare.com/client/v4/${accountOrZone}/${accountOrZoneId}/custom_pages/assets/${argv["asset-name"] == null ? "<asset-name>" : encodeURIComponent(String(argv["asset-name"]))}`,
 						pathParams: {
 							"account-or-zone": String(accountOrZone),
-							"asset-name": String(argv["asset-name"] ?? ""),
 							"account-or-zone-id": String(accountOrZoneId),
+							"asset-name": String(argv["asset-name"] ?? ""),
 						},
 						bodyKind: "none",
 					});

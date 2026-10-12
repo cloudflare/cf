@@ -1,4 +1,4 @@
-/** @generated from put_MessageUpdate */
+/** @generated from cloudforce-one.requests.messages.update */
 import { path } from "#api";
 
 export default {

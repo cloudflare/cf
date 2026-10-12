@@ -1,4 +1,4 @@
-/** @generated from waiting-room-list-events */
+/** @generated from waiting-rooms.events.list */
 import { path } from "#api";
 
 export default {

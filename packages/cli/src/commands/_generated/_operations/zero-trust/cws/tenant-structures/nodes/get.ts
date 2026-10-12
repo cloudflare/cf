@@ -1,4 +1,4 @@
-/** @generated from cws-get-tenant-node */
+/** @generated from zero-trust.cws.tenant-structures.nodes.get */
 import { path } from "#api";
 
 export default {

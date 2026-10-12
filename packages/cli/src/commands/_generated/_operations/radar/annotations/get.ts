@@ -1,4 +1,4 @@
-/** @generated from radar-get-annotation-by-id */
+/** @generated from radar.annotations.get */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from lists-get-bulk-operation-status */
+/** @generated from rules.lists.bulk-operations.get */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from wor-batch-create-workflow-instance */
+/** @generated from workflows.instances.batch.create */
 import { path } from "#api";
 
 export default {

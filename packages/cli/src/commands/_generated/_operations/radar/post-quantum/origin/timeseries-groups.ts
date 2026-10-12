@@ -1,4 +1,4 @@
-/** @generated from radar-get-origin-post-quantum-timeseries-groups */
+/** @generated from radar.post-quantum.origin.timeseries-groups */
 import { path } from "#api";
 
 export default {

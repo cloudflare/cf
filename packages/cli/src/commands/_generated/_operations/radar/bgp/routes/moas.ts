@@ -1,4 +1,4 @@
-/** @generated from radar-get-bgp-pfx2as-moas */
+/** @generated from radar.bgp.routes.moas */
 export default {
 	method: "GET",
 	path: () => "/radar/bgp/routes/moas",

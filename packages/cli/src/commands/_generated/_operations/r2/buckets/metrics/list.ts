@@ -1,4 +1,4 @@
-/** @generated from r2-get-account-level-metrics */
+/** @generated from r2.buckets.metrics.list */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from mcp-portals-api-list-portals */
+/** @generated from mcp.portals.list */
 import { path } from "#api";
 
 export default {

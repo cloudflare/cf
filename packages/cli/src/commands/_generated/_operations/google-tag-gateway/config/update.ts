@@ -1,4 +1,4 @@
-/** @generated from zone-settings-change-google-tag-gateway-config */
+/** @generated from google-tag-gateway.config.update */
 import { path } from "#api";
 
 export default {

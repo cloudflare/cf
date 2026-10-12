@@ -1,4 +1,4 @@
-/** @generated from access-user-populations-delete-user-population */
+/** @generated from zero-trust.access.user-populations.delete */
 import { path } from "#api";
 
 export default {

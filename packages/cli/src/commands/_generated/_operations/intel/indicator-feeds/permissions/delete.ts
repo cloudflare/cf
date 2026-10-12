@@ -1,4 +1,4 @@
-/** @generated from custom-indicator-feeds-remove-permission */
+/** @generated from intel.indicator-feeds.permissions.delete */
 import { path } from "#api";
 
 export default {

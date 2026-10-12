@@ -1,4 +1,4 @@
-/** @generated from get_CategoryRead */
+/** @generated from cloudforce-one.threat-events.categories.get */
 import { path } from "#api";
 
 export default {

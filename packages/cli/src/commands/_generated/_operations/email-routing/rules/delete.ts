@@ -1,4 +1,4 @@
-/** @generated from email-routing-routing-rules-delete-routing-rule */
+/** @generated from email-routing.rules.delete */
 import { path } from "#api";
 
 export default {

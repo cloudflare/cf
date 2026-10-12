@@ -1,4 +1,4 @@
-/** @generated from updateZoneSnippet */
+/** @generated from snippets.update */
 import { path } from "#api";
 
 export default {

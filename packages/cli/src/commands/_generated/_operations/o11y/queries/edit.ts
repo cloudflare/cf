@@ -1,4 +1,4 @@
-/** @generated from queries.patch */
+/** @generated from o11y.queries.edit */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from magic-site-acls-list-acls */
+/** @generated from magic-transit.sites.acls.list */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from cloudforce-one-get-rule-stats */
+/** @generated from cloudforce-one.rules.stats.get */
 import { path } from "#api";
 
 export default {

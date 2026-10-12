@@ -1,4 +1,4 @@
-/** @generated from email_security_delete_domain */
+/** @generated from email-security.domains.delete */
 import { path } from "#api";
 
 export default {

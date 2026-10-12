@@ -1,4 +1,4 @@
-/** @generated from api-shield-operations-delete-labels-from-operation */
+/** @generated from web-assets.operations.labels.delete */
 import { path } from "#api";
 
 export default {

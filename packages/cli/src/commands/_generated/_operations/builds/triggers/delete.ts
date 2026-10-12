@@ -1,4 +1,4 @@
-/** @generated from deleteTrigger */
+/** @generated from builds.triggers.delete */
 import { path } from "#api";
 
 export default {

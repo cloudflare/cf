@@ -1,4 +1,4 @@
-/** @generated from api-shield-labels-replace-operations-attached-to-user-label */
+/** @generated from web-assets.labels.user.operations.update */
 import { path } from "#api";
 
 export default {

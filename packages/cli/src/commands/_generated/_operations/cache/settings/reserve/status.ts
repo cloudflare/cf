@@ -1,4 +1,4 @@
-/** @generated from zone-cache-settings-get-cache-reserve-clear */
+/** @generated from cache.settings.reserve.status */
 import { path } from "#api";
 
 export default {

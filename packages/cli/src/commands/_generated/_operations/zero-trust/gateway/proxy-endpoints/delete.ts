@@ -1,4 +1,4 @@
-/** @generated from zero-trust-gateway-proxy-endpoints-delete-proxy-endpoint */
+/** @generated from zero-trust.gateway.proxy-endpoints.delete */
 import { path } from "#api";
 
 export default {

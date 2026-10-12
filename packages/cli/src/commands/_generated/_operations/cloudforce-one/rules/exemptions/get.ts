@@ -1,4 +1,4 @@
-/** @generated from cloudforce-one-get-exemptions */
+/** @generated from cloudforce-one.rules.exemptions.get */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from radar-get-bots */
+/** @generated from radar.bots.list */
 export default {
 	method: "GET",
 	path: () => "/radar/bots",

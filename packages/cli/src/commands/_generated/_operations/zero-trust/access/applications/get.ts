@@ -1,4 +1,4 @@
-/** @generated from generated:get:/{account_or_zone}/{account_or_zone_id}/access/apps/{app_id} */
+/** @generated from zero-trust.access.applications.get */
 import { path } from "#api";
 
 export default {

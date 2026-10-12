@@ -1,4 +1,4 @@
-/** @generated from cloudforce-one-cancel-rule-approval */
+/** @generated from cloudforce-one.rules.approvals.cancel */
 import { path } from "#api";
 
 export default {

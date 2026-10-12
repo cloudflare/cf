@@ -1,4 +1,4 @@
-/** @generated from pay-per-crawl.patchPPUOperatorConfiguration */
+/** @generated from pay-per-use.operator.update-configuration */
 import { path } from "#api";
 
 export default {

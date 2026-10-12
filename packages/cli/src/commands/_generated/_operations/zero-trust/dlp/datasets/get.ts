@@ -1,4 +1,4 @@
-/** @generated from dlp-datasets-read */
+/** @generated from zero-trust.dlp.datasets.get */
 import { path } from "#api";
 
 export default {

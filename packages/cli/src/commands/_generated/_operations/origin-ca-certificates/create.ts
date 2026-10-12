@@ -1,4 +1,4 @@
-/** @generated from origin-ca-create-certificate */
+/** @generated from origin-ca-certificates.create */
 export default {
 	method: "POST",
 	path: () => "/certificates",

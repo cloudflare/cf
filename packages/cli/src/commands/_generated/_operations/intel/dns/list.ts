@@ -1,4 +1,4 @@
-/** @generated from passive-dns-by-ip-get-passive-dns-by-ip */
+/** @generated from intel.dns.list */
 import { path } from "#api";
 
 export default {

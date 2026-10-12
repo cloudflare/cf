@@ -1,4 +1,4 @@
-/** @generated from brapi-get_RecordingNetwork */
+/** @generated from browser-run.recording.network.get */
 import { path } from "#api";
 
 export default {

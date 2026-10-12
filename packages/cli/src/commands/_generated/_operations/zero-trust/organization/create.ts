@@ -1,4 +1,4 @@
-/** @generated from generated:post:/{account_or_zone}/{account_or_zone_id}/access/organizations */
+/** @generated from zero-trust.organization.create */
 import { path } from "#api";
 
 export default {

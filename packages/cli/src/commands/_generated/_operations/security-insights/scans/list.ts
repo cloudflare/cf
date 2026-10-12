@@ -1,4 +1,4 @@
-/** @generated from generated:get:/{account_or_zone}/{account_or_zone_id}/security-center/insights/scans */
+/** @generated from security-insights.scans.list */
 import { path } from "#api";
 
 export default {

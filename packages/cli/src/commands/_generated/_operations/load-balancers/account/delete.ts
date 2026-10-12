@@ -1,4 +1,4 @@
-/** @generated from generated:delete:/{account_or_zone}/{account_or_zone_id}/load_balancers/{load_balancer_id} */
+/** @generated from load-balancers.account.delete */
 import { path } from "#api";
 
 export default {

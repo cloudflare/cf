@@ -1,4 +1,4 @@
-/** @generated from deleteDeployHook */
+/** @generated from builds.deploy-hooks.delete */
 import { path } from "#api";
 
 export default {

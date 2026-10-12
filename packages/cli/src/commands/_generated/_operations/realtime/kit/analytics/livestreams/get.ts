@@ -1,4 +1,4 @@
-/** @generated from get-livestream-analytics-complete */
+/** @generated from realtime.kit.analytics.livestreams.get */
 import { path } from "#api";
 
 export default {

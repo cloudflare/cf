@@ -1,4 +1,4 @@
-/** @generated from radar-get-bgp-top-prefixes */
+/** @generated from radar.bgp.top.prefixes */
 export default {
 	method: "GET",
 	path: () => "/radar/bgp/top/prefixes",

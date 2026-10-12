@@ -1,4 +1,4 @@
-/** @generated from generated:put:/{account_or_zone}/{account_or_zone_id}/logpush/jobs/{job_id} */
+/** @generated from logpush.account-jobs.update */
 import { path } from "#api";
 
 export default {

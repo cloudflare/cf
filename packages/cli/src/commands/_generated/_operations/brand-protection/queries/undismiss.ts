@@ -1,4 +1,4 @@
-/** @generated from post_UndismissMatch */
+/** @generated from brand-protection.queries.undismiss */
 import { path } from "#api";
 
 export default {

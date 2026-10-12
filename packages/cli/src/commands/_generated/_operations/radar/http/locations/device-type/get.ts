@@ -1,4 +1,4 @@
-/** @generated from radar-get-http-top-locations-by-device-type */
+/** @generated from radar.http.locations.device-type.get */
 import { path } from "#api";
 
 export default {

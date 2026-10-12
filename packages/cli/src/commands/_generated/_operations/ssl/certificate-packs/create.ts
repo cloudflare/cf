@@ -1,4 +1,4 @@
-/** @generated from certificate-packs-order-advanced-certificate-manager-certificate-pack */
+/** @generated from ssl.certificate-packs.create */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from cws-update-policy-set */
+/** @generated from zero-trust.cws.policy-sets.update */
 import { path } from "#api";
 
 export default {

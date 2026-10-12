@@ -1,4 +1,4 @@
-/** @generated from workers-kv-namespace-read-key-value-pair */
+/** @generated from kv.keys.get */
 import { path } from "#api";
 
 export default {

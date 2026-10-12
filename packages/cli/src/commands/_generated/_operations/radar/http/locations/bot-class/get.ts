@@ -1,4 +1,4 @@
-/** @generated from radar-get-http-top-locations-by-bot-class */
+/** @generated from radar.http.locations.bot-class.get */
 import { path } from "#api";
 
 export default {

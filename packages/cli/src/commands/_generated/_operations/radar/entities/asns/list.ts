@@ -1,4 +1,4 @@
-/** @generated from radar-get-entities-asn-list */
+/** @generated from radar.entities.asns.list */
 export default {
 	method: "GET",
 	path: () => "/radar/entities/asns",

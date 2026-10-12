@@ -1,4 +1,4 @@
-/** @generated from purgeBuildCache */
+/** @generated from builds.triggers.cache.purge */
 import { path } from "#api";
 
 export default {

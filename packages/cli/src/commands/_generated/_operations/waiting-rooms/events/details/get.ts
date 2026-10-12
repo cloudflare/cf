@@ -1,4 +1,4 @@
-/** @generated from waiting-room-preview-active-event-details */
+/** @generated from waiting-rooms.events.details.get */
 import { path } from "#api";
 
 export default {

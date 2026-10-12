@@ -1,4 +1,4 @@
-/** @generated from workers-kv-namespace-rename-a-namespace */
+/** @generated from kv.namespaces.update */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from secondary-dns-(-acl)-delete-acl */
+/** @generated from dns.zone-transfers.acls.delete */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from cloudforce-one-delete-rule */
+/** @generated from cloudforce-one.rules.delete */
 import { path } from "#api";
 
 export default {

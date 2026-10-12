@@ -1,4 +1,4 @@
-/** @generated from update_meeting */
+/** @generated from realtime.kit.meetings.update */
 import { path } from "#api";
 
 export default {

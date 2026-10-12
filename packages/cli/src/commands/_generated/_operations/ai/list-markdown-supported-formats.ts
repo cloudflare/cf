@@ -1,4 +1,4 @@
-/** @generated from workers-ai-get-to-markdown-supported */
+/** @generated from ai.list-markdown-supported-formats */
 import { path } from "#api";
 
 export default {

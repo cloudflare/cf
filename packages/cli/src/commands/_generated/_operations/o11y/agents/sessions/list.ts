@@ -1,4 +1,4 @@
-/** @generated from agents.sessions.list */
+/** @generated from o11y.agents.sessions.list */
 import { path } from "#api";
 
 export default {

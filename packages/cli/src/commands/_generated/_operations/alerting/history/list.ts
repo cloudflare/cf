@@ -1,4 +1,4 @@
-/** @generated from notification-history-list-history */
+/** @generated from alerting.history.list */
 import { path } from "#api";
 
 export default {

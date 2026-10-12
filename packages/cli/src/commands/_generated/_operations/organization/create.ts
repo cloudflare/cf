@@ -1,4 +1,4 @@
-/** @generated from Organizations_createUserOrganization */
+/** @generated from organization.create */
 export default {
 	method: "POST",
 	path: () => "/organizations",

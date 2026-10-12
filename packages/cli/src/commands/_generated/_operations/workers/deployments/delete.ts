@@ -1,4 +1,4 @@
-/** @generated from worker-deployments-delete-deployment */
+/** @generated from workers.deployments.delete */
 import { path } from "#api";
 
 export default {

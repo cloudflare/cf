@@ -1,4 +1,4 @@
-/** @generated from radar-get-dns-as112-top-locations-by-ip-version */
+/** @generated from radar.as112.top.ip-version */
 import { path } from "#api";
 
 export default {

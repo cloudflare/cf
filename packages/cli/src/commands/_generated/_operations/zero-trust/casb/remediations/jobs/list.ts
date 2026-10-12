@@ -1,4 +1,4 @@
-/** @generated from ListRemediationJobs */
+/** @generated from zero-trust.casb.remediations.jobs.list */
 import { path } from "#api";
 
 export default {

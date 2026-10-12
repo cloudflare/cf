@@ -1,4 +1,4 @@
-/** @generated from namespace-worker-script-delete-worker */
+/** @generated from workers-for-platforms.dispatch-namespaces.scripts.delete */
 import { path } from "#api";
 
 export default {

@@ -72,10 +72,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "PUT",
 						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/stream/live_inputs/${argv["live-input-identifier"] == null ? "<live-input-identifier>" : encodeURIComponent(String(argv["live-input-identifier"]))}/outputs/${argv["output-identifier"] == null ? "<output-identifier>" : encodeURIComponent(String(argv["output-identifier"]))}`,
 						pathParams: {
-							"output-identifier": String(argv["output-identifier"] ?? ""),
 							"live-input-identifier": String(
 								argv["live-input-identifier"] ?? ""
 							),
+							"output-identifier": String(argv["output-identifier"] ?? ""),
 						},
 						bodyKind: "json",
 						body:

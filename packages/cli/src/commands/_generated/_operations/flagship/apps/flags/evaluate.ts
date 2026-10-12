@@ -1,4 +1,4 @@
-/** @generated from flagship_evaluate_flag_post */
+/** @generated from flagship.apps.flags.evaluate */
 import { path } from "#api";
 
 export default {

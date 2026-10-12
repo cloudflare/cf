@@ -1,4 +1,4 @@
-/** @generated from r2-get-bucket-lifecycle-configuration */
+/** @generated from r2.buckets.lifecycle.get */
 import { path } from "#api";
 
 export default {

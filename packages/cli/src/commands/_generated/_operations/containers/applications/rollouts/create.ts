@@ -1,4 +1,4 @@
-/** @generated from createApplicationRollout */
+/** @generated from containers.applications.rollouts.create */
 import { path } from "#api";
 
 export default {

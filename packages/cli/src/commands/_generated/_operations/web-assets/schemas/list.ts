@@ -1,4 +1,4 @@
-/** @generated from api-shield-endpoint-management-retrieve-operations-and-features-as-open-api-schemas */
+/** @generated from web-assets.schemas.list */
 import { path } from "#api";
 
 export default {

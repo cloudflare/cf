@@ -1,4 +1,4 @@
-/** @generated from get-security-center-issues */
+/** @generated from intel.attack-surface-report.issues.list */
 import { path } from "#api";
 
 export default {

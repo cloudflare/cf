@@ -1,4 +1,4 @@
-/** @generated from radar-get-http-top-ases-by-device-type */
+/** @generated from radar.http.ases.device-type.get */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from waiting-room-create-a-custom-waiting-room-page-preview */
+/** @generated from waiting-rooms.page.preview */
 import { path } from "#api";
 
 export default {

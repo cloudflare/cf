@@ -1,4 +1,4 @@
-/** @generated from get-livestream-analytics-daywise */
+/** @generated from realtime.kit.analytics.livestreams.daily.get */
 import { path } from "#api";
 
 export default {

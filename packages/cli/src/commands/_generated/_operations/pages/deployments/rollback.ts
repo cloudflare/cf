@@ -1,4 +1,4 @@
-/** @generated from pages-deployment-rollback-deployment */
+/** @generated from pages.deployments.rollback */
 import { path } from "#api";
 
 export default {

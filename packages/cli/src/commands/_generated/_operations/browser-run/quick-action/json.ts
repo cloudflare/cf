@@ -1,4 +1,4 @@
-/** @generated from brapi-post_Json */
+/** @generated from browser-run.quick-action.json */
 import { path } from "#api";
 
 export default {

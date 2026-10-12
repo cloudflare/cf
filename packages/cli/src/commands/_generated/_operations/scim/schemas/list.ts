@@ -1,4 +1,4 @@
-/** @generated from scim-schemas-list */
+/** @generated from scim.schemas.list */
 import { path } from "#api";
 
 export default {

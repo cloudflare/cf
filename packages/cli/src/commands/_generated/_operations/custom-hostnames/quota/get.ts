@@ -1,4 +1,4 @@
-/** @generated from custom-hostname-for-a-zone-get-custom-hostname-quota */
+/** @generated from custom-hostnames.quota.get */
 import { path } from "#api";
 
 export default {

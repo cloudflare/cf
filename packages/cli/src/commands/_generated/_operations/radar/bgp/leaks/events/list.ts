@@ -1,4 +1,4 @@
-/** @generated from radar-get-bgp-route-leak-events */
+/** @generated from radar.bgp.leaks.events.list */
 export default {
 	method: "GET",
 	path: () => "/radar/bgp/leaks/events",

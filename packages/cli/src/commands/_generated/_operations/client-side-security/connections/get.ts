@@ -1,4 +1,4 @@
-/** @generated from page-shield-get-connection */
+/** @generated from client-side-security.connections.get */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from agent-memory-memory-delete */
+/** @generated from agent-memory.delete-memory */
 import { path } from "#api";
 
 export default {

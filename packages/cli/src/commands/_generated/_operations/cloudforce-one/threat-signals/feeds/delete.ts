@@ -1,4 +1,4 @@
-/** @generated from rssFeedDelete */
+/** @generated from cloudforce-one.threat-signals.feeds.delete */
 import { path } from "#api";
 
 export default {

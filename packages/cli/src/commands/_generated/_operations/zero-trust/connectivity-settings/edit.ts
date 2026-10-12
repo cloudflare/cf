@@ -1,4 +1,4 @@
-/** @generated from zero-trust-accounts-patch-connectivity-settings */
+/** @generated from zero-trust.connectivity-settings.edit */
 import { path } from "#api";
 
 export default {

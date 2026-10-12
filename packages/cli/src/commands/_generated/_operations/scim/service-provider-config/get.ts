@@ -1,4 +1,4 @@
-/** @generated from scim-service-provider-config-get */
+/** @generated from scim.service-provider-config.get */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from urlscanner-get-scan-har-v2 */
+/** @generated from url-scanner.scans.har */
 import { path } from "#api";
 
 export default {

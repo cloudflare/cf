@@ -1,4 +1,4 @@
-/** @generated from post_PirQuota */
+/** @generated from cloudforce-one.priority-intelligence.quota.create */
 import { path } from "#api";
 
 export default {

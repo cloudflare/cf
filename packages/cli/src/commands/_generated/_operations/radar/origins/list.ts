@@ -1,4 +1,4 @@
-/** @generated from radar-get-origins */
+/** @generated from radar.origins.list */
 export default {
 	method: "GET",
 	path: () => "/radar/origins",

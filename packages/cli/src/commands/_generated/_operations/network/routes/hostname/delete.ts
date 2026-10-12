@@ -1,4 +1,4 @@
-/** @generated from zero-trust-networks-route-hostname-delete */
+/** @generated from network.routes.hostname.delete */
 import { path } from "#api";
 
 export default {

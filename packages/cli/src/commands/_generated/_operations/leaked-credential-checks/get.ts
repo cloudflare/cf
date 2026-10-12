@@ -1,4 +1,4 @@
-/** @generated from waf-product-api-leaked-credentials-get-status */
+/** @generated from leaked-credential-checks.get */
 import { path } from "#api";
 
 export default {

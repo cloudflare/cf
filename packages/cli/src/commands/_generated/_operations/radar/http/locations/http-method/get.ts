@@ -1,4 +1,4 @@
-/** @generated from radar-get-http-top-locations-by-http-version */
+/** @generated from radar.http.locations.http-method.get */
 import { path } from "#api";
 
 export default {

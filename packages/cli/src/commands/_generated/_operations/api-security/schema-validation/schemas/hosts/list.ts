@@ -1,4 +1,4 @@
-/** @generated from schema-validation-list-schema-hosts */
+/** @generated from api-security.schema-validation.schemas.hosts.list */
 import { path } from "#api";
 
 export default {

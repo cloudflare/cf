@@ -1,4 +1,4 @@
-/** @generated from magic-pcap-collection-add-buckets-for-full-packet-captures */
+/** @generated from magic-transit.pcaps.ownership.create */
 import { path } from "#api";
 
 export default {

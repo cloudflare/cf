@@ -1,4 +1,4 @@
-/** @generated from generated:post:/{account_or_zone}/{account_or_zone_id}/access/organizations/revoke_user */
+/** @generated from zero-trust.access.users.revoke */
 import { path } from "#api";
 
 export default {

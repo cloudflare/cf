@@ -1,4 +1,4 @@
-/** @generated from radar-get-tlds-performance-summary */
+/** @generated from radar.tlds.performance.summary */
 import { path } from "#api";
 
 export default {

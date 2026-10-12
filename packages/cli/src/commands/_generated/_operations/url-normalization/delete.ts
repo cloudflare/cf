@@ -1,4 +1,4 @@
-/** @generated from deleteUrlNormalization */
+/** @generated from url-normalization.delete */
 import { path } from "#api";
 
 export default {

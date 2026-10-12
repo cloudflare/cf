@@ -1,4 +1,4 @@
-/** @generated from cloudflare-tunnel-delete-a-cloudflare-tunnel */
+/** @generated from tunnels.delete */
 import { path } from "#api";
 
 export default {

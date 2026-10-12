@@ -1,4 +1,4 @@
-/** @generated from cloudflare-tunnel-configuration-put-configuration */
+/** @generated from tunnels.config.update */
 import { path } from "#api";
 
 export default {

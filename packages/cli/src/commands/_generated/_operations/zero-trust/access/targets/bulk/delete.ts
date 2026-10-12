@@ -1,4 +1,4 @@
-/** @generated from infra-targets-delete-batch-post */
+/** @generated from zero-trust.access.targets.bulk.delete */
 import { path } from "#api";
 
 export default {

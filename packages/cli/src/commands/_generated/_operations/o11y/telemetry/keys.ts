@@ -1,4 +1,4 @@
-/** @generated from telemetry.keys.list */
+/** @generated from o11y.telemetry.keys */
 import { path } from "#api";
 
 export default {

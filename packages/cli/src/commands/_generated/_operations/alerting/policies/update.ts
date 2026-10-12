@@ -1,4 +1,4 @@
-/** @generated from notification-policies-update-a-notification-policy */
+/** @generated from alerting.policies.update */
 import { path } from "#api";
 
 export default {

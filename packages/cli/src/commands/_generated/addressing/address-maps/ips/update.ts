@@ -62,8 +62,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "PUT",
 						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/addressing/address_maps/${argv["address-map-id"] == null ? "<address-map-id>" : encodeURIComponent(String(argv["address-map-id"]))}/ips/${argv["ip-address"] == null ? "<ip-address>" : encodeURIComponent(String(argv["ip-address"]))}`,
 						pathParams: {
-							"ip-address": String(argv["ip-address"] ?? ""),
 							"address-map-id": String(argv["address-map-id"] ?? ""),
+							"ip-address": String(argv["ip-address"] ?? ""),
 						},
 						bodyKind: "none",
 					});

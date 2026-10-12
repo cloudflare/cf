@@ -1,4 +1,4 @@
-/** @generated from calls-apps-retrieve-app-details */
+/** @generated from realtime.sfu.apps.get */
 import { path } from "#api";
 
 export default {

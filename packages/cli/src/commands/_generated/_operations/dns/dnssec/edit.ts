@@ -1,4 +1,4 @@
-/** @generated from dnssec-edit-dnssec-status */
+/** @generated from dns.dnssec.edit */
 import { path } from "#api";
 
 export default {

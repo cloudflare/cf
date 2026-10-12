@@ -1,4 +1,4 @@
-/** @generated from account-permission-group-details */
+/** @generated from iam.permission-groups.get */
 import { path } from "#api";
 
 export default {

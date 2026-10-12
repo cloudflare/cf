@@ -1,4 +1,4 @@
-/** @generated from deleteTcpFlowProtectionRulesForAccount */
+/** @generated from magic-transit.advanced-tcp-protection.configs.tcp.flow.protection.rules.bulk-delete */
 import { path } from "#api";
 
 export default {

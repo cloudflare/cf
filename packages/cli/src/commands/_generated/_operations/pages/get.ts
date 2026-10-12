@@ -1,4 +1,4 @@
-/** @generated from pages-project-get-project */
+/** @generated from pages.get */
 import { path } from "#api";
 
 export default {

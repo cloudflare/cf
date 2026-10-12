@@ -1,4 +1,4 @@
-/** @generated from radar-get-certificate-logs */
+/** @generated from radar.ct.logs.list */
 export default {
 	method: "GET",
 	path: () => "/radar/ct/logs",

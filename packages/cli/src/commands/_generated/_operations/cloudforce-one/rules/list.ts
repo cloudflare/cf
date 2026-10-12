@@ -1,4 +1,4 @@
-/** @generated from cloudforce-one-list-rules */
+/** @generated from cloudforce-one.rules.list */
 import { path } from "#api";
 
 export default {

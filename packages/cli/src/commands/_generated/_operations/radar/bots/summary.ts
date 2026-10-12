@@ -1,4 +1,4 @@
-/** @generated from radar-get-bots-summary */
+/** @generated from radar.bots.summary */
 import { path } from "#api";
 
 export default {

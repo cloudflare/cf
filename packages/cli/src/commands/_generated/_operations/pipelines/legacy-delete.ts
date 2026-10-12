@@ -1,4 +1,4 @@
-/** @generated from deleteV4AccountsByAccount_idPipelinesByPipeline_name_deprecated */
+/** @generated from pipelines.legacy-delete */
 import { path } from "#api";
 
 export default {

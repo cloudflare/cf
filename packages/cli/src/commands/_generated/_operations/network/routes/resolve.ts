@@ -1,4 +1,4 @@
-/** @generated from tunnel-route-get-tunnel-route-by-ip */
+/** @generated from network.routes.resolve */
 import { path } from "#api";
 
 export default {

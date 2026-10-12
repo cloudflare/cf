@@ -1,4 +1,4 @@
-/** @generated from api-shield-delete-user-label */
+/** @generated from web-assets.labels.user.delete */
 import { path } from "#api";
 
 export default {

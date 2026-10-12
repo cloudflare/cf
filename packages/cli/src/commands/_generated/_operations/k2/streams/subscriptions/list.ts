@@ -1,4 +1,4 @@
-/** @generated from getV4AccountsByAccount_idK2StreamsByStream_idSubscriptions */
+/** @generated from k2.streams.subscriptions.list */
 import { path } from "#api";
 
 export default {

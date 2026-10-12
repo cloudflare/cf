@@ -1,4 +1,4 @@
-/** @generated from getWorkerPreview */
+/** @generated from workers-builds.workers.previews.get */
 import { path } from "#api";
 
 export default {

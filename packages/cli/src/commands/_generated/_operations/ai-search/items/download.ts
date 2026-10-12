@@ -1,4 +1,4 @@
-/** @generated from ai-search-namespace-instance-get-item-content */
+/** @generated from ai-search.items.download */
 import { path } from "#api";
 
 export default {

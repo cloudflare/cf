@@ -1,4 +1,4 @@
-/** @generated from access-gateway-ca-delete-an-SSH-ca */
+/** @generated from zero-trust.access.infrastructure.ssh-ca.delete */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from get_FlowsGet */
+/** @generated from images.flows.get */
 import { path } from "#api";
 
 export default {

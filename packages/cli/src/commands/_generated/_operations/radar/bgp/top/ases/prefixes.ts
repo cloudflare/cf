@@ -1,4 +1,4 @@
-/** @generated from radar-get-bgp-top-asns-by-prefixes */
+/** @generated from radar.bgp.top.ases.prefixes */
 export default {
 	method: "GET",
 	path: () => "/radar/bgp/top/ases/prefixes",

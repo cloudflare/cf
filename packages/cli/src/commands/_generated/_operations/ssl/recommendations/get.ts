@@ -1,4 +1,4 @@
-/** @generated from ssl/-tls-mode-recommendation-ssl/-tls-recommendation */
+/** @generated from ssl.recommendations.get */
 import { path } from "#api";
 
 export default {

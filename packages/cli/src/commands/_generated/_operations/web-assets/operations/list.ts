@@ -1,4 +1,4 @@
-/** @generated from api-shield-endpoint-management-retrieve-information-about-all-operations-on-a-zone */
+/** @generated from web-assets.operations.list */
 import { path } from "#api";
 
 export default {

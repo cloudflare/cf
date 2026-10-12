@@ -1,4 +1,4 @@
-/** @generated from agent-memory-session-delete */
+/** @generated from agent-memory.delete-session */
 import { path } from "#api";
 
 export default {

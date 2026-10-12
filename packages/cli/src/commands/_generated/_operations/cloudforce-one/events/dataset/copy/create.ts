@@ -1,4 +1,4 @@
-/** @generated from post_EventCopyToNewDS */
+/** @generated from cloudforce-one.events.dataset.copy.create */
 import { path } from "#api";
 
 export default {

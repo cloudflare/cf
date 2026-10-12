@@ -1,4 +1,4 @@
-/** @generated from cloudflare-images-images-usage-statistics */
+/** @generated from images.stats */
 import { path } from "#api";
 
 export default {

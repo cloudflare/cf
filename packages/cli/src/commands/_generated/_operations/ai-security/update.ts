@@ -1,4 +1,4 @@
-/** @generated from ai-security-settings-put */
+/** @generated from ai-security.update */
 import { path } from "#api";
 
 export default {

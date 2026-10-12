@@ -62,8 +62,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "GET",
 						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/rules/lists/${argv["list-id"] == null ? "<list-id>" : encodeURIComponent(String(argv["list-id"]))}/items/${argv["item-id"] == null ? "<item-id>" : encodeURIComponent(String(argv["item-id"]))}`,
 						pathParams: {
-							"item-id": String(argv["item-id"] ?? ""),
 							"list-id": String(argv["list-id"] ?? ""),
+							"item-id": String(argv["item-id"] ?? ""),
 						},
 						bodyKind: "none",
 					});

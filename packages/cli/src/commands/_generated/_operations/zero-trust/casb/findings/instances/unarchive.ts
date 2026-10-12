@@ -1,4 +1,4 @@
-/** @generated from UnarchiveFindingInstance */
+/** @generated from zero-trust.casb.findings.instances.unarchive */
 import { path } from "#api";
 
 export default {

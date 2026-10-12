@@ -1,4 +1,4 @@
-/** @generated from generated:put:/{account_or_zone}/{account_or_zone_id}/access/certificates/settings */
+/** @generated from zero-trust.access.mtls-certificates.settings.update */
 import { path } from "#api";
 
 export default {

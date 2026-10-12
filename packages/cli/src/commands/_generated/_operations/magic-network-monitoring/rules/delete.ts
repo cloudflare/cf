@@ -1,4 +1,4 @@
-/** @generated from magic-network-monitoring-rules-delete-rule */
+/** @generated from magic-network-monitoring.rules.delete */
 import { path } from "#api";
 
 export default {

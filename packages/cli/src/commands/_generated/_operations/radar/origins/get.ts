@@ -1,4 +1,4 @@
-/** @generated from radar-get-origin-details */
+/** @generated from radar.origins.get */
 import { path } from "#api";
 
 export default {

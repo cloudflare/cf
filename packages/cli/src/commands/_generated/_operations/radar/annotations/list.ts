@@ -1,4 +1,4 @@
-/** @generated from radar-get-annotations */
+/** @generated from radar.annotations.list */
 export default {
 	method: "GET",
 	path: () => "/radar/annotations",

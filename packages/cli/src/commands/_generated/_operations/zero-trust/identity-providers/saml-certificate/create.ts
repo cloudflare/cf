@@ -1,4 +1,4 @@
-/** @generated from access-identity-providers-create-saml-certificate-for-identity-provider */
+/** @generated from zero-trust.identity-providers.saml-certificate.create */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from subscriptions-delete */
+/** @generated from queues.subscriptions.delete */
 import { path } from "#api";
 
 export default {

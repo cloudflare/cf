@@ -1,4 +1,4 @@
-/** @generated from getV4AccountsByAccount_idPipelinesV1SinksBySink_id */
+/** @generated from pipelines.sinks.get */
 import { path } from "#api";
 
 export default {

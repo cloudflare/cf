@@ -1,4 +1,4 @@
-/** @generated from ai-audit-get-robots */
+/** @generated from ai-audit.robots.get */
 import { path } from "#api";
 
 export default {

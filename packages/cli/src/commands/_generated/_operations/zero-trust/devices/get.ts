@@ -1,4 +1,4 @@
-/** @generated from get-device */
+/** @generated from zero-trust.devices.get */
 import { path } from "#api";
 
 export default {

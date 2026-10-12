@@ -1,4 +1,4 @@
-/** @generated from artifacts_namespaces_delete */
+/** @generated from artifacts.namespaces.delete */
 import { path } from "#api";
 
 export default {

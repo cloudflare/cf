@@ -1,4 +1,4 @@
-/** @generated from radar-get-ranking-top-domains */
+/** @generated from radar.ranking.top */
 export default {
 	method: "GET",
 	path: () => "/radar/ranking/top",

@@ -78,7 +78,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.option("feedback", {
 			type: "string",
 			description: "Feedback",
-			choices: ["-1"],
+			choices: ["-1", "0", "1"],
 		})
 		.option("success", { type: "boolean", description: "Success" })
 		.option("cached", { type: "boolean", description: "Cached" })

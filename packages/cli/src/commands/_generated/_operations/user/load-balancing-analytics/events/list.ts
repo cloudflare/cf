@@ -1,4 +1,4 @@
-/** @generated from load-balancer-healthcheck-events-list-healthcheck-events */
+/** @generated from user.load-balancing-analytics.events.list */
 export default {
 	method: "GET",
 	path: () => "/user/load_balancing_analytics/events",

@@ -1,4 +1,4 @@
-/** @generated from get_IndicatorRelationshipsList */
+/** @generated from cloudforce-one.events.dataset.indicators.relationships.list */
 import { path } from "#api";
 
 export default {

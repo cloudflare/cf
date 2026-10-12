@@ -1,4 +1,4 @@
-/** @generated from generated:put:/{account_or_zone}/{account_or_zone_id}/access/apps/{app_id}/settings */
+/** @generated from zero-trust.access.applications.settings.update */
 import { path } from "#api";
 
 export default {

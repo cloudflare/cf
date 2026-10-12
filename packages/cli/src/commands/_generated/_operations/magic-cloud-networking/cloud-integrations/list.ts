@@ -1,4 +1,4 @@
-/** @generated from providers-list */
+/** @generated from magic-cloud-networking.cloud-integrations.list */
 import { path } from "#api";
 
 export default {

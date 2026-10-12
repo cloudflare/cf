@@ -1,4 +1,4 @@
-/** @generated from registrar-domain-registration-create */
+/** @generated from registrar.registrations.create */
 import { path } from "#api";
 
 export default {

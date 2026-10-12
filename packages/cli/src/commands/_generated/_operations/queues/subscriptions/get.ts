@@ -1,4 +1,4 @@
-/** @generated from subscriptions-get */
+/** @generated from queues.subscriptions.get */
 import { path } from "#api";
 
 export default {

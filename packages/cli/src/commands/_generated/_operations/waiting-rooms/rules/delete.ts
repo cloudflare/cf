@@ -1,4 +1,4 @@
-/** @generated from waiting-room-delete-waiting-room-rule */
+/** @generated from waiting-rooms.rules.delete */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from onramps-apply */
+/** @generated from magic-cloud-networking.on-ramps.apply */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from custom-indicator-feeds-create-provider */
+/** @generated from intel.indicator-feeds.providers.create */
 import { path } from "#api";
 
 export default {

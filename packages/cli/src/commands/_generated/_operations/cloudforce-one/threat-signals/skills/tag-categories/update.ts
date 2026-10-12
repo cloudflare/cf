@@ -1,4 +1,4 @@
-/** @generated from rssSkillTagCategoriesReplace */
+/** @generated from cloudforce-one.threat-signals.skills.tag-categories.update */
 import { path } from "#api";
 
 export default {

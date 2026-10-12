@@ -1,4 +1,4 @@
-/** @generated from radar-get-bgp-rpki-aspa-snapshot */
+/** @generated from radar.bgp.rpki.aspa.snapshot */
 export default {
 	method: "GET",
 	path: () => "/radar/bgp/rpki/aspa/snapshot",

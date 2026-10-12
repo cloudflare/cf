@@ -1,4 +1,4 @@
-/** @generated from stream-videos-retrieve-video-details */
+/** @generated from stream.videos.get */
 import { path } from "#api";
 
 export default {

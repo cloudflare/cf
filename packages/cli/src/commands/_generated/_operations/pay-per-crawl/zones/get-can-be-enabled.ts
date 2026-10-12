@@ -1,4 +1,4 @@
-/** @generated from pay-per-crawl.getZoneCanBeEnabled */
+/** @generated from pay-per-crawl.zones.get-can-be-enabled */
 import { path } from "#api";
 
 export default {

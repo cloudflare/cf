@@ -1,4 +1,4 @@
-/** @generated from art-analytics-query-timeseries */
+/** @generated from analytics.query.timeseries */
 import { path } from "#api";
 
 export default {

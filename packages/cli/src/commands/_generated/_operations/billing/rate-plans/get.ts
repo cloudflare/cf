@@ -1,4 +1,4 @@
-/** @generated from billing-get-rate-plan */
+/** @generated from billing.rate-plans.get */
 import { path } from "#api";
 
 export default {

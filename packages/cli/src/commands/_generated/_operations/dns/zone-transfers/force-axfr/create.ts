@@ -1,4 +1,4 @@
-/** @generated from secondary-dns-(-secondary-zone)-force-axfr */
+/** @generated from dns.zone-transfers.force-axfr.create */
 import { path } from "#api";
 
 export default {

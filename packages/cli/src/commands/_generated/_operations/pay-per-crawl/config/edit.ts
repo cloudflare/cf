@@ -1,4 +1,4 @@
-/** @generated from pay-per-crawl.patchConfig */
+/** @generated from pay-per-crawl.config.edit */
 import { path } from "#api";
 
 export default {

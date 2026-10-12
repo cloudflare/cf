@@ -1,4 +1,4 @@
-/** @generated from custom-ssl-for-a-zone-delete-ssl-configuration */
+/** @generated from custom-certificates.delete */
 import { path } from "#api";
 
 export default {

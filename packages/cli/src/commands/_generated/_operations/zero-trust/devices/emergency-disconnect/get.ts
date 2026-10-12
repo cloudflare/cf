@@ -1,4 +1,4 @@
-/** @generated from devices-resilience-retrieve-global-warp-override */
+/** @generated from zero-trust.devices.emergency-disconnect.get */
 import { path } from "#api";
 
 export default {

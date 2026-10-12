@@ -1,4 +1,4 @@
-/** @generated from slurper-check-source-connectivity */
+/** @generated from r2.super-slurper.connectivity-precheck.source */
 import { path } from "#api";
 
 export default {

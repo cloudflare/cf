@@ -1,4 +1,4 @@
-/** @generated from getWorkerBuild */
+/** @generated from builds.workers.get */
 import { path } from "#api";
 
 export default {

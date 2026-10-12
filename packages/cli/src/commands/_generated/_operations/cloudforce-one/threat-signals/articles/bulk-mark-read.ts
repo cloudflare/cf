@@ -1,4 +1,4 @@
-/** @generated from rssArticleBulkMarkRead */
+/** @generated from cloudforce-one.threat-signals.articles.bulk-mark-read */
 import { path } from "#api";
 
 export default {

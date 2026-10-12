@@ -1,4 +1,4 @@
-/** @generated from radar-get-certificate-authority-details */
+/** @generated from radar.ct.authorities.get */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from r2-delete-bucket-sippy-config */
+/** @generated from r2.buckets.sippy.delete */
 import { path } from "#api";
 
 export default {

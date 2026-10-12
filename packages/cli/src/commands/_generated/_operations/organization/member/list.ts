@@ -1,4 +1,4 @@
-/** @generated from Members_list */
+/** @generated from organization.member.list */
 import { path } from "#api";
 
 export default {

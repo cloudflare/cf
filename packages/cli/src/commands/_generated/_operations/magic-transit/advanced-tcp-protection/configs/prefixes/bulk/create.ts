@@ -1,4 +1,4 @@
-/** @generated from bulkCreatePrefixes */
+/** @generated from magic-transit.advanced-tcp-protection.configs.prefixes.bulk.create */
 import { path } from "#api";
 
 export default {

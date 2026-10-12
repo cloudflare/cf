@@ -1,4 +1,4 @@
-/** @generated from magic-interconnects-list-interconnect-details */
+/** @generated from magic-transit.cf-interconnects.get */
 import { path } from "#api";
 
 export default {

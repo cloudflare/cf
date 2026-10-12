@@ -1,4 +1,4 @@
-/** @generated from zero-trust-dns-destination-ips-list-dns-destination-ips */
+/** @generated from zero-trust.gateway.dns-destination-ips.list */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from email_security_get_message */
+/** @generated from email-security.investigate.get */
 import { path } from "#api";
 
 export default {

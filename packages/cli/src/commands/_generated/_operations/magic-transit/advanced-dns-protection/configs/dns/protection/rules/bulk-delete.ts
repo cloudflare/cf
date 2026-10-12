@@ -1,4 +1,4 @@
-/** @generated from deleteDnsProtectionRulesForAccount */
+/** @generated from magic-transit.advanced-dns-protection.configs.dns.protection.rules.bulk-delete */
 import { path } from "#api";
 
 export default {

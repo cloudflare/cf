@@ -1,4 +1,4 @@
-/** @generated from load-balancer-regions-get-region */
+/** @generated from load-balancers.regions.get */
 import { path } from "#api";
 
 export default {

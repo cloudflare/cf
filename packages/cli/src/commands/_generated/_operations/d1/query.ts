@@ -1,4 +1,4 @@
-/** @generated from d1-query-database */
+/** @generated from d1.query */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from radar-get-origins-timeseries-group */
+/** @generated from radar.origins.timeseries-groups */
 import { path } from "#api";
 
 export default {

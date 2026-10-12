@@ -1,4 +1,4 @@
-/** @generated from mconn-connector-interrupts-create */
+/** @generated from connector-interrupts.create */
 import { path } from "#api";
 
 export default {

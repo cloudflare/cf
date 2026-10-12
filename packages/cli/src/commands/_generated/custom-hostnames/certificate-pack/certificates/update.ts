@@ -76,10 +76,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "PUT",
 						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/custom_hostnames/${argv["custom-hostname-id"] == null ? "<custom-hostname-id>" : encodeURIComponent(String(argv["custom-hostname-id"]))}/certificate_pack/${argv["certificate-pack-id"] == null ? "<certificate-pack-id>" : encodeURIComponent(String(argv["certificate-pack-id"]))}/certificates/${argv["certificate-id"] == null ? "<certificate-id>" : encodeURIComponent(String(argv["certificate-id"]))}`,
 						pathParams: {
+							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
 							"custom-hostname-id": String(argv["custom-hostname-id"] ?? ""),
 							"certificate-pack-id": String(argv["certificate-pack-id"] ?? ""),
 							"certificate-id": String(argv["certificate-id"] ?? ""),
-							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
 						},
 						bodyKind: "json",
 						body:

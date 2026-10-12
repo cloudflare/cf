@@ -1,4 +1,4 @@
-/** @generated from secondary-dns-(-primary-zone)-delete-primary-zone-configuration */
+/** @generated from dns.zone-transfers.outgoing.delete */
 import { path } from "#api";
 
 export default {

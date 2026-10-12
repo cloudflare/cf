@@ -1,4 +1,4 @@
-/** @generated from put_FlowsUpdate */
+/** @generated from images.flows.update */
 import { path } from "#api";
 
 export default {

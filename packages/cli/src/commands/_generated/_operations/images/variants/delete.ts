@@ -1,4 +1,4 @@
-/** @generated from cloudflare-images-variants-delete-a-variant */
+/** @generated from images.variants.delete */
 import { path } from "#api";
 
 export default {

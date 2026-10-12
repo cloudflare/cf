@@ -1,4 +1,4 @@
-/** @generated from pages-deployment-create-deployment */
+/** @generated from pages.deployments.create */
 import { path } from "#api";
 
 export default {

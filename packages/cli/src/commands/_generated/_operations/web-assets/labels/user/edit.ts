@@ -1,4 +1,4 @@
-/** @generated from api-shield-patch-user-label */
+/** @generated from web-assets.labels.user.edit */
 import { path } from "#api";
 
 export default {

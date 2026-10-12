@@ -1,4 +1,4 @@
-/** @generated from ListContentAssets */
+/** @generated from zero-trust.casb.content.list */
 import { path } from "#api";
 
 export default {

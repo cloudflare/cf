@@ -1,4 +1,4 @@
-/** @generated from magic-network-monitoring-configuration-delete-account-configuration */
+/** @generated from magic-network-monitoring.configs.delete */
 import { path } from "#api";
 
 export default {

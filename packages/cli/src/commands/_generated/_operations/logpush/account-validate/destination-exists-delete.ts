@@ -1,4 +1,4 @@
-/** @generated from generated:post:/{account_or_zone}/{account_or_zone_id}/logpush/validate/destination/exists */
+/** @generated from logpush.account-validate.destination-exists-delete */
 import { path } from "#api";
 
 export default {

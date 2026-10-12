@@ -1,4 +1,4 @@
-/** @generated from pay-per-crawl.publisherGetStripeConfig */
+/** @generated from pay-per-crawl.publisher.stripe.get */
 import { path } from "#api";
 
 export default {

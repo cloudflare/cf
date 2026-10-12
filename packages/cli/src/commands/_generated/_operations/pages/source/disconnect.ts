@@ -1,4 +1,4 @@
-/** @generated from pages-project-disconnect-project-source */
+/** @generated from pages.source.disconnect */
 import { path } from "#api";
 
 export default {

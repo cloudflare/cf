@@ -65,10 +65,10 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						url: `https://api.cloudflare.com/client/v4/${accountOrZone}/${accountOrZoneId}/access/identity_providers/${argv["identity-provider-id"] == null ? "<identity-provider-id>" : encodeURIComponent(String(argv["identity-provider-id"]))}`,
 						pathParams: {
 							"account-or-zone": String(accountOrZone),
+							"account-or-zone-id": String(accountOrZoneId),
 							"identity-provider-id": String(
 								argv["identity-provider-id"] ?? ""
 							),
-							"account-or-zone-id": String(accountOrZoneId),
 						},
 						bodyKind: "none",
 					});

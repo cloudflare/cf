@@ -1,4 +1,4 @@
-/** @generated from sandbox-registrar-domain-discovery-check */
+/** @generated from registrar-sandbox.registrations.check */
 import { path } from "#api";
 
 export default {

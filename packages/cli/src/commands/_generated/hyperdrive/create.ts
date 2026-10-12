@@ -94,6 +94,53 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.coerce("integration-scheme", (value) =>
 			resolveFileToken(value, "integration-scheme", "text")
 		)
+		.option("origin-database", {
+			type: "string",
+			description: "Set the name of your origin database.",
+		})
+		.option("origin-password", {
+			type: "string",
+			description:
+				"Set the password needed to access your origin database. The API never returns this write-only value.",
+		})
+		.option("origin-scheme", {
+			type: "string",
+			description:
+				"Specifies the URL scheme used to connect to your origin database.",
+			choices: ["postgres", "postgresql", "mysql"],
+		})
+		.coerce("origin-scheme", (value) =>
+			resolveFileToken(value, "origin-scheme", "text")
+		)
+		.option("origin-user", {
+			type: "string",
+			description: "Set the user of your origin database.",
+		})
+		.option("origin-host", {
+			type: "string",
+			description:
+				"Defines the publicly reachable hostname or IP of your origin database. Private, loopback, and link-local IP addresses are not allowed.",
+		})
+		.option("origin-port", {
+			type: "number",
+			description:
+				"Defines the port of your origin database. Defaults to 5432 for PostgreSQL or 3306 for MySQL if not specified.",
+		})
+		.option("origin-access-client-id", {
+			type: "string",
+			description:
+				"Defines the Client ID of the Access token to use when connecting to the origin database.",
+		})
+		.option("origin-access-client-secret", {
+			type: "string",
+			description:
+				"Defines the Client Secret of the Access Token to use when connecting to the origin database. The API never returns this write-only value.",
+		})
+		.option("origin-service-id", {
+			type: "string",
+			description:
+				"The identifier of the Workers VPC Service to connect through. Hyperdrive will egress through the specified VPC Service to reach the origin database.",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -103,6 +150,59 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description:
 				"A request to create a Hyperdrive configuration using exactly one of caller-supplied origin credentials or a managed integration.",
+		})
+		.conflicts("origin-host", ["origin-service-id"])
+		.conflicts("origin-port", [
+			"origin-access-client-id",
+			"origin-access-client-secret",
+			"origin-service-id",
+		])
+		.implies("origin-port", ["origin-host"])
+		.conflicts("origin-access-client-id", ["origin-port", "origin-service-id"])
+		.implies("origin-access-client-id", [
+			"origin-access-client-secret",
+			"origin-host",
+		])
+		.conflicts("origin-access-client-secret", [
+			"origin-port",
+			"origin-service-id",
+		])
+		.implies("origin-access-client-secret", [
+			"origin-access-client-id",
+			"origin-host",
+		])
+		.conflicts("origin-service-id", [
+			"origin-host",
+			"origin-port",
+			"origin-access-client-id",
+			"origin-access-client-secret",
+		])
+		.check((argv) => {
+			const groupSet = [
+				"origin-database",
+				"origin-password",
+				"origin-scheme",
+				"origin-user",
+				"origin-host",
+				"origin-port",
+				"origin-access-client-id",
+				"origin-access-client-secret",
+				"origin-service-id",
+			].some((k) => argv[k] !== undefined);
+			if (groupSet) {
+				const missing = [
+					"origin-database",
+					"origin-password",
+					"origin-scheme",
+					"origin-user",
+				].filter((k) => argv[k] === undefined);
+				if (missing.length > 0) {
+					throw new Error(
+						`${missing.map((m) => "--" + m).join(", ")} ${missing.length === 1 ? "is" : "are"} required when any --origin-* flag is set`
+					);
+				}
+			}
+			return true;
 		});
 }
 
@@ -121,6 +221,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"mtls-sslmode",
 						"integration-provider",
 						"integration-scheme",
+						"origin-scheme",
 						"dry-run",
 					],
 				} satisfies ArgClassification<Args>,
@@ -188,7 +289,52 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											provider: argv["integration-provider"],
 											scheme: argv["integration-scheme"],
 										},
+										origin: {
+											database: resolveFileToken(
+												argv["origin-database"] as string | undefined,
+												"origin-database",
+												"text"
+											),
+											password: resolveFileToken(
+												argv["origin-password"] as string | undefined,
+												"origin-password",
+												"text"
+											),
+											scheme: argv["origin-scheme"],
+											user: resolveFileToken(
+												argv["origin-user"] as string | undefined,
+												"origin-user",
+												"text"
+											),
+											host: resolveFileToken(
+												argv["origin-host"] as string | undefined,
+												"origin-host",
+												"text"
+											),
+											port: argv["origin-port"],
+											access_client_id: resolveFileToken(
+												argv["origin-access-client-id"] as string | undefined,
+												"origin-access-client-id",
+												"text"
+											),
+											access_client_secret: resolveFileToken(
+												argv["origin-access-client-secret"] as
+													| string
+													| undefined,
+												"origin-access-client-secret",
+												"text"
+											),
+											service_id: resolveFileToken(
+												argv["origin-service-id"] as string | undefined,
+												"origin-service-id",
+												"text"
+											),
+										},
 									}),
+						sensitiveBodyPaths: [
+							["origin", "password"],
+							["origin", "access_client_secret"],
+						],
 					});
 					return;
 				}
@@ -255,6 +401,45 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						),
 						provider: argv["integration-provider"],
 						scheme: argv["integration-scheme"],
+					},
+					origin: {
+						database: resolveFileToken(
+							argv["origin-database"] as string | undefined,
+							"origin-database",
+							"text"
+						),
+						password: resolveFileToken(
+							argv["origin-password"] as string | undefined,
+							"origin-password",
+							"text"
+						),
+						scheme: argv["origin-scheme"],
+						user: resolveFileToken(
+							argv["origin-user"] as string | undefined,
+							"origin-user",
+							"text"
+						),
+						host: resolveFileToken(
+							argv["origin-host"] as string | undefined,
+							"origin-host",
+							"text"
+						),
+						port: argv["origin-port"],
+						access_client_id: resolveFileToken(
+							argv["origin-access-client-id"] as string | undefined,
+							"origin-access-client-id",
+							"text"
+						),
+						access_client_secret: resolveFileToken(
+							argv["origin-access-client-secret"] as string | undefined,
+							"origin-access-client-secret",
+							"text"
+						),
+						service_id: resolveFileToken(
+							argv["origin-service-id"] as string | undefined,
+							"origin-service-id",
+							"text"
+						),
 					},
 				});
 				const result = await withProgress(`Creating`, async () =>

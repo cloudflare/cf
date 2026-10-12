@@ -1,4 +1,4 @@
-/** @generated from radar-get-netflows-timeseries */
+/** @generated from radar.netflows.timeseries */
 export default {
 	method: "GET",
 	path: () => "/radar/netflows/timeseries",

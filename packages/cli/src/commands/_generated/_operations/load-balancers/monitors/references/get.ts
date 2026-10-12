@@ -1,4 +1,4 @@
-/** @generated from account-load-balancer-monitors-list-monitor-references */
+/** @generated from load-balancers.monitors.references.get */
 import { path } from "#api";
 
 export default {

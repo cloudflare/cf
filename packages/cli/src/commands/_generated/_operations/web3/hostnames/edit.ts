@@ -1,4 +1,4 @@
-/** @generated from web3-hostname-edit-web3-hostname */
+/** @generated from web3.hostnames.edit */
 import { path } from "#api";
 
 export default {

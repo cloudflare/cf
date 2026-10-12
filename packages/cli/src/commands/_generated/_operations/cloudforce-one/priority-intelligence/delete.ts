@@ -1,4 +1,4 @@
-/** @generated from delete_PirDelete */
+/** @generated from cloudforce-one.priority-intelligence.delete */
 import { path } from "#api";
 
 export default {

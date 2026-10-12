@@ -1,4 +1,4 @@
-/** @generated from slurper-get-job-logs */
+/** @generated from r2.super-slurper.jobs.logs.list */
 import { path } from "#api";
 
 export default {

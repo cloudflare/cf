@@ -1,4 +1,4 @@
-/** @generated from zero-trust-networks-subnet-delete-warp */
+/** @generated from network.subnets.warp.delete */
 import { path } from "#api";
 
 export default {

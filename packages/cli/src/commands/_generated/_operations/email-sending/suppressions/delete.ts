@@ -1,4 +1,4 @@
-/** @generated from delete_publicDeleteSendingSuppression */
+/** @generated from email-sending.suppressions.delete */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from brapi-post_Crawl */
+/** @generated from browser-run.crawl.create */
 import { path } from "#api";
 
 export default {

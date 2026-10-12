@@ -1,4 +1,4 @@
-/** @generated from waiting-room-create-waiting-room-rule */
+/** @generated from waiting-rooms.rules.create */
 import { path } from "#api";
 
 export default {

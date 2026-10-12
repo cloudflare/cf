@@ -1,4 +1,4 @@
-/** @generated from slurper-get-job-progress */
+/** @generated from r2.super-slurper.jobs.progress */
 import { path } from "#api";
 
 export default {

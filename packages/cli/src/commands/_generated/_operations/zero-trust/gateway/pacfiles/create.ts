@@ -1,4 +1,4 @@
-/** @generated from zero-trust-gateway-pacfiles-create-pacfile */
+/** @generated from zero-trust.gateway.pacfiles.create */
 import { path } from "#api";
 
 export default {

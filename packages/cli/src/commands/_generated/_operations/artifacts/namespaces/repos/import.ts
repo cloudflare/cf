@@ -1,4 +1,4 @@
-/** @generated from artifacts_repos_import */
+/** @generated from artifacts.namespaces.repos.import */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from get_publicGetSendingSuppression */
+/** @generated from email-sending.suppressions.get */
 import { path } from "#api";
 
 export default {

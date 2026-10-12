@@ -1,4 +1,4 @@
-/** @generated from devices-list-device-settings-policies */
+/** @generated from zero-trust.devices.profiles.custom.list */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from aig-config-delete-account-provider */
+/** @generated from ai-gateway.custom-providers.delete */
 import { path } from "#api";
 
 export default {

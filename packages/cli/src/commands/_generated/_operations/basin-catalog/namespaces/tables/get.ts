@@ -1,4 +1,4 @@
-/** @generated from basin-get-table */
+/** @generated from basin-catalog.namespaces.tables.get */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from workers-ai-get-model-schema */
+/** @generated from ai.get-model-schema */
 import { path } from "#api";
 
 export default {

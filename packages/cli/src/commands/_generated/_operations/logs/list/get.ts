@@ -1,4 +1,4 @@
-/** @generated from logpull-list-log-files */
+/** @generated from logs.list.get */
 import { path } from "#api";
 
 export default {

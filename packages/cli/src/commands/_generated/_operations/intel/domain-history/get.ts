@@ -1,4 +1,4 @@
-/** @generated from domain-history-get-domain-history */
+/** @generated from intel.domain-history.get */
 import { path } from "#api";
 
 export default {

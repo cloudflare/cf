@@ -1,4 +1,4 @@
-/** @generated from schema-validation-update-settings */
+/** @generated from api-security.schema-validation.settings.update */
 import { path } from "#api";
 
 export default {

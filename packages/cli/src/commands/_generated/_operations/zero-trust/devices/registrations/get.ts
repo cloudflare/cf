@@ -1,4 +1,4 @@
-/** @generated from get-registration */
+/** @generated from zero-trust.devices.registrations.get */
 import { path } from "#api";
 
 export default {

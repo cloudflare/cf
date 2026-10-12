@@ -1,4 +1,4 @@
-/** @generated from rssCuratedFeedOptOut */
+/** @generated from cloudforce-one.threat-signals.curated-feeds.opt-out */
 import { path } from "#api";
 
 export default {

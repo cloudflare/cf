@@ -1,4 +1,4 @@
-/** @generated from metricsExport.upsert */
+/** @generated from o11y.metrics-export.upsert */
 import { path } from "#api";
 
 export default {

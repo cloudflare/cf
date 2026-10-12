@@ -1,4 +1,4 @@
-/** @generated from zero-trust-gateway-rules-delete-zero-trust-gateway-rule */
+/** @generated from zero-trust.gateway.rules.delete */
 import { path } from "#api";
 
 export default {

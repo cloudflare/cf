@@ -17,16 +17,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			"$0 spectrum analytics zones report get\n\nRetrieves a list of total bandwidth by zone over a given time period."
 		)
-		.option("since", {
-			type: "string",
-			description:
-				"Start of time interval to query, defaults to `until` - 6 hours. Timestamp must be in RFC3339 format and uses UTC unless otherwise specified.",
-		})
-		.option("until", {
-			type: "string",
-			description:
-				"End of time interval to query, defaults to current time. Timestamp must be in RFC3339 format and uses UTC unless otherwise specified.",
-		})
+		.option("since", { type: "string", description: "Since" })
+		.option("until", { type: "string", description: "Until" })
 		.option("cdn-traffic", {
 			type: "boolean",
 			description: "Include CDN traffic in the bandwidth aggregation.",

@@ -1,4 +1,4 @@
-/** @generated from health-checks-health-check-preview-details */
+/** @generated from healthchecks.previews.get */
 import { path } from "#api";
 
 export default {

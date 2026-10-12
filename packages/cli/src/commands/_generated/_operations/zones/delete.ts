@@ -1,4 +1,4 @@
-/** @generated from zones-0-delete */
+/** @generated from zones.delete */
 import { path } from "#api";
 
 export default {

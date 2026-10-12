@@ -1,4 +1,4 @@
-/** @generated from namespace-worker-create */
+/** @generated from workers-for-platforms.dispatch-namespaces.create */
 import { path } from "#api";
 
 export default {

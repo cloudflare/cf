@@ -1,4 +1,4 @@
-/** @generated from postAccountsAccountIdBrandProtectionSubmit */
+/** @generated from submit.create */
 import { path } from "#api";
 
 export default {

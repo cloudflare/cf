@@ -1,4 +1,4 @@
-/** @generated from GetRemediationTypesForFindingType */
+/** @generated from zero-trust.casb.finding-types.remediation-types.list */
 import { path } from "#api";
 
 export default {

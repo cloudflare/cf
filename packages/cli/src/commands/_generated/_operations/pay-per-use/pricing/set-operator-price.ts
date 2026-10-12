@@ -1,4 +1,4 @@
-/** @generated from pay-per-crawl.postPPUPublisherPriceAction */
+/** @generated from pay-per-use.pricing.set-operator-price */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from cloudforce-one-delete-email-rule */
+/** @generated from cloudforce-one.rules.email.delete */
 import { path } from "#api";
 
 export default {

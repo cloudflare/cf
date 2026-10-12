@@ -1,4 +1,4 @@
-/** @generated from GetSessionChat */
+/** @generated from realtime.kit.sessions.chat.export */
 import { path } from "#api";
 
 export default {

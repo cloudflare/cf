@@ -1,4 +1,4 @@
-/** @generated from radar-get-robots-txt-top-user-agents-by-directive */
+/** @generated from radar.robots-txt.top.user-agents.directive */
 export default {
 	method: "GET",
 	path: () => "/radar/robots_txt/top/user_agents/directive",

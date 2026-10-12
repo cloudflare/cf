@@ -1,4 +1,4 @@
-/** @generated from account-user-group-member-delete */
+/** @generated from iam.user-groups.members.delete */
 import { path } from "#api";
 
 export default {

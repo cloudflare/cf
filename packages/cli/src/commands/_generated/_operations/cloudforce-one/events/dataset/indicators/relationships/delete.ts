@@ -1,4 +1,4 @@
-/** @generated from delete_IndicatorRelationshipDelete */
+/** @generated from cloudforce-one.events.dataset.indicators.relationships.delete */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from magic-network-monitoring-configuration-list-account-configuration */
+/** @generated from magic-network-monitoring.configs.get */
 import { path } from "#api";
 
 export default {

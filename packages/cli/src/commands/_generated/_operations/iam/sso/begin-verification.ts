@@ -1,4 +1,4 @@
-/** @generated from begin-sso-connector-verification */
+/** @generated from iam.sso.begin-verification */
 import { path } from "#api";
 
 export default {

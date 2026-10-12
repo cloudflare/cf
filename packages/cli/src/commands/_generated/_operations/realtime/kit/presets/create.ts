@@ -1,4 +1,4 @@
-/** @generated from post-presets */
+/** @generated from realtime.kit.presets.create */
 import { path } from "#api";
 
 export default {

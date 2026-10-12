@@ -1,4 +1,4 @@
-/** @generated from web-analytics-update-rule */
+/** @generated from rum.rules.update */
 import { path } from "#api";
 
 export default {

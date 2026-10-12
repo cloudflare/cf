@@ -1,4 +1,4 @@
-/** @generated from device-managed-networks-update-device-managed-network */
+/** @generated from zero-trust.devices.networks.update */
 import { path } from "#api";
 
 export default {

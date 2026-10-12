@@ -1,4 +1,4 @@
-/** @generated from pages-domains-add-domain */
+/** @generated from pages.domains.create */
 import { path } from "#api";
 
 export default {

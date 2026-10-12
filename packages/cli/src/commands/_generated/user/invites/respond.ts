@@ -7,10 +7,12 @@ import type { ArgClassification } from "#lib/telemetry/index.js";
  */
 import type { Argv, CommandModule } from "yargs";
 import { createCommandClient } from "#lib/auth.js";
-import { parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
+import { resolveFileToken } from "#lib/input-validation.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
+import { promptForRequiredEnumField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
@@ -21,6 +23,13 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description: "Invite identifier tag.",
 			demandOption: true,
 		})
+		.option("status", {
+			type: "string",
+			description:
+				"Status of your response to the invitation (rejected or accepted).",
+			choices: ["accepted", "rejected"],
+		})
+		.coerce("status", (value) => resolveFileToken(value, "status", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -43,7 +52,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "user invites respond",
 				classification: {
-					safeFlags: ["dry-run"],
+					safeFlags: ["status", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -55,7 +64,12 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						url: `https://api.cloudflare.com/client/v4/user/invites/${argv["invite-id"] == null ? "<invite-id>" : encodeURIComponent(String(argv["invite-id"]))}`,
 						pathParams: { "invite-id": String(argv["invite-id"] ?? "") },
 						bodyKind: "json",
-						body: argv.body !== undefined ? parseBody(argv.body) : undefined,
+						body:
+							argv.body !== undefined
+								? parseBody(argv.body)
+								: compactBody({
+										status: argv["status"],
+									}),
 					});
 					return;
 				}
@@ -72,12 +86,25 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Updated` });
 					return;
 				}
-
-				if (argv.body === undefined) {
-					throw new Error(
-						"--body is required for this command. Pass --body '<json>' or --body @path/to/file.json."
+				if (argv["status"] === undefined) {
+					argv["status"] = await promptForRequiredEnumField(
+						"status",
+						"Status of your response to the invitation (rejected or accepted).",
+						["accepted", "rejected"] as const
 					);
 				}
+
+				// Assemble request body from individual flags
+				const bodyData = compactBody({
+					status: argv["status"],
+				});
+				const result = await withProgress(`Updating`, async () =>
+					client.send(operation, {
+						body: bodyData,
+						invite_id: argv["invite-id"],
+					})
+				);
+				formatOutput(result, { successLabel: `Updated` });
 			}
 		),
 };

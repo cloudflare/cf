@@ -1,4 +1,4 @@
-/** @generated from fetch_all_livestreams */
+/** @generated from realtime.kit.livestreams.list */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from upsertEnvironmentVariables */
+/** @generated from builds.triggers.environment-variables.upsert */
 import { path } from "#api";
 
 export default {

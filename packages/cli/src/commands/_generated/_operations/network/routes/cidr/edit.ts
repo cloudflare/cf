@@ -1,4 +1,4 @@
-/** @generated from tunnel-route-update-a-tunnel-route */
+/** @generated from network.routes.cidr.edit */
 import { path } from "#api";
 
 export default {

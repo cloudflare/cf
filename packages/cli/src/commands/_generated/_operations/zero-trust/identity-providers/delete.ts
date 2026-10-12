@@ -1,4 +1,4 @@
-/** @generated from generated:delete:/{account_or_zone}/{account_or_zone_id}/access/identity_providers/{identity_provider_id} */
+/** @generated from zero-trust.identity-providers.delete */
 import { path } from "#api";
 
 export default {

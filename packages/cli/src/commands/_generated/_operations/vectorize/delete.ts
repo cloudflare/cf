@@ -1,4 +1,4 @@
-/** @generated from vectorize-delete-vectorize-index */
+/** @generated from vectorize.delete */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from account-subscriptions-delete-subscription */
+/** @generated from accounts.subscriptions.delete */
 import { path } from "#api";
 
 export default {

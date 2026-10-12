@@ -1,4 +1,4 @@
-/** @generated from ai-search-delete-namespace */
+/** @generated from ai-search.namespace.delete */
 import { path } from "#api";
 
 export default {

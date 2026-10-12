@@ -1,4 +1,4 @@
-/** @generated from get_EventQueryRead */
+/** @generated from cloudforce-one.events.queries.get.v2 */
 import { path } from "#api";
 
 export default {

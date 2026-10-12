@@ -1,4 +1,4 @@
-/** @generated from account-load-balancer-monitor-groups-patch-monitor-group */
+/** @generated from load-balancers.monitor-groups.edit */
 import { path } from "#api";
 
 export default {

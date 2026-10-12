@@ -1,4 +1,4 @@
-/** @generated from r2-list-objects */
+/** @generated from r2.objects.list */
 import { path } from "#api";
 
 export default {

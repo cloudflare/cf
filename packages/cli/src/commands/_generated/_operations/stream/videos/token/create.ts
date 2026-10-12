@@ -1,4 +1,4 @@
-/** @generated from stream-videos-create-signed-url-tokens-for-videos */
+/** @generated from stream.videos.token.create */
 import { path } from "#api";
 
 export default {

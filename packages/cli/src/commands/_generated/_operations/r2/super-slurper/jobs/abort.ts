@@ -1,4 +1,4 @@
-/** @generated from slurper-abort-job */
+/** @generated from r2.super-slurper.jobs.abort */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from r2-delete-bucket-lock-configuration */
+/** @generated from r2.buckets.locks.delete */
 import { path } from "#api";
 
 export default {

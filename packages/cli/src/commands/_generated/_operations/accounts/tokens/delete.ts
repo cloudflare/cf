@@ -1,4 +1,4 @@
-/** @generated from account-api-tokens-delete-token */
+/** @generated from accounts.tokens.delete */
 import { path } from "#api";
 
 export default {

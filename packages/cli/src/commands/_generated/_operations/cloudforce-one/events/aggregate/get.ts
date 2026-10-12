@@ -1,4 +1,4 @@
-/** @generated from get_EventAggregate */
+/** @generated from cloudforce-one.events.aggregate.get */
 import { path } from "#api";
 
 export default {

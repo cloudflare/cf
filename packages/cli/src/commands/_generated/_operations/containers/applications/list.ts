@@ -1,4 +1,4 @@
-/** @generated from listApplications */
+/** @generated from containers.applications.list */
 import { path } from "#api";
 
 export default {

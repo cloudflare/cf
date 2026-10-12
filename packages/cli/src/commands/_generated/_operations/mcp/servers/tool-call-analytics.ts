@@ -1,4 +1,4 @@
-/** @generated from mcp-portals-api-server-tool-call-timeseries */
+/** @generated from mcp.servers.tool-call-analytics */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from user-edit-user */
+/** @generated from user.edit */
 export default {
 	method: "PATCH",
 	path: () => "/user",

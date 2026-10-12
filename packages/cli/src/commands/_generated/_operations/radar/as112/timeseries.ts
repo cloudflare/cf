@@ -1,4 +1,4 @@
-/** @generated from radar-get-dns-as112-timeseries */
+/** @generated from radar.as112.timeseries */
 export default {
 	method: "GET",
 	path: () => "/radar/as112/timeseries",

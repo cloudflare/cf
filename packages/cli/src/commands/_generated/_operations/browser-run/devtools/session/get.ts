@@ -1,4 +1,4 @@
-/** @generated from brapi-get_DevtoolsSessionDetails */
+/** @generated from browser-run.devtools.session.get */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from vectorize-get-vectors-by-id */
+/** @generated from vectorize.get-by-ids */
 import { path } from "#api";
 
 export default {

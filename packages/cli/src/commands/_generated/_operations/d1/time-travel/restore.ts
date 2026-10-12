@@ -1,4 +1,4 @@
-/** @generated from d1-time-travel-restore */
+/** @generated from d1.time-travel.restore */
 import { path } from "#api";
 
 export default {

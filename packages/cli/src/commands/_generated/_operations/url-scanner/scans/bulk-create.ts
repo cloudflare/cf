@@ -1,4 +1,4 @@
-/** @generated from urlscanner-create-scan-bulk-v2 */
+/** @generated from url-scanner.scans.bulk-create */
 import { path } from "#api";
 
 export default {

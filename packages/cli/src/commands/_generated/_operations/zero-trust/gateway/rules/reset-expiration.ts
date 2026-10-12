@@ -1,4 +1,4 @@
-/** @generated from zero-trust-gateway-rules-reset-expiration-zero-trust-gateway-rule */
+/** @generated from zero-trust.gateway.rules.reset-expiration */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from get_MessageList */
+/** @generated from cloudforce-one.requests.messages.list */
 import { path } from "#api";
 
 export default {

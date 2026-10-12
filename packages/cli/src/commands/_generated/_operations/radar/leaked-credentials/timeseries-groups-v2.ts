@@ -1,4 +1,4 @@
-/** @generated from radar-get-leaked-credential-checks-timeseries-group */
+/** @generated from radar.leaked-credentials.timeseries-groups-v2 */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from get_LogoMatchList */
+/** @generated from brand-protection.logo-matches.get */
 import { path } from "#api";
 
 export default {

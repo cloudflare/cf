@@ -1,4 +1,4 @@
-/** @generated from zone-level-authenticated-origin-pulls-list-certificates */
+/** @generated from origin-tls-client-auth.zone-certificates.list */
 import { path } from "#api";
 
 export default {

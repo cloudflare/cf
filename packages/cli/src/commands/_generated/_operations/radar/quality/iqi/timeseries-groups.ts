@@ -1,4 +1,4 @@
-/** @generated from radar-get-quality-index-timeseries-group */
+/** @generated from radar.quality.iqi.timeseries-groups */
 export default {
 	method: "GET",
 	path: () => "/radar/quality/iqi/timeseries_groups",

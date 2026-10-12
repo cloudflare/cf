@@ -1,4 +1,4 @@
-/** @generated from namespace-worker-get-script-bindings */
+/** @generated from workers-for-platforms.dispatch-namespaces.scripts.bindings.get */
 import { path } from "#api";
 
 export default {

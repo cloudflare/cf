@@ -1,4 +1,4 @@
-/** @generated from scim-users-patch */
+/** @generated from scim.users.edit */
 import { path } from "#api";
 
 export default {

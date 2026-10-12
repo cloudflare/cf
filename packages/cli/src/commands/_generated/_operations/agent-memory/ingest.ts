@@ -1,4 +1,4 @@
-/** @generated from agent-memory-ingest */
+/** @generated from agent-memory.ingest */
 import { path } from "#api";
 
 export default {

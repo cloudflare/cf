@@ -1,4 +1,4 @@
-/** @generated from account-settings-list-transformations */
+/** @generated from accounts.transformations.list */
 import { path } from "#api";
 
 export default {

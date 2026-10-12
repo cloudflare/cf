@@ -1,4 +1,4 @@
-/** @generated from r2-delete-bucket-cors-policy */
+/** @generated from r2.buckets.cors.delete */
 import { path } from "#api";
 
 export default {

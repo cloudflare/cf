@@ -1,4 +1,4 @@
-/** @generated from ip-address-management-prefix-delegation-list-prefix-delegations */
+/** @generated from addressing.prefixes.delegations.list */
 import { path } from "#api";
 
 export default {

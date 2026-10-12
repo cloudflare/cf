@@ -1,4 +1,4 @@
-/** @generated from zone-lockdown-delete-a-zone-lockdown-rule */
+/** @generated from firewall.lockdowns.delete */
 import { path } from "#api";
 
 export default {

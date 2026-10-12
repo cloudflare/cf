@@ -1,4 +1,4 @@
-/** @generated from slurper-list-jobs */
+/** @generated from r2.super-slurper.jobs.list */
 import { path } from "#api";
 
 export default {

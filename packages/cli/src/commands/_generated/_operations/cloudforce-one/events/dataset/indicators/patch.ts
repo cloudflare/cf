@@ -1,4 +1,4 @@
-/** @generated from patch_IndicatorUpdate */
+/** @generated from cloudforce-one.events.dataset.indicators.patch */
 import { path } from "#api";
 
 export default {

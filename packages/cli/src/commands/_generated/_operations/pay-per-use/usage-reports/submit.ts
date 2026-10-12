@@ -1,4 +1,4 @@
-/** @generated from pay-per-use.submitUsageReport */
+/** @generated from pay-per-use.usage-reports.submit */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from dlp-entries-delete-entry */
+/** @generated from zero-trust.dlp.entries.delete */
 import { path } from "#api";
 
 export default {

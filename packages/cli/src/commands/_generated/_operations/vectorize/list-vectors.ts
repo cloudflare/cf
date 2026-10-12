@@ -1,4 +1,4 @@
-/** @generated from vectorize-list-vectors */
+/** @generated from vectorize.list-vectors */
 import { path } from "#api";
 
 export default {

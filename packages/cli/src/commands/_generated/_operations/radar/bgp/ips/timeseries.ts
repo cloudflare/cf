@@ -1,4 +1,4 @@
-/** @generated from radar-get-bgp-ips-timeseries */
+/** @generated from radar.bgp.ips.timeseries */
 export default {
 	method: "GET",
 	path: () => "/radar/bgp/ips/timeseries",

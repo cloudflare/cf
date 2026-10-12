@@ -1,4 +1,4 @@
-/** @generated from magic-pcap-collection-list-pca-ps-bucket-ownership */
+/** @generated from magic-transit.pcaps.ownership.get */
 import { path } from "#api";
 
 export default {

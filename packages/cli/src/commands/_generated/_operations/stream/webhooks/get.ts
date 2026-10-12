@@ -1,4 +1,4 @@
-/** @generated from stream-webhook-view-webhooks */
+/** @generated from stream.webhooks.get */
 import { path } from "#api";
 
 export default {

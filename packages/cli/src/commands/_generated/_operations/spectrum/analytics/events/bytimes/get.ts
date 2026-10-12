@@ -1,4 +1,4 @@
-/** @generated from spectrum-analytics-(-by-time)-get-analytics-by-time */
+/** @generated from spectrum.analytics.events.bytimes.get */
 import { path } from "#api";
 
 export default {

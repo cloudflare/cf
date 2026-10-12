@@ -1,4 +1,4 @@
-/** @generated from cloudflare-images-sourcingkit-list-migrations */
+/** @generated from images.import.list */
 import { path } from "#api";
 
 export default {

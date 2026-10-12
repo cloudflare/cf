@@ -1,4 +1,4 @@
-/** @generated from radar-get-quality-speed-histogram */
+/** @generated from radar.quality.speed.histogram */
 export default {
 	method: "GET",
 	path: () => "/radar/quality/speed/histogram",

@@ -1,4 +1,4 @@
-/** @generated from email_security_get_domain_verification */
+/** @generated from email-security.domains.verification.get */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from access-user-populations-list-user-populations */
+/** @generated from zero-trust.access.user-populations.list */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from getAccountLimits */
+/** @generated from builds.limits.get */
 import { path } from "#api";
 
 export default {

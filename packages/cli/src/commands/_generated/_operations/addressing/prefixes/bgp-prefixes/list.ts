@@ -1,4 +1,4 @@
-/** @generated from ip-address-management-prefixes-list-bgp-prefixes */
+/** @generated from addressing.prefixes.bgp-prefixes.list */
 import { path } from "#api";
 
 export default {

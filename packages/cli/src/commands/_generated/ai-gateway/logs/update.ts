@@ -69,8 +69,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "PATCH",
 						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/ai-gateway/gateways/${argv["gateway-id"] == null ? "<gateway-id>" : encodeURIComponent(String(argv["gateway-id"]))}/logs/${argv["id"] == null ? "<id>" : encodeURIComponent(String(argv["id"]))}`,
 						pathParams: {
-							id: String(argv["id"] ?? ""),
 							"gateway-id": String(argv["gateway-id"] ?? ""),
+							id: String(argv["id"] ?? ""),
 						},
 						bodyKind: "json",
 						body:

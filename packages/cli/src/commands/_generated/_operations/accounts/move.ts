@@ -1,4 +1,4 @@
-/** @generated from Accounts_moveAccounts */
+/** @generated from accounts.move */
 import { path } from "#api";
 
 export default {

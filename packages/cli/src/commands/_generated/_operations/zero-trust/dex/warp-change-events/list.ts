@@ -1,4 +1,4 @@
-/** @generated from list-warp-change-events */
+/** @generated from zero-trust.dex.warp-change-events.list */
 import { path } from "#api";
 
 export default {

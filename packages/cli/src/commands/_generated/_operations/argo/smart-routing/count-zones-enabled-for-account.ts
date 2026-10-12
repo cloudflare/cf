@@ -1,4 +1,4 @@
-/** @generated from argo-smart-routing-get-count-zones-enabled-for-account */
+/** @generated from argo.smart-routing.count-zones-enabled-for-account */
 import { path } from "#api";
 
 export default {

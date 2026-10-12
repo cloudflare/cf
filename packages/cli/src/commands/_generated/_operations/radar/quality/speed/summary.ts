@@ -1,4 +1,4 @@
-/** @generated from radar-get-quality-speed-summary */
+/** @generated from radar.quality.speed.summary */
 export default {
 	method: "GET",
 	path: () => "/radar/quality/speed/summary",

@@ -1,4 +1,4 @@
-/** @generated from post_BinDBPost */
+/** @generated from cloudforce-one.binary-storage.create */
 import { path } from "#api";
 
 export default {

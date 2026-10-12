@@ -1,4 +1,4 @@
-/** @generated from generated:get:/{account_or_zone}/{account_or_zone_id}/access/service_tokens */
+/** @generated from zero-trust.access.service-tokens.list */
 import { path } from "#api";
 
 export default {

@@ -63,8 +63,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "GET",
 						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/storage/kv/namespaces/${argv["namespace-id"] == null ? "<namespace-id>" : encodeURIComponent(String(argv["namespace-id"]))}/metadata/${argv["key-name"] == null ? "<key-name>" : encodeURIComponent(String(argv["key-name"]))}`,
 						pathParams: {
-							"key-name": String(argv["key-name"] ?? ""),
 							"namespace-id": String(argv["namespace-id"] ?? ""),
+							"key-name": String(argv["key-name"] ?? ""),
 						},
 						bodyKind: "none",
 					});

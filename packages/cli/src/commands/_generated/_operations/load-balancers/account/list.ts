@@ -1,4 +1,4 @@
-/** @generated from generated:get:/{account_or_zone}/{account_or_zone_id}/load_balancers */
+/** @generated from load-balancers.account.list */
 import { path } from "#api";
 
 export default {

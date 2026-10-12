@@ -1,4 +1,4 @@
-/** @generated from delete_DomainDelete */
+/** @generated from cloudforce-one.credential-monitor.domains.delete */
 import { path } from "#api";
 
 export default {

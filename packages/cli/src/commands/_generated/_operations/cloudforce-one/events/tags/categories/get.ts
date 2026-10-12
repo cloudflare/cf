@@ -1,4 +1,4 @@
-/** @generated from get_TagCategoryList */
+/** @generated from cloudforce-one.events.tags.categories.get */
 import { path } from "#api";
 
 export default {

@@ -11,11 +11,13 @@ import {
 	getAccountId,
 	resolveAccountIdSilent,
 } from "#lib/auth.js";
-import { parseBody } from "#lib/body-parser.js";
+import { compactBody, parseBody, parseObjectArray } from "#lib/body-parser.js";
 import { formatDryRun } from "#lib/dry-run.js";
+import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
+import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
@@ -23,6 +25,67 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			"$0 email-sending send\n\nSend an email for the specified account using the structured builder. Provide the sender, recipients, subject, and at least one of text or html; attachments are optional."
 		)
+		.option("attachments", {
+			type: "string",
+			description:
+				"File attachments and inline images. Provide as a JSON array of objects or @path/to/file.json.",
+		})
+		.option("bcc-address", {
+			type: "string",
+			description: "Email address (e.g., 'user@example.com').",
+		})
+		.option("bcc-name", {
+			type: "string",
+			description:
+				"Display name for the email address (e.g., 'John Doe'). Optional; set to null or leave it unset to send the address on its own.",
+		})
+		.option("cc-address", {
+			type: "string",
+			description: "Email address (e.g., 'user@example.com').",
+		})
+		.option("cc-name", {
+			type: "string",
+			description:
+				"Display name for the email address (e.g., 'John Doe'). Optional; set to null or leave it unset to send the address on its own.",
+		})
+		.option("from-address", {
+			type: "string",
+			description: "Email address (e.g., 'user@example.com').",
+		})
+		.option("from-name", {
+			type: "string",
+			description:
+				"Display name for the email address (e.g., 'John Doe'). Optional; set to null or leave it unset to send the address on its own.",
+		})
+		.option("html", {
+			type: "string",
+			description:
+				"HTML body of the email. Provide at least one of text or html (non-empty).",
+		})
+		.option("reply-to-address", {
+			type: "string",
+			description: "Email address (e.g., 'user@example.com').",
+		})
+		.option("reply-to-name", {
+			type: "string",
+			description:
+				"Display name for the email address (e.g., 'John Doe'). Optional; set to null or leave it unset to send the address on its own.",
+		})
+		.option("subject", { type: "string", description: "Email subject line." })
+		.option("text", {
+			type: "string",
+			description:
+				"Plain text body of the email. Provide at least one of text or html (non-empty).",
+		})
+		.option("to-address", {
+			type: "string",
+			description: "Email address (e.g., 'user@example.com').",
+		})
+		.option("to-name", {
+			type: "string",
+			description:
+				"Display name for the email address (e.g., 'John Doe'). Optional; set to null or leave it unset to send the address on its own.",
+		})
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -58,7 +121,90 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/email/sending/send`,
 						pathParams: {},
 						bodyKind: "json",
-						body: argv.body !== undefined ? parseBody(argv.body) : undefined,
+						body:
+							argv.body !== undefined
+								? parseBody(argv.body)
+								: compactBody({
+										attachments: parseObjectArray(
+											argv["attachments"],
+											"attachments"
+										),
+										bcc: {
+											address: resolveFileToken(
+												argv["bcc-address"] as string | undefined,
+												"bcc-address",
+												"text"
+											),
+											name: resolveFileToken(
+												argv["bcc-name"] as string | undefined,
+												"bcc-name",
+												"text"
+											),
+										},
+										cc: {
+											address: resolveFileToken(
+												argv["cc-address"] as string | undefined,
+												"cc-address",
+												"text"
+											),
+											name: resolveFileToken(
+												argv["cc-name"] as string | undefined,
+												"cc-name",
+												"text"
+											),
+										},
+										from: {
+											address: resolveFileToken(
+												argv["from-address"] as string | undefined,
+												"from-address",
+												"text"
+											),
+											name: resolveFileToken(
+												argv["from-name"] as string | undefined,
+												"from-name",
+												"text"
+											),
+										},
+										html: resolveFileToken(
+											argv["html"] as string | undefined,
+											"html",
+											"text"
+										),
+										reply_to: {
+											address: resolveFileToken(
+												argv["reply-to-address"] as string | undefined,
+												"reply-to-address",
+												"text"
+											),
+											name: resolveFileToken(
+												argv["reply-to-name"] as string | undefined,
+												"reply-to-name",
+												"text"
+											),
+										},
+										subject: resolveFileToken(
+											argv["subject"] as string | undefined,
+											"subject",
+											"text"
+										),
+										text: resolveFileToken(
+											argv["text"] as string | undefined,
+											"text",
+											"text"
+										),
+										to: {
+											address: resolveFileToken(
+												argv["to-address"] as string | undefined,
+												"to-address",
+												"text"
+											),
+											name: resolveFileToken(
+												argv["to-name"] as string | undefined,
+												"to-name",
+												"text"
+											),
+										},
+									}),
 					});
 					return;
 				}
@@ -74,12 +220,96 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
-
-				if (argv.body === undefined) {
-					throw new Error(
-						"--body is required for this command. Pass --body '<json>' or --body @path/to/file.json."
+				if (argv["subject"] === undefined) {
+					argv["subject"] = await promptForRequiredField(
+						"subject",
+						"Email subject line."
 					);
 				}
+
+				// Assemble request body from individual flags
+				const bodyData = compactBody({
+					attachments: parseObjectArray(argv["attachments"], "attachments"),
+					bcc: {
+						address: resolveFileToken(
+							argv["bcc-address"] as string | undefined,
+							"bcc-address",
+							"text"
+						),
+						name: resolveFileToken(
+							argv["bcc-name"] as string | undefined,
+							"bcc-name",
+							"text"
+						),
+					},
+					cc: {
+						address: resolveFileToken(
+							argv["cc-address"] as string | undefined,
+							"cc-address",
+							"text"
+						),
+						name: resolveFileToken(
+							argv["cc-name"] as string | undefined,
+							"cc-name",
+							"text"
+						),
+					},
+					from: {
+						address: resolveFileToken(
+							argv["from-address"] as string | undefined,
+							"from-address",
+							"text"
+						),
+						name: resolveFileToken(
+							argv["from-name"] as string | undefined,
+							"from-name",
+							"text"
+						),
+					},
+					html: resolveFileToken(
+						argv["html"] as string | undefined,
+						"html",
+						"text"
+					),
+					reply_to: {
+						address: resolveFileToken(
+							argv["reply-to-address"] as string | undefined,
+							"reply-to-address",
+							"text"
+						),
+						name: resolveFileToken(
+							argv["reply-to-name"] as string | undefined,
+							"reply-to-name",
+							"text"
+						),
+					},
+					subject: resolveFileToken(
+						argv["subject"] as string | undefined,
+						"subject",
+						"text"
+					),
+					text: resolveFileToken(
+						argv["text"] as string | undefined,
+						"text",
+						"text"
+					),
+					to: {
+						address: resolveFileToken(
+							argv["to-address"] as string | undefined,
+							"to-address",
+							"text"
+						),
+						name: resolveFileToken(
+							argv["to-name"] as string | undefined,
+							"to-name",
+							"text"
+						),
+					},
+				});
+				const result = await withProgress(`Creating`, async () =>
+					client.send(operation, { body: bodyData, account_id: accountId })
+				);
+				formatOutput(result, { successLabel: `Created` });
 			}
 		),
 };

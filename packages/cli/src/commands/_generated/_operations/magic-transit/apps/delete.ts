@@ -1,4 +1,4 @@
-/** @generated from magic-account-apps-delete-app */
+/** @generated from magic-transit.apps.delete */
 import { path } from "#api";
 
 export default {

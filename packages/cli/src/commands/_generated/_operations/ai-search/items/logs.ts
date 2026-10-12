@@ -1,4 +1,4 @@
-/** @generated from ai-search-namespace-instance-logs-item */
+/** @generated from ai-search.items.logs */
 import { path } from "#api";
 
 export default {

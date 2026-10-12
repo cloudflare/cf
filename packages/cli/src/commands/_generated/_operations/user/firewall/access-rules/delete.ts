@@ -1,4 +1,4 @@
-/** @generated from ip-access-rules-for-a-user-delete-an-ip-access-rule */
+/** @generated from user.firewall.access-rules.delete */
 import { path } from "#api";
 
 export default {

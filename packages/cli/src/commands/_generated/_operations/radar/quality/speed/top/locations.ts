@@ -1,4 +1,4 @@
-/** @generated from radar-get-quality-speed-top-locations */
+/** @generated from radar.quality.speed.top.locations */
 export default {
 	method: "GET",
 	path: () => "/radar/quality/speed/top/locations",

@@ -1,4 +1,4 @@
-/** @generated from basin-delete-catalog */
+/** @generated from basin-catalog.delete */
 import { path } from "#api";
 
 export default {

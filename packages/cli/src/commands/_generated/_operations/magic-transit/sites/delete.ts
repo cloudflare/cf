@@ -1,4 +1,4 @@
-/** @generated from magic-sites-delete-site */
+/** @generated from magic-transit.sites.delete */
 import { path } from "#api";
 
 export default {

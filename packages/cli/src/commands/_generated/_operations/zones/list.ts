@@ -1,4 +1,4 @@
-/** @generated from zones-get */
+/** @generated from zones.list */
 export default {
 	method: "GET",
 	path: () => "/zones",

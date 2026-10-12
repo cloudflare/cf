@@ -1,4 +1,4 @@
-/** @generated from registrar-domain-registration-get-status */
+/** @generated from registrar.registrations.get-registration-status */
 import { path } from "#api";
 
 export default {

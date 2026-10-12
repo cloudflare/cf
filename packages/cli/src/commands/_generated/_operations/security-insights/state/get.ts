@@ -1,4 +1,4 @@
-/** @generated from get-security-center-account-state */
+/** @generated from security-insights.state.get */
 import { path } from "#api";
 
 export default {

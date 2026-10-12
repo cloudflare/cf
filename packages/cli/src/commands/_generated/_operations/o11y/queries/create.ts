@@ -1,4 +1,4 @@
-/** @generated from queries.post */
+/** @generated from o11y.queries.create */
 import { path } from "#api";
 
 export default {

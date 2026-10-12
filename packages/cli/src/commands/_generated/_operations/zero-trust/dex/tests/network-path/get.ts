@@ -1,4 +1,4 @@
-/** @generated from dex-endpoints-traceroute-test-network-path */
+/** @generated from zero-trust.dex.tests.network-path.get */
 import { path } from "#api";
 
 export default {

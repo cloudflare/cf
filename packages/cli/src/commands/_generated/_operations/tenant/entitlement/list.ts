@@ -1,4 +1,4 @@
-/** @generated from Tenants_listEntitlements */
+/** @generated from tenant.entitlement.list */
 import { path } from "#api";
 
 export default {

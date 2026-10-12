@@ -1,4 +1,4 @@
-/** @generated from dlp-risk-score-reset-post */
+/** @generated from zero-trust.risk-scoring.reset */
 import { path } from "#api";
 
 export default {

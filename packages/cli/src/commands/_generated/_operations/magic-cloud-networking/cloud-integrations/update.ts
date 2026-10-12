@@ -1,4 +1,4 @@
-/** @generated from providers-update */
+/** @generated from magic-cloud-networking.cloud-integrations.update */
 import { path } from "#api";
 
 export default {

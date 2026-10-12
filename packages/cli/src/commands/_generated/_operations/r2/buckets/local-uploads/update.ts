@@ -1,4 +1,4 @@
-/** @generated from r2-put-bucket-local-uploads-configuration */
+/** @generated from r2.buckets.local-uploads.update */
 import { path } from "#api";
 
 export default {

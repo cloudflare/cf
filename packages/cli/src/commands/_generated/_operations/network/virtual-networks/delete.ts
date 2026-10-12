@@ -1,4 +1,4 @@
-/** @generated from tunnel-virtual-network-delete */
+/** @generated from network.virtual-networks.delete */
 import { path } from "#api";
 
 export default {

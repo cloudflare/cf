@@ -1,4 +1,4 @@
-/** @generated from ip-address-management-dynamic-advertisement-update-prefix-dynamic-advertisement-status */
+/** @generated from addressing.prefixes.advertisement-status.edit */
 import { path } from "#api";
 
 export default {

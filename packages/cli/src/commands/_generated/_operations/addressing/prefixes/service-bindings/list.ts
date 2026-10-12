@@ -1,4 +1,4 @@
-/** @generated from ip-address-management-service-bindings-list-service-bindings */
+/** @generated from addressing.prefixes.service-bindings.list */
 import { path } from "#api";
 
 export default {

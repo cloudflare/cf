@@ -1,4 +1,4 @@
-/** @generated from stream-live-inputs-rotate-keys-for-a-live-input */
+/** @generated from stream.live-inputs.rotate-keys */
 import { path } from "#api";
 
 export default {

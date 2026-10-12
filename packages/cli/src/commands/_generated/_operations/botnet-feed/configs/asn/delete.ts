@@ -1,4 +1,4 @@
-/** @generated from botnet-threat-feed-delete-asn */
+/** @generated from botnet-feed.configs.asn.delete */
 import { path } from "#api";
 
 export default {

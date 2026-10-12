@@ -1,4 +1,4 @@
-/** @generated from token-validation-config-credentials-update */
+/** @generated from api-security.token-validation.configurations.credentials.update */
 import { path } from "#api";
 
 export default {

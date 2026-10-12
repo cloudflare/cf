@@ -1,4 +1,4 @@
-/** @generated from user'-s-account-memberships-update-membership */
+/** @generated from user.memberships.update */
 import { path } from "#api";
 
 export default {

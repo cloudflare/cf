@@ -1,4 +1,4 @@
-/** @generated from d1-undelete-database */
+/** @generated from d1.undelete */
 import { path } from "#api";
 
 export default {

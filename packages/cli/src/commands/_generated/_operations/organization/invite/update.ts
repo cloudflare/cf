@@ -1,4 +1,4 @@
-/** @generated from Organizations_handleOrganizationInvite */
+/** @generated from organization.invite.update */
 import { path } from "#api";
 
 export default {

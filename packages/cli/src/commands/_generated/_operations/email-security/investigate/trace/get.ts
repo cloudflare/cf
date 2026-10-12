@@ -1,4 +1,4 @@
-/** @generated from email_security_get_message_trace */
+/** @generated from email-security.investigate.trace.get */
 import { path } from "#api";
 
 export default {

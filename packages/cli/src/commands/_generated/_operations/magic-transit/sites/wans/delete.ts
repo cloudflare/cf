@@ -1,4 +1,4 @@
-/** @generated from magic-site-wans-delete-wan */
+/** @generated from magic-transit.sites.wans.delete */
 import { path } from "#api";
 
 export default {

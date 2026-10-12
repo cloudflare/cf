@@ -1,4 +1,4 @@
-/** @generated from artifacts_repos_blob_get */
+/** @generated from artifacts.namespaces.repos.blobs.get */
 import { path } from "#api";
 
 export default {

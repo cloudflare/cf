@@ -1,4 +1,4 @@
-/** @generated from d1-update-partial-database */
+/** @generated from d1.edit */
 import { path } from "#api";
 
 export default {

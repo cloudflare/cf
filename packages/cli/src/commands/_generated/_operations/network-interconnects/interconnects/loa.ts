@@ -1,4 +1,4 @@
-/** @generated from get_interconnect_loa */
+/** @generated from network-interconnects.interconnects.loa */
 import { path } from "#api";
 
 export default {

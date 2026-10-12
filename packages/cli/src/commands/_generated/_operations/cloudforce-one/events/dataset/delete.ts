@@ -1,4 +1,4 @@
-/** @generated from delete_DatasetDelete */
+/** @generated from cloudforce-one.events.dataset.delete */
 import { path } from "#api";
 
 export default {

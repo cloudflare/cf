@@ -1,4 +1,4 @@
-/** @generated from access-idp-federation-grants-create */
+/** @generated from zero-trust.identity-providers.federation-grants.create */
 import { path } from "#api";
 
 export default {

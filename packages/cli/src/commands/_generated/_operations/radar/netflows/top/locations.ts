@@ -1,4 +1,4 @@
-/** @generated from radar-get-netflows-top-locations */
+/** @generated from radar.netflows.top.locations */
 export default {
 	method: "GET",
 	path: () => "/radar/netflows/top/locations",

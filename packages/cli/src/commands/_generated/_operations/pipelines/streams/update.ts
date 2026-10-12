@@ -1,4 +1,4 @@
-/** @generated from patchV4AccountsByAccount_idPipelinesV1StreamsByStream_id */
+/** @generated from pipelines.streams.update */
 import { path } from "#api";
 
 export default {

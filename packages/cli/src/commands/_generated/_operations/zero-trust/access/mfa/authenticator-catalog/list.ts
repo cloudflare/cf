@@ -1,4 +1,4 @@
-/** @generated from access-authenticator-device-aaguids-list */
+/** @generated from zero-trust.access.mfa.authenticator-catalog.list */
 import { path } from "#api";
 
 export default {

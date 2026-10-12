@@ -65,8 +65,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						url: `https://api.cloudflare.com/client/v4/${accountOrZone}/${accountOrZoneId}/rulesets/phases/${argv["phase"] == null ? "<phase>" : encodeURIComponent(String(argv["phase"]))}/entrypoint`,
 						pathParams: {
 							"account-or-zone": String(accountOrZone),
-							phase: String(argv["phase"] ?? ""),
 							"account-or-zone-id": String(accountOrZoneId),
+							phase: String(argv["phase"] ?? ""),
 						},
 						bodyKind: "none",
 					});

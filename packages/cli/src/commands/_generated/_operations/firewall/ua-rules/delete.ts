@@ -1,4 +1,4 @@
-/** @generated from user-agent-blocking-rules-delete-a-user-agent-blocking-rule */
+/** @generated from firewall.ua-rules.delete */
 import { path } from "#api";
 
 export default {

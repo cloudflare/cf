@@ -1,4 +1,4 @@
-/** @generated from onramps-mwan-addr-space-read */
+/** @generated from magic-cloud-networking.on-ramps.address-spaces.list */
 import { path } from "#api";
 
 export default {

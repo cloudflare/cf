@@ -1,4 +1,4 @@
-/** @generated from radar-get-agent-readiness-summary */
+/** @generated from radar.agent-readiness.summary */
 import { path } from "#api";
 
 export default {

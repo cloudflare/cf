@@ -1,4 +1,4 @@
-/** @generated from stream-signing-keys-delete-signing-keys */
+/** @generated from stream.keys.delete */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from moq-relays-tokens-list */
+/** @generated from realtime.moq.relays.tokens.list */
 import { path } from "#api";
 
 export default {

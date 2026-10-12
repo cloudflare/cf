@@ -1,4 +1,4 @@
-/** @generated from zero-trust-networks-subnet-update-initial-resolved-ip */
+/** @generated from network.subnets.initial-resolved-ip.edit */
 import { path } from "#api";
 
 export default {

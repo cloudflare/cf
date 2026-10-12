@@ -1,4 +1,4 @@
-/** @generated from tunnel-route-delete-a-tunnel-route */
+/** @generated from network.routes.cidr.delete */
 import { path } from "#api";
 
 export default {

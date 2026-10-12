@@ -1,4 +1,4 @@
-/** @generated from custom-hostname-for-a-zone-edit-custom-certificate-custom-hostname */
+/** @generated from custom-hostnames.certificate-pack.certificates.update */
 import { path } from "#api";
 
 export default {

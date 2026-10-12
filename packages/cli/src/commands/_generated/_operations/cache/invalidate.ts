@@ -1,4 +1,4 @@
-/** @generated from zone-invalidate */
+/** @generated from cache.invalidate */
 import { path } from "#api";
 
 export default {

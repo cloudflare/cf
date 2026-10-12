@@ -1,4 +1,4 @@
-/** @generated from r2-delete-bucket */
+/** @generated from r2.buckets.delete */
 import { path } from "#api";
 
 export default {

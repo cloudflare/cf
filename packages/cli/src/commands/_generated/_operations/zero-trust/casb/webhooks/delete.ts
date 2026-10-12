@@ -1,4 +1,4 @@
-/** @generated from DeleteWebhook */
+/** @generated from zero-trust.casb.webhooks.delete */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from migrateWorkerToPreviews */
+/** @generated from workers-builds.workers.migrate-to-previews */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from r2-delete-objects */
+/** @generated from r2.objects.bulk-delete */
 import { path } from "#api";
 
 export default {

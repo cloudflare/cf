@@ -1,4 +1,4 @@
-/** @generated from zero-trust-gateway-application-and-application-type-mappings-list-application-and-application-type-mappings */
+/** @generated from zero-trust.gateway.app-types.list */
 import { path } from "#api";
 
 export default {

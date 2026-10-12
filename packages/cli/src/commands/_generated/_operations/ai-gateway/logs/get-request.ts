@@ -1,4 +1,4 @@
-/** @generated from aig-config-get-gateway-log-request */
+/** @generated from ai-gateway.logs.get-request */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from pages-project-delete-project */
+/** @generated from pages.delete */
 import { path } from "#api";
 
 export default {

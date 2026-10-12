@@ -1,4 +1,4 @@
-/** @generated from scim-groups-list */
+/** @generated from scim.groups.list */
 import { path } from "#api";
 
 export default {

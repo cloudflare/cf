@@ -1,4 +1,4 @@
-/** @generated from DeletePolicy */
+/** @generated from zero-trust.casb.policies.delete */
 import { path } from "#api";
 
 export default {

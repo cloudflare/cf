@@ -1,4 +1,4 @@
-/** @generated from cloudforce-one-update-account-exemptions */
+/** @generated from cloudforce-one.rules.exemptions.update */
 import { path } from "#api";
 
 export default {

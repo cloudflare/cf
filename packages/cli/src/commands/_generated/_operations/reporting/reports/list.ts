@@ -1,4 +1,4 @@
-/** @generated from reporting-reports-list */
+/** @generated from reporting.reports.list */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from deleteAllowlistPrefixesForAccount */
+/** @generated from magic-transit.advanced-tcp-protection.configs.allowlist.bulk-delete */
 import { path } from "#api";
 
 export default {

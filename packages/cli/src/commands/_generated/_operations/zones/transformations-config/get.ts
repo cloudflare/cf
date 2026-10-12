@@ -1,4 +1,4 @@
-/** @generated from zone-settings-get-transformations-config */
+/** @generated from zones.transformations-config.get */
 import { path } from "#api";
 
 export default {

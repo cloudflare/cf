@@ -1,4 +1,4 @@
-/** @generated from get_integration_v2 */
+/** @generated from zero-trust.casb.integrations.get */
 import { path } from "#api";
 
 export default {

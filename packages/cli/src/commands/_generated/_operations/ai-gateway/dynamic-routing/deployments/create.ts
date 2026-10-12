@@ -1,4 +1,4 @@
-/** @generated from aig-config-post-gateway-dynamic-route-deployment */
+/** @generated from ai-gateway.dynamic-routing.deployments.create */
 import { path } from "#api";
 
 export default {

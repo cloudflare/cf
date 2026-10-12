@@ -1,4 +1,4 @@
-/** @generated from web3-hostname-update-ipfs-universal-path-gateway-content-list */
+/** @generated from web3.hostnames.ipfs-universal-paths.content-lists.update */
 import { path } from "#api";
 
 export default {

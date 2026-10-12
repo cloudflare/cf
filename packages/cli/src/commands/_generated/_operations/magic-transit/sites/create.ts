@@ -1,4 +1,4 @@
-/** @generated from magic-sites-create-site */
+/** @generated from magic-transit.sites.create */
 import { path } from "#api";
 
 export default {

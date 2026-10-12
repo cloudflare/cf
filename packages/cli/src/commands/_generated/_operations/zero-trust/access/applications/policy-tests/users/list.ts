@@ -1,4 +1,4 @@
-/** @generated from access-policy-tests-get-a-user-page */
+/** @generated from zero-trust.access.applications.policy-tests.users.list */
 import { path } from "#api";
 
 export default {

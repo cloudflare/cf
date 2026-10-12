@@ -1,4 +1,4 @@
-/** @generated from rssHealth */
+/** @generated from cloudforce-one.threat-signals.health */
 import { path } from "#api";
 
 export default {

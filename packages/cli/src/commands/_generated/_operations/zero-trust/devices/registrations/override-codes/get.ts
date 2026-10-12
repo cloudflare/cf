@@ -1,4 +1,4 @@
-/** @generated from get-registration-override-codes */
+/** @generated from zero-trust.devices.registrations.override-codes.get */
 import { path } from "#api";
 
 export default {

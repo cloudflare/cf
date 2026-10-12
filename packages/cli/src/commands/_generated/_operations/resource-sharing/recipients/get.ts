@@ -1,4 +1,4 @@
-/** @generated from share-recipients-get-by-id */
+/** @generated from resource-sharing.recipients.get */
 import { path } from "#api";
 
 export default {

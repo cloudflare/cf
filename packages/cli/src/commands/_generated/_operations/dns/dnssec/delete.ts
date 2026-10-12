@@ -1,4 +1,4 @@
-/** @generated from dnssec-delete-dnssec-records */
+/** @generated from dns.dnssec.delete */
 import { path } from "#api";
 
 export default {

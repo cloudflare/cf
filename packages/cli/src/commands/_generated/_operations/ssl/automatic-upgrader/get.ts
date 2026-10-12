@@ -1,4 +1,4 @@
-/** @generated from ssl-detector-automatic-mode-get-enrollment */
+/** @generated from ssl.automatic-upgrader.get */
 import { path } from "#api";
 
 export default {

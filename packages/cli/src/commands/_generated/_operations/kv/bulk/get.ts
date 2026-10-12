@@ -1,4 +1,4 @@
-/** @generated from workers-kv-namespace-get-multiple-key-value-pairs */
+/** @generated from kv.bulk.get */
 import { path } from "#api";
 
 export default {

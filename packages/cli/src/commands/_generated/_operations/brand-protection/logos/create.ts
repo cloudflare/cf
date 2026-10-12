@@ -1,4 +1,4 @@
-/** @generated from post_InsertLogoQuery */
+/** @generated from brand-protection.logos.create */
 import { path } from "#api";
 
 export default {

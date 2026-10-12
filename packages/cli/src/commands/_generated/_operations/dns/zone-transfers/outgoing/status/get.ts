@@ -1,4 +1,4 @@
-/** @generated from secondary-dns-(-primary-zone)-get-outgoing-zone-transfer-status */
+/** @generated from dns.zone-transfers.outgoing.status.get */
 import { path } from "#api";
 
 export default {

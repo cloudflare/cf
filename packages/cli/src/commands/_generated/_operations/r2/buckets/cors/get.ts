@@ -1,4 +1,4 @@
-/** @generated from r2-get-bucket-cors-policy */
+/** @generated from r2.buckets.cors.get */
 import { path } from "#api";
 
 export default {

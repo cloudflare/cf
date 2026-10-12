@@ -1,4 +1,4 @@
-/** @generated from radar-get-bgp-routes-paths */
+/** @generated from radar.bgp.routes.paths.list */
 import { path } from "#api";
 
 export default {

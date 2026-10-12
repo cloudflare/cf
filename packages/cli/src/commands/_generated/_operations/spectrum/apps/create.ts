@@ -1,4 +1,4 @@
-/** @generated from spectrum-applications-create-spectrum-application-using-a-name-for-the-origin */
+/** @generated from spectrum.apps.create */
 import { path } from "#api";
 
 export default {

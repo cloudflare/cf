@@ -1,4 +1,4 @@
-/** @generated from dlp-document-fingerprints-read */
+/** @generated from zero-trust.dlp.document-fingerprints.get */
 import { path } from "#api";
 
 export default {

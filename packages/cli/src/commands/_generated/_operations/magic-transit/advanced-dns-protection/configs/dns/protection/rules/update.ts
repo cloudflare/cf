@@ -1,4 +1,4 @@
-/** @generated from updateDnsProtectionRule */
+/** @generated from magic-transit.advanced-dns-protection.configs.dns.protection.rules.update */
 import { path } from "#api";
 
 export default {

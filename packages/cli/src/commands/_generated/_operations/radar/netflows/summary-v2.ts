@@ -1,4 +1,4 @@
-/** @generated from radar-get-netflows-summary */
+/** @generated from radar.netflows.summary-v2 */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from basin-list-namespaces */
+/** @generated from basin-catalog.namespaces.list */
 import { path } from "#api";
 
 export default {

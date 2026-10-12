@@ -1,4 +1,4 @@
-/** @generated from radar-get-quality-index-summary */
+/** @generated from radar.quality.iqi.summary */
 export default {
 	method: "GET",
 	path: () => "/radar/quality/iqi/summary",

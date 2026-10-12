@@ -1,4 +1,4 @@
-/** @generated from wor-get-workflow-instance-step */
+/** @generated from workflows.instances.step.get */
 import { path } from "#api";
 
 export default {

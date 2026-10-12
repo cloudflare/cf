@@ -1,4 +1,4 @@
-/** @generated from dlp-data-tag-categories-delete */
+/** @generated from zero-trust.dlp.data-tag-categories.delete */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from api-shield-api-discovery-retrieve-discovered-operation-by-id */
+/** @generated from web-assets.discovery.operations.get */
 import { path } from "#api";
 
 export default {

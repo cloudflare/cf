@@ -1,4 +1,4 @@
-/** @generated from magic-static-routes-delete-route */
+/** @generated from magic-transit.routes.delete */
 import { path } from "#api";
 
 export default {

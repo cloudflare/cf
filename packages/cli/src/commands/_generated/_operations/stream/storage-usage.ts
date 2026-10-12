@@ -1,4 +1,4 @@
-/** @generated from stream-videos-storage-usage */
+/** @generated from stream.storage-usage */
 import { path } from "#api";
 
 export default {

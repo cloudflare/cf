@@ -1,4 +1,4 @@
-/** @generated from updateAllowlistPrefix */
+/** @generated from magic-transit.advanced-tcp-protection.configs.allowlist.prefix.update */
 import { path } from "#api";
 
 export default {

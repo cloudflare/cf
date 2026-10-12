@@ -1,4 +1,4 @@
-/** @generated from cloudflare-images-keys-delete-signing-key */
+/** @generated from images.keys.delete */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from get-zones-zone_id-logs-rayids-ray_id */
+/** @generated from logs.rayid.get */
 import { path } from "#api";
 
 export default {

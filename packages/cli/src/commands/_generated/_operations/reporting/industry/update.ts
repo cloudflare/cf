@@ -1,4 +1,4 @@
-/** @generated from reporting-industry-update */
+/** @generated from reporting.industry.update */
 import { path } from "#api";
 
 export default {

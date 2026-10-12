@@ -1,4 +1,4 @@
-/** @generated from zero-trust-users-get-failed-logins */
+/** @generated from zero-trust.access.users.failed-logins.list */
 import { path } from "#api";
 
 export default {

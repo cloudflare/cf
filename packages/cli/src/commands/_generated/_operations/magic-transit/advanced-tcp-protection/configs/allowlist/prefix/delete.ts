@@ -1,4 +1,4 @@
-/** @generated from deleteAllowlistPrefix */
+/** @generated from magic-transit.advanced-tcp-protection.configs.allowlist.prefix.delete */
 import { path } from "#api";
 
 export default {

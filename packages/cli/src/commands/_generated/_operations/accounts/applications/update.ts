@@ -1,4 +1,4 @@
-/** @generated from updateResourceLibraryApplication */
+/** @generated from accounts.applications.update */
 import { path } from "#api";
 
 export default {

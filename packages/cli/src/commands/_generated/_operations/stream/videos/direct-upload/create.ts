@@ -1,4 +1,4 @@
-/** @generated from stream-videos-upload-videos-via-direct-upload-ur-ls */
+/** @generated from stream.videos.direct-upload.create */
 import { path } from "#api";
 
 export default {

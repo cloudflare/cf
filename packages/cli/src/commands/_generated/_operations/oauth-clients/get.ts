@@ -1,4 +1,4 @@
-/** @generated from oauth-clients-get */
+/** @generated from oauth-clients.get */
 import { path } from "#api";
 
 export default {

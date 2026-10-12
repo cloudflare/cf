@@ -1,4 +1,4 @@
-/** @generated from workers-kv-namespace-delete-multiple-key-value-pairs */
+/** @generated from kv.bulk.delete */
 import { path } from "#api";
 
 export default {

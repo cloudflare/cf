@@ -1,4 +1,4 @@
-/** @generated from pages-project-update-project */
+/** @generated from pages.edit */
 import { path } from "#api";
 
 export default {

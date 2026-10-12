@@ -1,4 +1,4 @@
-/** @generated from telemetry.live-tail.post */
+/** @generated from o11y.telemetry.live-tail */
 import { path } from "#api";
 
 export default {

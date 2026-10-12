@@ -1,4 +1,4 @@
-/** @generated from web-analytics-update-site */
+/** @generated from rum.site-info.update */
 import { path } from "#api";
 
 export default {

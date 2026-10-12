@@ -1,4 +1,4 @@
-/** @generated from generated:post:/{account_or_zone}/{account_or_zone_id}/access/apps/{app_id}/revoke_tokens */
+/** @generated from zero-trust.access.applications.revoke-tokens */
 import { path } from "#api";
 
 export default {

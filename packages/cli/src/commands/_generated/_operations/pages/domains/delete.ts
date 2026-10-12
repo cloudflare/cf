@@ -1,4 +1,4 @@
-/** @generated from pages-domains-delete-domain */
+/** @generated from pages.domains.delete */
 import { path } from "#api";
 
 export default {

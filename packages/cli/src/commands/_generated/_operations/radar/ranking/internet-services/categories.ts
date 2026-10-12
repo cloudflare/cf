@@ -1,4 +1,4 @@
-/** @generated from radar-get-ranking-internet-services-categories */
+/** @generated from radar.ranking.internet-services.categories */
 export default {
 	method: "GET",
 	path: () => "/radar/ranking/internet_services/categories",

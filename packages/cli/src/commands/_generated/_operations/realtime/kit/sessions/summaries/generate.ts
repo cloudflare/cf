@@ -1,4 +1,4 @@
-/** @generated from post-sessions-session_id-summary */
+/** @generated from realtime.kit.sessions.summaries.generate */
 import { path } from "#api";
 
 export default {

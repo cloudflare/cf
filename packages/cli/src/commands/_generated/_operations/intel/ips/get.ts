@@ -1,4 +1,4 @@
-/** @generated from ip-intelligence-get-ip-overview */
+/** @generated from intel.ips.get */
 import { path } from "#api";
 
 export default {

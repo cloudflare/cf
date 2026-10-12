@@ -1,4 +1,4 @@
-/** @generated from radar-get-ai-inference-summary */
+/** @generated from radar.ai.inference.summary-v2 */
 import { path } from "#api";
 
 export default {

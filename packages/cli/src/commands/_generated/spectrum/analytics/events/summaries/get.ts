@@ -27,11 +27,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"The sort order for the result set; sort fields must be included in `metrics` or `dimensions`.",
 		})
-		.option("until", {
-			type: "string",
-			description:
-				"End of time interval to query, defaults to current time. Timestamp must be in RFC3339 format and uses UTC unless otherwise specified.",
-		})
+		.option("until", { type: "string", description: "Until" })
 		.option("metrics", {
 			type: "string",
 			description:
@@ -42,11 +38,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Used to filter rows by one or more dimensions. Filters can be combined using OR and AND boolean logic. AND takes precedence over OR in all the expressions. The OR operator is defined using a comma (,) or OR keyword surrounded by whitespace. The AND operator is defined using a semicolon (;) or AND keyword surrounded by whitespace. Note that the semicolon is a reserved character in URLs (rfc1738) and needs to be percent-encoded as %3B. Comparison options are:\n\nOperator                  | Name                            | URL Encoded\n--------------------------|---------------------------------|--------------------------\n==                        | Equals                          | %3D%3D\n!=                        | Does not equals                 | !%3D\n\\>                        | Greater Than                    | %3E\n\\<                        | Less Than                       | %3C\n\\>=                       | Greater than or equal to        | %3E%3D\n\\<=                       | Less than or equal to           | %3C%3D\n\nUse the above to construct filters.",
 		})
-		.option("since", {
-			type: "string",
-			description:
-				"Start of time interval to query, defaults to `until` - 6 hours. Timestamp must be in RFC3339 format and uses UTC unless otherwise specified.",
-		})
+		.option("since", { type: "string", description: "Since" })
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",

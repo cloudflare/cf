@@ -1,4 +1,4 @@
-/** @generated from put-zones-zone_identifier-zaraz-workflow */
+/** @generated from zaraz.workflow.update */
 import { path } from "#api";
 
 export default {

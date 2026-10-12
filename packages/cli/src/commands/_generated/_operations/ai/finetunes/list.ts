@@ -1,4 +1,4 @@
-/** @generated from workers-ai-list-finetunes */
+/** @generated from ai.finetunes.list */
 import { path } from "#api";
 
 export default {

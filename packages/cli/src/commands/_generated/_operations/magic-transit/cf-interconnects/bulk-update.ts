@@ -1,4 +1,4 @@
-/** @generated from magic-interconnects-update-multiple-interconnects */
+/** @generated from magic-transit.cf-interconnects.bulk-update */
 import { path } from "#api";
 
 export default {

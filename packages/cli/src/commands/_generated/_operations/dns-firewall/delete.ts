@@ -1,4 +1,4 @@
-/** @generated from dns-firewall-delete-dns-firewall-cluster */
+/** @generated from dns-firewall.delete */
 import { path } from "#api";
 
 export default {

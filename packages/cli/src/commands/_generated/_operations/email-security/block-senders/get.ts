@@ -1,4 +1,4 @@
-/** @generated from email_security_get_blocked_sender */
+/** @generated from email-security.block-senders.get */
 import { path } from "#api";
 
 export default {

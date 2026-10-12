@@ -1,4 +1,4 @@
-/** @generated from radar-get-attacks-layer7-top-attacks */
+/** @generated from radar.attacks.layer7.top.attacks */
 export default {
 	method: "GET",
 	path: () => "/radar/attacks/layer7/top/attacks",

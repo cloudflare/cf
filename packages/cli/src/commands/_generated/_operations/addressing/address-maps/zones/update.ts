@@ -1,4 +1,4 @@
-/** @generated from ip-address-management-address-maps-add-a-zone-membership-to-an-address-map */
+/** @generated from addressing.address-maps.zones.update */
 import { path } from "#api";
 
 export default {

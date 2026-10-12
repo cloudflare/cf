@@ -1,4 +1,4 @@
-/** @generated from update-ip-profile */
+/** @generated from zero-trust.devices.ip-profiles.update */
 import { path } from "#api";
 
 export default {

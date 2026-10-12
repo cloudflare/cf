@@ -1,4 +1,4 @@
-/** @generated from per-hostname-tls-settings-delete */
+/** @generated from hostnames.settings.tls.delete */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from agent-memory-profile-delete */
+/** @generated from agent-memory.delete-profile */
 import { path } from "#api";
 
 export default {

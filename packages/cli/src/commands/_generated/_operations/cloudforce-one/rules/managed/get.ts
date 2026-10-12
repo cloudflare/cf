@@ -1,4 +1,4 @@
-/** @generated from cloudforce-one-get-managed-rules */
+/** @generated from cloudforce-one.rules.managed.get */
 import { path } from "#api";
 
 export default {

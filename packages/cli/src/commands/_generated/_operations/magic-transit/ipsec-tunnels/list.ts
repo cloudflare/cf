@@ -1,4 +1,4 @@
-/** @generated from magic-ipsec-tunnels-list-ipsec-tunnels */
+/** @generated from magic-transit.ipsec-tunnels.list */
 import { path } from "#api";
 
 export default {

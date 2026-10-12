@@ -1,4 +1,4 @@
-/** @generated from get-security-center-partner-shadow-zone-hosts */
+/** @generated from security-insights.partners.shadow-zone-hosts.list */
 import { path } from "#api";
 
 export default {

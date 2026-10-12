@@ -1,4 +1,4 @@
-/** @generated from custom-hostname-for-a-zone-custom-hostname-details */
+/** @generated from custom-hostnames.get */
 import { path } from "#api";
 
 export default {

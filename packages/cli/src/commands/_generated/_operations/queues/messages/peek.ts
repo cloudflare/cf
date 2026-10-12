@@ -1,4 +1,4 @@
-/** @generated from queues-peek-messages */
+/** @generated from queues.messages.peek */
 import { path } from "#api";
 
 export default {

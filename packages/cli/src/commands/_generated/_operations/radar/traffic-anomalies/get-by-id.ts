@@ -1,4 +1,4 @@
-/** @generated from radar-get-traffic-anomaly-by-uuid */
+/** @generated from radar.traffic-anomalies.get-by-id */
 import { path } from "#api";
 
 export default {

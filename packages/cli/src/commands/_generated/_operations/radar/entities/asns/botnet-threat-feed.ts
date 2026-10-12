@@ -1,4 +1,4 @@
-/** @generated from radar-get-as-botnet-threat-feed */
+/** @generated from radar.entities.asns.botnet-threat-feed */
 export default {
 	method: "GET",
 	path: () => "/radar/entities/asns/botnet_threat_feed",

@@ -1,4 +1,4 @@
-/** @generated from upsertRepoConnection */
+/** @generated from builds.repos.connections.upsert */
 import { path } from "#api";
 
 export default {

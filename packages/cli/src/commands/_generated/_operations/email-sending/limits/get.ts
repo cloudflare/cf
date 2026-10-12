@@ -1,4 +1,4 @@
-/** @generated from email-sending-get-sending-limits */
+/** @generated from email-sending.limits.get */
 import { path } from "#api";
 
 export default {

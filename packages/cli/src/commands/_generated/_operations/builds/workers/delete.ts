@@ -1,4 +1,4 @@
-/** @generated from deleteWorkerBuild */
+/** @generated from builds.workers.delete */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from update-security-txt */
+/** @generated from security-txt.update */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from postAccountsAccountIdBrandProtectionQueries */
+/** @generated from queries.create */
 import { path } from "#api";
 
 export default {

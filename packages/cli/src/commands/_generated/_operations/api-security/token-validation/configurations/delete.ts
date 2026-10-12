@@ -1,4 +1,4 @@
-/** @generated from token-validation-config-delete */
+/** @generated from api-security.token-validation.configurations.delete */
 import { path } from "#api";
 
 export default {

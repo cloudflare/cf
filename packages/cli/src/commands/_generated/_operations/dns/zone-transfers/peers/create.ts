@@ -1,4 +1,4 @@
-/** @generated from secondary-dns-(-peer)-create-peer */
+/** @generated from dns.zone-transfers.peers.create */
 import { path } from "#api";
 
 export default {

@@ -66,8 +66,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						url: `https://api.cloudflare.com/client/v4/${accountOrZone}/${accountOrZoneId}/access/apps/${argv["app-id"] == null ? "<app-id>" : encodeURIComponent(String(argv["app-id"]))}/ca`,
 						pathParams: {
 							"account-or-zone": String(accountOrZone),
-							"app-id": String(argv["app-id"] ?? ""),
 							"account-or-zone-id": String(accountOrZoneId),
+							"app-id": String(argv["app-id"] ?? ""),
 						},
 						bodyKind: "none",
 					});

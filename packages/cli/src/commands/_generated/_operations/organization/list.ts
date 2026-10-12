@@ -1,4 +1,4 @@
-/** @generated from Organization_listOrganizations */
+/** @generated from organization.list */
 export default {
 	method: "GET",
 	path: () => "/organizations",

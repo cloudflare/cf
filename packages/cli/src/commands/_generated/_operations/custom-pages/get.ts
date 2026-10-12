@@ -1,4 +1,4 @@
-/** @generated from generated:get:/{account_or_zone}/{account_or_zone_id}/custom_pages/{identifier} */
+/** @generated from custom-pages.get */
 import { path } from "#api";
 
 export default {

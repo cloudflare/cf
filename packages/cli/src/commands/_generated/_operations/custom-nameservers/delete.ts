@@ -1,4 +1,4 @@
-/** @generated from account-level-custom-nameservers-delete-account-custom-nameserver */
+/** @generated from custom-nameservers.delete */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from radar-get-attacks-layer3-summary */
+/** @generated from radar.attacks.layer3.summary-v2 */
 import { path } from "#api";
 
 export default {

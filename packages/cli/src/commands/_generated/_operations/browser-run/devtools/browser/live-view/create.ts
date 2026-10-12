@@ -1,4 +1,4 @@
-/** @generated from brapi-post_DevtoolsLiveView */
+/** @generated from browser-run.devtools.browser.live-view.create */
 import { path } from "#api";
 
 export default {

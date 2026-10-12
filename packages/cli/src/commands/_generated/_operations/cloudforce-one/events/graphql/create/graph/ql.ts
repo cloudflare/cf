@@ -1,4 +1,4 @@
-/** @generated from post_EventGraphQL */
+/** @generated from cloudforce-one.events.graphql.create.graph.ql */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from r2-put-bucket-cors-policy */
+/** @generated from r2.buckets.cors.update */
 import { path } from "#api";
 
 export default {

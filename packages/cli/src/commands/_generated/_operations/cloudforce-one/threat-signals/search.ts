@@ -1,4 +1,4 @@
-/** @generated from searchThreatSignals */
+/** @generated from cloudforce-one.threat-signals.search */
 import { path } from "#api";
 
 export default {

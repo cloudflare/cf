@@ -1,4 +1,4 @@
-/** @generated from per-hostname-authenticated-origin-pull-upload-a-hostname-client-certificate */
+/** @generated from origin-tls-client-auth.hostname-certificates.create */
 import { path } from "#api";
 
 export default {

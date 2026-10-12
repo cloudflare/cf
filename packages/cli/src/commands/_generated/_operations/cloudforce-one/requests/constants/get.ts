@@ -1,4 +1,4 @@
-/** @generated from get_RequestConstants */
+/** @generated from cloudforce-one.requests.constants.get */
 import { path } from "#api";
 
 export default {

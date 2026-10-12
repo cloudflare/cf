@@ -1,4 +1,4 @@
-/** @generated from argo-analytics-for-zone-argo-analytics-for-a-zone */
+/** @generated from analytics.latency.get */
 import { path } from "#api";
 
 export default {

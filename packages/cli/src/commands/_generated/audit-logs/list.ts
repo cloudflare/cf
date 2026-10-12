@@ -45,16 +45,8 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Filters by the email address of the actor that made the change.",
 		})
-		.option("since", {
-			type: "string",
-			description:
-				"Limits the returned results to logs newer than the specified date. A `full-date` that conforms to RFC3339.",
-		})
-		.option("before", {
-			type: "string",
-			description:
-				"Limits the returned results to logs older than the specified date. A `full-date` that conforms to RFC3339.",
-		})
+		.option("since", { type: "string", description: "Since" })
+		.option("before", { type: "string", description: "Before" })
 		.option("zone-name", {
 			type: "string",
 			description: "Filters by the name of the zone associated to the change.",

@@ -1,4 +1,4 @@
-/** @generated from registrar-domain-registration-update */
+/** @generated from registrar.registrations.update */
 import { path } from "#api";
 
 export default {

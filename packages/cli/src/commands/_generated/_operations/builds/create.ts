@@ -1,4 +1,4 @@
-/** @generated from createManualBuild */
+/** @generated from builds.create */
 import { path } from "#api";
 
 export default {

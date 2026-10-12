@@ -1,4 +1,4 @@
-/** @generated from certificate-packs-get-certificate-pack */
+/** @generated from ssl.certificate-packs.get */
 import { path } from "#api";
 
 export default {

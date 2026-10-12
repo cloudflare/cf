@@ -1,4 +1,4 @@
-/** @generated from access-key-configuration-update-the-access-key-configuration */
+/** @generated from zero-trust.access.signing-keys.update */
 import { path } from "#api";
 
 export default {

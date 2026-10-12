@@ -1,4 +1,4 @@
-/** @generated from web-analytics-list-site-tags */
+/** @generated from rum.site-info.list-site-tags */
 import { path } from "#api";
 
 export default {

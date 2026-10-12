@@ -1,4 +1,4 @@
-/** @generated from account-user-group-member-get */
+/** @generated from iam.user-groups.members.get */
 import { path } from "#api";
 
 export default {

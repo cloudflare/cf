@@ -1,4 +1,4 @@
-/** @generated from get_app */
+/** @generated from realtime.kit.apps.get */
 import { path } from "#api";
 
 export default {

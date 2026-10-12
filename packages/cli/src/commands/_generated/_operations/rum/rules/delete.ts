@@ -1,4 +1,4 @@
-/** @generated from web-analytics-delete-rule */
+/** @generated from rum.rules.delete */
 import { path } from "#api";
 
 export default {

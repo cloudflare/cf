@@ -1,4 +1,4 @@
-/** @generated from stream-watermark-profile-create-watermark-profiles-via-basic-upload */
+/** @generated from stream.watermarks.create */
 import { path } from "#api";
 
 export default {

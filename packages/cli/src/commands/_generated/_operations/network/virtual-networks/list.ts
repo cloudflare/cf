@@ -1,4 +1,4 @@
-/** @generated from tunnel-virtual-network-list-virtual-networks */
+/** @generated from network.virtual-networks.list */
 import { path } from "#api";
 
 export default {

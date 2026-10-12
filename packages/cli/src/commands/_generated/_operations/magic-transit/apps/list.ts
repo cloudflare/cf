@@ -1,4 +1,4 @@
-/** @generated from magic-account-apps-list-apps */
+/** @generated from magic-transit.apps.list */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from radar-get-geolocations */
+/** @generated from radar.geolocations.list */
 export default {
 	method: "GET",
 	path: () => "/radar/geolocations",

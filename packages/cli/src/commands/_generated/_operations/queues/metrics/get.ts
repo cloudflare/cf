@@ -1,4 +1,4 @@
-/** @generated from queues-get-metrics */
+/** @generated from queues.metrics.get */
 import { path } from "#api";
 
 export default {

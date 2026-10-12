@@ -1,4 +1,4 @@
-/** @generated from email_security_update_impersonation_registry */
+/** @generated from email-security.impersonation-registry.edit */
 import { path } from "#api";
 
 export default {

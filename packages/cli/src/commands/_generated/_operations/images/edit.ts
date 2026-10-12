@@ -1,4 +1,4 @@
-/** @generated from cloudflare-images-update-image */
+/** @generated from images.edit */
 import { path } from "#api";
 
 export default {

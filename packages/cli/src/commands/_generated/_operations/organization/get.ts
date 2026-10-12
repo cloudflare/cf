@@ -1,4 +1,4 @@
-/** @generated from Organizations_retrieve */
+/** @generated from organization.get */
 import { path } from "#api";
 
 export default {

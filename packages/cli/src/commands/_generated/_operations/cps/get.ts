@@ -1,4 +1,4 @@
-/** @generated from user-communication-preferences-get */
+/** @generated from cps.get */
 export default {
 	method: "GET",
 	path: () => "/user/communication_preferences",

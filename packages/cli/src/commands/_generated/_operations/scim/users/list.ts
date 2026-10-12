@@ -1,4 +1,4 @@
-/** @generated from scim-users-list */
+/** @generated from scim.users.list */
 import { path } from "#api";
 
 export default {

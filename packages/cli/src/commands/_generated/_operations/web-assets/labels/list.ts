@@ -1,4 +1,4 @@
-/** @generated from api-shield-labels-get-labels */
+/** @generated from web-assets.labels.list */
 import { path } from "#api";
 
 export default {

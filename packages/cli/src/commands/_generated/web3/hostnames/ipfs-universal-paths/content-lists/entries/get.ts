@@ -58,11 +58,11 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "GET",
 						url: `https://api.cloudflare.com/client/v4/zones/${argv.zone ?? argv.zoneId ?? "<zone>"}/web3/hostnames/${argv["identifier"] == null ? "<identifier>" : encodeURIComponent(String(argv["identifier"]))}/ipfs_universal_path/content_list/entries/${argv["content-list-entry-identifier"] == null ? "<content-list-entry-identifier>" : encodeURIComponent(String(argv["content-list-entry-identifier"]))}`,
 						pathParams: {
+							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
+							identifier: String(argv["identifier"] ?? ""),
 							"content-list-entry-identifier": String(
 								argv["content-list-entry-identifier"] ?? ""
 							),
-							identifier: String(argv["identifier"] ?? ""),
-							"zone-id": String(argv.zone ?? argv["zone-id"] ?? ""),
 						},
 						bodyKind: "none",
 					});

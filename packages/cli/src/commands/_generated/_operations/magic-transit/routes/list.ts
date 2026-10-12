@@ -1,4 +1,4 @@
-/** @generated from magic-static-routes-list-routes */
+/** @generated from magic-transit.routes.list */
 import { path } from "#api";
 
 export default {

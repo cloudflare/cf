@@ -1,4 +1,4 @@
-/** @generated from account-resource-group-create */
+/** @generated from iam.resource-groups.create */
 import { path } from "#api";
 
 export default {

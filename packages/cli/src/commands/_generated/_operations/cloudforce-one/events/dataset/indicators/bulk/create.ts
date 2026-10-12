@@ -1,4 +1,4 @@
-/** @generated from post_IndicatorCreateBulk */
+/** @generated from cloudforce-one.events.dataset.indicators.bulk.create */
 import { path } from "#api";
 
 export default {

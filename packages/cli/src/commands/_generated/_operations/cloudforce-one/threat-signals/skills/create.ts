@@ -1,4 +1,4 @@
-/** @generated from rssSkillCreate */
+/** @generated from cloudforce-one.threat-signals.skills.create */
 import { path } from "#api";
 
 export default {

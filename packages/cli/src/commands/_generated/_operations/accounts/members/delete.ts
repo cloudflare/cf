@@ -1,4 +1,4 @@
-/** @generated from account-members-remove-member */
+/** @generated from accounts.members.delete */
 import { path } from "#api";
 
 export default {

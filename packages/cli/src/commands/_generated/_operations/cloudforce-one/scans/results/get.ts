@@ -1,4 +1,4 @@
-/** @generated from get_GetOpenPorts */
+/** @generated from cloudforce-one.scans.results.get */
 import { path } from "#api";
 
 export default {

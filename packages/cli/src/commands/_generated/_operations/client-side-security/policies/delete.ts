@@ -1,4 +1,4 @@
-/** @generated from page-shield-delete-policy */
+/** @generated from client-side-security.policies.delete */
 import { path } from "#api";
 
 export default {

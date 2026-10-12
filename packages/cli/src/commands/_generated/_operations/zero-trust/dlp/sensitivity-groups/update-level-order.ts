@@ -1,4 +1,4 @@
-/** @generated from dlp-sensitivity-groups-put-level-order */
+/** @generated from zero-trust.dlp.sensitivity-groups.update-level-order */
 import { path } from "#api";
 
 export default {

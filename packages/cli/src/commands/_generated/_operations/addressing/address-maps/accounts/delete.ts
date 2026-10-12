@@ -1,4 +1,4 @@
-/** @generated from ip-address-management-address-maps-remove-an-account-membership-from-an-address-map */
+/** @generated from addressing.address-maps.accounts.delete */
 import { path } from "#api";
 
 export default {

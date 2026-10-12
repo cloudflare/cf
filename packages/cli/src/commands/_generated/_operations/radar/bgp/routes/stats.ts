@@ -1,4 +1,4 @@
-/** @generated from radar-get-bgp-routes-stats */
+/** @generated from radar.bgp.routes.stats */
 export default {
 	method: "GET",
 	path: () => "/radar/bgp/routes/stats",

@@ -1,4 +1,4 @@
-/** @generated from api-shield-settings-set-configuration-properties */
+/** @generated from api-security.session-identifiers.update */
 import { path } from "#api";
 
 export default {

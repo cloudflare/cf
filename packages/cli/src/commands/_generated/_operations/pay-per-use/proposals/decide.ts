@@ -1,4 +1,4 @@
-/** @generated from pay-per-crawl.postPPUProposalDecision */
+/** @generated from pay-per-use.proposals.decide */
 import { path } from "#api";
 
 export default {

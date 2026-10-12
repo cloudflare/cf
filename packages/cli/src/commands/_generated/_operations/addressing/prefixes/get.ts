@@ -1,4 +1,4 @@
-/** @generated from ip-address-management-prefixes-prefix-details */
+/** @generated from addressing.prefixes.get */
 import { path } from "#api";
 
 export default {

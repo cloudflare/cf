@@ -1,4 +1,4 @@
-/** @generated from radar-get-email-security-top-tlds-by-malicious */
+/** @generated from radar.email.security.top.tlds.malicious.get */
 import { path } from "#api";
 
 export default {

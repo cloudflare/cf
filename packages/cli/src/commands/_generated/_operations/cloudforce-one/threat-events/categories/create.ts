@@ -1,4 +1,4 @@
-/** @generated from post_CategoryCreate */
+/** @generated from cloudforce-one.threat-events.categories.create */
 import { path } from "#api";
 
 export default {

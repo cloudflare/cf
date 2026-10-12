@@ -1,4 +1,4 @@
-/** @generated from access-custom-pages-validate-a-custom-page-template */
+/** @generated from zero-trust.access.custom-pages.validate */
 import { path } from "#api";
 
 export default {

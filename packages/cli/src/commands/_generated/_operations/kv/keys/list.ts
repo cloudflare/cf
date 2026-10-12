@@ -1,4 +1,4 @@
-/** @generated from workers-kv-namespace-list-a-namespace'-s-keys */
+/** @generated from kv.keys.list */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from api-shield-operations-put-labels-to-operation */
+/** @generated from web-assets.operations.labels.update */
 import { path } from "#api";
 
 export default {

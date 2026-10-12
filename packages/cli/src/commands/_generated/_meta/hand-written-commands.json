@@ -289,7 +289,7 @@
 			"hasRequestBody": true,
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/ai/run",
-			"operationId": "workers-ai-post-run-generic",
+			"operationId": "ai.run",
 			"hideCommand": false,
 			"handWritten": {
 				"kind": "leafOverride",
@@ -1490,7 +1490,7 @@
 			"hasRequestBody": true,
 			"httpMethod": "POST",
 			"apiPath": "/accounts/{account_id}/registrar/registrations",
-			"operationId": "registrar-domain-registration-create",
+			"operationId": "registrar.registrations.create",
 			"hideCommand": false,
 			"handWritten": {
 				"kind": "leafOverride",

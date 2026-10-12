@@ -1,4 +1,4 @@
-/** @generated from ai-search-delete-tokens */
+/** @generated from ai-search.tokens.delete */
 import { path } from "#api";
 
 export default {

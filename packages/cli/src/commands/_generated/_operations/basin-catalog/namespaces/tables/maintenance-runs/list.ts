@@ -1,4 +1,4 @@
-/** @generated from basin-list-table-maintenance-runs */
+/** @generated from basin-catalog.namespaces.tables.maintenance-runs.list */
 import { path } from "#api";
 
 export default {

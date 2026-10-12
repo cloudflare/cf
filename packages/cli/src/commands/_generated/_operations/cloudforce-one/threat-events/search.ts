@@ -1,4 +1,4 @@
-/** @generated from post_EventList */
+/** @generated from cloudforce-one.threat-events.search */
 import { path } from "#api";
 
 export default {

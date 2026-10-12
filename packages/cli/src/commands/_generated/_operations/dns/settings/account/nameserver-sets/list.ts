@@ -1,4 +1,4 @@
-/** @generated from dns-settings-for-an-account-list-custom-nameserver-sets */
+/** @generated from dns.settings.account.nameserver-sets.list */
 import { path } from "#api";
 
 export default {

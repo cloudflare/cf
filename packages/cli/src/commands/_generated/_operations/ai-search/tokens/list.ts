@@ -1,4 +1,4 @@
-/** @generated from ai-search-list-tokens */
+/** @generated from ai-search.tokens.list */
 import { path } from "#api";
 
 export default {

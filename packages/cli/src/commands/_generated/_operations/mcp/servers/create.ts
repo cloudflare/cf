@@ -1,4 +1,4 @@
-/** @generated from mcp-portals-api-create-servers */
+/** @generated from mcp.servers.create */
 import { path } from "#api";
 
 export default {

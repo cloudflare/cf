@@ -1,4 +1,4 @@
-/** @generated from namespace-worker-get-script-tags */
+/** @generated from workers-for-platforms.dispatch-namespaces.scripts.tags.list */
 import { path } from "#api";
 
 export default {

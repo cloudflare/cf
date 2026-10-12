@@ -1,4 +1,4 @@
-/** @generated from flagship_update_app */
+/** @generated from flagship.apps.update */
 import { path } from "#api";
 
 export default {

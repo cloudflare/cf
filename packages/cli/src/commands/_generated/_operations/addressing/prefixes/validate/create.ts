@@ -1,4 +1,4 @@
-/** @generated from ip-address-management-prefixes-validate-prefix */
+/** @generated from addressing.prefixes.validate.create */
 import { path } from "#api";
 
 export default {

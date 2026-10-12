@@ -1,4 +1,4 @@
-/** @generated from workers-ai-download-finetune-asset */
+/** @generated from ai.finetunes.assets.download */
 import { path } from "#api";
 
 export default {

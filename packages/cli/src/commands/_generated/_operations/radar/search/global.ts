@@ -1,4 +1,4 @@
-/** @generated from radar-get-search-global */
+/** @generated from radar.search.global */
 export default {
 	method: "GET",
 	path: () => "/radar/search/global",

@@ -1,4 +1,4 @@
-/** @generated from get-ip-profile */
+/** @generated from zero-trust.devices.ip-profiles.get */
 import { path } from "#api";
 
 export default {

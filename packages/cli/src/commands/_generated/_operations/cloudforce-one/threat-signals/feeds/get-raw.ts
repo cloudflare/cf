@@ -1,4 +1,4 @@
-/** @generated from rssFeedRawGet */
+/** @generated from cloudforce-one.threat-signals.feeds.get-raw */
 import { path } from "#api";
 
 export default {

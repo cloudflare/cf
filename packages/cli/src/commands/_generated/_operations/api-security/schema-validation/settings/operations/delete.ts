@@ -1,4 +1,4 @@
-/** @generated from schema-validation-delete-per-operation-setting */
+/** @generated from api-security.schema-validation.settings.operations.delete */
 import { path } from "#api";
 
 export default {

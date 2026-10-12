@@ -1,4 +1,4 @@
-/** @generated from cloudforce-one-add-account-exemptions */
+/** @generated from cloudforce-one.rules.exemptions.create */
 import { path } from "#api";
 
 export default {

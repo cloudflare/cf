@@ -1,4 +1,4 @@
-/** @generated from generated:post:/{account_or_zone}/{account_or_zone_id}/logs/explorer/query/sql */
+/** @generated from logs.query */
 import { path } from "#api";
 
 export default {

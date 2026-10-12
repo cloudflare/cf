@@ -1,4 +1,4 @@
-/** @generated from dlp-custom-prompt-topics-delete */
+/** @generated from zero-trust.dlp.custom-prompt-topics.delete */
 import { path } from "#api";
 
 export default {

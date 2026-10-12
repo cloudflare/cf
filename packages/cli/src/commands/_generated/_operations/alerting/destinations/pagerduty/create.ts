@@ -1,4 +1,4 @@
-/** @generated from notification-destinations-with-pager-duty-connect-pager-duty */
+/** @generated from alerting.destinations.pagerduty.create */
 import { path } from "#api";
 
 export default {

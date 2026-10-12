@@ -1,4 +1,4 @@
-/** @generated from radar-get-ai-markdown-for-agents-timeseries */
+/** @generated from radar.ai.markdown-for-agents.timeseries */
 export default {
 	method: "GET",
 	path: () => "/radar/ai/markdown_for_agents/timeseries",

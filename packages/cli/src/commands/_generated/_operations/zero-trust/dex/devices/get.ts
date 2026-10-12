@@ -1,4 +1,4 @@
-/** @generated from devices-live-status */
+/** @generated from zero-trust.dex.devices.get */
 import { path } from "#api";
 
 export default {

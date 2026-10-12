@@ -1,4 +1,4 @@
-/** @generated from notification-silences-update-silences */
+/** @generated from alerting.silences.update */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from getWorkerVersion */
+/** @generated from workers.versions.get */
 import { path } from "#api";
 
 export default {

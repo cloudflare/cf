@@ -1,4 +1,4 @@
-/** @generated from magic-pcap-collection-delete-buckets-for-full-packet-captures */
+/** @generated from magic-transit.pcaps.ownership.delete */
 import { path } from "#api";
 
 export default {

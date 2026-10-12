@@ -1,4 +1,4 @@
-/** @generated from magic-network-monitoring-rules-create-rules */
+/** @generated from magic-network-monitoring.rules.create */
 import { path } from "#api";
 
 export default {

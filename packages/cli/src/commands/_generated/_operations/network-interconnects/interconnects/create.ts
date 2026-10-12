@@ -1,4 +1,4 @@
-/** @generated from create_interconnect */
+/** @generated from network-interconnects.interconnects.create */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from generated:delete:/{account_or_zone}/{account_or_zone_id}/custom_csrs/{custom_csr_id} */
+/** @generated from custom-csrs.delete */
 import { path } from "#api";
 
 export default {

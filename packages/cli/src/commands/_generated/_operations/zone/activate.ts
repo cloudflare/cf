@@ -1,4 +1,4 @@
-/** @generated from put-zones-zone_id-activation_check */
+/** @generated from zone.activate */
 import { path } from "#api";
 
 export default {

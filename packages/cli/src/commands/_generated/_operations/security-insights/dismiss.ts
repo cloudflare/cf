@@ -1,4 +1,4 @@
-/** @generated from generated:put:/{account_or_zone}/{account_or_zone_id}/security-center/insights/{issue_id}/dismiss */
+/** @generated from security-insights.dismiss */
 import { path } from "#api";
 
 export default {

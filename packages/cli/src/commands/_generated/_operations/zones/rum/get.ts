@@ -1,4 +1,4 @@
-/** @generated from web-analytics-get-rum-status */
+/** @generated from zones.rum.get */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from getAccountsAccountIdBrandProtectionUrlInfo */
+/** @generated from url-info.get */
 import { path } from "#api";
 
 export default {

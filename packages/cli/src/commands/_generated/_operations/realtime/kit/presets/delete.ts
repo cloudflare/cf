@@ -1,4 +1,4 @@
-/** @generated from delete-presets-preset_id */
+/** @generated from realtime.kit.presets.delete */
 import { path } from "#api";
 
 export default {

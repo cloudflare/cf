@@ -1,4 +1,4 @@
-/** @generated from listBuildsByScript */
+/** @generated from builds.list */
 import { path } from "#api";
 
 export default {

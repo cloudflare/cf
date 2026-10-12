@@ -1,4 +1,4 @@
-/** @generated from radar-get-http-top-ases-by-tls-version */
+/** @generated from radar.http.ases.tls-version.get */
 import { path } from "#api";
 
 export default {

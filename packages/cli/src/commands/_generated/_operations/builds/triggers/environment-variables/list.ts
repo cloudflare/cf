@@ -1,4 +1,4 @@
-/** @generated from listEnvironmentVariables */
+/** @generated from builds.triggers.environment-variables.list */
 import { path } from "#api";
 
 export default {

@@ -17,7 +17,6 @@ import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
-import { promptForRequiredField } from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
@@ -87,19 +86,6 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					);
 					formatOutput(result, { successLabel: `Created` });
 					return;
-				}
-
-				if (argv["kind"] === "ip") {
-					throw new Error(
-						"The ip variant requires ips, which cannot be supplied as flags. Pass --body with a complete request body."
-					);
-				}
-				if (argv["kind"] === "identity" && argv["kind"] === undefined) {
-					argv["kind"] = await promptForRequiredField(
-						"kind",
-						"The proxy endpoint kind.",
-						{ question: "Enter value for --kind" }
-					);
 				}
 
 				// Assemble request body from individual flags

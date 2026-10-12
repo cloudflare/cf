@@ -1,4 +1,4 @@
-/** @generated from triggerDeployHook */
+/** @generated from builds.deploy-hooks.trigger */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from cancelBuildByUuid */
+/** @generated from builds.cancel */
 import { path } from "#api";
 
 export default {

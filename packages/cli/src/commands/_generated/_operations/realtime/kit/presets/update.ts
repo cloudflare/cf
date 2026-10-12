@@ -1,4 +1,4 @@
-/** @generated from patch-presets-preset_id */
+/** @generated from realtime.kit.presets.update */
 import { path } from "#api";
 
 export default {

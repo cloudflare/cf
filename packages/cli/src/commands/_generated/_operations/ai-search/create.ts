@@ -1,4 +1,4 @@
-/** @generated from ai-search-namespace-create-instance */
+/** @generated from ai-search.create */
 import { path } from "#api";
 
 export default {

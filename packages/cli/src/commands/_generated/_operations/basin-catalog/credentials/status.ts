@@ -1,4 +1,4 @@
-/** @generated from basin-get-credential-status */
+/** @generated from basin-catalog.credentials.status */
 import { path } from "#api";
 
 export default {

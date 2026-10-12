@@ -1,4 +1,4 @@
-/** @generated from magic-network-monitoring-rules-update-advertisement-for-rule */
+/** @generated from magic-network-monitoring.rules.advertisements.edit */
 import { path } from "#api";
 
 export default {

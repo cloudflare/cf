@@ -1,4 +1,4 @@
-/** @generated from get-security-center-issue-counts-by-severity */
+/** @generated from intel.attack-surface-report.issues.severity */
 import { path } from "#api";
 
 export default {

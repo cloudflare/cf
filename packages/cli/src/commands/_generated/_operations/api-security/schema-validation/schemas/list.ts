@@ -1,4 +1,4 @@
-/** @generated from schema-validation-list-schemas-paginated */
+/** @generated from api-security.schema-validation.schemas.list */
 import { path } from "#api";
 
 export default {

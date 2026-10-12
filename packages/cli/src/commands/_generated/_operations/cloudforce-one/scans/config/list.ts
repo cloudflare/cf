@@ -1,4 +1,4 @@
-/** @generated from get_ConfigFetch */
+/** @generated from cloudforce-one.scans.config.list */
 import { path } from "#api";
 
 export default {

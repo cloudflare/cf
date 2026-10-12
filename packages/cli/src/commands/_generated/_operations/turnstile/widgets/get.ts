@@ -1,4 +1,4 @@
-/** @generated from accounts-turnstile-widget-get */
+/** @generated from turnstile.widgets.get */
 import { path } from "#api";
 
 export default {

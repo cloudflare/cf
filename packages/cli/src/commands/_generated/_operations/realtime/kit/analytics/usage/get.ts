@@ -1,4 +1,4 @@
-/** @generated from get-org-analytics */
+/** @generated from realtime.kit.analytics.usage.get */
 import { path } from "#api";
 
 export default {

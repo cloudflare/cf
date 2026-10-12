@@ -1,4 +1,4 @@
-/** @generated from shared.query.post */
+/** @generated from o11y.shared-queries.create */
 import { path } from "#api";
 
 export default {

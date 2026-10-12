@@ -1,4 +1,4 @@
-/** @generated from calls-apps-delete-app */
+/** @generated from realtime.sfu.apps.delete */
 import { path } from "#api";
 
 export default {

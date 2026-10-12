@@ -1,4 +1,4 @@
-/** @generated from custom-hostname-for-a-zone-delete-custom-hostname-(-and-any-issued-ssl-certificates) */
+/** @generated from custom-hostnames.delete */
 import { path } from "#api";
 
 export default {

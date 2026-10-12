@@ -1,4 +1,4 @@
-/** @generated from magic-bgp-delete-filter-profile */
+/** @generated from magic-transit.bgp-filter-profiles.delete */
 import { path } from "#api";
 
 export default {

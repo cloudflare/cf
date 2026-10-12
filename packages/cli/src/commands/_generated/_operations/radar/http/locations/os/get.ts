@@ -1,4 +1,4 @@
-/** @generated from radar-get-http-top-locations-by-operating-system */
+/** @generated from radar.http.locations.os.get */
 import { path } from "#api";
 
 export default {

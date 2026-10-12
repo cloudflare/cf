@@ -26,7 +26,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			demandOption: true,
 		})
 		.option("name", { type: "string", description: "The name field" })
-		.option("parent-id", { type: "string", description: "The parent.id field" })
+		.option("parent-id", { type: "string", description: "Organization ID" })
 		.option("profile-business-address", {
 			type: "string",
 			description: "The profile.business_address field",

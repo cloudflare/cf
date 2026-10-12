@@ -1,4 +1,4 @@
-/** @generated from magic-cf1-sites-delete-cf1-site-ramp */
+/** @generated from magic-transit.cf1-sites.ramps.delete */
 import { path } from "#api";
 
 export default {

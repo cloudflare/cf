@@ -1,4 +1,4 @@
-/** @generated from patch_EventRawUpdate */
+/** @generated from cloudforce-one.threat-events.raw.edit */
 import { path } from "#api";
 
 export default {

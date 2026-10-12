@@ -1,4 +1,4 @@
-/** @generated from flagship_get_flag_changelog */
+/** @generated from flagship.apps.flags.changelog.list */
 import { path } from "#api";
 
 export default {

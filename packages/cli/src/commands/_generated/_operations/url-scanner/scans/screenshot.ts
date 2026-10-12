@@ -1,4 +1,4 @@
-/** @generated from urlscanner-get-scan-screenshot-v2 */
+/** @generated from url-scanner.scans.screenshot */
 import { path } from "#api";
 
 export default {

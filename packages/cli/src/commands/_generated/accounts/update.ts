@@ -17,7 +17,10 @@ import { resolveFileToken } from "#lib/input-validation.js";
 import { LOCAL_ACCOUNT_ID } from "#lib/local.js";
 import { formatOutput } from "#lib/output.js";
 import { withProgress } from "#lib/progress.js";
-import { promptForRequiredField } from "#lib/prompt.js";
+import {
+	promptForRequiredEnumField,
+	promptForRequiredField,
+} from "#lib/prompt.js";
 import { runWithTelemetry } from "#lib/telemetry/index.js";
 
 function builder(yargs: Argv<CommonYargsOptions>) {
@@ -34,6 +37,12 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Indicates whether membership in this account requires that\nTwo-Factor Authentication is enabled",
 		})
+		.option("type", {
+			type: "string",
+			description: "The type field",
+			choices: ["standard", "enterprise"],
+		})
+		.coerce("type", (value) => resolveFileToken(value, "type", "text"))
 		.option("dry-run", {
 			type: "boolean",
 			description: "Validate and show what would happen without executing",
@@ -56,7 +65,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 			{
 				command: "accounts update",
 				classification: {
-					safeFlags: ["settings-enforce-twofactor", "dry-run"],
+					safeFlags: ["settings-enforce-twofactor", "type", "dry-run"],
 				} satisfies ArgClassification<Args>,
 			},
 			argv as Record<string, unknown>,
@@ -93,6 +102,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 											),
 											enforce_twofactor: argv["settings-enforce-twofactor"],
 										},
+										type: argv["type"],
 									}),
 					});
 					return;
@@ -115,6 +125,13 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				if (argv["name"] === undefined) {
 					argv["name"] = await promptForRequiredField("name", "Account name");
 				}
+				if (argv["type"] === undefined) {
+					argv["type"] = await promptForRequiredEnumField(
+						"type",
+						"The type field",
+						["standard", "enterprise"] as const
+					);
+				}
 
 				// Assemble request body from individual flags
 				const bodyData = compactBody({
@@ -132,6 +149,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						),
 						enforce_twofactor: argv["settings-enforce-twofactor"],
 					},
+					type: argv["type"],
 				});
 				const result = await withProgress(`Updating`, async () =>
 					client.send(operation, { body: bodyData, account_id: accountId })

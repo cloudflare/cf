@@ -1,4 +1,4 @@
-/** @generated from list_cnis */
+/** @generated from network-interconnects.cnis.list */
 import { path } from "#api";
 
 export default {

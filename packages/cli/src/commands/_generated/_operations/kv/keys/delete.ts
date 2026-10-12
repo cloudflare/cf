@@ -1,4 +1,4 @@
-/** @generated from workers-kv-namespace-delete-key-value-pair */
+/** @generated from kv.keys.delete */
 import { path } from "#api";
 
 export default {

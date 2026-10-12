@@ -1,4 +1,4 @@
-/** @generated from basin-list-catalogs */
+/** @generated from basin-catalog.list */
 import { path } from "#api";
 
 export default {

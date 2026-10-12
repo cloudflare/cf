@@ -1,4 +1,4 @@
-/** @generated from ListMitigations */
+/** @generated from abuse-reports.mitigations.list */
 import { path } from "#api";
 
 export default {

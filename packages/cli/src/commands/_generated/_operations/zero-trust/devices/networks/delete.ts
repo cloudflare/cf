@@ -1,4 +1,4 @@
-/** @generated from device-managed-networks-delete-device-managed-network */
+/** @generated from zero-trust.devices.networks.delete */
 import { path } from "#api";
 
 export default {

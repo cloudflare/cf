@@ -88,6 +88,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			type: "string",
 			description: "RTMP URL to stream to",
 		})
+		.option("storage-config-type", {
+			type: "string",
+			description: "The storage_config.type field",
+			choices: ["gcs", "aws", "azure", "digitalocean", "sftp"],
+		})
+		.coerce("storage-config-type", (value) =>
+			resolveFileToken(value, "storage-config-type", "text")
+		)
 		.option("url", {
 			type: "string",
 			description: "Pass a custom url to record arbitary screen",
@@ -177,6 +185,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"audio-config-export-file",
 						"interactive-config-type",
 						"realtimekit-bucket-config-enabled",
+						"storage-config-type",
 						"video-config-codec",
 						"video-config-export-file",
 						"video-config-watermark-position",
@@ -228,6 +237,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 												"rtmp-out-config-rtmp-url",
 												"text"
 											),
+										},
+										storage_config: {
+											type: argv["storage-config-type"],
 										},
 										url: resolveFileToken(
 											argv["url"] as string | undefined,
@@ -312,6 +324,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 							"rtmp-out-config-rtmp-url",
 							"text"
 						),
+					},
+					storage_config: {
+						type: argv["storage-config-type"],
 					},
 					url: resolveFileToken(
 						argv["url"] as string | undefined,

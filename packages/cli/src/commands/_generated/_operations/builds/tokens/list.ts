@@ -1,4 +1,4 @@
-/** @generated from listBuildTokens */
+/** @generated from builds.tokens.list */
 import { path } from "#api";
 
 export default {

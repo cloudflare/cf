@@ -1,4 +1,4 @@
-/** @generated from ListPolicies */
+/** @generated from zero-trust.casb.policies.list */
 import { path } from "#api";
 
 export default {

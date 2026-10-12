@@ -1,4 +1,4 @@
-/** @generated from radar-get-entities-ip */
+/** @generated from radar.entities.get */
 export default {
 	method: "GET",
 	path: () => "/radar/entities/ip",

@@ -1,4 +1,4 @@
-/** @generated from queues-ack-messages */
+/** @generated from queues.messages.ack */
 import { path } from "#api";
 
 export default {

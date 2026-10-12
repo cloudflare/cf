@@ -1,4 +1,4 @@
-/** @generated from share-recipient-delete */
+/** @generated from resource-sharing.recipients.delete */
 import { path } from "#api";
 
 export default {

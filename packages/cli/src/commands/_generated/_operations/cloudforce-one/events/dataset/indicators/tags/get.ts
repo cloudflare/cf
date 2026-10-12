@@ -1,4 +1,4 @@
-/** @generated from get_IndicatorTagsList */
+/** @generated from cloudforce-one.events.dataset.indicators.tags.get */
 import { path } from "#api";
 
 export default {

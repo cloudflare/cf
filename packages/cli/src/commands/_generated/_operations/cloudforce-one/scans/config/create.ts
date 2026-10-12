@@ -1,4 +1,4 @@
-/** @generated from post_ConfigCreate */
+/** @generated from cloudforce-one.scans.config.create */
 import { path } from "#api";
 
 export default {

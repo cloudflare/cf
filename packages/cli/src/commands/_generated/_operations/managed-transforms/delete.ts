@@ -1,4 +1,4 @@
-/** @generated from deleteManagedTransforms */
+/** @generated from managed-transforms.delete */
 import { path } from "#api";
 
 export default {

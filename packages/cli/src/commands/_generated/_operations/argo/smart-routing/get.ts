@@ -1,4 +1,4 @@
-/** @generated from argo-smart-routing-get-argo-smart-routing-setting */
+/** @generated from argo.smart-routing.get */
 import { path } from "#api";
 
 export default {

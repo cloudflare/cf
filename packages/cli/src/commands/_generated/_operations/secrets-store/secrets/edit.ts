@@ -1,4 +1,4 @@
-/** @generated from secrets-store-patch-by-id */
+/** @generated from secrets-store.secrets.edit */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from artifacts_repos_delete */
+/** @generated from artifacts.namespaces.repos.delete */
 import { path } from "#api";
 
 export default {

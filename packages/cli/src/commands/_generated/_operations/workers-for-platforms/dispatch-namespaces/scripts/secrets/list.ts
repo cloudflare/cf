@@ -1,4 +1,4 @@
-/** @generated from namespace-worker-list-script-secrets */
+/** @generated from workers-for-platforms.dispatch-namespaces.scripts.secrets.list */
 import { path } from "#api";
 
 export default {

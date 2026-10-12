@@ -1,4 +1,4 @@
-/** @generated from queues-purge-messages */
+/** @generated from queues.messages.purge */
 import { path } from "#api";
 
 export default {

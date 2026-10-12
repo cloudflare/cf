@@ -1,4 +1,4 @@
-/** @generated from ssl-detector-auto-origin-tls-kex-get-enrollment */
+/** @generated from ssl.auto-origin-tls-kex.get */
 import { path } from "#api";
 
 export default {

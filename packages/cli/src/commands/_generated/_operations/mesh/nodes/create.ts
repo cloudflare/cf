@@ -1,4 +1,4 @@
-/** @generated from cloudflare-tunnel-create-a-warp-connector-tunnel */
+/** @generated from mesh.nodes.create */
 import { path } from "#api";
 
 export default {

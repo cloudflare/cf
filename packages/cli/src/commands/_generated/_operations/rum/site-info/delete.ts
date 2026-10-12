@@ -1,4 +1,4 @@
-/** @generated from web-analytics-delete-site */
+/** @generated from rum.site-info.delete */
 import { path } from "#api";
 
 export default {

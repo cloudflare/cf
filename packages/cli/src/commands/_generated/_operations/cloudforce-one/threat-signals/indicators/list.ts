@@ -1,4 +1,4 @@
-/** @generated from rssArticleIndicatorList */
+/** @generated from cloudforce-one.threat-signals.indicators.list */
 import { path } from "#api";
 
 export default {

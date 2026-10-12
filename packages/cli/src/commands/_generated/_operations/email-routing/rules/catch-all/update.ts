@@ -1,4 +1,4 @@
-/** @generated from email-routing-routing-rules-update-catch-all-rule */
+/** @generated from email-routing.rules.catch-all.update */
 import { path } from "#api";
 
 export default {

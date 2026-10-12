@@ -1,4 +1,4 @@
-/** @generated from infra-targets-delete */
+/** @generated from zero-trust.access.targets.delete */
 import { path } from "#api";
 
 export default {

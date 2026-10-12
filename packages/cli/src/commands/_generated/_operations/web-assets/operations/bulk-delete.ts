@@ -1,4 +1,4 @@
-/** @generated from api-shield-endpoint-management-delete-multiple-operations */
+/** @generated from web-assets.operations.bulk-delete */
 import { path } from "#api";
 
 export default {

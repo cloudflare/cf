@@ -1,4 +1,4 @@
-/** @generated from namespace-worker-delete-script-secret */
+/** @generated from workers-for-platforms.dispatch-namespaces.scripts.secrets.delete */
 import { path } from "#api";
 
 export default {

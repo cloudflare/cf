@@ -1,4 +1,4 @@
-/** @generated from update_cni */
+/** @generated from network-interconnects.cnis.update */
 import { path } from "#api";
 
 export default {

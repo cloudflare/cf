@@ -1,4 +1,4 @@
-/** @generated from post_BulkDismissMatches */
+/** @generated from brand-protection.matches.bulk-dismiss */
 import { path } from "#api";
 
 export default {

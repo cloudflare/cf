@@ -1,4 +1,4 @@
-/** @generated from aig-config-delete-custom-domain */
+/** @generated from ai-gateway.custom-domains.delete */
 import { path } from "#api";
 
 export default {

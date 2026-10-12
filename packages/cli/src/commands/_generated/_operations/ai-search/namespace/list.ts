@@ -1,4 +1,4 @@
-/** @generated from ai-search-list-namespaces */
+/** @generated from ai-search.namespace.list */
 import { path } from "#api";
 
 export default {

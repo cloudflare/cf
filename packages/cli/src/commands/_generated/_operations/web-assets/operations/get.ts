@@ -1,4 +1,4 @@
-/** @generated from api-shield-endpoint-management-retrieve-information-about-an-operation */
+/** @generated from web-assets.operations.get */
 import { path } from "#api";
 
 export default {

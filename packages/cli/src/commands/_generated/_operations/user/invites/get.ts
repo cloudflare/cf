@@ -1,4 +1,4 @@
-/** @generated from user'-s-invites-invitation-details */
+/** @generated from user.invites.get */
 import { path } from "#api";
 
 export default {

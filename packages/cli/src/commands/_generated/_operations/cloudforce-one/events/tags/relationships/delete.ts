@@ -1,4 +1,4 @@
-/** @generated from delete_TagRelationshipDelete */
+/** @generated from cloudforce-one.events.tags.relationships.delete */
 import { path } from "#api";
 
 export default {

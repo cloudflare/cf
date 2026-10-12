@@ -1,4 +1,4 @@
-/** @generated from deletePrefixesForAccount */
+/** @generated from magic-transit.advanced-tcp-protection.configs.prefixes.bulk-delete */
 import { path } from "#api";
 
 export default {

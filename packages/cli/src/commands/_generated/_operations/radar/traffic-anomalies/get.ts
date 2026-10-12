@@ -1,4 +1,4 @@
-/** @generated from radar-get-traffic-anomalies */
+/** @generated from radar.traffic-anomalies.get */
 export default {
 	method: "GET",
 	path: () => "/radar/traffic_anomalies",

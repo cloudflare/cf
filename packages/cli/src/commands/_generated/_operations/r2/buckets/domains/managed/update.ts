@@ -1,4 +1,4 @@
-/** @generated from r2-put-bucket-public-policy */
+/** @generated from r2.buckets.domains.managed.update */
 import { path } from "#api";
 
 export default {

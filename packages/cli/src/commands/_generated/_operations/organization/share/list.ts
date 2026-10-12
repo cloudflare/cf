@@ -1,4 +1,4 @@
-/** @generated from organization-shares-list */
+/** @generated from organization.share.list */
 import { path } from "#api";
 
 export default {

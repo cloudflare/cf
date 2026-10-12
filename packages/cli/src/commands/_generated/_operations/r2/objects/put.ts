@@ -1,4 +1,4 @@
-/** @generated from r2-put-object */
+/** @generated from r2.objects.put */
 import { path } from "#api";
 
 export default {

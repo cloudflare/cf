@@ -1,4 +1,4 @@
-/** @generated from audit-logs-v2-get-organization-audit-logs */
+/** @generated from organizations.logs.audit.get */
 import { path } from "#api";
 
 export default {

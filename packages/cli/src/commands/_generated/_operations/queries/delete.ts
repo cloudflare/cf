@@ -1,4 +1,4 @@
-/** @generated from deleteAccountsAccountIdBrandProtectionQueries */
+/** @generated from queries.delete */
 import { path } from "#api";
 
 export default {

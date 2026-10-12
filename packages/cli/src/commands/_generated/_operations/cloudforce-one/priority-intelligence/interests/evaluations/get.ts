@@ -1,4 +1,4 @@
-/** @generated from get_PirInterestEvaluationGet */
+/** @generated from cloudforce-one.priority-intelligence.interests.evaluations.get */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from page-rules-create-a-page-rule */
+/** @generated from page-rules.create */
 import { path } from "#api";
 
 export default {

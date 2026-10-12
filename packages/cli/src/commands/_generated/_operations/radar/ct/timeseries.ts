@@ -1,4 +1,4 @@
-/** @generated from radar-get-ct-timeseries */
+/** @generated from radar.ct.timeseries */
 export default {
 	method: "GET",
 	path: () => "/radar/ct/timeseries",

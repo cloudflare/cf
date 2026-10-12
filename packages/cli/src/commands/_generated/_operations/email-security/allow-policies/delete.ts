@@ -1,4 +1,4 @@
-/** @generated from email_security_delete_allow_policy */
+/** @generated from email-security.allow-policies.delete */
 import { path } from "#api";
 
 export default {

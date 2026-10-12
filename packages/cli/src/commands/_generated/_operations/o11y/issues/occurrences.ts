@@ -1,4 +1,4 @@
-/** @generated from issues.occurrences.list */
+/** @generated from o11y.issues.occurrences */
 import { path } from "#api";
 
 export default {

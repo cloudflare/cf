@@ -1,4 +1,4 @@
-/** @generated from accounts-turnstile-widget-delete */
+/** @generated from turnstile.widgets.delete */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from radar-get-ai-bots-timeseries */
+/** @generated from radar.ai.bots.timeseries */
 export default {
 	method: "GET",
 	path: () => "/radar/ai/bots/timeseries",

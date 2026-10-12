@@ -1,4 +1,4 @@
-/** @generated from spectrum-aggregate-analytics-get-current-aggregated-analytics */
+/** @generated from spectrum.analytics.aggregates.currents.get */
 import { path } from "#api";
 
 export default {

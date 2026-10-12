@@ -1,4 +1,4 @@
-/** @generated from argo-analytics-for-geolocation-argo-analytics-for-a-zone-at-different-po-ps */
+/** @generated from analytics.latency.colos.get */
 import { path } from "#api";
 
 export default {

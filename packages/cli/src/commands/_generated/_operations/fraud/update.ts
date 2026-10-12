@@ -1,4 +1,4 @@
-/** @generated from fraud-detection-zone-update-settings */
+/** @generated from fraud.update */
 import { path } from "#api";
 
 export default {

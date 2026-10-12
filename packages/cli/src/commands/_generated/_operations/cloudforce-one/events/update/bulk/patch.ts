@@ -1,4 +1,4 @@
-/** @generated from patch_EventUpdateBulk */
+/** @generated from cloudforce-one.events.update.bulk.patch */
 import { path } from "#api";
 
 export default {

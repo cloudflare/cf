@@ -1,4 +1,4 @@
-/** @generated from getBuildLogs */
+/** @generated from builds.logs.get */
 import { path } from "#api";
 
 export default {

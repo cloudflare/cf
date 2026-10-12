@@ -1,4 +1,4 @@
-/** @generated from account-creation */
+/** @generated from accounts.create */
 export default {
 	method: "POST",
 	path: () => "/accounts",

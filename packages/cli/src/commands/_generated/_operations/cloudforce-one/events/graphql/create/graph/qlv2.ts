@@ -1,4 +1,4 @@
-/** @generated from post_EventGraphQLV2 */
+/** @generated from cloudforce-one.events.graphql.create.graph.qlv2 */
 import { path } from "#api";
 
 export default {

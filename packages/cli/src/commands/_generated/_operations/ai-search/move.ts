@@ -1,4 +1,4 @@
-/** @generated from ai-search-move-instance */
+/** @generated from ai-search.move */
 import { path } from "#api";
 
 export default {

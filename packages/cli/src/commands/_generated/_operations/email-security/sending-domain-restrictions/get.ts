@@ -1,4 +1,4 @@
-/** @generated from email_security_get_sending_domain_restriction */
+/** @generated from email-security.sending-domain-restrictions.get */
 import { path } from "#api";
 
 export default {

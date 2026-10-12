@@ -1,4 +1,4 @@
-/** @generated from accounts-turnstile-widget-rotate-secret */
+/** @generated from turnstile.widgets.rotate-secret */
 import { path } from "#api";
 
 export default {

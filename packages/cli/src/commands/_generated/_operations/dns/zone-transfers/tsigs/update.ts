@@ -1,4 +1,4 @@
-/** @generated from secondary-dns-(-tsig)-update-tsig */
+/** @generated from dns.zone-transfers.tsigs.update */
 import { path } from "#api";
 
 export default {

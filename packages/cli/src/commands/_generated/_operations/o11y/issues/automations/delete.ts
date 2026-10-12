@@ -1,4 +1,4 @@
-/** @generated from issues.automations.delete */
+/** @generated from o11y.issues.automations.delete */
 import { path } from "#api";
 
 export default {

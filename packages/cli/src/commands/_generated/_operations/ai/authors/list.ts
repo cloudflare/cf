@@ -1,4 +1,4 @@
-/** @generated from workers-ai-search-author */
+/** @generated from ai.authors.list */
 import { path } from "#api";
 
 export default {

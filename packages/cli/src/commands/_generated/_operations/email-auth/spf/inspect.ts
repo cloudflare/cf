@@ -1,4 +1,4 @@
-/** @generated from inspect_spf */
+/** @generated from email-auth.spf.inspect */
 import { path } from "#api";
 
 export default {

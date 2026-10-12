@@ -1,4 +1,4 @@
-/** @generated from account-load-balancer-pools-preview-pool */
+/** @generated from load-balancers.pools.health.create */
 import { path } from "#api";
 
 export default {

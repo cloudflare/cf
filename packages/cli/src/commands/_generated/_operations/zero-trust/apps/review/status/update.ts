@@ -1,4 +1,4 @@
-/** @generated from zero-trust-applications-review-status-update */
+/** @generated from zero-trust.apps.review.status.update */
 import { path } from "#api";
 
 export default {

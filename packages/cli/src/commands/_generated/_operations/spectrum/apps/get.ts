@@ -1,4 +1,4 @@
-/** @generated from spectrum-applications-get-spectrum-application-configuration */
+/** @generated from spectrum.apps.get */
 import { path } from "#api";
 
 export default {

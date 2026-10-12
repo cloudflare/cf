@@ -1,4 +1,4 @@
-/** @generated from post_DomainTrial */
+/** @generated from brand-protection.trial.create */
 import { path } from "#api";
 
 export default {

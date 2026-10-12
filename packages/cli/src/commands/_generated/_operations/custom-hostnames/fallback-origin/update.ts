@@ -1,4 +1,4 @@
-/** @generated from custom-hostname-fallback-origin-for-a-zone-update-fallback-origin-for-custom-hostnames */
+/** @generated from custom-hostnames.fallback-origin.update */
 import { path } from "#api";
 
 export default {

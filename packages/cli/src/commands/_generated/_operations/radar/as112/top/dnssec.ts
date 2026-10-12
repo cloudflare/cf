@@ -1,4 +1,4 @@
-/** @generated from radar-get-dns-as112-top-locations-by-dnssec */
+/** @generated from radar.as112.top.dnssec */
 import { path } from "#api";
 
 export default {

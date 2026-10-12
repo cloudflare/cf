@@ -1,4 +1,4 @@
-/** @generated from pay-per-crawl.getTerms */
+/** @generated from pay-per-crawl.terms.get */
 import { path } from "#api";
 
 export default {

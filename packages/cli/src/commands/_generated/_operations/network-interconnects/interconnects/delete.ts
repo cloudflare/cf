@@ -1,4 +1,4 @@
-/** @generated from delete_interconnect */
+/** @generated from network-interconnects.interconnects.delete */
 import { path } from "#api";
 
 export default {

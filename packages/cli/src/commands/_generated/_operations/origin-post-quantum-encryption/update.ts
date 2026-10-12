@@ -1,4 +1,4 @@
-/** @generated from zone-cache-settings-change-origin-post-quantum-encryption-setting */
+/** @generated from origin-post-quantum-encryption.update */
 import { path } from "#api";
 
 export default {

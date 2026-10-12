@@ -1,4 +1,4 @@
-/** @generated from getV4AccountsByAccount_idPipelinesV1Streams */
+/** @generated from pipelines.streams.list */
 import { path } from "#api";
 
 export default {

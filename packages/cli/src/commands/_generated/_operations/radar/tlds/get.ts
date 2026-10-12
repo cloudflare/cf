@@ -1,4 +1,4 @@
-/** @generated from radar-get-tld-details */
+/** @generated from radar.tlds.get */
 import { path } from "#api";
 
 export default {

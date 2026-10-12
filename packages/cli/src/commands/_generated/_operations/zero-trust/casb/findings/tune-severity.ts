@@ -1,4 +1,4 @@
-/** @generated from ChangeFindingSeverity */
+/** @generated from zero-trust.casb.findings.tune-severity */
 import { path } from "#api";
 
 export default {

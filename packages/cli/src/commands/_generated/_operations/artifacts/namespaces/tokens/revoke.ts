@@ -1,4 +1,4 @@
-/** @generated from artifacts_tokens_revoke */
+/** @generated from artifacts.namespaces.tokens.revoke */
 import { path } from "#api";
 
 export default {

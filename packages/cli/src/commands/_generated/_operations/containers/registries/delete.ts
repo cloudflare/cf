@@ -1,4 +1,4 @@
-/** @generated from deleteImageRegistry */
+/** @generated from containers.registries.delete */
 import { path } from "#api";
 
 export default {

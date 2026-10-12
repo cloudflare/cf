@@ -1,4 +1,4 @@
-/** @generated from email_security_update_domain */
+/** @generated from email-security.domains.edit */
 import { path } from "#api";
 
 export default {

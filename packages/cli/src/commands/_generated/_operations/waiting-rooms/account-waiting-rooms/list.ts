@@ -1,4 +1,4 @@
-/** @generated from generated:get:/{account_or_zone}/{account_or_zone_id}/waiting_rooms */
+/** @generated from waiting-rooms.account-waiting-rooms.list */
 import { path } from "#api";
 
 export default {

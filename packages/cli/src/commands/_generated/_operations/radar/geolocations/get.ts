@@ -1,4 +1,4 @@
-/** @generated from radar-get-geolocation-details */
+/** @generated from radar.geolocations.get */
 import { path } from "#api";
 
 export default {

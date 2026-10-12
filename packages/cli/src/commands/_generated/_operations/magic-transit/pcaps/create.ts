@@ -1,4 +1,4 @@
-/** @generated from magic-pcap-collection-create-pcap-request */
+/** @generated from magic-transit.pcaps.create */
 import { path } from "#api";
 
 export default {

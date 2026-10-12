@@ -1,4 +1,4 @@
-/** @generated from d1-create-database */
+/** @generated from d1.create */
 import { path } from "#api";
 
 export default {

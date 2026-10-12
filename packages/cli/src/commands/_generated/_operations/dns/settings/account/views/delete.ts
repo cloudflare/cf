@@ -1,4 +1,4 @@
-/** @generated from dns-views-for-an-account-delete-internal-dns-view */
+/** @generated from dns.settings.account.views.delete */
 import { path } from "#api";
 
 export default {

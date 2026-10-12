@@ -1,4 +1,4 @@
-/** @generated from destination.create */
+/** @generated from o11y.destinations.create */
 import { path } from "#api";
 
 export default {

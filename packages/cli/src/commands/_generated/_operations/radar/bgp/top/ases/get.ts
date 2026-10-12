@@ -1,4 +1,4 @@
-/** @generated from radar-get-bgp-top-ases */
+/** @generated from radar.bgp.top.ases.get */
 export default {
 	method: "GET",
 	path: () => "/radar/bgp/top/ases",

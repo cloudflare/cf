@@ -1,4 +1,4 @@
-/** @generated from catalog-syncs-list */
+/** @generated from magic-cloud-networking.catalog-syncs.list */
 import { path } from "#api";
 
 export default {

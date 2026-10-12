@@ -1,4 +1,4 @@
-/** @generated from monetization-delete-ruleset */
+/** @generated from monetization.rules.delete-all */
 import { path } from "#api";
 
 export default {

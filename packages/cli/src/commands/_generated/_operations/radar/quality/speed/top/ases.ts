@@ -1,4 +1,4 @@
-/** @generated from radar-get-quality-speed-top-ases */
+/** @generated from radar.quality.speed.top.ases */
 export default {
 	method: "GET",
 	path: () => "/radar/quality/speed/top/ases",

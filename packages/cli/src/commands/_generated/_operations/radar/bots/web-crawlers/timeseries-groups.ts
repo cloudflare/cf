@@ -1,4 +1,4 @@
-/** @generated from radar-get-crawlers-timeseries-group */
+/** @generated from radar.bots.web-crawlers.timeseries-groups */
 import { path } from "#api";
 
 export default {

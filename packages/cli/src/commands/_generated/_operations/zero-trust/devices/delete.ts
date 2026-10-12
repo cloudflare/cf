@@ -1,4 +1,4 @@
-/** @generated from delete-device */
+/** @generated from zero-trust.devices.delete */
 import { path } from "#api";
 
 export default {

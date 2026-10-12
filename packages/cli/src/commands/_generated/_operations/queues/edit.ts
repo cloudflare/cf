@@ -1,4 +1,4 @@
-/** @generated from queues-update-partial */
+/** @generated from queues.edit */
 import { path } from "#api";
 
 export default {

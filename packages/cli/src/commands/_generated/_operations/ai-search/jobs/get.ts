@@ -1,4 +1,4 @@
-/** @generated from ai-search-namespace-instance-get-job */
+/** @generated from ai-search.jobs.get */
 import { path } from "#api";
 
 export default {

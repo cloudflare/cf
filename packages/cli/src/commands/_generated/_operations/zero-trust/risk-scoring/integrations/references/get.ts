@@ -1,4 +1,4 @@
-/** @generated from dlp-zt-risk-score-integration-get-by-reference-id */
+/** @generated from zero-trust.risk-scoring.integrations.references.get */
 import { path } from "#api";
 
 export default {

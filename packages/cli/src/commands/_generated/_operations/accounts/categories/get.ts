@@ -1,4 +1,4 @@
-/** @generated from getResourceLibraryCategoryById */
+/** @generated from accounts.categories.get */
 import { path } from "#api";
 
 export default {

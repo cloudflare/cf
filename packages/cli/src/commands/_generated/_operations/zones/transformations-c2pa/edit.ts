@@ -1,4 +1,4 @@
-/** @generated from zone-settings-change-transformations-c2pa-setting */
+/** @generated from zones.transformations-c2pa.edit */
 import { path } from "#api";
 
 export default {

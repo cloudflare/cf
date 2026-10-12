@@ -1,4 +1,4 @@
-/** @generated from account-request-tracer-request-trace */
+/** @generated from request-tracers.traces.create */
 import { path } from "#api";
 
 export default {

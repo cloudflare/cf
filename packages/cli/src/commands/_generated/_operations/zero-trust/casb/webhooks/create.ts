@@ -1,4 +1,4 @@
-/** @generated from CreateWebhook */
+/** @generated from zero-trust.casb.webhooks.create */
 import { path } from "#api";
 
 export default {

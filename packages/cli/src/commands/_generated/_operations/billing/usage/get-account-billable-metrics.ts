@@ -1,4 +1,4 @@
-/** @generated from billable-usage-v2-get-account-billable-metrics */
+/** @generated from billing.usage.get-account-billable-metrics */
 import { path } from "#api";
 
 export default {

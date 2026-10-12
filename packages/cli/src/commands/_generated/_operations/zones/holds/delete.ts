@@ -1,4 +1,4 @@
-/** @generated from zones-0-hold-delete */
+/** @generated from zones.holds.delete */
 import { path } from "#api";
 
 export default {

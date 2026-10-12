@@ -1,4 +1,4 @@
-/** @generated from user-api-tokens-list-tokens */
+/** @generated from user.tokens.list */
 export default {
 	method: "GET",
 	path: () => "/user/tokens",

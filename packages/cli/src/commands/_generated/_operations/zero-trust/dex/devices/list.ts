@@ -1,4 +1,4 @@
-/** @generated from dex-fleet-status-devices */
+/** @generated from zero-trust.dex.devices.list */
 import { path } from "#api";
 
 export default {

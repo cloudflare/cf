@@ -1,4 +1,4 @@
-/** @generated from artifacts_tokens_create */
+/** @generated from artifacts.namespaces.tokens.create */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from delete_integration_v2 */
+/** @generated from zero-trust.casb.integrations.delete */
 import { path } from "#api";
 
 export default {

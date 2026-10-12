@@ -1,4 +1,4 @@
-/** @generated from deleteV4AccountsByAccount_idPipelinesV1PipelinesByPipeline_id */
+/** @generated from pipelines.delete */
 import { path } from "#api";
 
 export default {

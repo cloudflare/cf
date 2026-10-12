@@ -1,4 +1,4 @@
-/** @generated from zone-cache-settings-get-aegis-setting */
+/** @generated from zones.aegis.get */
 import { path } from "#api";
 
 export default {

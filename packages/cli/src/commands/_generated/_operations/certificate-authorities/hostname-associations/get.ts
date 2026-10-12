@@ -1,4 +1,4 @@
-/** @generated from client-certificate-for-a-zone-list-hostname-associations */
+/** @generated from certificate-authorities.hostname-associations.get */
 import { path } from "#api";
 
 export default {

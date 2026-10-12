@@ -1,4 +1,4 @@
-/** @generated from dcv-delegation-uuid-get */
+/** @generated from dcv-delegation.get */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from get-v2-meetings-meetingId-active-livestream */
+/** @generated from realtime.kit.meetings.livestream.list-active */
 import { path } from "#api";
 
 export default {

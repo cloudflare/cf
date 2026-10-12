@@ -1,4 +1,4 @@
-/** @generated from email_security_get_phishguard_reports */
+/** @generated from email-security.phishguard.reports.list */
 import { path } from "#api";
 
 export default {

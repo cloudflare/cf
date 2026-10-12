@@ -1,4 +1,4 @@
-/** @generated from get_DashboardRequestTypesList */
+/** @generated from cloudforce-one.requests.types.list */
 import { path } from "#api";
 
 export default {

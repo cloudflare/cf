@@ -1,4 +1,4 @@
-/** @generated from api-shield-labels-replace-operations-attached-to-managed-label */
+/** @generated from web-assets.labels.managed.operations.update */
 import { path } from "#api";
 
 export default {

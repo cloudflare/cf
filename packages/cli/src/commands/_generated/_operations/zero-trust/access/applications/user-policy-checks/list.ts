@@ -1,4 +1,4 @@
-/** @generated from generated:get:/{account_or_zone}/{account_or_zone_id}/access/apps/{app_id}/user_policy_checks */
+/** @generated from zero-trust.access.applications.user-policy-checks.list */
 import { path } from "#api";
 
 export default {

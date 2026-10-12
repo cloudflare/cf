@@ -1,4 +1,4 @@
-/** @generated from email-sending-subdomains-get-sending-subdomain-dns-status */
+/** @generated from email-sending.subdomains.dns.status */
 import { path } from "#api";
 
 export default {

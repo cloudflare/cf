@@ -1,4 +1,4 @@
-/** @generated from magic-redundancy-groups-delete-redundancy-group */
+/** @generated from magic-transit.redundancy-groups.delete */
 import { path } from "#api";
 
 export default {

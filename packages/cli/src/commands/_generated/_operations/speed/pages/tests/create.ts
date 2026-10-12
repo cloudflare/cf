@@ -1,4 +1,4 @@
-/** @generated from speed-create-test */
+/** @generated from speed.pages.tests.create */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from dex-endpoints-list-device-isps */
+/** @generated from zero-trust.dex.isps.list */
 import { path } from "#api";
 
 export default {

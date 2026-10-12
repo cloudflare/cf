@@ -1,4 +1,4 @@
-/** @generated from lists-update-all-list-items */
+/** @generated from rules.lists.items.update */
 import { path } from "#api";
 
 export default {

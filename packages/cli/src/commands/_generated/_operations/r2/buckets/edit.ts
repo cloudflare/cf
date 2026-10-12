@@ -1,4 +1,4 @@
-/** @generated from r2-patch-bucket */
+/** @generated from r2.buckets.edit */
 import { path } from "#api";
 
 export default {

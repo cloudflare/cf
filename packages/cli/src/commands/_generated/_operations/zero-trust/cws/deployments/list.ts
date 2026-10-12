@@ -1,4 +1,4 @@
-/** @generated from cws-list-deployments */
+/** @generated from zero-trust.cws.deployments.list */
 import { path } from "#api";
 
 export default {

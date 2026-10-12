@@ -1,4 +1,4 @@
-/** @generated from radar-get-reports-dataset-download */
+/** @generated from radar.datasets.get */
 import { path } from "#api";
 
 export default {

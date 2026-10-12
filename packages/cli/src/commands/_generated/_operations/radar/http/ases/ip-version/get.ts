@@ -1,4 +1,4 @@
-/** @generated from radar-get-http-top-ases-by-ip-version */
+/** @generated from radar.http.ases.ip-version.get */
 import { path } from "#api";
 
 export default {

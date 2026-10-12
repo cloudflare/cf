@@ -1,4 +1,4 @@
-/** @generated from dns-records-for-a-zone-scan-dns-records */
+/** @generated from dns.records.scan */
 import { path } from "#api";
 
 export default {

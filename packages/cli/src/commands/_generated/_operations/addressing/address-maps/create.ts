@@ -1,4 +1,4 @@
-/** @generated from ip-address-management-address-maps-create-address-map */
+/** @generated from addressing.address-maps.create */
 import { path } from "#api";
 
 export default {

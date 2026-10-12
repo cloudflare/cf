@@ -1,4 +1,4 @@
-/** @generated from email_security_get_message_action_log */
+/** @generated from email-security.investigate.action-log.list */
 import { path } from "#api";
 
 export default {

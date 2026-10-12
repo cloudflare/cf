@@ -1,4 +1,4 @@
-/** @generated from dns-records-for-a-zone-update-dns-record */
+/** @generated from dns.records.update */
 import { path } from "#api";
 
 export default {

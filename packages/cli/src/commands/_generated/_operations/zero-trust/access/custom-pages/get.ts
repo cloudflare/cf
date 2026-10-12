@@ -1,4 +1,4 @@
-/** @generated from access-custom-pages-get-a-custom-page */
+/** @generated from zero-trust.access.custom-pages.get */
 import { path } from "#api";
 
 export default {

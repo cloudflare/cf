@@ -1,4 +1,4 @@
-/** @generated from cloudforce-one-create-email-rule */
+/** @generated from cloudforce-one.rules.email.create */
 import { path } from "#api";
 
 export default {

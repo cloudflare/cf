@@ -1,4 +1,4 @@
-/** @generated from zero-trust-users-delete-user */
+/** @generated from zero-trust.access.users.delete */
 import { path } from "#api";
 
 export default {

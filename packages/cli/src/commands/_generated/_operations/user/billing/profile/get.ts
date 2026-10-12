@@ -1,4 +1,4 @@
-/** @generated from user-billing-profile-(-deprecated)-billing-profile-details */
+/** @generated from user.billing.profile.get */
 export default {
 	method: "GET",
 	path: () => "/user/billing/profile",

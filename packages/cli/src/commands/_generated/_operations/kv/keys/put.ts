@@ -1,4 +1,4 @@
-/** @generated from workers-kv-namespace-write-key-value-pair-with-metadata */
+/** @generated from kv.keys.put */
 import { path } from "#api";
 
 export default {

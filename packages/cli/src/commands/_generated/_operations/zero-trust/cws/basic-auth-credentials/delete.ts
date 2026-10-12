@@ -1,4 +1,4 @@
-/** @generated from cws-delete-basic-auth-credential */
+/** @generated from zero-trust.cws.basic-auth-credentials.delete */
 import { path } from "#api";
 
 export default {

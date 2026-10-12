@@ -1,4 +1,4 @@
-/** @generated from precursor-for-a-zone-get-config */
+/** @generated from precursor.get */
 import { path } from "#api";
 
 export default {

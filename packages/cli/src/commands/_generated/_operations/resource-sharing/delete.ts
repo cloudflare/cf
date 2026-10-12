@@ -1,4 +1,4 @@
-/** @generated from share-delete */
+/** @generated from resource-sharing.delete */
 import { path } from "#api";
 
 export default {

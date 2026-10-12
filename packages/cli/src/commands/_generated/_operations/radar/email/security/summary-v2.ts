@@ -1,4 +1,4 @@
-/** @generated from radar-get-email-security-summary */
+/** @generated from radar.email.security.summary-v2 */
 import { path } from "#api";
 
 export default {

@@ -70,9 +70,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						url: `https://api.cloudflare.com/client/v4/${accountOrZone}/${accountOrZoneId}/rulesets/phases/${argv["phase"] == null ? "<phase>" : encodeURIComponent(String(argv["phase"]))}/entrypoint/versions/${argv["ruleset-version"] == null ? "<ruleset-version>" : encodeURIComponent(String(argv["ruleset-version"]))}`,
 						pathParams: {
 							"account-or-zone": String(accountOrZone),
-							"ruleset-version": String(argv["ruleset-version"] ?? ""),
-							phase: String(argv["phase"] ?? ""),
 							"account-or-zone-id": String(accountOrZoneId),
+							phase: String(argv["phase"] ?? ""),
+							"ruleset-version": String(argv["ruleset-version"] ?? ""),
 						},
 						bodyKind: "none",
 					});

@@ -1,4 +1,4 @@
-/** @generated from get_GroupRead */
+/** @generated from cloudforce-one.events.dataset.groups.get.v2 */
 import { path } from "#api";
 
 export default {

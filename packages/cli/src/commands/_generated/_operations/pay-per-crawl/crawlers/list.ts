@@ -1,4 +1,4 @@
-/** @generated from pay-per-crawl.listCrawlers */
+/** @generated from pay-per-crawl.crawlers.list */
 import { path } from "#api";
 
 export default {

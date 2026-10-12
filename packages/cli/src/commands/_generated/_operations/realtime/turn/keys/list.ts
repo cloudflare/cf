@@ -1,4 +1,4 @@
-/** @generated from calls-turn-key-list */
+/** @generated from realtime.turn.keys.list */
 import { path } from "#api";
 
 export default {

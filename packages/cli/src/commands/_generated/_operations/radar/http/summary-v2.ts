@@ -1,4 +1,4 @@
-/** @generated from radar-get-http-summary */
+/** @generated from radar.http.summary-v2 */
 import { path } from "#api";
 
 export default {

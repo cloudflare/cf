@@ -1,4 +1,4 @@
-/** @generated from zone-cache-settings-get-origin-max-http-version-setting */
+/** @generated from zones.origin-max-http-version.get */
 import { path } from "#api";
 
 export default {

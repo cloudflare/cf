@@ -1,4 +1,4 @@
-/** @generated from Organizations_modify */
+/** @generated from organization.update */
 import { path } from "#api";
 
 export default {

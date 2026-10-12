@@ -1,4 +1,4 @@
-/** @generated from account-billing-get-payment-method */
+/** @generated from accounts.billing.payment-methods.get */
 import { path } from "#api";
 
 export default {

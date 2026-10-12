@@ -1,4 +1,4 @@
-/** @generated from radar-get-leaked-credential-checks-summary */
+/** @generated from radar.leaked-credentials.summary-v2 */
 import { path } from "#api";
 
 export default {

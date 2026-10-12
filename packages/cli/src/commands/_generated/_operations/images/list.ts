@@ -1,4 +1,4 @@
-/** @generated from cloudflare-images-list-images-v2 */
+/** @generated from images.list */
 import { path } from "#api";
 
 export default {

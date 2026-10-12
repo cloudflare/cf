@@ -1,4 +1,4 @@
-/** @generated from certificate-packs-delete-advanced-certificate-manager-certificate-pack */
+/** @generated from ssl.certificate-packs.delete */
 import { path } from "#api";
 
 export default {

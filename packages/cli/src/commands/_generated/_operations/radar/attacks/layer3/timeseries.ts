@@ -1,4 +1,4 @@
-/** @generated from radar-get-attacks-layer3-timeseries-by-bytes */
+/** @generated from radar.attacks.layer3.timeseries */
 export default {
 	method: "GET",
 	path: () => "/radar/attacks/layer3/timeseries",

@@ -1,4 +1,4 @@
-/** @generated from zone-lockdown-create-a-zone-lockdown-rule */
+/** @generated from firewall.lockdowns.create */
 import { path } from "#api";
 
 export default {

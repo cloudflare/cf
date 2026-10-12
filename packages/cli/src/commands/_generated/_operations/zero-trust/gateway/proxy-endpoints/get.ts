@@ -1,4 +1,4 @@
-/** @generated from zero-trust-gateway-proxy-endpoints-proxy-endpoint-details */
+/** @generated from zero-trust.gateway.proxy-endpoints.get */
 import { path } from "#api";
 
 export default {

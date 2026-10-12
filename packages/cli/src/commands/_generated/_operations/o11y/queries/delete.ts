@@ -1,4 +1,4 @@
-/** @generated from queries.delete */
+/** @generated from o11y.queries.delete */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from account-members-add-member */
+/** @generated from accounts.members.create */
 import { path } from "#api";
 
 export default {

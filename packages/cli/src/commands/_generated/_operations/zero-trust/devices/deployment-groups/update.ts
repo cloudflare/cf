@@ -1,4 +1,4 @@
-/** @generated from update-deployment-group */
+/** @generated from zero-trust.devices.deployment-groups.update */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from radar-get-dns-top-ases */
+/** @generated from radar.dns.top.ases */
 export default {
 	method: "GET",
 	path: () => "/radar/dns/top/ases",

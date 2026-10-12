@@ -1,4 +1,4 @@
-/** @generated from access-policies-delete-an-access-reusable-policy */
+/** @generated from zero-trust.access.policies.delete */
 import { path } from "#api";
 
 export default {

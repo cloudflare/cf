@@ -1,4 +1,4 @@
-/** @generated from createImageRegistry */
+/** @generated from containers.registries.create */
 import { path } from "#api";
 
 export default {

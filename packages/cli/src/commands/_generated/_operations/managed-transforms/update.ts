@@ -1,4 +1,4 @@
-/** @generated from updateManagedTransforms */
+/** @generated from managed-transforms.update */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from custom-hostname-for-a-zone-delete_single_certificate_and_key_in_a_custom_hostname */
+/** @generated from custom-hostnames.certificate-pack.certificates.delete */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from generated:patch:/{account_or_zone}/{account_or_zone_id}/rulesets/{ruleset_id}/rules/{rule_id} */
+/** @generated from rulesets.rules.update */
 import { path } from "#api";
 
 export default {

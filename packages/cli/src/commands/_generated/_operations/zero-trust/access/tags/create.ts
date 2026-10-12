@@ -1,4 +1,4 @@
-/** @generated from access-tags-create-tag */
+/** @generated from zero-trust.access.tags.create */
 import { path } from "#api";
 
 export default {

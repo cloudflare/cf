@@ -148,16 +148,16 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.implies("origin-port", ["origin-host"])
 		.conflicts("origin-access-client-id", ["origin-port", "origin-service-id"])
 		.implies("origin-access-client-id", [
-			"origin-host",
 			"origin-access-client-secret",
+			"origin-host",
 		])
 		.conflicts("origin-access-client-secret", [
 			"origin-port",
 			"origin-service-id",
 		])
 		.implies("origin-access-client-secret", [
-			"origin-host",
 			"origin-access-client-id",
+			"origin-host",
 		])
 		.conflicts("origin-service-id", [
 			"origin-host",

@@ -1,4 +1,4 @@
-/** @generated from rssFeedCategoryList */
+/** @generated from cloudforce-one.threat-signals.categories.list */
 import { path } from "#api";
 
 export default {

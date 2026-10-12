@@ -1,4 +1,4 @@
-/** @generated from data-security-findings-summary */
+/** @generated from analytics.query.data-security.findings.summary */
 import { path } from "#api";
 
 export default {

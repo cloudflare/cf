@@ -1,4 +1,4 @@
-/** @generated from delete_IndicatorDelete */
+/** @generated from cloudforce-one.events.dataset.indicators.delete */
 import { path } from "#api";
 
 export default {

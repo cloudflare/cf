@@ -1,4 +1,4 @@
-/** @generated from UnIgnoreFinding */
+/** @generated from zero-trust.casb.findings.unignore */
 import { path } from "#api";
 
 export default {

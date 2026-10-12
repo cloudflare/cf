@@ -1,4 +1,4 @@
-/** @generated from zero-trust-users-delete-mfa-authenticator */
+/** @generated from zero-trust.users.mfa.authenticators.delete */
 import { path } from "#api";
 
 export default {

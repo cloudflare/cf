@@ -1,4 +1,4 @@
-/** @generated from calls-delete-turn-key */
+/** @generated from realtime.turn.keys.delete */
 import { path } from "#api";
 
 export default {

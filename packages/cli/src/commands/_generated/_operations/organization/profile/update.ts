@@ -1,4 +1,4 @@
-/** @generated from Organizations_modifyProfile */
+/** @generated from organization.profile.update */
 import { path } from "#api";
 
 export default {

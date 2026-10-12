@@ -1,4 +1,4 @@
-/** @generated from speed-get-availabilities */
+/** @generated from speed.availabilities.list */
 import { path } from "#api";
 
 export default {

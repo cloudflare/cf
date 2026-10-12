@@ -154,6 +154,14 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Controls whether recordings are uploaded to RealtimeKit's bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expiry` won't be generated for a recording.",
 		})
+		.option("recording-config-storage-config-type", {
+			type: "string",
+			description: "The recording_config.storage_config.type field",
+			choices: ["gcs", "aws", "azure", "digitalocean", "sftp"],
+		})
+		.coerce("recording-config-storage-config-type", (value) =>
+			resolveFileToken(value, "recording-config-storage-config-type", "text")
+		)
 		.option("recording-config-video-config-codec", {
 			type: "string",
 			description: "Codec using which the recording will be encoded.",
@@ -223,6 +231,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 				"recording-config-live-streaming-config-rtmp-url",
 				"recording-config-max-seconds",
 				"recording-config-realtimekit-bucket-config-enabled",
+				"recording-config-storage-config-type",
 				"recording-config-video-config-codec",
 				"recording-config-video-config-export-file",
 				"recording-config-video-config-height",
@@ -267,6 +276,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						"recording-config-audio-config-codec",
 						"recording-config-audio-config-export-file",
 						"recording-config-realtimekit-bucket-config-enabled",
+						"recording-config-storage-config-type",
 						"recording-config-video-config-codec",
 						"recording-config-video-config-export-file",
 						"recording-config-video-config-watermark-position",
@@ -340,6 +350,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 													argv[
 														"recording-config-realtimekit-bucket-config-enabled"
 													],
+											},
+											storage_config: {
+												type: argv["recording-config-storage-config-type"],
 											},
 											video_config: {
 												codec: argv["recording-config-video-config-codec"],
@@ -435,6 +448,9 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						realtimekit_bucket_config: {
 							enabled:
 								argv["recording-config-realtimekit-bucket-config-enabled"],
+						},
+						storage_config: {
+							type: argv["recording-config-storage-config-type"],
 						},
 						video_config: {
 							codec: argv["recording-config-video-config-codec"],

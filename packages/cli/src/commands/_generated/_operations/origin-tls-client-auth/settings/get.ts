@@ -1,4 +1,4 @@
-/** @generated from zone-level-authenticated-origin-pulls-get-enablement-setting-for-zone */
+/** @generated from origin-tls-client-auth.settings.get */
 import { path } from "#api";
 
 export default {

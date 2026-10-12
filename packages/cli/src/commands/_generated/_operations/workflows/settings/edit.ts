@@ -1,4 +1,4 @@
-/** @generated from wor-update-workflow-settings */
+/** @generated from workflows.settings.edit */
 import { path } from "#api";
 
 export default {

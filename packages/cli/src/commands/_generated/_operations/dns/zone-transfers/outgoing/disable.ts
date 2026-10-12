@@ -1,4 +1,4 @@
-/** @generated from secondary-dns-(-primary-zone)-disable-outgoing-zone-transfers */
+/** @generated from dns.zone-transfers.outgoing.disable */
 import { path } from "#api";
 
 export default {

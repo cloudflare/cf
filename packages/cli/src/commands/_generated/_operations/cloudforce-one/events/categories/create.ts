@@ -1,4 +1,4 @@
-/** @generated from post_CategoryUpdate */
+/** @generated from cloudforce-one.events.categories.create */
 import { path } from "#api";
 
 export default {

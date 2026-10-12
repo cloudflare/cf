@@ -1,4 +1,4 @@
-/** @generated from zone-subscription-zone-subscription-details */
+/** @generated from zones.subscriptions.get */
 import { path } from "#api";
 
 export default {

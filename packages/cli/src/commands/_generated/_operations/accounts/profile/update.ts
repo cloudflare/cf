@@ -1,4 +1,4 @@
-/** @generated from Accounts_modifyAccountProfile */
+/** @generated from accounts.profile.update */
 import { path } from "#api";
 
 export default {

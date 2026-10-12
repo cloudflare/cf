@@ -1,4 +1,4 @@
-/** @generated from dex-device-status-over-time */
+/** @generated from zero-trust.dex.devices.over-time.get */
 import { path } from "#api";
 
 export default {

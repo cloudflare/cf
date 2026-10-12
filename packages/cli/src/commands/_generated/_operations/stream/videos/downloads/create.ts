@@ -1,4 +1,4 @@
-/** @generated from stream-downloads-create-type-specific-downloads */
+/** @generated from stream.videos.downloads.create */
 import { path } from "#api";
 
 export default {

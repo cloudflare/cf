@@ -1,4 +1,4 @@
-/** @generated from issues.automations.update */
+/** @generated from o11y.issues.automations.update */
 import { path } from "#api";
 
 export default {

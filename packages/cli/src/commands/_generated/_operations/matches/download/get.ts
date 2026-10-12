@@ -1,4 +1,4 @@
-/** @generated from getAccountsAccountIdBrandProtectionMatchesDownload */
+/** @generated from matches.download.get */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from get-accounts-account_id-logpush-transformers */
+/** @generated from logpush.transformers.list */
 import { path } from "#api";
 
 export default {

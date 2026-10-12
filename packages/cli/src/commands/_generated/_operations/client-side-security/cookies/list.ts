@@ -1,4 +1,4 @@
-/** @generated from page-shield-list-cookies */
+/** @generated from client-side-security.cookies.list */
 import { path } from "#api";
 
 export default {

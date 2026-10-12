@@ -1,4 +1,4 @@
-/** @generated from dlp-email-scanner-create-rule */
+/** @generated from zero-trust.dlp.email.rules.create */
 import { path } from "#api";
 
 export default {

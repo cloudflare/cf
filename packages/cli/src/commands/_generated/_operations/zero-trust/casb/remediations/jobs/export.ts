@@ -1,4 +1,4 @@
-/** @generated from CreateRemediationJobsExportCSV */
+/** @generated from zero-trust.casb.remediations.jobs.export */
 import { path } from "#api";
 
 export default {

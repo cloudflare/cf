@@ -1,4 +1,4 @@
-/** @generated from dns-firewall-show-dns-firewall-cluster-reverse-dns */
+/** @generated from dns-firewall.reverse-dns.get */
 import { path } from "#api";
 
 export default {

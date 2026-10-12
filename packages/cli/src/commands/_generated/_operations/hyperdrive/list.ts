@@ -1,4 +1,4 @@
-/** @generated from list-hyperdrive */
+/** @generated from hyperdrive.list */
 import { path } from "#api";
 
 export default {

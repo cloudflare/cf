@@ -1,4 +1,4 @@
-/** @generated from registrar-domain-discovery-search */
+/** @generated from registrar.registrations.search */
 import { path } from "#api";
 
 export default {

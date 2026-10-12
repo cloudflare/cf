@@ -1,4 +1,4 @@
-/** @generated from pages-project-connect-project-source */
+/** @generated from pages.source.connect */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from get_PirGet */
+/** @generated from cloudforce-one.priority-intelligence.get */
 import { path } from "#api";
 
 export default {

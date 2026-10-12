@@ -1,4 +1,4 @@
-/** @generated from radar-get-post-quantum-tls-support */
+/** @generated from radar.post-quantum.tls.support */
 export default {
 	method: "GET",
 	path: () => "/radar/post_quantum/tls/support",

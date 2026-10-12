@@ -1,4 +1,4 @@
-/** @generated from device-posture-rules-create-device-posture-rule */
+/** @generated from zero-trust.devices.posture.rules.create */
 import { path } from "#api";
 
 export default {

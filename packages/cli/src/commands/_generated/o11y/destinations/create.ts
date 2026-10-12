@@ -28,6 +28,18 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 		.usage(
 			"$0 o11y destinations create\n\nCreate a new Workers Observability Telemetry Destination."
 		)
+		.option("configuration-logpush-dataset", {
+			type: "string",
+			description: "The configuration.logpushDataset field",
+			choices: [
+				"opentelemetry-traces",
+				"opentelemetry-logs",
+				"opentelemetry-metrics",
+			],
+		})
+		.coerce("configuration-logpush-dataset", (value) =>
+			resolveFileToken(value, "configuration-logpush-dataset", "text")
+		)
 		.option("configuration-type", {
 			type: "string",
 			description: "The configuration.type field",
@@ -69,6 +81,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				command: "o11y destinations create",
 				classification: {
 					safeFlags: [
+						"configuration-logpush-dataset",
 						"configuration-type",
 						"enabled",
 						"skip-preflight-check",
@@ -91,6 +104,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 								? parseBody(argv.body)
 								: compactBody({
 										configuration: {
+											logpushDataset: argv["configuration-logpush-dataset"],
 											type: argv["configuration-type"],
 											url: resolveFileToken(
 												argv["configuration-url"] as string | undefined,
@@ -121,6 +135,18 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 					formatOutput(result, { successLabel: `Created` });
 					return;
 				}
+				if (argv["configuration-logpush-dataset"] === undefined) {
+					argv["configuration-logpush-dataset"] =
+						await promptForRequiredEnumField(
+							"configuration-logpush-dataset",
+							"The configuration.logpushDataset field",
+							[
+								"opentelemetry-traces",
+								"opentelemetry-logs",
+								"opentelemetry-metrics",
+							] as const
+						);
+				}
 				if (argv["configuration-type"] === undefined) {
 					argv["configuration-type"] = await promptForRequiredEnumField(
 						"configuration-type",
@@ -146,6 +172,7 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 				// Assemble request body from individual flags
 				const bodyData = compactBody({
 					configuration: {
+						logpushDataset: argv["configuration-logpush-dataset"],
 						type: argv["configuration-type"],
 						url: resolveFileToken(
 							argv["configuration-url"] as string | undefined,

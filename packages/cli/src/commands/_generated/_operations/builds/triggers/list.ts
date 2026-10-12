@@ -1,4 +1,4 @@
-/** @generated from listTriggersByScript */
+/** @generated from builds.triggers.list */
 import { path } from "#api";
 
 export default {

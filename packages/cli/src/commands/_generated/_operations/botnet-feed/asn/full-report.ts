@@ -1,4 +1,4 @@
-/** @generated from botnet-threat-feed-get-full-report */
+/** @generated from botnet-feed.asn.full-report */
 import { path } from "#api";
 
 export default {

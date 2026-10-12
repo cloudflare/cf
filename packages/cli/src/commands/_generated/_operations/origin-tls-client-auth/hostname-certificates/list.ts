@@ -1,4 +1,4 @@
-/** @generated from per-hostname-authenticated-origin-pull-list-certificates */
+/** @generated from origin-tls-client-auth.hostname-certificates.list */
 import { path } from "#api";
 
 export default {

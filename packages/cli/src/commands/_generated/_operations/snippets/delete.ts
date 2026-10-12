@@ -1,4 +1,4 @@
-/** @generated from deleteZoneSnippet */
+/** @generated from snippets.delete */
 import { path } from "#api";
 
 export default {

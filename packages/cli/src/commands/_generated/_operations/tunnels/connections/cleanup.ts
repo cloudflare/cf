@@ -1,4 +1,4 @@
-/** @generated from cloudflare-tunnel-clean-up-cloudflare-tunnel-connections */
+/** @generated from tunnels.connections.cleanup */
 import { path } from "#api";
 
 export default {

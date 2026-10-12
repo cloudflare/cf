@@ -1,4 +1,4 @@
-/** @generated from cloudforce-one-update-rule */
+/** @generated from cloudforce-one.rules.update */
 import { path } from "#api";
 
 export default {

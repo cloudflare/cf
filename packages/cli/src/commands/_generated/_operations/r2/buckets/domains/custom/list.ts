@@ -1,4 +1,4 @@
-/** @generated from r2-list-custom-domains */
+/** @generated from r2.buckets.domains.custom.list */
 import { path } from "#api";
 
 export default {

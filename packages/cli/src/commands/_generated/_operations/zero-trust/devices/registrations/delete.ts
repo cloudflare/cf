@@ -1,4 +1,4 @@
-/** @generated from delete-registration */
+/** @generated from zero-trust.devices.registrations.delete */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from cloudflare-images-upload-an-image-via-url */
+/** @generated from images.create */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from get-sso-connector */
+/** @generated from iam.sso.get */
 import { path } from "#api";
 
 export default {

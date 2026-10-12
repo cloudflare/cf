@@ -1,4 +1,4 @@
-/** @generated from cloudforce-one-search-rules */
+/** @generated from cloudforce-one.rules.search */
 import { path } from "#api";
 
 export default {

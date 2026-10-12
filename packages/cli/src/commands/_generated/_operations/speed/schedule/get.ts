@@ -1,4 +1,4 @@
-/** @generated from speed-get-scheduled-test */
+/** @generated from speed.schedule.get */
 import { path } from "#api";
 
 export default {

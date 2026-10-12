@@ -1,4 +1,4 @@
-/** @generated from metricsExport.list */
+/** @generated from o11y.metrics-export.list */
 import { path } from "#api";
 
 export default {

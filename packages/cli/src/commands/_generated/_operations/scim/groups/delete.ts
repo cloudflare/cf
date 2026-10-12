@@ -1,4 +1,4 @@
-/** @generated from scim-groups-delete */
+/** @generated from scim.groups.delete */
 import { path } from "#api";
 
 export default {

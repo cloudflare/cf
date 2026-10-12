@@ -1,4 +1,4 @@
-/** @generated from notification-alert-types-get-alert-types */
+/** @generated from alerting.available-alerts.list */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from zero-trust-gateway-categories-list-categories */
+/** @generated from zero-trust.gateway.categories.list */
 import { path } from "#api";
 
 export default {

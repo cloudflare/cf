@@ -1,4 +1,4 @@
-/** @generated from total-tls-total-tls-settings-details */
+/** @generated from acm.total-tls.get */
 import { path } from "#api";
 
 export default {

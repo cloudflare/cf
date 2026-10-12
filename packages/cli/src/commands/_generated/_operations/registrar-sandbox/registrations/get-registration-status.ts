@@ -1,4 +1,4 @@
-/** @generated from sandbox-registrar-domain-registration-get-status */
+/** @generated from registrar-sandbox.registrations.get-registration-status */
 import { path } from "#api";
 
 export default {

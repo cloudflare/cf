@@ -1,7 +1,7 @@
 import $approvals from "./approvals/index.js";
 import $create from "./create.js";
+import $deleteall from "./delete-all.js";
 import $delete from "./delete.js";
-import $deleteAll from "./deleteAll.js";
 import $email from "./email/index.js";
 import $exemptions from "./exemptions/index.js";
 import $get from "./get.js";
@@ -27,7 +27,7 @@ const command: CommandModule<CommonYargsOptions> = {
 		return yargs
 			.command($create)
 			.command($delete)
-			.command($deleteAll)
+			.command($deleteall)
 			.command($get)
 			.command($list)
 			.command($search)

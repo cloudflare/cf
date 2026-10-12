@@ -1,4 +1,4 @@
-/** @generated from regenerate_token */
+/** @generated from realtime.kit.meetings.participants.tokens.refresh */
 import { path } from "#api";
 
 export default {

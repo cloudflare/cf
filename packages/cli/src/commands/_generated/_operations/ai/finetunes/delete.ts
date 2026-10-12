@@ -1,4 +1,4 @@
-/** @generated from workers-ai-delete-finetune */
+/** @generated from ai.finetunes.delete */
 import { path } from "#api";
 
 export default {

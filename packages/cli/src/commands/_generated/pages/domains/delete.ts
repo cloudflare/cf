@@ -72,8 +72,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						method: "DELETE",
 						url: `https://api.cloudflare.com/client/v4/accounts/${__cfDryRunAccountId ?? "<account-id>"}/pages/projects/${argv["project-name"] == null ? "<project-name>" : encodeURIComponent(String(argv["project-name"]))}/domains/${argv["domain-name"] == null ? "<domain-name>" : encodeURIComponent(String(argv["domain-name"]))}`,
 						pathParams: {
-							"domain-name": String(argv["domain-name"] ?? ""),
 							"project-name": String(argv["project-name"] ?? ""),
+							"domain-name": String(argv["domain-name"] ?? ""),
 						},
 						bodyKind: "none",
 					});

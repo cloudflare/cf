@@ -1,4 +1,4 @@
-/** @generated from pay-per-use.listEnabledDomains */
+/** @generated from pay-per-use.enabled-domains.list */
 import { path } from "#api";
 
 export default {

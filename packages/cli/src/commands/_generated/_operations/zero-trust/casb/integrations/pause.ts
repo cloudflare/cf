@@ -1,4 +1,4 @@
-/** @generated from pause_integration_v2 */
+/** @generated from zero-trust.casb.integrations.pause */
 import { path } from "#api";
 
 export default {

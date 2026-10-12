@@ -1,4 +1,4 @@
-/** @generated from moq-relays-update */
+/** @generated from realtime.moq.relays.update */
 import { path } from "#api";
 
 export default {

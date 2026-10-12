@@ -1,4 +1,4 @@
-/** @generated from radar-get-asns-rel */
+/** @generated from radar.entities.asns.rel */
 import { path } from "#api";
 
 export default {

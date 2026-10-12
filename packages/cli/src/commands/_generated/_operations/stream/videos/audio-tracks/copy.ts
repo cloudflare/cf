@@ -1,4 +1,4 @@
-/** @generated from add-audio-track */
+/** @generated from stream.videos.audio-tracks.copy */
 import { path } from "#api";
 
 export default {

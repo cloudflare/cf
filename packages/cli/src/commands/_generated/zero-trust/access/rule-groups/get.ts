@@ -65,8 +65,8 @@ const command: CommandModule<CommonYargsOptions, Args> = {
 						url: `https://api.cloudflare.com/client/v4/${accountOrZone}/${accountOrZoneId}/access/groups/${argv["group-id"] == null ? "<group-id>" : encodeURIComponent(String(argv["group-id"]))}`,
 						pathParams: {
 							"account-or-zone": String(accountOrZone),
-							"group-id": String(argv["group-id"] ?? ""),
 							"account-or-zone-id": String(accountOrZoneId),
+							"group-id": String(argv["group-id"] ?? ""),
 						},
 						bodyKind: "none",
 					});

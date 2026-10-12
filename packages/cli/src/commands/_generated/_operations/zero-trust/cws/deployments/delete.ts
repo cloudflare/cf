@@ -1,4 +1,4 @@
-/** @generated from cws-delete-deployment */
+/** @generated from zero-trust.cws.deployments.delete */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from ListExportJobs */
+/** @generated from zero-trust.casb.exports.list */
 import { path } from "#api";
 
 export default {

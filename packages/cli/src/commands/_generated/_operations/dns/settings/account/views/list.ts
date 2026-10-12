@@ -1,4 +1,4 @@
-/** @generated from dns-views-for-an-account-list-internal-dns-views */
+/** @generated from dns.settings.account.views.list */
 import { path } from "#api";
 
 export default {

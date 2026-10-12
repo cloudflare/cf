@@ -1,4 +1,4 @@
-/** @generated from zero-trust-lists-create-zero-trust-list-from-csv */
+/** @generated from zero-trust.gateway.lists.upload */
 import { path } from "#api";
 
 export default {

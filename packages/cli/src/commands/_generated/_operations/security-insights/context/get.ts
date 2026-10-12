@@ -1,4 +1,4 @@
-/** @generated from get-security-center-insight-context */
+/** @generated from security-insights.context.get */
 import { path } from "#api";
 
 export default {

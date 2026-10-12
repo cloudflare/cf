@@ -1,4 +1,4 @@
-/** @generated from radar-get-attacks-layer3-top-origin-locations */
+/** @generated from radar.attacks.layer3.top.locations.origin */
 export default {
 	method: "GET",
 	path: () => "/radar/attacks/layer3/top/locations/origin",

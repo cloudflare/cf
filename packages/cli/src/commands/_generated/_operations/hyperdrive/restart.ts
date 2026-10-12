@@ -1,4 +1,4 @@
-/** @generated from restart-hyperdrive */
+/** @generated from hyperdrive.restart */
 import { path } from "#api";
 
 export default {

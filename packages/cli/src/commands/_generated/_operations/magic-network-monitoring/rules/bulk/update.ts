@@ -1,4 +1,4 @@
-/** @generated from magic-network-monitoring-rules-update-rules-bulk */
+/** @generated from magic-network-monitoring.rules.bulk.update */
 import { path } from "#api";
 
 export default {

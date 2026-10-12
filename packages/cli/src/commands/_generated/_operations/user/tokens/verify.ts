@@ -1,4 +1,4 @@
-/** @generated from user-api-tokens-verify-token */
+/** @generated from user.tokens.verify */
 export default {
 	method: "GET",
 	path: () => "/user/tokens/verify",

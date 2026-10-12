@@ -1,4 +1,4 @@
-/** @generated from cws-list-workloads */
+/** @generated from zero-trust.cws.workloads.list */
 import { path } from "#api";
 
 export default {

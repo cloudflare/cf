@@ -1,4 +1,4 @@
-/** @generated from tenant-level-custom-nameservers-delete-tenant-custom-nameserver */
+/** @generated from tenant-custom-nameservers.delete */
 import { path } from "#api";
 
 export default {

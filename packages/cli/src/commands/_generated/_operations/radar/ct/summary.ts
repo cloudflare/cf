@@ -1,4 +1,4 @@
-/** @generated from radar-get-ct-summary */
+/** @generated from radar.ct.summary */
 import { path } from "#api";
 
 export default {

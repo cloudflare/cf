@@ -1,4 +1,4 @@
-/** @generated from get-commands-quota */
+/** @generated from zero-trust.dex.commands.quota.get */
 import { path } from "#api";
 
 export default {

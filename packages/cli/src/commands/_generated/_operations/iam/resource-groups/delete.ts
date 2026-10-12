@@ -1,4 +1,4 @@
-/** @generated from account-resource-group-delete */
+/** @generated from iam.resource-groups.delete */
 import { path } from "#api";
 
 export default {

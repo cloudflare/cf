@@ -1,4 +1,4 @@
-/** @generated from dlp-email-scanner-update-rule-priorities */
+/** @generated from zero-trust.dlp.email.rules.bulk-edit */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from stream-live-inputs-disable-a-live-input */
+/** @generated from stream.live-inputs.disable */
 import { path } from "#api";
 
 export default {

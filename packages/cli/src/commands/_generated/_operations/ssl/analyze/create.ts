@@ -1,4 +1,4 @@
-/** @generated from analyze-certificate-analyze-certificate */
+/** @generated from ssl.analyze.create */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from worker-put-script-secret */
+/** @generated from workers.secrets.update */
 import { path } from "#api";
 
 export default {

@@ -1,4 +1,4 @@
-/** @generated from cloudflare-images-sourcingkit-create-source */
+/** @generated from images.import.sources.create */
 import { path } from "#api";
 
 export default {

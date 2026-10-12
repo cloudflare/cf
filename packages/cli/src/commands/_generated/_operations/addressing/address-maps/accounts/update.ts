@@ -1,4 +1,4 @@
-/** @generated from ip-address-management-address-maps-add-an-account-membership-to-an-address-map */
+/** @generated from addressing.address-maps.accounts.update */
 import { path } from "#api";
 
 export default {

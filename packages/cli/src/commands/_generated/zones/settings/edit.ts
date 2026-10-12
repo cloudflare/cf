@@ -110,11 +110,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"value-strict-transport-security-preload",
 		])
 		.implies("value-cache-by-device-type", [
-			"value-strict-transport-security-enabled",
 			"value-cf",
+			"value-strict-transport-security-enabled",
+			"value-hostnames",
 			"value-wordpress",
 			"value-wp-plugin",
-			"value-hostnames",
 		])
 		.conflicts("value-cf", [
 			"value-pool-id",
@@ -124,11 +124,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"value-strict-transport-security-preload",
 		])
 		.implies("value-cf", [
+			"value-cache-by-device-type",
 			"value-strict-transport-security-enabled",
+			"value-hostnames",
 			"value-wordpress",
 			"value-wp-plugin",
-			"value-hostnames",
-			"value-cache-by-device-type",
 		])
 		.conflicts("value-hostnames", [
 			"value-pool-id",
@@ -138,11 +138,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"value-strict-transport-security-preload",
 		])
 		.implies("value-hostnames", [
-			"value-strict-transport-security-enabled",
+			"value-cache-by-device-type",
 			"value-cf",
+			"value-strict-transport-security-enabled",
 			"value-wordpress",
 			"value-wp-plugin",
-			"value-cache-by-device-type",
 		])
 		.conflicts("value-wordpress", [
 			"value-pool-id",
@@ -152,11 +152,11 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"value-strict-transport-security-preload",
 		])
 		.implies("value-wordpress", [
-			"value-strict-transport-security-enabled",
-			"value-cf",
-			"value-wp-plugin",
-			"value-hostnames",
 			"value-cache-by-device-type",
+			"value-cf",
+			"value-strict-transport-security-enabled",
+			"value-hostnames",
+			"value-wp-plugin",
 		])
 		.conflicts("value-wp-plugin", [
 			"value-pool-id",
@@ -166,18 +166,18 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			"value-strict-transport-security-preload",
 		])
 		.implies("value-wp-plugin", [
-			"value-strict-transport-security-enabled",
-			"value-cf",
-			"value-wordpress",
-			"value-hostnames",
 			"value-cache-by-device-type",
+			"value-cf",
+			"value-strict-transport-security-enabled",
+			"value-hostnames",
+			"value-wordpress",
 		])
 		.implies("value-strict-transport-security-enabled", [
+			"value-cache-by-device-type",
 			"value-cf",
+			"value-hostnames",
 			"value-wordpress",
 			"value-wp-plugin",
-			"value-hostnames",
-			"value-cache-by-device-type",
 		])
 		.conflicts("value-strict-transport-security-include-subdomains", [
 			"value-pool-id",

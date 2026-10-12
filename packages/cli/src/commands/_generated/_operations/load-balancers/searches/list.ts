@@ -1,4 +1,4 @@
-/** @generated from account-load-balancer-search-search-resources */
+/** @generated from load-balancers.searches.list */
 import { path } from "#api";
 
 export default {

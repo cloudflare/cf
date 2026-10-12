@@ -1,4 +1,4 @@
-/** @generated from dex-endpoints-list-tests-overview */
+/** @generated from zero-trust.dex.overview.tests.list */
 import { path } from "#api";
 
 export default {

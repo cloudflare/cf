@@ -1,4 +1,4 @@
-/** @generated from post-zones-zone_identifier-zaraz-publish */
+/** @generated from zaraz.publish.create */
 import { path } from "#api";
 
 export default {

@@ -30,7 +30,6 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 			description:
 				"Indicates if this is a locally or remotely configured tunnel. If `local`, manage the tunnel using a YAML file on the origin machine. If `cloudflare`, manage the tunnel on the Zero Trust dashboard.",
 			choices: ["local", "cloudflare"],
-			default: "local",
 		})
 		.coerce("config-source", (value) =>
 			resolveFileToken(value, "config-source", "text")

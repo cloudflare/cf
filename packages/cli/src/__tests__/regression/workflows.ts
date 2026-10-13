@@ -11,11 +11,8 @@ export const workflowRequestPaths: Record<string, string> = {
 	"cf workers versions create": "/versions",
 	"cf workers triggers deploy": "/schedules",
 	"cf previews deploy": "/deployments",
-	"cf containers build": "/credentials",
-	"cf containers push": "/credentials",
 	"cf containers images list": "/_catalog",
 	"cf containers images delete": "/manifests/",
-	"cf containers ssh": "/ssh",
 	"cf d1 migrations list": "/query",
 	"cf d1 migrations apply": "/query",
 	"cf tunnels tail": "/management",
@@ -66,7 +63,6 @@ export function seedWorkflow(command: string): void {
 		});
 	}
 	seed({
-		"project/Dockerfile": "FROM scratch\n",
 		"migrations/0001_regression.sql": "CREATE TABLE regression (id INTEGER);\n",
 		"project/0001_regression.sql": "CREATE TABLE regression (id INTEGER);\n",
 		"secrets.json": '{"REGRESSION_SECRET":"regression-secret"}',
@@ -132,27 +128,10 @@ export function workflowResponse(command: string, request: Request): Response {
 		return envelope([{ success: true, results: [] }]);
 	}
 	if (command.startsWith("cf containers")) {
-		if (path.endsWith("/containers/me")) {
-			return envelope({
-				external_account_id: ACCOUNT,
-				limits: {
-					vcpu_per_deployment: 1,
-					memory_mib_per_deployment: 1024,
-					disk_mb_per_deployment: 4000,
-				},
-			});
-		}
 		if (path.endsWith("/credentials")) {
 			return envelope({
 				username: "regression-user",
 				password: "regression-password",
-			});
-		}
-		if (path.endsWith("/ssh")) {
-			return envelope({
-				hostname: "example.com",
-				username: "regression-user",
-				port: 22,
 			});
 		}
 		if (url.hostname === "registry.cloudflare.com") {

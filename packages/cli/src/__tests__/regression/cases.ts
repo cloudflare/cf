@@ -14,6 +14,13 @@ export interface RegressionCase {
 // for request-shape regression coverage.
 export const excludedRoots = new Set(["auth", "build", "deploy", "dev"]);
 
+// These commands would start Docker or SSH.
+export const excludedCommands = new Set([
+	"cf containers build",
+	"cf containers push",
+	"cf containers ssh",
+]);
+
 export const catalogue = JSON.parse(
 	readFileSync(
 		new URL("../../commands/_generated/_meta/commands.json", import.meta.url),
@@ -21,7 +28,9 @@ export const catalogue = JSON.parse(
 	)
 ) as { commands: CommandMeta[]; descriptions: Record<string, string> };
 catalogue.commands = catalogue.commands.filter(
-	(command) => !excludedRoots.has(command.fullPath[0] ?? "")
+	(command) =>
+		!excludedRoots.has(command.fullPath[0] ?? "") &&
+		!excludedCommands.has(command.command)
 );
 
 export const handwritten = new Map<string, { dir: string; overrides: boolean }>(

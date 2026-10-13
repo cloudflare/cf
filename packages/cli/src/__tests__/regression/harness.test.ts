@@ -2,6 +2,7 @@ import { describe, expect, it } from "vite-plus/test";
 import {
 	catalogue,
 	commandCases,
+	excludedCommands,
 	excludedRoots,
 	fixturePath,
 	groups,
@@ -36,6 +37,14 @@ describe("regression coverage and request recording", () => {
 		).toEqual([]);
 		expect(
 			groups.filter((group) => excludedRoots.has(group.split(" ")[0] ?? ""))
+		).toEqual([]);
+	});
+
+	it("omits commands that start Docker or SSH", () => {
+		expect(
+			catalogue.commands.filter((command) =>
+				excludedCommands.has(command.command)
+			)
 		).toEqual([]);
 	});
 

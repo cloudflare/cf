@@ -2,10 +2,9 @@ import { describe, expect, it } from "vite-plus/test";
 import {
 	catalogue,
 	commandCases,
-	excludedCommands,
-	excludedRoots,
 	fixturePath,
 	groups,
+	handwrittenCommands,
 	presenceRows,
 	shardCommands,
 	shardGroups,
@@ -29,23 +28,15 @@ describe("regression coverage and request recording", () => {
 		expect(new Set(assignedGroups).size).toBe(assignedGroups.length);
 	});
 
-	it("omits access, auth, build, deploy and dev workflows", () => {
+	it("omits every hand-written command and hand-written-only group", () => {
 		expect(
 			catalogue.commands.filter((command) =>
-				excludedRoots.has(command.fullPath[0] ?? "")
+				handwrittenCommands.has(command.command)
 			)
 		).toEqual([]);
-		expect(
-			groups.filter((group) => excludedRoots.has(group.split(" ")[0] ?? ""))
-		).toEqual([]);
-	});
-
-	it("omits commands that start Docker, SSH or cloudflared", () => {
-		expect(
-			catalogue.commands.filter((command) =>
-				excludedCommands.has(command.command)
-			)
-		).toEqual([]);
+		expect(groups).not.toContain("access");
+		expect(groups).not.toContain("workers triggers");
+		expect(groups).not.toContain("d1 migrations");
 	});
 
 	it("includes an actual no-argument invocation for every executable", () => {

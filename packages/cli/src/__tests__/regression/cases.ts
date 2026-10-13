@@ -10,43 +10,9 @@ export interface RegressionCase {
 	commandPath?: string[];
 }
 
-// These workflows need local project and credential setup that isn't useful
-// for request-shape regression coverage. Every `cf access` command starts
-// cloudflared.
-export const excludedRoots = new Set([
-	"access",
-	"auth",
-	"build",
-	"deploy",
-	"dev",
-]);
-
-// These commands would start Docker, SSH or cloudflared.
-export const excludedCommands = new Set([
-	"cf containers build",
-	"cf containers push",
-	"cf containers ssh",
-	"cf tunnels diag",
-	"cf tunnels login",
-	"cf tunnels quick-start",
-	"cf tunnels ready",
-	"cf tunnels run",
-	"cf tunnels tail",
-]);
-
-export const catalogue = JSON.parse(
-	readFileSync(
-		new URL("../../commands/_generated/_meta/commands.json", import.meta.url),
-		"utf8"
-	)
-) as { commands: CommandMeta[]; descriptions: Record<string, string> };
-catalogue.commands = catalogue.commands.filter(
-	(command) =>
-		!excludedRoots.has(command.fullPath[0] ?? "") &&
-		!excludedCommands.has(command.command)
-);
-
-export const handwritten = new Map<string, { dir: string; overrides: boolean }>(
+// Hand-written commands orchestrate local projects, external tools and
+// multi-request workflows. This suite covers generated API commands only.
+export const handwrittenCommands = new Set(
 	(
 		JSON.parse(
 			readFileSync(
@@ -56,18 +22,24 @@ export const handwritten = new Map<string, { dir: string; overrides: boolean }>(
 				),
 				"utf8"
 			)
-		) as {
-			commands: (CommandMeta & {
-				handWritten: { dir: string; overrides: boolean };
-			})[];
-		}
-	).commands.map((command) => [command.command, command.handWritten])
+		) as { commands: CommandMeta[] }
+	).commands.map((command) => command.command)
 );
 
-export function generatedSource(command: CommandMeta): string | undefined {
-	if (handwritten.has(command.command)) {
-		return undefined;
-	}
+export const catalogue = JSON.parse(
+	readFileSync(
+		new URL("../../commands/_generated/_meta/commands.json", import.meta.url),
+		"utf8"
+	)
+) as { commands: CommandMeta[]; descriptions: Record<string, string> };
+const handwrittenPaths = catalogue.commands
+	.filter((command) => handwrittenCommands.has(command.command))
+	.map((command) => command.fullPath.join(" "));
+catalogue.commands = catalogue.commands.filter(
+	(command) => !handwrittenCommands.has(command.command)
+);
+
+export function generatedSource(command: CommandMeta): string {
 	return readFileSync(
 		new URL(
 			`../../commands/_generated/${command.fullPath.join("/")}.ts`,
@@ -96,6 +68,17 @@ export const agentEnvironmentKeys = [
 const leafPaths = new Set(
 	catalogue.commands.map((command) => command.fullPath.join(" "))
 );
+const prefixes = (path: string[]) =>
+	path.slice(0, -1).map((_, index) => path.slice(0, index + 1).join(" "));
+const generatedGroups = new Set(
+	catalogue.commands.flatMap((command) => prefixes(command.fullPath))
+);
+// Drop groups that only contain hand-written commands, such as `cf access`.
+const handwrittenGroups = new Set(
+	handwrittenPaths
+		.flatMap((path) => prefixes(path.split(" ")))
+		.filter((group) => !generatedGroups.has(group))
+);
 export const groups = [
 	...new Set([
 		"",
@@ -105,15 +88,9 @@ export const groups = [
 		})
 			.filter((path) => path.endsWith(`${sep}index.ts`))
 			.map((path) => path.slice(0, -"/index.ts".length).split(sep).join(" ")),
-		...catalogue.commands.flatMap((command) =>
-			command.fullPath
-				.slice(0, -1)
-				.map((_, index) => command.fullPath.slice(0, index + 1).join(" "))
-		),
+		...generatedGroups,
 	]),
-].filter(
-	(path) => !leafPaths.has(path) && !excludedRoots.has(path.split(" ")[0] ?? "")
-);
+].filter((path) => !leafPaths.has(path) && !handwrittenGroups.has(path));
 
 function value(
 	name: string,
@@ -130,44 +107,23 @@ function value(
 	if (type === "number") {
 		return variant ? "2" : "1";
 	}
-	if (name === "database") {
-		return "01234567-89ab-4cde-8123-456789abcdef";
-	}
 	if (name === "tunnel-id" || name === "connector-id") {
 		return "01234567-89ab-4cde-8123-456789abcdef";
 	}
-	if (name === "image:tag" || name === "image" || name === "tag") {
+	if (name === "image" || name === "tag") {
 		return "regression-image:latest";
 	}
-	if (name === "directory" || name === "path" || name === "dir") {
+	if (name === "path") {
 		return "project";
 	}
 	if (name === "pattern") {
 		return "*.sql";
 	}
-	if (name === "table") {
-		return "regression_migrations";
-	}
 	if (name === "worker") {
 		return "regression-worker";
 	}
-	if (name === "secrets-file") {
-		return "secrets.json";
-	}
-	if (name === "outfile") {
-		return "regression.cpuprofile";
-	}
 	if (name === "extension") {
 		return "com";
-	}
-	if (name === "contacts") {
-		return '{"registrant":{"email":"regression@example.com"}}';
-	}
-	if (name === "shell") {
-		return "bash";
-	}
-	if (name === "command") {
-		return "zones";
 	}
 	if (/email/.test(name)) {
 		return "regression@example.com";
@@ -209,9 +165,6 @@ function tokens(
 	}
 	if (name === "dry-run") {
 		return ["--dry-run"];
-	}
-	if (name === "help") {
-		return ["--help"];
 	}
 	const jsonValue = source?.match(
 		new RegExp(`argv\\["${name}"\\][^,]*,\\s*"${name}",\\s*"json"`)

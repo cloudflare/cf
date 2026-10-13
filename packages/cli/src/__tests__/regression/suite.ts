@@ -5,7 +5,7 @@ import {
 	mockConsoleMethods,
 	runInTempDir,
 } from "@cloudflare/workers-utils/test-helpers";
-import { http } from "msw/http";
+import { http, HttpResponse } from "msw/http";
 import {
 	afterEach,
 	beforeEach,
@@ -20,46 +20,14 @@ import { server, setupMsw, TEST_BASE_URL } from "../helpers/msw.js";
 import {
 	agentEnvironmentKeys,
 	commandCases,
-	handwritten,
 	shardCommands,
 	shardGroups,
 } from "./cases.js";
 import { normalize, recordRequest } from "./record.js";
-import {
-	seedWorkflow,
-	workflowRequestPaths,
-	workflowResponse,
-} from "./workflows.js";
 import type { RecordedRequest } from "./record.js";
 
-// Keep the CLI and its HTTP clients real. Only OS tools and package installs are
-// replaced: they cannot be intercepted by MSW or finish within the suite budget.
-vi.mock("../../lib/autoconfig.js", () => ({
-	analyzeProject: vi.fn(async () => undefined),
-	configureProject: vi.fn(async () => ({})),
-	prepareProject: vi.fn(async () => ({ details: undefined })),
-	runProjectCommand: vi.fn(async () => ({ exitCode: 0, signal: null })),
-}));
-vi.mock("../../commands/workers/types/generate.js", () => ({
-	generateWorkerTypes: vi.fn(async () => ".cloudflare/types/index.d.ts"),
-}));
-vi.mock("../../commands/dev/spawn.js", async (importOriginal) => ({
-	...(await importOriginal<Record<string, unknown>>()),
-	spawnImpl: vi.fn(async () => ({ exitCode: 0 })),
-}));
-vi.mock(
-	"@cloudflare/deploy-helpers/startup-profile",
-	async (importOriginal) => ({
-		...(await importOriginal<Record<string, unknown>>()),
-		analyseBundle: vi.fn(async () => ({
-			nodes: [],
-			startTime: 0,
-			endTime: 1000,
-			samples: [],
-			timeDeltas: [],
-		})),
-	})
-);
+// Keep the CLI and its HTTP clients real. Local mode starts Miniflare as a
+// separate process, so route its requests through MSW instead.
 vi.mock("miniflare", async (importOriginal) => ({
 	...(await importOriginal<Record<string, unknown>>()),
 	Miniflare: class {
@@ -69,11 +37,26 @@ vi.mock("miniflare", async (importOriginal) => ({
 		async dispose() {}
 	},
 }));
-vi.mock("tinyexec", () => ({
-	x: () => {
-		throw new Error("Regression fixture has no external executable");
-	},
-}));
+
+function respond(request: Request): Response {
+	const url = new URL(request.url);
+	const envelope = (result: unknown) =>
+		HttpResponse.json({ success: true, result, errors: [], messages: [] });
+	// `--zone <domain>` looks the zone up by name before the main request.
+	if (
+		request.method === "GET" &&
+		url.pathname.endsWith("/zones") &&
+		url.searchParams.has("name")
+	) {
+		return envelope([
+			{
+				id: "abcdef0123456789abcdef0123456789",
+				name: url.searchParams.get("name"),
+			},
+		]);
+	}
+	return envelope({});
+}
 
 export function regressionShard(shard: number): void {
 	describe(`HTTP regression shard ${shard + 1}`, () => {
@@ -110,7 +93,6 @@ export function regressionShard(shard: number): void {
 		const commands = shardCommands()[shard] ?? [];
 		for (const command of commands) {
 			it(command.command, async () => {
-				seedWorkflow(command.command);
 				const requests: RecordedRequest[] = [];
 				const recordings: {
 					case: string;
@@ -124,7 +106,7 @@ export function regressionShard(shard: number): void {
 						const index = requests.length;
 						requests.length++;
 						requests[index] = await recordRequest(request);
-						return workflowResponse(command.command, request);
+						return respond(request);
 					})
 				);
 				for (const scenario of commandCases(command)) {
@@ -160,41 +142,28 @@ export function regressionShard(shard: number): void {
 						requests: [...requests],
 					});
 				}
-				if (!handwritten.has(command.command)) {
-					const endpoint = new RegExp(
-						"^/client/v4" +
-							command.apiPath
-								?.split(/(\{[^}]+\})/)
-								.map((part) =>
-									part.startsWith("{")
-										? "[^/]+"
-										: part.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
-								)
-								.join("") +
-							"$"
-					);
-					expect(
-						recordings.some((recording) =>
-							recording.requests.some(
-								(request) =>
-									request.method === command.httpMethod &&
-									endpoint.test(new URL(request.url).pathname)
+				const endpoint = new RegExp(
+					"^/client/v4" +
+						command.apiPath
+							?.split(/(\{[^}]+\})/)
+							.map((part) =>
+								part.startsWith("{")
+									? "[^/]+"
+									: part.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
 							)
-						),
-						`${command.command} never reached ${command.httpMethod} ${command.apiPath}. Fix its fixture arguments; do not approve an empty request baseline.`
-					).toBe(true);
-				}
-				const workflowPath = workflowRequestPaths[command.command];
-				if (workflowPath) {
-					expect(
-						recordings.some((recording) =>
-							recording.requests.some((request) =>
-								new URL(request.url).pathname.includes(workflowPath)
-							)
-						),
-						`${command.command} never reached ${workflowPath}. Fix its fixture before updating the request baseline.`
-					).toBe(true);
-				}
+							.join("") +
+						"$"
+				);
+				expect(
+					recordings.some((recording) =>
+						recording.requests.some(
+							(request) =>
+								request.method === command.httpMethod &&
+								endpoint.test(new URL(request.url).pathname)
+						)
+					),
+					`${command.command} never reached ${command.httpMethod} ${command.apiPath}. Fix its fixture arguments; do not approve an empty request baseline.`
+				).toBe(true);
 				const snapshotPath = fileURLToPath(
 					new URL(
 						`./snapshots/${command.fullPath.join("/")}.snap`,
@@ -233,7 +202,7 @@ export function regressionShard(shard: number): void {
 				server.use(
 					http.all("*", async ({ request }) => {
 						requests.push(await recordRequest(request));
-						return workflowResponse(`cf ${group}`, request);
+						return respond(request);
 					})
 				);
 				const argv = group ? group.split(" ") : [];

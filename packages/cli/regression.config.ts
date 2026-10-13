@@ -10,12 +10,7 @@ export default defineConfig({
 		exclude: [],
 		server: {
 			deps: {
-				inline: [
-					"@cloudflare/workers-utils",
-					"@cloudflare/workers-auth",
-					"@cloudflare/containers-shared",
-					"@cloudflare/deploy-helpers",
-				],
+				inline: ["@cloudflare/workers-utils", "@cloudflare/workers-auth"],
 			},
 		},
 	},

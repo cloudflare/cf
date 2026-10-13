@@ -256,9 +256,6 @@ importers:
       '@cloudflare/build-output-utils':
         specifier: 0.9.1
         version: 0.9.1
-      '@cloudflare/codemods':
-        specifier: 0.4.2
-        version: 0.4.2
       '@cloudflare/config':
         specifier: 0.25.0
         version: 0.25.0
@@ -271,9 +268,6 @@ importers:
       miniflare:
         specifier: 5.20261006.2-beta
         version: 5.20261006.2-beta(@types/node@25.9.9)
-      minisearch:
-        specifier: 7.2.0
-        version: 7.2.0
     devDependencies:
       '@bomb.sh/tab':
         specifier: 0.0.22
@@ -293,6 +287,9 @@ importers:
       '@cloudflare/cli-shared-helpers':
         specifier: 0.2.6
         version: 0.2.6(vitest@5.0.3)
+      '@cloudflare/codemods':
+        specifier: 0.4.2
+        version: 0.4.2
       '@cloudflare/containers-shared':
         specifier: 0.21.6
         version: 0.21.6(patch_hash=ecd632c350c22e92f11dd426d4aec675be6515b0aa7e21f2ff1367e315e3ac59)(vitest@5.0.3)
@@ -335,6 +332,9 @@ importers:
       minimatch:
         specifier: 10.2.6
         version: 10.2.6
+      minisearch:
+        specifier: 7.2.0
+        version: 7.2.0
       msw:
         specifier: 3.0.2
         version: 3.0.2(@types/node@25.9.9)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.28.2)(graphql@16.14.2)(supports-color@10.2.2)(tsx@4.21.0)(typescript@6.0.3)(unrun@0.2.39)(yaml@2.9.0)

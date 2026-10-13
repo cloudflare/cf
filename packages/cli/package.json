@@ -70,12 +70,10 @@
 	},
 	"dependencies": {
 		"@cloudflare/build-output-utils": "0.9.1",
-		"@cloudflare/codemods": "0.4.2",
 		"@cloudflare/config": "0.25.0",
 		"@cloudflare/runtime-types": "0.1.10",
 		"blake3-wasm": "2.1.5",
-		"miniflare": "5.20261006.2-beta",
-		"minisearch": "7.2.0"
+		"miniflare": "5.20261006.2-beta"
 	},
 	"devDependencies": {
 		"@bomb.sh/tab": "0.0.22",
@@ -84,6 +82,7 @@
 		"@clack/prompts": "^1.8.1",
 		"@cloudflare/autoconfig": "0.7.8",
 		"@cloudflare/cli-shared-helpers": "0.2.6",
+		"@cloudflare/codemods": "0.4.2",
 		"@cloudflare/containers-shared": "0.21.6",
 		"@cloudflare/deploy-helpers": "0.20.2",
 		"@cloudflare/forge": "file:../../vendor/cloudflare-forge-0.1.0.tgz",
@@ -98,6 +97,7 @@
 		"esbuild": "0.28.2",
 		"figures": "6.1.0",
 		"minimatch": "10.2.6",
+		"minisearch": "7.2.0",
 		"msw": "3.0.2",
 		"semver": "7.8.5",
 		"shell-quote": "^1.12.0",

@@ -1,5 +1,77 @@
 # cf
 
+## 1.0.0-beta.15
+
+### Minor Changes
+
+- 2c98450: Add `cf docs search` for live Cloudflare documentation
+
+  Search guides, tutorials, and examples with `cf docs search "schedule a worker"`.
+  Return ranked JSON results with titles, descriptions, and documentation URLs
+  without requiring a Cloudflare login. Include the command in agent discovery
+  and explain how to fetch complete pages as Markdown.
+  Record documentation search queries in telemetry with the same length limit
+  and opt-out behavior as CLI command search.
+  Extend the agent help disclaimer about identifying information to both search
+  commands.
+
+- 579a3b0: Fail destructive commands when noninteractive confirmation is unavailable
+
+  Breaking change during the beta: destructive commands invoked without a terminal
+  or in CI now exit with status 1 when `--force` is omitted, instead of reporting
+  success after aborting. The command still prints confirmation guidance and makes
+  no mutation request. Interactive declines retain their existing exit behavior.
+
+- 22f028d: Update the generated command surface and vendored Forge packages for
+  Forge OpenAPI release `0adf409896a721b233f4fb9fe61655d34ebb166c`.
+- baab474: Update the generated command surface and vendored Forge packages for
+  Forge OpenAPI release `3a9c5f0fb42a5ce4e8c09b78a19f6f003a2ee7c8`.
+- 909e52e: Update the generated command surface and vendored Forge packages for
+  Forge OpenAPI release `3fad73eb27c381031c09ccdfa28ef9352029cd5a`.
+- daa2626: Update the generated command surface and vendored Forge packages for
+  Forge OpenAPI release `995446172c0e88607283d1aae00f3c1f41294d4b`.
+- 8be54f5: Update the generated command surface and vendored Forge packages for
+  Forge OpenAPI release `af1cbe5ccd4d92c232d8cd9c10a42a49e276238c`.
+
+### Patch Changes
+
+- 51b8cef: Format the account-selection config hint consistently
+
+  After you pick an account, the tip for making it the project's default now
+  joins the prompt's guide, wraps to the terminal width, and keeps its snippet
+  free of guide characters so it copies cleanly. When the project already has a
+  `cloudflare.config.ts`, the tip names that file and shows only the `accountId`
+  line to add. `--quiet` now omits the tip.
+
+- aa1dd58: Allow dependency metadata uploads to be disabled with an environment variable
+
+  Set `CLOUDFLARE_DEPENDENCIES_INSTRUMENTATION=false` to omit npm package dependency metadata from Worker deploys and version uploads. The variable can also be set in cf's supported `.env` files.
+
+- a71dd9b: Reject unsupported persistence-directory overrides in `cf dev`
+
+  `cf dev --persist-to <dir>` now reports that the option is unsupported instead of
+  silently ignoring it. The validation runs before project setup or dev-server
+  startup, while `cf dev --help` remains available with the option present.
+
+- 8747bd9: Allow long-running API operations to finish
+
+  Increase the default API request timeout from 30 to 60 seconds so Workers
+  profiling captures can run for the full supported 50 seconds and return their
+  results. Apply the same default to SDK and raw-response requests while retaining
+  explicit timeout overrides and the exemption for binary and multipart uploads.
+
+- 327cb9f: Use the configured project's commands on the first `cf dev` or `cf build` after setup
+
+  When `cf dev` or `cf build` set up a project, they kept the commands and environment detected before setup. If setup changes the project's tooling, for example by setting up a Next.js project with vinext, the first run would use the old commands. cf now analyses the project again after setup, as it already did after converting a Wrangler config.
+
+- e43963e: Send API requests through a thin client instead of the generated SDK
+
+  Generated and hand-written commands now send their requests through a small
+  built-in client rather than a generated TypeScript SDK, which shrinks the
+  package. Commands send the same requests as before, with one exception:
+  commands that build their JSON body from flags now always send it, as `{}`
+  when no body flags are passed, instead of sometimes sending no body.
+
 ## 1.0.0-beta.14
 
 ### Minor Changes

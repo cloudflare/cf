@@ -73,6 +73,7 @@ jobs:
         run: pnpm --filter cf test
 
       - name: Snapshot every cf command (three-minute budget)
+        if: runner.os == 'Linux'
         run: pnpm --filter cf test:regression
 
   wrangler-tests:

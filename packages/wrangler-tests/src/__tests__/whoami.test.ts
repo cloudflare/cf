@@ -91,7 +91,7 @@ describe("whoami", () => {
 		expect(JSON.parse(std.out)).toMatchObject({ authenticated: false });
 		// The suggestion goes to stderr so stdout stays parseable JSON.
 		expect(std.err).toContain(
-			"To deploy without logging in, run a command like `cf deploy --temporary-account` to use a temporary account."
+			"To deploy without logging in, run a command like `cf deploy --temporary-account` to use a temporary preview account."
 		);
 	});
 

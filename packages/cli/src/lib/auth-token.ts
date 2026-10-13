@@ -2,7 +2,6 @@ import { getAuthFromEnv } from "@cloudflare/workers-auth";
 import { MissingCredentialsError } from "./errors.js";
 import {
 	getValidToken as getOAuthToken,
-	isOAuthLoggedIn,
 	isTemporaryAccountAllowed,
 	requireTemporaryAccount,
 } from "./oauth/index.js";
@@ -36,16 +35,11 @@ export async function getAuthToken(): Promise<string> {
 		return cfToken;
 	}
 
-	const message = `No authentication token found.
+	throw new MissingCredentialsError(`No authentication token found.
 
 Please set one of the following:
   1. Set the CLOUDFLARE_API_TOKEN environment variable
   2. Run 'cf auth login' to authenticate via OAuth
 
-For API tokens, visit: https://dash.cloudflare.com/profile/api-tokens`;
-	// A stored OAuth token that could not refresh still counts as existing
-	// credentials, so a temporary account would be rejected.
-	throw isOAuthLoggedIn()
-		? new Error(message)
-		: new MissingCredentialsError(message);
+For API tokens, visit: https://dash.cloudflare.com/profile/api-tokens`);
 }

@@ -239,7 +239,7 @@ describe("--temporary-account", () => {
 				CLOUDFLARE_ACCOUNT_ID: "configured-account-id",
 			})
 		).rejects.toThrow("No authentication token found");
-		expect(stderr()).toContain("rerun this command with --temporary-account");
+		expect(stderr()).toContain("rerun this command with `--temporary-account`");
 	});
 
 	it("creates an event account without persisting or printing the code", async () => {

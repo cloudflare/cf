@@ -365,10 +365,12 @@ describe("deploy", () => {
 	});
 });
 
+// The configured account proves that a temporary account takes precedence.
 async function seedBuildOutput(): Promise<void> {
 	await seed({
 		".cloudflare/output/v0/config.json": JSON.stringify({
 			buildContext: { isPreview: false },
+			accountId: "configured-account-id",
 		}),
 		".cloudflare/output/v0/workers/default/worker.config.json": JSON.stringify({
 			name: "test-name",

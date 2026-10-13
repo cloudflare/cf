@@ -3,12 +3,13 @@
  *
  * Account ID priority:
  *   1. Temporary preview account when --temporary-account is requested
- *   2. CLOUDFLARE_ACCOUNT_ID environment variable
- *   3. account settings from cloudflare.config.ts's default export
- *   4. workers-auth account cache
- *   5. Interactive account picker / single-account auto-select
+ *   2. Build Output account ID passed by the caller
+ *   3. CLOUDFLARE_ACCOUNT_ID environment variable
+ *   4. account settings from cloudflare.config.ts's default export
+ *   5. workers-auth account cache
+ *   6. Interactive account picker / single-account auto-select
  *
- * Configured sources 2–4 are offline (`resolveAccountIdSilent`); only
+ * Configured sources 3–5 are offline (`resolveAccountIdSilent`); only
  * `getAccountId` can provision, enumerate accounts, or ask.
  *
  * Zone priority:
@@ -112,6 +113,8 @@ export async function resolveAccountIdSilent(): Promise<string | undefined> {
  * @throws Error if no account ID is found
  */
 export async function getAccountId(options?: {
+	/** An account ID from Build Output, used unless a temporary account applies. */
+	accountId?: string;
 	isPreview?: boolean;
 	skipProjectSettings?: boolean;
 	complianceRegion?: ComplianceRegion;
@@ -125,6 +128,9 @@ export async function getAccountId(options?: {
 	} = await import("./oauth/index.js");
 	if (isTemporaryAccountAllowed()) {
 		return (await requireTemporaryAccount(options)).accountId;
+	}
+	if (options?.accountId !== undefined) {
+		return options.accountId;
 	}
 
 	const result = await resolveAccountId(options);

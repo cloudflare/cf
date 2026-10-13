@@ -119,6 +119,72 @@ describe("cf deploy — routes", () => {
 		);
 	});
 
+	it.each([
+		{ production: true, previews: false },
+		{ production: false, previews: true },
+		{ production: true, previews: true },
+	])(
+		"publishes domain traffic settings $production/$previews",
+		async (traffic) => {
+			mockWorkerUpload();
+			const domains = captureCustomDomains();
+			await seed({
+				".cloudflare/output/v0/config.json": buildOutputRootConfig(),
+				".cloudflare/output/v0/workers/default/worker.config.json":
+					workerConfig({
+						domains: [
+							"example.com",
+							{ hostname: "custom.example.com", ...traffic },
+						],
+					}),
+				".cloudflare/output/v0/workers/default/bundle/index.js":
+					"export default { fetch() { return new Response('ok'); } }",
+			});
+
+			const { exitCode } = await runCf(["deploy", "--prebuilt"]);
+
+			expect(exitCode).toBe(0);
+			expect(domains.changesetCalled).toBe(true);
+			expect(domains.publishCalled).toBe(true);
+			const origins = [
+				{ hostname: "example.com" },
+				{
+					hostname: "custom.example.com",
+					enabled: traffic.production,
+					previews_enabled: traffic.previews,
+				},
+			];
+			expect(domains.changesetBody).toEqual(origins);
+			expect(domains.publishBody).toMatchObject({ origins });
+		}
+	);
+
+	it.each([
+		{ hostname: "example.com", production: false, previews: false },
+		{ hostname: "example.com", production: true },
+		{ hostname: "example.com", previews: true },
+		{ hostname: "example.com", production: "true", previews: false },
+		{ hostname: "example.com", production: false, previews: "true" },
+	])("rejects invalid domain settings %j before uploading", async (domain) => {
+		const upload = mockWorkerUpload();
+		const domains = captureCustomDomains();
+		await seed({
+			".cloudflare/output/v0/config.json": buildOutputRootConfig(),
+			".cloudflare/output/v0/workers/default/worker.config.json": workerConfig({
+				domains: [domain],
+			}),
+			".cloudflare/output/v0/workers/default/bundle/index.js":
+				"export default { fetch() { return new Response('ok'); } }",
+		});
+
+		await expect(runCf(["deploy", "--prebuilt"])).rejects.toThrow(
+			"invalid Worker config"
+		);
+		expect(upload.metadata).toBeUndefined();
+		expect(domains.changesetCalled).toBe(false);
+		expect(domains.publishCalled).toBe(false);
+	});
+
 	it("publishes both routes and custom domains together", async () => {
 		mockWorkerUpload();
 		const routes = captureRoutes();

@@ -253,6 +253,8 @@ export function mockDefaultHandlers() {
 			async ({ request }) => {
 				const body = (await request.json()) as Array<{
 					hostname: string;
+					enabled?: boolean;
+					previews_enabled?: boolean;
 				}>;
 				return HttpResponse.json(
 					createFetchResult({
@@ -263,8 +265,8 @@ export function mockDefaultHandlers() {
 							environment: "",
 							zone_name: "",
 							zone_id: "",
-							enabled: true,
-							previews_enabled: false,
+							enabled: d.enabled ?? true,
+							previews_enabled: d.previews_enabled ?? false,
 						})),
 						removed: [],
 						updated: [],
@@ -432,6 +434,8 @@ export function captureCustomDomains(opts?: {
 				captured.changesetCalled = true;
 				const body = (await request.json()) as Array<{
 					hostname: string;
+					enabled?: boolean;
+					previews_enabled?: boolean;
 				}>;
 				captured.changesetBody = body;
 				return HttpResponse.json(
@@ -443,8 +447,8 @@ export function captureCustomDomains(opts?: {
 							environment: "",
 							zone_name: "",
 							zone_id: "",
-							enabled: true,
-							previews_enabled: false,
+							enabled: d.enabled ?? true,
+							previews_enabled: d.previews_enabled ?? false,
 						})),
 						removed: [],
 						updated:

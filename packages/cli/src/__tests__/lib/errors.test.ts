@@ -54,7 +54,7 @@ describe("handleError", () => {
 		expect(handleError(err)).toBe(err);
 	});
 
-	it("recommends a temporary account only when credentials are missing", () => {
+	it("recommends a temporary account when non-interactive auth fails", () => {
 		handleError(new MissingCredentialsError("No authentication token found."));
 		expect(stderr()).toContain("--temporary-account");
 
@@ -70,7 +70,16 @@ describe("handleError", () => {
 		errSpy.mockClear();
 		handleError(
 			new UserError(
-				"Not logged in. Your auth token has expired and could not be refreshed.",
+				"Not logged in. Your auth token has expired and could not be refreshed, and the environment is non-interactive.",
+				{ telemetryMessage: "cfetch auth login required" }
+			)
+		);
+		expect(stderr()).toContain("--temporary-account");
+
+		errSpy.mockClear();
+		handleError(
+			new UserError(
+				"Not logged in. Your auth token has expired and could not be refreshed because the Cloudflare auth server could not be reached.",
 				{ telemetryMessage: "cfetch auth login required" }
 			)
 		);

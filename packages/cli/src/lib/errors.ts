@@ -10,8 +10,8 @@ import { ApiError } from "#api";
 export class MissingCredentialsError extends Error {}
 
 /**
- * Whether an error means no credentials exist, rather than that existing
- * credentials expired. Only unauthenticated users can use a temporary account.
+ * Whether to suggest a temporary account. Like Wrangler, this covers missing or
+ * expired credentials in a non-interactive environment.
  */
 function isMissingCredentialsError(error: Error): boolean {
 	if (error instanceof MissingCredentialsError) {
@@ -22,7 +22,7 @@ function isMissingCredentialsError(error: Error): boolean {
 	return (
 		"telemetryMessage" in error &&
 		error.telemetryMessage === "cfetch auth login required" &&
-		error.message.includes("no credentials were found")
+		error.message.includes("the environment is non-interactive")
 	);
 }
 
@@ -223,7 +223,7 @@ export function handleError(error: unknown): unknown {
 			console.error(
 				"\n" +
 					hint(
-						"To continue without logging in, rerun this command with --temporary-account. cf will use a temporary account and print a URL for claiming it."
+						"To continue without logging in, rerun this command with `--temporary-account`. cf will use a temporary account and print a claim URL."
 					)
 			);
 		}

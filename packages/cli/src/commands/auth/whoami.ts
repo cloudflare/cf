@@ -41,7 +41,7 @@ const whoamiCommand: CommandModule<object, WhoamiArgs> = {
 			if (authSource === "none") {
 				console.error(
 					hint(
-						"To deploy without logging in, run a command like `cf deploy --temporary-account` to use a temporary account."
+						"To deploy without logging in, run a command like `cf deploy --temporary-account` to use a temporary preview account."
 					)
 				);
 			}

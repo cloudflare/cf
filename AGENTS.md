@@ -77,7 +77,7 @@ cf/
 ├── vendor/                     # Vendored tarball: forge
 ├── patches/                    # pnpm patches: release publishing + Container image
 │                               # cleanup ownership
-├── scripts/sync-forge.ts       # re-vendor pipeline (FORGE_REPO=...)
+├── scripts/sync-forge.ts       # vendors the published forge build (GitHub Packages)
 ├── .github/workflows/          # CI, changesets publish, prerelease, benchmark, review
 ├── pnpm-workspace.yaml         # dependency patches, catalogs, and build scripts
 ├── package.json                # scripts/deps + pnpm version
@@ -145,7 +145,8 @@ pnpm build
                  └─ vp fmt _generated/               # post-format emitted TS
 ```
 
-forge (the vendored `@cloudflare/forge` binary, built from forge-rs) parses
+forge (the vendored `@cloudflare/forge` binary, built from the forge
+repository's `packages/forge`) parses
 the document; the command generator is a forge plugin that lives here, in
 `packages/cli/generator/plugin/`. It is TypeScript written against
 `@cloudflare/forge/plugin`, which `forge-plugin build` compiles to a
@@ -231,7 +232,7 @@ the complete generated and hand-written `_meta/commands.json` catalogue (see
 | Emitted-file shape              | `packages/cli/generator/plugin/files.ts`                                                                                                                                                                                                                          |
 | Request runtime                 | `packages/cli/src/api/` (imported as `#api`); hand-written commands import operations from `#operations/<path>.js`                                                                                                                                                |
 | Lint / format rules             | `vite.config.ts`                                                                                                                                                                                                                                                  |
-| Vendored forge bump             | `pnpm sync:forge` (then commit `vendor/` and `package.json` diff)                                                                                                                                                                                                 |
+| Vendored forge bump             | `pnpm sync:forge` (then `pnpm generate`; commit `vendor/`, lockfile, and `package.json` diff)                                                                                                                                                                     |
 | Patch a published dep           | `patches/*.patch` (created via `pnpm patch <pkg>`)                                                                                                                                                                                                                |
 
 ## Library Map (`packages/cli/src/lib/`)
@@ -698,24 +699,39 @@ Structured API output is JSON; generated `binary`/`text` endpoints write their p
 
 Tarball in `vendor/`:
 
-- `cloudflare-forge-0.1.0.tgz` — the forge binary (forge-rs), for every
-  platform, which runs the plugin that generates the commands, and
+- `cloudflare-forge-<version>.tgz` — the `@cloudflare/forge` package from the
+  forge repository's `packages/forge`: the forge binary for every platform,
+  which runs the plugin that generates the commands, and
   `@cloudflare/forge/plugin`, the library the plugin is written with
 
-The Forge package is not published to npm yet, so
-`packages/cli/package.json` references it via a `file:` specifier.
+Forge publishes a build of every commit on its `main` branch to GitHub
+Packages (`npm.pkg.github.com`) as `<cargo version>-main.<run>.g<sha>` under
+the `main` dist-tag. That registry needs a token even to read, so cf vendors
+the tarball and `packages/cli/package.json` references it via a `file:`
+specifier; installing cf needs no token.
 `build-output-utils`, `config`, `containers-shared`, `workers-auth`,
 `workers-utils`, and `deploy-helpers` are installed from npm at exact versions.
 Dependency patches are registered in `pnpm-workspace.yaml` under
 `patchedDependencies`; workers-auth is not patched.
 
-To re-vendor **forge**: build and pack it in forge-rs
-(`node releases/npm/scripts/compile.mjs && node releases/npm/scripts/archive.mjs`),
-then run `pnpm sync:forge` (defaults to `FORGE_RS_REPO=../forge-rs`). The
-script copies the tarball into `vendor/`, rewrites the forge `file:`
-specifier in `packages/cli/package.json`, and runs `pnpm install`.
+To re-vendor **forge**: `pnpm sync:forge` vendors the latest `main` build. It
+needs a GitHub token with `read:packages`, from
+`FORGE_PACKAGE_TOKEN`, `GH_TOKEN`, `GITHUB_TOKEN`, or
+`gh auth token` (`gh auth refresh -s read:packages` adds the scope). The script
+downloads the build, verifies it against the registry's integrity hash,
+replaces the tarball in `vendor/`, rewrites the forge `file:` specifier in
+`packages/cli/package.json`, and refreshes `pnpm-lock.yaml`. Then run
+`pnpm generate` and commit `vendor/`, `pnpm-lock.yaml`, the `package.json`
+diff, and the regenerated output.
 
-Then commit `vendor/` + the `package.json` diff.
+The `Update Forge` workflow (`.github/workflows/update-forge.yml`) does this
+hourly: `scripts/update-forge.ts` takes the latest `openapi@<sha>` Forge
+release and the latest `main` build of the package, independently and without
+matching one to the other. If either differs from cf's pins, it vendors the
+package, pins the OpenAPI revision, regenerates, and opens or refreshes the
+update PR. It reads the package with the workflow's `github.token` (passed as
+`FORGE_PACKAGE_TOKEN`), which the package's "Manage Actions access" settings grant
+to `cloudflare/cf`; no extra secret is needed.
 
 When the Forge package publishes to npm: drop the tarball, switch to the npm
 version, and delete `scripts/sync-forge.ts`.
@@ -834,7 +850,7 @@ pnpm check:lint        # Vite+ lint --type-aware
 pnpm check:type        # workspace tsgo, after generation and dependency builds
 pnpm check:format      # Vite+ format check
 pnpm fix               # Vite+ lint fix + format
-pnpm sync:forge        # re-vendor from FORGE_REPO (default ../forge)
+pnpm sync:forge        # vendor the latest forge `main` build from GitHub Packages
 ```
 
 Build, type-check, and test commands declare their prerequisites in each

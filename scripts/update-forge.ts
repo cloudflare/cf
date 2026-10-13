@@ -1,26 +1,45 @@
 #!/usr/bin/env node
-import {
-	mkdirSync,
-	mkdtempSync,
-	readFileSync,
-	rmSync,
-	writeFileSync,
-} from "node:fs";
-import { tmpdir } from "node:os";
+/**
+ * Keeps cf on the latest Forge. Two things are tracked independently, each at
+ * its latest: the OpenAPI revision of the latest `openapi@<sha>` Forge
+ * release, and the newest @cloudflare/forge build of Forge's main branch on
+ * GitHub Packages (see scripts/sync-forge.ts). Either moving regenerates the
+ * command surface and opens or refreshes the update pull request.
+ *
+ *   node scripts/update-forge.ts [--check]
+ *
+ * --check reports what an update would do, changing nothing. The package is
+ * read with FORGE_PACKAGE_TOKEN (the workflow passes github.token, which the
+ * package grants access), or else the cf token, which needs read:packages.
+ */
+import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import timers from "node:timers/promises";
-import { fileURLToPath, pathToFileURL } from "node:url";
+import { fileURLToPath } from "node:url";
+import { parseArgs } from "node:util";
 import { x } from "tinyexec";
+import {
+	type ForgePackage,
+	getVendoredForgeVersion,
+	resolveForgePackage,
+	vendorForgePackage,
+} from "./sync-forge.ts";
 
 const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(SCRIPT_DIR, "..");
 const GENERATOR_PATH = join(REPO_ROOT, "packages/cli/generate.ts");
+const CLI_PACKAGE_PATH = "packages/cli/package.json";
 const FORGE_REPOSITORY = "cloudflare/forge";
 const OPENAPI_ASSET = "openapi.forge.json";
+const RELEASE_TAG_PATTERN = /^openapi@([0-9a-f]{40})$/;
 const OPENAPI_VERSION_PATTERN =
 	/^const FORGE_OPENAPI_VERSION = "([0-9a-f]{40})";$/m;
+const VENDORED_FORGE_PATTERN =
+	/"@cloudflare\/forge": "file:\.\.\/\.\.\/vendor\/cloudflare-forge-(.+)\.tgz"/;
+// Also matches the titles from before the Forge package version was tracked,
+// so their open update PR stays managed.
 const UPDATE_COMMIT_PATTERN =
-	/^chore: update Forge and OpenAPI to [0-9a-f]{12}$/;
+	/^chore: update Forge (?:to [0-9A-Za-z.+-]+ )?and OpenAPI to [0-9a-f]{12}$/;
 const UPDATE_COMMIT_EMAIL =
 	"41898282+github-actions[bot]@users.noreply.github.com";
 const UPDATE_BRANCH = process.env.UPDATE_BRANCH ?? "automation/update-forge";
@@ -46,6 +65,9 @@ const TRANSIENT_ERROR_CODES = new Set([
 type JsonObject = Record<string, unknown>;
 type UpdatePullRequest = { number: number; headSha: string };
 type ManagedUpdateCommit = { parentSha: string };
+type ForgeRelease = { tag: string; version: string };
+/** The OpenAPI revision and @cloudflare/forge version cf is, or would be, on. */
+type ForgeVersions = { openapi: string; forge: string };
 
 function logStep(message: string): void {
 	console.log(`\n==> ${message}`);
@@ -295,11 +317,17 @@ function extractOpenApiVersion(source: string, label: string): string {
 	return match[1];
 }
 
-export async function getLatestForgeRelease(): Promise<{
-	tag: string;
-	version: string;
-	assetId: number;
-}> {
+function extractVendoredForgeVersion(source: string, label: string): string {
+	const match = source.match(VENDORED_FORGE_PATTERN);
+	if (!match?.[1]) {
+		throw new Error(
+			`Could not read the vendored @cloudflare/forge from ${label}`
+		);
+	}
+	return match[1];
+}
+
+export async function getLatestForgeRelease(): Promise<ForgeRelease> {
 	const release = await githubRequest(
 		`/repos/${FORGE_REPOSITORY}/releases/latest`,
 		{},
@@ -311,30 +339,32 @@ export async function getLatestForgeRelease(): Promise<{
 		throw new Error("Latest Forge release has no tag_name");
 	}
 
-	const match = release.tag_name.match(/^openapi@([0-9a-f]{40})$/);
+	const match = release.tag_name.match(RELEASE_TAG_PATTERN);
 	if (!match?.[1]) {
 		throw new Error(
 			`Latest Forge release has an unexpected tag: ${release.tag_name}`
 		);
 	}
-	const asset = Array.isArray(release.assets)
-		? release.assets.find(
-				(item) => isObject(item) && item.name === OPENAPI_ASSET
-			)
-		: undefined;
-	if (!isObject(asset) || typeof asset.id !== "number") {
+	// generate.ts downloads this asset, so never pin a release without it.
+	const hasAsset =
+		Array.isArray(release.assets) &&
+		release.assets.some(
+			(item) => isObject(item) && item.name === OPENAPI_ASSET
+		);
+	if (!hasAsset) {
 		throw new Error(
 			`Forge release ${release.tag_name} has no ${OPENAPI_ASSET} asset`
 		);
 	}
 
-	return { tag: release.tag_name, version: match[1], assetId: asset.id };
+	return { tag: release.tag_name, version: match[1] };
 }
 
 /**
- * Forge is public, so its commands do not need the cf credentials used for
- * branch updates and PR creation. Remove inherited GitHub tokens and injected
- * Git authentication from their environment to avoid unnecessary credentials.
+ * Generation runs the vendored forge binary and plugin builder, which need
+ * none of the credentials used to read the package, update branches, and
+ * create PRs. Remove inherited GitHub tokens and injected Git authentication
+ * from their environment to avoid unnecessary credentials.
  */
 export function getForgeEnvironment(
 	environment: NodeJS.ProcessEnv = process.env
@@ -344,58 +374,16 @@ export function getForgeEnvironment(
 		Object.entries(environment).filter(([key]) => {
 			const name = key.toUpperCase();
 			return (
-				!["GH_TOKEN", "GITHUB_TOKEN", "FORGE_GITHUB_TOKEN"].includes(name) &&
+				![
+					"GH_TOKEN",
+					"GITHUB_TOKEN",
+					"FORGE_GITHUB_TOKEN",
+					"FORGE_PACKAGE_TOKEN",
+				].includes(name) &&
 				name !== "GIT_CONFIG_PARAMETERS" &&
 				!/^GIT_CONFIG_(?:COUNT|KEY_\d+|VALUE_\d+)$/.test(name)
 			);
 		})
-	);
-}
-
-export async function prepareForgeOpenApi(
-	forgeDir: string,
-	assetId: number
-): Promise<void> {
-	const source = await githubRequest(
-		`/repos/${FORGE_REPOSITORY}/releases/assets/${assetId}`,
-		{},
-		undefined,
-		"application/octet-stream",
-		readJson
-	);
-	if (!isObject(source) || !isObject(source.paths)) {
-		throw new Error(`Forge release asset ${OPENAPI_ASSET} is not OpenAPI JSON`);
-	}
-
-	const compatibilityModulePath = join(
-		forgeDir,
-		"packages/forge/shared/fern-openapi-compat.ts"
-	);
-	const compatibilityModule = (await import(
-		pathToFileURL(compatibilityModulePath).href
-	)) as {
-		applyFernCompatibilityFixes?: (openapi: object) => unknown;
-	};
-	const applyFernCompatibilityFixes =
-		compatibilityModule.applyFernCompatibilityFixes;
-	if (typeof applyFernCompatibilityFixes !== "function") {
-		throw new Error(
-			`Forge checkout has no applyFernCompatibilityFixes export at ${compatibilityModulePath}`
-		);
-	}
-
-	const fernSource = structuredClone(source);
-	const fixes = applyFernCompatibilityFixes(fernSource);
-	const rootSpecPath = join(forgeDir, "openapi.json");
-	const fernSpecPath = join(
-		forgeDir,
-		"packages/cloudflare-fern-config/fern/openapi.json"
-	);
-	mkdirSync(dirname(fernSpecPath), { recursive: true });
-	writeFileSync(rootSpecPath, `${JSON.stringify(source, null, 2)}\n`);
-	writeFileSync(fernSpecPath, `${JSON.stringify(fernSource, null, 2)}\n`);
-	console.log(
-		`Prepared Forge OpenAPI build inputs (${JSON.stringify(fixes)}).`
 	);
 }
 
@@ -466,20 +454,45 @@ async function getManagedUpdateCommit(
 	return { parentSha: commit.parents[0].sha };
 }
 
-async function getProposedOpenApiVersion(repository: string): Promise<string> {
+async function getUpdateBranchFile(
+	repository: string,
+	path: string
+): Promise<string> {
 	const query = new URLSearchParams({ ref: UPDATE_BRANCH });
 	const result = await githubJson(
-		`/repos/${repository}/contents/packages/cli/generate.ts?${query}`
+		`/repos/${repository}/contents/${path}?${query}`
 	);
 	if (
 		!isObject(result) ||
 		typeof result.content !== "string" ||
 		result.encoding !== "base64"
 	) {
-		throw new Error("Update branch returned invalid generate.ts content");
+		throw new Error(`Update branch returned invalid ${path} content`);
 	}
-	const source = Buffer.from(result.content, "base64").toString("utf8");
-	return extractOpenApiVersion(source, `${UPDATE_BRANCH}:generate.ts`);
+	return Buffer.from(result.content, "base64").toString("utf8");
+}
+
+async function getProposedVersions(repository: string): Promise<ForgeVersions> {
+	const [generator, cliPackage] = await Promise.all([
+		getUpdateBranchFile(repository, "packages/cli/generate.ts"),
+		getUpdateBranchFile(repository, CLI_PACKAGE_PATH),
+	]);
+	return {
+		openapi: extractOpenApiVersion(generator, `${UPDATE_BRANCH}:generate.ts`),
+		forge: extractVendoredForgeVersion(
+			cliPackage,
+			`${UPDATE_BRANCH}:${CLI_PACKAGE_PATH}`
+		),
+	};
+}
+
+function sameVersions(a: ForgeVersions, b: ForgeVersions): boolean {
+	return a.openapi === b.openapi && a.forge === b.forge;
+}
+
+/** The Forge commit a preview build was made from, from its `.g<sha>` suffix. */
+function forgeCommit(version: string): string | undefined {
+	return version.match(/\.g([0-9a-f]{7,40})$/)?.[1];
 }
 
 function updateOpenApiVersion(version: string): void {
@@ -503,10 +516,10 @@ async function assertCleanWorktree(): Promise<void> {
 	}
 }
 
-function writeChangeset(version: string): void {
+function writeChangeset({ openapi, forge }: ForgeVersions): void {
 	const changesetPath = join(
 		REPO_ROOT,
-		`.changeset/update-forge-${version.slice(0, 12)}.md`
+		`.changeset/update-forge-${openapi.slice(0, 12)}.md`
 	);
 	writeFileSync(
 		changesetPath,
@@ -514,8 +527,8 @@ function writeChangeset(version: string): void {
 "cf": minor
 ---
 
-Update the generated command surface and vendored Forge packages for
-Forge OpenAPI release \`${version}\`.
+Update the generated command surface for Forge OpenAPI release
+\`${openapi}\` and \`@cloudflare/forge\` \`${forge}\`.
 `
 	);
 }
@@ -629,22 +642,40 @@ async function closePullRequest(
 }
 
 async function main(): Promise<void> {
-	const args = new Set(process.argv.slice(2));
-	for (const arg of args) {
-		if (arg !== "--check") {
-			throw new Error("Unknown argument: " + String(arg));
-		}
-	}
-
-	const checkOnly = args.has("--check");
+	const { values } = parseArgs({
+		options: { check: { type: "boolean", default: false } },
+	});
+	const checkOnly = values.check;
 	const repository = await inferRepository();
-	logStep("Checking the latest Forge release");
-	const { tag, version, assetId } = await getLatestForgeRelease();
-	const current = extractOpenApiVersion(
-		readFileSync(GENERATOR_PATH, "utf8"),
-		GENERATOR_PATH
+
+	logStep("Checking the latest Forge release and package");
+	const packagesToken = process.env.FORGE_PACKAGE_TOKEN || CF_GITHUB_TOKEN;
+	if (!packagesToken) {
+		throw new Error(
+			"FORGE_PACKAGE_TOKEN, GH_TOKEN, or GITHUB_TOKEN with read:packages is required to read @cloudflare/forge"
+		);
+	}
+	const [release, forgePackage] = await Promise.all([
+		getLatestForgeRelease(),
+		resolveForgePackage(packagesToken),
+	]);
+	const target: ForgeVersions = {
+		openapi: release.version,
+		forge: forgePackage.version,
+	};
+	const current: ForgeVersions = {
+		openapi: extractOpenApiVersion(
+			readFileSync(GENERATOR_PATH, "utf8"),
+			GENERATOR_PATH
+		),
+		forge: getVendoredForgeVersion(),
+	};
+	console.log(
+		`OpenAPI latest: ${release.tag}; current: openapi@${current.openapi}.`
 	);
-	console.log(`Latest: ${tag}; current: openapi@${current}.`);
+	console.log(
+		`@cloudflare/forge@main: ${target.forge}; current: ${current.forge}.`
+	);
 
 	logStep("Inspecting the managed update pull request");
 	const updatePr = await getOpenUpdatePullRequest(repository);
@@ -659,7 +690,7 @@ async function main(): Promise<void> {
 		return;
 	}
 
-	if (version === current) {
+	if (sameVersions(target, current)) {
 		if (updatePr !== undefined) {
 			if (checkOnly) {
 				console.log(
@@ -669,16 +700,15 @@ async function main(): Promise<void> {
 				await closePullRequest(repository, updatePr.number);
 			}
 		}
-		console.log(`Already using the latest Forge release (${tag}).`);
+		console.log("Already using the latest Forge release and package.");
 		return;
 	}
 
 	const proposed =
-		updatePr === undefined
-			? undefined
-			: await getProposedOpenApiVersion(repository);
+		updatePr === undefined ? undefined : await getProposedVersions(repository);
 	if (
-		version === proposed &&
+		proposed !== undefined &&
+		sameVersions(target, proposed) &&
 		updatePr !== undefined &&
 		managedUpdateCommit !== undefined
 	) {
@@ -686,7 +716,7 @@ async function main(): Promise<void> {
 		const proposedBaseSha = managedUpdateCommit.parentSha;
 		if (proposedBaseSha === baseSha) {
 			console.log(
-				`PR #${updatePr.number} already updates to the latest Forge release (${tag}).`
+				`PR #${updatePr.number} already updates to the latest Forge release and package.`
 			);
 			return;
 		}
@@ -694,106 +724,108 @@ async function main(): Promise<void> {
 			`Refreshing PR #${updatePr.number} on ${baseSha} (was based on ${proposedBaseSha}).`
 		);
 	} else {
-		console.log(`Updating Forge OpenAPI from ${current} to ${version}.`);
+		if (target.openapi !== current.openapi) {
+			console.log(
+				`Updating Forge OpenAPI from ${current.openapi} to ${target.openapi}.`
+			);
+		}
+		if (target.forge !== current.forge) {
+			console.log(
+				`Updating @cloudflare/forge from ${current.forge} to ${target.forge}.`
+			);
+		}
 	}
 
 	if (checkOnly) {
 		return;
 	}
+	await applyUpdate(repository, {
+		release,
+		forgePackage,
+		packagesToken,
+		current,
+		updatePr,
+	});
+}
+
+async function applyUpdate(
+	repository: string,
+	update: {
+		release: ForgeRelease;
+		forgePackage: ForgePackage;
+		packagesToken: string;
+		current: ForgeVersions;
+		updatePr: UpdatePullRequest | undefined;
+	}
+): Promise<void> {
+	const { release, forgePackage, packagesToken, current, updatePr } = update;
 	if (!CF_GITHUB_TOKEN) {
 		throw new Error("GH_TOKEN or GITHUB_TOKEN is required to update cf");
 	}
 	await assertCleanWorktree();
 
-	const tempRoot = mkdtempSync(
-		join(process.env.RUNNER_TEMP ?? tmpdir(), "cf-update-forge-")
-	);
-	const forgeDir = join(tempRoot, "forge");
-	let forgeSourceSha: string;
+	const target: ForgeVersions = {
+		openapi: release.version,
+		forge: forgePackage.version,
+	};
 	const forgeEnvironment = getForgeEnvironment();
 	const failedChecks: string[] = [];
-	try {
-		logStep(`Cloning Forge release ${tag}`);
-		await run(
-			"git",
-			[
-				"clone",
-				"--depth",
-				"1",
-				"--branch",
-				tag,
-				"--single-branch",
-				`https://github.com/${FORGE_REPOSITORY}.git`,
-				forgeDir,
-			],
-			{ env: forgeEnvironment }
-		);
-		forgeSourceSha = await output(
-			"git",
-			["rev-parse", "HEAD"],
-			forgeDir,
-			forgeEnvironment
-		);
 
-		logStep("Installing the Forge workspace");
-		await run("pnpm", ["--dir", forgeDir, "install", "--frozen-lockfile"], {
-			env: forgeEnvironment,
-		});
-
-		logStep("Preparing Forge OpenAPI build inputs");
-		await prepareForgeOpenApi(forgeDir, assetId);
-
-		// The commands are generated by the plugin in packages/cli/generator,
-		// which the vendored forge binary runs (see scripts/sync-forge.ts),
-		// so only the OpenAPI pin moves here.
+	if (target.forge !== current.forge) {
+		logStep(`Vendoring @cloudflare/forge@${target.forge}`);
+		await vendorForgePackage(forgePackage, packagesToken);
+	}
+	if (target.openapi !== current.openapi) {
 		logStep("Pinning the OpenAPI revision");
-		updateOpenApiVersion(version);
-
-		writeChangeset(version);
-		logStep("Regenerating the command surface");
-		let generated = true;
-		try {
-			await run("pnpm", ["generate"], { env: forgeEnvironment });
-		} catch {
-			generated = false;
-			failedChecks.push("pnpm generate");
-			console.warn("Generation failed; continuing to open the update PR.");
-		}
-
-		logStep("Validating the generated update");
-		try {
-			await run("git", ["diff", "--check"], { env: forgeEnvironment });
-		} catch {
-			failedChecks.push("git diff --check");
-			console.warn("Diff validation failed; continuing to open the update PR.");
-		}
-		if (generated) {
-			try {
-				await run("pnpm", ["check"], { env: forgeEnvironment });
-			} catch {
-				failedChecks.push("pnpm check");
-				console.warn(
-					"Repository checks failed; continuing to open the update PR."
-				);
-			}
-		}
-	} finally {
-		rmSync(tempRoot, { recursive: true, force: true });
+		updateOpenApiVersion(target.openapi);
 	}
 
-	const shortVersion = version.slice(0, 12);
-	const title = `chore: update Forge and OpenAPI to ${shortVersion}`;
-	const releaseUrl = `${GITHUB_SERVER_URL}/${FORGE_REPOSITORY}/releases/tag/${encodeURIComponent(tag)}`;
+	writeChangeset(target);
+	logStep("Regenerating the command surface");
+	let generated = true;
+	try {
+		await run("pnpm", ["generate"], { env: forgeEnvironment });
+	} catch {
+		generated = false;
+		failedChecks.push("pnpm generate");
+		console.warn("Generation failed; continuing to open the update PR.");
+	}
+
+	logStep("Validating the generated update");
+	try {
+		await run("git", ["diff", "--check"], { env: forgeEnvironment });
+	} catch {
+		failedChecks.push("git diff --check");
+		console.warn("Diff validation failed; continuing to open the update PR.");
+	}
+	if (generated) {
+		try {
+			await run("pnpm", ["check"], { env: forgeEnvironment });
+		} catch {
+			failedChecks.push("pnpm check");
+			console.warn(
+				"Repository checks failed; continuing to open the update PR."
+			);
+		}
+	}
+
+	const shortVersion = target.openapi.slice(0, 12);
+	const title = `chore: update Forge to ${target.forge} and OpenAPI to ${shortVersion}`;
+	const releaseUrl = `${GITHUB_SERVER_URL}/${FORGE_REPOSITORY}/releases/tag/${encodeURIComponent(release.tag)}`;
+	const commit = forgeCommit(target.forge);
+	const forgeSource = commit
+		? `, built from [\`${FORGE_REPOSITORY}@${commit}\`](${GITHUB_SERVER_URL}/${FORGE_REPOSITORY}/commit/${commit})`
+		: "";
 	const workflowRunUrl = process.env.GITHUB_RUN_ID
 		? `${GITHUB_SERVER_URL}/${repository}/actions/runs/${process.env.GITHUB_RUN_ID}`
 		: `${GITHUB_SERVER_URL}/${repository}/actions/workflows/update-forge.yml`;
 	const validationNote = failedChecks.length
 		? `\nUpdater validation failed at ${failedChecks.map((check) => `\`${check}\``).join(", ")}. The PR remains open so its checks can report the failure and the update can be fixed here. See the [updater run](${workflowRunUrl}).\n`
 		: "";
-	const body = `Updates cf to [\`${tag}\`](${releaseUrl}).
+	const body = `Updates cf to Forge OpenAPI release [\`${release.tag}\`](${releaseUrl}) and \`@cloudflare/forge@${target.forge}\`.
 
-- pins OpenAPI revision \`${version}\`
-- matches Forge source \`${forgeSourceSha}\` from the release tag
+- pins OpenAPI revision \`${target.openapi}\`
+- vendors \`@cloudflare/forge@${target.forge}\` from GitHub Packages (latest \`main\` build)${forgeSource}
 - attempts to regenerate the committed command surface
 ${validationNote}
 

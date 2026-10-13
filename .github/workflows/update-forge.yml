@@ -1,8 +1,7 @@
 name: Update Forge
 
-# GitHub Actions cannot subscribe to releases in another repository. Poll
-# hourly by default; Forge can avoid the polling delay by sending a
-# `forge-release-published` repository_dispatch event with a GitHub App or PAT.
+# GitHub Actions cannot subscribe to releases or packages in another
+# repository. Poll hourly by default;
 on:
   schedule:
     - cron: "23 * * * *"
@@ -13,6 +12,7 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  packages: read
 
 concurrency:
   group: update-forge
@@ -50,3 +50,6 @@ jobs:
         run: node scripts/update-forge.ts
         env:
           GITHUB_TOKEN: ${{ secrets.GH_ACCESS_TOKEN || github.token }}
+          # Access to GitHub packages can be granted on classic access tokens or directly to
+          # the GitHub Actions token. Two avoid using a second classic token, we use the GitHub Actions token here.
+          FORGE_PACKAGE_TOKEN: ${{ github.token }}

@@ -41,10 +41,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "regression": "body &/?+ü",
@@ -86,10 +83,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "health_check_rate": "low"
@@ -127,10 +121,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "health_check_rate": "mid"
@@ -168,10 +159,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "health_check_rate": "high"
@@ -208,10 +196,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "load_balance_inner_flows": true
@@ -248,10 +233,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "load_balance_inner_flows": false
@@ -289,10 +271,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "name": "regression value &/?+ü"
@@ -330,10 +309,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "physport": 1
@@ -371,10 +347,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "priority": 1
@@ -463,10 +436,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "vlan_tag": 1
@@ -502,10 +472,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {}
       }
@@ -556,10 +523,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "health_check_rate": "mid",
@@ -707,10 +671,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "priority": 1,
@@ -760,10 +721,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "health_check_rate": "mid",
@@ -818,10 +776,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "health_check_rate": "mid",
@@ -869,10 +824,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "regression": "body &/?+ü",
@@ -916,10 +868,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "regression": "body &/?+ü",
@@ -965,10 +914,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "regression": "body &/?+ü",
@@ -1010,10 +956,7 @@
           "transfer-encoding": "chunked",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "regression": "body &/?+ü",
@@ -1057,10 +1000,7 @@
           "transfer-encoding": "chunked",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "regression": "body &/?+ü",
@@ -1119,10 +1059,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "regression": "body &/?+ü",
@@ -1164,10 +1101,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": [
           {
@@ -1225,10 +1159,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "health_check_rate": "low",

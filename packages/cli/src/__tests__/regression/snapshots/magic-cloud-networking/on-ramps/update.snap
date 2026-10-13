@@ -37,10 +37,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "regression": "body &/?+ü",
@@ -79,10 +76,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "attached_hubs": [
@@ -119,10 +113,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "attached_vpcs": [
@@ -159,10 +150,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "description": "192.0.2.1"
@@ -196,10 +184,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "install_routes_in_cloud": true
@@ -233,10 +218,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "install_routes_in_cloud": false
@@ -270,10 +252,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "install_routes_in_magic_wan": true
@@ -307,10 +286,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "install_routes_in_magic_wan": false
@@ -344,10 +320,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "manage_hub_to_hub_attachments": true
@@ -381,10 +354,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "manage_hub_to_hub_attachments": false
@@ -418,10 +388,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "manage_vpc_to_hub_attachments": true
@@ -455,10 +422,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "manage_vpc_to_hub_attachments": false
@@ -493,10 +457,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "name": "regression value &/?+ü"
@@ -531,10 +492,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "vpc": "regression value &/?+ü"
@@ -567,10 +525,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {}
       }
@@ -617,10 +572,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "attached_hubs": [
@@ -673,10 +625,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "attached_vpcs": [
@@ -723,10 +672,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "attached_hubs": [
@@ -772,10 +718,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "description": "192.0.2.1",
@@ -821,10 +764,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "attached_hubs": [
@@ -872,10 +812,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "install_routes_in_magic_wan": true,
@@ -922,10 +859,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "attached_hubs": [
@@ -982,10 +916,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "attached_hubs": [
@@ -1034,10 +965,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "regression": "body &/?+ü",
@@ -1078,10 +1006,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "regression": "body &/?+ü",
@@ -1124,10 +1049,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "regression": "body &/?+ü",
@@ -1166,10 +1088,7 @@
           "transfer-encoding": "chunked",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "regression": "body &/?+ü",
@@ -1210,10 +1129,7 @@
           "transfer-encoding": "chunked",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "regression": "body &/?+ü",
@@ -1266,10 +1182,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "regression": "body &/?+ü",
@@ -1308,10 +1221,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": [
           {
@@ -1363,10 +1273,7 @@
           "sec-fetch-mode": "cors",
           "user-agent": "cf-cli/<version>",
           "x-cf-cli-agent": "codex",
-          "x-cf-cli-mode": "ci",
-          "x-fern-language": "JavaScript",
-          "x-fern-runtime": "node",
-          "x-fern-runtime-version": "<node-version>"
+          "x-cf-cli-mode": "ci"
         },
         "body": {
           "attached_hubs": [

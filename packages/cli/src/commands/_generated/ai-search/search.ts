@@ -27,7 +27,7 @@ import { runWithTelemetry } from "#lib/telemetry/index.js";
 function builder(yargs: Argv<CommonYargsOptions>) {
 	return yargs
 		.usage(
-			"$0 ai-search search <instance-id> <query>\n\nExecutes a semantic search query against an AI Search instance to find relevant indexed content."
+			"$0 ai-search search <instance-id> [query]\n\nExecutes a semantic search query against an AI Search instance to find relevant indexed content."
 		)
 		.positional("instance-id", {
 			type: "string",
@@ -157,7 +157,7 @@ function builder(yargs: Argv<CommonYargsOptions>) {
 type Args = InferArgs<typeof builder>;
 
 const command: CommandModule<CommonYargsOptions, Args> = {
-	command: "search <instance-id> <query>",
+	command: "search <instance-id> [query]",
 	describe: "Search",
 	builder,
 	handler: async (argv): Promise<void> =>

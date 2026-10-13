@@ -1,4 +1,6 @@
+import { Script } from "node:vm";
 import { describe, expect, it } from "vite-plus/test";
+import yargs, { type Argv } from "yargs";
 import { builderLines } from "../../../../generator/plugin/emit/builder.js";
 import {
 	bodyObject,
@@ -7,6 +9,7 @@ import {
 	handler,
 	variantPromptBlock,
 } from "../../../../generator/plugin/emit/handler.js";
+import { context as emitContext } from "../../../../generator/plugin/emit/index.js";
 import {
 	leafUsage,
 	summary,
@@ -344,6 +347,45 @@ describe("Fern names", () => {
 			resolvedRequestPath: ctx.resolvedRequestPath,
 		};
 	};
+
+	it.each([false, true])(
+		"honors required %j when parsing the emitted consumer positional",
+		async (required) => {
+			const [ctx, command] = emitContext(
+				method("get", "queues-get-consumer", {
+					params: { consumer_id: { required } },
+				}),
+				"example",
+				undefined,
+				renamedConsumerGet(),
+				"./"
+			);
+			expect(command).toBe(required ? "get <consumer>" : "get [consumer]");
+			const builder = new Script(
+				`(yargs) => yargs\n${builderLines(ctx).join("\n")}`
+			).runInNewContext() as (args: Argv) => Argv;
+			const parse = async (args: string[]) =>
+				yargs(args)
+					.exitProcess(false)
+					.fail((message, error) => {
+						throw error ?? new Error(message);
+					})
+					.command(command, "", builder, () => {})
+					.strict()
+					.parseAsync();
+			expect(
+				await parse(["get", "consumer-1", "--queue", "queue-1"])
+			).toMatchObject({ consumer: "consumer-1", queue: "queue-1" });
+			const omitted = parse(["get", "--queue", "queue-1"]);
+			if (required) {
+				await expect(omitted).rejects.toThrow(
+					"Not enough non-option arguments"
+				);
+			} else {
+				expect((await omitted).consumer).toBeUndefined();
+			}
+		}
+	);
 
 	it("reads renamed path args in the request and dry run", () => {
 		const { handler: h, builder } = emit(method("get", "queues-get-consumer"), {

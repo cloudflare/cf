@@ -37,23 +37,30 @@ function normalizeBody(value: unknown): unknown {
 	return value;
 }
 
+// SDK runtime headers vary by Node version and add noise to every request.
+const ignoredHeaders = new Set([
+	"x-fern-language",
+	"x-fern-runtime",
+	"x-fern-runtime-version",
+]);
+
 export async function recordRequest(
 	request: Request
 ): Promise<RecordedRequest> {
 	const contentType = request.headers.get("content-type") ?? "";
 	const headers = Object.fromEntries(
-		[...request.headers].map(([key, value]) => [
-			key,
-			key === "content-length" && contentType.includes("multipart/form-data")
-				? "<multipart-length>"
-				: key === "x-fern-runtime-version"
-					? "<node-version>"
+		[...request.headers]
+			.filter(([key]) => !ignoredHeaders.has(key))
+			.map(([key, value]) => [
+				key,
+				key === "content-length" && contentType.includes("multipart/form-data")
+					? "<multipart-length>"
 					: normalize(
 							key === "content-type"
 								? value.replace(/boundary=.*/, "boundary=<boundary>")
 								: value
 						),
-		])
+			])
 	);
 	let body: unknown = null;
 	if (contentType.includes("multipart/form-data")) {

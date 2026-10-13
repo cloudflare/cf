@@ -1,7 +1,14 @@
-import { chmodSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
-import { tmpdir } from "node:os";
+import {
+	chmodSync,
+	mkdirSync,
+	mkdtempSync,
+	readFileSync,
+	rmSync,
+	writeFileSync,
+} from "node:fs";
+import os, { tmpdir } from "node:os";
 import { join } from "node:path";
-import { describe, expect, it } from "vite-plus/test";
+import { describe, expect, it, vi } from "vite-plus/test";
 import { findKnownImpl } from "../../../commands/dev/known-impls.js";
 import {
 	normalizeSpawnExit,
@@ -123,6 +130,77 @@ describe("spawnImpl", () => {
 			}
 		}
 	});
+
+	it.each(["cf-wrangler.js", "cf-vite"])(
+		"keeps cf's clean default with the %s delegate even when ~/.wrangler exists",
+		async (binaryName) => {
+			const home = mkdtempSync(join(tmpdir(), "cf registry test "));
+			const xdg = join(home, "xdg config");
+			const registry = join(xdg, "cloudflare", "registry");
+			const envFile = join(home, "registry-env.json");
+			mkdirSync(join(home, ".wrangler", "registry"), { recursive: true });
+			vi.stubEnv("XDG_CONFIG_HOME", xdg);
+			vi.stubEnv("WRANGLER_REGISTRY_PATH", undefined);
+			vi.stubEnv("MINIFLARE_REGISTRY_PATH", undefined);
+			const homeMock = vi.spyOn(os, "homedir").mockReturnValue(home);
+			const previousRegistry = process.env.CLOUDFLARE_REGISTRY_PATH;
+			delete process.env.CLOUDFLARE_REGISTRY_PATH;
+			try {
+				const fake = makeFakeImpl(
+					`require("node:fs").writeFileSync(${JSON.stringify(envFile)}, JSON.stringify([process.env.CLOUDFLARE_REGISTRY_PATH, process.env.WRANGLER_REGISTRY_PATH, process.env.MINIFLARE_REGISTRY_PATH]))`,
+					binaryName
+				);
+				expect(await spawnImpl(fake, "dev", [])).toEqual({ exitCode: 0 });
+				expect(JSON.parse(readFileSync(envFile, "utf8"))).toEqual([
+					registry,
+					registry,
+					registry,
+				]);
+			} finally {
+				homeMock.mockRestore();
+				if (previousRegistry === undefined) {
+					delete process.env.CLOUDFLARE_REGISTRY_PATH;
+				} else {
+					process.env.CLOUDFLARE_REGISTRY_PATH = previousRegistry;
+				}
+				rmSync(home, { recursive: true, force: true });
+			}
+		}
+	);
+
+	it.each([
+		["cf-wrangler.js", "WRANGLER_REGISTRY_PATH"],
+		["cf-wrangler.js", "MINIFLARE_REGISTRY_PATH"],
+		["cf-vite", "WRANGLER_REGISTRY_PATH"],
+		["cf-vite", "MINIFLARE_REGISTRY_PATH"],
+	])(
+		"shares an explicit %s registry from %s with every delegate variable",
+		async (binaryName, variable) => {
+			const dir = mkdtempSync(join(tmpdir(), "cf explicit registry "));
+			const envFile = join(dir, "registry-env.json");
+			const registry = join(dir, "shared registry");
+			vi.stubEnv("CLOUDFLARE_REGISTRY_PATH", undefined);
+			vi.stubEnv("WRANGLER_REGISTRY_PATH", undefined);
+			vi.stubEnv("MINIFLARE_REGISTRY_PATH", undefined);
+			vi.stubEnv(variable, registry);
+			try {
+				const fake = makeFakeImpl(
+					'require("node:fs").writeFileSync(' +
+						JSON.stringify(envFile) +
+						", JSON.stringify([process.env.CLOUDFLARE_REGISTRY_PATH, process.env.WRANGLER_REGISTRY_PATH, process.env.MINIFLARE_REGISTRY_PATH]))",
+					binaryName
+				);
+				expect(await spawnImpl(fake, "dev", [])).toEqual({ exitCode: 0 });
+				expect(JSON.parse(readFileSync(envFile, "utf8"))).toEqual([
+					registry,
+					registry,
+					registry,
+				]);
+			} finally {
+				rmSync(dir, { recursive: true, force: true });
+			}
+		}
+	);
 
 	it("throws when the impl has no resolved binary", async () => {
 		const impl: KnownImpl = {

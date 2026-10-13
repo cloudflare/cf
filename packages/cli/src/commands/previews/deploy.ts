@@ -21,6 +21,7 @@ import {
 	buildOutputWorkerOption,
 	parseWorkerConfig,
 	selectBuildOutputWorker,
+	validateBuildOutputAccount,
 	validateBuildOutputMode,
 } from "../../lib/build-output.js";
 import { getAccountId } from "../../lib/context.js";
@@ -102,19 +103,25 @@ async function deployPreviewBuildOutput(
 	const output = await readBuildOutput(process.cwd());
 	assertPreviewBuildOutputRootConfig(output.rootConfig);
 	validateBuildOutputMode(argv.mode, output.rootConfig.buildContext.mode);
+	validateBuildOutputAccount(
+		output.rootConfig.accountId,
+		argv["temporary-account"] === true
+	);
 	const worker = selectBuildOutputWorker(output.workers, argv.worker);
 	const { wranglerConfig, builtConfig } = parseWorkerConfig(
 		worker,
 		output.rootConfig
 	);
 
-	const authToken = await getAuthToken();
-	const accountId = await getAccountId({
-		accountId: output.rootConfig.accountId,
-		isPreview: true,
-		skipProjectSettings: true,
-		complianceRegion: getCloudflareComplianceRegion(wranglerConfig),
-	});
+	const complianceRegion = getCloudflareComplianceRegion(wranglerConfig);
+	const authToken = await getAuthToken({ isPreview: true, complianceRegion });
+	const accountId =
+		output.rootConfig.accountId ??
+		(await getAccountId({
+			isPreview: true,
+			skipProjectSettings: true,
+			complianceRegion,
+		}));
 	const deployContext = createDeployContext(authToken);
 	// TODO(cloudflare/cf#330): Let previewBuildOutput() return without printing.
 	// Until then, hide its summary so this command prints one clean JSON result.

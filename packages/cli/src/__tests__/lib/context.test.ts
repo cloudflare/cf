@@ -77,15 +77,6 @@ describe("context", () => {
 			});
 		});
 
-		it("prefers a Build Output account ID without selecting one", async () => {
-			vi.stubEnv("CLOUDFLARE_ACCOUNT_ID", "env-acct");
-
-			await expect(
-				getAccountId({ accountId: "build-output-acct" })
-			).resolves.toBe("build-output-acct");
-			expect(getOrSelectAccountIdMock).not.toHaveBeenCalled();
-		});
-
 		it("uses a temporary account instead of configured accounts", async () => {
 			writeProjectSettings({ accountId: "settings-acct" });
 			setTemporaryAccountAllowed(true);
@@ -93,9 +84,6 @@ describe("context", () => {
 
 			await expect(resolveAccountIdSilent()).resolves.toBeUndefined();
 			await expect(getAccountId()).resolves.toBe("temporary-account");
-			await expect(
-				getAccountId({ accountId: "build-output-acct" })
-			).resolves.toBe("temporary-account");
 			expect(requireAuthMock).toHaveBeenCalledWith({
 				compliance_region: "public",
 			});

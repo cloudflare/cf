@@ -20,6 +20,7 @@ import {
 	buildOutputWorkerOption,
 	parseWorkerConfig,
 	selectBuildOutputWorker,
+	validateBuildOutputAccount,
 	validateBuildOutputMode,
 } from "../../lib/build-output.js";
 import { getAccountId } from "../../lib/context.js";
@@ -130,6 +131,10 @@ async function uploadBuildOutput(argv: UploadArgs, ctx: UploadCommand) {
 		);
 	}
 	validateBuildOutputMode(argv.mode, rootConfig.buildContext.mode);
+	validateBuildOutputAccount(
+		rootConfig.accountId,
+		argv["temporary-account"] === true
+	);
 	const worker = selectBuildOutputWorker(workers, argv.worker);
 	const parsedWorker = parseWorkerConfig(worker, rootConfig);
 	const wranglerConfig = applyDependenciesInstrumentationEnv(
@@ -140,14 +145,17 @@ async function uploadBuildOutput(argv: UploadArgs, ctx: UploadCommand) {
 	// Resolve auth + account. Dry runs make no API requests: deploy-helpers
 	// skips its account-scoped checks (such as the latest-deployment lookup)
 	// only when no account is supplied, so leave it unresolved.
-	const authToken = argv["dry-run"] ? "" : await getAuthToken();
+	const complianceRegion = getCloudflareComplianceRegion(wranglerConfig);
+	const authToken = argv["dry-run"]
+		? ""
+		: await getAuthToken({ complianceRegion });
 	const accountId = argv["dry-run"]
 		? undefined
-		: await getAccountId({
-				accountId: rootConfig.accountId,
+		: (rootConfig.accountId ??
+			(await getAccountId({
 				skipProjectSettings: true,
-				complianceRegion: getCloudflareComplianceRegion(wranglerConfig),
-			});
+				complianceRegion,
+			})));
 
 	// Initialize the deploy-helpers context.
 	const deployContext = createDeployContext(authToken);

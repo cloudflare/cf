@@ -18,9 +18,11 @@ import {
  *
  * @throws Error if no authentication token is found.
  */
-export async function getAuthToken(): Promise<string> {
+export async function getAuthToken(
+	options?: Parameters<typeof requireTemporaryAccount>[0]
+): Promise<string> {
 	if (isTemporaryAccountAllowed()) {
-		return (await requireTemporaryAccount()).apiToken;
+		return (await requireTemporaryAccount(options)).apiToken;
 	}
 
 	// Environment credential (scoped API token only).

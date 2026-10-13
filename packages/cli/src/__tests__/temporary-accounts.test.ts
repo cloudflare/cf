@@ -7,7 +7,7 @@ import {
 } from "node:fs";
 import { join } from "node:path";
 import { getCfConfigPath } from "@cloudflare/workers-auth/cf";
-import { runInTempDir } from "@cloudflare/workers-utils/test-helpers";
+import { runInTempDir, seed } from "@cloudflare/workers-utils/test-helpers";
 import { http, HttpResponse } from "msw";
 import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import { getAccountId, getAuthToken } from "../lib/auth.js";
@@ -380,6 +380,51 @@ describe("--temporary-account", () => {
 			authSource: "temporary account",
 		});
 		expect(new Set(authorizations)).toEqual(new Set([`Bearer ${apiToken}`]));
+	});
+
+	it("rejects temporary-account failures from whoami", async () => {
+		const log = vi.spyOn(console, "log").mockImplementation(() => {});
+		log.mockClear();
+
+		await expect(
+			runCf(["auth", "whoami", "--temporary-account"], {
+				...env,
+				CLOUDFLARE_API_TOKEN: "existing-token",
+			})
+		).rejects.toThrow(
+			/You're already authenticated with Cloudflare, so `--temporary-account` can't be used\./
+		);
+		expect(log).not.toHaveBeenCalled();
+	});
+
+	it("uses the Build Output compliance region before provisioning", async () => {
+		captureStderr();
+		const creationRequests = mockProvisioning();
+		await seed({
+			".cloudflare/output/v0/config.json": JSON.stringify({
+				buildContext: { isPreview: false },
+				complianceRegion: "fedramp-high",
+			}),
+			".cloudflare/output/v0/workers/default/worker.config.json":
+				JSON.stringify({
+					name: "test-name",
+					compatibilityDate: "2025-01-01",
+					manifest: {
+						type: "complete",
+						mainModule: "index.js",
+						modules: { "index.js": { type: "esm" } },
+					},
+				}),
+			".cloudflare/output/v0/workers/default/bundle/index.js":
+				"export default {};",
+		});
+
+		await expect(
+			runCf(["deploy", "--prebuilt", "--temporary-account"], env)
+		).rejects.toThrow(
+			"Temporary accounts aren't available when the compliance region is not set to public."
+		);
+		expect(creationRequests).toHaveLength(0);
 	});
 
 	it("rejects the Wrangler flag spelling", async () => {

@@ -74,6 +74,7 @@ vi.mock("../../lib/build-output.js", async (importOriginal) => {
 		buildOutputWorkerOption: actual.buildOutputWorkerOption,
 		parseWorkerConfig: mocks.parseWorkerConfig,
 		selectBuildOutputWorker: actual.selectBuildOutputWorker,
+		validateBuildOutputAccount: actual.validateBuildOutputAccount,
 		validateBuildOutputMode: actual.validateBuildOutputMode,
 	};
 });
@@ -205,7 +206,7 @@ describe("cf previews deploy", () => {
 		});
 		mocks.assembleBuildResult.mockReturnValue({ content: "worker code" });
 		mocks.getAuthToken.mockResolvedValue("token");
-		mocks.getAccountId.mockResolvedValue("built-preview-account");
+		mocks.getAccountId.mockResolvedValue("account-id");
 		mocks.createDeployContext.mockReturnValue({
 			logger: { log: vi.fn(), info: vi.fn() },
 		});
@@ -219,9 +220,7 @@ describe("cf previews deploy", () => {
 		).resolves.toBe(previewResult);
 
 		expect(mocks.runBuild).not.toHaveBeenCalled();
-		expect(mocks.getAccountId).toHaveBeenCalledWith(
-			expect.objectContaining({ accountId: "built-preview-account" })
-		);
+		expect(mocks.getAccountId).not.toHaveBeenCalled();
 		expect(mocks.previewBuildOutput).toHaveBeenCalledWith(
 			"built-preview-account",
 			{ name: "feature", json: true },

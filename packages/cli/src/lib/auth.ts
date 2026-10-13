@@ -3,6 +3,10 @@ import { API_TIMEOUT_MS } from "./api-constants.js";
 import { isUploadBody } from "./api-upload.js";
 import { getAuthToken } from "./auth-token.js";
 import { getComplianceRegion, resolveAccountIdSilent } from "./context.js";
+import {
+	activateTemporaryAccount,
+	isTemporaryAccountAllowed,
+} from "./oauth/index.js";
 import { getDefaultHeaders } from "./request-headers.js";
 import { ApiError, Client, type ClientOptions } from "#api";
 import listAccounts from "#operations/accounts/list.js";
@@ -285,6 +289,14 @@ export function createCloudflareClientWithToken(
 export async function resolveAccountIdForHelp(
 	deadline: number
 ): Promise<string | undefined> {
+	if (isTemporaryAccountAllowed()) {
+		try {
+			return await activateTemporaryAccount();
+		} catch {
+			return undefined;
+		}
+	}
+
 	const stored = await resolveAccountIdSilent();
 	if (stored) {
 		return stored;

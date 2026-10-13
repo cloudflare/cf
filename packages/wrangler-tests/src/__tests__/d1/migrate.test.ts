@@ -3,6 +3,7 @@ import { http, HttpResponse } from "msw/http";
 import { describe, it, vi } from "vite-plus/test";
 import { mockConsoleMethods } from "../helpers/mock-console";
 import { useMockIsTTY } from "../helpers/mock-istty";
+import { mockTemporaryPreviewAccount } from "../helpers/mock-temporary-account";
 import { createFetchResult, msw } from "../helpers/msw";
 import { runInTempDir } from "../helpers/run-in-tmp";
 import { runWrangler } from "../helpers/run-wrangler";
@@ -248,8 +249,34 @@ describe("migrate", () => {
 		});
 
 		describe("with a temporary preview account", () => {
-			// cf does not expose Wrangler's preview-database selection flow.
-			it.todo("should apply migrations against the account it minted");
+			// `d1 migrations apply` sends one query per statement. The account
+			// from the first authentication must also satisfy the later ones.
+			it("should apply migrations against the account it minted", async ({
+				expect,
+			}) => {
+				setIsTTY(false);
+				writeMigration();
+				const accountIds: string[] = [];
+				const queries = mockRemoteQueries([], (accountId) =>
+					accountIds.push(accountId)
+				);
+				const creationRequests = mockTemporaryPreviewAccount();
+
+				await runWrangler(`d1 migrations apply ${DB} --temporary-account`, {
+					CLOUDFLARE_API_TOKEN: undefined,
+					CLOUDFLARE_ACCOUNT_ID: undefined,
+				});
+
+				// cf writes temporary-account notices to stderr, so stdout keeps
+				// only the migration output.
+				expect(std.err).toContain("Temporary account ready:");
+				expect(std.out).toContain("0001_test.sql");
+				// More than one query proves that the command authenticated more
+				// than one time and did not stop at the first authentication.
+				expect(queries.length).toBeGreaterThan(1);
+				expect(new Set(accountIds)).toEqual(new Set(["preview-account-id"]));
+				expect(creationRequests).toHaveLength(1);
+			});
 		});
 	});
 

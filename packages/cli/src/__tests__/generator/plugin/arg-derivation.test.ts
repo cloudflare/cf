@@ -114,6 +114,12 @@ describe("deriveArgsFromOp query flags", () => {
 		});
 	});
 
+	it("omits a query param that would shadow --temporary-account", () => {
+		expect(
+			derived(search(), "example", queryOperation("temporary_account")).args
+		).toEqual([]);
+	});
+
 	it("classifies by the wire name", () => {
 		const d = derived(
 			search(),

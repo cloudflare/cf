@@ -83,6 +83,18 @@ describe("whoami", () => {
 		});
 	});
 
+	it("should suggest a temporary preview account when not authenticated", async ({
+		expect,
+	}) => {
+		vi.stubEnv("CLOUDFLARE_API_TOKEN", undefined);
+		await runWrangler("auth whoami");
+		expect(JSON.parse(std.out)).toMatchObject({ authenticated: false });
+		// The suggestion goes to stderr so stdout stays parseable JSON.
+		expect(std.err).toContain(
+			"To deploy without logging in, run a command like `cf deploy --temporary-account` to use a temporary account."
+		);
+	});
+
 	it("should output JSON with API token auth type", async ({ expect }) => {
 		vi.stubEnv("CLOUDFLARE_API_TOKEN", "123456789");
 		await runWrangler("auth whoami");

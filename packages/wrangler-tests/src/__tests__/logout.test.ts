@@ -4,6 +4,10 @@ import { getGlobalConfigPath } from "@cloudflare/workers-utils";
 import { http, HttpResponse } from "msw/http";
 import { describe, it } from "vite-plus/test";
 import { mockConsoleMethods } from "./helpers/mock-console";
+import {
+	temporaryAccountCachePath,
+	writeTemporaryAccountCache,
+} from "./helpers/mock-temporary-account";
 import { msw } from "./helpers/msw";
 import { runInTempDir } from "./helpers/run-in-tmp";
 import { runWrangler } from "./helpers/run-wrangler";
@@ -36,6 +40,18 @@ describe("logout", () => {
 	}) => {
 		await runWrangler("auth logout", { CLOUDFLARE_API_TOKEN: undefined });
 		expect(std.out).toContain("You are not currently logged in.");
+	});
+
+	it("should clear a cached temporary preview account when not logged in via OAuth", async ({
+		expect,
+	}) => {
+		writeTemporaryAccountCache({ account: {}, claim: {} });
+
+		await runWrangler("auth logout", { CLOUDFLARE_API_TOKEN: undefined });
+
+		expect(std.out).toContain("Cleared temporary preview account.");
+		expect(std.out).not.toContain("You are not currently logged in.");
+		expect(existsSync(temporaryAccountCachePath())).toBe(false);
 	});
 
 	// Env `CLOUDFLARE_API_TOKEN` set with no on-disk credentials in the
@@ -84,7 +100,10 @@ describe("logout", () => {
 			})
 		);
 
+		writeTemporaryAccountCache({ account: {}, claim: {} });
+
 		expect(existsSync(authFile)).toBe(true);
+		expect(existsSync(temporaryAccountCachePath())).toBe(true);
 
 		await runWrangler("auth logout", { CLOUDFLARE_API_TOKEN: undefined });
 
@@ -94,6 +113,7 @@ describe("logout", () => {
 		expect(revoked).toBe(true);
 		// And the on-disk token file was removed.
 		expect(existsSync(authFile)).toBe(false);
+		expect(existsSync(temporaryAccountCachePath())).toBe(false);
 	});
 
 	// Wrangler-internal: asserted that `wrangler.jsonc` parsing warnings

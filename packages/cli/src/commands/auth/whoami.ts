@@ -5,6 +5,7 @@ import {
 	readAuthCredentials,
 } from "../../lib/oauth/index.js";
 import { formatOutput } from "../../lib/output.js";
+import { hint } from "../../lib/ui/index.js";
 import type { ArgumentsCamelCase, Argv, CommandModule } from "yargs";
 
 interface WhoamiArgs {}
@@ -37,6 +38,13 @@ const whoamiCommand: CommandModule<object, WhoamiArgs> = {
 			token = await getAuthToken();
 		} catch {
 			formatOutput({ authenticated: false, error: "Not logged in" });
+			if (authSource === "none") {
+				console.error(
+					hint(
+						"To deploy without logging in, run a command like `cf deploy --temporary-account` to use a temporary account."
+					)
+				);
+			}
 			return;
 		}
 

@@ -1,6 +1,14 @@
 import { seed } from "@cloudflare/workers-utils/test-helpers";
+import { http, HttpResponse } from "msw/http";
 import { describe, it, test } from "vite-plus/test";
 import { mockAccountId, mockApiToken } from "../helpers/mock-account-id";
+import { mockConsoleMethods } from "../helpers/mock-console";
+import { useMockIsTTY } from "../helpers/mock-istty";
+import {
+	mockTemporaryPreviewAccount,
+	TEMPORARY_TERMS_NOTICE,
+} from "../helpers/mock-temporary-account";
+import { createFetchResult, msw } from "../helpers/msw";
 import { runInTempDir } from "../helpers/run-in-tmp";
 import { runWrangler } from "../helpers/run-wrangler";
 
@@ -8,11 +16,62 @@ describe("versions upload", () => {
 	mockAccountId();
 	mockApiToken();
 	runInTempDir();
+	const std = mockConsoleMethods();
+	const { setIsTTY } = useMockIsTTY();
 
-	// Temporary preview-account creation belongs to Wrangler's upload UX.
-	test.skip(
-		"should create a temporary account in non-interactive mode after printing terms notice"
-	);
+	describe("with --temporary", () => {
+		mockAccountId({ accountId: null });
+		mockApiToken({ apiToken: null });
+
+		// cf writes temporary-account notices to stderr.
+		test("should create a temporary account in non-interactive mode after printing terms notice", async ({
+			expect,
+		}) => {
+			setIsTTY(false);
+			await seedBuildOutput({ name: "test-name" });
+			const creationRequests = mockTemporaryPreviewAccount();
+			const accountIds: string[] = [];
+			msw.use(
+				http.get(
+					"*/accounts/:accountId/workers/services/:scriptName",
+					({ params }) => {
+						accountIds.push(String(params.accountId));
+						return HttpResponse.json(
+							createFetchResult({
+								default_environment: {
+									script: { last_deployed_from: "wrangler" },
+								},
+							})
+						);
+					}
+				),
+				http.post(
+					"*/accounts/:accountId/workers/scripts/:scriptName/versions",
+					({ params }) => {
+						accountIds.push(String(params.accountId));
+						return HttpResponse.json(
+							createFetchResult({
+								id: "test-version-id",
+								startup_time_ms: 0,
+								metadata: { has_preview: false },
+								resources: { script: { etag: "test-etag" } },
+							})
+						);
+					}
+				)
+			);
+
+			await expect(
+				runWrangler("workers versions create --prebuilt --temporary-account")
+			).resolves.toBeUndefined();
+
+			expect(creationRequests).toHaveLength(1);
+			expect(new Set(accountIds)).toEqual(new Set(["preview-account-id"]));
+			expect(std.err).toContain(TEMPORARY_TERMS_NOTICE);
+			expect(std.err).toContain("Temporary account ready:");
+			expect(std.err).toContain("Account: Preview Account Alpha (created)");
+		});
+	});
 
 	// cf's hand-written `workers versions create` builds and reads Build Output,
 	// then delegates the upload. These cases assert Wrangler-specific source,

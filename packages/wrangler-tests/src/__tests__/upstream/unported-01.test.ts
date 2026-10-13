@@ -780,7 +780,6 @@ const groups = [
 		ancestors: ["User", "login"],
 		status: "skip",
 		names: [
-			"should clear the cached temporary preview account when logging in",
 			"should send the `login user` metric when `--scopes` is provided",
 			"--use-keyring stores credentials in an encrypted file with a key in the OS keyring",
 			"--no-use-keyring scrubs encrypted credentials without writing them to plaintext, then the fresh login uses the file store",

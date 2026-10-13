@@ -6,6 +6,26 @@ import { hint } from "./ui/format.js";
 import { theme } from "./ui/theme.js";
 import { ApiError } from "#api";
 
+/** No API token, OAuth login, or temporary account is available. */
+export class MissingCredentialsError extends Error {}
+
+/**
+ * Whether an error means no credentials exist, rather than that existing
+ * credentials expired. Only unauthenticated users can use a temporary account.
+ */
+function isMissingCredentialsError(error: Error): boolean {
+	if (error instanceof MissingCredentialsError) {
+		return true;
+	}
+	// workers-auth's account lookup error. Its package may resolve a separate
+	// workers-utils copy, so compare its telemetry identity instead of class.
+	return (
+		"telemetryMessage" in error &&
+		error.telemetryMessage === "cfetch auth login required" &&
+		error.message.includes("no credentials were found")
+	);
+}
+
 /**
  * Drop the protocol+host (and the `/client/v4` API-version prefix)
  * from a Cloudflare API URL so the path-only form fits inside the
@@ -199,6 +219,14 @@ export function handleError(error: unknown): unknown {
 		const details =
 			process.env.DEBUG && error.stack ? sanitize(error.stack) : undefined;
 		console.error(errorBlock(error.message, details));
+		if (isMissingCredentialsError(error)) {
+			console.error(
+				"\n" +
+					hint(
+						"To continue without logging in, rerun this command with --temporary-account. cf will use a temporary account and print a URL for claiming it."
+					)
+			);
+		}
 		return error;
 	}
 

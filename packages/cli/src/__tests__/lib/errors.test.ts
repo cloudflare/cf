@@ -1,4 +1,7 @@
-import { APIError as WorkersUtilsAPIError } from "@cloudflare/workers-utils";
+import {
+	UserError,
+	APIError as WorkersUtilsAPIError,
+} from "@cloudflare/workers-utils";
 import {
 	afterEach,
 	beforeEach,
@@ -7,7 +10,7 @@ import {
 	it,
 	vi,
 } from "vite-plus/test";
-import { handleError } from "../../lib/errors.js";
+import { handleError, MissingCredentialsError } from "../../lib/errors.js";
 import { ApiError } from "#api";
 
 /**
@@ -49,6 +52,33 @@ describe("handleError", () => {
 	it("returns the same error instance it was given (rethrow contract)", () => {
 		const err = new Error("boom");
 		expect(handleError(err)).toBe(err);
+	});
+
+	it("recommends a temporary account only when credentials are missing", () => {
+		handleError(new MissingCredentialsError("No authentication token found."));
+		expect(stderr()).toContain("--temporary-account");
+
+		errSpy.mockClear();
+		handleError(
+			new UserError(
+				"Not logged in. Could not authenticate because no credentials were found and the environment is non-interactive.",
+				{ telemetryMessage: "cfetch auth login required" }
+			)
+		);
+		expect(stderr()).toContain("--temporary-account");
+
+		errSpy.mockClear();
+		handleError(
+			new UserError(
+				"Not logged in. Your auth token has expired and could not be refreshed.",
+				{ telemetryMessage: "cfetch auth login required" }
+			)
+		);
+		expect(stderr()).not.toContain("--temporary-account");
+
+		errSpy.mockClear();
+		handleError(new Error("Request failed"));
+		expect(stderr()).not.toContain("--temporary-account");
 	});
 
 	describe("APIError", () => {

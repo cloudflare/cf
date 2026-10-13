@@ -2,13 +2,14 @@
  * Runtime context resolution.
  *
  * Account ID priority:
- *   1. CLOUDFLARE_ACCOUNT_ID environment variable
- *   2. account settings from cloudflare.config.ts's default export
- *   3. workers-auth account cache
- *   4. Interactive account picker / single-account auto-select
+ *   1. Temporary preview account when --temporary-account is requested
+ *   2. CLOUDFLARE_ACCOUNT_ID environment variable
+ *   3. account settings from cloudflare.config.ts's default export
+ *   4. workers-auth account cache
+ *   5. Interactive account picker / single-account auto-select
  *
- * Steps 1–3 are offline (`resolveAccountIdSilent`); only `getAccountId`
- * can enumerate accounts or ask.
+ * Configured sources 2–4 are offline (`resolveAccountIdSilent`); only
+ * `getAccountId` can provision, enumerate accounts, or ask.
  *
  * Zone priority:
  *   1. --zone / -z CLI flag
@@ -83,14 +84,23 @@ async function resolveAccountId(
  * or going looking for accounts when none of those is set.
  */
 export async function resolveAccountIdSilent(): Promise<string | undefined> {
+	// Lazily imported for the same dependency-cycle reason as getAccountId.
+	const {
+		getActiveAccountId,
+		getActiveTemporaryAccountId,
+		isTemporaryAccountAllowed,
+	} = await import("./oauth/index.js");
+	if (isTemporaryAccountAllowed()) {
+		// Configured accounts don't apply to a temporary account invocation,
+		// and provisioning one is not silent.
+		return getActiveTemporaryAccountId();
+	}
 	const result = await resolveAccountId();
 	if (result) {
 		return result.value;
 	}
-	// The profile's cached account is priority 3 and costs nothing to read:
-	// no request, no prompt, no announcement. Lazily imported for the same
-	// dependency-cycle reason as getAccountId.
-	const { getActiveAccountId } = await import("./oauth/index.js");
+	// The profile's cached account costs nothing to read: no request, no
+	// prompt, no announcement.
 	try {
 		return getActiveAccountId();
 	} catch {
@@ -99,8 +109,8 @@ export async function resolveAccountIdSilent(): Promise<string | undefined> {
 }
 
 /**
- * Get account ID with priority resolution (env → settings → interactive picker
- * / single-account auto-select).
+ * Get account ID with priority resolution (temporary account → env → settings
+ * → interactive picker / single-account auto-select).
  *
  * @throws Error if no account ID is found
  */
@@ -109,15 +119,23 @@ export async function getAccountId(options?: {
 	skipProjectSettings?: boolean;
 	complianceRegion?: ComplianceRegion;
 }): Promise<string> {
+	// oauth/index also consumes compliance context. Import it lazily after this
+	// module has initialised to avoid a static context ↔ OAuth dependency cycle.
+	const {
+		activateTemporaryAccount,
+		getOrSelectAccountId,
+		isTemporaryAccountAllowed,
+	} = await import("./oauth/index.js");
+	if (isTemporaryAccountAllowed()) {
+		return activateTemporaryAccount(options);
+	}
+
 	const result = await resolveAccountId(options);
 
 	if (result) {
 		announceAccount(result.value, getSourceDescription(result, "accountId"));
 	}
 
-	// oauth/index also consumes compliance context. Import it lazily after this
-	// module has initialised to avoid a static context ↔ OAuth dependency cycle.
-	const { getOrSelectAccountId } = await import("./oauth/index.js");
 	return getOrSelectAccountId(result?.value, options);
 }
 

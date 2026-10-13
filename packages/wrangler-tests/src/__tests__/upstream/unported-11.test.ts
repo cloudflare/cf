@@ -363,18 +363,6 @@ const groups = [
 	},
 	{
 		file: "index.test.ts",
-		ancestors: ["wrangler", "no command"],
-		status: "skip",
-		names: ["should not require temporary terms acceptance before root help"],
-	},
-	{
-		file: "index.test.ts",
-		ancestors: ["wrangler", "--temporary"],
-		status: "skip",
-		names: ["is rejected on commands that don't opt in"],
-	},
-	{
-		file: "index.test.ts",
 		ancestors: ["wrangler", "command typo suggestions"],
 		status: "todo",
 		names: [

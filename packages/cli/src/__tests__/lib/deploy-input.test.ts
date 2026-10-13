@@ -300,6 +300,8 @@ describe("transforms Build Output Specification into deploy input", () => {
 			"secrets-file": undefined,
 			prebuilt: false,
 			quiet: false,
+			"temporary-account": false,
+			"event-code": undefined,
 			local: false,
 			"persist-to": undefined,
 			zone: undefined,

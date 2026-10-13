@@ -3,7 +3,11 @@ import { getAuthToken } from "../../lib/auth-token.js";
 import { CliExit } from "../../lib/cli-exit.js";
 
 const { getOAuthToken } = vi.hoisted(() => ({ getOAuthToken: vi.fn() }));
-vi.mock("../../lib/oauth/index.js", () => ({ getValidToken: getOAuthToken }));
+vi.mock("../../lib/oauth/index.js", () => ({
+	getValidToken: getOAuthToken,
+	isOAuthLoggedIn: () => false,
+	isTemporaryAccountAllowed: () => false,
+}));
 
 beforeEach(() => {
 	for (const key of [

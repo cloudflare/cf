@@ -9,16 +9,20 @@ import {
 	getZoneId,
 	resolveAccountIdSilent,
 } from "../../lib/context.js";
+import { setTemporaryAccountAllowed } from "../../lib/oauth/index.js";
 import { clearLoadedProjectSettings } from "../../lib/project-settings.js";
 import type { ParsedInputSettingsConfig } from "@cloudflare/config";
 
 const getOrSelectAccountIdMock = vi.hoisted(() => vi.fn());
+const requireAuthMock = vi.hoisted(() => vi.fn());
 const getActiveAccountIdMock = vi.hoisted(() => vi.fn());
 const fetchAllAccountsMock = vi.hoisted(() => vi.fn());
 
 vi.mock("@cloudflare/workers-auth/cf", () => ({
 	createCfAuth: () => ({
 		getOrSelectAccountId: getOrSelectAccountIdMock,
+		requireAuth: requireAuthMock,
+		setTemporaryAllowed: vi.fn(),
 		getActiveAccountId: getActiveAccountIdMock,
 		fetchAllAccounts: fetchAllAccountsMock,
 	}),
@@ -39,6 +43,8 @@ describe("context", () => {
 	beforeEach(() => {
 		vi.restoreAllMocks();
 		getOrSelectAccountIdMock.mockReset();
+		requireAuthMock.mockReset();
+		setTemporaryAccountAllowed(false);
 		getActiveAccountIdMock.mockReset();
 		fetchAllAccountsMock.mockReset();
 		fetchAllAccountsMock.mockResolvedValue([]);
@@ -68,6 +74,22 @@ describe("context", () => {
 				account_id: undefined,
 				compliance_region: "public",
 			});
+		});
+
+		it("uses a temporary account instead of configured accounts", async () => {
+			writeProjectSettings({ accountId: "settings-acct" });
+			setTemporaryAccountAllowed(true);
+			requireAuthMock.mockResolvedValue("temporary-account");
+
+			await expect(resolveAccountIdSilent()).resolves.toBeUndefined();
+			await expect(getAccountId()).resolves.toBe("temporary-account");
+			await expect(resolveAccountIdSilent()).resolves.toBe("temporary-account");
+			await expect(getAccountId()).resolves.toBe("temporary-account");
+			expect(requireAuthMock).toHaveBeenCalledOnce();
+			expect(requireAuthMock).toHaveBeenCalledWith({
+				compliance_region: "public",
+			});
+			expect(getOrSelectAccountIdMock).not.toHaveBeenCalled();
 		});
 
 		it("uses an explicit region without reading project settings", async () => {

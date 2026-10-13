@@ -83,7 +83,12 @@ export function sanitizeArgs<Args extends Record<string, unknown>>(
 	rawArgv: string[],
 	classification: ArgClassification<NoInfer<Args>>
 ): SanitizedArgs {
-	const safe = new Set([...classification.safeFlags, "quiet", "local"]);
+	const safe = new Set([
+		...classification.safeFlags,
+		"quiet",
+		"local",
+		"temporary-account",
+	]);
 	const shortFlagAliases = {
 		...GLOBAL_SHORT_FLAG_ALIASES,
 		...classification.shortFlagAliases,

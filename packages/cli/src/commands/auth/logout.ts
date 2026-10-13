@@ -1,4 +1,5 @@
 import {
+	clearTemporaryAccount,
 	getActiveProfile,
 	getConfigPath,
 	isOAuthLoggedIn,
@@ -38,6 +39,10 @@ const logoutCommand: CommandModule<object, CommonYargsOptions> = {
 		const hasEnvToken = !!process.env.CLOUDFLARE_API_TOKEN;
 
 		if (!hasOAuthTokens) {
+			const clearedTemporaryAccount = clearTemporaryAccount();
+			if (clearedTemporaryAccount) {
+				console.log(info("Cleared temporary preview account."));
+			}
 			if (hasEnvToken) {
 				console.log(
 					info(
@@ -45,7 +50,7 @@ const logoutCommand: CommandModule<object, CommonYargsOptions> = {
 					)
 				);
 				console.log(info("Unset it with: unset CLOUDFLARE_API_TOKEN"));
-			} else {
+			} else if (!clearedTemporaryAccount) {
 				console.log(info("You are not currently logged in."));
 				console.log(
 					hint(`Run ${theme.code("cf auth login")} to authenticate.`)

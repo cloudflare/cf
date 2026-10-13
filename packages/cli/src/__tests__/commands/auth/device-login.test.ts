@@ -19,6 +19,7 @@ const telemetryEvents = vi.hoisted(
 vi.mock("@cloudflare/workers-auth/cf", async (importOriginal) => ({
 	...(await importOriginal<Record<string, unknown>>()),
 	createCfAuth: () => ({
+		setTemporaryAllowed: vi.fn(),
 		setProfile: (profile: string) => {
 			sharedAuth.activeProfile = profile;
 		},

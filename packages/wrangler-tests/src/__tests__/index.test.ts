@@ -1,4 +1,7 @@
 import { describe, it } from "vite-plus/test";
+import { mockConsoleMethods } from "./helpers/mock-console";
+import { runInTempDir } from "./helpers/run-in-tmp";
+import { runWrangler } from "./helpers/run-wrangler";
 
 // This file is the wrangler-CLI bootstrap test suite: it asserts the exact
 // shape of `wrangler --help`, the wrangler error formatting (`[ERROR]` chrome,
@@ -8,10 +11,30 @@ import { describe, it } from "vite-plus/test";
 // wrangler) but with brand-orange section headers + a different banner +
 // a different command catalogue (one chunk per generated product) +
 // version channel — none of these snapshots apply. Per AGENTS.md "src/ is
-// product-agnostic" + "UX Conventions". Whole suite skipped.
+// product-agnostic" + "UX Conventions". Only the global-flag situations that
+// cf shares are ported.
 describe("wrangler", () => {
+	runInTempDir();
+	const std = mockConsoleMethods();
+
 	describe("no command", () => {
 		it.skip("should display a list of available commands");
+
+		it("should not require temporary terms acceptance before root help", async ({
+			expect,
+		}) => {
+			await runWrangler("--help --temporary-account");
+
+			expect(std.out).toContain("cf");
+			expect(std.out).toContain("Commands");
+			expect(std.err).toBe("");
+		});
+	});
+
+	describe("--temporary", () => {
+		// cf accepts --temporary-account on every command and lets the API
+		// report operations the temporary account's token cannot perform.
+		it.skip("is rejected on commands that don't opt in");
 	});
 
 	describe("invalid command", () => {

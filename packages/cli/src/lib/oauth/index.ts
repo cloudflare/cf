@@ -5,9 +5,11 @@
  * storage, refresh, and future keyring support. This module only supplies cf's
  * logger and prompt primitives, then preserves the façade consumed by commands.
  */
+import { existsSync, rmSync } from "node:fs";
 import { isCancel } from "@clack/core";
 import * as clack from "@clack/prompts";
 import {
+	CF_CLI,
 	createCfAuth,
 	createCfProfileStore,
 	validateScopeKeys,
@@ -20,6 +22,7 @@ import { getComplianceRegion, type ComplianceRegion } from "../context.js";
 import { isNonInteractiveOrCI } from "../interactive.js";
 import { openSession } from "../session.js";
 import { printAccountConfigHint } from "./account-hint.js";
+import type { TemporaryAccountRequest } from "@cloudflare/workers-auth";
 
 const logger: AuthContext["logger"] = {
 	debug: (...args) => {
@@ -83,6 +86,85 @@ const auth = createCfAuth({
 	isNoDefaultValueProvidedError: (error) =>
 		error instanceof NonInteractiveSelectionError,
 });
+
+let temporaryAccountAllowed = false;
+let activeTemporaryAccountId: string | undefined;
+
+/**
+ * Mark whether this invocation may provision a temporary preview account,
+ * optionally for an event.
+ */
+export function setTemporaryAccountAllowed(
+	allowed: boolean,
+	request?: TemporaryAccountRequest
+): void {
+	temporaryAccountAllowed = allowed;
+	activeTemporaryAccountId = undefined;
+	auth.setTemporaryAllowed(allowed, request);
+}
+
+/**
+ * Delete the cached temporary preview account.
+ *
+ * @returns Whether a cached account existed.
+ */
+export function clearTemporaryAccount(): boolean {
+	const path = CF_CLI.getTemporaryAccountConfigPath();
+	const existed = existsSync(path);
+	rmSync(path, { force: true });
+	return existed;
+}
+
+/** Whether this invocation requested a temporary preview account. */
+export function isTemporaryAccountAllowed(): boolean {
+	return temporaryAccountAllowed;
+}
+
+/** The temporary account already activated for this invocation. */
+export function getActiveTemporaryAccountId(): string | undefined {
+	return activeTemporaryAccountId;
+}
+
+/** The API token for the temporary account activated this invocation. */
+export function getTemporaryAccountApiToken(): string | undefined {
+	if (activeTemporaryAccountId === undefined) {
+		return undefined;
+	}
+	const credentials = auth.getAPIToken();
+	return credentials && "apiToken" in credentials
+		? credentials.apiToken
+		: undefined;
+}
+
+/**
+ * Provision or reuse this invocation's temporary preview account and return
+ * its ID. workers-auth rejects the request when credentials already exist.
+ */
+export async function activateTemporaryAccount(options?: {
+	isPreview?: boolean;
+	complianceRegion?: ComplianceRegion;
+}): Promise<string> {
+	if (activeTemporaryAccountId !== undefined) {
+		return activeTemporaryAccountId;
+	}
+	try {
+		activeTemporaryAccountId = await auth.requireAuth({
+			compliance_region:
+				options?.complianceRegion ?? (await getComplianceRegion(options)),
+		});
+		return activeTemporaryAccountId;
+	} catch (error) {
+		// workers-auth's shared temporary-account errors name Wrangler's
+		// `--temporary` flag. Keep cf's public spelling in those messages.
+		if (error instanceof Error) {
+			error.message = error.message.replaceAll(
+				/--temporary(?!-account)/g,
+				"--temporary-account"
+			);
+		}
+		throw error;
+	}
+}
 
 /** Resolve a configured, cached, or newly selected account ID. */
 export async function getOrSelectAccountId(

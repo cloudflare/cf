@@ -28,7 +28,10 @@ describe("versions upload", () => {
 			expect,
 		}) => {
 			setIsTTY(false);
-			await seedBuildOutput({ name: "test-name" });
+			await seedBuildOutput({
+				name: "test-name",
+				accountId: "configured-account-id",
+			});
 			const creationRequests = mockTemporaryPreviewAccount();
 			const accountIds: string[] = [];
 			msw.use(
@@ -219,7 +222,13 @@ describe("versions upload", () => {
 	);
 });
 
-async function seedBuildOutput({ name }: { name: string | undefined }) {
+async function seedBuildOutput({
+	name,
+	accountId,
+}: {
+	name: string | undefined;
+	accountId?: string;
+}) {
 	const config =
 		name === undefined
 			? {
@@ -243,6 +252,7 @@ async function seedBuildOutput({ name }: { name: string | undefined }) {
 	await seed({
 		".cloudflare/output/v0/config.json": JSON.stringify({
 			buildContext: { isPreview: false },
+			accountId,
 		}),
 		".cloudflare/output/v0/workers/default/worker.config.json":
 			JSON.stringify(config),

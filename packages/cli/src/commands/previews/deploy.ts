@@ -109,13 +109,12 @@ async function deployPreviewBuildOutput(
 	);
 
 	const authToken = await getAuthToken();
-	const accountId =
-		output.rootConfig.accountId ??
-		(await getAccountId({
-			isPreview: true,
-			skipProjectSettings: true,
-			complianceRegion: getCloudflareComplianceRegion(wranglerConfig),
-		}));
+	const accountId = await getAccountId({
+		accountId: output.rootConfig.accountId,
+		isPreview: true,
+		skipProjectSettings: true,
+		complianceRegion: getCloudflareComplianceRegion(wranglerConfig),
+	});
 	const deployContext = createDeployContext(authToken);
 	// TODO(cloudflare/cf#330): Let previewBuildOutput() return without printing.
 	// Until then, hide its summary so this command prints one clean JSON result.

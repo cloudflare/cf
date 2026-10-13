@@ -2,6 +2,7 @@ import { getAuthToken } from "../../lib/auth-token.js";
 import {
 	fetchAuthorizedAccounts,
 	getConfigPath,
+	isTemporaryAccountAllowed,
 	readAuthCredentials,
 } from "../../lib/oauth/index.js";
 import { formatOutput } from "../../lib/output.js";
@@ -28,6 +29,8 @@ const whoamiCommand: CommandModule<object, WhoamiArgs> = {
 			authSource = "CLOUDFLARE_API_TOKEN environment variable";
 		} else if (stored?.oauth_token) {
 			authSource = `OAuth token from ${getConfigPath()}`;
+		} else if (isTemporaryAccountAllowed()) {
+			authSource = "temporary account";
 		} else {
 			authSource = "none";
 		}

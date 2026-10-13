@@ -355,6 +355,33 @@ describe("--temporary-account", () => {
 		expect(stderr()).toContain("cf deploy --temporary-account");
 	});
 
+	it("reports the temporary account as whoami's auth source", async () => {
+		captureStderr();
+		const log = vi.spyOn(console, "log").mockImplementation(() => {});
+		const authorizations: Array<string | null> = [];
+		server.use(
+			http.get(`${TEST_BASE_URL}/user`, ({ request }) => {
+				authorizations.push(request.headers.get("authorization"));
+				return HttpResponse.json({ success: true, result: {} });
+			}),
+			http.get(`${TEST_BASE_URL}/accounts`, ({ request }) => {
+				authorizations.push(request.headers.get("authorization"));
+				return HttpResponse.json({
+					success: true,
+					result: [{ id: accountId, name: "Temporary Account" }],
+				});
+			})
+		);
+
+		await runCf(["auth", "whoami", "--temporary-account"], env);
+
+		expect(JSON.parse(String(log.mock.calls.at(-1)?.[0]))).toMatchObject({
+			authenticated: true,
+			authSource: "temporary account",
+		});
+		expect(new Set(authorizations)).toEqual(new Set([`Bearer ${apiToken}`]));
+	});
+
 	it("rejects the Wrangler flag spelling", async () => {
 		await expect(
 			runCf(["kv", "namespaces", "list", "--temporary"], env)

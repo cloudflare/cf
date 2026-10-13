@@ -94,11 +94,11 @@ async function deployTriggers(argv: TriggersDeployArgs): Promise<void> {
 	const authToken = argv["dry-run"] ? "" : await getAuthToken();
 	const accountId = argv["dry-run"]
 		? undefined
-		: (rootConfig.accountId ??
-			(await getAccountId({
+		: await getAccountId({
+				accountId: rootConfig.accountId,
 				skipProjectSettings: true,
 				complianceRegion: getCloudflareComplianceRegion(wranglerConfig),
-			})));
+			});
 	initDeployHelpersContext(createDeployContext(authToken));
 
 	clack.log.message(theme.bold("Deploy triggers"), {
